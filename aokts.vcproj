@@ -40,6 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)deps\include"
 				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=1"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -60,6 +61,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="zlib1d.lib comctl32.lib libexpatw.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(ProjectDir)deps\lib"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -195,6 +197,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)deps\include"
 				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -215,6 +218,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="zlib1d.lib comctl32.lib libexpatw.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(ProjectDir)deps\lib"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -270,6 +274,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="$(ProjectDir)deps\include"
 				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=2"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -290,6 +295,7 @@
 				AdditionalDependencies="zlib1.lib comctl32.lib libexpatw.lib"
 				OutputFile="$(OutDir)\swgbts.exe"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(ProjectDir)deps\lib"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"

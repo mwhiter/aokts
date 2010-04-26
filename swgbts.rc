@@ -1,0 +1,25 @@
+/* Resource file for SWGBTS */
+
+#include "resource.h"
+
+#define WINVER 0x0400
+#include <Winresrc.h>
+#define IDC_STATIC -1
+
+IDD_ABOUT DIALOG DISCARDABLE 0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Sans Serif"
+BEGIN
+	PUSHBUTTON	"OK",1,178,7,50,14,BS_DEFPUSHBUTTON
+	LTEXT		"SWGB Trigger Studio 1.0.0\nby David Tombs (DiGiT)\ncyan.spam@gmail.com",
+				IDC_STATIC,46,13,110,26
+	CONTROL	IDB_LOGO,IDC_STATIC,"Static",SS_BITMAP,7,14,0,0
+END
+
+/////////////////////////////////////////////////////////////////////////////
+// Icon
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_LOGO	ICON	DISCARDABLE	"res/swgbts.ico"

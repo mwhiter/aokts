@@ -1,0 +1,2236 @@
+AOKTS Source Notes
+
+--Building--
+The source code compiles with Microsoft Visual Studio 2005. Four configurations
+are built-in: AOK Release, AOK Debug, SWGB Release, SWGB Debug. They should be
+self-explanatory. :)
+
+--New CVS Changelog--
+Sadly, this is in descending date order. Maybe I'll fix that some day.
+
+2007-09-15	David
+	* scen.cpp 1.69:
+		Added an ugly fix for a bitmap reading issue that violates the 
+		bitmap standard, but so does AOK... (bug 140)
+
+	* utilio.h 1.12:
+		Added a bit more debugging output in the logfile.
+
+	* scen.cpp 1.68:
+		Fixed a bug with slightly corrupted bitmap exporting.
+
+2007-09-07	David
+	* ecedit.cpp 1.51:
+		The proper effects should now have multiple unit selection. (bug 
+		141)
+
+2007-08-23	David
+	* datatypes.cpp 1.7:
+	* datatypes.h 1.20:
+	* ecedit.cpp 1.49:
+	* ecedit.h 1.9:
+	* editors.cpp 1.49:
+	* editors.h 1.15:
+	* mapview.cpp 1.26:
+	* mapview.h 1.8:
+	* scen.cpp 1.67:
+	* scen.h 1.36:
+	* scen_const.cpp 1.17:
+	* settings.cpp 1.16:
+	* settings.h 1.14:
+	* trigedit.cpp 1.48:
+	* unitedit.cpp 1.40:
+	* utilio.h 1.11:
+	* utilui.cpp 1.16:
+	* utilui.h 1.24:
+	* utilunit.cpp 1.18:
+	* utilunit.h 1.12:
+		Updated the legal message at the top of each source file.
+
+	* common.rc 1.7:
+	* ecedit.cpp 1.50:
+	* editors.cpp 1.50:
+	* resource.h 1.48:
+	* utilui.cpp 1.17:
+	* utilui.h 1.25:
+		Added a LCBS_ALLOWNOSELECT style to allow for no selection in an 
+		LCOMBO. Also split off the by-id version of CBL_FILL to 
+		CBL_FILLBYID to properly use LCBS_ALLOWNOSELECT.
+
+2007-08-22	David
+	* aokts.cpp 1.62:
+	* common.rc 1.6:
+	* editors.cpp 1.48:
+	* editors.h 1.14:
+	* resource.h 1.47:
+	* scen.cpp 1.66:
+	* scen.h 1.35:
+		Added a real clipboard map copy.
+
+	* datatypes.h 1.19:
+		SList was broken, fixed it.
+
+2007-08-20	David
+	* trigedit.cpp 1.47:
+	* utilui.h 1.23:
+		Moved some common clipboard messages to utilui.h.
+
+	* mapview.cpp 1.25:
+		Cleaned up some scrolling code.
+
+	* datatypes.h 1.18:
+		Gave SList some const accessor functions and it now does not 
+		make copies of the objects you give it.
+
+2007-05-13	David
+	* mapview.cpp 1.22:
+		Fixed a couple issues with map painting introduced in the last 
+		commit.
+
+	* mapview.cpp 1.23:
+		Fixed a crash bug that was probably in previous versions but 
+		never discovered.
+
+	* unitedit.cpp 1.39:
+		Fixed highlighting when moving a unit. (bug 113)
+
+	* mapview.cpp 1.24:
+		Fixed an infinite loop when unhighlighting a point on the map. (
+		previously undiscovered)
+
+	* mapview.cpp 1.21:
+		Cleaned up a bit of mapview code and added scroll bars. (bug 123)
+		
+	* ecedit.cpp 1.48:
+		AOKTS now uses same panel numbering as AOK. (bug 137)
+
+2007-05-08	David
+	* AOKTS.rc 1.61:
+	* common.rc 1.5:
+	* scen.h 1.34:
+	* swgbts.rc 1.6:
+		Added SWGB resources.
+
+2007-03-17	David
+	* src_notes.txt 1.15:
+		Updated the release todo list a bit.
+
+2007-03-16	David
+	* AOKTS.rc 1.60:
+		Small updates to the about dialogs.
+
+2007-03-15	David
+	* datatypes.h 1.17:
+		Fixed a sneaky little bug in SVector::insert()
+
+	* trigedit.cpp 1.45:
+		Split ItemDataEC into EffectItemData and ConditionItemData and 
+		replaced many switch statements and otherwise ugly code with 
+		virtual functions. Hopefully this will make the trigger editor 
+		more robust and easier to fix in the future.
+
+	* trigedit.cpp 1.46:
+	* utilui.cpp 1.15:
+	* utilui.h 1.22:
+		Added an after parameter to TreeView_AddChild() instead of 
+		always assuming TVI_LAST and updated the trigger editor to use 
+		it. (bugs 126,127)
+
+	* AOKTS.rc 1.59:
+		Added the SWGBTS icon to the builds.
+
+2007-03-14	David
+	* settings.h 1.13:
+		removed unnecessary #include "scen_const.h"
+
+2007-03-12	David
+	* ecedit.cpp 1.46:
+		Fixed a bug in MakeUIDString(), did not affect any released 
+		versions.
+
+	* ecedit.cpp 1.47:
+	* trigger.cpp 1.23:
+	* trigger.h 1.24:
+		Added clear functions for Effect and Condition, which are now 
+		optionally called when an E/C's type is changed by the user.
+
+2007-03-11	David
+	* scx_format.txt 1.18:
+		Updated for discovery of "Display Time" attribute of effects a 
+		while ago. Oops.
+
+2007-03-10	David
+	* editors.cpp 1.47:
+		Cleaned up IM editor a little bit, and resetting the editor no 
+		longer creates a contradictory state. (bug 116)
+
+	* ecedit.cpp 1.45:
+		AOKTS didn't update the working effect type until the the OK 
+		button was clicked, resulting in the wrong unit selection dialog 
+		to open sometimes.
+
+	* ecedit.cpp 1.44:
+		Fix for buffer overrun with many units selected in an effect (
+		bug 109)
+
+2007-03-02	David
+	* aokts.cpp 1.59:
+		Added window title update with open scenario name.
+
+	* aokts.cpp 1.60:
+		Also added window title update when user picks "Save As".
+
+	* ecedit.cpp 1.43:
+		Added AI goal saving
+
+2006-12-27	David
+	* resource.h 1.45:
+		Some misc updates before I released the SWGB alpha version.
+
+2006-12-26	David
+	* AOKTS.rc 1.58:
+	* aokts.cpp 1.58:
+		Added a different about dialog for SWGB version and fixed title.
+
+	* datatypes.h 1.16:
+	* editors.cpp 1.46:
+	* esdata.cpp 1.13:
+	* esdata.h 1.12:
+	* scen_const.cpp 1.16:
+	* scen_const.h 1.18:
+		Moved civilizations from hard-coded to the XML file and fixed a 
+		possible nearly-infinite loop in the disables editor.
+
+	* scen.cpp 1.63:
+	* scen.h 1.32:
+		Switched to a much cleaner system to handle differences between 
+		format versions and added support for 1.30 (Clone Campaigns) 
+		scenarios.
+
+	* readme.txt 1.22:
+		Added different readmes.
+
+	* MAKEFILE 1.23:
+		Added new .rc files to source zip.
+
+	* scen.cpp 1.64:
+	* scen.h 1.33:
+	* unitedit.cpp 1.38:
+		Fixed a lot of problems I created regarding units.
+
+	* esdata.cpp 1.14:
+	* esdata.h 1.13:
+	* scen.cpp 1.65:
+		Added some means of handling unrecognized units.
+
+2006-12-25	David
+	* aokts.cpp 1.57:
+		Some more string changes for SWGB.
+
+	* datatypes.h 1.15:
+	* ecedit.cpp 1.42:
+	* editors.cpp 1.45:
+	* esdata.cpp 1.12:
+	* mapview.cpp 1.20:
+	* mapview.h 1.7:
+	* scen.cpp 1.62:
+	* scen_const.h 1.17:
+	* trigedit.cpp 1.44:
+	* trigger.cpp 1.22:
+	* unitedit.cpp 1.37:
+	* utilio.cpp 1.3:
+	* utilio.h 1.9:
+		Updates to make the source ANSI compatible (removed MS 
+		extensions).
+
+	* utilui.cpp 1.14:
+	* utilui.h 1.21:
+		Added CBL_SELBYID to LCOMBO to automatically select by a Link 
+		id.
+
+	* utilio.h 1.10:
+		Add file position to log message when section check fails.
+
+	* settings.cpp 1.15:
+		Fixed support for SWGB Saga install (which doesn't create one of 
+		the registry keys).
+
+	* AOKTS.rc 1.57:
+	* MAKEFILE 1.22:
+	* makefile.dep 1.21:
+		Updated the makefile to be a little more logical and added game-
+		specific resource files to allow for different icons and even 
+		different dialogs if that becomes necessary.
+
+2006-12-18	David
+	* scen.cpp 1.61:
+	* scen.h 1.31:
+		Renamed Scenario::AOKBMP::export() to toFile() to avoid using a 
+		reserved word in some compilers.
+
+	* datatypes.h 1.14:
+		Fixed some old stuff which I really should have fixed a while 
+		ago. Also subsituted the STL <new> header for the old <new.h>. I 
+		don't really like the STL but at least my compiler will stop 
+		complaining. :-P
+
+	* utilio.h 1.8:
+		Switched from Microsoft-specific ASSERT stuff to the CRT assert()
+		 stuff.
+
+	* aokts.cpp 1.56:
+		Some changes for compatability with non-MS compilers.
+
+	* utilui.h 1.20:
+		Changed some debug switches to not rely on undocumented defines (
+		that is, ones that may change per build environment).
+
+	* editors.h 1.13:
+	* esdata.h 1.11:
+		Added a newline at the end of the file...
+
+2006-12-14	David
+	* AOK Trigger Studio.dsp 1.16:
+		Removed data.xml in favor of two files, data_aok.xml and 
+		data_swgb.xml. To facilitate this, I added a path parameter to 
+		ESDATA::load().
+
+	* mapview.cpp 1.19:
+		2 bugs: the map click notification had wrong x and y parameters (
+		bug 110) and the highlighting when resetting map was painted in 
+		the wrong place (offset applied twice).
+
+	* esdata.cpp 1.11:
+		Changed "ref" attribute to "color" in the XML files and added a 
+		bunch of SWGB data to data_swgb.xml.
+
+	* scen.cpp 1.60:
+	* scen.h 1.30:
+		Some changes for expansion detection in SWGB.
+
+	* editors.cpp 1.44:
+		Added an "all" boolean paramater to LoadMap() so that changing 
+		the selected tile doesn't load everything. Also added a report 
+		to the logfile when an unknown ai type is encountered.
+
+2006-12-13	David
+	* utilui.h 1.19:
+		Fixed a possible crash in LB_getid().
+
+	* aokts.cpp 1.55:
+		Forgot to change a string for the SWGB version.
+
+2006-12-11	David
+	* unitedit.cpp 1.36:
+		Fixed a possible crash if unit type could not be found.
+
+	* aokts.cpp 1.54:
+	* data.xml 1.9:
+	* esdata.cpp 1.10:
+	* esdata.h 1.10:
+		Removed data.xml in favor of two files, data_aok.xml and 
+		data_swgb.xml. To facilitate this, I added a path parameter to 
+		ESDATA::load().
+
+	* scen.cpp 1.59:
+		The default constructor for unit now sets the type as the first 
+		in the list, not automatically null. This should avoid some 
+		errors (not crashes) in the unit viewer when dealing with a 
+		scenario with 0 units.
+
+2006-12-08	David
+	* ecedit.cpp 1.41:
+	* scx_format.txt 1.17:
+	* trigedit.cpp 1.43:
+	* trigger.cpp 1.21:
+	* trigger.h 1.23:
+		Added the triggers added in SWGB.
+
+2006-12-07	David
+	* scen.cpp 1.58:
+		Fixed reading of SWGB scenarios. (They changed the format but 
+		not the version identifier?!)
+
+	* MAKEFILE 1.21:
+	* aokts.cpp 1.53:
+	* editors.cpp 1.43:
+	* settings.cpp 1.14:
+		Updates for two builds (AOK and SWGB).
+
+2006-11-28	David
+	* aokts.cpp 1.52:
+	* aokts.ini 1.18:
+	* data.xml 1.8:
+	* editors.cpp 1.42:
+	* esdata.cpp 1.9:
+	* esdata.h 1.9:
+	* settings.cpp 1.13:
+	* settings.h 1.12:
+	* unitedit.cpp 1.35:
+	* utilunit.cpp 1.17:
+	* utilunit.h 1.11:
+		Finally moved the unit groups from setts to esdata.
+
+	* readme.txt 1.21:
+	* resource.h 1.44:
+		Updates for bugfix release.
+
+	* makefile.dep 1.20:
+		Oops, missed a dependency. I really need to generate these 
+		automatically.
+
+	* datatypes.cpp 1.6:
+		Initialized name to NULL in the Link constructor to avoid 
+		possible access violations.
+
+2006-11-21	David
+	* trigedit.cpp 1.42:
+		Removed the full trigger tree reset on PSN_KILLACTIVE. This will 
+		definitely speed up tab switching, but it might cause some weird 
+		saving errors. I hope not.
+
+	* trigger.cpp 1.20:
+		Effect::snd_len was never copied (resulting in a pretty much 
+		random value) when pasting an effect. Blech.
+
+
+2006-11-20	David
+	* aokts.cpp 1.50:
+		Large icon was not set. (bug 105)
+
+	* aokts.cpp 1.51:
+	* mapview.cpp 1.18:
+		The map viewer now paints the map to a bitmap then blits it to 
+		the screen when painting. This keeps the map painting process 
+		from having to be redone on every draw operation. (bug 104)
+
+	* unitedit.cpp 1.34:
+		Oops, missed an unhighlight in the unit editor.
+
+	* AOKTS.rc 1.55:
+	* editors.cpp 1.41:
+	* editors.h 1.12:
+	* resource.h 1.42:
+	* scen.cpp 1.57:
+	* scen.h 1.29:
+	* scen_const.h 1.16:
+		Map copy! (A few other code cleanups as I saw them, but nothing 
+		that should have any effect.)
+
+	* zlibfile.h 1.2:
+		Added a newline at end. How interesting.
+
+	* scx_format.txt 1.16:
+		Added normal values of the "whocares" bitmap unknown value.
+
+	* mapview.cpp 1.17:
+		Removed some debugging output in aokts.log.
+
+2006-11-19	David
+	* ecedit.cpp 1.40:
+	* mapview.cpp 1.16:
+	* mapview.h 1.6:
+	* unitedit.cpp 1.33:
+		Changed mapview to support multiple highlighted points. I will 
+		use this for map copying.
+
+	* datatypes.h 1.13:
+		Moved SVector functions inside the class definition because the 
+		MSVC IDE likes it that way.
+
+2006-11-12	David
+	* editors.cpp 1.40:
+		Player's AI mode was read from the allied victory checkbox 
+		instead of the actual AI mode one. Oops. (103)
+
+	* mapview.cpp 1.15:
+	* mapview.h 1.5:
+	* unitedit.cpp 1.32:
+		Map didn't update when moving a unit (bug 99)
+
+	* scen.cpp 1.56:
+		Resetting a scenario did not reset the terrain data. (bug 102)
+
+2006-11-05	David
+	* utilunit.cpp 1.16:
+	* utilunit.h 1.10:
+		Added UnitList_InsertItem() and fixed a memory leak and a 
+		possible crash in UnitList_Fille().
+
+	* editors.cpp 1.39:
+		Added some crash protection to disables editor. (bug 98)
+
+	* unitedit.cpp 1.31:
+		Gave the unit editing code a much-needed cleanup and properly re-
+		ordered the unit list on constant change (bug 13).
+
+2006-11-04	David
+	* aokts.ini 1.17:
+	* mapview.cpp 1.14:
+	* settings.cpp 1.12:
+	* settings.h 1.11:
+		Added a setting in aokts.ini to change the minimap zoom. (bug 96)
+		
+
+	* mapview.cpp 1.13:
+		Switched from PatBlt() to FillRect(). Stupid me...
+
+	* AOKTS.rc 1.54:
+	* resource.h 1.41:
+	* trigedit.cpp 1.41:
+	* utilui.cpp 1.13:
+	* utilui.h 1.18:
+		Added a menu item and accelerator for renaming and subclassed 
+		the trigger tree-view's edit controls to accept enter and esc 
+		keypresses. (bug 97)
+
+2006-10-25	David
+	* AOKTS.rc 1.53:
+		The trigger description edit control now accepts hard returns (
+		bug 94).
+
+2006-10-16	David
+	* makefile.dep 1.19:
+	* trigdata.cpp 1.6:
+	* trigedit.cpp 1.39:
+		Decided to merge trigdata.cpp stuff back into trigedit.cpp.
+
+	* trigedit.cpp 1.40:
+		Added some validity checks on c_trig before it is used, 
+		hopefully this will make the editor much more robust. (bug 90)
+
+2006-10-11	David
+	* trigedit.cpp 1.38:
+		Moving triggers via dragging caused the dragged trigger to save 
+		one trigger too far down. (bug 92)
+
+2006-10-10	David
+	* MAKEFILE 1.20:
+		Added "clean" target.
+
+	* trigdata.cpp 1.5:
+		Duplicating triggers for each player now only duplicates for 
+		active players. (bug 91)
+
+2006-07-10	Administrator
+	* trigdata.cpp 1.4:
+		I didn't use the correct function for trigger duplication FEP. (
+		bug 88)
+
+	* readme.txt 1.19:
+	* resource.h 1.40:
+		Version updates for bugfix release.
+
+2006-07-08	Administrator
+	* trigedit.cpp 1.37:
+		A few stability improvements.
+
+2006-07-05	Administrator
+	* src_notes.txt 1.12:
+		Updates for new version.
+
+2006-07-04	Administrator
+	* readme.txt 1.18:
+	* resource.h 1.39:
+		Updates for new version.
+
+2006-07-03	Administrator
+	* aokts.ini 1.16:
+	* data.xml 1.7:
+	* editors.cpp 1.38:
+	* esdata.cpp 1.8:
+	* esdata.h 1.8:
+	* mapview.cpp 1.12:
+	* scen.h 1.28:
+	* scen_const.cpp 1.15:
+	* scen_const.h 1.15:
+	* settings.cpp 1.11:
+	* settings.h 1.10:
+		Moved terrain names and colors from scen_const.* and aokts.ini 
+		to data.xml.
+
+	* src_notes.txt 1.11:
+		Added a nice checklist for me.
+
+2006-07-02	Administrator
+	* trigedit.cpp 1.36:
+		Dragging a trigger put it one higher than it appeared. (bug 84)
+
+	* trigedit.cpp 1.34:
+	* trigger.cpp 1.19:
+	* trigger.h 1.22:
+		Reorganized a bit of stuff, and added "duplication for each 
+		player" functionality.
+
+	* aokts.cpp 1.49:
+	* scen.cpp 1.55:
+		A few changes for a new scenario.
+
+	* trigedit.cpp 1.35:
+		E/C editing now stops if selected item is not an E/C. (bug 87)
+
+	* scen.cpp 1.54:
+		Creating a new scenario now sets player 1 as human. (bug 86)
+
+2006-06-29	Administrator
+	* datatypes.h 1.12:
+		Added a FOREACH macro for SVector. I'll permiate the source with 
+		it later.
+
+2006-06-28	Administrator
+	* MAKEFILE 1.19:
+		Removed zlib debug library.
+
+2006-05-01	Administrator
+	* aokts.cpp 1.48:
+	* esdata.cpp 1.7:
+	* esdata.h 1.7:
+		AOKTS now exits if reading data.xml fails. (bug 85)
+
+2006-04-17	Administrator
+	* trigedit.cpp 1.33:
+		Fixed dragging's scrolling (bug 81) and moved HTREEITEM dragging 
+		from trigdata.cpp to trigedit.cpp.
+
+	* aokts.cpp 1.47:
+		AOKTS should only check for version conversion if Save As used. (
+		bug 83)
+
+2006-04-15	Administrator
+	* AOKTS.rc 1.52:
+	* makefile.dep 1.18:
+	* resource.h 1.38:
+	* trigedit.cpp 1.32:
+		Started making trigger editing a little more OO, with ItemDataEC 
+		and exported code into trigdata.cpp, since trigedit.cpp was 
+		getting way too long. I also fixed bug 80.
+
+	* datatypes.cpp 1.5:
+		Minor data corruption bug.
+
+2006-04-14	Administrator
+	* trigedit.cpp 1.31:
+		TrigTree_Paste() accidentally both inserted and appended the 
+		trigger in t_order. (bug 78)
+
+2006-04-08	Administrator
+	* trigger.cpp 1.18:
+	* trigger.h 1.21:
+		Made the Effect copy constructor compiler-generated because it 
+		probably won't make any mistakes like I do. (bug 76)
+
+2006-04-02	Administrator
+	* ecedit.cpp 1.38:
+		Cleaned up Effect's command-handling procedure and added some EC 
+		editor/mapview interaction.
+
+	* trigger.h 1.19:
+		Wrote custom point and rect classes for EC's because I realized 
+		that effect's location property is stored reverse, also.
+
+	* aokts.cpp 1.44:
+	* editors.h 1.11:
+	* mapview.cpp 1.11:
+	* mapview.h 1.4:
+	* unitedit.cpp 1.30:
+		Changed PropSheetData::mapview to an external global in 
+		mapview.h.
+
+	* trigger.h 1.20:
+		Same with areas.
+
+	* AOK Trigger Studio.dsp 1.15:
+	* MAKEFILE 1.18:
+	* aokts.cpp 1.45:
+	* ecedit.cpp 1.39:
+	* editors.cpp 1.37:
+	* makefile.dep 1.17:
+	* utilui.cpp 1.11:
+	* utilui.cpp 1.12:
+	* utilui.h 1.17:
+		Moved custom controls (only LCOMBO as of right now) to utilui.* 
+		instead of controls.*.
+
+	* AOKTS.rc 1.51:
+		Cleanup up interface of condition and effect editors.
+
+2006-04-01	Administrator
+	* resource.h 1.37:
+		Version stuff for 0.3.5.
+
+	* aokts.cpp 1.42:
+		Mapview didn't update on new scenario.
+
+	* AOKTS.rc 1.50:
+	* aokts.cpp 1.41:
+	* scen.cpp 1.52:
+	* scen.h 1.26:
+		Updates for the creation of a new scenario. (bug 12)
+
+	* MAKEFILE 1.16:
+	* MAKEFILE 1.17:
+		Some changes to the configuration, nothing special.
+
+	* aokts.cpp 1.43:
+	* editors.cpp 1.36:
+	* mapview.cpp 1.10:
+	* mapview.h 1.3:
+	* unitedit.cpp 1.29:
+		Improvements to mapview: speed and click notification to owner 
+		window, which forwards it to active sheet.
+
+2006-03-31	Administrator
+	* AOK Trigger Studio.dsp 1.14:
+	* AOKTS.rc 1.48:
+	* ecedit.cpp 1.37:
+	* editors.cpp 1.35:
+	* scen_const.cpp 1.14:
+	* scen_const.h 1.14:
+	* utilui.h 1.16:
+		Finished up LCOMBO and moved to ESDATA for aitypes.
+
+2006-03-29	Administrator
+	* AOKTS.rc 1.47:
+	* MAKEFILE 1.15:
+	* aokts.cpp 1.40:
+	* ecedit.cpp 1.36:
+	* ecedit.h 1.8:
+	* editors.cpp 1.34:
+	* makefile.dep 1.16:
+	* resource.h 1.36:
+	* utilui.cpp 1.10:
+	* utilui.h 1.15:
+		New control: LCombo, a combo-box for use with a linkedlist.
+
+2006-03-28	Administrator
+	* aokts.cpp 1.39:
+	* esdata.cpp 1.6:
+	* esdata.h 1.6:
+		Moved the ESDATA log statements from WinMain() to ESDATA::load() 
+		and added support for map aitypes (but it's not used yet).
+
+2006-03-27	Administrator
+	* AOK Trigger Studio.dsp 1.13:
+		Finally added scx_format.txt to project. Yay.
+
+2006-03-26	Administrator
+	* scen.cpp 1.50:
+	* scen.h 1.25:
+		New macros: UNREAD() and UNKNOWN().
+
+	* datatypes.h 1.11:
+	* scen.cpp 1.51:
+		Fixed diplomacy-writing problem (bug 54) and another bug I had 
+		created by using SString::write() in the header.
+
+	* AOKTS.rc 1.46:
+	* aokts.cpp 1.38:
+	* editors.cpp 1.33:
+	* resource.h 1.35:
+	* scen.cpp 1.49:
+	* scen.h 1.24:
+	* scx_format.txt 1.15:
+	* utilui.cpp 1.9:
+	* utilui.h 1.14:
+		Iberico discovered player count in header, Player::aimode, and 
+		second allied victory. Also added a little tooltip 
+		functionality.
+
+2006-03-25	Administrator
+	* AOK Trigger Studio.dsp 1.12:
+		Some reorganization.
+
+2006-03-23	Administrator
+	* AOKTS.rc 1.45:
+	* editors.cpp 1.32:
+	* resource.h 1.34:
+	* scen.cpp 1.48:
+	* scen.h 1.23:
+	* scx_format.txt 1.14:
+		Ver2 discovered, thanks to iberico. (bug 70)
+
+2006-03-22	Administrator
+	* trigedit.cpp 1.30:
+	* utilui.cpp 1.8:
+	* utilui.h 1.13:
+		C/E dragging implemented, but probably buggy.
+
+	* aokts.cpp 1.37:
+		Map Viewer window is now created to the right of the property 
+		sheet.
+
+2006-03-21	Administrator
+	* datatypes.h 1.10:
+		Added last() to SVector.
+
+2006-03-19	Administrator
+	* settings.cpp 1.10:
+		Settings structure now stores full path for TempPath.
+
+	* aokts.cpp 1.36:
+		Fixed a couple of possible bugs in command-lining.
+
+	* AOKTS.rc 1.43:
+	* aokts.cpp 1.33:
+	* resource.h 1.32:
+	* scen.cpp 1.47:
+	* scen.h 1.22:
+		Added status bar help messages for menuitems and SaveAs2.
+
+	* AOKTS.rc 1.44:
+	* aokts.cpp 1.34:
+	* resource.h 1.33:
+		Added raw compress/decompress.
+
+	* aokts.cpp 1.35:
+		Added commandline switches for raw compression.
+
+2006-03-18	Administrator
+	* scen.cpp 1.46:
+		Made misc unsigned int i signed in Scenario::read_data(). (bug 
+		55)
+
+	* trigger.cpp 1.17:
+	* trigger.h 1.18:
+		Effect/condition copy constructor errors. (bug 69)
+
+	* aokts.ini 1.15:
+	* scen.cpp 1.45:
+	* settings.cpp 1.9:
+	* settings.h 1.9:
+		Added a logfile option, itense, to help with debugging. Not much 
+		use yet.
+
+2006-03-09	Administrator
+	* ecedit.cpp 1.35:
+	* trigger.cpp 1.16:
+	* trigger.h 1.17:
+	* utilui.cpp 1.7:
+	* utilui.h 1.12:
+		Hopefully fixed unit constant problems. (bug 66)
+
+2006-03-08	Administrator
+	* datatypes.cpp 1.4:
+	* datatypes.h 1.9:
+	* ecedit.cpp 1.34:
+	* editors.cpp 1.31:
+	* esdata.cpp 1.5:
+	* esdata.h 1.5:
+	* makefile.dep 1.15:
+	* scen.cpp 1.44:
+	* scen_const.cpp 1.13:
+	* scen_const.h 1.13:
+	* settings.cpp 1.8:
+	* trigger.cpp 1.15:
+	* utilui.h 1.11:
+		Moved some of the Link stuff to datatypes.* and purged 
+		resources.
+
+2006-03-07	Administrator
+	* scen_const.cpp 1.12:
+	* scen_const.h 1.12:
+	* utilunit.cpp 1.15:
+		Final purges of hard-coded unit data.
+
+	* scen.cpp 1.43:
+		Better ERR_mem reporting.
+
+2006-03-04	Administrator
+	* AOKTS.rc 1.42:
+	* aokts.cpp 1.32:
+	* ecedit.cpp 1.33:
+	* editors.cpp 1.30:
+	* esdata.cpp 1.4:
+	* esdata.h 1.4:
+	* scen.cpp 1.42:
+	* scen.h 1.21:
+	* scen_const.cpp 1.11:
+	* scen_const.h 1.11:
+	* settings.cpp 1.7:
+	* settings.h 1.8:
+	* unitedit.cpp 1.28:
+	* utilunit.cpp 1.14:
+	* utilunit.h 1.9:
+		Moved unit data to XML.
+
+	* AOK Trigger Studio.dsp 1.11:
+		Moved all player color info to data.xml and created some useful 
+		functions for esdata.
+
+	* utilui.cpp 1.6:
+	* utilui.h 1.10:
+		Added CB_getid, LB_getid, and GETLBSELDATA.
+
+2006-03-02	Administrator
+	* ecedit.cpp 1.32:
+	* editors.cpp 1.29:
+	* esdata.cpp 1.3:
+	* esdata.h 1.3:
+	* mapview.cpp 1.9:
+	* trigger.cpp 1.14:
+		Some linkedlist cleanups before I get too far into this.
+
+	* trigedit.cpp 1.29:
+		Auto-scrolling. I'll have to clean it up later, it's a bit jumpy 
+		right now.
+
+	* editors.cpp 1.28:
+	* esdata.cpp 1.2:
+	* esdata.h 1.2:
+	* mapview.cpp 1.8:
+	* scen.cpp 1.41:
+	* scen.h 1.20:
+	* trigger.cpp 1.13:
+	* utilui.cpp 1.5:
+	* utilui.h 1.9:
+		Moved all player color info to data.xml and created some useful 
+		functions for esdata.
+
+2006-03-01	Administrator
+	* scen.cpp 1.39:
+	* scen.h 1.18:
+		Replaced with a slightly more useful function, find_trigger().
+
+	* AOKTS.rc 1.41:
+	* scen.cpp 1.40:
+	* scen.h 1.19:
+	* trigedit.cpp 1.28:
+	* trigger.h 1.16:
+		Enabled drag-n-drop and made a minor change to enum TType.
+
+	* scen.cpp 1.38:
+	* scen.h 1.17:
+		Added a useful function, remove_trigger().
+
+2006-02-28	Administrator
+	* editors.cpp 1.27:
+		Fixed the disabled technology saving bug. (bug 62)
+
+	* scen.cpp 1.37:
+		Repeated resources had a slightly different order. (bug 53)
+
+	* trigedit.cpp 1.27:
+		Fixed some stuff for soon-to-come drag-n-drop.
+
+	* editors.cpp 1.26:
+		Fixed bug in Disables_HandleAdd where tech info was not properly 
+		copied. (bug 63)
+
+2006-02-26	Administrator
+	* trigedit.cpp 1.26:
+		Added hourglass when reseting trigtree.
+
+	* mapview.cpp 1.6:
+		Made debug info debug-only.
+
+	* aokts.cpp 1.31:
+		Loading a new scenario didn't erase old map. (bug 48)
+
+	* datatypes.cpp 1.3:
+	* datatypes.h 1.8:
+	* scen.cpp 1.32:
+	* trigger.cpp 1.12:
+	* utilio.h 1.6:
+		Transfered READT and WRITET functions to member functions of 
+		SString.
+
+	* AOK Trigger Studio.dsp 1.10:
+	* MAKEFILE 1.14:
+	* aokts.cpp 1.29:
+	* ecedit.cpp 1.31:
+	* editors.cpp 1.24:
+	* makefile.dep 1.14:
+	* scen_const.cpp 1.10:
+	* scen_const.h 1.10:
+	* trigedit.cpp 1.24:
+	* trigger.cpp 1.11:
+	* trigger.h 1.15:
+		Started XML genie data format and transferred technology 
+		information.
+
+	* resource.h 1.28:
+	* trigedit.cpp 1.25:
+		Removed old IDC_T_DUPLICATE.
+
+	* scen.cpp 1.35:
+		Reversed Player 1's initial view since that's how AOK does it.
+
+	* mapview.cpp 1.7:
+		Fixed orange player color. (bug 60)
+
+	* aokts.cpp 1.30:
+	* scen.cpp 1.33:
+	* scen.h 1.16:
+	* scx_format.txt 1.13:
+		Discovered unknown strings at the beginning of PlayerData2 and 
+		added a few extra outputs to log file.
+
+	* scen.cpp 1.34:
+		Implemented a workaround for some unknown data present before AI 
+		Files in some scenarios.
+
+	* AOKTS.rc 1.39:
+	* editors.cpp 1.25:
+	* resource.h 1.27:
+		Added editor view coordinates to the general tab.
+
+2006-02-18	Administrator
+	* scen.cpp 1.31:
+		Fixed bad trigger reporting. (i-- before good check)
+
+2006-02-10	Administrator
+	* AOKTS.rc 1.38:
+		Enabled disables editor and sorted both disables lists.
+
+2006-01-19	Administrator
+	* ecedit.cpp 1.30:
+		Cleanup of effect and condition editor controls.
+
+2006-01-18	Administrator
+	* AOKTS.rc 1.36:
+	* ecedit.cpp 1.29:
+	* resource.h 1.25:
+	* scen_const.cpp 1.9:
+	* scen_const.h 1.9:
+	* scx_format.txt 1.11:
+	* trigger.cpp 1.10:
+	* trigger.h 1.14:
+		Discovered and added support for unit types (building, civilian, 
+		military, or other), as well as fixing a few e/c checks.
+
+	* scen.cpp 1.29:
+		Made error strings const, as they should be.
+
+2006-01-17	Administrator
+	* utilui.h 1.8:
+		Added a useful GETSELDATA macro for combo boxes.
+
+	* makefile.dep 1.12:
+		Mapview.cpp relies on scen.h
+
+2006-01-16	Administrator
+	* unitedit.cpp 1.25:
+		Added unit highlight function for selecting.
+
+	* ecedit.cpp 1.28:
+		Cancel that, it wasn't supposed to. Duh.
+
+	* aokts.ini 1.13:
+		Oops, the WeirdResource warning should be on by default.
+
+	* ecedit.cpp 1.27:
+		The WeirdResource warning didn't display for conditions.
+
+2006-01-15	Administrator
+	* unitedit.cpp 1.24:
+		General cleanups.
+
+	* ecedit.cpp 1.26:
+		Corrected disabling of string table ID for effects.
+
+	* AOKTS.rc 1.35:
+		Unit "group" -> "class"
+
+	* aokts.cpp 1.24:
+	* editors.h 1.10:
+		Made map viewer accessible by all editors.
+
+2006-01-06	Administrator
+	* ecedit.cpp 1.25:
+	* scen_const.cpp 1.8:
+	* scen_const.h 1.8:
+	* utilui.cpp 1.4:
+	* utilui.h 1.7:
+		Implemented a new string-id pair system.
+
+2005-11-24	Administrator
+	* readme.txt 1.11:
+		Updated zlib1.dll stuff.
+
+	* scen_const.cpp 1.7:
+	* scen_const.h 1.7:
+		Added pop limit resource. (bug 39.34)
+
+2005-11-23	Administrator
+	* scen.cpp 1.28:
+	* trigger.cpp 1.9:
+	* utilio.h 1.5:
+		Fixed trigger name len > 44 bug (43). Also removed optional 
+		parameter from READCS (replaced with a required one) and 
+		prevented Trigger::read() from allocating memory it doesn't need 
+		to.
+
+2005-11-19	Administrator
+	* scen.cpp 1.27:
+		Player Data 3 bugfix. (bug 42)
+
+2005-11-11	Administrator
+	* AOKTS.rc 1.34:
+	* editors.cpp 1.22:
+	* editors.h 1.9:
+	* scen.cpp 1.26:
+	* scen.h 1.15:
+		Map reset fixes (bug 37) as well as general code cleanup for map 
+		editor.
+
+2005-11-09	Administrator
+	* aokts.ini 1.12:
+	* ecedit.cpp 1.24:
+	* settings.cpp 1.5:
+	* settings.h 1.6:
+		Send Tribute Effect extra resources as well as an option to 
+		disable the accompanying warning. (bug 39)
+
+	* trigedit.cpp 1.23:
+		Delete key with no selection crash. (bug 38)
+
+2005-11-08	Administrator
+	* aokts.ini 1.11:
+		Updated unit lists. (bug 35)
+
+2005-11-05	Administrator
+	* utilunit.cpp 1.11:
+		Bugfix: Unit selector crash. (bug 34)
+
+	* utilunit.cpp 1.12:
+		Fixed bug 33.
+
+	* aokts.ini 1.10:
+	* settings.cpp 1.4:
+	* settings.h 1.5:
+		Added [TColors] section to aokts.ini.
+
+	* AOKTS.rc 1.33:
+	* aokts.cpp 1.23:
+	* resource.h 1.24:
+		Added disable count, mapsize to statistics dialog. (bug 36)
+
+2005-11-01	Administrator
+	* AOK Trigger Studio.dsp 1.9:
+	* AOKTS.rc 1.32:
+	* MAKEFILE 1.13:
+	* aokts.cpp 1.22:
+	* makefile.dep 1.11:
+	* resource.h 1.23:
+		Added initial map viewer. Much more to come later.
+
+2005-10-27	Administrator
+	* scen.cpp 1.25:
+		Hacked it up so it'll load GTE. (bug 11)
+
+	* AOKTS.rc 1.31:
+	* aokts.cpp 1.20:
+	* resource.h 1.22:
+	* scen.cpp 1.24:
+	* scen.h 1.14:
+		Added a somewhat hokey option to dump included per files to a 
+		directory.
+
+	* aokts.cpp 1.21:
+	* editors.cpp 1.21:
+	* editors.h 1.8:
+	* trigedit.cpp 1.22:
+	* unitedit.cpp 1.23:
+		Small code updates to avoid name conflicts.
+
+2005-10-24	Administrator
+	* aokts.ini 1.9:
+		Monastery list fix. (bug 29)
+
+	* unitedit.cpp 1.20:
+		Any key deleted units. (bug 30)
+
+	* aokts.cpp 1.19:
+		Small change with application icon load.
+
+	* AOKTS.rc 1.30:
+	* ecedit.cpp 1.23:
+	* resource.h 1.21:
+	* trigger.h 1.13:
+		Updated for discovery of effect string table ID.
+
+	* AOKTS.rc 1.29:
+	* resource.h 1.20:
+	* scen.cpp 1.23:
+	* scen.h 1.13:
+	* scx_format.txt 1.10:
+	* unitedit.cpp 1.22:
+		Updates for Unit::frame discovery.
+
+	* trigedit.cpp 1.21:
+		Open e/c editor switch tabs fix. (bug 31)
+
+	* unitedit.cpp 1.21:
+		Unit rotation recorded incorrectly. (bug 32)
+
+2005-10-23	Administrator
+	* evil.bmp 1.1:
+	* good.bmp 1.1:
+		Good/evil bitmaps for e/c/t validation.
+
+2005-10-23	Administrator
+	* ecedit.cpp 1.22:
+		Bugfix: UnitSel() function overwrote e/c's player. This should 
+		not have been.
+
+2005-10-22	Administrator
+	* aokts.cpp 1.18:
+		Fixed a "hidden" crash on closing bug.
+
+	* aokts.ini 1.8:
+		Added new setting for release.
+
+	* AOKTS.rc 1.28:
+	* ecedit.cpp 1.20:
+	* resource.h 1.19:
+	* utilunit.cpp 1.10:
+	* utilunit.h 1.7:
+		Improvement: Unit-selection window switches between single-sel/
+		multi-sel.
+
+	* trigger.h 1.12:
+		Fixed a few sign errors.
+
+	* ecedit.cpp 1.21:
+		Bugfix: Effect control enabling sometimes failed.
+
+2005-10-19	Administrator
+	* AOK Trigger Studio.dsp 1.8:
+	* AOKTS.rc 1.26:
+	* ecedit.cpp 1.19:
+	* ecedit.h 1.6:
+	* resource.h 1.18:
+	* trigedit.cpp 1.20:
+	* trigger.cpp 1.8:
+	* trigger.h 1.11:
+		Added condition/effect validity checking and two bitmaps, a check
+		and an x, to display the result. It does not, however, update the trigger
+		item's icon when conditions/effects are changed. This needs to be
+		fixed. Also added drag-and-drop code, but due to UI problems, this is
+		still disabled.
+
+	* aokts.cpp 1.16:
+		Made tabstops work (bug 15).
+
+	* ecedit.h 1.7:
+	* editors.h 1.7:
+		Change from WM_USER to WM_APP, thanks to Ekted.
+
+	* aokts.cpp 1.17:
+		Keyboard input now properly forwarded to effect/condition 
+		editors (bug 15).
+
+	* AOKTS.rc 1.27:
+		Fixed dialog control order for better tabbing (bug 15).
+
+2005-10-15	Administrator
+	* MAKEFILE 1.12:
+		Small changes to makefile for debug version of zlib.
+
+	* aokts.cpp 1.15:
+	* settings.cpp 1.3:
+	* settings.h 1.4:
+		Added stdout redirection for easy logging.
+
+2005-10-13	Administrator
+	* AOKTS.rc 1.25:
+	* ecedit.cpp 1.18:
+	* ecedit.h 1.5:
+	* resource.h 1.17:
+		Bugfix 0003.
+
+	* aokts.cpp 1.14:
+	* settings.cpp 1.2:
+	* settings.h 1.3:
+		Slightly reorganized Settings class, allowed for warning on 
+		failure to detect AOEII.
+
+	* AOKTS.rc 1.24:
+	* ecedit.cpp 1.17:
+	* resource.h 1.16:
+		Added unit selection to condition editor.
+
+2005-10-09	Administrator
+	* aokts.cpp 1.12:
+		Linked to help file by geebert.
+
+	* AOKTS.rc 1.23:
+	* unitedit.cpp 1.19:
+		Improvement: Delete key works in unit editor.
+
+	* MAKEFILE 1.10:
+		Slight change to the build process.
+
+	* ecedit.cpp 1.16:
+		Bugfix: Crashed when opening unit selector on brand new trigger.
+
+	* AOK Trigger Studio.dsp 1.7:
+	* MAKEFILE 1.11:
+		More slight changes to the build process.
+
+	* AOKTS.rc 1.22:
+	* aokts.cpp 1.13:
+	* resource.h 1.15:
+		Improvements to the statistics dialog.
+
+	* readme.txt 1.9:
+		Removed todo list in favor of bug tracker.
+
+	* ecedit.cpp 1.15:
+		Bugfix: Small memory leak in condition/effect editors.
+
+	* scen.cpp 1.22:
+	* trigger.cpp 1.7:
+	* utilio.h 1.4:
+		A bit more reliable error reporting.
+
+2005-10-08	Administrator
+	* AOKTS.rc 1.21:
+	* editors.cpp 1.20:
+	* resource.h 1.14:
+	* scen.cpp 1.21:
+	* scen.h 1.12:
+	* scx_format.txt 1.9:
+		Improvement: Added editing for string table ID for messages. (
+		Thanks geebert.)
+
+	* trigedit.cpp 1.19:
+		Improvement: Trigger tree doesn't repaint on every item deleted during reset.
+		Bugfix: Deleting a trigger with an effect open could skew effect's trigger list. Now trigger deletion is disabled with an editor open.
+
+	* unitedit.cpp 1.18:
+		Bugfix: Deleting a unit skewed item data, causing unit-not-found 
+		errors.
+
+	* ecedit.cpp 1.14:
+	* trigger.h 1.10:
+	* utilunit.cpp 1.9:
+	* utilunit.h 1.6:
+		Fixed all the major problems with the unit selector.
+
+	* ecedit.cpp 1.13:
+		Now notifies user if any condition/effect unknown values are 
+		set.
+
+	* datatypes.h 1.7:
+		Began a so-far unused linked-list class.
+
+	* trigger.h 1.9:
+		Added effect/condition type enums.
+
+	* AOKTS.rc 1.20:
+	* utilunit.cpp 1.8:
+	* utilunit.h 1.5:
+		Bugfix: If source player specified in trigger, wrong player array was displayed.
+		Bugfix: Player/sort type combo boxes were too small.
+
+	* editors.cpp 1.19:
+		Bugfix: Conquest option grayed properly in victory editor. (
+		Thanks geebert.)
+
+2005-10-07	Administrator
+	* trigger.h 1.8:
+		Added some stuff about weird player numbering in conditions and 
+		effects.
+
+	* utilunit.cpp 1.7:
+		Bugfix: Unit selector returned the wrong selections (oops) and 
+		more than one open at a time conflicted.
+
+2005-10-06	Administrator
+	* editors.cpp 1.18:
+		Bufix: IM Editor doesn't let you export a bitmap if one doesn't 
+		exist.
+
+	* scen_const.cpp 1.6:
+		Formatting: Compacted units_sorted array and added newline at 
+		end of file.
+
+	* zlibfile.cpp 1.2:
+		Formatting: Added newline at end of file.
+
+2005-08-04	Administrator
+	* scen.h 1.11:
+		Fixed unit x-pos,y-pos stupid order. (Thanks oliver.)
+
+2005-07-25	David
+	* ecedit.cpp 1.12:
+	* ecedit.h 1.4:
+	* trigedit.cpp 1.18:
+		Added modeless condition/effect editors, but having problems 
+		with the property sheet. Gave up for now.
+
+	* utilui.h 1.6:
+		Added a new useful function for filling comboboxes.
+
+2005-07-22	David
+	* AOKTS.rc 1.19:
+	* editors.cpp 1.17:
+	* resource.h 1.13:
+		Added Scenario::all_techs ui.
+
+2005-07-21	David
+	* AOKTS.rc 1.18:
+	* editors.cpp 1.16:
+	* scen.cpp 1.20:
+	* utilui.h 1.5:
+		Just some minor cleanups that need to be committed.
+
+	* datatypes.cpp 1.2:
+	* datatypes.h 1.6:
+	* trigger.cpp 1.6:
+		Some more minor cleanups.
+
+2005-07-18	David
+	* trigedit.cpp 1.17:
+		A few stability problems prevented.
+
+	* scen.cpp 1.19:
+		Continued with logfiling.
+
+	* scen.cpp 1.18:
+	* utilio.h 1.3:
+		Logfile reporting begun. (Thanks geebert.)
+
+	* scx_format.txt 1.8:
+		Added unknown3 member.
+
+2005-07-15	David
+	* trigedit.cpp 1.16:
+		Bugfix: TrigTree_UpdateChildren() had a STUPID bug. (Thanks 
+		geebert.)
+
+	* unitedit.cpp 1.17:
+		Doesn't stupidly quit when LoadUnit() fails.
+
+2005-06-28	David
+	* scen.cpp 1.16:
+		Eliminated a compiler warning.
+
+	* AOKTS.rc 1.17:
+	* resource.h 1.11:
+	* scen.cpp 1.17:
+	* scen.h 1.10:
+	* scx_format.txt 1.7:
+	* unitedit.cpp 1.16:
+		Found Unit::garrison. Made appropriate changes.
+
+	* readme.txt 1.8:
+	* resource.h 1.12:
+	* src_notes.txt 1.4:
+		Version updates.
+
+	* trigger.cpp 1.5:
+		Bugfix: "Tehcnology". Thanks zyxomma.
+
+	* ecedit.cpp 1.11:
+	* ecedit.h 1.3:
+	* trigedit.cpp 1.15:
+	* trigger.cpp 1.4:
+	* trigger.h 1.7:
+		First of all, new extensible system for Effect/Condition editing started.
+		Second, realized Effect copy/paste was very buggy because of the SString member, and wrote Effect::Effect(char *data, int size), Effect::tobuffer(), and Effect::size() to fix it.
+		Now everything should be well...
+
+2005-06-27	David
+	* AOKTS.rc 1.15:
+	* ecedit.cpp 1.10:
+	* scen_const.cpp 1.5:
+	* scen_const.h 1.6:
+	* scx_format.txt 1.5:
+		Added condition/effect unit groups.
+
+	* scen.cpp 1.14:
+		Check end of PlayerData3. (Reports error earlier.)
+
+	* aokts.cpp 1.11:
+		FileOpen() does not call Scenario::reset() if error occurs in a 
+		debug build.
+
+	* AOKTS.rc 1.16:
+	* editors.cpp 1.15:
+	* scen.cpp 1.15:
+	* scen.h 1.9:
+	* scx_format.txt 1.6:
+		Realized the unknown floats in class Player were actually 2nd 
+		copies of resources. Updated accordingly.
+
+2005-06-26	David
+	* MAKEFILE 1.8:
+		Removed -YX option. Precompiled headers weren't working very 
+		well and were actually slowing down the build process.
+
+	* scx_format.txt 1.4:
+		Realized I had been working with an old version of this, so 
+		updated.
+
+	* trigger.cpp 1.3:
+		Trigger::state is now enabled by default.
+
+	* AOK Trigger Studio.ncb 1.7:
+		Pointless to keep in CVS. Goodbye!
+
+	* trigger.cpp 1.2:
+		"Attack" -> "Change Object Attack"
+
+	* ecedit.cpp 1.9:
+		Bugfix: Enabled IDC_E_SPLAY for Clear Instructions effect. (
+		Thanks zyxomma.)
+
+	* editors.cpp 1.12:
+		Bugfix: GAIA control disabling was faulty. (Thanks zyxomma.)
+
+	* MAKEFILE 1.9:
+		Small change with program databases.
+
+	* scen.cpp 1.12:
+		Fixed Player::reset(), which wasn't resetting all of the 
+		attributes.
+
+	* AOKTS.rc 1.13:
+	* ecedit.cpp 1.8:
+	* editors.cpp 1.10:
+	* resource.h 1.9:
+	* scen.cpp 1.13:
+	* scen.h 1.8:
+	* scen_const.cpp 1.4:
+	* scen_const.h 1.5:
+	* trigedit.cpp 1.13:
+	* unitedit.cpp 1.14:
+	* utilui.h 1.3:
+		A few code improvements, added IDC_P_AGE and functionality for 
+		it, found Scenario::all_techs (but no editing as of yet). Also 
+		put the player unknowns in the release version.
+
+	* aokts.cpp 1.10:
+	* editors.cpp 1.14:
+	* editors.h 1.6:
+	* trigedit.cpp 1.14:
+	* unitedit.cpp 1.15:
+	* utilui.cpp 1.3:
+	* utilui.h 1.4:
+		Discovered IsClipboardFormatAvailable() and GetPriorityClipboardFormat(). Thus, removed OnClipboard().
+		Added Condition/Effect pasting.
+
+	* editors.cpp 1.13:
+		Instruction background is now the default for IDD_MSGS.
+
+	* AOKTS.rc 1.14:
+	* editors.cpp 1.11:
+	* resource.h 1.10:
+		Added IDC_V_CONQUEST. Not sure if it's working completely 
+		properly though.
+
+2005-06-25	David
+	* datatypes.h 1.5:
+	* ecedit.cpp 1.7:
+	* ecedit.h 1.2:
+	* editors.cpp 1.9:
+	* makefile.dep 1.10:
+	* readme.txt 1.7:
+	* scen.cpp 1.11:
+	* scen.h 1.7:
+	* trigedit.cpp 1.11:
+	* trigger.h 1.6:
+	* unitedit.cpp 1.13:
+	* utilui.cpp 1.2:
+	* utilui.h 1.2:
+	* utilunit.cpp 1.6:
+	* utilunit.h 1.4:
+		Lots of code cleanups, and comments in trigedit.cpp. Nothing 
+		that should actually effect the user interface.
+
+	* AOKTS.rc 1.12:
+	* trigedit.cpp 1.12:
+		Added delete button functionality.
+		Removed IDC_T_DEL and IDC_T_DUPLICATE.
+		Fixed version in about box.
+
+2005-06-23	David
+	* trigedit.cpp 1.10:
+		Added IDC_EDIT_DELETE stuff, eventually to replace IDC_T_DEL.
+		Pasting a trigger now selects it.
+
+2005-06-22	David
+	* unitedit.cpp 1.10:
+		Bugfix: The delete button on IDD_UNITS was always disabled.
+		Newly created units now receive the type constant currently selected in the listbox.
+
+	* unitedit.cpp 1.11:
+		Notice on the delete bug. Will fix later.
+
+	* aokts.cpp 1.9:
+		Bugfix: Re-added call to scen.reset() in FileOpen(), I don't 
+		know why I took it out in the first place. Taking it out caused 
+		strange errors when loading a new scenario on top of an old one.
+
+	* scen.h 1.6:
+		Bugfix: Gave Scenario::msg 356 bytes, which is _MAX_FILE plus 
+		100 bytes for the error message. That should be enough.
+
+	* utilunit.h 1.3:
+		A clarification on the behavior of UnitList_Fill().
+
+	* AOKTS.rc 1.11:
+		A little bit of cleaning up of IDD_COND. Needs a lot more, 
+		though.
+
+	* ecedit.cpp 1.6:
+		Bugfix: IDC_C_RESEARCH wasn't filled with technologies list.
+
+	* editors.cpp 1.8:
+	* editors.h 1.5:
+	* trigedit.cpp 1.9:
+	* unitedit.cpp 1.12:
+		Removed Load*() and Save*() prototypes from editors.h, and thus moved the functions up a bit in editors.cpp, unitedit.cpp, and trigedit.cpp.
+		Bugfix: If LoadUnit() cannot find the requested unit to load, it will tell the user, then quit.
+
+	* scen.cpp 1.9:
+		Some readability fixes and prevention of one deadlock.
+
+	* scen.cpp 1.10:
+		Bugfix: "Unrecognzied". Thanks, oliver. :-P
+
+	* makefile.dep 1.9:
+		Another dependency mistake.
+
+	* editors.cpp 1.7:
+		Added numerical sizes to the built-in map size strings.
+		LoadMap() now sees if selected size is one of the built-ins.
+
+	* datatypes.h 1.4:
+		Fixed a compiler warning.
+
+2005-06-21	David
+	* datatypes.h 1.3:
+	* trigedit.cpp 1.8:
+		Protection against two various possible crashes.
+
+	* aokts.ini 1.6:
+	* resource.h 1.8:
+		Version updates.
+
+	* AOKTS.rc 1.9:
+	* editors.cpp 1.5:
+	* resource.h 1.7:
+	* scen.cpp 1.8:
+	* scen.h 1.5:
+	* scx_format.txt 1.3:
+		Discovered that a float I though was constant isn't.
+
+	* aokts.cpp 1.8:
+		Bugfix: A possible crash when loading a scenario while another 
+		was open to the trigger editor.
+
+	* ecedit.cpp 1.5:
+		Updated to use the unit selector window.
+		
+		Switched to a macro for filling combo boxes (much prettier code).
+
+	* MAKEFILE 1.7:
+		Fixed an inconsistency with program database for debugging.
+
+	* AOKTS.rc 1.8:
+	* resource.h 1.6:
+	* utilunit.cpp 1.4:
+		Improved unit selector, but still untested in AOK.
+
+	* utilunit.cpp 1.5:
+		Added sorting for IDD_UNITSEL. (Only SORT_ID functions for now, 
+		though.)
+
+	* aokts.ini 1.7:
+	* readme.txt 1.6:
+		Updated for release.
+
+	* datatypes.h 1.2:
+		A comment that has been waiting to be committed for a while.
+
+	* readme.txt 1.4:
+		Played around with todo list a bit.
+
+	* src_notes.txt 1.2:
+		Updated some stuff from pre-cvs times.
+
+	* editors.cpp 1.6:
+		Changed IDC_G_FLOAT's precision to 2 instead of 1, since the 
+		difference is between 1.22 and 1.20.
+
+	* AOK Trigger Studio.ncb 1.6:
+	* aokts.ini 1.5:
+	* readme.txt 1.5:
+	* src_notes.txt 1.3:
+		Stuff for the newest version.
+
+	* AOKTS.rc 1.10:
+		IDC_US_SORT didn't display options.
+
+2005-04-29	David
+	* trigger.h 1.4:
+		Fixed a compiler warning that had been annoying me.
+
+	* AOKTS.rc 1.7:
+	* ecedit.cpp 1.4:
+	* editors.cpp 1.4:
+	* scen_const.cpp 1.3:
+	* scen_const.h 1.4:
+	* trigedit.cpp 1.7:
+	* trigger.h 1.5:
+	* unitedit.cpp 1.9:
+	* utilunit.cpp 1.3:
+		First, I moved the technology names back into an array. (I'm 
+		going to do the same with units later.) Second, I changed all 
+		calls of GetWindowLong() that were getting GWL_HINSTANCE to 
+		calls to GetModuleHandle(NULL), as it is much simpler.
+
+	* AOK Trigger Studio.dsp 1.6:
+	* AOK Trigger Studio.ncb 1.5:
+	* AOKTS.rc 1.6:
+	* ecedit.cpp 1.3:
+	* makefile.dep 1.8:
+	* resource.h 1.5:
+	* unitedit.cpp 1.8:
+	* utilunit.cpp 1.2:
+	* utilunit.h 1.2:
+		Finished a Units Selector dialog that will at least display selected units. I don't know when I'll actually make the selection modifiable.
+		I also slightly changed the parameters to UnitList_Fill().
+
+	* scen.h 1.4:
+		Fixed an error-message overflow bug.
+
+2005-04-24	David
+	* AOK Trigger Studio.dsp 1.5:
+		Changed some options around, added the new files... this should 
+		have been done earlier.
+
+	* scen.cpp 1.7:
+		A very minor change to make debugging easier.
+
+	* trigger.h 1.3:
+		Added in-order lists of Effects & Conditions, among other 
+		changes.
+
+2005-04-23	David
+	* AOKTS.rc 1.5:
+	* MAKEFILE 1.6:
+	* makefile.dep 1.7:
+	* resource.h 1.4:
+	* unitedit.cpp 1.7:
+	* utilunit.cpp 1.1:
+	* utilunit.h 1.1:
+		Started on IDD_UNITSEL, the floating units selector window I've been planning on for a while.
+		Also moved some units functions from unitedit.cpp to utilunit.cpp in planning for some shared use.
+
+	* aokts.cpp 1.7:
+		Fixed trigger-deletion-save crash bug.
+
+	* editors.cpp 1.3:
+	* editors.h 1.4:
+		Minor code change: Players_ManageAI() was in the header and it 
+		shouldn't have been.
+
+	* ecedit.cpp 1.2:
+	* trigger.h 1.2:
+		Added support for multiple selected units in an effect.
+
+2005-04-22	David
+	* MAKEFILE 1.5:
+	* aokts.cpp 1.6:
+	* aokts.ini 1.4:
+	* makefile.dep 1.6:
+	* settings.cpp 1.1:
+	* settings.h 1.2:
+		Split off class Setts code into settings.cpp.
+		Also finally finished the Recent file code, may have a few bugs, but at least it works.
+
+	* unitedit.cpp 1.6:
+		Greatly sped up UnitList_Fill() after I noticed a ~5 second 
+		delay on scenarios with large numbers of units.
+
+2005-04-20	David
+	* makefile.dep 1.5:
+		Another small dependency problem. (I really need to get 
+		something to generate these for me...)
+
+	* settings.h 1.1:
+		Yes, this should have been here before.
+
+	* aokts.cpp 1.5:
+	* aokts.ini 1.3:
+	* scen.cpp 1.6:
+	* utilio.h 1.2:
+		Mostly added a lot more Recent File code, all I have left should be saving the new recent files to the INI.
+		I also cleaned up FileOpen() a bit, reorganizing and making the call to scen.reset() unnecessary. (This, in turn, inspired a change in READT() to erase SStrings if len = 0.)
+
+2005-04-19	David
+	* makefile.dep 1.4:
+	* trigedit.cpp 1.6:
+		Fixed some dependency stuff.
+
+	* AOK Trigger Studio.dsp 1.4:
+	* AOKTS.rc 1.4:
+	* aokts.cpp 1.4:
+	* aokts.h 1.3:
+	* editors.cpp 1.2:
+	* editors.h 1.3:
+	* makefile.dep 1.3:
+	* resource.h 1.3:
+	* trigedit.cpp 1.5:
+	* unitedit.cpp 1.5:
+		First, I finally got this a little more modularized: I moved the PropSheetData stuff to editors.h, made settings.h for the ever-growing struct Setts, and distributed some other minor stuff elsewhere. Then I deleted aokts.h. Good riddance.
+		Second, I set up a UI interface for Recent files, but I haven't finished by any means and haven't even started on loading the files from the INI (although that shouldn't be too hard).
+
+2005-04-18	David
+	* scen_const.h 1.3:
+		Removed some old stuff, added multi-include protection. (I can't 
+		believe I forgot it before...)
+
+2005-04-17	David
+	* unitedit.cpp 1.3:
+		Added support for new unit groups in struct Setts. (Woohoo!)
+
+	* readme.txt 1.3:
+		Updated for bugfixes.
+
+	* trigedit.cpp 1.3:
+		Standardized TVN_GETDISPINFO response.
+		Removed call to TrigTree_Reset() on PSN_KILLACTIVE to speed up page switching. (It is still called on PSN_SETACTIVE anyway.)
+
+	* makefile.dep 1.2:
+		Fixed a few dependencies, cleaned up a bit.
+
+	* unitedit.cpp 1.4:
+		Bufgix: Problem when unit selected with constant not on current 
+		group list. Now automatically switches to "All" if that occurs.
+
+	* scen.cpp 1.4:
+		Bugfix: Disables didn't properly clear on scenario reset.
+
+	* scen.cpp 1.5:
+		Bugfix: 0-length unit list for a player returned an error.
+
+	* trigedit.cpp 1.4:
+		Bugfix: Condition/Effect treeview items didn't update when 
+		editor closed.
+
+	* aokts.cpp 1.3:
+	* aokts.h 1.2:
+		Added unit group code to struct Setts.
+
+	* scen_const.cpp 1.2:
+	* scen_const.h 1.2:
+		Added a units_nocrash, a list of all non-crashing units. (Some 
+		of these, such as PMANG, may still crash on occasion.)
+
+	* aokts.ini 1.2:
+		Added some unit groups I made a while ago to test new unit group 
+		fuction. (It works!)
+
+2005-04-16	David
+	* AOK Trigger Studio.ncb 1.4:
+	* AOK Trigger Studio.opt 1.4:
+		Done for the day.
+
+	* editors.h 1.2:
+		Removed miscellaneous unit function prototypes.
+
+	* unitedit.cpp 1.2:
+		Fixed a bug with adding units.
+		Added code to enable/disable IDC_U_DEL depending on selection state.
+		Adding a unit now selects the created unit.
+
+	* AOK Trigger Studio.opt 1.5:
+		Decided not to keep this in CVS. If I ckeckout my files 
+		somewhere else, chances are I won't care about workspace options 
+		anyway.
+
+2005-04-14	David
+	* scen.cpp 1.2:
+	* scen.h 1.2:
+		Got rid of some old commented stuff. CVS will take care of that 
+		now. :-)
+
+	* old_versions.txt 1.2:
+		Deleted and moved content to webpage.
+
+	* scen.cpp 1.3:
+	* scen.h 1.3:
+		Fixed the PlayerData3 inital view bug.
+		Also combined RMSG and SMSGS defines, since they were almost always used together.
+
+	* scx_format.txt 1.2:
+		Clarified "See Below" about PlayerData3 problem.
+
+	* AOK Trigger Studio.dsp 1.3:
+	* AOK Trigger Studio.ncb 1.3:
+	* AOK Trigger Studio.opt 1.3:
+		Done for the day.
+
+	* AOKTS.rc 1.3:
+	* aokts.cpp 1.2:
+	* readme.txt 1.2:
+	* resource.h 1.2:
+		Added individual player unit counts to IDD_STATS.
+
+2005-04-11	David
+	* MAKEFILE 1.3:
+		Removed "format" target, cleaned up a bit more.
+
+	* res/aokts_big.bmp 1.1:
+		Large AOKTS bitmap.
+
+	* MAKEFILE 1.4:
+		Small fix from previous update.
+
+	* trigedit.cpp 1.2:
+		Updated to pointer version.
+
+	* AOK Trigger Studio.ncb 1.2:
+	* AOK Trigger Studio.opt 1.2:
+		Updated by VC.
+
+	* AOK Trigger Studio.dsp 1.2:
+	* MAKEFILE 1.2:
+		Changed Release Executable directory to . and Release 
+		intermediate directory to ".\\Release"
+
+--Old Changelog--
+Note: The dates are in DD/MM/YY; I prefer it that way. Sorry if it confuses anyone.
+
+10/09/04
+scen.h: Moved Scenario::export_ai() into player class.
+scen.cpp: Cleaned up Player::export_ai() and Scenario::export_bmp().
+scen.h: Switched to windows standard bitmap structs. Sad, but basically necessary.
+scen.h: Wrapped bitmap in the AOKBMP struct. Should be a lot more organized this way.
+editors.cpp: Added UpdateTrigPtrs(), one step closer to changing TVITEM::lParam to a pointer.
+editors.cpp: Began changing TVITEM::lParam to be a pointer.
+scen.h: Effect and Condition are now subclasses of ECBase.
+editors.cpp: Changed condition/effect nodes to display type.
+
+11/09/04
+editors.cpp: Continued the TVITEM::lParam change.
+Created trigedit.h and trigedit.cpp and moved all applicable code there. The trigger section was really getting way too hefty for editors.cpp.
+Created utilui.h and utilui.cpp for use by both trigedit.cpp and editors.cpp.
+
+12/09/04
+trigedit.cpp: Finished the TVITEM::lParam change.
+trigedit.cpp: Fixed a bug in which a duplicated trigger pointed to the source trigger.
+
+13/09/04
+Switched back to using the trigger list order after I relized the difficulty with activate/deactivate trigger effects.
+scen.h: Added Trigger::write(), which greatly cleans up the trigger list writing in write_data().
+
+15/09/04
+scen.h: Added Scenario::remove_trigger(), which takes care of the list order mess.
+sstring.h: Fixed a bug in the bounds-checking of SVector::at().
+trigedit.cpp: Fixed a bug with deleting triggers.
+
+16/09/04
+editors.cpp: Constant number now updates when new unit is selected on unit tab.
+
+18/04/04
+scen.cpp: Changed trigger loading so that effect/condition order is handled one at a time. (Thus eliminating any limit.)
+scen.h: Added Map::read() and Map::write().
+scen.cpp: Map now reads square (as it's supposed to) instead of filling in the array regardless of order.
+
+20/09/04
+aokts.rc: Removed CBS_SORT on some combo boxes in IDD_EFFECT and IDD_COND that souldn't have had it.
+aokts.rc: Added CBS_SORT to the effect/condition player selection since GAIA is treated as player 0.
+scen.h: Added Player::age. (It is loaded from scenario but not editable.)
+scen.cpp: Fixed player 1's initial camera pos. (Stupid ES.)
+scen.cpp: Now using CHECKSECT() for greater stability. (At least in debug mode.)
+
+21/09/04
+scen.cpp: Added a few handler functions for opening/saving.
+Deflation/Inflation is now handled by deflate_file() and inflate_file() in zlibfile.h.
+
+24/09/04
+editors.cpp: AI Export box now automatically selects AOK directory.
+
+25/09/04
+Moved MakeFilebox() to utilui.h, since aokts.cpp doesn't need it anymore.
+editors.cpp: Bitmap export box now automatically selects AOK directory.
+Scenario class now does not store path, Setts does.
+scen.cpp: Temporary output file is now closed before read_data() is called in open().
+Version 0.2.6 Released.
+
+10/11/04
+Started working again! Fun!
+scen.cpp: Scenario::write_data() now writes t_order how it's supposed to. (I can't believe someone didn't tell me about this!)
+trigedit.cpp: IDD_EFFECT's IDC_E_UIDS now accepts 1 (and only 1) UID.
+scen.cpp: Condition::Condition() now only memsets the members it's supposed to.
+
+14/11/04
+aokts.cpp: Finally got TranslateAccelerator() to work right! Ctrl+O and Ctrl+S now work!
+trigedit.h & trigedit.cpp: Split off control enabling/disabling into EffectControls() and ConditionControls().
+trigedit.cpp: Changing IDC_E_TYPE and IDC_C_TYPE calls EffectControls() and ConditionControls(), respectively.
+trigedit.cpp: Fixed the IDC_E_TPLAY noshow bug for Send Tribute.
+
+16/11/04
+Split scenario constants from scen.h and scen.cpp into scen_const.h and scen_const.cpp. Much better this way.
+
+19/11/04
+I'm free! I'm free! The play's over! (It was fun, though.)
+scen.cpp: Fixed a never-ocurring memory leak in Scenario::open().
+
+25/11/04
+Happy thanksgiving!
+Continued adding comments to code.
+Removed scen_const.h (hehe) and put english arrays in respective structs.
+
+26/11/04
+I should be doing homework today...
+scen.cpp: Completely revamped Scenario::read_data() to use FILE stream i/o.
+aokts.cpp: Added command-line parameter path support.
+Renamed sstring.* to datatypes.* to be more accurate.
+editors.cpp & aokts.rc: Messed around with IDD_TERRAIN to make it more user-friendly.
+
+16/12/04
+aokts.cpp: Moved the PropSheetButtons removing code to the PropSheetCallback.
+aokts.cpp: Fixed a possible future bug with propdata.p not being set before MakeSheet() called.
+editors.cpp & trigedit.cpp: Moved PSN_SETACTIVE code to a Reset label in each DialogProc for AOKTS_Loading.
+scen.cpp & zlibnoh.cpp: Moved the error translation code from zlibnoh.cpp to scen.cpp.
+Finished a makefile for user compilation. (I'll use this, too.)
+
+17/12/04
+I'm doubly free! School's over!
+scen.h & scen.cpp: Finished transfer to FILE stream i/o. (Should be even faster now.)
+datatypes.cpp: Fixed a memory leak in SString.
+datatypes.h & datatypes.cpp: Modified SString slightly for efficiency.
+trigedit.h & trigedit.cpp: Merged FillTrigTree() back in with TrigWndProc() and added TrigTree_Duplicate().
+editors.cpp: Fixed player diplomacy.
+
+19/12/04
+editors.cpp: Fixed a bug in that unit changes were not saved if the constant was changed.
+aokts.rc & editors.cpp: Redesigned units editor for (hopefully) better ease-of-use.
+
+20/12/04
+scen.h: Changed the EFFECT and CONDITION defines to an enum. I think it makes more sense this way.
+trigedit.cpp: Fixed a bug in that the trigger pointers were not updated when a trigger was deleted.
+editors.cpp: Fixed a bug in that a unit added by AOKTS was not displayed by AOK.
+Renamed this file to src_notes.txt.
+aokts.h & aokts.cpp: Added TempPath and DelTempOnExit to struct Setts. (And code to load it, of course.)
+scen.h & scen.cpp: Removed dpath from class Scenario and added a parameter to open() and save() instead.
+aokts.cpp: Added deletion of temporary file depending on setts.DelTempOnExit.
+scen.cpp: Moved Scenario's open_status switch from read_data() to open().
+aokts.cpp: Updated IDC_FILE_NEW and IDC_FILE_CLOSE handling to not switch to IDD_MSGS and update current page instead.
+aokts.rc: Tried to disable Disables editor, but didn't really work.
+
+21/12/04
+trigedit.h & trigedit.cpp: Decided to go back to the old system of lparam indexes, not pointers.
+trigedit.h & trigedit.cpp: Removed UpdateTrigPtrs() as it was kinda unnecessary by now.
+trigedit.cpp: IDC_T_DUPLICATE now sets GWL_USERDATA to the duplicate's ptr.
+
+22/12/04
+Moved the Scenario instantiation to scen.* instead of aokts.*
+Split Effect & Condition code to ecedit.cpp, because trigedit.cpp was getting a little heavy.
+trigedit.*: Added TrigTree_UpdateChildren().
+trigedit.*: Added HTREEITEM after to TrigTree_AddTrig() and code (in IDC_T_ADD and IDC_T_DUPLICATE) to use it.
+trigedit.cpp: TVN_BEGINLABELEDIT now returns TRUE to cancel editing. (Much smoother.)
+scen.h: Fixed struct members declared as ints to longs where applicable.
+editors.cpp: Changed FillUnitList()'s itoa() call to ultoa().
+ecedit.cpp: Fixed Create Object, Task Object, Unload, and Place Foundation to activate IDC_E_LOCY.
+editors.cpp: Established a 3-character limit on the terrain x,y selection.
+ecedit.cpp: Fixed Change Diplomacy to activate IDC_E_TPLAY.
+-Version 0.2.7 Released.-
+
+25/12/05
+Merry Christmas!!
+scen.h: Fixed a bug with the packing alignment of triggers. (Objective Order didn't load properly.)
+
+27/12/04
+scen.*, editors.cpp: Shoved all the uncompressed header stuff in the Scenario::_header struct.
+
+28/12/04
+*.cpp: Changed calls of GetWindowLong()/SetWindowLong() to GetWindowLongPtr()/SetWindowLongPtr() where appropriate. (Thanks Ykkrosh.)
+scen.h: Added an extra byte onto Scenario::_header::version[] for null-termination.
+scen.cpp: Fixed _header::read() and _header::write() for 64-bit compatability.
+
+01/01/05
+scen.h & scen.cpp: Split aifile reading to Player::read_aifile().
+editors.cpp: Added disabling of controls when GAIA is selected in player editor.
+
+03/01/05
+School starts again tomorrow. :-S
+scen.*, aokts.rc, editors.cpp: Added support for editing of player's OreX resource.
+
+25/01/05
+Renamed "aokts.mak" to "MAKEFILE".
+utilui.h & trigedit.cpp: Moved inline funcs from trigedit.cpp to utilui.h.
+trigedit.cpp: Standardized treeview's HWND variable name to "treeview".
+datatypes.h: Changed SVector::at(int offset) to SVector::at(unsigned int offset).
+trigedit.cpp: Changed pointer to current trigger from GWL_USERDATA to global Trigger *c_trig.
+utilui.h: GetItemParam() now returns -1 if user asks for selected trigger and one doesn't exist.
+trigedit.cpp: Adding/Duplicating a trigger now updates c_trig in case reallocation occurs.
+
+26/01/05
+trigedit.cpp: TVN_SELCHANGED now uses itemOld.lParam instead of c_trig for saving old trigger.
+aokts.rc: Trigger tree now has TVS_SHOWSELALWAYS style.
+
+27/01/05
+scen.h & scen_const.cpp: Added resource type enum/arrays.
+
+28/01/05
+Put "WINDOWS VERSION." at the top of every file.
+ecedit.cpp: Effect/Condition type changes do not save to struct if dialog canceled.
+ecedit.cpp: IDC_C_RESTYPE now has strings and should work. (Thanks zyxomma.)
+ecedit.cpp: Cleaned up/commented code.
+ecedit.cpp: Changed controls table to actual control IDs and not offsets.
+
+04/02/05
+trigedit.cpp: TVN_ENDLABELEDIT now rejects 0-length trigger names.
+trigedit.cpp: Split off Trigger Tree refreshing code to TrigTree_Refresh().
+trigedit.cpp: TrigTree_Refresh() uses t_order.count() instead of triggers.count(). (Double-display bugfix.)
+
+05/02/05
+aokts.rc: Renamed the "Close" menu option to "Reset" to more accurately define its purpose.
+scen.*, aokts.cpp: Removed Scenario::close() and made Scenario::reset() public to replace it.
+aokts.rc: Renamed the "File" menu to "Scenario" just to break tradition. :-P
+scen.cpp: Added a bit of code to Scenario::Scenario() and removed call to Scenario::reset().
+scen.cpp: Added REPORT() macro.
+scen.h & scen_const.cpp: Added a few more error values.
+
+06/02/05
+datatypes.h: Switched over to using some typedefs for some SVector operations.
+scen.*, trigedit.cpp: Added Scenario::insert_trigger() and modified trigedit.cpp to use it.
+ecedit.cpp: Condition editor now saves IDC_C_PLAYER modifications. (Thanks Hamster.)
+ecedit.cpp: Added players_ec[] to hopefully fix player index problem. (Thanks Hamster.)
+trigedit.cpp: IDC_T_ADD clicks now give the new trigger an identifying number.
+editors.cpp & aokts.rc: Added controls to IDD_PLAYER for editing player unknowns.
+trigedit.cpp: IDC_T_NEFFECT & IDC_T_NCOND clicks now grab trignode regardless of the current selection.
+scen.*: Improved error reporting/stability while opening a scenario.
+
+07/02/05
+scen.*: Previously unknown section now recognized as Player::diplomacy arrays. (Thanks askmiky.)
+aokts.rc: Fixed IDC_E_TRIG and IDC_E_UCNST to have CBS_DROPDOWNLIST instead of CBS_DROPDOWN.
+ecedit.cpp: IDC_E_TRIG filling now uses t_order.count() instead of triggers.count().
+ecedit.cpp: IDC_E_TRIG now lists triggers by t_order, not by order in SVector triggers.
+
+08/02/05
+aokts.rc: Removed CBS_SORT from IDC_E_RESTYPE.
+ecedit.cpp: Added get_index() and fixed LoadCond() to use it.
+ecedit.cpp: Moved combobox-filling code to LoadEffect().
+ecedit.cpp: LoadEffect() now selects trigger during combo-box filling.
+scen.cpp: Fixed a bug in Scenario::clean_triggers() where o_parse was decremented, and not the value.
+scen.cpp: Scenario::write_data() now saves triggers forwards, not backwards. (Lol.)
+editors.cpp: Added code to handle viewing unit & building disables.
+
+13/02/05
+scen.*: Removed bool ex, replaced with enum Versions ver.
+
+27/02/05
+After a week without my computer and a week of distractions, I'm back to work!
+scen.cpp: Fixed a bug in scenario::clean_triggers() where trigger count wasn't updated after deletion.
+trigedit.cpp: IDC_T_ADD click handling now inserts trigger below currently selected trigger.
+trigedit.cpp: TrigTree_Refresh() now clears selection to prevent loading every trigger during deletion.
+
+03/03/05
+aokts.cpp: Added status bar.
+aokts.rc, resource.h: Added IDC_U_SORT to IDD_UNITS.
+
+06/03/05
+scx_format.txt: Cleaned up intro. How useful, eh?
+
+08/03/05
+aokts.cpp: FileOpen() and FileSave() now display error messages to status bar.
+editors.cpp: Added notice if scen.export_bmp() fails.
+scen.*: Added Player::import_ai().
+editors.*: Added Players_ManageAI() for AI exporting/importing.
+editors.cpp, aokts.rc, resource.h: Added IDC_P_IMAI to IDD_PLAYERS for AI importing.
+editors.cpp: Modified Players_ManageAI() to use the status bar for success messages.
+scen.*: Added short Effect::padding because it had to be zeroed. (Fix constant bug.)
+
+10/03/05
+editors.cpp: Added compare_name(), compare_id(), and sorting code to UnitList_fill().
+aokts.rc: Added "Name" to IDC_U_SORT.
+
+12/03/05
+aokts.rc, resource.h: Added IDD_STATS, and a menu item to activate it.
+aokts.*: Added StatsDialogProc() and code to use it in MainDialogProc().
+aokts.rc, resource.h: Added ID_EDIT_DELETE to the View menu.
+aokts.rc: Added accelerators for ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE.
+trigedit.cpp: Selecting a trigger enables ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE.
+
+13/03/05
+utilio.h: Added READT() and WRITE() overloads for reading/writing with buffers.
+datatypes.*: Added class Buffer, transfered above READT() and WRITE() to it.
+scen.*: Added Trigger::size(), Trigger::tobuffer(), Trigger::Trigger(char *, int).
+trigedit.*: Added Trig_ToClipboard().
+
+15/03/05
+aokts.*: Added AOKTS_Closing message to tell active page to reset UI. (IDD_TRIGGERS sometimes crashed on ID_FILE_CLOSE.)
+aokts.*: Added OnClipboard().
+trigedit.*: Split off IDC_T_NEFFECT and IDC_T_NCOND handling to a function, as it should be.
+trigedit.cpp: Added handling for ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE.
+aokts.rc: Fixed +1024 bug for unknowns in tech string table.
+scen.h: Updated NUM_TECHS to value including unknowns.
+-Version 0.2.8 released.-
+
+16/03/05
+aokts.cpp: Added statusbar success message for ID_FILE_CLOSE.
+editors.cpp: IDC_P_X, IDC_P_Y, IDC_P_AI, IDC_P_EXAI, IDC_P_IMAI disabled in IDD_PLAYERS for GAIA. (Thanks geebert.)
+trigedit.cpp: AOKTS_Closing handling calls LoadTrig() with NULL trigger. (No-reset bugfix. Thanks geebert.)
+editors.cpp: Moved control-disabling code down to Reset label in PlyWndProc(). (Tab-switch no-disable bugfix.)
+ecedit.cpp: Moved control-init (in WM_INITDIALOG handling) code to LoadCond().
+ecedit.cpp: Sorted IDC_E_UCNST and IDC_C_UCNST.
+
+17/03/05
+I actually played AOK today. All afternoon.
+
+18/03/05
+Spring break!
+Split off unit editor code into unitedit.cpp. I had been wanting to do that.
+unitedit.cpp: Created u_index and c_index global variables to use instead of propdata.sel0, sel1.'
+unitedit.cpp: Patched together a messy bit of code to update hte listbox string on type change. Will revise later. (Thanks geebert.)
+
+20/03/05
+scen.h: Changed #define PI to const double PI.
+editors.h, unitedit.cpp: Added UnitList_ChangeType() and transfered some code there.
+unitedit.cpp: Updated selection in UnitList_ChangeType(). (Fix no-select bug.)
+
+21/03/05
+trigedit.cpp: In TrigWndProc(), changed switch(wParam) to switch(LOWORD(wParam)) to enable accelerators. (Thanks MoFo_Revolution.)
+MAKEFILE: Split dependancies into Makefile.dep. Some day I'll generate those automatically.
+MAKEFILE: Finally figured out how to use inference rules properly. Much cleaner now. :-)
+
+02/04/05
+ecedit.cpp: Added text limits dependant on type for IDC_E_TEXT in LoadEfect().
+Added trigger.cpp, trigger.h, utilio.cpp, scen_const.cpp and moved respective code there.
+
+07/04/05
+aokts.rc: Added ES_AUTOVSCROLL to IDC_E_TEXT. (Fix no-space bug.)
+aokts.cpp: Removed save menu item graying in debug mode.
+scen.*, scen_const.*: Made error_msgs[] a static member of class Scenario. (looking forward to cleaner error return.)
+
+08/04/05
+scen.cpp: Removed error_msgs[], put content in separate strings. Added char msg[100] to class Scenario.
+scen_const.h, scen.cpp: Removed ERR_state. Useless.
+scen.cpp: Went through and formatted error messages with sprintf().
+scen_const.h, scen.cpp: Removed ERR_player, ERR_trig. Made useless by above formatting.
+aokts.cpp: Changed FileOpen() and FileSave() to use Scenario::msg instead of error_msgs[].
+editors.cpp: Added Vict_DisableControls() and moved IDD_VICTORY control code there.
+editors.cpp: Moved call of Vict_DisableControls() in WM_INITDIALOG to Reset label. (No-reset bugfix.)
+
+09/04/05
+trigedit.cpp: Moved internal funcs to top of trigedit.cpp, removed prototypes from trigedit.h.
+Moved content of trigedit.h to editors.h and deleted trigedit.h.
+editors.cpp, trigedit.cpp, unitedit.cpp: Moved WM_COMMAND-processing code to handler funcs.
+trigedit.cpp: Split ID_EDIT_PASTE-handling code to TrigTree_Paste().
+trigedit.cpp: Split Edit Menu enabling/disabling code from TrigWndProc() to Triggers_EditMenu().
+editors.cpp, unitedit.cpp: Added handling for ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE to all DialogProcs.
+editors.cpp, unitedit.cpp, trigedit.cpp: Added handling for EN_SETFOCUS and EN_KILLFOCUS to enable and disable above menu items, respectively.
+
+10/04/05
+scen.*: Player::read_units() now returns bool to indicate success. Modified reading code accordingly. (SWGB fix.)
+trigedit.cpp: ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE handling uses edit control if selected. (No clipboard data fix.)
+
+--Todo for new release--
+1) Update version info in rc, about dialogs.
+2) Update readme (improvements and version).
+3) Tag on CVS.
+4) Build a new release version from tag.
+5) Upload zip to SF.net.
+6) Update aokts.html.
+7) Upload zip to blacksmith.
+8) Add new version on tracker.
+

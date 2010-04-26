@@ -1,0 +1,1978 @@
+<?xml version="1.0"?>
+<!DOCTYPE geniedata>
+
+<geniedata>
+
+<techs>
+<!-- techs: 'A' is a make-avail tech, 'S' is a special one for team bonus, etc. -->
+<tech id="1" name="A: Tarkan"
+	civ="Huns" />
+<tech id="2" name="Elite Tarkan"
+	civ="Huns" />
+<tech id="3" name="Yeomen" 
+	civ="Britons" />
+<tech id="4" name="El Dorado"
+	civ="Mayans" />
+<tech id="5" name="Furor Celtica"
+	civ="Celts" />
+<tech id="6" name="Drill"
+	civ="Mongols" />
+<tech id="7" name="Mahouts"
+	civ="Persians" />
+<tech id="8" name="Town Watch"
+	/>
+<tech id="9" name="Zealotry"
+	civ="Saracens" />
+<tech id="10" name="Artillery"
+	civ="Turks" />
+<tech id="11" name="Crenellations"
+	civ="Teutons" />
+<tech id="12" name="Crop Rotation"
+	/>
+<tech id="13" name="Heavy Plow"
+	/>
+<tech id="14" name="Horse Collar"
+	/>
+<tech id="15" name="Guilds"
+	/>
+<tech id="16" name="Anarchy"
+	civ="Goths" />
+<tech id="17" name="Banking"
+	/>
+<tech id="18" name="S: Barracks Huskarl"
+	civ="Goths" />
+<tech id="19" name="Cartography"
+	/>
+<tech id="20" name="?20"
+	/>
+<tech id="21" name="Atheism"
+	civ="Huns" />
+<tech id="22" name="Loom"
+	/>
+<tech id="23" name="Coinage"
+	/>
+<tech id="24" name="Garland Wars"
+	civ="Aztecs" />
+<tech id="25" name="A: Stable"
+	/>
+<tech id="26" name="A: Plumed Archer"
+	civ="Mayans" />
+<tech id="27" name="Elited Plumed Archer"
+	civ="Mayans" />
+<tech id="28" name="?28"
+	/>
+<tech id="29" name="S: Atonement +5HP"
+	civ="Aztecs" />
+<tech id="30" name="S: Sanctity +5HP"
+	civ="Aztecs" />
+<tech id="31" name="S: Fervor +5HP"
+	civ="Aztecs" />
+<tech id="32" name="S: Redemption +5HP"
+	civ="Aztecs" />
+<tech id="33" name="S: Faith +5HP"
+	civ="Aztecs" />
+<tech id="34" name="War Galley"
+	/>
+<tech id="35" name="Galleon"
+	/>
+<tech id="36" name="S: Illumination +5HP"
+	civ="Aztecs" />
+<tech id="37" name="Cannon Galleon"
+	/>
+<tech id="38" name="S: Block Printing +5HP"
+	civ="Aztecs" />
+<tech id="39" name="Husbandry"
+	/>
+<tech id="40" name="S: Heresy + 5 Monk HP"
+	civ="Aztecs" />
+<tech id="41" name="S: Theocracy + 5 Monk HP"
+	civ="Aztecs" />
+<tech id="42" name="S: ?42"
+	civ="Aztecs" />
+<tech id="43" name="S: ?43"
+	civ="Aztecs" />
+<tech id="44" name="S: ?44"
+	civ="Aztecs" />
+<tech id="45" name="Faith"
+	/>
+<tech id="46" name="?46"
+	/>
+<tech id="47" name="Chemistry"
+	/>
+<tech id="48" name="Caravan"
+	/>
+<tech id="49" name="Berserkergang"
+	civ="Vikings" />
+<tech id="50" name="Masonry"
+	/>
+<tech id="51" name="Architecture"
+	/>
+<tech id="52" name="Rocketry"
+	civ="Chinese" />
+<tech id="53" name="S: -20% Archer Cost in Castle Age"
+	civ="Mayans" />
+<tech id="54" name="Treadmill Crane"
+	/>
+<tech id="55" name="Gold Mining"
+	/>
+<tech id="56" name="S: -30% Archer Cost in Imperial Age"
+	civ="Mayans" />
+<tech id="57" name="S: Ballistics -> Cannon Galleons"
+	civ="Spanish" />
+<tech id="58" name="A: Conquistador"
+	civ="Spanish" />
+<tech id="59" name="Kataparuto"
+	civ="Japanese" />
+<tech id="60" name="Elite Conquistador"
+	civ="Spanish" />
+<tech id="61" name="Logistica"
+	civ="Byzantines" />
+<tech id="62" name="?62"
+	/>
+<tech id="63" name="Keep"
+	/>
+<tech id="64" name="Bombard Towers"
+	/>
+<tech id="65" name="?65"
+	/>
+<tech id="66" name="?66"
+	/>
+<tech id="67" name="Forging"
+	/>
+<tech id="68" name="Iron Casting"
+	/>
+<tech id="69" name="?69"
+	/>
+<tech id="70" name="?70"
+	/>
+<tech id="71" name="?71"
+	/>
+<tech id="72" name="?72"
+	/>
+<tech id="73" name="?73"
+	/>
+<tech id="74" name="Scale Mail Armor"
+	/>
+<tech id="75" name="Blast Furnace"
+	/>
+<tech id="76" name="Chain Mail Armor"
+	/>
+<tech id="77" name="Plate Mail Armor"
+	/>
+<tech id="78" name="?78"
+	/>
+<tech id="79" name="?79"
+	/>
+<tech id="80" name="Plate Barding Armor"
+	/>
+<tech id="81" name="Scale Barding Armor"
+	/>
+<tech id="82" name="Chain Barding Armor"
+	/>
+<tech id="83" name="Bearded Axe"
+	civ="Frank" />
+<tech id="84" name="A: Missionary"
+	civ="Spanish" />
+<tech id="85" name="A: Hand Cannoneer"
+	/>
+<tech id="86" name="?86"
+	/>
+<tech id="87" name="A: Spearman"
+	/>
+<tech id="88" name="?88"
+	/>
+<tech id="89" name="?89"
+	/>
+<tech id="90" name="Tracking"
+	/>
+<tech id="91" name="?91"
+	/>
+<tech id="92" name="?92"
+	/>
+<tech id="93" name="Ballistics"
+	/>
+<tech id="94" name="A: Scorpion"
+	/>
+<tech id="95" name="S: Hussar upgrades free"
+	civ="Turks" />
+<tech id="96" name="Capped Ram"
+	/>
+<tech id="97" name="?97"
+	/>
+<tech id="98" name="Elite Skirmisher"
+	/>
+<tech id="99" name="A: Skirmisher"
+	/>
+<tech id="100" name="Crossbowman"
+	/>
+<tech id="101" name="Feudal Age"
+	/>
+<tech id="102" name="Castle Age"
+	/>
+<tech id="103" name="Imperial Age"
+	/>
+<tech id="104" name="Dark Age"
+	/>
+<tech id="105" name="?105"
+	/>
+<tech id="106" name="?106"
+	/>
+<tech id="107" name="?107"
+	/>
+<tech id="108" name="?108"
+	/>
+<tech id="109" name="?109"
+	/>
+<tech id="110" name="?110"
+	/>
+<tech id="111" name="Camelry Armour Fixing (+25)"
+	/>
+<tech id="112" name="?112"
+	/>
+<tech id="113" name="?113"
+	/>
+<tech id="114" name="?114"
+	/>
+<tech id="115" name="?115"
+	/>
+<tech id="116" name="?116"
+	/>
+<tech id="117" name="?117"
+	/>
+<tech id="118" name="?118"
+	/>
+<tech id="119" name="?119"
+	/>
+<tech id="120" name="?120"
+	/>
+<tech id="121" name="?121"
+	/>
+<tech id="122" name="?122"
+	/>
+<tech id="123" name="?123"
+	/>
+<tech id="124" name="?124"
+	/>
+<tech id="125" name="?125"
+	/>
+<tech id="126" name="?126"
+	/>
+<tech id="127" name="A: Watch Tower "
+	/>
+<tech id="128" name="?128"
+	/>
+<tech id="129" name="?129"
+	/>
+<tech id="130" name="?130"
+	/>
+<tech id="131" name="?131"
+	/>
+<tech id="132" name="?132"
+	/>
+<tech id="133" name="?133"
+	/>
+<tech id="134" name="?134"
+	/>
+<tech id="135" name="?135"
+	/>
+<tech id="136" name="?136"
+	/>
+<tech id="137" name="A: Castle"
+	/>
+<tech id="138" name="?138"
+	/>
+<tech id="139" name="?139"
+	/>
+<tech id="140" name="Guard Tower"
+	/>
+<tech id="141" name="?141"
+	/>
+<tech id="142" name="?142"
+	/>
+<tech id="143" name="?143"
+	/>
+<tech id="144" name="A: Wonder"
+	/>
+<tech id="145" name="?145"
+	/>
+<tech id="146" name="?146"
+	/>
+<tech id="147" name="A: Archery Range"
+	/>
+<tech id="148" name="A: Market"
+	/>
+<tech id="149" name="A: Siege Workshop"
+	/>
+<tech id="150" name="A: University"
+	/>
+<tech id="151" name="A: Archery Range"
+	/>
+<tech id="152" name="?152"
+	/>
+<tech id="153" name="?153"
+	/>
+<tech id="154" name="?154"
+	/>
+<tech id="155" name="?155"
+	/>
+<tech id="156" name="?156"
+	/>
+<tech id="157" name="A: Monk"
+	/>
+<tech id="158" name="?158"
+	/>
+<tech id="159" name="?159"
+	/>
+<tech id="160" name="?160"
+	/>
+<tech id="161" name="A: Trade Cart"
+	/>
+<tech id="162" name="A: Battering Ram"
+	/>
+<tech id="163" name="?163"
+	/>
+<tech id="164" name="?164"
+	/>
+<tech id="165" name="?165"
+	/>
+<tech id="166" name="A: Knight"
+	/>
+<tech id="167" name="?167"
+	/>
+<tech id="168" name="?168"
+	/>
+<tech id="169" name="?169"
+	/>
+<tech id="170" name="?170"
+	/>
+<tech id="171" name="?171"
+	/>
+<tech id="172" name="?172"
+	/>
+<tech id="173" name="?173"
+	/>
+<tech id="174" name="?174"
+	/>
+<tech id="175" name="?175"
+	/>
+<tech id="176" name="?176"
+	/>
+<tech id="177" name="?177"
+	/>
+<tech id="178" name="?178"
+	/>
+<tech id="179" name="?179"
+	/>
+<tech id="180" name="A: Trade Cog"
+	/>
+<tech id="181" name="?181"
+	/>
+<tech id="182" name="Gold Shaft Mining"
+	/>
+<tech id="183" name="?183"
+	/>
+<tech id="184" name="?184"
+	/>
+<tech id="185" name="?185"
+	/>
+<tech id="186" name="Long Swordsman?"
+	/>
+<tech id="187" name="A: Town Center"
+	/>
+<tech id="188" name="A: Bombard Cannon"
+	/>
+<tech id="189" name="A: Wall / Gate"
+	/>
+<tech id="190" name="?190"
+	/>
+<tech id="191" name="?191"
+	/>
+<tech id="192" name="A: Cavalry Archer"
+	/>
+<tech id="193" name="?193"
+	/>
+<tech id="194" name="Fortified Walls"
+	/>
+<tech id="195" name="?195"
+	/>
+<tech id="196" name="?196"
+	/>
+<tech id="197" name="Pikeman"
+	/>
+<tech id="198" name="?198"
+	/>
+<tech id="199" name="Fletching"
+	/>
+<tech id="200" name="Bodkin Arrow"
+	/>
+<tech id="201" name="Bracer"
+	/>
+<tech id="202" name="Double-Bit Axe"
+	/>
+<tech id="203" name="Bow Saw"
+	/>
+<tech id="204" name="A: Scout Cavalry"
+	/>
+<tech id="205" name="?205"
+	/>
+<tech id="206" name="?206"
+	/>
+<tech id="207" name="Long Swordsman"
+	/>
+<tech id="208" name="?208"
+	/>
+<tech id="209" name="Cavalier"
+	/>
+<tech id="210" name="A: Monastery"
+	/>
+<tech id="211" name="Padded Archer Armor"
+	/>
+<tech id="212" name="Leather Archer Armor"
+	/>
+<tech id="213" name="Wheel Barrow"
+	/>
+<tech id="214" name="?214"
+	/>
+<tech id="215" name="Squires"
+	/>
+<tech id="216" name="A: Farm"
+	/>
+<tech id="217" name="Two-Handed Swordsman"
+	/>
+<tech id="218" name="Heavy Cavalry Archer"
+	/>
+<tech id="219" name="Ring Archer Armor"
+	/>
+<tech id="220" name="A: Barracks"
+	/>
+<tech id="221" name="Two-Man Saw"
+	/>
+<tech id="222" name="Man-at-Arms"
+	/>
+<tech id="223" name="?223"
+	/>
+<tech id="224" name="?224"
+	/>
+<tech id="225" name="?225"
+	/>
+<tech id="226" name="?226"
+	/>
+<tech id="227" name="?227"
+	/>
+<tech id="228" name="?228"
+	/>
+<tech id="229" name="?229"
+	/>
+<tech id="230" name="Block Printing"
+	/>
+<tech id="231" name="Sanctity"
+	/>
+<tech id="232" name="?232"
+	/>
+<tech id="233" name="Illumination"
+	/>
+<tech id="234" name="Conversion"
+	/>
+<tech id="235" name="A: Camel"
+	/>
+<tech id="236" name="Heavy Camel"
+	/>
+<tech id="237" name="Arbalest"
+	/>
+<tech id="238" name="?238"
+	/>
+<tech id="239" name="Heavy Scorpion"
+	/>
+<tech id="240" name="A: Galley"
+	/>
+<tech id="241" name="?241"
+	/>
+<tech id="242" name="A: Demolition Ship "
+	/>
+<tech id="243" name="A: Fire Ship "
+	/>
+<tech id="244" name="Heavy Demolition Ship"
+	/>
+<tech id="245" name="?245"
+	/>
+<tech id="246" name="Fast Fire Ship"
+	/>
+<tech id="247" name="?247"
+	/>
+<tech id="248" name="?248"
+	/>
+<tech id="249" name="Hand Cart"
+	/>
+<tech id="250" name="?250"
+	/>
+<tech id="251" name="?251"
+	/>
+<tech id="252" name="Fervor"
+	/>
+<tech id="253" name="?253"
+	/>
+<tech id="254" name="Light Cavalry"
+	/>
+<tech id="255" name="Siege Ram"
+	/>
+<tech id="256" name="A: Trebuchet (Packed)"
+	/>
+<tech id="257" name="Onager"
+	/>
+<tech id="258" name="?258"
+	/>
+<tech id="259" name="?259"
+	/>
+<tech id="260" name="?260"
+	/>
+<tech id="261" name="A: Transport Ship"
+	/>
+<tech id="262" name="A: Samurai"
+	civ="Japanese" />
+<tech id="263" name="A: Longbowman"
+	civ="Britons" />
+<tech id="264" name="Champion"
+	/>
+<tech id="265" name="Paladin"
+	/>
+<tech id="266" name="?266"
+	/>
+<tech id="267" name="A: Cataphract"
+	civ="Byzantines" />
+<tech id="268" name="A: Chu Ko Nu"
+	civ="Chinese" />
+<tech id="269" name="A: Mameluke"
+	civ="Saracens" />
+<tech id="270" name="?270"
+	/>
+<tech id="271" name="A: Jannisary"
+	civ="Turks" />
+<tech id="272" name="A: Longboat"
+	civ="Vikings" />
+<tech id="273" name="A: Mangudai"
+	civ="Mongols" />
+<tech id="274" name="A: War Elephant"
+	civ="Persians" />
+<tech id="275" name="A: Throwing Axemen"
+	civ="Frank" />
+<tech id="276" name="A: Teutonic Knight"
+	civ="Teutons" />
+<tech id="277" name="A: Woad Raider"
+	civ="Celts" />
+<tech id="278" name="Stone Mining"
+	/>
+<tech id="279" name="Stone Shaft Mining"
+	/>
+<tech id="280" name="Town Patrol"
+	/>
+<tech id="281" name="A: Blacksmith"
+	/>
+<tech id="282" name="?282"
+	/>
+<tech id="283" name="S: Buildings +10%HP Dark Age"
+	civ="Byzantines" />
+<tech id="284" name="S: Camels, Skirmishers, Pikemen, Halberdiers cost -25%"
+	civ="Byzantines" />
+<tech id="285" name="S: Free Chemistry"
+	civ="Turks" />
+<tech id="286" name="S: Cannon Galleons +25%HP"
+	civ="Turks" />
+<tech id="287" name="S: Free Horse Collar"
+	civ="Franks" />
+<tech id="288" name="S: Free Heavy Plow"
+	civ="Franks" />
+<tech id="289" name="S: Free Crop Rotation"
+	civ="Franks" />
+<tech id="290" name="S: Knights +20% Hit Points"
+	civ="Franks" />
+<tech id="291" name="?291"
+	/>
+<tech id="292" name="?292"
+	/>
+<tech id="293" name="?293"
+	/>
+<tech id="294" name="?294"
+	/>
+<tech id="295" name="?295"
+	/>
+<tech id="296" name="?296"
+	/>
+<tech id="297" name="?297"
+	/>
+<tech id="298" name="?298"
+	/>
+<tech id="299" name="?299"
+	/>
+<tech id="300" name="S: Miners Work 15% Faster"
+	civ="Turks" />
+<tech id="301" name="S: Gunpowder Units +25%HP"
+	civ="Turks" />
+<tech id="302" name="S: Start With +3 Villagers"
+	civ="Chinese" />
+<tech id="303" name="?303"
+	/>
+<tech id="304" name="Chinese: ?304"
+	/>
+<tech id="305" name="?305"
+	/>
+<tech id="306" name="S: Fishing Ships Improvements (Dark)"
+	civ="Japanese" />
+<tech id="307" name="?307"
+	/>
+<tech id="308" name="?308"
+	/>
+<tech id="309" name="?309"
+	/>
+<tech id="310" name="?310"
+	/>
+<tech id="311" name="?311"
+	/>
+<tech id="312" name="S: Cavalry Archers +3 Attack vs. Buildings "
+	civ="Saracens" />
+<tech id="313" name="?313"
+	/>
+<tech id="314" name="S: Farms Cost -33%"
+	civ="Teutons" />
+<tech id="315" name="Conscription"
+	/>
+<tech id="316" name="Redemption"
+	/>
+<tech id="317" name="Boarding"
+	/>
+<tech id="318" name="?318"
+	/>
+<tech id="319" name="Atonement"
+	/>
+<tech id="320" name="Siege Onager"
+	/>
+<tech id="321" name="Sappers"
+	/>
+<tech id="322" name="Murder Holes"
+	/>
+<tech id="323" name="?323"
+	/>
+<tech id="324" name="?324"
+	/>
+<tech id="325" name="S: Castles Cost -25%"
+	civ="Franks" />
+<tech id="326" name="?326"
+	/>
+<tech id="327" name="S: Infantry +1 Building Attack"
+	civ="Goths" />
+<tech id="328" name="?328"
+	/>
+<tech id="329" name="?329"
+	/>
+<tech id="330" name="?330"
+	/>
+<tech id="331" name="S: ?331"
+	civ="Goths" />
+<tech id="332" name="A: Outpost"
+	/>
+<tech id="333" name="S: ?333"
+	civ="Teutons" /> <!-- Possibly part of unique tech? -->
+<tech id="334" name="?334"
+	/>
+<tech id="335" name="?335"
+	/>
+<tech id="336" name="S: Town Center +2A, +5LOS"
+	civ="Teutons" />
+<tech id="337" name="S: Transport Ships x2HP, x2G"
+	civ="Saracens" />
+<tech id="338" name="?338"
+	/>
+<tech id="339" name="S: Galleys x1.5LOS"
+	civ="Japanese" />
+<tech id="340" name="S: Mill, Lumber/Mining Camps x.5Cost"
+	civ="Japanese" />
+<tech id="341" name="S: Infantry x1.1 Attack Speed Feudal"
+	civ="Japanese" />
+<tech id="342" name="S: Town Center x2HP"
+	civ="Persians" />
+<tech id="343" name="S: ?242"
+	civ="Goths" />
+<tech id="344" name="S: Infantry x.90 Cost Feudal"
+	civ="Goths" />
+<tech id="345" name="S: Infantry x.85 Cost Castle"
+	civ="Goths" />
+<tech id="346" name="S: Infantry x.75 Cost Imperial"
+	civ="Goths" />
+<tech id="347" name="S: Monks x2 Range"
+	civ="Teutons" />
+<tech id="348" name="?348"
+	/>
+<tech id="349" name="S: Docks x2HP"
+	civ="Persians" />
+<tech id="350" name="S: Techs x.90 Cost Feudal"
+	civ="Chinese" />
+<tech id="351" name="S: Techs x.85 Cost Castle"
+	civ="Chinese" />
+<tech id="352" name="S: Techs x.80 Cost Imperial"
+	civ="Chinese" />
+<tech id="353" name="S: Towers x2 Garrison"
+	civ="Teutons" />
+<tech id="354" name="Castle"
+	civ="Turks" />
+<tech id="355" name="S: Market Trade Tax 5%"
+	civ="Saracens" />
+<tech id="356" name="?356"
+	/>
+<tech id="357" name="A: Fish Trap"
+	/>
+<tech id="358" name="A: Mangonel"
+	/>
+<tech id="359" name="?359"
+	/>
+<tech id="360" name="Elite Longbowman"
+	civ="Britons" />
+<tech id="361" name="Elite Cataphract"
+	civ="Byzantines" />
+<tech id="362" name="Elite Chu Ko Nu"
+	civ="Chinese" />
+<tech id="363" name="Elite Throwing Axeman"
+	civ="Frank" />
+<tech id="364" name="Elite Teutonic Knight"
+	civ="Teutons" />
+<tech id="365" name="Elite Huskarl"
+	civ="Goths" />
+<tech id="366" name="Elite Samurai"
+	civ="Japanese" />
+<tech id="367" name="Elite War Elephant"
+	civ="Persians" />
+<tech id="368" name="Elite Mameluke"
+	civ="Saracens" />
+<tech id="369" name="Elite Janissary"
+	civ="Turks" />
+<tech id="370" name="Elite Woad Raider"
+	civ="Celts" />
+<tech id="371" name="Elite Mangudai"
+	civ="Mongols" />
+<tech id="372" name="Elite Longboat"
+	civ="Vikings" />
+<tech id="373" name="Shipwright"
+	/>
+<tech id="374" name="Careening"
+	/>
+<tech id="375" name="Dry Dock"
+	/>
+<tech id="376" name="Elite Cannon Galleon"
+	/>
+<tech id="377" name="Siege Engineers"
+	/>
+<tech id="378" name="?378"
+	/>
+<tech id="379" name="Hoardings"
+	/>
+<tech id="380" name="Heated Shot"
+	/>
+<tech id="381" name="S: Town Centers Cost -50% Wood in Castle Age"
+	civ="Britons" />
+<tech id="382" name="S: Foot Archers Have +1 Range Castle Age"
+	civ="Britons" />
+<tech id="383" name="S: Shepherds Work 25% Faster"
+	civ="Britons" />
+<tech id="384" name="?384"
+	/>
+<tech id="385" name="S:Lumberjacks Work 15% Faster"
+	civ="Celts"/>
+<tech id="386" name="S:Siege Weapons Fire 20% Faster"
+	civ="Celts"/>
+<tech id="387" name="?387"
+	/>
+<tech id="388" name="S:Light Cavalry, Hussar +30% Hit Points"
+	civ="Mongols"/>
+<tech id="389" name="S:Hunters Work 50% Faster"
+	civ="Mongols"/>
+<tech id="390" name="?390"
+	/>
+<tech id="391" name="S:Infantry +20% Hit Points Imperial Age "
+	civ="Vikings"/>
+<tech id="392" name="S:?"
+	civ="Vikings"/>
+<tech id="393" name="S:Infantry Move 15% Faster"
+	civ="Celts"/>
+<tech id="394" name="S:Cavalry Archers Fire 20% Faster"
+	civ="Mongols"/>
+<tech id="395" name="S: Warships Cost -20%"
+	civ="Vikings"/>
+<tech id="396" name="S: Demolition ships +50% Hit Points"
+	civ="Chinese"/>
+<tech id="397" name="S: Fire ships +20% Attack"
+	civ="Byzantines"/>
+<tech id="398" name="Elite Berserk"
+	civ="Vikings" />
+<tech id="399" name="Berserk"
+	civ="Vikings" />
+<tech id="400" name="S: ?"
+	civ="Vikings"/>
+<tech id="401" name="S: ?"
+	civ="Byzantines"/>
+<tech id="402" name="S: Hunters +5 Attack vs. Wild Boar, Carry +15"
+	civ="Goths"/>
+<tech id="403" name="S: Foot Archers Have +1 Range Imperial Age"
+	civ="Britons"/>
+<tech id="404" name="S: Galleys Attack 20% Faster"
+	civ="Saracens"/>
+<tech id="405" name="S: Sheep Conversion resistance"
+	civ="Celts"/> <!-- One unit's LOS protects -->
+<tech id="406" name="S: +10 Population in Imperial"
+	civ="Goths"/>
+<tech id="407" name="Healing Range"
+	/>
+<tech id="408" name="Spies/Treason"
+	/>
+<tech id="409" name="S: Town Center Work Rate +10% Feudal"
+	civ="Persians"/>
+<tech id="410" name="S: Town Center Work Rate +15% Castle"
+	civ="Persians"/>
+<tech id="411" name="S: Town Center Work Rate +20% Imperial"
+	civ="Persians"/>
+<tech id="412" name="S: Dock Work Rate +10% Feudal"
+	civ="Persians"/>
+<tech id="413" name="S: Dock Work Rate +15% Castle"
+	civ="Persians"/>
+<tech id="414" name="S: Dock Work Rate +20% Imperial"
+	civ="Persians"/>
+<tech id="415" name="S: Infantry +15% HP Castle"
+	civ="Vikings"/>
+<tech id="416" name="S: Infantry +10% HP Feudal"
+	civ="Vikings"/>
+<tech id="417" name="S: Buildings +20% HP Feudal"
+	civ="Byzantines"/>
+<tech id="418" name="S: Buildings +30% HP Castle"
+	civ="Byzantines"/>
+<tech id="419" name="S: Buildings +40% HP Imperial"
+	civ="Byzantines"/>
+<tech id="420" name="S: Infantry Attack +15% Faster Castle Age"
+	civ="Japanese"/>
+<tech id="421" name="S: Infantry Attack +25% Faster Imperial Age"
+	civ="Japanese"/>
+<tech id="422" name="S: Fishing Ships Work Rate +10% Feudal Age"
+	civ="Japanese"/>
+<tech id="423" name="S: Fishing Ships Work Rate +15% Castle Age"
+	civ="Japanese"/>
+<tech id="424" name="S: Fishing Ships Work Rate +20% Imperial Age"
+	civ="Japanese"/>
+<tech id="425" name="S: Town Centers Support 10 Population"
+	civ="Chinese"/>
+<tech id="426" name="A: Petard"
+	/>
+<tech id="427" name="A: Genitour"
+	/>
+<tech id="428" name="Hussar"
+	/>
+<tech id="429" name="Halberdier"
+	/>
+<tech id="430" name="Elite Genitour"
+	/>
+<tech id="431" name="A: Jaguar Warrior"
+	civ="Aztecs" />
+<tech id="432" name="Elite Jaguar Warrior"
+	civ="Aztecs" />
+<tech id="433" name="A: Eagle Warrior"
+	/>
+<tech id="434" name="Elite Eagle Warrior"
+	/>
+<tech id="435" name="Bloodlines"
+	/>
+<tech id="436" name="Parthian Tactics"
+	/>
+<tech id="437" name="Thumb Ring"
+	/>
+<tech id="438" name="Theocracy"
+	/>
+<tech id="439" name="Heresy"
+	/>
+<tech id="440" name="Supermacy"
+	civ="Spanish" />
+<tech id="441" name="Herbal Medicine"
+	/>
+<tech id="442" name="S: Free Guard Tower Upgrade"
+	civ="Koreans" />
+<tech id="443" name="S: Free Keep Upgrade"
+	civ="Koreans" />
+<tech id="444" name="S: Free Bombard Tower Upgrade"
+	civ="Koreans" />
+<tech id="445" name="Shinkichon"
+	civ="Koreans" />
+<tech id="446" name="A: Huskarl"
+	civ="Goths" />
+<tech id="447" name="A: Turtle Ship"
+	civ="Koreans" />
+<tech id="448" name="Elite Turtle Ship"
+	civ="Koreans" />
+<tech id="449" name="A: War Wagon"
+	civ="Koreans" />
+<tech id="450" name="Elite War Wagon"
+	civ="Koreans" />
+<tech id="451" name="Koreans: ?"
+	/>
+<tech id="452" name="Koreans: Tower range +1 Castle Age"
+	/>
+<tech id="453" name="Koreans: Tower range +2 Imperial Age"
+	/>
+<tech id="454" name="S:Eagle Warrior Extra Bonus"
+	civ="Aztecs"/>
+<tech id="455" name="S: Eagle Warrior Extra Bonus"
+	civ="Mayans"/>
+<tech id="456" name="Aztecs: Herbal Medicine + 5 Monk HP"
+	/>
+<tech id="457" name="Perfusion"
+	civ="Goths" />
+<tech id="458" name="Huns: Cavalry Archers cost -25% Castle Age"
+	/>
+<tech id="459" name="Huns: Cavalry Archers cost -30% Imperial Age"
+	/>
+</techs>
+
+<pcolors>
+<!-- player colors. Note that the ref attribute is reverse-order. -->
+<color id="0" name="Blue"
+	color="FF0000" />
+<color id="1" name="Red"
+	color="0000FF" />
+<color id="2" name="Green"
+	color="00FF00" />
+<color id="3" name="Yellow"
+	color="00FFFF" />
+<color id="4" name="Cyan"
+	color="FFFF00" />
+<color id="5" name="Purple"
+	color="FF00FF" />
+<color id="6" name="Grey"
+	color="B9B9B9" />
+<color id="7" name="Orange"
+	color="0182FF" />
+</pcolors>
+
+<civ id="0" name="GAIA">
+<!-- Count: 866 (842 non-crashing, 23 crashing) -->
+<protounit id="0" name="Academy, Disabled" />
+<protounit id="1" name="Gator, disabled" />
+<!-- 2 -->
+<protounit id="3" name="Archer, D" />
+<protounit id="4" name="Archer" />
+<protounit id="5" name="Hand Cannoneer" />
+<protounit id="6" name="Elite Skirmisher" />
+<protounit id="7" name="Skirmisher" />
+<protounit id="8" name="Longbowman" />
+<protounit id="9" name="Arrow" />
+<protounit id="10" name="Archery Range 3" />
+<protounit id="11" name="Mangudai" />
+<protounit id="12" name="Barracks" />
+<protounit id="13" name="Fishing Ship" />
+<protounit id="14" name="Archery Range 4" />
+<protounit id="15" name="Junk" />
+<protounit id="16" name="Bombard Cannon, D" />
+<protounit id="17" name="Trade Cog" />
+<protounit id="18" name="Blacksmith 3" />
+<protounit id="19" name="Blacksmith 4" />
+<protounit id="20" name="Barracks 4" />
+<protounit id="21" name="War Galley" />
+<protounit id="22" name="Berserk, D" />
+<protounit id="23" name="Battering Ram, D" />
+<protounit id="24" name="Crossbowman" />
+<protounit id="25" name="Teutonic Knight" />
+<protounit id="26" name="Crossbowman, D" />
+<protounit id="27" name="Cataphract, D" />
+<protounit id="28" name="Cho-Ko-Nu, D" />
+<protounit id="29" name="Trading Cog, D" />
+<protounit id="30" name="Monastery 2" />
+<protounit id="31" name="Monastery 3" />
+<protounit id="32" name="Monastery 4" />
+<protounit id="33" name="Castle 4" />
+<protounit id="34" name="Cavalry Archer, D" />
+<protounit id="35" name="Battering Ram" />
+<protounit id="36" name="Bombard Cannon" />
+<protounit id="37" name="LANCE" />
+<protounit id="38" name="Knight" />
+<protounit id="39" name="Cavalry Archer" />
+<protounit id="40" name="Cataphract" />
+<protounit id="41" name="Huskarl" />
+<protounit id="42" name="Trebuchet (Unpacked)" />
+<protounit id="43" name="Deer, D" />
+<protounit id="44" name="Mameluke, D" />
+<protounit id="45" name="Dock" />
+<protounit id="46" name="Janissary" />
+<protounit id="47" name="Dock 3" />
+<protounit id="48" name="Boar" />
+<protounit id="49" name="Siege Workshop" />
+<protounit id="50" name="Farm" />
+<protounit id="51" name="Dock 4" />
+<protounit id="52" name="Fish 1, Disabled" />
+<protounit id="53" name="Fish (Perch)" />
+<protounit id="54" name="Proj, VOL" />
+<protounit id="55" name="Fishing Ship, D" />
+<protounit id="56" name="Fisher, M" />
+<protounit id="57" name="Fisher, F" />
+<protounit id="58" name="Fisher, M D" />
+<protounit id="59" name="Forage Bush" />
+<protounit id="60" name="Fisher, F D" />
+<protounit id="61" name="Galley, D (Canoe?)" />
+<protounit id="62" name="Huskarl (E?), D" />
+<protounit id="63" name="Gate, AA3" />
+<protounit id="64" name="Gate, AA2" />
+<protounit id="65" name="Deer" />
+<protounit id="66" name="Gold Mine" />
+<protounit id="67" name="Gate, AB3" />
+<protounit id="68" name="Mill" />
+<protounit id="69" name="Fish, Shore" />
+<protounit id="70" name="House" />
+<protounit id="71" name="Town Center 2" />
+<protounit id="72" name="Wall, Palisade" />
+<protounit id="73" name="Chu Ko Nu" />
+<protounit id="74" name="Militia" />
+<protounit id="75" name="Man At Arms" />
+<protounit id="76" name="Heavy Swordsman" />
+<protounit id="77" name="Long Swordsman" />
+<protounit id="78" name="Gate, AB2" />
+<protounit id="79" name="Watch Tower" />
+<protounit id="80" name="Gate, AC3" />
+<protounit id="81" name="Gate, AC2" />
+<protounit id="82" name="Castle" />
+<protounit id="83" name="Villager, M" />
+<protounit id="84" name="Market" />
+<protounit id="85" name="Gate, BA3" />
+<protounit id="86" name="Stable 3" />
+<protounit id="87" name="Archery Range" />
+<protounit id="88" name="Gate, BA2" />
+<protounit id="89" name="Dire Wolf" />
+<protounit id="90" name="Gate, BB3" />
+<protounit id="91" name="Gate, BB2" />
+<protounit id="92" name="Gate, BC3" />
+<protounit id="93" name="Spearman" />
+<protounit id="94" name="Berserk 2" />
+<protounit id="95" name="Gate, BC2" />
+<protounit id="96" name="Hawk" />
+<protounit id="97" name="Arrow 1" />
+<protounit id="98" name="Hand Cannoneer, D" />
+<protounit id="99" name="Heavy Swordsman, D" />
+<protounit id="100" name="Elite Skirmisher, D" />
+<protounit id="101" name="Stable" />
+<protounit id="102" name="Stone Mine" />
+<protounit id="103" name="Blacksmith" />
+<protounit id="104" name="Monastery" />
+<protounit id="105" name="Blacksmith 2" />
+<protounit id="106" name="Infiltrator, D" />
+<protounit id="107" name="Janissary, D" />
+<protounit id="108" name="Junk, D" />
+<protounit id="109" name="Town Center" />
+<protounit id="110" name="Trade Workshop" />
+<protounit id="111" name="Knight, D" />
+<protounit id="112" name="Flare" />
+<protounit id="113" name="Lance, D" />
+<protounit id="114" name="Longboat, D" />
+<protounit id="115" name="Longbowman, D" />
+<protounit id="116" name="Market 3" />
+<protounit id="117" name="Wall, Stone" />
+<protounit id="118" name="Builder, M" />
+<protounit id="119" name="Fisherman, disabled" />
+<protounit id="120" name="Forager, M" />
+<protounit id="121" name="Mangonel, D" />
+<protounit id="122" name="Hunter, M" />
+<protounit id="123" name="Lumberjack, M" />
+<protounit id="124" name="Stone Miner, M" />
+<protounit id="125" name="Monk" />
+<protounit id="126" name="Wolf" />
+<protounit id="127" name="Explorer, Old" />
+
+<protounit id="128" name="Trade Cart, Empty" />
+<protounit id="129" name="Mill 2" />
+<protounit id="130" name="Mill 3" />
+<protounit id="131" name="Mill 4" />
+<protounit id="132" name="Barracks 3" />
+<protounit id="133" name="Dock 2" />
+<protounit id="134" name="Monk, D" />
+<protounit id="135" name="Mangudai, D" />
+<protounit id="136" name="War Elephant, D" />
+<protounit id="137" name="Market 4" />
+<protounit id="138" name="OUTLW, D" />
+<protounit id="139" name="Paladin, D" />
+<protounit id="140" name="Spearman, D" />
+<protounit id="141" name="Town Center 3" />
+<protounit id="142" name="Town Center 4" />
+<protounit id="143" name="Rubble 1 X 1" />
+<protounit id="144" name="Rubble 2 X 2" />
+<protounit id="145" name="Rubble 3 X 3" />
+<protounit id="146" name="Rubble 4 X 4" />
+<protounit id="147" name="Rubble 6" />
+<protounit id="148" name="Rubble 5 X 5" />
+<protounit id="149" name="Scorpion, D" />
+<protounit id="150" name="Siege Workshop 4" />
+<protounit id="151" name="Samurai, D" />
+<protounit id="152" name="Militia, D" />
+<protounit id="153" name="Stable 4" />
+<protounit id="154" name="Man-At-Arms, D" />
+<protounit id="155" name="Wall, Fortified" />
+<protounit id="156" name="Repairer, M" />
+<protounit id="157" name="Throwing Axeman, D" />
+<protounit id="158" name="OUTLW" />
+<protounit id="159" name="Relic Cart" />
+<protounit id="160" name="Richard The Lionharted" />
+<protounit id="161" name="The Black Prince" />
+<protounit id="162" name="FLAGX" />
+<protounit id="163" name="Friar Tuck" />
+<protounit id="164" name="Sherrif Of Notingham" />
+<protounit id="165" name="Charlemagne" />
+<protounit id="166" name="Roland" />
+<protounit id="167" name="Belisarius" />
+<protounit id="168" name="Theodoric The Goth" />
+<protounit id="169" name="Aethelfirth" />
+<protounit id="170" name="Siegfried" />
+<protounit id="171" name="Erik The Red" />
+<protounit id="172" name="Tamerlane" />
+<protounit id="173" name="King Arthur" />
+<protounit id="174" name="Lancelot" />
+<protounit id="175" name="Gawain" />
+<protounit id="176" name="Mordred" />
+<protounit id="177" name="Archbishop" />
+<protounit id="178" name="Trade Cart, D" />
+<protounit id="179" name="Trade Workshop 4" />
+<protounit id="180" name="Long Swordsman, D" />
+<protounit id="181" name="Teutonic Knight, D" />
+<protounit id="182" name="TMISA" />
+<protounit id="183" name="TMISB" />
+<protounit id="184" name="TMISC" />
+<protounit id="185" name="TMISD" />
+<protounit id="186" name="TMISE" />
+<protounit id="187" name="TMISF" />
+<protounit id="188" name="TMISG" />
+<protounit id="189" name="TMISH" />
+<protounit id="190" name="TMISI" />
+<protounit id="191" name="TMISJ" />
+<protounit id="192" name="TMISK" />
+<protounit id="193" name="TMISL" />
+<protounit id="194" name="Trebuchet, D" />
+<protounit id="195" name="Kitabatake" />
+<protounit id="196" name="Minamoto" />
+<protounit id="197" name="Alexander Nevski" />
+<protounit id="198" name="El Cid" />
+<protounit id="199" name="Fish Trap" />
+<protounit id="200" name="Robin Hood" />
+<protounit id="201" name="FLR_R" />
+<protounit id="202" name="Rabid Wolf" />
+<protounit id="203" name="Rabid Wolf, D" />
+<protounit id="204" name="Trade Cart, Full" />
+<protounit id="205" name="Trade Cart, Full D" />
+<protounit id="206" name="VMDL" />
+<protounit id="207" name="VMDL, D" />
+<protounit id="208" name="TWAL" />
+<protounit id="209" name="University" />
+<protounit id="210" name="University 4" />
+<protounit id="211" name="Villager, F D" />
+<protounit id="212" name="Builder, F" />
+<protounit id="213" name="Builder, F D" />
+<protounit id="214" name="Farmer, F" />
+<protounit id="215" name="Farmer, F D" />
+<protounit id="216" name="Hunter, F" />
+<protounit id="217" name="Hunter, F D" />
+<protounit id="218" name="Lumberjack, F" />
+<protounit id="219" name="Lumberjack, F D" />
+<protounit id="220" name="Stone Miner, F" />
+<protounit id="221" name="Stone Miner, F D" />
+<protounit id="222" name="Repairer, F" />
+<protounit id="223" name="Repairer, F D" />
+<protounit id="224" name="Villager, M D" />
+<protounit id="225" name="Builder, M D" />
+<protounit id="226" name="Farmer, M D" />
+<protounit id="227" name="Hunter, M D" />
+<protounit id="228" name="Lumberjack, M D" />
+<protounit id="229" name="Stone Miner, M D" />
+<protounit id="230" name="Repairer, M D" />
+<!-- 231 -->
+<protounit id="232" name="Woad Raider" />
+<protounit id="233" name="Woad Raider, D" />
+<protounit id="234" name="Guard Tower" />
+<protounit id="235" name="Keep" />
+<protounit id="236" name="Bombard Tower" />
+<protounit id="237" name="Wolf, D" />
+<protounit id="238" name="Skirmisher, D" />
+<protounit id="239" name="War Elephant" />
+<protounit id="240" name="TERRC" />
+<protounit id="241" name="Cracks" />
+<protounit id="242" name="Stone, Catapult" />
+<protounit id="243" name="DOPL" />
+<protounit id="244" name="Stone, Catapult F" />
+<protounit id="245" name="Bolt (Scorpion Proj.)" />
+<protounit id="246" name="Bolt, F" />
+<protounit id="247" name="Smoke" />
+<protounit id="248" name="Pile Of Stone" />
+<protounit id="249" name="POREX" />
+<protounit id="250" name="Longboat" />
+<protounit id="251" name="Goldminer, Disabled" />
+<protounit id="252" name="Pile Of Gold" />
+<protounit id="253" name="Pile Of Wood" />
+<protounit id="254" name="PILE1" />
+<protounit id="255" name="PILE2" />
+<protounit id="256" name="PILE3" />
+<protounit id="257" name="PILE4" />
+<protounit id="258" name="PILE6" />
+<protounit id="259" name="Farmer, M" />
+<protounit id="260" name="Fish3, Disabled" />
+<protounit id="261" name="PILE8" />
+<protounit id="262" name="Pile Of Food" />
+<protounit id="263" name="Fish4, Disabled" />
+<protounit id="264" name="Cliff 1" />
+<protounit id="265" name="Cliff 2" />
+<protounit id="266" name="Cliff 3" />
+<protounit id="267" name="Cliff 4" />
+<protounit id="268" name="Cliff 5" />
+<protounit id="269" name="Cliff 6" />
+<protounit id="270" name="Cliff 7" />
+<protounit id="271" name="Cliff 8" />
+<protounit id="272" name="Cliff 9" />
+<protounit id="273" name="Cliff 10" />
+<protounit id="274" name="Flare 2" />
+<!-- 275 -->
+<protounit id="276" name="Wonder" />
+<!-- 277? -->
+<protounit id="278" name="Fishtrap, D" />
+<protounit id="279" name="Scorpion" />
+<protounit id="280" name="Mangonel" />
+<protounit id="281" name="Throwing Axeman" />
+<protounit id="282" name="Mameluke" />
+<protounit id="283" name="Cavalier" />
+<protounit id="284" name="Tree TD" />
+<protounit id="285" name="Relic" />
+<protounit id="286" name="Monk With Relic" />
+<protounit id="287" name="British Relic" />
+<protounit id="288" name="Byzantine Relic" />
+<protounit id="289" name="Chinese Relic" />
+<protounit id="290" name="Frankish Relic" />
+<protounit id="291" name="Samurai" />
+<protounit id="292" name="Gothic Relic" />
+<protounit id="293" name="Villager, F" />
+<protounit id="294" name="Japanese Relic" />
+<protounit id="295" name="Persian Relic" />
+<protounit id="296" name="Saracen Relic" />
+<protounit id="297" name="Teutonic Relic" />
+<protounit id="298" name="Turkish Relic" />
+<protounit id="299" name="Infiltrator" />
+<protounit id="300" name="Monk With British Relic" />
+<protounit id="301" name="Monk With Byzantine Relic" />
+<protounit id="302" name="Monk With Chinese Relic" />
+<protounit id="303" name="Monk With Frankish Relic" />
+<protounit id="304" name="Monk With Gothic Relic" />
+<protounit id="305" name="Monk With Japanese Relic" />
+<protounit id="306" name="Monk With Persian Relic" />
+<protounit id="307" name="Monk With Saracen Relic" />
+<protounit id="308" name="Monk With Teutonic Relic" />
+<protounit id="309" name="Monk With Turkish Relic" />
+<protounit id="310" name="Mountain 1" />
+<protounit id="311" name="Mountain 2" />
+<protounit id="312" name="Arrow 2" />
+<protounit id="313" name="Stone, Treb" />
+<protounit id="314" name="Stone, Mangonel" />
+<protounit id="315" name="Arrow 3" />
+<protounit id="316" name="Arrow 4" />
+<protounit id="317" name="Arrow 5" />
+<protounit id="318" name="Arrow 6" />
+<protounit id="319" name="Arrow 7" />
+<protounit id="320" name="Arrow 8" />
+<protounit id="321" name="Arrow 9" />
+<protounit id="322" name="Arrow 10" />
+<protounit id="323" name="Stone, Catapult 1" />
+<protounit id="324" name="Stone, Catapult 2" />
+<protounit id="325" name="Stone, Catapult 3" />
+<protounit id="326" name="Stone, Catapult 4" />
+<protounit id="327" name="Stone, Catapult 5" />
+<protounit id="328" name="Arrow, F" />
+<protounit id="329" name="Camel" />
+<protounit id="330" name="Heavy Camel" />
+<protounit id="331" name="Trebuchet, P" />
+<protounit id="332" name="Flare 3" />
+<protounit id="333" name="Deer, Nomeat" />
+<protounit id="334" name="Flowers 1" />
+<protounit id="335" name="Flowers 2" />
+<protounit id="336" name="Flowers 3" />
+<protounit id="337" name="Flowers 4" />
+<protounit id="338" name="Path 4" />
+<protounit id="339" name="Path 1" />
+<protounit id="340" name="Path 2" />
+<protounit id="341" name="Path 3" />
+<protounit id="342" name="TERRU" />
+<protounit id="343" name="TERRV" />
+<protounit id="344" name="TERRW" />
+<protounit id="345" name="Ruins" />
+<protounit id="346" name="TERRY" />
+<protounit id="347" name="TERRZ" />
+<protounit id="348" name="Forest, Bamboo" />
+<protounit id="349" name="Forest, Oak" />
+<protounit id="350" name="Forest, Pine" />
+<protounit id="351" name="Forest, Palm" />
+<protounit id="352" name="OREMN" />
+<protounit id="353" name="Forager, M D" />
+<protounit id="354" name="Forager, F" />
+<protounit id="355" name="Forager, F D" />
+<protounit id="356" name="Board, D" />
+<protounit id="357" name="Farm, D Crash" />
+<protounit id="358" name="Pikeman" />
+<protounit id="359" name="Halberdier" />
+<protounit id="360" name="Arrow 2, F" />
+<!-- 361 -->
+<!-- 362 -->
+<protounit id="363" name="Proj, Archer" />
+<protounit id="364" name="Proj, Crossbowman" />
+<protounit id="365" name="Proj, Skirmisher" />
+<protounit id="366" name="Proj, Elite Skirmisher" />
+<protounit id="367" name="Proj, Scorpion" />
+<protounit id="368" name="Proj, Bombard Cannon" />
+<protounit id="369" name="Proj, Mangonel" />
+<protounit id="370" name="Fish 2, Disabled" />
+<protounit id="371" name="Proj, Trebuchet" />
+<protounit id="372" name="Proj, Galleon" />
+<protounit id="373" name="Proj, War Galley" />
+<protounit id="374" name="Proj, Cannon Galleon" />
+<protounit id="375" name="Proj, Crossbowman F" />
+<protounit id="376" name="Proj, Skirmisher F" />
+<protounit id="377" name="Proj, Elite Skirmisher F" />
+<protounit id="378" name="Proj, Scorpion F" />
+<!-- 379 -->
+<protounit id="380" name="Proj, H Cannoneer" />
+<protounit id="381" name="Bolt, F" />
+<!-- 382 -->
+<!-- 383 -->
+<!-- 384 -->
+<protounit id="385" name="Bolt 1, F" />
+<!-- 386 -->
+<!-- 387 -->
+<!-- 388 -->
+<protounit id="389" name="Sea Rocks 1" />
+<protounit id="390" name="TERRB" />
+<protounit id="391" name="TERRD" />
+<protounit id="392" name="TERRE" />
+<protounit id="393" name="TERRF" />
+<protounit id="394" name="TERRH" />
+<protounit id="395" name="TERRI" />
+<protounit id="396" name="Sea Rocks 2" />
+<protounit id="397" name="TERRK" />
+<protounit id="398" name="TERRL" />
+<protounit id="399" name="Tree A" />
+<protounit id="400" name="Tree B" />
+<protounit id="401" name="Tree C" />
+<protounit id="402" name="Tree D" />
+<protounit id="403" name="Tree E" />
+<protounit id="404" name="Tree F" />
+<protounit id="405" name="Tree G" />
+<protounit id="406" name="Tree H" />
+<protounit id="407" name="Tree I" />
+<protounit id="408" name="Tree J" />
+<protounit id="409" name="Tree K" />
+<protounit id="410" name="Tree L" />
+<protounit id="411" name="Forest Tree" />
+<!-- 412 -->
+<protounit id="413" name="Snow Pine Tree" />
+<protounit id="414" name="Jungle Tree" />
+<protounit id="415" name="Stump" />
+<protounit id="416" name="Debris" />
+<protounit id="417" name="Dust C" />
+<protounit id="418" name="TROCK" />
+<protounit id="419" name="Debris B" />
+<protounit id="420" name="Cannon Galleon" />
+<protounit id="421" name="Cannon Galleon, D" />
+<protounit id="422" name="Capped Ram" />
+<protounit id="423" name="Capped Ram, D" />
+<protounit id="424" name="Charles Martel" />
+<protounit id="425" name="Charles Martel, D" />
+<protounit id="426" name="Harald Hardraade" />
+<protounit id="427" name="Harald Hardraade, D" />
+<protounit id="428" name="Hrolf The Ganger" />
+<protounit id="429" name="Hrolf The Ganger, D" />
+<protounit id="430" name="Joan The Maid" />
+<protounit id="431" name="Joan The Maid, D" />
+<protounit id="432" name="William Wallace" />
+<protounit id="433" name="William Wallace, D" />
+<protounit id="434" name="King" />
+<protounit id="435" name="King, D" />
+<protounit id="436" name="OMTBO" />
+<protounit id="437" name="OMTBO, D" />
+<protounit id="438" name="STRBO" />
+<protounit id="439" name="STRRBO, D" />
+<protounit id="440" name="Petard" />
+<protounit id="441" name="Hussar" />
+<protounit id="442" name="Galleon" />
+<protounit id="443" name="Galleon, Dead" />
+<protounit id="444" name="PTWC" />
+<protounit id="445" name="Church 4" />
+<protounit id="446" name="Port" />
+<protounit id="447" name="Purple Spots" />
+<protounit id="448" name="Scout Cavalry" />
+<protounit id="449" name="Scout Cavalry, D" />
+<protounit id="450" name="Marlin 1" />
+<protounit id="451" name="Marlin 2" />
+<protounit id="452" name="DOLP3" />
+<protounit id="453" name="DOLP4" />
+<protounit id="454" name="DOLP5" />
+<protounit id="455" name="Fish, Dorado" />
+<protounit id="456" name="Fish, Salmon" />
+<protounit id="457" name="Fish, Tuna" />
+<protounit id="458" name="Fish, Snapper" />
+<protounit id="459" name="FISH5" />
+<protounit id="460" name="WHAL1" />
+<protounit id="461" name="WHAL2" />
+<protounit id="462" name="Proj, Mangonel F2" />
+<protounit id="463" name="House 2" />
+<protounit id="464" name="House 3" />
+<protounit id="465" name="House 4" />
+<protounit id="466" name="Proj, Archer F" />
+<!-- 467 -->
+<protounit id="468" name="Projectile, Mangonel F" />
+<protounit id="469" name="Projectile, Treb F" />
+<protounit id="470" name="Proj, Galleon F" />
+<protounit id="471" name="Proj, War Galley F" />
+<!-- 472 -->
+<protounit id="473" name="Two Handed Swordsman" />
+<protounit id="474" name="Heavy Cavalry Archer" />
+<protounit id="475" name="Proj, HAR F" />
+<protounit id="476" name="Proj, Harold Haraade F" />
+<protounit id="477" name="Proj, HAR" />
+<protounit id="478" name="Proj, Harold Haraade" />
+<protounit id="479" name="PMANG" />
+<protounit id="480" name="Hussar, D" />
+<protounit id="481" name="Town Center 3A" />
+<protounit id="482" name="Town Center 3B" />
+<protounit id="483" name="Town Center 3C" />
+<protounit id="484" name="Town Center 3X" />
+<protounit id="485" name="Arrow, Town Center" />
+<!-- 486 -->
+<protounit id="487" name="Gate, AX2" />
+<protounit id="488" name="Gate, AX3" />
+<!-- 489 -->
+<protounit id="490" name="Gate, BX2" />
+<protounit id="491" name="Gate, BX3" />
+<protounit id="492" name="Arbalest" />
+<protounit id="493" name="Adv Heavy Crossbowman" />
+<protounit id="494" name="Camel, D" />
+<protounit id="495" name="Heavy Camel, D" />
+<protounit id="496" name="Arbalest, D" />
+<protounit id="497" name="AH Crossbowman, D" />
+<protounit id="498" name="Barracks 2" />
+<protounit id="499" name="Torch" />
+<protounit id="500" name="Two-Handed Swordsman, D" />
+<protounit id="501" name="Pikeman, D" />
+<protounit id="502" name="Halberdier, D" />
+<protounit id="503" name="Proj, Watch Tower" />
+<protounit id="504" name="Proj, Guard Tower" />
+<protounit id="505" name="Proj, Keep" />
+<protounit id="506" name="Proj, Bombard Tower" />
+<protounit id="507" name="Proj, Arbalest" />
+<protounit id="508" name="Proj, AH Crossbowman" />
+<protounit id="509" name="Proj, Villager" />
+<protounit id="510" name="Proj, Cho Ko Nu" />
+<protounit id="511" name="Proj, Longbowman" />
+<protounit id="512" name="Proj, Longboat" />
+<protounit id="513" name="Proj, MSU" />
+<protounit id="514" name="Proj, MPC" />
+<protounit id="515" name="Proj, Axeman" />
+<protounit id="516" name="Proj, Watch Tower F" />
+<protounit id="517" name="Proj, Guard Tower F" />
+<protounit id="518" name="Proj, Keep F" />
+<protounit id="519" name="Proj, Arbalest F" />
+<protounit id="520" name="Proj, AH Crossbowman F" />
+<protounit id="521" name="Proj, Villager F" />
+<protounit id="522" name="Proj, Cho Ko Nu F" />
+<protounit id="523" name="Proj, Longbowman F" />
+<protounit id="524" name="Proj, Longboat F" />
+<protounit id="525" name="Proj, MPC F" />
+<protounit id="526" name="Proj, MSU F" />
+<protounit id="527" name="Demolition Ship" />
+<protounit id="528" name="Heavy Demolition Ship" />
+<protounit id="529" name="Fire Ship" />
+<protounit id="530" name="Elite Longbowman" />
+<protounit id="531" name="Elite Throwing Axeman" />
+<protounit id="532" name="Fast Fire Ship" />
+<protounit id="533" name="Elite Longboat" />
+<protounit id="534" name="Elite Woad Raider" />
+<protounit id="535" name="BDGAL" />
+<protounit id="536" name="ABGAL" />
+<protounit id="537" name="Proj, FRG" />
+<protounit id="538" name="Proj, HFG" />
+<protounit id="539" name="Galley" />
+<protounit id="540" name="Proj, Galley" />
+<protounit id="541" name="Proj, Galley F" />
+<protounit id="542" name="Heavy Scorpion" />
+<protounit id="543" name="Heavy Scorpion, D" />
+<protounit id="544" name="FLDOG" />
+<protounit id="545" name="Transport Ship" />
+<protounit id="546" name="Light Cavalry" />
+<protounit id="547" name="Light Cavalry, D" />
+<protounit id="548" name="Siege Ram" />
+<protounit id="549" name="Siege Ram, D" />
+<protounit id="550" name="Onager" />
+<protounit id="551" name="Proj, Onager" />
+<protounit id="552" name="Proj, Onager F" />
+<protounit id="553" name="Elite Cataphract" />
+<protounit id="554" name="Elite Teutonic Knight" />
+<protounit id="555" name="Elite Huskarl" />
+<protounit id="556" name="Elite Mameluke" />
+<protounit id="557" name="Elite Janissary" />
+<protounit id="558" name="Elite War Elephant" />
+<protounit id="559" name="Elite Chu Ko Nu" />
+<protounit id="560" name="Elite Samurai" />
+<protounit id="561" name="Elite Mangudai" />
+<protounit id="562" name="Lumber Camp" />
+<protounit id="563" name="Lumber Camp 2" />
+<protounit id="564" name="Lumber Camp 3" />
+<protounit id="565" name="Lumber Camp 4" />
+<protounit id="566" name="WCTWR" />
+<protounit id="567" name="Champion" />
+<protounit id="568" name="Champion, Dead" />
+<protounit id="569" name="Paladin" />
+<protounit id="570" name="Paladin, D" />
+<protounit id="571" name="RFARC" />
+<protounit id="572" name="RFARC, D" />
+<protounit id="573" name="RFSWD" />
+<protounit id="574" name="RFSWD, D" />
+<protounit id="575" name="RCSWD" />
+<protounit id="576" name="RCSWD, D" />
+<protounit id="577" name="RCARC" />
+<protounit id="578" name="RCARC, D" />
+<protounit id="579" name="Gold Miner, M" />
+<protounit id="580" name="Gold Miner, M D" />
+<protounit id="581" name="Gold Miner, F" />
+<protounit id="582" name="Gold Miner, F D" />
+<protounit id="583" name="Genitour" />
+<protounit id="584" name="Mining Camp" />
+<protounit id="585" name="Mining Camp 2" />
+<protounit id="586" name="Mining Camp 3" />
+<protounit id="587" name="Mining Camp 4" />
+<protounit id="588" name="Siege Onager" />
+<protounit id="589" name="Siege Onager, D" />
+<protounit id="590" name="Shepherd, F" />
+<protounit id="591" name="Shepherd, F D" />
+<protounit id="592" name="Shepherd, M" />
+<protounit id="593" name="Shepherd, M D" />
+<protounit id="594" name="Sheep" />
+<protounit id="595" name="Sheep, D" />
+<protounit id="596" name="Elite Genitour" />
+<protounit id="597" name="Town Center 4X" />
+<protounit id="598" name="Outpost" />
+<protounit id="599" name="Cathedral" />
+<protounit id="600" name="Flag A" />
+<protounit id="601" name="Flag B" />
+<protounit id="602" name="Flag C" />
+<protounit id="603" name="Flag D" />
+<protounit id="604" name="Flag E" />
+<protounit id="605" name="Bridge A Top" />
+<protounit id="606" name="Bridge A Middle" />
+<protounit id="607" name="Bridge A Bottom" />
+<protounit id="608" name="Bridge B Top" />
+<protounit id="609" name="Bridge B Middle" />
+<protounit id="610" name="Bridge B Bottom" />
+<protounit id="611" name="Town Center 4A" />
+<protounit id="612" name="Town Center 4B" />
+<protounit id="613" name="Town Center 4C" />
+<protounit id="614" name="Town Center 2A" />
+<protounit id="615" name="Town Center 2B" />
+<protounit id="616" name="Town Center 2C" />
+<protounit id="617" name="Town Center 2X" />
+<protounit id="618" name="Town Center 1A" />
+<protounit id="619" name="Town Center 1B" />
+<protounit id="620" name="Town Center 1C" />
+<protounit id="621" name="Town Center 1X" />
+<protounit id="622" name="D Iron Boar" />
+<protounit id="623" name="Rock" />
+<protounit id="624" name="Pavilion 1" />
+<protounit id="625" name="Pavilion 3" />
+<protounit id="626" name="Pavilion 2" />
+<protounit id="627" name="Proj, Heavy Scorpion" />
+<protounit id="628" name="Proj, Heavy Scorpion F" />
+<protounit id="629" name="Joan Of Arc" />
+<protounit id="630" name="Joan Of Arc, D" />
+<protounit id="631" name="Subotai, D" />
+<protounit id="632" name="Frankish Paladin" />
+<protounit id="633" name="Frankish Paladin, D" />
+<protounit id="634" name="Sieur De Metz" />
+<protounit id="635" name="Sieur De Metz, D" />
+<protounit id="636" name="Sieur Bertrand" />
+<protounit id="637" name="Sieur Bertrand, D" />
+<protounit id="638" name="Duke D'Alencon" />
+<protounit id="639" name="Duke D'Alencon, D" />
+<protounit id="640" name="La Hire" />
+<protounit id="641" name="La Hire, D" />
+<protounit id="642" name="Lord De Graville" />
+<protounit id="643" name="Lord De Graville, D" />
+<protounit id="644" name="Jean De Lorrain" />
+<protounit id="645" name="Jean De Lorrain, D" />
+<protounit id="646" name="Constable Richemont" />
+<protounit id="647" name="Constable Richemont, D" />
+<protounit id="648" name="Guy Josselyne" />
+<protounit id="649" name="Guy Josselyne, D" />
+<protounit id="650" name="Jean Bureau" />
+<protounit id="651" name="Jean Bureau, D" />
+<protounit id="652" name="Sir John Fastolf" />
+<protounit id="653" name="Sir John Fastolf, D" />
+<protounit id="654" name="S_SMOKE" />
+<protounit id="655" name="Mosque" />
+<protounit id="656" name="Proj, MNB" />
+<protounit id="657" name="Proj, GP1" />
+<protounit id="658" name="Proj, MNB F" />
+<protounit id="659" name="Gate, CA2" />
+<protounit id="660" name="Gate, CA3" />
+<protounit id="661" name="Gate, CB2" />
+<protounit id="662" name="Gate, CB3" />
+<protounit id="663" name="Gate, CC2" />
+<protounit id="664" name="Gate, CC3" />
+<protounit id="665" name="Gate, CX2" />
+<protounit id="666" name="Gate, CX3" />
+<protounit id="667" name="Gate, DA2" />
+<protounit id="668" name="Gate, DA3" />
+<protounit id="669" name="Gate, DB2" />
+<protounit id="670" name="Gate, DB3" />
+<protounit id="671" name="Gate, DC2" />
+<protounit id="672" name="Gate, DC3" />
+<protounit id="673" name="Gate, DX2" />
+<protounit id="674" name="Gate, DX3" />
+<protounit id="675" name="Onager, D" />
+<protounit id="676" name="Proj, FFG F" />
+<protounit id="677" name="S_Fire" />
+<protounit id="678" name="Reynald De Chatillon" />
+<protounit id="679" name="Reynald De Chatillon, D" />
+<protounit id="680" name="Master Of The Templar" />
+<protounit id="681" name="Master Of The Templar, D" />
+<protounit id="682" name="Bad Neighbor" />
+<protounit id="683" name="Gods Own Sling" />
+<protounit id="684" name="The Accursed Tower" />
+<protounit id="685" name="The Tower Of Flies" />
+<protounit id="686" name="Archer Of The Eyes" />
+<protounit id="687" name="Archer Of The Eyes, D" />
+<protounit id="688" name="Piece Of The True Cross" />
+<protounit id="689" name="Pyramid" />
+<protounit id="690" name="Dome Of The Rock" />
+<protounit id="691" name="Elite Cannon Galleon" />
+<protounit id="692" name="Berserk" />
+<protounit id="693" name="Berserk, D" />
+<protounit id="694" name="Elite Berserk" />
+<protounit id="695" name="Elite Berserk, D" />
+<protounit id="696" name="Great Pyramid" />
+<protounit id="697" name="Flare 4" />
+<protounit id="698" name="Subotai" />
+<protounit id="699" name="Subotai, D" />
+<protounit id="700" name="Hunting Wolf" />
+<protounit id="701" name="Hunting Wolf, D" />
+<protounit id="702" name="Kushluk" />
+<protounit id="703" name="Kushluk, D" />
+<protounit id="704" name="Shah" />
+<protounit id="705" name="Shah, D" />
+<protounit id="706" name="Saboteur" />
+<protounit id="707" name="Ornlu The Wolf" />
+<protounit id="708" name="Ornlu The Wolf, D" />
+<protounit id="709" name="Cactus" />
+<protounit id="710" name="Skeleton" />
+<protounit id="711" name="Rugs" />
+<protounit id="712" name="Yurt" />
+<protounit id="713" name="Yurt 2" />
+<protounit id="714" name="Yurt 3" />
+<protounit id="715" name="Yurt 4" />
+<protounit id="716" name="Yurt 5" />
+<protounit id="717" name="Yurt 6" />
+<protounit id="718" name="Yurt 7" />
+<protounit id="719" name="Yurt 8" />
+<protounit id="720" name="Nine Bands" />
+<protounit id="721" name="Shipwreck" />
+<protounit id="722" name="Shipwreck 2" />
+<protounit id="723" name="Crater" />
+<protounit id="724" name="Genitour, Dead" />
+<protounit id="725" name="Jaguar Warrior" />
+<protounit id="726" name="Elite Jaguar Warrior" />
+<!-- 727 -->
+<protounit id="728" name="Ice Spots" />
+<protounit id="729" name="Gods Own Sling, Packed" />
+<protounit id="730" name="Bad Neighbor, Packed" />
+<protounit id="731" name="Genghis Khan" />
+<protounit id="732" name="Genghis Khan, D" />
+<protounit id="733" name="Emperor In A Barrel" />
+<protounit id="734" name="Emperor In A Barrel, D" />
+<protounit id="735" name="Trebuchet, Packed D" />
+<protounit id="736" name="Proj, Mameluke" />
+<protounit id="737" name="Stump B" />
+<protounit id="738" name="Bridge A Middle Broken" />
+<protounit id="739" name="Bridge A Middle Broken 2" />
+<protounit id="740" name="Bridge A Middle Broken 3" />
+<protounit id="741" name="Bridge B Middle Broken" />
+<protounit id="742" name="Bridge B Middle Broken 2" />
+<protounit id="743" name="Bridge B Middle Broken 3" />
+<protounit id="744" name="Mountain 3" />
+<protounit id="745" name="Mountain 4" />
+<protounit id="746" name="Proj, Castle" />
+<protounit id="747" name="Proj, Castle Flaming" />
+<protounit id="748" name="Cobra Car" />
+<protounit id="749" name="Cobra, D" />
+<protounit id="750" name="Jaguar Warrior, D" />
+<protounit id="751" name="Eagle Warrior" />
+<protounit id="752" name="Elite Eagle Warrior" />
+<!-- 753 -->
+<protounit id="754" name="Eagle Warrior, D" />
+<protounit id="755" name="Tarkan" />
+<protounit id="756" name="Tarkan, D" />
+<protounit id="757" name="Elite Tarkan" />
+<!-- 758 -->
+<protounit id="759" name="Huskarl" />
+<protounit id="760" name="Huskarl, Dead" />
+<protounit id="761" name="Elite Huskarl" />
+<protounit id="762" name="Elite Huskarl, Dead" />
+<protounit id="763" name="Plumed Archer" />
+<protounit id="764" name="Plumed Archer, D" />
+<protounit id="765" name="Elite Plumed Archer" />
+<protounit id="766" name="Elite Plumed Archer, D" />
+<protounit id="767" name="Proj, Elite Cannon Galleon" />
+<!-- 768 -->
+<!-- 769 -->
+<!-- 770 -->
+<protounit id="771" name="Conquistador" />
+<protounit id="772" name="Conquistador, D" />
+<protounit id="773" name="Elite Conquistador" />
+<protounit id="774" name="Elite Conquistador, D" />
+<protounit id="775" name="Missionary" />
+<protounit id="776" name="Missionary, D" />
+<protounit id="777" name="Attila The Hun" />
+<protounit id="778" name="Atilla The Hun, D" />
+<protounit id="779" name="Bleda The Hun" />
+<protounit id="780" name="Bleda The Hun, D" />
+<protounit id="781" name="Pope Leo I" />
+<protounit id="782" name="Pope Leo I, D" />
+<protounit id="783" name="Scythian Wild Woman" />
+<protounit id="784" name="Scythian Wild Woman, D" />
+<protounit id="785" name="Sea Tower" />
+<protounit id="786" name="Proj, Sea Tower" />
+<protounit id="787" name="Proj, Sea Tower Flaming" />
+<protounit id="788" name="Sea Wall" />
+<protounit id="789" name="Sea Gate, AA" />
+<protounit id="790" name="Sea Gate, AB" />
+<protounit id="791" name="Sea Gate, AC" />
+<protounit id="792" name="Sea Gate, AX" />
+<protounit id="793" name="Sea Gate, BA" />
+<protounit id="794" name="Sea Gate, BB" />
+<protounit id="795" name="Sea Gate, BC" />
+<protounit id="796" name="Sea Gate, BX" />
+<protounit id="797" name="Sea Gate, CA" />
+<protounit id="798" name="Sea Gate, CB" />
+<protounit id="799" name="Sea Gate, CC" />
+<protounit id="800" name="Sea Gate, CX" />
+<protounit id="801" name="Sea Gate, DA" />
+<protounit id="802" name="Sea Gate, DB" />
+<protounit id="803" name="Sea Gate, DC" />
+<protounit id="804" name="Sea Gate, DX" />
+<protounit id="805" name="S Dock" />
+<protounit id="806" name="S Dock 2" />
+<protounit id="807" name="S Dock 3" />
+<protounit id="808" name="S Dock 4" />
+<protounit id="809" name="Stump 2" />
+<protounit id="810" name="Iron Boar" />
+<protounit id="811" name="Iron Boar, D" />
+<protounit id="812" name="Jaguar" />
+<protounit id="813" name="Jaguar, D" />
+<protounit id="814" name="Horse" />
+<protounit id="815" name="Horse, D" />
+<protounit id="816" name="Macaw" />
+<protounit id="817" name="Statue" />
+<protounit id="818" name="Plants" />
+<protounit id="819" name="Sign" />
+<protounit id="820" name="Grave" />
+<protounit id="821" name="Head" />
+<protounit id="822" name="Javelina" />
+<protounit id="823" name="Javelina, D" />
+<protounit id="824" name="El Cid Campeador" />
+<protounit id="825" name="El Cid Campeador, D" />
+<protounit id="826" name="Monument (KotH)" />
+<protounit id="827" name="War Wagon" />
+<protounit id="828" name="War Wagon, D" />
+<protounit id="829" name="Elite War Wagon" />
+<protounit id="830" name="Elite War Wagon, D" />
+<protounit id="831" name="Turtle Ship" />
+<protounit id="832" name="Elite Turtle Ship" />
+<protounit id="833" name="Turkey" />
+<protounit id="834" name="Turkey, Dead" />
+<protounit id="835" name="Wild Horse" />
+<protounit id="836" name="Wild Horse, D" />
+<protounit id="837" name="Map Revealer" />
+<protounit id="838" name="King Sancho" />
+<protounit id="839" name="King Sancho, D" />
+<protounit id="840" name="King Alfonso" />
+<protounit id="841" name="King Alfonso, D" />
+<protounit id="842" name="Imam" />
+<protounit id="843" name="Imam, D" />
+<protounit id="844" name="Admiral Yi Sun Shin" />
+<protounit id="845" name="Nobunaga" />
+<protounit id="846" name="Nobunaga, D" />
+<protounit id="847" name="Henry V" />
+<protounit id="848" name="Henry V, D" />
+<protounit id="849" name="William The Conqueror" />
+<protounit id="850" name="William The Conqueror, D" />
+<protounit id="851" name="Flag, ES" />
+<protounit id="852" name="Scythian Scout" />
+<protounit id="853" name="Scythian Scout, D" />
+<protounit id="854" name="Torch 2" />
+<protounit id="855" name="Old Stone Head" />
+<protounit id="856" name="Roman Ruins" />
+<protounit id="857" name="Hay Stack" />
+<protounit id="858" name="Broken Cart" />
+<protounit id="859" name="Flower Bed" />
+<protounit id="860" name="Furious The Monkey Boy" />
+<protounit id="861" name="Furious The Monkey Boy, D" />
+<protounit id="862" name="Stormy Dog" />
+<protounit id="863" name="Rubble 1 X 1" />
+<protounit id="864" name="Rubble 2 X 2" />
+<protounit id="865" name="Rubble 3 X 3" />
+</civ>
+
+<civ id="1" name="Britons" />
+<civ id="2" name="Franks" />
+<civ id="3" name="Goths" />
+<civ id="4" name="Teutons" />
+<civ id="5" name="Japanese" />
+<civ id="6" name="Chinese" />
+<civ id="7" name="Byzantines" />
+<civ id="8" name="Persians" />
+<civ id="9" name="Saracens" />
+<civ id="10" name="Turks" />
+<civ id="11" name="Vikings" />
+<civ id="12" name="Mongols" />
+<civ id="13" name="Celts" />
+<civ id="14" name="Spanish" />
+<civ id="15" name="Aztecs" />
+<civ id="16" name="Mayans" />
+<civ id="17" name="Huns" />
+<civ id="18" name="Koreans" />
+
+<resources>
+<simple id="0" name="Food" />
+<simple id="1" name="Wood" />
+<simple id="2" name="Stone" />
+<simple id="3" name="Gold" />
+<simple id="4" name="Population Limit" />
+<simple id="7" name="Relics" />
+<simple id="11" name="Population" />
+<simple id="20" name="Kills" />
+<simple id="21" name="Technologies" />
+<simple id="37" name="Villager Population" />
+<simple id="40" name="Military Population" />
+<simple id="41" name="Conversions" />
+<simple id="43" name="Razings" />
+<simple id="44" name="Kill Ratio" />
+</resources>
+
+<aitypes>
+<simple id="9" name="Arabia" />
+<simple id="10" name="Archipelago" />
+<simple id="11" name="Baltic" />
+<simple id="12" name="Black forest" />
+<simple id="13" name="Coastal" />
+<simple id="14" name="Continental" />
+<simple id="15" name="Crater lake" />
+<simple id="16" name="Fortress" />
+<simple id="17" name="Gold rush" />
+<simple id="18" name="Highland" />
+<simple id="19" name="Islands" />
+<simple id="20" name="Mediterranean" />
+<simple id="21" name="Migration" />
+<simple id="22" name="Rivers" />
+<simple id="23" name="Team islands" />
+<simple id="24" name="UNKNOWN" />
+<simple id="25" name="Scandinavia" />
+<simple id="26" name="Mongolia" />
+<simple id="27" name="Yucatan" />
+<simple id="28" name="Salt marsh" />
+<simple id="29" name="Arena" />
+<simple id="30" name="King of the hill" />
+<simple id="31" name="Oasis" />
+<simple id="32" name="Ghost Lake" />
+<simple id="33" name="Nomad" />
+</aitypes>
+
+<terrains>
+<!--
+Note: Due to my own laziness, these _must_ be in ID order, meaning
+also that you can't skip IDs. Also, ref is reverse-order (BGR) as
+usual.
+-->
+<terrain id="0" color="279933" name="Grass 1" />
+<terrain id="1" color="B65D30" name="Water, Shallow" />
+<terrain id="2" color="78B4E8" name="Beach" />
+<terrain id="3" color="52A2E4" name="Dirt 3" />
+<terrain id="4" color="B09254" name="Shallows" />
+<terrain id="5" color="279933" name="Leaves" />
+<terrain id="6" color="52A2E4" name="Dirt 1" />
+<terrain id="7" color="4d8882" name="Farm" />
+<terrain id="8" color="4d8882" name="Dead Farm" />
+<terrain id="9" color="279933" name="Grass 3" />
+<terrain id="10" color="157615" name="Forest" />
+<terrain id="11" color="52A2E4" name="Dirt 2" />
+<terrain id="12" color="279933" name="Grass 2" />
+<terrain id="13" color="157615" name="Palm Forest" />
+<terrain id="14" color="78B4E8" name="Desert" />
+<terrain id="15" color="B65D30" name="Water, No Shore" />
+<terrain id="16" color="279933" name="Grass" />
+<terrain id="17" color="157615" name="Jungle" />
+<terrain id="18" color="157615" name="Bamboo" />
+<terrain id="19" color="157615" name="Pine Forest" />
+<terrain id="20" color="157615" name="Oak Forest" />
+<terrain id="21" color="157615" name="Snow Pine Forest" />
+<terrain id="22" color="BB4A00" name="Water, Deep" />
+<terrain id="23" color="BB4A00" name="Water, Medium" />
+<terrain id="24" color="52A2E4" name="Road" />
+<terrain id="25" color="52A2E4" name="Broken Road" />
+<terrain id="26" color="49ECFF" name="Trail" /><!-- yellowish for unknown -->
+<terrain id="27" color="52A2E4" name="Dirt2" />
+<terrain id="28" color="B65D30" name="Water, No Shore" />
+<terrain id="29" color="4d8882" name="Farm, unplanted" />
+<terrain id="30" color="4d8882" name="Farm, small plants" />
+<terrain id="31" color="4d8882" name="Farm, large plants" />
+<terrain id="32" color="FFD8C8" name="Snow" />
+<terrain id="33" color="FFD8C8" name="Snow Dirt" />
+<terrain id="34" color="FFD8C8" name="Snow Grass" />
+<terrain id="35" color="F0C098" name="Ice" />
+<terrain id="36" color="FFD8C8" name="Snow Dirt" />
+<terrain id="37" color="F0C098" name="Ice/Snow Shore" />
+<terrain id="38" color="FFD8C8" name="Ice Road" />
+<terrain id="39" color="FFD8C8" name="Fungus Road" />
+<terrain id="40" color="52A2E4" name="Road" />
+</terrains>
+
+<!-- The following are custom unit groups. They have no effect on the saved scenario,
+     just the editor itself. Feel free to add some more if you like. Also, make sure
+	 this is after the specifications of the units themselves. -->
+<unitgroups>
+<group name="Archers"
+	units="4,5,24,39,474,492" />
+<group name="Arrows"
+	units="54,97,245,246,315,316,317,318,319,320,321,322,328,360,363,364,367,372,375,378,381,385,466,470,471,475,476,477,478,485,503,504,505,507,509,510,511,512,514,516,517,518,519,521,522,523,524,525,537,538,540,541,627,628,746,747,786,787" />
+<group name="Betas"
+	units="76,158,299,444,479,493,544,571,573,575,577,748,749" />
+<group name="Buildings"
+	units="10,12,14,18,19,20,30,31,32,33,45,47,49,50,51,68,70,71,72,79,82,84,86,87,101,103,104,105,109,110,116,129,130,131,132,133,137,141,142,150,153,179,199,208,209,210,234,235,236,276,278,345,445,446,463,464,465,481,482,483,484,498,562,563,564,565,584,585,586,587,597,598,599,605,606,607,608,609,610,611,612,613,614,615,616,617,618,619,620,621,624,625,626,655,684,685,689,690,696,712,713,714,715,716,717,718,719,738,739,740,741,742,743,785,805,806,807,808,826" />
+<group name="Castle"
+	units="6,7,8,11,25,40,41,42,46,73,94,232,239,281,282,291,331,434,440,441,530,531,534,553,554,555,556,557,558,559,560,561,583,596,692,694,725,726,755,757,759,761,763,765,771,773,827,829" />
+<group name="Cavalry"
+	units="37,38,283,329,330,448,546,569" />
+<group name="Cliffs"
+	units="265,266,270,271,272,273" />
+<group name="Dead"
+	units="3,16,22,23,26,27,28,34,43,44,58,60,62,98,99,100,107,111,113,115,121,134,135,136,138,139,140,149,151,152,154,157,178,180,181,194,205,211,213,215,217,219,221,223,224,225,226,227,228,229,230,233,237,238,353,355,356,423,425,431,435,449,480,494,495,496,497,501,502,543,547,549,568,570,572,574,576,578,580,582,589,591,593,595,622,630,631,633,675,687,693,695,705,708,735,750,754,756,762,764,772,776,778,780,784,811,813,815,823,825,828,839,841,843,853" />
+<group name="Heroes"
+	units="160,161,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,195,196,197,198,200,202,424,426,428,430,432,629,632,634,636,638,640,642,644,646,648,650,652,678,680,682,683,686,698,700,702,704,706,707,729,730,731,733,777,779,781,783,824,838,840,842,844,845,847,849,852,860,861" />
+<group name="Infantry"
+	units="74,75,77,93,358,359,473,567,751,752" />
+<group name="Market"
+	units="84,110,116,128,137,204" />
+<group name="Misc"
+	units="159,242,244,247,248,249,252,253,262,274,310,311,313,314,324,325,326,327,352,365,366,368,369,371,374,376,377,380,417,447,452,453,454,459,462,468,469,506,508,513,515,520,526,551,552,656,657,658,676,677,728,736,737,767" />
+<group name="Monastery"
+	units="125,285,286,287,288,289,290,292,294,295,296,297,298,300,301,302,303,304,305,306,307,308,775" />
+<group name="Others"
+	units="48,53,59,65,66,69,89,96,102,126,143,144,145,146,147,148,241,333,334,335,336,337,338,339,340,341,389,396,450,451,455,456,457,458,499,594,600,601,602,603,604,623,688,709,710,711,720,721,722,723,744,745,810,812,814,816,817,818,819,820,821,822,833,835,837,851,854,855,856,857,858,859,862,863,864,865" />
+<group name="Ships"
+	units="13,15,17,21,61,250,420,436,438,443,527,528,529,532,533,535,536,539,545,691,831,832" />
+<group name="Siege"
+	units="5,35,36,279,280,422,542,548,550,588" />
+<group name="Trees"
+	units="284,348,349,350,351,399,400,401,402,403,404,405,406,407,408,409,410,411,413,414,415,809" />
+<group name="Units"
+	units="4,5,5,6,7,8,11,24,25,35,36,39,40,41,42,46,73,74,75,77,93,94,125,204,232,239,279,280,281,282,291,331,358,359,422,434,440,441,473,474,492,530,531,534,542,548,550,553,554,555,556,557,558,559,560,561,567,583,588,596,692,694,725,726,751,752,755,757,759,761,763,765,771,773,775,827,829" />
+<group name="Villagers"
+	units="56,57,83,118,120,122,123,124,156,206,207,212,214,216,218,220,222,259,293,354,579,581,590,592" />
+<group name="Walls"
+	units="63,64,67,78,80,81,85,88,90,91,92,95,117,155,487,488,490,491,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,789,790,791,792,793,794,795,796,797,798,799,800,801,802,803,804" />
+</unitgroups>
+
+</geniedata>

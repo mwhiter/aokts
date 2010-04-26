@@ -1,0 +1,1877 @@
+<?xml version="1.0" ?>
+<!DOCTYPE geniedata>
+
+<geniedata>
+
+<aitypes>
+<simple id="9" name="Desert" />
+<simple id="10" name="Watermass" />
+<simple id="11" name="Sea" />
+<simple id="12" name="Forest" />
+<simple id="13" name="Shoreline" />
+<simple id="14" name="Landmass" />
+<simple id="16" name="Nova Lake" />
+<simple id="17" name="Fortress" />
+<simple id="18" name="Nova Assault" />
+<simple id="19" name="Precipice" />
+<simple id="20" name="Islands" />
+<simple id="21" name="Space Satellites" />
+<simple id="22" name="Large Sea" />
+<simple id="23" name="Asteroids" />
+<simple id="24" name="Forced Deployment" />
+<simple id="25" name="Rivers" />
+<simple id="26" name="Team Islands" />
+<simple id="27" name="Team Space Satellites" />
+<simple id="29" name="Tundra" />
+<simple id="30" name="Flats" />
+<simple id="31" name="Savannah" />
+<simple id="32" name="Swamp" />
+<simple id="33" name="Arena" />
+<simple id="35" name="Motherlode" />
+<simple id="36" name="Ice Lake" />
+<simple id="37" name="Raiders" />
+</aitypes>
+
+<pcolors>
+- <!--  player colors. Note that the ref attribute is reverse-order.   --> 
+  <color id="0" name="Blue" color="FF0000" /> 
+  <color id="1" name="Red" color="0000FF" /> 
+  <color id="2" name="Green" color="00FF00" /> 
+  <color id="3" name="Yellow" color="00FFFF" /> 
+  <color id="4" name="Cyan" color="FFFF00" /> 
+  <color id="5" name="Purple" color="FF00FF" /> 
+  <color id="6" name="Grey" color="B9B9B9" /> 
+  <color id="7" name="Orange" color="0182FF" /> 
+</pcolors>
+
+<terrains>
+<terrain  id="0" name="GRASS1" color="00a900"/>
+<terrain  id="1" name="WATER1" color="b65d30"/>
+<terrain  id="2" name="SHORE" color="8ac9f8"/>
+<terrain  id="3" name="DIRT3" color="73a9bf"/>
+<terrain  id="4" name="WATERSWAMP" color="4b7374"/>
+<terrain  id="5" name="LEAVES" color="00a900"/>
+<terrain  id="6" name="DIRT1" color="5caaf3"/>
+<terrain  id="7" name="FARM" color="578b8a"/>
+<terrain  id="8" name="FARMDEAD" color="578b8a"/>
+<terrain  id="9" name="GRASS3" color="00a900"/>
+<terrain  id="10" name="TIMBERD" color="397425"/>
+<terrain  id="11" name="DIRT2" color="5caaf3"/>
+<terrain  id="12" name="GRASS2" color="00a900"/>
+<terrain  id="13" name="TIMBERE" color="397425"/>
+<terrain  id="14" name="SAND" color="8ac9f8"/>
+<terrain  id="15" name="WATEROLD" color="ffd2ff"/>
+<terrain  id="16" name="GRASSOLD" color="434343"/>
+<terrain  id="17" name="TIMBERB" color="397425"/>
+<terrain  id="18" name="TIMBERA" color="397425"/>
+<terrain  id="19" name="TIMBERF" color="397425"/>
+<terrain  id="20" name="TIMBERC" color="397425"/>
+<terrain  id="21" name="TIMBERG" color="397425"/>
+<terrain  id="22" name="WATER2" color="a14a00"/>
+<terrain  id="23" name="WATER3" color="873500"/>
+<terrain  id="24" name="PATH1" color="5caaf3"/>
+<terrain  id="25" name="PATH2" color="5caaf3"/>
+<terrain  id="26" name="ICE1" color="7d7354"/>
+<terrain  id="27" name="FOUNDATION" color="73a9bf"/>
+<terrain  id="28" name="WATERIMPASSABLE" color="b65d30"/>
+<terrain  id="29" name="FARMBUILD1" color="578b8a"/>
+<terrain  id="30" name="FARMBUILD2" color="578b8a"/>
+<terrain  id="31" name="FARMBUILD3" color="578b8a"/>
+<terrain  id="32" name="SNOW1" color="00a900"/>
+<terrain  id="33" name="SNOW2" color="00a900"/>
+<terrain  id="34" name="SNOW3" color="00a900"/>
+<terrain  id="35" name="ICE2" color="8ac9f8"/>
+<terrain  id="36" name="FOUNDATIONSNOW" color="00a900"/>
+<terrain  id="37" name="SHOREICE" color="f0c098"/>
+<terrain  id="38" name="PATH3" color="5caaf3"/>
+<terrain  id="39" name="PATH4" color="73a9bf"/>
+<terrain  id="40" name="UNBUILDABLE" color="5caaf3"/>
+<terrain  id="41" name="SNOW-GRASS" color="00a900"/>
+<terrain  id="42" name="ROCK1" color="7d7354"/>
+<terrain  id="43" name="METAL3" color="73a9bf"/>
+<terrain  id="44" name="ROCK2" color="7d7354"/>
+<terrain  id="45" name="SAND-ROCK" color="8ac9f8"/>
+<terrain  id="46" name="SAND2" color="8ac9f8"/>
+<terrain  id="47" name="SNOW-DIRT" color="00a900"/>
+<terrain  id="48" name="FARMG" color="578b8a"/>
+<terrain  id="49" name="METAL CARB" color="ffce97"/>
+<terrain  id="50" name="ROCK CARB" color="ffce97"/>
+</terrains>
+
+<civ id="0" name="Gaia">
+<protounit id="2" name="Fambaa Shield Generator" />
+<protounit id="3" name="Fambaa Shield Generator" />
+<protounit id="4" name="Royal Crusader" />
+<protounit id="5" name="Royal Crusader" />
+<protounit id="6" name="Airspeeder" />
+<protounit id="7" name="Airspeeder" />
+<protounit id="8" name="Berserker" />
+<protounit id="9" name="PROJ-AAFTR" />
+<protounit id="10" name="Troop Center" />
+<protounit id="11" name="EFFECT-AAFTR" />
+<protounit id="12" name="Power Core" />
+<protounit id="13" name="Utility Trawler" />
+<protounit id="14" name="Troop Center" />
+<protounit id="15" name="Sith Apprentice w/Holocron" />
+<protounit id="16" name="PROJ-GBLSMLRED2" />
+<protounit id="17" name="Millenium Falcon (Han)" />
+<protounit id="18" name="War Center" />
+<protounit id="19" name="Transmitter" />
+<protounit id="20" name="Power Core" />
+<protounit id="21" name="UNIT-LCHWK_D" />
+<protounit id="22" name="Sith Knight w/Holocron" />
+<protounit id="23" name="Chewbacca Melee" />
+<protounit id="24" name="Cannon" />
+<protounit id="25" name="UNIT-LGUNG_D" />
+<protounit id="26" name="Kashyyyk Trees" />
+<protounit id="27" name="PROJ-GGRENADE" />
+<protounit id="28" name="EFFECT-CRATER-LG" />
+<protounit id="29" name="EFFECT-CRATER-SM" />
+<protounit id="30" name="Jedi Temple" />
+<protounit id="31" name="Jedi Temple" />
+<protounit id="32" name="TIE Advanced X1 (Vader)" />
+<protounit id="33" name="Sith Master w/Holocron" />
+<protounit id="34" name="EFFECT-AAFTF" />
+<protounit id="35" name="EFFECT-AFGTF" />
+<protounit id="36" name="Sith Knight w/Holocron" />
+<protounit id="37" name="UNIT-JPADF_D" />
+<protounit id="38" name="UNIT-JKNTG_D" />
+<protounit id="39" name="Jedi Knight w/Holocron" />
+<protounit id="40" name="Jedi Knight w/Holocron" />
+<protounit id="41" name="Jedi Knight w/Holocron" />
+<protounit id="42" name="Jedi Knight w/Holocron" />
+<protounit id="43" name="EFFECT-AFGTR" />
+<protounit id="44" name="Sith Knight" />
+<protounit id="45" name="Shipyard" />
+<protounit id="46" name="UNIT-JKNTE_D" />
+<protounit id="47" name="Shipyard" />
+<protounit id="48" name="Wild Fambaa" />
+<protounit id="49" name="Hvy Weapons Factory" />
+<protounit id="50" name="Farm" />
+<protounit id="51" name="Shipyard" />
+<protounit id="52" name="Sith Apprentice" />
+<protounit id="53" name="Fish - Medium" />
+<protounit id="54" name="MISSILE-ARROW13" />
+<protounit id="55" name="Utility Trawler" />
+<protounit id="56" name="Underwater Research Center" />
+<protounit id="57" name="Underwater Research Center" />
+<protounit id="58" name="DUNIT-WORKERA4" />
+<protounit id="59" name="Muja Fruit Bush" />
+<protounit id="60" name="EFFECT-AHFTF" />
+<protounit id="61" name="Jedi Knight" />
+<protounit id="62" name="Jedi Knight" />
+<protounit id="63" name="Gate" />
+<protounit id="64" name="Gate" />
+<protounit id="65" name="EFFECT-AHFTR" />
+<protounit id="66" name="Nova Deposit" />
+<protounit id="67" name="Gate" />
+<protounit id="68" name="Food Proc Ctr" />
+<protounit id="69" name="Fish - Shore" />
+<protounit id="70" name="Prefab Shelter" />
+<protounit id="71" name="Command Center" />
+<protounit id="72" name="Light Wall" />
+<protounit id="73" name="UNIT-JKNTN_D" />
+<protounit id="74" name="Jedi Knight" />
+<protounit id="75" name="UNIT-JKNTR_D" />
+<protounit id="76" name="UNIT-JMSTF_D" />
+<protounit id="77" name="Jedi Knight" />
+<protounit id="78" name="Gate" />
+<protounit id="79" name="Light Turret" />
+<protounit id="80" name="Gate" />
+<protounit id="81" name="Gate" />
+<protounit id="82" name="Fortress" />
+<protounit id="83" name="Underwater Prefab Shelter" />
+<protounit id="84" name="Spaceport" />
+<protounit id="85" name="Gate" />
+<protounit id="86" name="Mech Factory" />
+<protounit id="87" name="Troop Center" />
+<protounit id="88" name="Gate" />
+<protounit id="89" name="Sith Master" />
+<protounit id="90" name="Gate" />
+<protounit id="91" name="Gate" />
+<protounit id="92" name="Gate" />
+<protounit id="93" name="UNIT-JKNTW_D" />
+<protounit id="94" name="UNIT-JKNTF_D" />
+<protounit id="95" name="Gate" />
+<protounit id="96" name="Ibbot" />
+<protounit id="97" name="Sith Knight" />
+<protounit id="98" name="Sith Master w/Holocron" />
+<protounit id="99" name="EFFECT-GUNIF" />
+<protounit id="100" name="Jedi Master w/Holocron" />
+<protounit id="101" name="Mech Factory" />
+<protounit id="102" name="Ore Deposit" />
+<protounit id="103" name="War Center" />
+<protounit id="104" name="Jedi Temple" />
+<protounit id="105" name="War Center" />
+<protounit id="106" name="EFFECT-MH3TE" />
+<protounit id="107" name="Jedi Master w/Holocron" />
+<protounit id="108" name="Adv Bomber" />
+<protounit id="109" name="Command Center" />
+<protounit id="110" name="EFFECT-MH3TF" />
+<protounit id="111" name="Jedi Master w/Holocron" />
+<protounit id="112" name="ENGINE-SHOWATTAC" />
+<protounit id="113" name="Adv Fighter" />
+<protounit id="114" name="Jedi Master w/Holocron" />
+<protounit id="115" name="Sith Master" />
+<protounit id="116" name="Spaceport" />
+<protounit id="117" name="Medium Wall" />
+<protounit id="118" name="Underwater Power Core" />
+<protounit id="119" name="EFFECT-MH3TN" />
+<protounit id="120" name="Underwater Shield Generator" />
+<protounit id="121" name="UNIT-JMSTE_D" />
+<protounit id="122" name="Adv Anti-Air Turret" />
+<protounit id="123" name="Reytha Soldier" />
+<protounit id="124" name="Mara Jade" />
+<protounit id="125" name="Jedi Master" />
+<protounit id="126" name="Rancor" />
+<protounit id="127" name="Bomber" />
+<protounit id="128" name="UNIT-JMSTG_D" />
+<protounit id="129" name="Food Proc Ctr" />
+<protounit id="130" name="Food Proc Ctr" />
+<protounit id="131" name="Food Proc Ctr" />
+<protounit id="132" name="Power Core" />
+<protounit id="133" name="Shipyard" />
+<protounit id="134" name="Jedi Master" />
+<protounit id="135" name="UNIT-JMSTN_D" />
+<protounit id="136" name="Jedi Master" />
+<protounit id="137" name="Spaceport" />
+<protounit id="138" name="EFFECT-MH3TR" />
+<protounit id="139" name="UNIT-JMSTR_D" />
+<protounit id="140" name="Jedi Master" />
+<protounit id="141" name="Command Center" />
+<protounit id="142" name="Command Center" />
+<protounit id="143" name="Debris-1x1" />
+<protounit id="144" name="Debris-2x2" />
+<protounit id="145" name="Debris-3x3" />
+<protounit id="146" name="Debris-4x4" />
+<protounit id="147" name="OBJ-DEBRIS6" />
+<protounit id="148" name="Debris-8x8" />
+<protounit id="149" name="UNIT-JMSTW_D" />
+<protounit id="150" name="Hvy Weapons Factory" />
+<protounit id="151" name="Sith Apprentice w/Holocron" />
+<protounit id="152" name="Jedi Padawan w/Holocron" />
+<protounit id="153" name="Mech Factory" />
+<protounit id="154" name="Jedi Padawan w/Holocron" />
+<protounit id="155" name="Hvy Wall" />
+<protounit id="156" name="R2-D2" />
+<protounit id="157" name="Jedi Padawan w/Holocron" />
+<protounit id="158" name="Fighter" />
+<protounit id="159" name="EFFECT-MH3TW" />
+<protounit id="160" name="Enh Bomber" />
+<protounit id="161" name="PROJ-AAFTF" />
+<protounit id="162" name="ENGINE-MARKER" />
+<protounit id="163" name="Fast Fighter" />
+<protounit id="164" name="PROJ-AFGTF" />
+<protounit id="166" name="PROJ-AFGTR" />
+<protounit id="167" name="Medic" />
+<protounit id="168" name="Medic" />
+<protounit id="169" name="Undeployed Cannon" />
+<protounit id="170" name="Bounty Hunter" />
+<protounit id="171" name="Bounty Hunter" />
+<protounit id="172" name="Hvy Destroyer Droid" />
+<protounit id="173" name="Hvy Destroyer Droid" />
+<protounit id="174" name="Destroyer Droid" />
+<protounit id="175" name="Destroyer Droid" />
+<protounit id="176" name="Adv Frigate" />
+<protounit id="177" name="Adv Cruiser" />
+<protounit id="178" name="Jedi Padawan w/Holocron" />
+<protounit id="179" name="PROJ-AHFTF" />
+<protounit id="180" name="Sith Apprentice" />
+<protounit id="181" name="UNIT-JPADE_D" />
+<protounit id="182" name="Hvy Destroyer" />
+<protounit id="183" name="Jedi Padawan" />
+<protounit id="184" name="Hvy Anti-Air Destroyer" />
+<protounit id="185" name="PROJ-AHFTR" />
+<protounit id="186" name="Destroyer" />
+<protounit id="187" name="Lt Frigate" />
+<protounit id="188" name="Anti-Air Destroyer" />
+<protounit id="189" name="Frigate" />
+<protounit id="190" name="Cruiser" />
+<protounit id="191" name="Transport Ship" />
+<protounit id="192" name="Hvy Artillery" />
+<protounit id="193" name="PROJ-GUNIF" />
+<protounit id="194" name="UNIT-JPADG_D" />
+<protounit id="195" name="Shield Wall" />
+<protounit id="196" name="Adv Anti-Air Turret" />
+<protounit id="197" name="Hvy Anti-Air Mobile" />
+<protounit id="198" name="PROJ-MH3TE" />
+<protounit id="199" name="AquaHarvester" />
+<protounit id="200" name="Hvy Pummel" />
+<protounit id="201" name="ENGINE-SHOWJEWEL" />
+<protounit id="202" name="PROJ-MH3TF" />
+<protounit id="203" name="Artillery" />
+<protounit id="204" name="Jedi Padawan" />
+<protounit id="205" name="UNIT-JPADN_D" />
+<protounit id="206" name="PROJ-MH3TN" />
+<protounit id="207" name="Anti-Air Mobile" />
+<protounit id="208" name="PROJ-MH3TR" />
+<protounit id="209" name="Research Center" />
+<protounit id="210" name="Research Center" />
+<protounit id="211" name="PROJ-MH3TW" />
+<protounit id="212" name="Underwater Power Core" />
+<protounit id="213" name="Shield Generator" />
+<protounit id="214" name="Underwater War Center" />
+<protounit id="215" name="Shield Generator" />
+<protounit id="216" name="Adv Anti-Air Turret" />
+<protounit id="217" name="Carbon Rocks (Red)" />
+<protounit id="218" name="Reytha Soldier" />
+<protounit id="219" name="Debris-1x1" />
+<protounit id="220" name="Mara Jade" />
+<protounit id="221" name="Debris-2x2" />
+<protounit id="222" name="R2-D2" />
+<protounit id="223" name="Debris-3x3" />
+<protounit id="224" name="DUNIT-WORKERA1" />
+<protounit id="225" name="DUNIT-WORKERA2" />
+<protounit id="226" name="DUNIT-WORKERA3" />
+<protounit id="227" name="DUNIT-WORKERA7" />
+<protounit id="228" name="DUNIT-WORKERA8" />
+<protounit id="229" name="DUNIT-WORKERA9" />
+<protounit id="230" name="DUNIT-WORKERA10" />
+<protounit id="231" name="Pummel" />
+<protounit id="232" name="Jedi Padawan" />
+<protounit id="233" name="UNIT-JPADR_D" />
+<protounit id="234" name="Medium Turret" />
+<protounit id="235" name="Advanced Turret" />
+<protounit id="236" name="Anti-Air Turret" />
+<protounit id="237" name="DANIMAL-GUNDARK" />
+<protounit id="238" name="Trooper Recruit" />
+<protounit id="239" name="Jedi Padawan" />
+<protounit id="240" name="Debris-4x4" />
+<protounit id="241" name="MISSILE-ARROW14" />
+<protounit id="242" name="Debris-8x8" />
+<protounit id="243" name="ENGINE-DOPPLEGAN" />
+<protounit id="244" name="Strike Mech" />
+<protounit id="245" name="Debris (Water)-3x3" />
+<protounit id="246" name="Mech Destroyer" />
+<protounit id="247" name="EFFECT-TRAILC" />
+<protounit id="248" name="Water Rocks - Small" />
+<protounit id="249" name="Assault Mech" />
+<protounit id="250" name="UNIT-JPADW_D" />
+<protounit id="251" name="Water Rocks - Small" />
+<protounit id="252" name="Anakin Skywalker" />
+<protounit id="253" name="UNIT-LANAKIN_D" />
+<protounit id="254" name="DANIMAL-FAAMBAB" />
+<protounit id="255" name="EFFECT_R-CWATER" />
+<protounit id="256" name="OBJ-DEADTIMBERD" />
+<protounit id="257" name="OBJ-DEADTIMBERC" />
+<protounit id="258" name="Scout" />
+<protounit id="259" name="Underwater War Center" />
+<protounit id="260" name="PROJ-GUNIR" />
+<protounit id="261" name="Hvy Strike Mech" />
+<protounit id="262" name="EFFECT-GUNIR" />
+<protounit id="263" name="Hvy Mech Destroyer" />
+<protounit id="264" name="OBJ-ROCKFACE01" />
+<protounit id="265" name="OBJ-ROCKFACE02" />
+<protounit id="266" name="OBJ-ROCKFACE03" />
+<protounit id="267" name="OBJ-ROCKFACE04" />
+<protounit id="268" name="OBJ-ROCKFACE05" />
+<protounit id="269" name="OBJ-ROCKFACE06" />
+<protounit id="270" name="OBJ-ROCKFACE07" />
+<protounit id="271" name="OBJ-ROCKFACE08" />
+<protounit id="272" name="OBJ-ROCKFACE09" />
+<protounit id="273" name="OBJ-ROCKFACE10" />
+<protounit id="274" name="ENGINE-SHOWAREA" />
+<protounit id="276" name="Monument" />
+<protounit id="277" name="Hvy Assault Mech" />
+<protounit id="278" name="AquaHarvester" />
+<protounit id="279" name="Trooper Recruit" />
+<protounit id="280" name="Trooper Recruit" />
+<protounit id="281" name="Trooper Recruit" />
+<protounit id="282" name="Trooper Recruit" />
+<protounit id="283" name="Trooper Recruit" />
+<protounit id="285" name="Jedi Holocron" />
+<protounit id="286" name="Trooper Recruit" />
+<protounit id="287" name="Adv Mnted Trooper" />
+<protounit id="288" name="Adv Mnted Trooper" />
+<protounit id="289" name="Mounted Trooper" />
+<protounit id="290" name="Mounted Trooper" />
+<protounit id="291" name="Trooper Recruit" />
+<protounit id="292" name="Grenade Trooper" />
+<protounit id="293" name="Underwater Prefab Shelter" />
+<protounit id="294" name="Grenade Trooper" />
+<protounit id="295" name="Hvy Mnted Trooper" />
+<protounit id="296" name="Hvy Mnted Trooper" />
+<protounit id="297" name="Hvy Trooper" />
+<protounit id="298" name="Hvy Trooper" />
+<protounit id="301" name="Hvy A-Air Trooper" />
+<protounit id="302" name="Hvy A-Air Trooper" />
+<protounit id="303" name="Repeater Trooper" />
+<protounit id="304" name="Repeater Trooper" />
+<protounit id="305" name="Anti-Air Trooper" />
+<protounit id="306" name="Anti-Air Trooper" />
+<protounit id="307" name="Trooper Recruit" />
+<protounit id="308" name="Trooper Recruit" />
+<protounit id="309" name="Trooper Recruit" />
+<protounit id="310" name="Trooper Recruit" />
+<protounit id="315" name="Trooper" />
+<protounit id="316" name="Trooper" />
+<protounit id="317" name="Airbase" />
+<protounit id="318" name="Airbase" />
+<protounit id="319" name="Animal Nursery" />
+<protounit id="320" name="Animal Nursery" />
+<protounit id="321" name="Animal Nursery" />
+<protounit id="322" name="Animal Nursery" />
+<protounit id="323" name="Nova Crystal Proc Ctr" />
+<protounit id="324" name="Nova Crystal Proc Ctr" />
+<protounit id="325" name="Nova Crystal Proc Ctr" />
+<protounit id="326" name="Nova Crystal Proc Ctr" />
+<protounit id="329" name="Adv Mnted Trooper" />
+<protounit id="330" name="Adv Mnted Trooper" />
+<protounit id="331" name="Adv Mnted Trooper" />
+<protounit id="332" name="ENGINE-SHOWTEAM" />
+<protounit id="335" name="Shield Generator" />
+<protounit id="336" name="Shield Generator" />
+<protounit id="337" name="Troop Center" />
+<protounit id="343" name="Adv Mnted Trooper" />
+<protounit id="344" name="Adv Mnted Trooper" />
+<protounit id="345" name="Adv Mnted Trooper" />
+<protounit id="346" name="Adv Mnted Trooper" />
+<protounit id="347" name="Adv Mnted Trooper" />
+<protounit id="348" name="Tree (Oak)" />
+<protounit id="349" name="Tree (Palm)" />
+<protounit id="350" name="Tree (Twisted)" />
+<protounit id="351" name="Tree (Barren)" />
+<protounit id="352" name="Adv Mnted Trooper" />
+<protounit id="353" name="DUNIT-WORKERA5" />
+<protounit id="354" name="Underwater Shield Generator" />
+<protounit id="355" name="Space Hub Outer-2" />
+<protounit id="356" name="DANIMAL-FAAMBA" />
+<protounit id="357" name="Depleted Farm" />
+<protounit id="358" name="Adv Mnted Trooper" />
+<protounit id="359" name="Mounted Trooper" />
+<protounit id="360" name="Mounted Trooper" />
+<protounit id="361" name="Mounted Trooper" />
+<protounit id="362" name="Mounted Trooper" />
+<protounit id="363" name="MISSILE-ARROW1" />
+<protounit id="364" name="MISSILE-ARROW2" />
+<protounit id="365" name="MISSILE-SPEAR1" />
+<protounit id="366" name="MISSILE-SPEAR2" />
+<protounit id="367" name="MISSILE-BOLT1" />
+<protounit id="368" name="MISSILE-BALL4" />
+<protounit id="369" name="MISSILE-BALL3" />
+<protounit id="370" name="Mounted Trooper" />
+<protounit id="371" name="MISSILE-BALL1" />
+<protounit id="372" name="MISSILE-BOLT3" />
+<protounit id="373" name="MISSILE-BOLT4" />
+<protounit id="374" name="MISSILE-BALL6" />
+<protounit id="375" name="Mounted Trooper" />
+<protounit id="376" name="Mounted Trooper" />
+<protounit id="377" name="Mounted Trooper" />
+<protounit id="378" name="Mounted Trooper" />
+<protounit id="379" name="Mounted Trooper" />
+<protounit id="380" name="MISSILE-SHOT1" />
+<protounit id="381" name="Grenade Trooper" />
+<protounit id="382" name="Grenade Trooper" />
+<protounit id="383" name="Grenade Trooper" />
+<protounit id="384" name="Grenade Trooper" />
+<protounit id="385" name="Grenade Trooper" />
+<protounit id="386" name="Grenade Trooper" />
+<protounit id="387" name="Grenade Trooper" />
+<protounit id="388" name="Grenade Trooper" />
+<protounit id="389" name="Grenade Trooper" />
+<protounit id="390" name="Grenade Trooper" />
+<protounit id="391" name="Hvy Mnted Trooper" />
+<protounit id="392" name="Hvy Mnted Trooper" />
+<protounit id="393" name="Hvy Mnted Trooper" />
+<protounit id="394" name="Hvy Mnted Trooper" />
+<protounit id="395" name="Hvy Mnted Trooper" />
+<protounit id="396" name="Hvy Mnted Trooper" />
+<protounit id="397" name="Hvy Mnted Trooper" />
+<protounit id="398" name="Hvy Mnted Trooper" />
+<protounit id="399" name="Hvy Mnted Trooper" />
+<protounit id="400" name="Hvy Mnted Trooper" />
+<protounit id="401" name="Hvy A-Air Trooper" />
+<protounit id="402" name="Hvy A-Air Trooper" />
+<protounit id="403" name="Hvy A-Air Trooper" />
+<protounit id="404" name="Hvy A-Air Trooper" />
+<protounit id="405" name="Hvy A-Air Trooper" />
+<protounit id="406" name="Hvy A-Air Trooper" />
+<protounit id="407" name="Hvy A-Air Trooper" />
+<protounit id="408" name="Anti-Air Trooper" />
+<protounit id="409" name="Hvy A-Air Trooper" />
+<protounit id="410" name="Hvy A-Air Trooper" />
+<protounit id="411" name="Tree (Strange)" />
+<protounit id="412" name="Hvy Trooper" />
+<protounit id="413" name="Tree (Redwood)" />
+<protounit id="414" name="Tree (Pine)" />
+<protounit id="415" name="Timber Pile B" />
+<protounit id="416" name="Hvy Trooper" />
+<protounit id="417" name="EFFECT-TRAILD" />
+<protounit id="418" name="Hvy Trooper" />
+<protounit id="419" name="Hvy Trooper" />
+<protounit id="420" name="Hvy Trooper" />
+<protounit id="421" name="Hvy Trooper" />
+<protounit id="422" name="Hvy Trooper" />
+<protounit id="423" name="Hvy Trooper" />
+<protounit id="424" name="Hvy Trooper" />
+<protounit id="425" name="Hvy Trooper" />
+<protounit id="426" name="Repeater Trooper" />
+<protounit id="427" name="Repeater Trooper" />
+<protounit id="428" name="Repeater Trooper" />
+<protounit id="429" name="Repeater Trooper" />
+<protounit id="430" name="Repeater Trooper" />
+<protounit id="431" name="Repeater Trooper" />
+<protounit id="432" name="Repeater Trooper" />
+<protounit id="433" name="Repeater Trooper" />
+<protounit id="434" name="Air Transport" />
+<protounit id="435" name="DUNIT-RULERA1" />
+<protounit id="436" name="Repeater Trooper" />
+<protounit id="437" name="Repeater Trooper" />
+<protounit id="438" name="Anti-Air Trooper" />
+<protounit id="439" name="Anti-Air Trooper" />
+<protounit id="440" name="Anti-Air Trooper" />
+<protounit id="441" name="Anti-Air Trooper" />
+<protounit id="442" name="Anti-Air Trooper" />
+<protounit id="443" name="Anti-Air Trooper" />
+<protounit id="444" name="Anti-Air Trooper" />
+<protounit id="445" name="Anti-Air Trooper" />
+<protounit id="446" name="Anti-Air Trooper" />
+<protounit id="447" name="Anti-Air Trooper" />
+<protounit id="448" name="Trooper" />
+<protounit id="449" name="Trooper" />
+<protounit id="450" name="Fish - Very Large" />
+<protounit id="451" name="Fish - Large" />
+<protounit id="452" name="Trooper" />
+<protounit id="453" name="Trooper" />
+<protounit id="454" name="Trooper" />
+<protounit id="455" name="Fish - Medium" />
+<protounit id="456" name="Fish - Medium" />
+<protounit id="457" name="Fish - Small" />
+<protounit id="458" name="Fish - Small" />
+<protounit id="459" name="Trooper" />
+<protounit id="460" name="Trooper" />
+<protounit id="461" name="Trooper" />
+<protounit id="462" name="Trooper" />
+<protounit id="463" name="Prefab Shelter" />
+<protounit id="464" name="Prefab Shelter" />
+<protounit id="465" name="Prefab Shelter" />
+<protounit id="466" name="Trooper" />
+<protounit id="468" name="Cannon" />
+<protounit id="469" name="Strike Mech" />
+<protounit id="470" name="Strike Mech" />
+<protounit id="471" name="Strike Mech" />
+<protounit id="472" name="Strike Mech" />
+<protounit id="473" name="Strike Mech" />
+<protounit id="475" name="Strike Mech" />
+<protounit id="477" name="MISSILE-ARROW4" />
+<protounit id="478" name="MISSILE-ARROW5" />
+<protounit id="479" name="Strike Mech" />
+<protounit id="484" name="Command Center" />
+<protounit id="485" name="Mech Destroyer" />
+<protounit id="486" name="Mech Destroyer" />
+<protounit id="487" name="Gate" />
+<protounit id="488" name="Gate" />
+<protounit id="489" name="Mech Destroyer" />
+<protounit id="490" name="Gate" />
+<protounit id="491" name="Gate" />
+<protounit id="492" name="Mech Destroyer" />
+<protounit id="493" name="Mech Destroyer" />
+<protounit id="495" name="Mech Destroyer" />
+<protounit id="497" name="Mech Destroyer" />
+<protounit id="498" name="Power Core" />
+<protounit id="500" name="Assault Mech" />
+<protounit id="501" name="Assault Mech" />
+<protounit id="502" name="Assault Mech" />
+<protounit id="503" name="Assault Mech" />
+<protounit id="504" name="MISSILE-ARROW6" />
+<protounit id="505" name="MISSILE-ARROW12" />
+<protounit id="506" name="MISSILE-BALL5" />
+<protounit id="507" name="MISSILE-ARROW3" />
+<protounit id="508" name="Assault Mech" />
+<protounit id="509" name="MISSILE-SPEAR3" />
+<protounit id="510" name="MISSILE-ARROW10" />
+<protounit id="511" name="MISSILE-ARROW7" />
+<protounit id="512" name="MISSILE-ARROW9" />
+<protounit id="514" name="Assault Mech" />
+<protounit id="515" name="MISSILE-AXE1" />
+<protounit id="517" name="Assault Mech" />
+<protounit id="540" name="MISSILE-ARROW8" />
+<protounit id="550" name="Scout" />
+<protounit id="552" name="Scout" />
+<protounit id="553" name="Scout" />
+<protounit id="554" name="Scout" />
+<protounit id="556" name="Scout" />
+<protounit id="558" name="Scout" />
+<protounit id="560" name="Hvy Strike Mech" />
+<protounit id="561" name="Hvy Strike Mech" />
+<protounit id="562" name="Carbon Proc Ctr" />
+<protounit id="563" name="Carbon Proc Ctr" />
+<protounit id="564" name="Carbon Proc Ctr" />
+<protounit id="565" name="Carbon Proc Ctr" />
+<protounit id="566" name="Hvy Strike Mech" />
+<protounit id="567" name="Hvy Strike Mech" />
+<protounit id="568" name="Hvy Strike Mech" />
+<protounit id="570" name="Hvy Strike Mech" />
+<protounit id="572" name="Hvy Strike Mech" />
+<protounit id="574" name="Hvy Mech Destroyer" />
+<protounit id="575" name="Hvy Mech Destroyer" />
+<protounit id="576" name="Hvy Mech Destroyer" />
+<protounit id="577" name="Hvy Mech Destroyer" />
+<protounit id="578" name="Hvy Mech Destroyer" />
+<protounit id="579" name="Underwater Monument" />
+<protounit id="580" name="DUNIT-WORKERA6" />
+<protounit id="581" name="Underwater Monument" />
+<protounit id="584" name="Ore Proc Ctr" />
+<protounit id="585" name="Ore Proc Ctr" />
+<protounit id="586" name="Ore Proc Ctr" />
+<protounit id="587" name="Ore Proc Ctr" />
+<protounit id="588" name="Hvy Mech Destroyer" />
+<protounit id="590" name="Han Solo on Tauntaun" />
+<protounit id="592" name="Han Solo on Tauntaun" />
+<protounit id="593" name="DUNIT-WORKERA11" />
+<protounit id="594" name="Nerf" />
+<protounit id="595" name="DANIMAL-NERF" />
+<protounit id="596" name="Hvy Mech Destroyer" />
+<protounit id="597" name="Command Center" />
+<protounit id="598" name="Sentry Post" />
+<protounit id="600" name="Flag" />
+<protounit id="601" name="Flag" />
+<protounit id="602" name="Flag" />
+<protounit id="603" name="Hvy Assault Mech" />
+<protounit id="604" name="Hvy Assault Mech" />
+<protounit id="605" name="Queen Amidala" />
+<protounit id="606" name="Attichitcuk" />
+<protounit id="607" name="C-3P0" />
+<protounit id="608" name="Chewbacca" />
+<protounit id="609" name="Anakin Skywalker w/Holocron" />
+<protounit id="610" name="Echuu Shen-Jon w/Holocron" />
+<protounit id="617" name="Command Center" />
+<protounit id="621" name="Command Center" />
+<protounit id="622" name="Hvy Assault Mech" />
+<protounit id="623" name="Hvy Assault Mech" />
+<protounit id="624" name="Hvy Assault Mech" />
+<protounit id="626" name="Hvy Assault Mech" />
+<protounit id="627" name="MISSILE-BOLT2" />
+<protounit id="629" name="Hvy Assault Mech" />
+<protounit id="631" name="Hvy Artillery" />
+<protounit id="633" name="Hvy Artillery" />
+<protounit id="635" name="Hvy Artillery" />
+<protounit id="637" name="Hvy Artillery" />
+<protounit id="639" name="Hvy Artillery" />
+<protounit id="651" name="Hvy Anti-Air Mobile" />
+<protounit id="653" name="Hvy Anti-Air Mobile" />
+<protounit id="654" name="EFFECT-TRAILB" />
+<protounit id="656" name="MISSILE-BALL2" />
+<protounit id="657" name="Hvy Anti-Air Mobile" />
+<protounit id="659" name="Gate" />
+<protounit id="660" name="Gate" />
+<protounit id="661" name="Gate" />
+<protounit id="662" name="Gate" />
+<protounit id="663" name="Gate" />
+<protounit id="664" name="Gate" />
+<protounit id="665" name="Gate" />
+<protounit id="666" name="Gate" />
+<protounit id="667" name="Gate" />
+<protounit id="668" name="Gate" />
+<protounit id="669" name="Gate" />
+<protounit id="670" name="Gate" />
+<protounit id="671" name="Gate" />
+<protounit id="672" name="Gate" />
+<protounit id="673" name="Gate" />
+<protounit id="674" name="Gate" />
+<protounit id="675" name="Hvy Anti-Air Mobile" />
+<protounit id="676" name="MISSILE-FIRE1" />
+<protounit id="677" name="EFFECT-TRAILA" />
+<protounit id="679" name="Hvy Anti-Air Mobile" />
+<protounit id="681" name="Hvy Pummel" />
+<protounit id="683" name="Hvy Pummel" />
+<protounit id="684" name="Hvy Pummel" />
+<protounit id="685" name="Hvy Pummel" />
+<protounit id="687" name="Hvy Pummel" />
+<protounit id="689" name="Hvy Pummel" />
+<protounit id="691" name="Artillery" />
+<protounit id="693" name="Artillery" />
+<protounit id="695" name="Artillery" />
+<protounit id="697" name="ENGINE-SHOWENEMY" />
+<protounit id="698" name="Artillery" />
+<protounit id="700" name="Artillery" />
+<protounit id="702" name="Anti-Air Mobile" />
+<protounit id="704" name="Anti-Air Mobile" />
+<protounit id="706" name="Anti-Air Mobile" />
+<protounit id="708" name="Anti-Air Mobile" />
+<protounit id="709" name="Plant (Bush)" />
+<protounit id="711" name="Anti-Air Mobile" />
+<protounit id="713" name="Pummel" />
+<protounit id="715" name="Pummel" />
+<protounit id="716" name="Pummel" />
+<protounit id="717" name="Pummel" />
+<protounit id="719" name="Pummel" />
+<protounit id="721" name="Pummel" />
+<protounit id="733" name="Adv Bomber" />
+<protounit id="735" name="Adv Bomber" />
+<protounit id="736" name="MISSILE-AXE2" />
+<protounit id="737" name="Timber Pile A" />
+<protounit id="738" name="Luke Skywalker w/Holocron" />
+<protounit id="739" name="Obi-Wan Kenobi w/Holocron" />
+<protounit id="740" name="Obi-Wan Kenobi w/Holocron" />
+<protounit id="741" name="Palpatine w/Holocron" />
+<protounit id="742" name="Qui-Gon Jinn w/Holocron" />
+<protounit id="743" name="Darth Sidious w/Holocron" />
+<protounit id="744" name="Adv Bomber" />
+<protounit id="745" name="Adv Bomber" />
+<protounit id="746" name="MISSILE-ARROW11" />
+<protounit id="748" name="Adv Bomber" />
+<protounit id="750" name="Adv Bomber" />
+<protounit id="752" name="Adv Fighter" />
+<protounit id="754" name="Adv Fighter" />
+<protounit id="755" name="Air Transport" />
+<protounit id="756" name="Adv Fighter" />
+<protounit id="758" name="Adv Fighter" />
+<protounit id="760" name="Adv Fighter" />
+<protounit id="762" name="Bomber" />
+<protounit id="764" name="Bomber" />
+<protounit id="765" name="Bomber" />
+<protounit id="766" name="Bomber" />
+<protounit id="767" name="MISSILE-BALL7" />
+<protounit id="769" name="Bomber" />
+<protounit id="771" name="Bomber" />
+<protounit id="773" name="Fighter" />
+<protounit id="775" name="Fighter" />
+<protounit id="776" name="Fighter" />
+<protounit id="777" name="Fighter" />
+<protounit id="779" name="Fighter" />
+<protounit id="781" name="Fighter" />
+<protounit id="783" name="Enh Bomber" />
+<protounit id="785" name="Enh Bomber" />
+<protounit id="786" name="Enh Bomber" />
+<protounit id="787" name="Enh Bomber" />
+<protounit id="789" name="Enh Bomber" />
+<protounit id="791" name="Enh Bomber" />
+<protounit id="793" name="Fast Fighter" />
+<protounit id="795" name="Fast Fighter" />
+<protounit id="796" name="Fast Fighter" />
+<protounit id="797" name="Fast Fighter" />
+<protounit id="799" name="Fast Fighter" />
+<protounit id="801" name="Fast Fighter" />
+<protounit id="803" name="Adv Cruiser" />
+<protounit id="805" name="Adv Cruiser" />
+<protounit id="807" name="Adv Cruiser" />
+<protounit id="809" name="Adv Cruiser" />
+<protounit id="811" name="Adv Cruiser" />
+<protounit id="812" name="Tusk Cat" />
+<protounit id="813" name="DANIMAL-TUSKCAT" />
+<protounit id="815" name="Cruiser" />
+<protounit id="816" name="Ibbot" />
+<protounit id="818" name="Cruiser" />
+<protounit id="820" name="Cruiser" />
+<protounit id="822" name="Falumpaset" />
+<protounit id="823" name="Cruiser" />
+<protounit id="825" name="Cruiser" />
+<protounit id="826" name="Command Base" />
+<protounit id="829" name="Hvy Anti-Air Destroyer" />
+<protounit id="831" name="Hvy Anti-Air Destroyer" />
+<protounit id="833" name="Bantha" />
+<protounit id="834" name="DANIMAL-BANTHA" />
+<protounit id="835" name="Hvy Anti-Air Destroyer" />
+<protounit id="837" name="Ultimate Map Revealer" />
+<protounit id="838" name="Transport Ship" />
+<protounit id="839" name="Transport Ship" />
+<protounit id="840" name="Transport Ship" />
+<protounit id="841" name="Transport Ship" />
+<protounit id="842" name="Transport Ship" />
+<protounit id="868" name="Lt Frigate" />
+<protounit id="870" name="Lt Frigate" />
+<protounit id="872" name="Lt Frigate" />
+<protounit id="874" name="Lt Frigate" />
+<protounit id="876" name="Lt Frigate" />
+<protounit id="878" name="Frigate" />
+<protounit id="880" name="Frigate" />
+<protounit id="882" name="Frigate" />
+<protounit id="884" name="Frigate" />
+<protounit id="886" name="Frigate" />
+<protounit id="888" name="Adv Frigate" />
+<protounit id="890" name="Adv Frigate" />
+<protounit id="892" name="Adv Frigate" />
+<protounit id="894" name="Adv Frigate" />
+<protounit id="896" name="Adv Frigate" />
+<protounit id="898" name="Destroyer" />
+<protounit id="900" name="Destroyer" />
+<protounit id="902" name="Destroyer" />
+<protounit id="904" name="Destroyer" />
+<protounit id="906" name="Destroyer" />
+<protounit id="908" name="Hvy Destroyer" />
+<protounit id="910" name="Hvy Destroyer" />
+<protounit id="912" name="Hvy Destroyer" />
+<protounit id="914" name="Hvy Destroyer" />
+<protounit id="916" name="Hvy Destroyer" />
+<protounit id="918" name="Anti-Air Destroyer" />
+<protounit id="920" name="Anti-Air Destroyer" />
+<protounit id="922" name="Anti-Air Destroyer" />
+<protounit id="924" name="Anti-Air Destroyer" />
+<protounit id="926" name="Anti-Air Destroyer" />
+<protounit id="928" name="Hvy Anti-Air Destroyer" />
+<protounit id="930" name="Hvy Anti-Air Destroyer" />
+<protounit id="931" name="Cargo Trader" />
+<protounit id="933" name="Fortress" />
+<protounit id="934" name="EFFECT-LASLRGRED" />
+<protounit id="935" name="EFFECT-LASLRGGRN" />
+<protounit id="936" name="Lambda Class Shuttle" />
+<protounit id="937" name="TIE Advanced X1" />
+<protounit id="938" name="Sandcrawler" />
+<protounit id="939" name="Medic" />
+<protounit id="940" name="Medic" />
+<protounit id="941" name="Medic" />
+<protounit id="942" name="Medic" />
+<protounit id="943" name="Medic" />
+<protounit id="944" name="Medic" />
+<protounit id="945" name="Medic" />
+<protounit id="946" name="Medic" />
+<protounit id="947" name="Medic" />
+<protounit id="948" name="Medic" />
+<protounit id="949" name="Trandoshan Jailer" />
+<protounit id="950" name="Colony Ship" />
+<protounit id="951" name="Undeployed Cannon" />
+<protounit id="952" name="Undeployed Cannon" />
+<protounit id="953" name="Undeployed Cannon" />
+<protounit id="954" name="Undeployed Cannon" />
+<protounit id="955" name="Undeployed Cannon" />
+<protounit id="957" name="Undeployed Cannon" />
+<protounit id="961" name="Bounty Hunter" />
+<protounit id="962" name="Bounty Hunter" />
+<protounit id="963" name="Bounty Hunter" />
+<protounit id="964" name="Bounty Hunter" />
+<protounit id="965" name="Bounty Hunter" />
+<protounit id="966" name="Bounty Hunter" />
+<protounit id="967" name="Bounty Hunter" />
+<protounit id="968" name="Bounty Hunter" />
+<protounit id="969" name="Bounty Hunter" />
+<protounit id="970" name="Bounty Hunter" />
+<protounit id="971" name="Dark Trooper Phase 2" />
+<protounit id="972" name="Dark Trooper Phase 2" />
+<protounit id="975" name="Hvy Fambaa Shield Gen" />
+<protounit id="976" name="Hvy Fambaa Shield Gen" />
+<protounit id="977" name="Elite Royal Crusader" />
+<protounit id="978" name="Elite Royal Crusader" />
+<protounit id="979" name="Armored Airspeeder" />
+<protounit id="980" name="Armored Airspeeder" />
+<protounit id="981" name="Adv Berserker" />
+<protounit id="982" name="Adv Berserker" />
+<protounit id="983" name="Cannon" />
+<protounit id="984" name="Cannon" />
+<protounit id="985" name="Cannon" />
+<protounit id="986" name="Cannon" />
+<protounit id="987" name="Cannon" />
+<protounit id="988" name="Cannon" />
+<protounit id="989" name="Cannon" />
+<protounit id="990" name="Cannon" />
+<protounit id="991" name="Cannon" />
+<protounit id="992" name="Cannon" />
+<protounit id="993" name="Dark Trooper Phase 1" />
+<protounit id="994" name="Dark Trooper Phase 1" />
+<protounit id="995" name="Berserker" />
+<protounit id="998" name="Opee Sea Killer" />
+<protounit id="999" name="Princess Leia Organa" />
+<protounit id="1000" name="Darth Vader w/Holocron" />
+<protounit id="1001" name="Underwater Prefab Shelter" />
+<protounit id="1002" name="Underwater Prefab Shelter" />
+<protounit id="1003" name="Underwater Prefab Shelter" />
+<protounit id="1004" name="Underwater Prefab Shelter" />
+<protounit id="1017" name="Mountain A" />
+<protounit id="1018" name="Mountain B" />
+<protounit id="1019" name="Mountain C" />
+<protounit id="1020" name="Mountain D" />
+<protounit id="1021" name="Bridge A Start" />
+<protounit id="1022" name="Bridge A Mid" />
+<protounit id="1023" name="Bridge A End" />
+<protounit id="1024" name="Bridge A End (Broken)" />
+<protounit id="1025" name="Bridge B End" />
+<protounit id="1026" name="Bridge B Start" />
+<protounit id="1027" name="Bridge B Mid" />
+<protounit id="1028" name="Bridge A Mid (Broken)" />
+<protounit id="1029" name="Bridge A Start (Broken)" />
+<protounit id="1030" name="Bridge B Start (Broken)" />
+<protounit id="1031" name="Bridge B End (Broken)" />
+<protounit id="1032" name="Bridge B Mid (Broken)" />
+<protounit id="1033" name="Colo Claw Fish" />
+<protounit id="1034" name="Probot" />
+<protounit id="1035" name="Tatooine Bldg A" />
+<protounit id="1036" name="Air Transport" />
+<protounit id="1038" name="Air Transport" />
+<protounit id="1040" name="Air Transport" />
+<protounit id="1041" name="Air Transport" />
+<protounit id="1042" name="Air Transport" />
+<protounit id="1044" name="Air Transport" />
+<protounit id="1046" name="Air Transport" />
+<protounit id="1048" name="Debris (Water)-3x3" />
+<protounit id="1049" name="Sith Infiltrator" />
+<protounit id="1050" name="Landed Rebel Transport" />
+<protounit id="1051" name="Landed Rebel Transport" />
+<protounit id="1052" name="Massassi Temple" />
+<protounit id="1053" name="Lander" />
+<protounit id="1054" name="Lambda Class Shuttle" />
+<protounit id="1055" name="Theed House" />
+<protounit id="1056" name="Theed House" />
+<protounit id="1057" name="Theed Gazebo" />
+<protounit id="1059" name="Theed Temple" />
+<protounit id="1060" name="Theed Hangar" />
+<protounit id="1061" name="Naboo Tower" />
+<protounit id="1062" name="Theed Power Station" />
+<protounit id="1063" name="Theed Palace" />
+<protounit id="1064" name="Theed Turret" />
+<protounit id="1065" name="OOM-9" />
+<protounit id="1066" name="UTT-90" />
+<protounit id="1067" name="MUQ-751" />
+<protounit id="1068" name="DRN-592" />
+<protounit id="1069" name="YIN-762" />
+<protounit id="1070" name="LUH-989" />
+<protounit id="1071" name="EEK-176" />
+<protounit id="1072" name="OOM-14" />
+<protounit id="1073" name="DNM-908" />
+<protounit id="1074" name="Z23-Y75" />
+<protounit id="1075" name="Anakin Skywalker" />
+<protounit id="1076" name="Obi-Wan Kenobi" />
+<protounit id="1077" name="Echuu" />
+<protounit id="1078" name="Luke Skywalker" />
+<protounit id="1079" name="Obi-Wan Kenobi" />
+<protounit id="1080" name="Yoda" />
+<protounit id="1081" name="Darth Maul" />
+<protounit id="1082" name="Qui-Gon Jinn" />
+<protounit id="1083" name="Darth Vader" />
+<protounit id="1084" name="Darth Sidious" />
+<protounit id="1085" name="Emperor Palpatine" />
+<protounit id="1086" name="Jar Jar Binks" />
+<protounit id="1087" name="Sio Bibble" />
+<protounit id="1088" name="Excellency Lathe Parthenian" />
+<protounit id="1089" name="Krantian Governor" />
+<protounit id="1090" name="Utric Sandov" />
+<protounit id="1091" name="Governor Antes Belladar" />
+<protounit id="1092" name="Minister Transe Decar" />
+<protounit id="1093" name="Lumpawarrump" />
+<protounit id="1094" name="Weebacca" />
+<protounit id="1095" name="Yoda w/Holocron" />
+<protounit id="1096" name="Captain Panaka" />
+<protounit id="1097" name="General Jan Dodonna" />
+<protounit id="1098" name="Hanoon Soldier" />
+<protounit id="1099" name="Krantian Soldier" />
+<protounit id="1100" name="Reytha Soldier" />
+<protounit id="1101" name="Colonel Veers" />
+<protounit id="1102" name="Tallamitta" />
+<protounit id="1103" name="Zalor Militiaman" />
+<protounit id="1104" name="Lando Calrissian" />
+<protounit id="1105" name="Han Solo" />
+<protounit id="1106" name="Boss Nass" />
+<protounit id="1107" name="Boss Ganne" />
+<protounit id="1108" name="Boss Gallo" />
+<protounit id="1109" name="Moff Yittreas" />
+<protounit id="1110" name="Shoran" />
+<protounit id="1111" name="Darth Maul w/Holocron" />
+<protounit id="1112" name="Snowspeeder (Wedge Antilles)" />
+<protounit id="1113" name="Pekt" />
+<protounit id="1114" name="Captain Marsune" />
+<protounit id="1115" name="Captain Tarpals" />
+<protounit id="1116" name="Mara Jade" />
+<protounit id="1117" name="Carbon Rocks (Red)" />
+<protounit id="1118" name="Muja Fruit Bush" />
+<protounit id="1119" name="Muja Fruit Bush" />
+<protounit id="1120" name="Plant (Strange)" />
+<protounit id="1121" name="Plant (Lush)" />
+<protounit id="1122" name="Plant (Frozen)" />
+<protounit id="1123" name="Plant (Contorted)" />
+<protounit id="1124" name="Plant (Aquatic)" />
+<protounit id="1125" name="Plant (Flowers)" />
+<protounit id="1126" name="OBJ-PLANTH" />
+<protounit id="1127" name="Plant (Sapplings)" />
+<protounit id="1128" name="Plant (Snow Bushes)" />
+<protounit id="1129" name="Krayt Dragon" />
+<protounit id="1130" name="MISSILE-LASER1" />
+<protounit id="1131" name="MISSILE-MISSILE1" />
+<protounit id="1132" name="MISSILE-MISSILE2" />
+<protounit id="1133" name="MISSILE-MISSILE3" />
+<protounit id="1134" name="MISSILE-MISSILE4" />
+<protounit id="1135" name="Space Wall-1" />
+<protounit id="1136" name="Space Wall-2" />
+<protounit id="1137" name="Space Wall-3" />
+<protounit id="1138" name="Space Wall-4" />
+<protounit id="1139" name="Space Hub-1" />
+<protounit id="1140" name="Space Hub-2" />
+<protounit id="1141" name="Space Hub-3" />
+<protounit id="1142" name="Space Hub-4" />
+<protounit id="1143" name="Space Hub Outer-1" />
+<protounit id="1144" name="Space Hub Outer-3" />
+<protounit id="1145" name="Space Hub Outer-4" />
+<protounit id="1146" name="EFFECT_R-CRATER" />
+<protounit id="1147" name="EFFECT_R-WATER" />
+<protounit id="1148" name="Asteroid Canal-1" />
+<protounit id="1149" name="Asteroid Canal-2" />
+<protounit id="1150" name="Echo Base Hangar" />
+<protounit id="1151" name="Asteroid Canal-3" />
+<protounit id="1152" name="Giant Tree Root" />
+<protounit id="1153" name="Asteroid Canal-4" />
+<protounit id="1154" name="Asteroid Hub-1" />
+<protounit id="1155" name="Asteroid Hub-2" />
+<protounit id="1156" name="Asteroid Hub-3" />
+<protounit id="1157" name="Asteroid Hub-4" />
+<protounit id="1158" name="Giant Tree Root" />
+<protounit id="1159" name="Stockpile - Ore" />
+<protounit id="1160" name="Carbon Rocks (Blue)" />
+<protounit id="1161" name="Stockpile - Carbon" />
+<protounit id="1162" name="EFFECT-LASSMLBLU" />
+<protounit id="1163" name="EFFECT-LASSMLGRN" />
+<protounit id="1164" name="EFFECT-LASSMLYEL" />
+<protounit id="1165" name="Snow Mountain" />
+<protounit id="1166" name="Snow Mountain" />
+<protounit id="1167" name="Snow Mountain" />
+<protounit id="1168" name="Snow Mountain" />
+<protounit id="1169" name="Flowers" />
+<protounit id="1170" name="Rocks" />
+<protounit id="1171" name="Rocks" />
+<protounit id="1172" name="Water Rocks" />
+<protounit id="1173" name="Water Rocks" />
+<protounit id="1174" name="PROJ-GRENADE" />
+<protounit id="1175" name="PROJ-TOWCABLE" />
+<protounit id="1176" name="Map Revealer 2" />
+<protounit id="1177" name="Map Revealer 4" />
+<protounit id="1178" name="Map Revealer 8" />
+<protounit id="1179" name="PROJ-GBLSMLRED" />
+<protounit id="1180" name="PROJ-GBLSMLBLU" />
+<protounit id="1181" name="PROJ-GBLLRGGRN" />
+<protounit id="1182" name="Theed Monument" />
+<protounit id="1183" name="EFFECT-TRAILE" />
+<protounit id="1184" name="Tatooine House A" />
+<protounit id="1185" name="Tatooine House B" />
+<protounit id="1186" name="Tatooine Bldg A" />
+<protounit id="1187" name="Tatooine Tower A" />
+<protounit id="1188" name="Tatooine Vaporator" />
+<protounit id="1189" name="Bridge A Mid Destructable" />
+<protounit id="1190" name="Theed Monument" />
+<protounit id="1191" name="EFFECT-TRAILF" />
+<protounit id="1192" name="MISSILE-MISSILE5" />
+<protounit id="1193" name="MISSILE-MISSILE6" />
+<protounit id="1194" name="Echo Base Power Generator" />
+<protounit id="1195" name="Echo Base Ion Cannon" />
+<protounit id="1196" name="Han Solo on Tauntaun" />
+<protounit id="1197" name="Gundark" />
+<protounit id="1198" name="Bursa" />
+<protounit id="1199" name="Bursa Leader" />
+<protounit id="1200" name="A-wing" />
+<protounit id="1201" name="Upgraded A-wing" />
+<protounit id="1202" name="Undefeatable Object" />
+<protounit id="1203" name="Mynock" />
+<protounit id="1204" name="Simon the Killer Ewok" />
+<protounit id="1205" name="UNIT-LSIMON_D" />
+<protounit id="1206" name="Fortress" />
+<protounit id="1207" name="Bursa Hut" />
+<protounit id="1208" name="Fortress" />
+<protounit id="1209" name="Blizzard 1 (Veers)" />
+<protounit id="1210" name="UNIT-LJKNT-VAD-D" />
+<protounit id="1211" name="Fortress" />
+<protounit id="1212" name="Fortress" />
+<protounit id="1213" name="Theed House" />
+<protounit id="1214" name="Theed House" />
+<protounit id="1215" name="Theed Marker" />
+<protounit id="1216" name="Bespin Bldg 1" />
+<protounit id="1217" name="Bespin Bldg 4" />
+<protounit id="1218" name="Bespin Government Center" />
+<protounit id="1219" name="Bespin Bldg 5" />
+<protounit id="1220" name="Bespin Bldg 10" />
+<protounit id="1221" name="Bespin Bldg 6" />
+<protounit id="1222" name="Bespin Bldg 7" />
+<protounit id="1223" name="Bespin Bldg 8" />
+<protounit id="1224" name="Bespin Bldg 9" />
+<protounit id="1225" name="Bespin Bldg 2" />
+<protounit id="1226" name="Bespin Bldg 3" />
+<protounit id="1227" name="Princess Leia Organa" />
+<protounit id="1228" name="PROJ-GBLSTCNON" />
+<protounit id="1229" name="Millenium Falcon" />
+<protounit id="1230" name="Captain Marsune" />
+<protounit id="1231" name="Marker" />
+<protounit id="1232" name="Power Core" />
+<protounit id="1233" name="Power Core" />
+<protounit id="1234" name="Power Core" />
+<protounit id="1235" name="Power Core" />
+<protounit id="1236" name="Gundark" />
+<protounit id="1237" name="X-wing Fighter (Luke)" />
+<protounit id="1238" name="Millenium Falcon (Lando)" />
+<protounit id="1239" name="Explosive Droid" />
+<protounit id="1240" name="PROJ-BOMB" />
+<protounit id="1241" name="PROJ-TIEBOMB" />
+<protounit id="1242" name="EFFECT-TRAILG" />
+<protounit id="1243" name="PROJ-GHVARTIL" />
+<protounit id="1244" name="PROJ-GHVARTIL2" />
+<protounit id="1245" name="PROJ-GBLSMLGRN" />
+<protounit id="1246" name="UNIT-LGALG_D" />
+<protounit id="1247" name="Sacred Place" />
+<protounit id="1248" name="Bridge B Mid Destructable" />
+<protounit id="1249" name="Dewback" />
+<protounit id="1250" name="Jawa" />
+<protounit id="1251" name="Tusken Raider" />
+<protounit id="1252" name="Wampa" />
+<protounit id="1253" name="Ewok" />
+<protounit id="1254" name="Neimoidian Technician" />
+<protounit id="1255" name="Chief Chirpa" />
+<protounit id="1256" name="Logray" />
+<protounit id="1257" name="Trandoshan Slaver" />
+<protounit id="1258" name="Wicket" />
+<protounit id="1259" name="EFFECT-TRAILH" />
+<protounit id="1260" name="EFFECT-TRAILI" />
+<protounit id="1261" name="Vilmarh Grahrk" />
+<protounit id="1262" name="Aurra Sing" />
+<protounit id="1263" name="Boussh" />
+<protounit id="1264" name="Snoova" />
+<protounit id="1265" name="General Dodonna (Wounded)" />
+<protounit id="1266" name="Wild Gungan Flyer" />
+<protounit id="1267" name="Bespin Security Guard" />
+<protounit id="1268" name="Blizzard 2" />
+<protounit id="1269" name="Blizzard 3" />
+<protounit id="1270" name="Blizzard 4" />
+<protounit id="1271" name="Blizzard 5" />
+<protounit id="1272" name="Blizzard 6" />
+<protounit id="1273" name="Ewok Glider" />
+<protounit id="1274" name="UNIT-LJKNT-OBK-D" />
+<protounit id="1275" name="Ewok Catapult" />
+<protounit id="1276" name="Prototype AT-AT" />
+<protounit id="1277" name="Dead Great Tree" />
+<protounit id="1278" name="Deforestation" />
+<protounit id="1279" name="Giant Tree Root" />
+<protounit id="1280" name="Great Tree" />
+<protounit id="1281" name="Vor'Na'Tu" />
+<protounit id="1282" name="Vor'Na'Tu Shard" />
+<protounit id="1283" name="Probot Crater" />
+<protounit id="1284" name="AquaProduction Plant" />
+<protounit id="1285" name="Gundark debris" />
+<protounit id="1286" name="Dead Wookiee" />
+<protounit id="1287" name="Sith Infiltrator" />
+<protounit id="1288" name="Royal Starship" />
+<protounit id="1289" name="Farm Equipment" />
+<protounit id="1290" name="Shipyard Equipment" />
+<protounit id="1291" name="Invisible Target" />
+<protounit id="1292" name="Otoh Gunga High Tower" />
+<protounit id="1293" name="Rogoe's Keep" />
+<protounit id="1294" name="Main Reactor" />
+<protounit id="1295" name="Massassi Great Temple" />
+<protounit id="1296" name="Massassi Temple" />
+<protounit id="1297" name="Massassi Ruins" />
+<protounit id="1298" name="Trandoshan Building" />
+<protounit id="1299" name="Endor Shield Generator" />
+<protounit id="1300" name="Food Storehouse" />
+<protounit id="1301" name="Bunker" />
+<protounit id="1302" name="Atmosphere Factory" />
+<protounit id="1303" name="Landing Platform" />
+<protounit id="1304" name="Jamming Device" />
+<protounit id="1305" name="Twin-Pod Cloud Car" />
+<protounit id="1306" name="Kessel Prison Building" />
+<protounit id="1307" name="Kessel Mining Building" />
+<protounit id="1308" name="Large Jedi Ruins" />
+<protounit id="1309" name="Medium Rebel Ruins" />
+<protounit id="1310" name="Scaffolding" />
+<protounit id="1311" name="Ewok Hut" />
+<protounit id="1312" name="Gungan Temple" />
+<protounit id="1313" name="Ewok Military Structure" />
+<protounit id="1314" name="Bongo Marauder" />
+<protounit id="1315" name="UNIT-LLMPW_D" />
+<protounit id="1316" name="Mahwi Lihnn" />
+<protounit id="1317" name="Boba Fett" />
+<protounit id="1318" name="Wounded Attichitcuk" />
+<protounit id="1319" name="Moff Darcc" />
+<protounit id="1320" name="Boss Tenko" />
+<protounit id="1321" name="Boss Hoxie" />
+<protounit id="1322" name="Boss Copek" />
+<protounit id="1323" name="Boss Hantic" />
+<protounit id="1324" name="Slaver Ship" />
+<protounit id="1325" name="Colony Ship" />
+<protounit id="1326" name="Lander" />
+<protounit id="1327" name="Crashed Transport" />
+<protounit id="1328" name="Sacred Staff" />
+<protounit id="1329" name="Kessel Sml Crater" />
+<protounit id="1330" name="Kessel Med Crater" />
+<protounit id="1331" name="Kessel Lrg Crater" />
+<protounit id="1332" name="Asteroid Lrg Crater" />
+<protounit id="1333" name="Asteroid Med Crater" />
+<protounit id="1334" name="Asteroid Sml Crater" />
+<protounit id="1335" name="Sacred Statue" />
+<protounit id="1336" name="Main Terraform Processor" />
+<protounit id="1337" name="Imperial Palace" />
+<protounit id="1338" name="Communications Jammer" />
+<protounit id="1339" name="Small Rebel Ruins" />
+<protounit id="1340" name="Atmosphere Proc Station" />
+<protounit id="1341" name="Carbon Rocks (Blue)" />
+<protounit id="1342" name="Small Jedi Ruins" />
+<protounit id="1343" name="Small Wall Ruins" />
+<protounit id="1344" name="Large Wall Ruins" />
+<protounit id="1345" name="EFFECT-LASSMLRED" />
+<protounit id="1346" name="Explosion Trigger" />
+<protounit id="1347" name="UNIT-LC3PR-D" />
+<protounit id="1348" name="UNIT-LJMST-YOD-D" />
+<protounit id="1349" name="UNIT-LSION-R" />
+<protounit id="1350" name="UNIT-LJPAD-ANA-D" />
+<protounit id="1351" name="UNIT-LBDROID-EEK-D" />
+<protounit id="1352" name="DANIMAL-FALUM" />
+<protounit id="1353" name="DANIMAL-MYNOCK" />
+<protounit id="1354" name="DANIMAL-RONTO" />
+<protounit id="1355" name="DANIMAL-TUSKEN" />
+<protounit id="1356" name="UNIT-LBOSS-NASS-D" />
+<protounit id="1357" name="Lobot" />
+<protounit id="1358" name="UNIT-LLOBR_D" />
+<protounit id="1359" name="DANIMAL-OPEE" />
+<protounit id="1360" name="DANIMAL-COLO" />
+<protounit id="1361" name="R2-D2" />
+<protounit id="1362" name="UNIT-LR2DR_D" />
+<protounit id="1363" name="Kaadu" />
+<protounit id="1364" name="Ronto" />
+<protounit id="1365" name="Eopie" />
+<protounit id="1366" name="Tauntaun" />
+<protounit id="1367" name="Cu-pa" />
+<protounit id="1368" name="Viceroy Nute Gunray" />
+<protounit id="1369" name="DANIMAL-JAWA" />
+<protounit id="1370" name="UNIT-LEWOK-CHRP-D" />
+<protounit id="1371" name="UNIT-LEWOK-LGRY-D" />
+<protounit id="1372" name="UNIT-LEWOK-SLDR-D" />
+<protounit id="1373" name="UNIT-LEWOK-WIKT-D" />
+<protounit id="1374" name="Yoda's Hovel" />
+<protounit id="1375" name="Stockpile - Nova" />
+<protounit id="1376" name="DANIMAL-DEWBACK" />
+<protounit id="1377" name="DANIMAL-KAADU" />
+<protounit id="1378" name="UNIT-LPKTE_D" />
+<protounit id="1379" name="UNIT-LRSOR_D" />
+<protounit id="1380" name="UNIT-LSLVE_D" />
+<protounit id="1381" name="UNIT-LJARG_D" />
+<protounit id="1382" name="UNIT-LAMIN_D" />
+<protounit id="1383" name="UNIT-LHLER_D" />
+<protounit id="1384" name="UNIT-LHSOR_D" />
+<protounit id="1385" name="UNIT-LKLER_D" />
+<protounit id="1386" name="UNIT-LKSOR_D" />
+<protounit id="1387" name="UNIT-LRLEE_D" />
+<protounit id="1388" name="UNIT-LZSOE_D" />
+<protounit id="1389" name="DANIMAL-EOPIE" />
+<protounit id="1390" name="DANIMAL-RANCOR" />
+<protounit id="1391" name="Bossk" />
+<protounit id="1392" name="UNIT-LGBNTN-D" />
+<protounit id="1393" name="UNIT-LGBNT-FET-D" />
+<protounit id="1394" name="UNIT-LGBNT-AUR-D" />
+<protounit id="1395" name="UNIT-LJPAD-OBP-D" />
+<protounit id="1396" name="UNIT-LJKNT-QUI-D" />
+<protounit id="1397" name="DANIMAL-TAUNTAUN" />
+<protounit id="1398" name="DANIMAL-WAMPA" />
+<protounit id="1399" name="UNIT-LBRSG-D" />
+<protounit id="1400" name="UNIT-LWAWG_D" />
+<protounit id="1401" name="Greedo" />
+<protounit id="1402" name="Theed Arch" />
+<protounit id="1403" name="UNIT-LZLEE_D" />
+<protounit id="1404" name="UNIT-LNTEF_D" />
+<protounit id="1405" name="UNIT-LNUTF_D" />
+<protounit id="1406" name="UNIT-LSHOW_D" />
+<protounit id="1407" name="UNIT-LWEEW_D" />
+<protounit id="1408" name="DANIMAL-KRAYT" />
+<protounit id="1409" name="UNIT-LJKNT-LUK-D" />
+<protounit id="1410" name="UNIT-LCHWW_D" />
+<protounit id="1411" name="UNIT-LATTW_D" />
+<protounit id="1412" name="UNIT-LVERE_D" />
+<protounit id="1413" name="UNIT-LBESR-D" />
+<protounit id="1414" name="UNIT-LHANR-D" />
+<protounit id="1415" name="UNIT-LLANR-D" />
+<protounit id="1416" name="UNIT-LUTRR-D" />
+<protounit id="1417" name="AT-ST (Chewie)" />
+<protounit id="1418" name="AAT (OOM-9)" />
+<protounit id="1419" name="UNIT-LMOFF-YIT-D" />
+<protounit id="1420" name="Royal Starship" />
+<protounit id="1421" name="Snowspeeder (Luke Skywalker)" />
+<protounit id="1422" name="PROJ-TIELASER" />
+<protounit id="1423" name="PROJ-XWNGLASER" />
+<protounit id="1424" name="UNIT-LJKNT-MAU-D" />
+<protounit id="1425" name="Droid Control Program" />
+<protounit id="1426" name="Theed Arch" />
+<protounit id="1427" name="Theed Arch" />
+<protounit id="1428" name="Theed Arch" />
+<protounit id="1429" name="Theed Arch" />
+<protounit id="1430" name="Fambaa" />
+<protounit id="1432" name="Theed Arch" />
+<protounit id="1433" name="Theed Arch" />
+<protounit id="1434" name="Theed Arch" />
+<protounit id="1435" name="Theed Arch" />
+<protounit id="1436" name="Theed Arch" />
+<protounit id="1437" name="Theed Arch" />
+<protounit id="1438" name="Theed Arch" />
+<protounit id="1439" name="UNIT-LBDROID-OM9-D" />
+<protounit id="1440" name="Naboo Canal-1" />
+<protounit id="1441" name="Naboo Canal-2" />
+<protounit id="1442" name="Naboo Canal-3" />
+<protounit id="1443" name="Naboo Canal-4" />
+<protounit id="1444" name="Naboo Hub-1" />
+<protounit id="1445" name="Naboo Hub-2" />
+<protounit id="1446" name="Naboo Hub-3" />
+<protounit id="1447" name="Naboo Hub-4" />
+<protounit id="1448" name="Naboo Hub Outer-1" />
+<protounit id="1449" name="Naboo Hub Outer-2" />
+<protounit id="1450" name="Naboo Hub Outer-3" />
+<protounit id="1451" name="Naboo Hub Outer-4" />
+<protounit id="1452" name="UNIT-RULER_D" />
+<protounit id="1453" name="UNIT-LDODR_D" />
+<protounit id="1454" name="Trandoshan Building" />
+<protounit id="1455" name="UNIT-LEWOK-GLDR-D" />
+<protounit id="1456" name="UNIT-LPANN_D" />
+<protounit id="1457" name="UNIT-LMARE_D" />
+<protounit id="1458" name="Gravity Control Generator" />
+</civ>
+<civ id="1" name="Galactic Empire" />
+<civ id="2" name="Gungans" />
+<civ id="3" name="Rebel Alliance" />
+<civ id="4" name="Royal Naboo" />
+<civ id="5" name="Trade Federation" />
+<civ id="6" name="Wookies" />
+<civ id="7" name="Republic" />
+<civ id="8" name="Confederacy" />
+
+<techs>
+<tech  id="0" name="TECH-AGE1"/>
+<tech  id="1" name="Tech Level 2"/>
+<tech  id="2" name="Tech Level 3"/>
+<tech  id="3" name="Tech Level 4"/>
+<tech  id="4" name="TECH-POSTAGE4"/>
+<tech  id="5" name="AVAIL-TANIE"/>
+<tech  id="6" name="OPEN-TECH-AGE2"/>
+<tech  id="7" name="OPEN-TECH-AGE3"/>
+<tech  id="8" name="OPEN-TECH-AGE4"/>
+<tech  id="9" name="OPEN-TECH-AGE4"/>
+<tech  id="10" name="MADE-BLDG-BARRIER"/>
+<tech  id="11" name="MADE-BLDG-DEFENSEA"/>
+<tech  id="12" name="MADE-BLDG-DEFENSEB"/>
+<tech  id="13" name="MADE-BLDG-DROPCHOW"/>
+<tech  id="14" name="MADE-BLDG-DROPMIN"/>
+<tech  id="15" name="MADE-BLDG-DROPTIMBER"/>
+<tech  id="16" name="MADE-BLDG-DWELLING"/>
+<tech  id="17" name="MADE-BLDG-ENTRY"/>
+<tech  id="18" name="MADE-BLDG-FENCE"/>
+<tech  id="19" name="MADE-BLDG-FORTRESS"/>
+<tech  id="20" name="MADE-BLDG-GARDEN"/>
+<tech  id="21" name="MADE-BLDG-LOOKOUT"/>
+<tech  id="22" name="MADE-BLDG-MAIN"/>
+<tech  id="23" name="MADE-BLDG-MARVEL"/>
+<tech  id="24" name="MADE-BLDG-TECHA"/>
+<tech  id="25" name="MADE-BLDG-TECHB"/>
+<tech  id="26" name="MADE-BLDG-TRADEPLACE"/>
+<tech  id="27" name="MADE-BLDG-TRAINBOAT"/>
+<tech  id="28" name="MADE-BLDG-TRAINFOOT"/>
+<tech  id="29" name="MADE-BLDG-TRAINHOLY"/>
+<tech  id="30" name="MADE-BLDG-TRAINMOUNT"/>
+<tech  id="31" name="MADE-BLDG-TRAINRANGE"/>
+<tech  id="32" name="MADE-BLDG-TRAINSIEGE"/>
+<tech  id="33" name="Basic Training"/>
+<tech  id="34" name="AVAIL-TANIG"/>
+<tech  id="35" name="AVAIL-TANIN"/>
+<tech  id="36" name="AVAIL-TANIR"/>
+<tech  id="37" name="AVAIL-TANIW"/>
+<tech  id="38" name="AVAIL-TGREE"/>
+<tech  id="39" name="AVAIL-TGREG"/>
+<tech  id="40" name="Hvy Mech Destroyer"/>
+<tech  id="41" name="UPGRADE-UNIT-MH2TF"/>
+<tech  id="42" name="Hvy Strike Mech"/>
+<tech  id="43" name="Trooper"/>
+<tech  id="44" name="Hvy Trooper"/>
+<tech  id="45" name="Hvy A-Air Trooper"/>
+<tech  id="46" name="UPGRADE-UNIT-THMSF"/>
+<tech  id="47" name="AVAIL-TGREN"/>
+<tech  id="48" name="AVAIL-TGRER"/>
+<tech  id="49" name="Hvy A-A Destroyer"/>
+<tech  id="50" name="Hvy Destroyer"/>
+<tech  id="51" name="Adv Cruiser"/>
+<tech  id="52" name="Frigate"/>
+<tech  id="53" name="Adv Frigate"/>
+<tech  id="54" name="AVAIL-TGREW"/>
+<tech  id="55" name="Hvy Mnted Trooper"/>
+<tech  id="56" name="Hvy A-Air Mobile"/>
+<tech  id="57" name="Hvy Artillery"/>
+<tech  id="58" name="UPGRADE-UNIT-HARTF"/>
+<tech  id="59" name="Hvy Pummel"/>
+<tech  id="60" name="UPGRADE-UNIT-HHRMF"/>
+<tech  id="61" name="Holonet Tranceiver"/>
+<tech  id="62" name="Bothan SpyNet"/>
+<tech  id="63" name="Elevation Tracking"/>
+<tech  id="64" name="Light Plating"/>
+<tech  id="65" name="Basic Armor"/>
+<tech  id="66" name="Primary Focus Coils"/>
+<tech  id="67" name="Hvy Armor"/>
+<tech  id="68" name="Hvy Plating"/>
+<tech  id="69" name="Targeting Sensor"/>
+<tech  id="70" name="Enlarged Bomb Hold"/>
+<tech  id="71" name="Flight School"/>
+<tech  id="72" name="Efficient Manufacturing"/>
+<tech  id="73" name="Shield Modifications"/>
+<tech  id="74" name="Cooling Sleeves"/>
+<tech  id="75" name="External Sensor Pod"/>
+<tech  id="76" name="Advanced Flight School"/>
+<tech  id="77" name="Armored Platework"/>
+<tech  id="78" name="Advanced Engines"/>
+<tech  id="79" name="Light Armor"/>
+<tech  id="80" name="Medium Plating"/>
+<tech  id="81" name="Adv Power Pack"/>
+<tech  id="82" name="Stimulants"/>
+<tech  id="83" name="Genetics"/>
+<tech  id="84" name="AVAIL-TRECF"/>
+<tech  id="85" name="AVAIL-TRECE"/>
+<tech  id="86" name="Adv Mnted Trooper"/>
+<tech  id="87" name="AVAIL-TMISF"/>
+<tech  id="88" name="AVAIL-TANIF"/>
+<tech  id="89" name="AVAIL-TGREF"/>
+<tech  id="90" name="Repeater Trooper"/>
+<tech  id="91" name="AVAIL-JFSNF"/>
+<tech  id="92" name="UPGRADE-UNIT-JPADF"/>
+<tech  id="93" name="Sith Knight"/>
+<tech  id="94" name="Sith Master"/>
+<tech  id="95" name="AVAIL-MBIKF"/>
+<tech  id="96" name="AVAIL-M1TRF"/>
+<tech  id="97" name="AVAIL-M2TRF"/>
+<tech  id="98" name="AVAIL-M3TRF"/>
+<tech  id="99" name="Hvy Assault Mech"/>
+<tech  id="100" name="UPGRADE-UNIT-MH3TF"/>
+<tech  id="101" name="AVAIL-HRAMF"/>
+<tech  id="102" name="AVAIL-HLATF"/>
+<tech  id="103" name="AVAIL-HMMLF"/>
+<tech  id="104" name="AVAIL-AFGTF"/>
+<tech  id="105" name="MADE-BLDG-AIRBASE"/>
+<tech  id="106" name="AVAIL-ABOMF"/>
+<tech  id="107" name="Enh Bomber"/>
+<tech  id="108" name="Adv Bomber"/>
+<tech  id="109" name="Fast Fighter"/>
+<tech  id="110" name="Adv Fighter"/>
+<tech  id="111" name="AVAIL-GUNIF"/>
+<tech  id="112" name="AVAIL-GBLCF"/>
+<tech  id="113" name="Hvy Dest Droid"/>
+<tech  id="114" name="AVAIL-TMISE"/>
+<tech  id="115" name="AVAIL-STRNF"/>
+<tech  id="116" name="AVAIL-STRNF"/>
+<tech  id="117" name="AVAIL-SLSTF"/>
+<tech  id="118" name="AVAIL-SLASF"/>
+<tech  id="119" name="AVAIL-SMISF"/>
+<tech  id="120" name="AVAIL-SSSHF"/>
+<tech  id="121" name="AVAIL-SSSHF"/>
+<tech  id="122" name="AVAIL-OCSPF"/>
+<tech  id="123" name="AVAIL-OMEDF"/>
+<tech  id="124" name="AVAIL-TMISG"/>
+<tech  id="125" name="AVAIL-GBNTF"/>
+<tech  id="126" name="Sensor Beacon"/>
+<tech  id="127" name="Cloning"/>
+<tech  id="128" name="Upgraded Motivator"/>
+<tech  id="129" name="Optimized Motivator"/>
+<tech  id="130" name="Sensor Array"/>
+<tech  id="131" name="TECH-CCT-3-SENSARRY"/>
+<tech  id="132" name="Fusion Extractor"/>
+<tech  id="133" name="Self Regeneration"/>
+<tech  id="134" name="Irrigation"/>
+<tech  id="135" name="Harvesting Program"/>
+<tech  id="136" name="Adv Harvesting Program"/>
+<tech  id="137" name="Battle Armor"/>
+<tech  id="138" name="Taxation"/>
+<tech  id="139" name="Attack Programming"/>
+<tech  id="140" name="AVAIL-TMISN"/>
+<tech  id="141" name="Presidium"/>
+<tech  id="142" name="Shielding"/>
+<tech  id="143" name="Berserker Jet Packs"/>
+<tech  id="144" name="Strengthened Frame"/>
+<tech  id="145" name="Creature Training"/>
+<tech  id="146" name="Reinforced Frame"/>
+<tech  id="147" name="Mechanics"/>
+<tech  id="148" name="Forest Vision"/>
+<tech  id="149" name="Nova Beamdrill Mining"/>
+<tech  id="150" name="Hvy Nova Beamdrill"/>
+<tech  id="151" name="Jedi/Sith Agility"/>
+<tech  id="152" name="Jedi/Sith Concentration"/>
+<tech  id="153" name="Jedi/Sith Stamina"/>
+<tech  id="154" name="Jedi/Sith Purge"/>
+<tech  id="155" name="Faith in the Force"/>
+<tech  id="156" name="Force Influence"/>
+<tech  id="157" name="Force Strong"/>
+<tech  id="158" name="Jedi/Sith Perception"/>
+<tech  id="159" name="Jedi/Sith Mind Trick"/>
+<tech  id="160" name="Handheld CarbonExtr"/>
+<tech  id="161" name="Enhanced CarbonExtr"/>
+<tech  id="162" name="Hvy Duty CarbonExtr"/>
+<tech  id="163" name="Upgraded Generator"/>
+<tech  id="164" name="Walker Research"/>
+<tech  id="165" name="TECH-MCH-3E-TRANSPORT"/>
+<tech  id="166" name="Advanced Generator"/>
+<tech  id="167" name="Gungan Creature Armor"/>
+<tech  id="168" name="Advanced Redesign"/>
+<tech  id="169" name="Wookiee Ingenuity"/>
+<tech  id="170" name="Technicians"/>
+<tech  id="171" name="Ore Beamdrill Mining"/>
+<tech  id="172" name="Hvy Ore Beamdrill"/>
+<tech  id="173" name="Durasteel Beams"/>
+<tech  id="174" name="Ion Accu-Accelerator"/>
+<tech  id="175" name="Power Calibrator"/>
+<tech  id="176" name="Rotation Bearings"/>
+<tech  id="177" name="Tracking Computers"/>
+<tech  id="178" name="Homing Sensors"/>
+<tech  id="179" name="Hvy Weapons Engrs"/>
+<tech  id="180" name="Permacite Plating"/>
+<tech  id="181" name="Bacta Tanks"/>
+<tech  id="182" name="TECH-RCT-4-SHLDPROJ"/>
+<tech  id="183" name="Redesigned Specs"/>
+<tech  id="184" name="Advanced Propulsion"/>
+<tech  id="185" name="Redoubled Efforts"/>
+<tech  id="186" name="Adv Scanning Capability"/>
+<tech  id="187" name="Faster Growth Chambers"/>
+<tech  id="188" name="Hutt Endorsement"/>
+<tech  id="189" name="Neimoidian Endorsement"/>
+<tech  id="190" name="Galactic Banking"/>
+<tech  id="191" name="AVAIL-TMISR"/>
+<tech  id="192" name="Insider Trading"/>
+<tech  id="193" name="Galactic Trade Comm"/>
+<tech  id="194" name="Altered Bargains"/>
+<tech  id="195" name="Market Control"/>
+<tech  id="196" name="Droid Assistants"/>
+<tech  id="197" name="MacroBinoculars"/>
+<tech  id="198" name="Lighter Armor"/>
+<tech  id="199" name="Portable Scanners"/>
+<tech  id="200" name="TECH-TCT-3-PORTSCAN"/>
+<tech  id="201" name="FarSeeIn Binoculars"/>
+<tech  id="202" name="Explosive Yields Incrd"/>
+<tech  id="203" name="Integrated Rangefinder"/>
+<tech  id="204" name="Tougher Armor"/>
+<tech  id="205" name="Dexterity"/>
+<tech  id="206" name="Automated Processes"/>
+<tech  id="207" name="MADE-BLDG-DROPILLUM"/>
+<tech  id="208" name="AVAIL-TMISW"/>
+<tech  id="209" name="OPEN-TECH-AGE2B"/>
+<tech  id="210" name="AVAIL-JFSNE"/>
+<tech  id="211" name="AVAIL-JFSNG"/>
+<tech  id="212" name="AVAIL-JFSNN"/>
+<tech  id="213" name="AVAIL-JFSNR"/>
+<tech  id="214" name="AVAIL-JFSNW"/>
+<tech  id="215" name="MADE-BLDG-DROPANIM"/>
+<tech  id="216" name="MADE-BLDG-SHLDGEN"/>
+<tech  id="217" name="UPGRADE-UNIT-JPADE"/>
+<tech  id="218" name="UPGRADE-UNIT-JPADG"/>
+<tech  id="219" name="UPGRADE-UNIT-JPADN"/>
+<tech  id="220" name="UPGRADE-UNIT-JPADR"/>
+<tech  id="221" name="UPGRADE-UNIT-JPADW"/>
+<tech  id="222" name="Sith Knight"/>
+<tech  id="223" name="Jedi Knight"/>
+<tech  id="224" name="Jedi Knight"/>
+<tech  id="225" name="Jedi Knight"/>
+<tech  id="226" name="Jedi Knight"/>
+<tech  id="227" name="Sith Master"/>
+<tech  id="228" name="Jedi Master"/>
+<tech  id="229" name="Jedi Master"/>
+<tech  id="230" name="Jedi Master"/>
+<tech  id="231" name="Jedi Master"/>
+<tech  id="232" name="AVAIL-TRECG"/>
+<tech  id="233" name="AVAIL-TRECN"/>
+<tech  id="234" name="AVAIL-TRECR"/>
+<tech  id="235" name="AVAIL-TRECW"/>
+<tech  id="236" name="Adv Mnted Trooper"/>
+<tech  id="237" name="Adv Mnted Trooper"/>
+<tech  id="238" name="Adv Mnted Trooper"/>
+<tech  id="239" name="Adv Mnted Trooper"/>
+<tech  id="240" name="Adv Mnted Trooper"/>
+<tech  id="241" name="Hvy Mnted Trooper"/>
+<tech  id="242" name="Hvy Mnted Trooper"/>
+<tech  id="243" name="Hvy Mnted Trooper"/>
+<tech  id="244" name="Hvy Mnted Trooper"/>
+<tech  id="245" name="Hvy Mnted Trooper"/>
+<tech  id="246" name="Hvy A-Air Trooper"/>
+<tech  id="247" name="Hvy A-Air Trooper"/>
+<tech  id="248" name="Hvy A-Air Trooper"/>
+<tech  id="249" name="Hvy A-Air Trooper"/>
+<tech  id="250" name="Hvy A-Air Trooper"/>
+<tech  id="251" name="Hvy Trooper"/>
+<tech  id="252" name="Hvy Trooper"/>
+<tech  id="253" name="Hvy Trooper"/>
+<tech  id="254" name="Hvy Trooper"/>
+<tech  id="255" name="Hvy Trooper"/>
+<tech  id="256" name="Repeater Trooper"/>
+<tech  id="257" name="Repeater Trooper"/>
+<tech  id="258" name="Repeater Trooper"/>
+<tech  id="259" name="Repeater Trooper"/>
+<tech  id="260" name="Repeater Trooper"/>
+<tech  id="261" name="Trooper"/>
+<tech  id="262" name="Trooper"/>
+<tech  id="263" name="Trooper"/>
+<tech  id="264" name="Trooper"/>
+<tech  id="265" name="Trooper"/>
+<tech  id="266" name="AVAIL-M1TRE"/>
+<tech  id="267" name="AVAIL-M1TRG"/>
+<tech  id="268" name="AVAIL-M1TRN"/>
+<tech  id="269" name="AVAIL-M1TRR"/>
+<tech  id="270" name="AVAIL-M1TRW"/>
+<tech  id="271" name="AVAIL-M2TRE"/>
+<tech  id="272" name="AVAIL-M2TRG"/>
+<tech  id="273" name="AVAIL-M2TRN"/>
+<tech  id="274" name="AVAIL-M2TRR"/>
+<tech  id="275" name="AVAIL-M2TRW"/>
+<tech  id="276" name="AVAIL-M3TRE"/>
+<tech  id="277" name="AVAIL-M3TRG"/>
+<tech  id="278" name="AVAIL-M3TRN"/>
+<tech  id="279" name="AVAIL-M3TRR"/>
+<tech  id="280" name="AVAIL-M3TRW"/>
+<tech  id="281" name="AVAIL-MBIKE"/>
+<tech  id="282" name="AVAIL-MBIKG"/>
+<tech  id="283" name="AVAIL-MBIKN"/>
+<tech  id="284" name="AVAIL-MBIKR"/>
+<tech  id="285" name="AVAIL-MBIKW"/>
+<tech  id="286" name="AVAIL-MBIKW"/>
+<tech  id="287" name="AVAIL-MBIKW"/>
+<tech  id="288" name="AVAIL-MBIKW"/>
+<tech  id="289" name="AVAIL-MBIKW"/>
+<tech  id="290" name="AVAIL-MBIKW"/>
+<tech  id="291" name="AVAIL-MBIKW"/>
+<tech  id="292" name="AVAIL-MBIKW"/>
+<tech  id="293" name="AVAIL-MBIKW"/>
+<tech  id="294" name="AVAIL-MBIKW"/>
+<tech  id="295" name="AVAIL-MBIKW"/>
+<tech  id="296" name="AVAIL-MBIKW"/>
+<tech  id="297" name="AVAIL-MBIKW"/>
+<tech  id="298" name="AVAIL-MBIKW"/>
+<tech  id="299" name="AVAIL-MBIKW"/>
+<tech  id="300" name="AVAIL-MBIKW"/>
+<tech  id="301" name="Hvy Strike Mech"/>
+<tech  id="302" name="Hvy Strike Mech"/>
+<tech  id="303" name="Hvy Strike Mech"/>
+<tech  id="304" name="Hvy Strike Mech"/>
+<tech  id="305" name="Hvy Strike Mech"/>
+<tech  id="306" name="Hvy Mech Destroyer"/>
+<tech  id="307" name="Hvy Mech Destroyer"/>
+<tech  id="308" name="Hvy Mech Destroyer"/>
+<tech  id="309" name="Hvy Mech Destroyer"/>
+<tech  id="310" name="Hvy Mech Destroyer"/>
+<tech  id="311" name="Hvy Assault Mech"/>
+<tech  id="312" name="Hvy Assault Mech"/>
+<tech  id="313" name="Hvy Assault Mech"/>
+<tech  id="314" name="Hvy Assault Mech"/>
+<tech  id="315" name="Hvy Assault Mech"/>
+<tech  id="316" name="AVAIL-HLATE"/>
+<tech  id="317" name="AVAIL-HLATG"/>
+<tech  id="318" name="AVAIL-HLATN"/>
+<tech  id="319" name="AVAIL-HLATR"/>
+<tech  id="320" name="AVAIL-HLATW"/>
+<tech  id="321" name="AVAIL-HMMLE"/>
+<tech  id="322" name="AVAIL-HMMLG"/>
+<tech  id="323" name="AVAIL-HMMLN"/>
+<tech  id="324" name="AVAIL-HMMLR"/>
+<tech  id="325" name="AVAIL-HMMLW"/>
+<tech  id="326" name="AVAIL-HRAME"/>
+<tech  id="327" name="AVAIL-HRAMG"/>
+<tech  id="328" name="AVAIL-HRAMN"/>
+<tech  id="329" name="AVAIL-HRAMR"/>
+<tech  id="330" name="AVAIL-HRAMW"/>
+<tech  id="331" name="Hvy Artillery"/>
+<tech  id="332" name="Hvy Artillery"/>
+<tech  id="333" name="Hvy Artillery"/>
+<tech  id="334" name="Hvy Artillery"/>
+<tech  id="335" name="Hvy Artillery"/>
+<tech  id="336" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="337" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="338" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="339" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="340" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="341" name="Hvy A-Air Mobile"/>
+<tech  id="342" name="Hvy A-Air Mobile"/>
+<tech  id="343" name="Hvy A-Air Mobile"/>
+<tech  id="344" name="Hvy A-Air Mobile"/>
+<tech  id="345" name="Hvy A-Air Mobile"/>
+<tech  id="346" name="Hvy Pummel"/>
+<tech  id="347" name="Hvy Pummel"/>
+<tech  id="348" name="Hvy Pummel"/>
+<tech  id="349" name="Hvy Pummel"/>
+<tech  id="350" name="Hvy Pummel"/>
+<tech  id="351" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="352" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="353" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="354" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="355" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="356" name="AVAIL-ABOME"/>
+<tech  id="357" name="AVAIL-ABOMG"/>
+<tech  id="358" name="AVAIL-ABOMN"/>
+<tech  id="359" name="AVAIL-ABOMR"/>
+<tech  id="360" name="AVAIL-ABOMW"/>
+<tech  id="361" name="AVAIL-AFGTE"/>
+<tech  id="362" name="AVAIL-AFGTG"/>
+<tech  id="363" name="AVAIL-AFGTN"/>
+<tech  id="364" name="AVAIL-AFGTR"/>
+<tech  id="365" name="AVAIL-AFGTW"/>
+<tech  id="366" name="Adv Bomber"/>
+<tech  id="367" name="Adv Bomber"/>
+<tech  id="368" name="Adv Bomber"/>
+<tech  id="369" name="Adv Bomber"/>
+<tech  id="370" name="Adv Bomber"/>
+<tech  id="371" name="Adv Fighter"/>
+<tech  id="372" name="Adv Fighter"/>
+<tech  id="373" name="Adv Fighter"/>
+<tech  id="374" name="Adv Fighter"/>
+<tech  id="375" name="Adv Fighter"/>
+<tech  id="376" name="Enh Bomber"/>
+<tech  id="377" name="Enh Bomber"/>
+<tech  id="378" name="Enh Bomber"/>
+<tech  id="379" name="Enh Bomber"/>
+<tech  id="380" name="Enh Bomber"/>
+<tech  id="381" name="Fast Fighter"/>
+<tech  id="382" name="Fast Fighter"/>
+<tech  id="383" name="Fast Fighter"/>
+<tech  id="384" name="Fast Fighter"/>
+<tech  id="385" name="Fast Fighter"/>
+<tech  id="386" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="387" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="388" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="389" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="390" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="391" name="AVAIL-SLASE"/>
+<tech  id="392" name="AVAIL-SLASG"/>
+<tech  id="393" name="AVAIL-SLASN"/>
+<tech  id="394" name="AVAIL-SLASR"/>
+<tech  id="395" name="AVAIL-SLASW"/>
+<tech  id="396" name="AVAIL-SLSTE"/>
+<tech  id="397" name="AVAIL-SLSTG"/>
+<tech  id="398" name="AVAIL-SLSTN"/>
+<tech  id="399" name="AVAIL-SLSTR"/>
+<tech  id="400" name="AVAIL-SLSTW"/>
+<tech  id="401" name="AVAIL-SMISE"/>
+<tech  id="402" name="AVAIL-SMISG"/>
+<tech  id="403" name="AVAIL-SMISN"/>
+<tech  id="404" name="AVAIL-SMISR"/>
+<tech  id="405" name="AVAIL-SMISW"/>
+<tech  id="406" name="AVAIL-SSSHE"/>
+<tech  id="407" name="AVAIL-SSSHG"/>
+<tech  id="408" name="AVAIL-SSSHN"/>
+<tech  id="409" name="AVAIL-SSSHR"/>
+<tech  id="410" name="AVAIL-SSSHW"/>
+<tech  id="411" name="AVAIL-STRNE"/>
+<tech  id="412" name="AVAIL-STRNG"/>
+<tech  id="413" name="AVAIL-STRNN"/>
+<tech  id="414" name="AVAIL-STRNR"/>
+<tech  id="415" name="AVAIL-STRNW"/>
+<tech  id="416" name="Adv Frigate"/>
+<tech  id="417" name="Adv Frigate"/>
+<tech  id="418" name="Adv Frigate"/>
+<tech  id="419" name="Adv Frigate"/>
+<tech  id="420" name="Adv Frigate"/>
+<tech  id="421" name="Adv Cruiser"/>
+<tech  id="422" name="Adv Cruiser"/>
+<tech  id="423" name="Adv Cruiser"/>
+<tech  id="424" name="Adv Cruiser"/>
+<tech  id="425" name="Adv Cruiser"/>
+<tech  id="426" name="Hvy Destroyer"/>
+<tech  id="427" name="Hvy Destroyer"/>
+<tech  id="428" name="Hvy Destroyer"/>
+<tech  id="429" name="Hvy Destroyer"/>
+<tech  id="430" name="Hvy Destroyer"/>
+<tech  id="431" name="Hvy A-A Destroyer"/>
+<tech  id="432" name="Hvy A-A Destroyer"/>
+<tech  id="433" name="Hvy A-A Destroyer"/>
+<tech  id="434" name="Hvy A-A Destroyer"/>
+<tech  id="435" name="Hvy A-A Destroyer"/>
+<tech  id="436" name="OPEN-TECH-AGE2D"/>
+<tech  id="437" name="OPEN-TECH-AGE2E"/>
+<tech  id="438" name="OPEN-TECH-AGE2F"/>
+<tech  id="439" name="OPEN-TECH-AGE2F"/>
+<tech  id="440" name="OPEN-TECH-AGE2F"/>
+<tech  id="441" name="Frigate"/>
+<tech  id="442" name="Frigate"/>
+<tech  id="443" name="Frigate"/>
+<tech  id="444" name="Frigate"/>
+<tech  id="445" name="Frigate"/>
+<tech  id="446" name="AVAIL-OCSPE"/>
+<tech  id="447" name="Adv Anti-Air Turret"/>
+<tech  id="448" name="UPGRADE-DEFENSEB2"/>
+<tech  id="449" name="UPGRADE-DEFENSEB2"/>
+<tech  id="450" name="UPGRADE-DEFENSEB2"/>
+<tech  id="451" name="AVAIL-OMEDE"/>
+<tech  id="452" name="AVAIL-OMEDG"/>
+<tech  id="453" name="AVAIL-OMEDN"/>
+<tech  id="454" name="AVAIL-OMEDR"/>
+<tech  id="455" name="AVAIL-OMEDW"/>
+<tech  id="456" name="AVAIL-GBLCE"/>
+<tech  id="457" name="AVAIL-GBLCG"/>
+<tech  id="458" name="AVAIL-GBLCN"/>
+<tech  id="459" name="AVAIL-GBLCR"/>
+<tech  id="460" name="AVAIL-GBLCW"/>
+<tech  id="461" name="AVAIL-GBNTE"/>
+<tech  id="462" name="AVAIL-GBNTG"/>
+<tech  id="463" name="AVAIL-GBNTN"/>
+<tech  id="464" name="AVAIL-GBNTR"/>
+<tech  id="465" name="AVAIL-GBNTW"/>
+<tech  id="466" name="AVAIL-GUNIE"/>
+<tech  id="467" name="AVAIL-GUNIG1"/>
+<tech  id="468" name="AVAIL-GUNIG2"/>
+<tech  id="469" name="AVAIL-GUNIN"/>
+<tech  id="470" name="AVAIL-GUNIR"/>
+<tech  id="471" name="AVAIL-GUNIW"/>
+<tech  id="472" name="Dark Trooper 2"/>
+<tech  id="473" name="UPGRADE-UNIT-GEUNE"/>
+<tech  id="474" name="Hvy Fambaa Shld Gen"/>
+<tech  id="475" name="Elite Royal Crusader"/>
+<tech  id="476" name="Armored Airspeeder"/>
+<tech  id="477" name="Adv Berserker"/>
+<tech  id="478" name="AVAIL-DEFENSEA1"/>
+<tech  id="479" name="AVAIL-DEFENSEB1"/>
+<tech  id="480" name="Medium Turret"/>
+<tech  id="481" name="Advanced Turret"/>
+<tech  id="482" name="AVAIL-BARRIER1"/>
+<tech  id="483" name="Hvy Wall"/>
+<tech  id="484" name="Shield Wall"/>
+<tech  id="485" name="UPGRADE-BARRIER3"/>
+<tech  id="486" name="AVAIL-WORKER"/>
+<tech  id="487" name="MADE-BLDG-UDWELLING"/>
+<tech  id="488" name="MADE-BLDG-UDWELLING"/>
+<tech  id="489" name="MADE-BLDG-UDWELLING"/>
+<tech  id="490" name="MADE-BLDG-UDWELLING"/>
+<tech  id="491" name="MADE-BLDG-UDWELLING"/>
+<tech  id="492" name="MADE-BLDG-UDWELLING"/>
+<tech  id="493" name="AVAIL-UDWELLING"/>
+<tech  id="494" name="AVAIL-UDWELLING"/>
+<tech  id="495" name="AVAIL-UDWELLING"/>
+<tech  id="496" name="AVAIL-UDWELLING"/>
+<tech  id="497" name="AVAIL-UDWELLING"/>
+<tech  id="498" name="AVAIL-UDWELLING"/>
+<tech  id="499" name="AVAIL-UDWELLING"/>
+<tech  id="500" name="Jedi/Sith Meditation"/>
+<tech  id="501" name="Bacta Tanks"/>
+<tech  id="502" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="503" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="504" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="505" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="506" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="507" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="508" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="509" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="510" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="511" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="512" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="513" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="514" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="515" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="516" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="517" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="518" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="519" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="520" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="521" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="522" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="523" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="524" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="525" name="AVAIL-TPRBE"/>
+<tech  id="526" name="AVAIL-AATRE"/>
+<tech  id="527" name="AVAIL-AATRF"/>
+<tech  id="528" name="AVAIL-AATRG"/>
+<tech  id="529" name="AVAIL-AATRN"/>
+<tech  id="530" name="AVAIL-AATRR"/>
+<tech  id="531" name="AVAIL-AATRW"/>
+<tech  id="532" name="OPEN-TECH-AGE2C"/>
+<tech  id="533" name="OPEN-TECH-AGE2C"/>
+<tech  id="534" name="OPEN-TECH-AGE2C"/>
+<tech  id="535" name="Grenadier Training"/>
+<tech  id="536" name="TECH-CIV6-UPG3"/>
+</techs>
+
+<resources>
+<simple id="0" name="Food" />
+<simple id="1" name="Carbon" />
+<simple id="2" name="Ore" />
+<simple id="3" name="Nova" />
+<simple id="4" name="Population Limit" />
+<simple id="7" name="Holocrons" />
+<simple id="11" name="Population" />
+<simple id="20" name="Kills" />
+<simple id="21" name="Technologies" />
+<simple id="22" name="% Map Explored" />
+<simple id="37" name="Worker Population" />
+<simple id="40" name="Military Population" />
+<simple id="41" name="Turnings" />
+<simple id="43" name="Razings" />
+<simple id="44" name="Kill Ratio" />
+<simple id="200" name="Misc Counter 1" />
+<simple id="201" name="Misc Counter 2" />
+<simple id="202" name="Misc Counter 3" />
+<simple id="203" name="Misc Counter 4" />
+<simple id="204" name="Misc Counter 5" />
+</resources>
+
+</geniedata>

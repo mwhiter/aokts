@@ -11,9 +11,7 @@
 /* Triggers, Conditions, and Effects */
 
 #undef PLAYER1_INDEX
-#undef GAIA_INDEX
 #define PLAYER1_INDEX 1
-#define GAIA_INDEX 0
 
 Trigger::Trigger()
 :	state(1), loop(0), u1(0), obj(0), obj_order(0)
@@ -263,7 +261,7 @@ public:
 		int player = e.getPlayer();
 
 		// If player is GAIA or -1, skip this effect.
-		if (player > GAIA_INDEX && player != _player)
+		if (player > ECBase::GAIA_INDEX && player != _player)
 		{
 			if (!_player) // no player assigned yet?
 				_player = player;

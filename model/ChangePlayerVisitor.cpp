@@ -12,11 +12,13 @@ void ChangePlayerVisitor::visit(Trigger&)
 
 void ChangePlayerVisitor::visit(Effect& e)
 {
-	e.setPlayer(_player);
+	if (e.getPlayer() > ECBase::GAIA_INDEX)
+		e.setPlayer(_player);
 }
 
 void ChangePlayerVisitor::visit(Condition& c)
 {
-	c.setPlayer(_player);
+	if (c.getPlayer() > ECBase::GAIA_INDEX)
+		c.setPlayer(_player);
 }
 

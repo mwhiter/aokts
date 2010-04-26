@@ -19,7 +19,7 @@
 		i = 0;
 #define P_ECToStd(i) \
 	if (--i == -1) \
-		i = GAIA_INDEX;
+		i = ECBase::GAIA_INDEX;
 
 enum TType
 {
@@ -41,6 +41,8 @@ protected:
 	ECBase(enum TType c, long t = 0);	//called by Effect() and Condition()
 
 public:
+	static const int GAIA_INDEX = 0;
+
 	long type;	//identifies type of condition/effect
 	TType ttype;	//identifies EFFECT or CONDITION
 

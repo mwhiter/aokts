@@ -16,7 +16,7 @@
 /*	Unfortunately, the player classes have to know something about their indices
 	because of the scenario format. */
 #define NUM_PLAYERS	0x10
-#define GAIA_INDEX		8	//index of GAIA players (may change)
+const int GAIA_INDEX = 8; //index of GAIA players (may change)
 
 enum AIModes
 {

@@ -31,6 +31,20 @@ enum TType
 
 #pragma pack(push, 4)
 
+/******************************************************************************
+ * AOKRECT: just like Windows's struct RECT, but MINE!
+ *****************************************************************************/
+
+struct AOKRECT
+{
+	long top;
+	long right;
+	long bottom;
+	long left;
+
+	AOKRECT(long top = -1, long right = -1, long bottom = -1, long left = -1);
+};
+
 /**
  * This class contains some common functionality between Effects and
  * Conditions, and enables some basic RTTI.

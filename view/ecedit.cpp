@@ -453,7 +453,7 @@ void E_HandleChangeType(HWND dialog, EditEffect *data)
 	if (data->e.type != EFFECT_None &&
 		MessageBox(dialog, promptClearEffect, "Effect Editor", MB_YESNO) == IDYES)
 	{
-		data->e.clear();
+		data->e = Effect();
 	}
 
 	int newtype = SendDlgItemMessage(dialog, IDC_E_TYPE, CB_GETCURSEL, 0, 0);
@@ -779,7 +779,8 @@ void C_HandleChangeType(HWND dialog, EditCondition *data)
 	if (data->c.type != EFFECT_None &&
 		MessageBox(dialog, promptClearCondition, "Condition Editor", MB_YESNO) == IDYES)
 	{
-		data->c.clear();
+		// reset to default-constructor state
+		data->c = Condition();
 	}
 
 	int newtype = SendDlgItemMessage(dialog, IDC_C_TYPE, CB_GETCURSEL, 0, 0);

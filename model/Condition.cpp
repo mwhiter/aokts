@@ -3,12 +3,22 @@
 
 #include "../util/utilio.h"
 
-#define CONDITION_MEMBERS 16
-
 Condition::Condition()
-:	ECBase(CONDITION)
+:	ECBase(CONDITION),
+	amount(-1),
+	res_type(-1),
+	object(-1),
+	u_loc(-1),
+	pUnit(NULL),
+	player(-1),
+	pTech(NULL),
+	timer(-1),
+	u1(-1),
+	// AOKRECT default constructor OK
+	group(-1),
+	utype(-1),
+	ai_signal(-1)
 {
-	clear();
 }
 
 Condition::Condition(Buffer& b)
@@ -21,13 +31,6 @@ Condition::Condition(Buffer& b)
 	b.read(&player, sizeof(long));
 	pTech = static_cast<const TechLink*>(readLink(b, esdata.techs));
 	b.read(&timer, sizeof(long) * 9);
-}
-
-void Condition::clear()
-{
-	memset(&amount, -1, CONDITION_MEMBERS * sizeof(long));	//FIXME: ouch
-	pTech = NULL;
-	pUnit = NULL;
 }
 
 int Condition::size() const

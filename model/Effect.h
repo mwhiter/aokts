@@ -16,6 +16,11 @@ class TriggerVisitor;
 struct AOKPT
 {
 	long y, x;
+
+	AOKPT(long yy = -1, long xx = -1)
+		: y(yy), x(xx)
+	{
+	}
 };
 
 enum EffectType
@@ -77,7 +82,6 @@ public:
 
 	// rule of three: default copy constructor, destructor, assignment fine
 
-	void clear();
 	void set(const Effect &e);
 	void tobuffer(Buffer &b) const;
 	void read(FILE *in);

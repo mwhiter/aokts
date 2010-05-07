@@ -59,7 +59,6 @@ public:
 	void read(FILE *in);
 	void write(FILE *out);
 	void tobuffer(Buffer &b) const;
-	void clear();
 
 	std::string getName() const;
 

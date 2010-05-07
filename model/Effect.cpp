@@ -6,9 +6,28 @@
 #define EFFECT_MEMBERS 22	//count of all the static members of class Effect
 
 Effect::Effect()
-:	ECBase(EFFECT)
+:	ECBase(EFFECT),
+	ai_goal(-1),
+	amount(-1),
+	res_type(-1),
+	diplomacy(-1),
+	num_sel(-1),
+	uid_loc(-1),
+	pUnit(NULL),
+	s_player(-1),
+	t_player(-1),
+	pTech(NULL),
+	stringid(-1),
+	u2(-1),
+	disp_time(-1),
+	trig_index(-1),
+	// location default ctor fine
+	// area default ctor fine
+	group(-1),
+	utype(-1),
+	panel(-1)
 {
-	clear();
+	memset(uids, -1, sizeof(uids));
 }
 
 Effect::Effect(Buffer &buffer)
@@ -25,15 +44,6 @@ Effect::Effect(Buffer &buffer)
 	buffer.reads(sound, sizeof(long));
 	if (num_sel > 0)
 		buffer.read(uids, sizeof(uids));
-}
-
-void Effect::clear()
-{
-	memset(&ai_goal, -1, EFFECT_MEMBERS * sizeof(long)); //FIXME: ouch
-	pUnit = NULL;
-	pTech = NULL;
-
-	memset(uids, -1, sizeof(uids));
 }
 
 void Effect::tobuffer(Buffer &buffer) const

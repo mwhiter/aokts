@@ -45,6 +45,18 @@ struct AOKRECT
 	AOKRECT(long top = -1, long right = -1, long bottom = -1, long left = -1);
 };
 
+/*	AOK points are y,x apparently (or at least the way
+	I'm seeing them). */
+struct AOKPT
+{
+	long y, x;
+
+	AOKPT(long yy = -1, long xx = -1)
+		: y(yy), x(xx)
+	{
+	}
+};
+
 /**
  * This class contains some common functionality between Effects and
  * Conditions, and enables some basic RTTI.

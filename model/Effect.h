@@ -9,20 +9,6 @@ class TriggerVisitor;
 #define NUM_EFFECTS	37	//+1 for undefined
 #define MAX_UNITSEL 22
 
-#pragma pack(push, 4)	//everything in effects/conditions is a long
-
-/*	AOK points are y,x apparently (or at least the way
-	I'm seeing them). */
-struct AOKPT
-{
-	long y, x;
-
-	AOKPT(long yy = -1, long xx = -1)
-		: y(yy), x(xx)
-	{
-	}
-};
-
 enum EffectType
 {
 	EFFECT_None,
@@ -121,11 +107,16 @@ public:
 
 	SString text;
 	SString sound;
+
+#pragma pack(push, 4)	// we read these straight from the file
 	UID uids[MAX_UNITSEL];		//array of selected units
+#pragma pack(pop)
 
 	static const char* types[NUM_EFFECTS];
-};
 
-#pragma pack(pop)
+private:
+	void fromGenie(const struct Genie_Effect&);
+	struct Genie_Effect toGenie() const;
+};
 
 #endif // AOKTS_EFFECT_H

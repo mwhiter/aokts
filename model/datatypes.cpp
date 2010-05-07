@@ -13,6 +13,11 @@
 #include "../util/utilio.h"
 #include <stdlib.h>
 
+AOKRECT::AOKRECT(long t, long r, long b, long l)
+: top(t), right(r), bottom(b), left(l)
+{
+}
+
 char SString::null = '\0';
 
 SString::SString()

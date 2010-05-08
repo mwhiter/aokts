@@ -134,14 +134,6 @@ void Effect::write(FILE *out)
 		fwrite(uids, sizeof(long), num_sel, out);
 }
 
-int Effect::size() const
-{
-	// FIXME: size calculation is bad
-	int ret = 26 * sizeof(long) + sizeof(sound) + sizeof(uids);
-	ret += text.total_size();
-	return ret;
-}
-
 std::string Effect::getName() const
 {
 	return (type < NUM_EFFECTS) ? types[type] : "Unknown!";

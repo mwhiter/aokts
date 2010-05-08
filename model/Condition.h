@@ -62,7 +62,6 @@ public:
 
 	std::string getName() const;
 
-	int size() const;
 	int getPlayer() const;
 	void setPlayer(int);
 	bool check() const;

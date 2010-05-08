@@ -183,32 +183,6 @@ void Trigger::write(FILE *out)
 		fwrite(&i, 4, 1, out);
 }
 
-int Trigger::size() const
-{
-	int total = 0, num;
-
-	total += 18;	//first members
-	total += sizeof(long) + description.length() + 1;
-	total += sizeof(long) + strlen(name) + 1;
-
-	num = effects.size();
-
-	total += sizeof(long);	//effect count
-
-	for (int i = 0; i < num; i++)
-		total += effects[i].size();
-
-	total += num * sizeof(long);	//order
-
-	num = conds.size();
-
-	total += sizeof(long);	//condition count
-	total += sizeof(long) * 18 * num;	//conditions
-	total += sizeof(long) * num;	//order
-
-	return total;
-}
-
 void Trigger::tobuffer(Buffer& buffer) const
 {
 	int i, num;

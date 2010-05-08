@@ -333,52 +333,10 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+			Name="Util"
 			>
 			<File
-				RelativePath=".\view\aokts.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\model\ChangePlayerVisitor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\model\Condition.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\model\datatypes.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\model\ECBase.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view\ecedit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view\editors.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\model\Effect.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\model\esdata.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view\LCombo.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view\mapview.cpp"
+				RelativePath=".\util\Buffer.h"
 				>
 			</File>
 			<File
@@ -386,43 +344,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\model\Player.cpp"
+				RelativePath=".\util\MemBuffer.h"
 				>
 			</File>
 			<File
-				RelativePath=".\model\scen.cpp"
+				RelativePath=".\util\NullBuffer.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\model\scen_const.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\util\settings.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view\treeutil.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view\trigedit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\model\trigger.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\model\TrigXmlVisitor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\model\Unit.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\view\unitedit.cpp"
+				RelativePath=".\util\NullBuffer.h"
 				>
 			</File>
 			<File
@@ -430,25 +360,35 @@
 				>
 			</File>
 			<File
+				RelativePath=".\util\utilio.h"
+				>
+			</File>
+			<File
 				RelativePath=".\view\utilui.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\view\utilunit.cpp"
+				RelativePath=".\view\utilui.h"
+				>
+			</File>
+			<File
+				RelativePath=".\util\winugly.h"
 				>
 			</File>
 			<File
 				RelativePath=".\util\zlibfile.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\util\zlibfile.h"
+				>
+			</File>
 		</Filter>
 		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			Name="Model"
 			>
 			<File
-				RelativePath=".\util\Buffer.h"
+				RelativePath=".\model\ChangePlayerVisitor.cpp"
 				>
 			</File>
 			<File
@@ -456,7 +396,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\model\Condition.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\model\Condition.h"
+				>
+			</File>
+			<File
+				RelativePath=".\model\datatypes.cpp"
 				>
 			</File>
 			<File
@@ -464,15 +412,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\model\ECBase.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\model\ECBase.h"
 				>
 			</File>
 			<File
-				RelativePath=".\view\ecedit.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view\editors.h"
+				RelativePath=".\model\Effect.cpp"
 				>
 			</File>
 			<File
@@ -480,19 +428,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\model\esdata.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\model\esdata.h"
 				>
 			</File>
 			<File
-				RelativePath=".\view\LCombo.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view\mapview.h"
-				>
-			</File>
-			<File
-				RelativePath=".\util\MemBuffer.h"
+				RelativePath=".\model\Player.cpp"
 				>
 			</File>
 			<File
@@ -500,7 +444,7 @@
 				>
 			</File>
 			<File
-				RelativePath="resource.h"
+				RelativePath=".\model\scen.cpp"
 				>
 			</File>
 			<File
@@ -508,15 +452,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\model\scen_const.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\model\scen_const.h"
 				>
 			</File>
 			<File
-				RelativePath=".\util\settings.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view\treeutil.h"
+				RelativePath=".\model\trigger.cpp"
 				>
 			</File>
 			<File
@@ -528,31 +472,105 @@
 				>
 			</File>
 			<File
+				RelativePath=".\model\TrigXmlVisitor.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\model\TrigXmlVisitor.h"
 				>
+			</File>
+			<File
+				RelativePath=".\model\Unit.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						WarningLevel="3"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\model\Unit.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="View"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
-				RelativePath=".\util\utilio.h"
+				RelativePath=".\view\aokts.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\view\utilui.h"
+				RelativePath=".\view\ecedit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\ecedit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view\editors.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\editors.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view\LCombo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\LCombo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view\mapview.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\mapview.h"
+				>
+			</File>
+			<File
+				RelativePath="resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\util\settings.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\util\settings.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view\treeutil.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\treeutil.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view\trigedit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\unitedit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\utilunit.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\view\utilunit.h"
-				>
-			</File>
-			<File
-				RelativePath=".\util\winugly.h"
-				>
-			</File>
-			<File
-				RelativePath=".\util\zlibfile.h"
 				>
 			</File>
 		</Filter>

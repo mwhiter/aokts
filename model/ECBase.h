@@ -80,8 +80,6 @@ public:
 	virtual int getPlayer() const = 0;
 	virtual void setPlayer(int player) = 0;
 
-	virtual int size() const = 0;
-
 	/*	Note: The clipboard data has type and ttype reversed
 		from the order AOK uses. */
 	virtual void tobuffer(Buffer &b) const = 0;

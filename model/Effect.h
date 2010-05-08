@@ -73,7 +73,6 @@ public:
 	void read(FILE *in);
 	void write(FILE *out);
 
-	int size() const;
 	int getPlayer() const;
 	void setPlayer(int);
 	bool check() const;

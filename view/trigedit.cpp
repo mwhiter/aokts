@@ -13,6 +13,7 @@
 #include "editors.h"
 
 #include "../util/MemBuffer.h"
+#include "../util/NullBuffer.h"
 #include "../util/settings.h"
 #include "../model/scen.h"
 #include "../model/ChangePlayerVisitor.h"
@@ -865,7 +866,11 @@ void Trig_ToClipboard(HWND dialog, Trigger *t, class ItemData *data)
 	/* copy the data to the new memory */
 	if (data->type == TRIGGER)
 	{
-		needed = t->size();
+		// get the size by doing a dummy write
+		NullBuffer nullbuff;
+		t->tobuffer(nullbuff);
+		needed = nullbuff.size();
+
 		copy_clip = GlobalAlloc(GMEM_MOVEABLE, needed);
 
 		clip_buff = (char*)GlobalLock(copy_clip);
@@ -883,7 +888,10 @@ void Trig_ToClipboard(HWND dialog, Trigger *t, class ItemData *data)
 			static_cast<ECBase&>(t->conds[data->index]) :
 			t->effects[data->index];
 
-		needed = source.size();
+		// get the size by doing a dummy write
+		NullBuffer nullbuff;
+		source.tobuffer(nullbuff);
+		needed = nullbuff.size();
 
 		copy_clip = GlobalAlloc(GMEM_MOVEABLE, needed);
 		clip_buff = (char *)GlobalLock(copy_clip);

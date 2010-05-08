@@ -34,11 +34,6 @@ Condition::Condition(Buffer& b)
 	b.read(&timer, sizeof(long) * 9);
 }
 
-int Condition::size() const
-{
-	return 18 * sizeof(long);
-}
-
 std::string Condition::getName() const
 {
 	return (type < NUM_CONDS) ? types[type] : "Unknown!";

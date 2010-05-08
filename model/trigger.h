@@ -38,7 +38,6 @@ public:
 	std::vector<Condition> conds;
 
 	void tobuffer(Buffer&) const;
-	int size() const;
 
 	/*	get_player: Returns non-GAIA player for conditions/effect in the trigger.
 

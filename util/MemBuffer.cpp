@@ -40,7 +40,7 @@ MemBuffer::~MemBuffer()
 		delete [] buffer;
 }
 
-void MemBuffer::read(void *dest, const int length)
+void MemBuffer::read(void *dest, const size_t length)
 {
 	checkFits(length);
 
@@ -48,7 +48,7 @@ void MemBuffer::read(void *dest, const int length)
 	pos += length;
 }
 
-void MemBuffer::reads(char *dest, const int lensize)
+void MemBuffer::reads(char *dest, const size_t lensize)
 {
 	size_t len = 0;
 
@@ -66,7 +66,7 @@ void MemBuffer::reads(char *dest, const int lensize)
 	pos += len;
 }
 
-void MemBuffer::write(const void *source, const int length)
+void MemBuffer::write(const void *source, const size_t length)
 {
 	checkFits(length);
 
@@ -74,7 +74,7 @@ void MemBuffer::write(const void *source, const int length)
 	pos += length;
 }
 
-void MemBuffer::writes(const char *source, const int lensize)
+void MemBuffer::writes(const char *source, const size_t lensize)
 {
 	size_t len = strlen(source);
 
@@ -87,14 +87,14 @@ void MemBuffer::writes(const char *source, const int lensize)
 	pos += len;
 }
 
-void MemBuffer::skip(int offset)
+void MemBuffer::skip(size_t offset)
 {
 	checkFits(offset);
 
 	pos += offset;
 }
 
-void MemBuffer::fill(int value, int length)
+void MemBuffer::fill(int value, size_t length)
 {
 	checkFits(length);
 

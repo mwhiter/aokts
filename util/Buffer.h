@@ -14,14 +14,13 @@
 class Buffer
 {
 public:
-	virtual void read(void *dest, const int length) = 0;
-	virtual void reads(char *dest, const int lensize) = 0;
+	virtual void read(void *dest, size_t length) = 0;
+	virtual void reads(char *dest, size_t lensize) = 0;
+	virtual void skip(size_t offset) = 0;
 
-	virtual void write(const void *source, const int length) = 0;
-	virtual void writes(const char *source, const int lensize) = 0;
-
-	virtual void skip(int offset) = 0;
-	virtual void fill(int value, int length) = 0;
+	virtual void write(const void *source, size_t length) = 0;
+	virtual void writes(const char *source, size_t lensize) = 0;
+	virtual void fill(int value, size_t length) = 0;
 };
 
 #endif // INC_BUFFER_H

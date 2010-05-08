@@ -6,6 +6,7 @@
 
 #include "Unit.h"
 #include "../util/utilio.h"
+#include "../util/Buffer.h"
 
 Unit::Unit(UID id)
 :	x(0), y(0), u_float(1), ident(id), cnst(0),

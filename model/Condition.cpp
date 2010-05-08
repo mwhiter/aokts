@@ -2,6 +2,7 @@
 #include "TriggerVisitor.h"
 
 #include "../util/utilio.h"
+#include "../util/Buffer.h"
 
 Condition::Condition()
 :	ECBase(CONDITION),

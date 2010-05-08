@@ -9,6 +9,7 @@
 #include "esdata.h"
 
 #include "../util/utilio.h"
+#include "../util/Buffer.h"
 #include <expat.h>
 #include <stdio.h>
 #include <malloc.h>	//free() for strdup()

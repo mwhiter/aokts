@@ -8,9 +8,10 @@
 */
 
 #include "datatypes.h"
-#include "../util/Buffer.h"
 #include <expat.h>
 #include <string>
+
+class Buffer;
 
 /* geniedata type links */
 

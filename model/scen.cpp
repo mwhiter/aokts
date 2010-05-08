@@ -11,6 +11,7 @@
 #include "../util/zlibfile.h"
 #include "../util/utilio.h"
 #include "../util/settings.h"
+#include "../util/Buffer.h"
 
 #include <direct.h>
 #include <string.h>

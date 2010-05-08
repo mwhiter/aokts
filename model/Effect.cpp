@@ -2,6 +2,7 @@
 #include "TriggerVisitor.h"
 
 #include "../util/utilio.h"
+#include "../util/Buffer.h"
 
 #define EFFECT_MEMBERS 22	//count of all the static members of class Effect
 

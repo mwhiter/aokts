@@ -8,8 +8,6 @@
  * UTIL
  */
 
-class SString;
-
 /**
  * An abstract class allowing reading & writing of useful datatypes.
  */

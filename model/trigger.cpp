@@ -4,6 +4,7 @@
 #include "TriggerVisitor.h"
 
 #include "../util/utilio.h"
+#include "../util/Buffer.h"
 
 #include <vector>
 #include <algorithm>

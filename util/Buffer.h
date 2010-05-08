@@ -18,11 +18,9 @@ class Buffer
 public:
 	virtual void read(void *dest, const int length) = 0;
 	virtual void reads(char *dest, const int lensize) = 0;
-	virtual void reads(SString &dest, const int lensize) = 0;
 
 	virtual void write(const void *source, const int length) = 0;
-	virtual void writes(char *source, const int lensize) = 0;
-	virtual void writes(const SString &item, const int lensize) = 0;
+	virtual void writes(const char *source, const int lensize) = 0;
 
 	virtual void skip(int offset) = 0;
 	virtual void fill(int value, int length) = 0;

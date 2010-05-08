@@ -6,8 +6,6 @@
  */
 
 #include "MemBuffer.h"
-// FIXME: get rid of this dependency
-#include "../model/datatypes.h"
 
 #include <stdexcept>
 
@@ -68,27 +66,6 @@ void MemBuffer::reads(char *dest, const int lensize)
 	pos += len;
 }
 
-void MemBuffer::reads(SString &dest, const int lensize)
-{
-	size_t len = 0;
-
-	checkFits(lensize);
-
-	memcpy(&len, pos, lensize);
-	pos += lensize;
-
-	if (len)
-	{
-		checkFits(len);
-
-		char *buff = dest.unlock(len + 1);
-		memcpy(buff, pos, len);
-		buff[len] = '\0';
-		dest.lock();
-		pos += len;
-	}
-}
-
 void MemBuffer::write(const void *source, const int length)
 {
 	checkFits(length);
@@ -97,7 +74,7 @@ void MemBuffer::write(const void *source, const int length)
 	pos += length;
 }
 
-void MemBuffer::writes(char *source, const int lensize)
+void MemBuffer::writes(const char *source, const int lensize)
 {
 	size_t len = strlen(source);
 
@@ -107,21 +84,6 @@ void MemBuffer::writes(char *source, const int lensize)
 	pos += lensize;
 
 	memcpy(pos, source, len);
-	pos += len;
-}
-
-void MemBuffer::writes(const SString &source, const int lensize)
-{
-	int len = source.length();
-	if (len)
-		len++;  // +1 for null-termination
-
-	checkFits(lensize + len);
-
-	memcpy(pos, &len, lensize);
-	pos += lensize;
-
-	memcpy(pos, source.c_str(), len);
 	pos += len;
 }
 

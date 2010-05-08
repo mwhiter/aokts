@@ -68,8 +68,8 @@ Effect::Effect(Buffer &buffer)
 	fromGenie(genie);
 
 	// move on to non-flat data
-	buffer.reads(text, sizeof(long));
-	buffer.reads(sound, sizeof(long));
+	text.read(buffer, sizeof(long));
+	sound.read(buffer, sizeof(long));
 	if (num_sel > 0)
 		buffer.read(uids, sizeof(uids));
 }
@@ -86,8 +86,8 @@ void Effect::tobuffer(Buffer &buffer) const
 	std::swap(genie.type, genie.check); // HACK: swap type, check
 	buffer.write(&genie, sizeof(genie));
 
-	buffer.writes(text, 4);
-	buffer.writes(sound, sizeof(long));
+	text.write(buffer, sizeof(long));
+	sound.write(buffer, sizeof(long));
 	if (num_sel > 0)
 		buffer.write(uids, sizeof(uids));
 }

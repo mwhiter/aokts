@@ -19,11 +19,9 @@ public:
 
 	void read(void *dest, const int length);
 	void reads(char *dest, const int lensize);
-	void reads(SString &dest, const int lensize);
 
 	void write(const void *source, const int length);
-	void writes(char *source, const int lensize);
-	void writes(const SString &item, const int lensize);
+	void writes(const char *source, const int lensize);
 
 	void skip(int offset);
 	void fill(int value, int length);

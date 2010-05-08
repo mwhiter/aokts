@@ -11,6 +11,7 @@
 #include "datatypes.h"
 #include <string.h>
 #include "../util/utilio.h"
+#include "../util/Buffer.h"
 #include <stdlib.h>
 
 char SString::null = '\0';
@@ -145,6 +146,22 @@ bool SString::read(FILE *in, size_t lensize)
 	return ret;
 }
 
+void SString::read(Buffer& b, size_t lensize)
+{
+	// read the length
+	unsigned long len = 0;
+	b.read(&len, lensize);
+
+	// read the string, if available
+	if (len)
+	{
+		char * buff = unlock(len + 1);
+		b.read(buff, len);
+		buff[len] = '\0';
+		lock();
+	}
+}
+
 void SString::write(FILE *out, size_t lensize, bool force) const
 {
 	int len = length();
@@ -153,4 +170,14 @@ void SString::write(FILE *out, size_t lensize, bool force) const
 
 	fwrite(&len, lensize, 1, out);
 	fwrite(c_str(), sizeof(char), len, out);
+}
+
+void SString::write(Buffer &b, size_t lensize) const
+{
+	unsigned long len = length();
+	if (len)
+		++len; // +1 for null termination
+
+	b.write(&len, lensize);
+	b.write(c_str(), len);
 }

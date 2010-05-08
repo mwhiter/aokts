@@ -22,6 +22,7 @@
 #define MAX_HEAPSIZE 0x7ffdefff
 
 typedef struct _iobuf FILE;
+class Buffer;
 
 /* Simple Variable-length string */
 
@@ -53,11 +54,22 @@ public:
 	bool read(FILE *in, size_t lensize);
 
 	/**
+	 * Read the string from a Buffer.
+	 */
+	void read(Buffer&, size_t lensize);
+
+	/**
 	 * Write the string to a FILE.
 	 * @param lensize number of bytes in length field
 	 * @param force forces a write of a single null even if empty
 	 */
 	void write(FILE *out, size_t lensize, bool force = false) const;
+
+	/**
+	 * Write the string to a Buffer.
+	 * @param lensize number of bytes in length field
+	 */
+	void write(Buffer&, size_t lensize) const;
 	
 	inline int total_size() const		{ return sizeof(long) + len + 1; }
 	inline int length() const			{ return len; }

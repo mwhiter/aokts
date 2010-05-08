@@ -35,7 +35,7 @@ Trigger::Trigger(Buffer& buffer)
 
 	buffer.read(&state, 14);
 	buffer.fill(0, sizeof(long));
-	buffer.reads(description, sizeof(long));
+	description.read(buffer, sizeof(long));
 	buffer.reads(name, sizeof(long));
 
 	/* effects */
@@ -214,7 +214,7 @@ void Trigger::tobuffer(Buffer& buffer) const
 
 	buffer.write(&state, 14);
 	buffer.fill(0, sizeof(long));
-	buffer.writes(description, sizeof(long));
+	description.write(buffer, sizeof(long));
 	buffer.writes(name, sizeof(long));
 
 	//effects

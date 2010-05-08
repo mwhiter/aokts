@@ -9,6 +9,7 @@
 #include "editors.h"
 
 #include "../util/settings.h"
+#include "../util/MemBuffer.h"
 #include "../model/scen.h"
 #include "../resource.h"
 #include "utilunit.h"
@@ -1160,7 +1161,7 @@ void Map_HandleMapCopy(HWND dialog)
 	clipboardData = GlobalLock(clipboardMem);
 	if (clipboardData)
 	{
-		Buffer data((char*)clipboardData, space);
+		MemBuffer data((char*)clipboardData, space);
 		scen.map_copy(data, cache);
 		cache = NULL;
 	}
@@ -1202,7 +1203,7 @@ void Map_HandleMapPaste(HWND dialog)
 	cbData = GlobalLock(cbMem);
 	if (cbData)
 	{
-		Buffer b((char*)cbData, size);
+		MemBuffer b((char*)cbData, size);
 
 		scen.map_paste(target, b);
 	}

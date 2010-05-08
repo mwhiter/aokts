@@ -382,6 +382,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\util\MemBuffer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\model\Player.cpp"
 				>
 			</File>
@@ -444,6 +448,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\util\Buffer.h"
+				>
+			</File>
+			<File
 				RelativePath=".\model\ChangePlayerVisitor.h"
 				>
 			</File>
@@ -481,6 +489,10 @@
 			</File>
 			<File
 				RelativePath=".\view\mapview.h"
+				>
+			</File>
+			<File
+				RelativePath=".\util\MemBuffer.h"
 				>
 			</File>
 			<File

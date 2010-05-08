@@ -3,6 +3,7 @@
 #include "trigger.h"
 #include "TriggerVisitor.h"
 
+#include "../util/MemBuffer.h"
 #include "../util/utilio.h"
 
 #include <vector>
@@ -32,7 +33,7 @@ Trigger::Trigger(char *data, const int size)
 	using std::vector;
 
 	int num;
-	Buffer buffer(data, size);
+	MemBuffer buffer(data, size);
 
 	buffer.read(&state, 14);
 	buffer.fill(0, sizeof(long));
@@ -212,7 +213,7 @@ int Trigger::size() const
 void Trigger::tobuffer(char *dest, int size) const
 {
 	int i, num;
-	Buffer buffer(dest, size);
+	MemBuffer buffer(dest, size);
 
 	buffer.write(&state, 14);
 	buffer.fill(0, sizeof(long));

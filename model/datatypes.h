@@ -66,36 +66,6 @@ public:
 	inline const char *c_str() const	{ return data ? data : &null; }
 };
 
-/* A statically-sized buffer for easy memory stuff */
-
-class Buffer
-{
-	bool mine;	//did i create memory?
-	bool writeable;
-	char *buffer;
-	char *pos;
-	int blen;
-
-public:
-	Buffer(char *b, int l);
-//	Buffer(const char *b, int l);
-	Buffer(int l);
-	~Buffer();
-
-	bool read(void *dest, const int length);
-	bool reads(char *dest, const int lensize);
-	bool reads(SString &dest, const int lensize);
-
-	bool write(const void *source, const int length);
-	bool writes(char *source, const int lensize);
-	bool writes(const SString &item, const int lensize);
-
-	bool skip(int offset);
-	bool fill(int value, int length);
-
-	const char *get() const	{ return buffer; }
-};
-
 /* "Simple" Vector (basically just a remake of std::vector) */
 
 #ifndef EXTRA		//Extra space allocated

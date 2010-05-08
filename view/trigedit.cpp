@@ -12,6 +12,7 @@
 
 #include "editors.h"
 
+#include "../util/MemBuffer.h"
 #include "../util/settings.h"
 #include "../model/scen.h"
 #include "../model/ChangePlayerVisitor.h"
@@ -886,7 +887,7 @@ void Trig_ToClipboard(HWND dialog, Trigger *t, class ItemData *data)
 
 		copy_clip = GlobalAlloc(GMEM_MOVEABLE, needed);
 		clip_buff = (char *)GlobalLock(copy_clip);
-		Buffer b(clip_buff, needed);
+		MemBuffer b(clip_buff, needed);
 		source.tobuffer(b);
 		GlobalUnlock(copy_clip);
 
@@ -987,8 +988,10 @@ void TrigTree_Paste(HWND dialog)
 
 			try
 			{
-				Buffer buffer(ec_data, clip_size);
+				MemBuffer buffer(ec_data, clip_size);
 
+				// FIXME: there's no reason for this function to know the
+				// format of ec_data.
 				if (*ec_data == EFFECT)
 				{
 					t->effects.push_back(Effect(buffer));

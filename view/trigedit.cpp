@@ -334,7 +334,7 @@ void EffectItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)
 	tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
 	tvis.item.pszText = (LPSTR)LPSTR_TEXTCALLBACK;
 
-	for (unsigned i = 1; i <= 8; i++) //weird e/c player indexes
+	for (int i = 1; i <= 8; i++) //weird e/c player indexes
 	{
 		Effect &source = t->effects[this->index]; // get it new each iteration
 
@@ -513,7 +513,7 @@ void ConditionItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)
 	tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
 	tvis.item.pszText = (LPSTR)LPSTR_TEXTCALLBACK;
 
-	for (unsigned i = 1; i <= 8; i++)	//weird e/c player indexes
+	for (int i = 1; i <= 8; i++)	//weird e/c player indexes
 	{
 		Condition& source = t->conds[this->index]; //ptr may change
 

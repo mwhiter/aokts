@@ -63,13 +63,13 @@ const Link* readLink(Buffer &b, const Link *list)
 	return getById(list, id);
 }
 
-bool writeLink(Buffer &b, const Link *link)
+void writeLink(Buffer &b, const Link *link)
 {
 	long id;
 	
 	id = (link) ? link->id() : -1;
 
-	return b.write(&id, sizeof(id));
+	b.write(&id, sizeof(id));
 }
 
 UnitLink::UnitLink()

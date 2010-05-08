@@ -86,7 +86,7 @@ const Link *getById(const Link *list, int id);
 
 // read an ID from Buffer and return the relevant Link
 const Link* readLink(Buffer& b, const Link *list);
-bool writeLink(Buffer& b, const Link *link);
+void writeLink(Buffer& b, const Link *link);
 
 /* Derived links */
 

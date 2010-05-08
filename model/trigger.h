@@ -25,7 +25,7 @@ class Trigger
 public:
 	Trigger();
 	Trigger(const Trigger &t);
-	Trigger(char *data, const int size);
+	Trigger(Buffer&);
 
 	const static size_t MAX_TRIGNAME = 128;
 
@@ -37,7 +37,7 @@ public:
 	std::vector<Effect> effects;
 	std::vector<Condition> conds;
 
-	void tobuffer(char *buffer, int size) const;
+	void tobuffer(Buffer&) const;
 	int size() const;
 
 	/*	get_player: Returns non-GAIA player for conditions/effect in the trigger.

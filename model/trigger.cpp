@@ -3,7 +3,6 @@
 #include "trigger.h"
 #include "TriggerVisitor.h"
 
-#include "../util/MemBuffer.h"
 #include "../util/utilio.h"
 
 #include <vector>
@@ -27,13 +26,12 @@ Trigger::Trigger(const Trigger &t) // TODO: we can use the compiler's version
 	strcpy(name, t.name);
 }
 
-Trigger::Trigger(char *data, const int size)
+Trigger::Trigger(Buffer& buffer)
 {
 	/* We use std::vectors here for RAII. */
 	using std::vector;
 
 	int num;
-	MemBuffer buffer(data, size);
 
 	buffer.read(&state, 14);
 	buffer.fill(0, sizeof(long));
@@ -210,10 +208,9 @@ int Trigger::size() const
 	return total;
 }
 
-void Trigger::tobuffer(char *dest, int size) const
+void Trigger::tobuffer(Buffer& buffer) const
 {
 	int i, num;
-	MemBuffer buffer(dest, size);
 
 	buffer.write(&state, 14);
 	buffer.fill(0, sizeof(long));

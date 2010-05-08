@@ -870,7 +870,7 @@ void Trig_ToClipboard(HWND dialog, Trigger *t, class ItemData *data)
 
 		clip_buff = (char*)GlobalLock(copy_clip);
 		if (clip_buff)
-			t->tobuffer(clip_buff, needed);
+			t->tobuffer(MemBuffer(clip_buff, needed));
 		GlobalUnlock(copy_clip);
 
 		if (!SetClipboardData(propdata.tformat, copy_clip))
@@ -952,7 +952,7 @@ void TrigTree_Paste(HWND dialog)
 		{
 			try
 			{
-				Trigger t(trig_data, clip_size);
+				Trigger t(MemBuffer(trig_data, clip_size));
 				index = scen.insert_trigger(&t, index_sel);
 				GlobalUnlock(clip_data);
 

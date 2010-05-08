@@ -190,7 +190,7 @@ inline void NULLS(FILE *out, int size)
 template <typename T>
 void writecs(FILE *out, const char *source, bool null = true)
 {
-	T len = strlen(source);
+	T len = static_cast<T>(strlen(source)); // truncate
 	if (len && null)	//only write if string exists (mimicing AOK)
 		++len;
 

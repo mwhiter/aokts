@@ -16,9 +16,9 @@ class SString;
 class Buffer
 {
 public:
-	virtual bool read(void *dest, const int length) = 0;
-	virtual bool reads(char *dest, const int lensize) = 0;
-	virtual bool reads(SString &dest, const int lensize) = 0;
+	virtual void read(void *dest, const int length) = 0;
+	virtual void reads(char *dest, const int lensize) = 0;
+	virtual void reads(SString &dest, const int lensize) = 0;
 
 	virtual void write(const void *source, const int length) = 0;
 	virtual void writes(char *source, const int lensize) = 0;

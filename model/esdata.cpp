@@ -57,8 +57,7 @@ const Link* readLink(Buffer &b, const Link *list)
 {
 	long id;
 
-	if (!b.read(&id, sizeof(long)))
-		throw new std::runtime_error("Failed to read ID from buffer.");
+	b.read(&id, sizeof(long));
 
 	return getById(list, id);
 }

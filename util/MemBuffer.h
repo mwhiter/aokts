@@ -17,9 +17,9 @@ public:
 	MemBuffer(int l);
 	~MemBuffer();
 
-	bool read(void *dest, const int length);
-	bool reads(char *dest, const int lensize);
-	bool reads(SString &dest, const int lensize);
+	void read(void *dest, const int length);
+	void reads(char *dest, const int lensize);
+	void reads(SString &dest, const int lensize);
 
 	void write(const void *source, const int length);
 	void writes(char *source, const int lensize);

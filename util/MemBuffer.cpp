@@ -42,48 +42,51 @@ MemBuffer::~MemBuffer()
 		delete [] buffer;
 }
 
-bool MemBuffer::read(void *dest, const int length)
+void MemBuffer::read(void *dest, const int length)
 {
+	checkFits(length);
+
 	memcpy(dest, pos, length);
 	pos += length;
-
-	return pos - buffer <= blen;
 }
 
-bool MemBuffer::reads(char *dest, const int lensize)
+void MemBuffer::reads(char *dest, const int lensize)
 {
 	size_t len = 0;
+
+	checkFits(lensize);
 
 	memcpy(&len, pos, lensize);
 	pos += lensize;
 
+	checkFits(len);
 	if (len)
 		memcpy(dest, pos, len);
 	else
 		*dest = '\0';
 
 	pos += len;
-
-	return pos - buffer <= blen;
 }
 
-bool MemBuffer::reads(SString &dest, const int lensize)
+void MemBuffer::reads(SString &dest, const int lensize)
 {
 	size_t len = 0;
+
+	checkFits(lensize);
 
 	memcpy(&len, pos, lensize);
 	pos += lensize;
 
 	if (len)
 	{
+		checkFits(len);
+
 		char *buff = dest.unlock(len + 1);
 		memcpy(buff, pos, len);
 		buff[len] = '\0';
 		dest.lock();
 		pos += len;
 	}
-
-	return pos - buffer <= blen;
 }
 
 void MemBuffer::write(const void *source, const int length)

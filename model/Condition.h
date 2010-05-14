@@ -91,6 +91,7 @@ public:
 
 private:
 	void fromGenie(const struct Genie_Condition&);
+	struct Genie_Condition toGenie() const;
 };
 
 #pragma pack(pop)

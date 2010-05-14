@@ -149,26 +149,20 @@ void Condition::read(FILE *in)
 
 void Condition::write(FILE *out)
 {
-	long temp;
-
-	fwrite(&type, sizeof(long), 6, out);
-	temp = (pUnit) ? pUnit->id() : -1;
-	fwrite(&temp, sizeof(long), 1, out);
-	fwrite(&player, sizeof(long), 1, out);
-	temp = (pTech) ? pTech->id() : -1;
-	fwrite(&temp, sizeof(long), 1, out);
-	fwrite(&timer, sizeof(long), 9, out);
+	Genie_Condition genie = toGenie();
+	writebin(out, &genie);
 }
 
 void Condition::tobuffer(Buffer &b) const
 {
-	b.write(&ttype, sizeof(long));
-	b.write(&type, sizeof(long));
-	b.write(&amount, sizeof(long) * 4);
-	writeLink(b, pUnit);
-	b.write(&player, sizeof(long));
-	writeLink(b, pTech);
-	b.write(&timer, sizeof(long) * 9);
+	/* Even though the Genie format sucks, we use it for Buffer operations
+	 * (i.e., copy & paste) since it's easier to maintain one sucky format than
+	 * one sucky and one slightly-less-sucky format.
+	 */
+
+	Genie_Condition genie = toGenie();
+	std::swap(genie.type, genie.check); // HACK: swap type, check
+	b.write(&genie, sizeof(genie));
 }
 
 void Condition::accept(TriggerVisitor& tv)
@@ -201,4 +195,28 @@ void Condition::fromGenie(const Genie_Condition& genie)
 	group = genie.unit_group;
 	utype = genie.unit_type;
 	ai_signal = genie.ai_signal;
+}
+
+Genie_Condition Condition::toGenie() const
+{
+	Genie_Condition ret =
+	{
+		type,
+		ttype,
+		amount,
+		res_type,
+		object,
+		u_loc,
+		pUnit ? pUnit->id() : -1,
+		player,
+		pTech ? pTech->id() : -1,
+		timer,
+		u1,
+		area,
+		group,
+		utype,
+		ai_signal
+	};
+
+	return ret;
 }

@@ -88,6 +88,9 @@ public:
 //internal
 
 	static const char* types[NUM_CONDS];
+
+private:
+	void fromGenie(const struct Genie_Condition&);
 };
 
 #pragma pack(pop)

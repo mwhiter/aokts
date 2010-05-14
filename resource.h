@@ -269,7 +269,8 @@
 #define ID_FILE_SAVE_AS			0xE104
 #define ID_FILE_SAVE_AS2		0xE105
 #define ID_FILE_DUMP			0xE106
-#define ID_FILE_TRIGTEXT        0xE107
+#define ID_FILE_TRIGWRITE       0xE107
+#define ID_FILE_TRIGREAD        0xE108
 #define ID_FILE_RECENT1			0xE110
 #define ID_FILE_RECENT2			0xE111
 #define ID_FILE_RECENT3			0xE112

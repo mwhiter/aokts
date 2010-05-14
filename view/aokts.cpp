@@ -459,9 +459,9 @@ void FileClose(HWND sheet, HWND control)
 /**
  * Handles a user request to dump triggers to textual format.
  */
-void OnFileTrigText(HWND dialog)
+void OnFileTrigWrite(HWND dialog)
 {
-	char path[MAX_PATH] = "trigs.txt";
+	char path[MAX_PATH] = "trigs.xml";
 
 	// TODO: set the path to aokts directory.
 	if (!GetSaveFileNameA(dialog, path, MAX_PATH))
@@ -469,6 +469,13 @@ void OnFileTrigText(HWND dialog)
 
 	AutoFile textout(path, "w");
 	scen.accept(TrigXmlVisitor(textout));
+}
+
+/**
+ * Handles a user request to read triggers from above textual format.
+ */
+void OnFileTrigRead(HWND dialog)
+{
 }
 
 /*
@@ -712,6 +719,7 @@ void OnCompressOrDecompress(HWND sheet, bool compress)
 	fread(&buffer[0], sizeof(char), size, fIn.get()); // contiguous
 	fIn.close();
 
+	path[0] = '\0';   // don't pre-fill path
 	if (!GetSaveFileNameA(sheet, path, sizeof(path)))
 		return;
 
@@ -788,8 +796,12 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		}
 		break;
 
-	case ID_FILE_TRIGTEXT:
-		OnFileTrigText(sheet);
+	case ID_FILE_TRIGWRITE:
+		OnFileTrigWrite(sheet);
+		break;
+
+	case ID_FILE_TRIGREAD:
+		OnFileTrigRead(sheet);
 		break;
 
 	case ID_FILE_RECENT1:

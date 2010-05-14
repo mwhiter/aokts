@@ -153,8 +153,6 @@ bool GetSaveFileNameA(HWND owner, char * path, DWORD maxPath)
 	ofn.Flags = 0;
 	ofn.lpstrDefExt = NULL;
 
-	*path = '\0';
-
 	return GetSaveFileNameA(&ofn) == TRUE;
 }
 

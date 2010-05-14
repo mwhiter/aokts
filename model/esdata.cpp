@@ -296,7 +296,7 @@ void ESDATA::readUnitGroup(const XML_Char **attrs)
 		return;
 	}
 
-	// FIXME: this is ugly?
+	// TODO: any less-hardcoded way to do this?
 	if (!ug_buildings && !wcscmp(link->name(), L"Buildings"))
 		ug_buildings = link;
 	else if (!ug_units && !wcscmp(link->name(), L"Units"))

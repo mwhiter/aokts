@@ -122,7 +122,9 @@ bool GetOpenFileNameA(HWND owner, char * path, DWORD maxPath);
  * Presents a "Save File" dialog box to the user. The box:
  * - has no file type filters
  *
- * The full path is returned in /path/.
+ * @param owner desired owner window of the dialog box
+ * @param path in/out: contains full path upon return
+ * @param maxPath specifies maximum number of characters to store in path
  *
  * @return true if the user clicked "OK", false otherwise
  */

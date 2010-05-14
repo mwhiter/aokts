@@ -147,33 +147,6 @@ void Condition::read(FILE *in)
 	fromGenie(genie);
 }
 
-void Condition::fromGenie(const Genie_Condition& genie)
-{
-	if (genie.check != CONDITION)
-		throw bad_data_error("Condition has incorrect check value.");
-
-	if (genie.type > MAX_CONDITION)
-		printf("WARNING: Unknown condition %d.\n", type);
-
-	type = genie.type;
-	ttype = static_cast<TType>(genie.check);
-	res_type = genie.resource_type;
-	amount = genie.amount;
-	object = genie.uid_object;
-	u_loc = genie.uid_location;
-	pUnit = static_cast<const UnitLink*>(
-			getById(esdata.units, genie.unit_const));
-	player = genie.player;
-	pTech = static_cast<const TechLink*>(
-			getById(esdata.techs, genie.technology));
-	timer = genie.timer;
-	u1 = genie.unknown;
-	area = genie.area;
-	group = genie.unit_group;
-	utype = genie.unit_type;
-	ai_signal = genie.ai_signal;
-}
-
 void Condition::write(FILE *out)
 {
 	long temp;
@@ -201,4 +174,31 @@ void Condition::tobuffer(Buffer &b) const
 void Condition::accept(TriggerVisitor& tv)
 {
 	tv.visit(*this);
+}
+
+void Condition::fromGenie(const Genie_Condition& genie)
+{
+	if (genie.check != CONDITION)
+		throw bad_data_error("Condition has incorrect check value.");
+
+	if (genie.type > MAX_CONDITION)
+		printf("WARNING: Unknown condition %d.\n", type);
+
+	type = genie.type;
+	ttype = static_cast<TType>(genie.check);
+	res_type = genie.resource_type;
+	amount = genie.amount;
+	object = genie.uid_object;
+	u_loc = genie.uid_location;
+	pUnit = static_cast<const UnitLink*>(
+			getById(esdata.units, genie.unit_const));
+	player = genie.player;
+	pTech = static_cast<const TechLink*>(
+			getById(esdata.techs, genie.technology));
+	timer = genie.timer;
+	u1 = genie.unknown;
+	area = genie.area;
+	group = genie.unit_group;
+	utype = genie.unit_type;
+	ai_signal = genie.ai_signal;
 }

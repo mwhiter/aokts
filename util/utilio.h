@@ -169,9 +169,9 @@ template <class T> void readcs(FILE * in, char * dest, size_t space)
 /**
  * Write binary data in /in/ to /out/.
  */
-template <class T> inline void writebin(FILE * out, T * in, size_t length = sizeof(T))
+template <class T> inline void writebin(FILE * out, T * in)
 {
-	fwrite(in, length, 1, out);
+	fwrite(in, sizeof(T), 1, out);
 }
 
 template <class T> void writeval(FILE * out, T in)

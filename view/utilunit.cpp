@@ -246,8 +246,8 @@ void Init(HWND dialog, UnitEdit * ue)
 		/* Find the owner player from first UID. */
 		for (int i = 0; i < NUM_PLAYERS && ue->player == -1; i++)
 		{
-			if (scen.players[i].find_unit(*ue->ids) !=
-				scen.players[i].units.size())
+			if (ue->players[i].find_unit(*ue->ids) !=
+				ue->players[i].units.size())
 			{
 				ue->player = i;
 				break;
@@ -258,7 +258,7 @@ void Init(HWND dialog, UnitEdit * ue)
 		SendDlgItemMessage(dialog, IDC_US_PLAYER, CB_SETCURSEL, ue->player, 0);
 
 		UnitList_FillSelected(GetDlgItem(dialog, IDC_US_UNITS),
-			scen.players[ue->player].units, ue->ids, ue->count, SORT_ID);
+			ue->players[ue->player].units, ue->ids, ue->count, SORT_ID);
 	}
 }
 
@@ -293,7 +293,7 @@ void HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		for (int i = 0; i < ue->count; i++)
 		{
 			index = SendMessage(listbox, LB_GETITEMDATA, buffer[i], 0);
-			ue->ids[i] = scen.players[ue->player].units[index].ident;
+			ue->ids[i] = ue->players[ue->player].units[index].ident;
 		}
 
 		ue->player = (char)SendDlgItemMessage(dialog, IDC_US_PLAYER, CB_GETCURSEL, 0, 0);
@@ -326,7 +326,7 @@ void HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		{
 			ue->player = player;
 			UnitList_FillSelected(unitbox,
-				scen.players[player].units, NULL, 0, SORT_ID);
+				ue->players[player].units, NULL, 0, SORT_ID);
 		}
 		else
 			SendMessage(control, CB_SETCURSEL, ue->player, 0);

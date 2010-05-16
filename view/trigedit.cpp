@@ -15,7 +15,6 @@
 #include "../util/MemBuffer.h"
 #include "../util/NullBuffer.h"
 #include "../util/settings.h"
-#include "../model/scen.h"
 #include "../model/ChangePlayerVisitor.h"
 #include "../resource.h"
 #include "ecedit.h"
@@ -374,15 +373,15 @@ void EffectItemData::ModifyIndex(int operand)
 void EffectItemData::OpenEditor(HWND parent, HTREEITEM item)
 {
 	Effect *target = GetEffect();
-	EditEffect *edit_data;
-	
-	edit_data = new EditEffect(*target);
+
+	EditEffect *edit_data = new EditEffect(*target);	
 	edit_data->trigindex = trig_index;
 	edit_data->index = index;
 	edit_data->TrigCallback = FillTrigCB;
 	edit_data->user = item;
 	edit_data->parent = parent;
 	edit_data->mapview = propdata.mapview;
+	edit_data->players = scen.players;
 
 	editor_count++;
 	editor = CreateDialogParam(GetModuleHandle(NULL),
@@ -549,15 +548,14 @@ void ConditionItemData::ModifyIndex(int operand)
 
 void ConditionItemData::OpenEditor(HWND parent, HTREEITEM item)
 {
-	EditCondition *edit_data;
-	
-	edit_data = new EditCondition;
+	EditCondition *edit_data = new EditCondition;
 	edit_data->trigindex = trig_index;
 	edit_data->index = index;
 	edit_data->user = item;
 	edit_data->parent = parent;
 	edit_data->mapview = propdata.mapview;
 	memcpy(&edit_data->c, GetCondition(), sizeof(Condition));
+	edit_data->players = scen.players;
 
 	editor_count++;
 	editor = CreateDialogParam(GetModuleHandle(NULL),

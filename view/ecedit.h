@@ -48,6 +48,9 @@ public:
 	void *user;     // user-specified data
 	HWND parent;	// GetParent() returns the wrong HWND.
 	HWND mapview;	// handle to parent's mapview for interaction
+	// E/C editors need the vector of players to display unit selection dialog
+	// boxes.
+	class Player const * players;
 
 	/* Updates the original condition/effect to the editor's copy. */
 	virtual void update(Trigger *t) = 0;

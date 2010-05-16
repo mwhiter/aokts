@@ -24,8 +24,6 @@ using std::vector;
 /* some options */
 #define BMP_READ_HACK
 
-class Scenario scen;
-
 /* PerVersions */
 const PerVersion Scenario::pv1_18 =
 {
@@ -201,7 +199,7 @@ bool Scenario::isExpansion()
 	bool ret;
 
 #if (GAME == 1)
-	switch (scen.ver)
+	switch (ver)
 	{
 	case SVER_AOE1:
 	case SVER_AOE2:
@@ -213,7 +211,7 @@ bool Scenario::isExpansion()
 		ret = true;
 	}
 #elif (GAME == 2)
-	switch (scen.ver)
+	switch (ver)
 	{
 	case SVER_AOE2TC:
 	default:
@@ -949,10 +947,10 @@ void Scenario::clean_triggers()
 size_t Scenario::insert_trigger(Trigger *t, size_t after)
 {
 	size_t tindex;
-	size_t count = scen.t_order.count();
+	size_t count = t_order.count();
 	unsigned long *o_parse = t_order.first();
 
-	tindex = scen.triggers.append(*t);
+	tindex = triggers.append(*t);
 
 	if (after == -1)
 		t_order.append(tindex);
@@ -1001,14 +999,14 @@ bool Scenario::exFile(const char *directory, long index)
 {
 	int c;
 	FILE *out;
-	AOKFile *parse = scen.files;
+	AOKFile *parse = files;
 	char buffer[_MAX_PATH];
 
 	_mkdir(directory);
 	
 	if (index < 0)
 	{
-		c = scen.cFiles;
+		c = cFiles;
 	}
 	else
 	{

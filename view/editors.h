@@ -9,6 +9,8 @@
 #ifndef AOKTS_EDITOR_H
 #define AOKTS_EDITOR_H
 
+#include "../model/scen.h"
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -30,6 +32,7 @@ enum AOKTS_Msgs
 #define NUM_FORMATS 2
 
 //data shared by the property pages
+extern class Scenario scen;
 extern struct PropSheetData
 {
 	int pindex;			//current player number

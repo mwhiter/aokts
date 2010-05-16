@@ -10,7 +10,6 @@
 
 #include "../util/settings.h"
 #include "../util/MemBuffer.h"
-#include "../model/scen.h"
 #include "../resource.h"
 #include "utilunit.h"
 #include "LCombo.h"

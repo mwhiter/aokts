@@ -21,7 +21,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-	-------------------------------------------------------------------------------
+	----------------------------------------------------------------------------
 
 	This source will compile to both AOKTS and SWGBTS depending the the
 	definition of the preprocessor macro GAME (aok=1 or swgb=2). Default
@@ -56,6 +56,7 @@
 
 /** External Globals (see respective headers for descriptions) **/
 
+Scenario scen;
 PropSheetData propdata;
 Setts setts;
 ESDATA esdata;
@@ -252,7 +253,9 @@ void FileSave(HWND sheet, bool as, bool write)
 
 	//perform before-saving operations
 	previous = SetCursor(LoadCursor(NULL, IDC_WAIT));
-	SendMessage(cpage, AOKTS_Closing, 0, 0);	//for IDD_TRIGGERS, old data after scen.clean_triggers()
+	// Pretend we're "closing" the scenario because it may change during the
+	// save.
+	SendMessage(cpage, AOKTS_Closing, 0, 0);
 	scen.clean_triggers();
 
 	//save the scenario
@@ -1051,7 +1054,7 @@ HWND MakeMapView(HWND sheet, int cmdshow)
 	RECT rect;
 
 	GetWindowRect(sheet, &rect);
-	ret = CreateMapView(sheet, rect.right + MAP_OFFSET, rect.top);
+	ret = CreateMapView(sheet, rect.right + MAP_OFFSET, rect.top, &scen);
 	ShowWindow(ret, cmdshow);
 
 	return ret;

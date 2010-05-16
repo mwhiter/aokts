@@ -29,14 +29,6 @@ extern const char *sorts[NUM_SORTS];
 
 /** Utility Functions **/
 
-/* This structure should be passed as the lParam of the dialog function. */
-struct UnitEdit
-{
-	int player;	// If equal to -1, the dialog will find out itself. Otherwise, EC numbering.
-	int count;
-	UID ids[MAX_UNITSEL];
-};
-
 /*
 	UnitList_Fill: Resets, then fills a unit listbox with data from an array of Unit structs.
 */
@@ -63,6 +55,21 @@ int UnitList_InsertItem(HWND listbox, enum Sorts sorttype,
 void UnitList_FillGroup(HWND typebox, const UnitGroupLink *group);
 
 /* Selector Dialog */
+
+/**
+ * This structure contains parameters for the UnitSel dialog box.
+ */
+struct UnitEdit
+{
+	// Vector of players from which to display units.
+	Player const * players;
+	// If the initial player is known, caller may specify it here, with E/C
+	// numbering. Otherwise, the dialog box will discover the player number
+	// from the specified ids.
+	int player;
+	int count;
+	UID ids[MAX_UNITSEL];
+};
 
 /*
  * Displays a modal unit-selection dialog box.

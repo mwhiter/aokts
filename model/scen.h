@@ -272,8 +272,6 @@ public:
 	bool isExpansion();
 };
 
-extern class Scenario scen;
-
 #undef UNREAD
 
 #pragma pack(pop)	//restore default packing alignment

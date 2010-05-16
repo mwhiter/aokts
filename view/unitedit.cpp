@@ -9,7 +9,6 @@
 #include "editors.h"
 
 #include "../util/settings.h"
-#include "../model/scen.h"
 
 #include "../util/winugly.h"
 #include <stdio.h>

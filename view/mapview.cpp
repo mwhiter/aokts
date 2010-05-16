@@ -36,6 +36,7 @@ struct Highlight
 
 struct MapViewData
 {
+	Scenario * scen;
 	HDC copydc;				//DC used for saving what's under a highlight, etc.
 	HBITMAP mapbmp;			//bitmap storage for map
 	int bmpsize;
@@ -119,12 +120,12 @@ void PaintUnits(HDC dc)
 	using std::vector;
 
 	int rx, ry;
-	int half = scen.map.x / 2;
+	int half = data.scen->map.x / 2;
 	RECT area;
 
 	for (int i = 0; i < 8; i++)	//skip GAIA for now
 	{
-		Player& p = scen.players[i];
+		Player& p = data.scen->players[i];
 
 		for (vector<Unit>::const_iterator iter = p.units.begin();
 			iter != p.units.end(); ++iter)
@@ -139,7 +140,7 @@ void PaintUnits(HDC dc)
 	}
 
 	/* TODO: Paint GAIA units here
-	p = scen.players + GAIA_INDEX;
+	p = data.scen->players + GAIA_INDEX;
 	parse = p->units.first();
 	count = p->units.count();
 	SelectObject(dc, bWhite);
@@ -171,16 +172,16 @@ void PaintMap(HDC dcdest)
 	RECT area;
 
 	/* Create a bitmap */
-	data.bmpsize = 2 * scen.map.x * setts.zoom + 1;
+	data.bmpsize = 2 * data.scen->map.x * setts.zoom + 1;
 	data.mapbmp = CreateCompatibleBitmap(dcdest, data.bmpsize, data.bmpsize);
-	half = scen.map.x / 2;
+	half = data.scen->map.x / 2;
 
 	/* Do the painting. */
 	SelectObject(data.copydc, data.mapbmp);
-	for (x = 0; x < scen.map.x; x++)
+	for (x = 0; x < data.scen->map.x; x++)
 	{
-		parse = scen.map.terrain[x];
-		for (y = 0; y < scen.map.y; y++, parse++)
+		parse = data.scen->map.terrain[x];
+		for (y = 0; y < data.scen->map.y; y++, parse++)
 		{
 			rotate(half, x, y, rx, ry);
 			area.left = rx;
@@ -202,8 +203,8 @@ POINT CalculateMinSize(HWND mapview)
 	GetWindowRect(data.statusbar, &statusrect);
 
 	// If scenario is silly small, we still want a resonable size.
-	int scenx = max(scen.map.x, 50);
-	int sceny = max(scen.map.y, 50);
+	int scenx = max(data.scen->map.x, 50);
+	int sceny = max(data.scen->map.y, 50);
 
 	POINT minsize = {
 		scenx * 2 + bordersize,
@@ -399,6 +400,7 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	HDC dc;
 
 	/* init window data */
+	data.scen = static_cast<Scenario *>(cs->lpCreateParams);
 	data.mapbmp = NULL;
 	data.bmpsize = 0;
 	data.statusbar = NULL;
@@ -435,9 +437,9 @@ void OnWM_MOUSEMOVE(HWND, int x, int y)
 
 	x -= data.offsetx;
 	y -= data.offsety;
-	unrotate(scen.map.x / 2, x, y, rx, ry);
+	unrotate(data.scen->map.x / 2, x, y, rx, ry);
 
-	if (rx >= 0 && rx < scen.map.x && ry >= 0 && ry < scen.map.y)
+	if (rx >= 0 && rx < data.scen->map.x && ry >= 0 && ry < data.scen->map.y)
 		sprintf(text, "%d, %d", rx, ry);
 
 	ScrollBar_SetText(data.statusbar, 1, text);
@@ -448,9 +450,9 @@ void OnWM_LBUTTONUP(HWND window, int x, int y)
 	HWND owner = GetWindow(window, GW_OWNER);
 	unsigned rx, ry;	//un-rotated
 
-	unrotate(scen.map.x / 2, x - data.offsetx, y - data.offsety, rx, ry);
+	unrotate(data.scen->map.x / 2, x - data.offsetx, y - data.offsety, rx, ry);
 
-	if (rx >= 0 && rx < scen.map.x && ry >= 0 && ry < scen.map.y)
+	if (rx >= 0 && rx < data.scen->map.x && ry >= 0 && ry < data.scen->map.y)
 		SendMessage(owner, MAP_Click, 0, MAKELPARAM(rx, ry));
 }
 
@@ -668,7 +670,7 @@ void MakeMapClass(HINSTANCE instance)
 	RegisterClass(&wc);
 }
 
-HWND CreateMapView(HWND owner, int x, int y)
+HWND CreateMapView(HWND owner, int x, int y, Scenario * scenario)
 {
 	static bool registered = false;
 
@@ -685,7 +687,7 @@ HWND CreateMapView(HWND owner, int x, int y)
 		WS_OVERLAPPEDWINDOW | WS_HSCROLL | WS_VSCROLL,
 		x, y,
 		0, 0,   // width, height are calculated in OnWM_CREATE
-		owner, NULL, instance, NULL);
+		owner, NULL, instance, scenario);
 
 	return mapview;
 }

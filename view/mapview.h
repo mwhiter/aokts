@@ -17,7 +17,7 @@ const char MapClass[] = "AOKTSMapView";
  * window will be left hidden; it is the caller's responsibility to call
  * ShowWindow().
  */
-HWND CreateMapView(HWND owner, int x, int y);
+HWND CreateMapView(HWND owner, int x, int y, class Scenario * scenario);
 
 enum Map_Msgs
 {

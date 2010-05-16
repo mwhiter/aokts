@@ -34,11 +34,12 @@ const char errorNoData[] =
 	uids: array of units for initial selection and save
 	count: number of set units in uids for inital selection
 */
-BOOL UnitSel(HWND parent, long player, UID &uid, long count)
+BOOL UnitSel(class Player const * players, HWND parent, long player, UID &uid,
+			 long count)
 {
 	INT_PTR ret;
 	struct UnitEdit ue =
-	{ (char)player, (short)count };
+	{ players, player, count };
 	if (count > 0)
 		*ue.ids = uid;
 
@@ -385,7 +386,7 @@ void OnOpenSel(HWND dialog, EditEffect *data)
 {
 	INT_PTR ret;
 	struct UnitEdit ue =
-	{ (char)data->e.s_player, (short)data->e.num_sel };
+	{ data->players, data->e.s_player, data->e.num_sel };
 	if (data->e.num_sel > 0)
 		memcpy(ue.ids, data->e.uids, sizeof(UID) * data->e.num_sel);
 
@@ -518,7 +519,8 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 			break;
 
 		case IDC_E_OPENSEL2:
-			if (UnitSel(dialog, data->e.t_player, data->e.uid_loc, (data->e.uid_loc != -1)))
+			if (UnitSel(data->players, dialog, data->e.t_player,
+				data->e.uid_loc, (data->e.uid_loc != -1)))
 			{
 				SetDlgItemInt(dialog, IDC_E_LOCUID, data->e.uid_loc, FALSE);
 			}
@@ -823,14 +825,16 @@ void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 	}
 	else if (id == IDC_C_USEL1)
 	{
-		if (UnitSel(dialog, data->c.player, data->c.object, (data->c.object != -1)))
+		if (UnitSel(data->players, dialog, data->c.player, data->c.object,
+			(data->c.object != -1)))
 		{
 			SetDlgItemInt(dialog, IDC_C_UIDOBJ, data->c.object, FALSE);
 		}
 	}
 	else if (id == IDC_C_USEL2)
 	{
-		if (UnitSel(dialog, data->c.player, data->c.u_loc, (data->c.u_loc != -1)))
+		if (UnitSel(data->players, dialog, data->c.player, data->c.u_loc,
+			(data->c.u_loc != -1)))
 		{
 			SetDlgItemInt(dialog, IDC_C_UIDLOC, data->c.u_loc, FALSE);
 		}

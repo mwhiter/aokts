@@ -67,9 +67,9 @@ private:
 	UID _uid;
 };
 
-vector<Unit>::size_type Player::find_unit(UID uid)
+vector<Unit>::size_type Player::find_unit(UID uid) const
 {
-	vector<Unit>::iterator iter =
+	vector<Unit>::const_iterator iter =
 		std::find_if(units.begin(), units.end(), uid_equals(uid));
 
 	// This will work for end() as well

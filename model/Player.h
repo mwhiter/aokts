@@ -36,7 +36,7 @@ public:
 	 * @return the index of the unit with the provided ID, or units.size() if
 	 * not found.
 	 */
-	std::vector<Unit>::size_type find_unit(UID uid);
+	std::vector<Unit>::size_type find_unit(UID uid) const;
 	void erase_unit(std::vector<Unit>::size_type);
 
 	bool read_aifile(FILE *in);	//returns false if out-of-memory

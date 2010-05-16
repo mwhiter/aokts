@@ -636,12 +636,12 @@ void Scenario::read_data(const char *path)	//decompressed data
 			t++->read(dc2in.get());
 		}
 
-		//read trigger order
-		t_order.allocate(n_trigs, true);
-		readbin(dc2in.get(), t_order.first(), n_trigs);
+		// Directly read trigger order: this /is/ allowed by std::vector.
+		t_order.resize(n_trigs);
+		readbin(dc2in.get(), &t_order.front(), n_trigs);
 
 		// verify just the first one because I'm lazy
-		if (*t_order.first() > n_trigs)
+		if (t_order.front() > n_trigs)
 			throw bad_data_error("Trigger order list corrupted. Possibly out of sync.");
 	}
 
@@ -860,7 +860,7 @@ int Scenario::write_data(const char *path)
 		t_parse++;
 	}
 
-	fwrite(t_order.first(), sizeof(long), num, dcout);
+	fwrite(&t_order.front(), sizeof(long), num, dcout);
 
 	/* Included Files */
 
@@ -895,12 +895,11 @@ bool Scenario::export_bmp(const char *path)
 void Scenario::clean_triggers()
 {
 	vector<bool> kill(triggers.count(), true); //contains whether a trigger should be deleted
-	unsigned long *o_parse;
 
-	//save the ones that are still indexed on t_order
-	o_parse = t_order.first();
-	for (size_t i = 0; i != t_order.count(); ++i)
-		kill[*o_parse++] = false;
+	// don't kil the ones that are still indexed on t_order
+	for (vector<unsigned long>::const_iterator i = t_order.begin();
+		i != t_order.end(); ++i)
+		kill[*i] = false;
 
 	/* Now delete the ones still on the kill list. We do this backwards because
 	 * that only invalidates the indices on and after the current one. */
@@ -915,15 +914,13 @@ void Scenario::clean_triggers()
 
 		triggers.remove(t_index);
 
-		//adjust t_order accordingly
-		o_parse = t_order.first();
-		for (int j = 0; j < t_order.count(); ++j)
+		// Decrement t_order entries referencing triggers beyond the one we
+		// just removed.
+		for (vector<unsigned long>::iterator j = t_order.begin();
+			j != t_order.end(); ++j)
 		{
-			// If the order index is beyond the one we just deleted, shift it.
-			if (*o_parse > t_index)
-				(*o_parse)--;
-
-			o_parse++;
+			if (*j > t_index)
+				--(*j);
 		}
 
 		//adjust effect's trigger indexes accordingly (UGH!)
@@ -946,47 +943,28 @@ void Scenario::clean_triggers()
 
 size_t Scenario::insert_trigger(Trigger *t, size_t after)
 {
-	size_t tindex;
-	size_t count = t_order.count();
-	unsigned long *o_parse = t_order.first();
+	size_t tindex = triggers.append(*t);
 
-	tindex = triggers.append(*t);
-
+	// TODO: does the -1 work?
 	if (after == -1)
-		t_order.append(tindex);
+	{
+		t_order.push_back(tindex);
+	}
 	else
 	{
-		//scroll through the t_order list and insert the new item after the source
-		while (count--)
-		{
-			if (*o_parse == after)
-			{
-				t_order.insert(o_parse + 1, tindex);
-				break;
-			}
+		// Find the /after/ value in t_order.
+		vector<unsigned long>::iterator where =
+			std::find(t_order.begin(), t_order.end(), after);
 
-			o_parse++;
-		}
+		// If the /after/ value was actually there, insert after it.
+		// (Otherwise, we'll insert at the end, i.e. append.)
+		if (where != t_order.end())
+			++where;
+
+		t_order.insert(where, tindex);
 	}
 
 	return tindex;
-}
-
-unsigned long *Scenario::find_trigger(unsigned long trigger)
-{
-	unsigned long *ret = NULL;
-	int count = t_order.count();
-	unsigned long *o_parse = t_order.first();
-
-	while (count--)
-	{
-		if (*o_parse == trigger)
-			ret = o_parse;
-
-		o_parse++;
-	}
-
-	return ret;
 }
 
 void Scenario::accept(TriggerVisitor& tv)

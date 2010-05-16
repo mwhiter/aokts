@@ -24,6 +24,7 @@
 #include <stdio.h>	//sprintf()
 #include <windowsx.h>	//for GET_X_LPARAM, GET_Y_LPARAM
 #include <stdexcept>
+#include <algorithm>
 
 using std::vector;
 
@@ -102,13 +103,14 @@ HTREEITEM TrigTree_GetLastCondition(HWND treeview, HTREEITEM trigger);
 */
 void FillTrigCB(HWND combobox, size_t select)
 {
-	for (int i = 0; i < scen.t_order.count(); i++)
+	for (vector<unsigned long>::const_iterator i = scen.t_order.begin();
+		i != scen.t_order.end(); ++i)
 	{
-		size_t next = *scen.t_order.at(i);
-		Combo_AddStringA(combobox, scen.triggers.at(next)->name);
-		SendMessage(combobox, CB_SETITEMDATA, i, next);
-		if (next == select)
-			SendMessage(combobox, CB_SETCURSEL, i, 0);	//to avoid cycling through again in LoadEffect()
+		LRESULT idx = Combo_AddStringA(combobox, scen.triggers.at(*i)->name);
+		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
+
+		if (*i == select)	//to avoid cycling through again in LoadEffect()
+			SendMessage(combobox, CB_SETCURSEL, idx, 0);
 	}
 }
 
@@ -174,8 +176,6 @@ ItemData::ItemData(enum TType type, int index)
 
 bool ItemData::Delete(HWND, HTREEITEM)
 {
-	unsigned long *entry;
-
 	if (editor_count)
 		return false;
 
@@ -185,8 +185,11 @@ bool ItemData::Delete(HWND, HTREEITEM)
 		This is necessary to preserve indexes, for the TVITEM lParams and
 		especially for Effect::trig_index.
 	*/
-	if ((entry = scen.find_trigger(index)) >= 0)
-		scen.t_order.remove(entry, 1);
+	vector<unsigned long>::iterator iter =
+		std::find(scen.t_order.begin(), scen.t_order.end(), index);
+
+	if (iter != scen.t_order.end()) // Is this check necessary?
+		scen.t_order.erase(iter);
 
 	return true;
 }
@@ -247,6 +250,7 @@ void ItemData::OpenEditor(HWND parent, HTREEITEM)
 	MessageBox(parent, errorNoEditTrig, szTrigTitle, MB_ICONWARNING);
 }
 
+// TODO: this is retarded, it should be Move instead!
 bool ItemData::Copy(HWND treeview, HTREEITEM, HTREEITEM target)
 {
 	bool ret = false;
@@ -254,9 +258,10 @@ bool ItemData::Copy(HWND treeview, HTREEITEM, HTREEITEM target)
 
 	if (id_target->type == TRIGGER)
 	{
-		unsigned long *t_target = scen.find_trigger(id_target->index);
+		vector<unsigned long>::iterator t_target =
+			std::find(scen.t_order.begin(), scen.t_order.end(), id_target->index);
 
-		if (t_target >= 0)
+		if (t_target != scen.t_order.end())
 		{
 			/*	Note: this does NOT make a real copy, it can really
 				only be used for moving. */
@@ -1044,8 +1049,6 @@ void TrigTree_DuplicatePlayers(HWND treeview)
 */
 void TrigTree_Reset(HWND treeview, bool refresh)
 {
-	unsigned long *order;
-	unsigned int count;
 	HCURSOR wait, previous;
 
 	wait = (HCURSOR)LoadImage(NULL, MAKEINTRESOURCE(OCR_WAIT), IMAGE_CURSOR, 0, 0, LR_SHARED);
@@ -1059,11 +1062,11 @@ void TrigTree_Reset(HWND treeview, bool refresh)
 
 	if (refresh)
 	{
-		order = scen.t_order.first();
-		count = scen.t_order.count();
-
-		while (count--)
-			TrigTree_AddTrig(treeview, *order++, TVI_LAST);
+		for (vector<unsigned long>::const_iterator i = scen.t_order.begin();
+			i != scen.t_order.end(); ++i)
+		{
+			TrigTree_AddTrig(treeview, *i, TVI_LAST);
+		}
 	}
 }
 

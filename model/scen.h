@@ -188,8 +188,8 @@ public:
 	Map map;
 	float	editor_pos[2];
 	char    unk2;     // might be related to triggers?
-	SVector <Trigger> triggers;	//Triggers
-	SVector <unsigned long> t_order;
+	SVector <Trigger> triggers;
+	std::vector<unsigned long> t_order;
 
 	long unk3; // TODO: rename
 	long unk4;
@@ -211,23 +211,18 @@ public:
 	void clean_triggers();
 
 	/*
-		insert_trigger: Inserts a copy of a trigger into the trigger list after a specified
-		trigger.
+		insert_trigger: Inserts a copy of a trigger into the trigger list after
+		a specified trigger.
 
-		t: The trigger to copy.
-		after: The index of the preceding trigger.
+		@param t The trigger to copy.
+		@param after The index of the preceding trigger.
 
 		Returns the index of the inserted trigger in the trigger vector.
 
-		Note: This both appends the trigger to the trigger list and then inserts it into
-		t_order.
+		Note: This both appends the trigger to the trigger list and then
+		inserts it into t_order.
 	*/
 	size_t insert_trigger(Trigger *t, size_t after);
-
-	/*
-		find_trigger: returns a trigger item in the t_order array
-	*/
-	unsigned long *find_trigger(unsigned long trigger);
 
 	/**
 	 * Applies a TriggerVisitor to all triggers in the scenario.

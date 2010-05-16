@@ -37,6 +37,7 @@
 #include "../util/settings.h"
 #include "../model/scen.h"
 #include "../model/TrigXmlVisitor.h"
+#include "../model/TrigXmlReader.h"
 #include "editors.h"
 #include "mapview.h"
 #include "../util/winugly.h"
@@ -46,6 +47,7 @@
 #include "LCombo.h"
 #include "../resource.h" // must be included after Windows stuff
 #include <ctype.h>
+#include <fstream>
 
 /* Microsoft-specific stuff */
 #ifdef _MSC_VER
@@ -476,6 +478,14 @@ void OnFileTrigWrite(HWND dialog)
  */
 void OnFileTrigRead(HWND dialog)
 {
+	char path[MAX_PATH] = "";
+
+	if (!GetOpenFileNameA(dialog, path, MAX_PATH))
+		return;
+
+	std::ifstream textin(path, std::ios_base::in);
+	TrigXmlReader reader;
+	reader.read(textin);
 }
 
 /*

@@ -472,6 +472,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\model\TrigXmlReader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\model\TrigXmlReader.h"
+				>
+			</File>
+			<File
 				RelativePath=".\model\TrigXmlVisitor.cpp"
 				>
 			</File>

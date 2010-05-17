@@ -18,9 +18,6 @@
 
 /** Shared **/
 
-#undef NUM_PLAYERS
-#define NUM_PLAYERS 9
-
 const wchar_t *noselect = L"<none>";
 
 const char errorNoData[] =
@@ -43,14 +40,6 @@ void EditCondition::update(Trigger *t)
 {
 	t->conds[index] = c;
 }
-
-/*
-	players_ec: Alternate combo-box string list for effect/condition editing.
-*/
-const char *players_ec[NUM_PLAYERS] =
-{
-	"GAIA", "Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6", "Player 7", "Player 8"
-};
 
 /** Effect Editor **/
 
@@ -219,8 +208,8 @@ void LoadEffect(HWND dialog, EditEffect *data)
 
 	Combo_Fill(dialog, IDC_E_TYPE, Effect::types, NUM_EFFECTS);
 
-	Combo_Fill(dialog, IDC_E_SPLAY, players_ec, NUM_PLAYERS);
-	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, NUM_PLAYERS);
+	Combo_Fill(dialog, IDC_E_SPLAY, players_ec, EC_NUM_PLAYERS);
+	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_DSTATE, dnames, 3);
 	Combo_Fill(dialog, IDC_E_PANEL, pnames, 3);
 	LCombo_Fill(dialog, IDC_E_RESEARCH, e->pTech, esdata.techs);
@@ -661,7 +650,7 @@ void LoadCond(HWND dialog, EditCondition *data)
 	Condition *c = &data->c;
 
 	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, NUM_CONDS);
-	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, NUM_PLAYERS);
+	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS);
 	LCombo_Fill(dialog, IDC_C_RESEARCH, c->pTech, esdata.techs);
 	LCombo_FillById(dialog, IDC_C_RESTYPE, c->res_type, esdata.resources);
 	FillCB(GetDlgItem(dialog, IDC_C_GROUP), NUM_GROUPS, groups, c->group);

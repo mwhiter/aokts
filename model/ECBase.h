@@ -12,14 +12,26 @@
 	MODEL
 **/
 
-/** Some macros because the effect/condition player
-	numbers are weird. **/
+/**
+ * Since Effects & Conditions use a different player-numbering system, and
+ * there's no sure way to deduce how the scenario would handle Player > 8, we
+ * just limit E/C to players 1-8 and GAIA.
+ */
+const size_t EC_NUM_PLAYERS = 9;
+
+// And some macros to convert between standard and E/C numbering.
 #define P_StdToEC(i) \
 	if (++i == 9) \
 		i = 0;
 #define P_ECToStd(i) \
 	if (--i == -1) \
-		i = ECBase::GAIA_INDEX;
+		i = GAIA_INDEX;
+
+/**
+ * Contains player names in E/C ordering.
+ * TODO: put in ECBase
+ */
+extern char const *players_ec[EC_NUM_PLAYERS];
 
 enum TType
 {

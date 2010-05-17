@@ -256,6 +256,8 @@ void LoadEffect(HWND dialog, EditEffect *data)
 	FillCB(GetDlgItem(dialog, IDC_E_UTYPE), NUM_UTYPES, utypes, e->utype);
 	LCombo_Fill(dialog, IDC_E_UCNST, e->pUnit, esdata.units, noselect);
 
+	// Refresh trigger combo box.
+	SendMessageW(GetDlgItem(dialog, IDC_E_TRIG), CB_RESETCONTENT, 0, 0);
 	data->TrigCallback(GetDlgItem(dialog, IDC_E_TRIG), e->trig_index);
 
 	SendDlgItemMessage(dialog, IDC_E_TYPE, CB_SETCURSEL, e->type, 0);

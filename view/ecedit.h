@@ -62,7 +62,15 @@ public:
 	EditEffect(Effect &source);	//copy constructor must be called
 
 	Effect e;
-	void (__cdecl *TrigCallback)(HWND, unsigned);
+
+	/**
+	 * Effect editor calls this to fill an combobox with a list of the
+	 * scenario's triggers. Each entry's userdata should be the index of the
+	 * trigger.
+	 *
+	 * @param selection callback function should select this trigger in the box
+	 */
+	void (__cdecl *TrigCallback)(HWND, unsigned selection);
 
 	void update(Trigger *t);
 };

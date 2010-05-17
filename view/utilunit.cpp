@@ -365,3 +365,24 @@ INT_PTR UnitSelDialogBox(HINSTANCE instance,
 		SelDlgProc,
 		reinterpret_cast<LPARAM>(&ue));
 }
+
+bool SingleUnitSelDialogBox(
+		HWND parent, Player const * players, UID& uid, bool uid_specified)
+{
+	bool ret;
+	struct UnitEdit ue =
+	{ players, -1, uid_specified };
+	if (uid_specified)
+		ue.ids[0] = uid;
+	else
+		ue.player = 0;  // default to player 1
+
+	ret = UnitSelDialogBox(GetModuleHandle(NULL), parent, ue, false);
+
+	if (ret)
+	{
+		uid = ue.ids[0];
+	}
+
+	return ret;
+}

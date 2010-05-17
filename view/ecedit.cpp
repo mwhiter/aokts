@@ -26,33 +26,6 @@ const wchar_t *noselect = L"<none>";
 const char errorNoData[] =
 "No Data! Functionality will be impaired.";
 
-/*
-	UnitSel: Opens a single-sel unit selection box and updates parameters.
-
-	parent: parent window of dialog box
-	player: if player is known, specify. otherwise, set -1
-	uids: array of units for initial selection and save
-	count: number of set units in uids for inital selection
-*/
-BOOL UnitSel(class Player const * players, HWND parent, long player, UID &uid,
-			 long count)
-{
-	INT_PTR ret;
-	struct UnitEdit ue =
-	{ players, player, count };
-	if (count > 0)
-		*ue.ids = uid;
-
-	ret = UnitSelDialogBox(GetModuleHandle(NULL), parent, ue, false);
-
-	if (ret && ue.count > 0)
-	{
-		uid = *ue.ids;
-	}
-
-	return ret;
-}
-
 /* Editor classes */
 
 EditEffect::EditEffect(Effect &source)
@@ -521,7 +494,7 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 			break;
 
 		case IDC_E_OPENSEL2:
-			if (UnitSel(data->players, dialog, data->e.t_player,
+			if (SingleUnitSelDialogBox(dialog, data->players,
 				data->e.uid_loc, (data->e.uid_loc != -1)))
 			{
 				SetDlgItemInt(dialog, IDC_E_LOCUID, data->e.uid_loc, FALSE);
@@ -827,16 +800,16 @@ void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 	}
 	else if (id == IDC_C_USEL1)
 	{
-		if (UnitSel(data->players, dialog, data->c.player, data->c.object,
-			(data->c.object != -1)))
+		if (SingleUnitSelDialogBox(dialog, data->players,
+			data->c.object, data->c.object != -1))
 		{
 			SetDlgItemInt(dialog, IDC_C_UIDOBJ, data->c.object, FALSE);
 		}
 	}
 	else if (id == IDC_C_USEL2)
 	{
-		if (UnitSel(data->players, dialog, data->c.player, data->c.u_loc,
-			(data->c.u_loc != -1)))
+		if (SingleUnitSelDialogBox(dialog, data->players,
+			data->c.u_loc, data->c.u_loc != -1))
 		{
 			SetDlgItemInt(dialog, IDC_C_UIDLOC, data->c.u_loc, FALSE);
 		}

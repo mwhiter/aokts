@@ -85,7 +85,17 @@ INT_PTR UnitSelDialogBox(HINSTANCE instance,
 						 UnitEdit& ue,
 						 bool multisel = false);
 
-void LoadList(HWND dialog);
-void SaveList(HWND dialog);
+/**
+ * Displays a modal, single unit selection dialog box.
+ *
+ * @param parent The parent window of the dialog box.
+ * @param players Array of Players to display. (Must have NUM_PLAYERS entries.)
+ * @param uid In/Out Specifies initial UID to select, returns new selection.
+ * @param uid_specified Set true if uid contains a meaningful initial value.
+ *
+ * @return true if the user pressed "OK", false if "Cancel"
+ */
+bool SingleUnitSelDialogBox(HWND parent, Player const * players,
+							UID& uid, bool uid_specified = false);
 
 #endif	//UTILUNIT_H

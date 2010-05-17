@@ -377,7 +377,7 @@ bool SingleUnitSelDialogBox(
 	else
 		ue.player = 0;  // default to player 1
 
-	ret = UnitSelDialogBox(GetModuleHandle(NULL), parent, ue, false);
+	ret = (UnitSelDialogBox(GetModuleHandle(NULL), parent, ue, false) != 0);
 
 	if (ret)
 	{

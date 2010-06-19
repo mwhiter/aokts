@@ -1,6 +1,7 @@
 AOK Trigger Studio - 1.0.0 (06 April 2010)
 Created by David Tombs (DiGiT)
 cyan.spam@gmail.com
+http://sourceforge.net/projects/aokts/
 
 
 --Installation--
@@ -18,6 +19,9 @@ Instructions:
 1) Unzip aokts.exe, zlib1.dll, and libexpat.dll into a folder of your choice,
    no install program is necessary.
 2) (Optional) Configure aokts.ini to your preference.
+3) If you get any errors about DLLs, "Side-by-side assemblies", or "application
+   configuration" being incorrect, download and install vcredist_x86.exe from
+   the sourceforge.net page.
 
 
 --How to Use--
@@ -33,8 +37,8 @@ During loading/saving, a decompressed scenario called 'scendata.tmp' will be
 created in the program directory.
 
 If you have suggestions, comments, or bugs report them at
-<http://www.digitization.org/bugs/> (don't worry, there's an option to request
-a feature too). Thanks for trying it out!
+<https://sourceforge.net/projects/aokts/> (don't worry, there's an option to
+request a feature too). Thanks for trying it out!
 
 
 --System Requirements--

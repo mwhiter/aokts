@@ -54,6 +54,12 @@ inline LRESULT Combo_GetSelData(HWND combobox);
 
 /** List Box Utility Functions **/
 
+/**
+ * @return the index of the item with the associated cPtr, or UINT_MAX if none
+ * found.
+ */
+unsigned ListBox_Find(HWND listbox, const void *);
+
 /*
  * Appends a Link * to a List Box. Should be used in conjunction with
  * LinkListBox_Get().

@@ -28,6 +28,20 @@ void Combo_Fill(HWND dialog, int id, char const * * strings, size_t count)
 		Combo_AddStringA(control, *strings++);
 }
 
+unsigned ListBox_Find(HWND unitbox, const void *type)
+{
+	int index;
+	index = SendMessageW(unitbox, LB_GETCOUNT, 0, 0);
+
+	while (index--)
+	{
+		if (List_GetItemData_cPtr(unitbox, index) == type)
+			return index;
+	}
+
+	return UINT_MAX;
+}
+
 LRESULT LinkListBox_Add(HWND listbox, const Link *link)
 {
 	WPARAM index = List_AddStringW(listbox, link->name());

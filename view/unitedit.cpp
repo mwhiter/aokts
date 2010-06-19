@@ -46,20 +46,6 @@ inline int truncate(float x)
 	return (int)x;
 }
 
-unsigned UnitList_FindUnit(HWND unitbox, const UnitLink *type)
-{
-	int index;
-	index = SendMessageW(unitbox, LB_GETCOUNT, 0, 0);
-
-	while (index--)
-	{
-		if (List_GetItemData_cPtr(unitbox, index) == type)
-			return index;
-	}
-
-	return UINT_MAX;
-}
-
 bool Units_Load(HWND dialog)
 {
 	bool ret = true;
@@ -94,7 +80,7 @@ bool Units_Load(HWND dialog)
 		return false;
 	}
 	SetDlgItemInt(dialog, IDC_U_CONST, type->id(), FALSE);
-	c_index = UnitList_FindUnit(unitbox, type);
+	c_index = ListBox_Find(unitbox, type);
 
 	//if unit is not in current list, change list to "All"
 	if (c_index == UINT_MAX)
@@ -103,7 +89,7 @@ bool Units_Load(HWND dialog)
 		UnitList_FillGroup(unitbox, NULL);
 
 		//now search for unit on the "All" list. (If this fails, too bad.)
-		if ((c_index = UnitList_FindUnit(unitbox, type)) == UINT_MAX)
+		if ((c_index = ListBox_Find(unitbox, type)) == UINT_MAX)
 			MessageBox(dialog, errorUnfoundType, szTitle, MB_ICONWARNING);
 	}
 

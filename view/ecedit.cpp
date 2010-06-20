@@ -202,21 +202,24 @@ void EffectControls(HWND dialog, int type)
 const char *dnames[3] = { "Ally", "Neutral", "Enemy" };
 const char *pnames[3] = { "Pan. 0", "Pan. 1", "Pan. 2" };
 
-void LoadEffect(HWND dialog, EditEffect *data)
+void E_Init(HWND dialog)
 {
-	Effect *e = &data->e;
-
 	Combo_Fill(dialog, IDC_E_TYPE, Effect::types, NUM_EFFECTS);
 
 	Combo_Fill(dialog, IDC_E_SPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_DSTATE, dnames, 3);
 	Combo_Fill(dialog, IDC_E_PANEL, pnames, 3);
-	LCombo_Fill(dialog, IDC_E_RESEARCH, e->pTech, esdata.techs);
-	LCombo_FillById(dialog, IDC_E_RESTYPE, e->res_type, esdata.resources);
-	FillCB(GetDlgItem(dialog, IDC_E_GROUP),	NUM_GROUPS, groups, e->group);
-	FillCB(GetDlgItem(dialog, IDC_E_UTYPE), NUM_UTYPES, utypes, e->utype);
-	LCombo_Fill(dialog, IDC_E_UCNST, e->pUnit, esdata.units, noselect);
+	LCombo_Fill(dialog, IDC_E_RESEARCH, esdata.techs);
+	LCombo_Fill(dialog, IDC_E_RESTYPE, esdata.resources);
+	Combo_PairFill(GetDlgItem(dialog, IDC_E_GROUP), NUM_GROUPS, groups);
+	Combo_PairFill(GetDlgItem(dialog, IDC_E_UTYPE), NUM_UTYPES, utypes);
+	LCombo_Fill(dialog, IDC_E_UCNST, esdata.units, noselect);
+}
+
+void LoadEffect(HWND dialog, EditEffect *data)
+{
+	Effect *e = &data->e;
 
 	// Refresh trigger combo box.
 	SendMessageW(GetDlgItem(dialog, IDC_E_TRIG), CB_RESETCONTENT, 0, 0);
@@ -245,10 +248,12 @@ void LoadEffect(HWND dialog, EditEffect *data)
 	SetDlgItemInt(dialog, IDC_E_AREAX2, e->area.right, TRUE);
 	SetDlgItemInt(dialog, IDC_E_AREAY2, e->area.top, TRUE);
 	SetDlgItemInt(dialog, IDC_E_AIGOAL, e->ai_goal, TRUE);
-	//unit_cnst selected above
-	//tech selected above
+	LCombo_Select(dialog, IDC_E_UCNST, e->pUnit);
+	Combo_SelectByData(GetDlgItem(dialog, IDC_E_GROUP), e->group);
+	Combo_SelectByData(GetDlgItem(dialog, IDC_E_UTYPE), e->utype);
+	LCombo_Select(dialog, IDC_E_RESEARCH, e->pTech);
 	SetDlgItemInt(dialog, IDC_E_AMOUNT, e->amount, TRUE);
-	//res_type selected above
+	LCombo_SelById(dialog, IDC_E_RESTYPE, e->res_type);
 	//trig_index selected above
 	SendDlgItemMessage(dialog, IDC_E_LOCM, BM_SETCHECK,
 		(e->uid_loc != -1) ? BST_CHECKED : BST_UNCHECKED, 0);
@@ -521,6 +526,8 @@ INT_PTR CALLBACK EffectWndProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_INITDIALOG:
 		data = (EditEffect*)lParam;
 
+		E_Init(dialog);
+
 		if (!data)
 		{
 			MessageBox(dialog, errorNoData, "Error", MB_ICONWARNING);
@@ -645,31 +652,38 @@ void ConditionControls(HWND dialog, int type)
 	}
 }
 
+void C_Init(HWND dialog)
+{
+	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, NUM_CONDS);
+	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS);
+	LCombo_Fill(dialog, IDC_C_RESEARCH, esdata.techs);
+	LCombo_Fill(dialog, IDC_C_RESTYPE, esdata.resources);
+	Combo_PairFill(GetDlgItem(dialog, IDC_C_GROUP), NUM_GROUPS, groups);
+	Combo_PairFill(GetDlgItem(dialog, IDC_C_UTYPE), NUM_UTYPES, utypes);
+	LCombo_Fill(dialog, IDC_C_UCNST, esdata.units, noselect);
+}
+
 void LoadCond(HWND dialog, EditCondition *data)
 {
 	Condition *c = &data->c;
 
-	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, NUM_CONDS);
-	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS);
-	LCombo_Fill(dialog, IDC_C_RESEARCH, c->pTech, esdata.techs);
-	LCombo_FillById(dialog, IDC_C_RESTYPE, c->res_type, esdata.resources);
-	FillCB(GetDlgItem(dialog, IDC_C_GROUP), NUM_GROUPS, groups, c->group);
-	FillCB(GetDlgItem(dialog, IDC_C_UTYPE), NUM_UTYPES, utypes, c->utype);
-	LCombo_Fill(dialog, IDC_C_UCNST, c->pUnit, esdata.units, noselect);
 	SendDlgItemMessage(dialog, IDC_C_TYPE, CB_SETCURSEL, c->type, 0);
 	SendDlgItemMessage(dialog, IDC_C_PLAYER, CB_SETCURSEL, c->player, 0);
 	SetDlgItemInt(dialog, IDC_C_UIDOBJ, c->object, TRUE);
 	SetDlgItemInt(dialog, IDC_C_UIDLOC, c->u_loc, TRUE);
-	//unit_cnst selected above
+	LCombo_Select(dialog, IDC_C_UCNST, c->pUnit);
+	Combo_SelectByData(GetDlgItem(dialog, IDC_C_GROUP), c->group);
+	Combo_SelectByData(GetDlgItem(dialog, IDC_C_UTYPE), c->utype);
 	SetDlgItemInt(dialog, IDC_C_AREAX1, c->area.left, TRUE);
 	SetDlgItemInt(dialog, IDC_C_AREAY1, c->area.bottom, TRUE);
 	SetDlgItemInt(dialog, IDC_C_AREAX2, c->area.right, TRUE);
 	SetDlgItemInt(dialog, IDC_C_AREAY2, c->area.top, TRUE);
 	SetDlgItemInt(dialog, IDC_C_TIMER, c->timer, TRUE);
 	SetDlgItemInt(dialog, IDC_C_AISIG, c->ai_signal, TRUE);
+	LCombo_Select(dialog, IDC_C_RESEARCH, c->pTech);
 	SetDlgItemInt(dialog, IDC_C_U1, c->u1, TRUE);
 	SetDlgItemInt(dialog, IDC_C_AMOUNT, c->amount, TRUE);
-	//res_type selected above
+	LCombo_SelById(dialog, IDC_C_RESTYPE, c->res_type);
 
 	if (c->u1 != -1)
 		MessageBox(dialog, "OMG! An unknown member had a meaningful value! You must report this!",
@@ -820,6 +834,8 @@ INT_PTR CALLBACK CondWndProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam
 	case WM_INITDIALOG:
 		{
 			class EditCondition *data = (EditCondition*)lParam;
+
+			C_Init(dialog);
 
 			if (data)
 			{

@@ -41,9 +41,15 @@ void SetWindowText(HWND wnd, int value);
 void Combo_Fill(HWND dialog, int id, char const * * strings, size_t count);
 
 /*
-	FillCB: Fills a combobox with strings with associated data and selects one.
+	Combo_PairFill: Fills a combobox with strings & data from PAIRs.
 */
-void FillCB(HWND combobox, unsigned count, const struct PAIR *pairs, unsigned select);
+void Combo_PairFill(HWND combobox, unsigned count, const struct PAIR *pairs);
+
+/**
+ * Selects the item from a Combo Box that has the associated data.
+ * @return the index of the selected item
+ */
+LRESULT Combo_SelectByData(HWND combobox, int data);
 
 /*
  * Retrieves item data from the currently-selected item in the combo box.

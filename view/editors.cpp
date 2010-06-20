@@ -446,10 +446,10 @@ char ttAI[] =
 BOOL Players_Init(HWND dialog)
 {
 	/* Fill Combo Boxes */
-	LCombo_FillById(dialog, IDC_P_CIV, (unsigned)-1, esdata.civs);
+	LCombo_Fill(dialog, IDC_P_CIV, esdata.civs);
 	Combo_Fill(dialog, IDC_P_SPDIP, Player::names, NUM_PLAYERS);
 	SendDlgItemMessage(dialog, IDC_P_SPDIP, CB_SETCURSEL, 0, 0);	//set to player 0, or we get diplomacy[-1]
-	LCombo_FillById(dialog, IDC_P_COLOR, (unsigned)-1, esdata.colors);
+	LCombo_Fill(dialog, IDC_P_COLOR, esdata.colors);
 	Combo_Fill(dialog, IDC_P_AGE, ages, NUM_AGES);
 
 	/* Set resource names per game */
@@ -1331,7 +1331,7 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			LB_Fill(GetDlgItem(dialog, IDC_TR_ID), esdata.terrains);
 
-			LCombo_FillById(dialog, IDC_TR_AITYPE, (unsigned)-1, esdata.aitypes);
+			LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes);
 			Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
 			Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
 

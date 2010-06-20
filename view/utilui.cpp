@@ -98,20 +98,34 @@ UINT GetCheckedRadio(HWND dialog, UINT first, UINT last)
 	return 0;
 }
 
-void FillCB(HWND combobox, unsigned count, const struct PAIR *pairs, unsigned select)
+void Combo_PairFill(HWND combobox, unsigned count, const struct PAIR *pairs)
 {
-	unsigned index, type;
-
 	while (count--)
 	{
+		unsigned index, type;
 		type = pairs->index;
 		index = SendMessage(combobox, CB_ADDSTRING, 0, (LPARAM)pairs->name);
 		SendMessage(combobox, CB_SETITEMDATA, index, type);
-		if (type == select)
-			SendMessage(combobox, CB_SETCURSEL, index, 0);
 
 		pairs++;
 	}
+}
+
+LRESULT Combo_SelectByData(HWND combobox, int data)
+{
+	LRESULT index;
+	index = SendMessageW(combobox, CB_GETCOUNT, 0, 0);
+
+	while (index--)
+	{
+		if (SendMessage(combobox, CB_GETITEMDATA, index, 0) == data)
+		{
+			SendMessage(combobox, CB_SETCURSEL, index, 0);
+			return index;
+		}
+	}
+
+	return UINT_MAX;
 }
 
 bool GetOpenFileNameA(HWND owner, char * path, DWORD maxPath)

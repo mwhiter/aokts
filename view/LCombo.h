@@ -19,10 +19,10 @@
 int LinkComboBox_Fill(HWND combobox, const Link *list, const Link *select,
 		const wchar_t * nosel);
 
-inline LRESULT LCombo_Fill(HWND dialog, int id, const Link * sel_link,
-		const Link * list, const wchar_t * nosel = NULL)
+inline LRESULT LCombo_Fill(HWND dialog, int id, const Link * list,
+		const wchar_t * nosel = NULL)
 {
-	return LinkComboBox_Fill(GetDlgItem(dialog, id), list, sel_link, nosel);
+	return LinkComboBox_Fill(GetDlgItem(dialog, id), list, NULL, nosel);
 }
 
 /* Clears contents and fills the combobox with the provided items, selecting
@@ -36,12 +36,12 @@ inline LRESULT LCombo_Fill(HWND dialog, int id, const Link * sel_link,
 int LinkComboBox_FillById(HWND combobox, const Link *list, int select,
 		const wchar_t * nosel);
 
-inline LRESULT LCombo_FillById(HWND dialog, int id, WPARAM sel_index, const
-		Link * list, const wchar_t * nosel = NULL)
-{
-	return LinkComboBox_FillById(GetDlgItem(dialog, id), list, sel_index,
-		nosel);
-}
+//inline LRESULT LCombo_FillById(HWND dialog, int id, WPARAM sel_index, const
+//		Link * list, const wchar_t * nosel = NULL)
+//{
+//	return LinkComboBox_FillById(GetDlgItem(dialog, id), list, sel_index,
+//		nosel);
+//}
 
 /*
  * @return Link::id() of current selection
@@ -71,6 +71,19 @@ int LinkComboBox_Find(HWND combobox, const Link * data);
 inline LRESULT LCombo_Find(HWND dialog, int id, const Link * item)
 {
 	return LinkComboBox_Find(GetDlgItem(dialog, id), item);
+}
+
+/**
+ * Convenience method to find the specified item in the LCombo and select it.
+ * @return the index selected
+ */
+inline int LCombo_Select(HWND dialog, int id, const Link * item)
+{
+	HWND combobox = GetDlgItem(dialog, id);
+	int index = LinkComboBox_Find(combobox, item);
+	SendMessage(combobox, CB_SETCURSEL, index, 0);
+
+	return index;
 }
 
 int LinkComboBox_SelById(HWND combobox, int x);

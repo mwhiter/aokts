@@ -334,7 +334,7 @@ BOOL Units_HandleInit(HWND dialog)
 	Combo_Fill(dialog, IDC_U_SORT, sorts, NUM_SORTS);
 	SendDlgItemMessage(dialog, IDC_U_SORT, CB_SETCURSEL, 0, 0);
 
-	LCombo_Fill(dialog, IDC_U_TYPE, NULL, esdata.unitgroups, L"All");
+	LCombo_Fill(dialog, IDC_U_TYPE, esdata.unitgroups, L"All");
 	UnitList_FillGroup(GetDlgItem(dialog, IDC_U_UNIT), NULL);
 
 	//set edit control limits

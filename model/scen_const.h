@@ -54,14 +54,6 @@ enum AOKTS_ERROR
 
 /** External constants **/
 
-/* index & string pair for the disorganized ES data */
-struct PAIR
-{
-	int index;
-	char *name;
-};
-
-
 enum Diplomacy
 {
 	DIP_ally, DIP_neutral, DIP_unknown, DIP_enemy

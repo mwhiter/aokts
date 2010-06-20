@@ -6,7 +6,7 @@
 	VIEW/CONTROLLER
 **/
 
-#include "../model/scen_const.h"
+#include "../model/datatypes.h"
 #include "utilui.h"
 #include "../util/winugly.h"
 
@@ -40,20 +40,6 @@ unsigned ListBox_Find(HWND unitbox, const void *type)
 	}
 
 	return UINT_MAX;
-}
-
-LRESULT LinkListBox_Add(HWND listbox, const Link *link)
-{
-	WPARAM index = List_AddStringW(listbox, link->name());
-	List_SetItemData(listbox, index, link);
-
-	return index;
-}
-
-const Link * LinkListBox_Get(HWND listbox, WPARAM index)
-{
-	return static_cast<const Link *>(
-		List_GetItemData_cPtr(listbox, index));
 }
 
 void GetWindowText(HWND wnd, SString &value)

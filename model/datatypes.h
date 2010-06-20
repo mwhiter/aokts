@@ -8,8 +8,8 @@
 	MODEL
 **/
 
-#ifndef SSTRING_H
-#define SSTRING_H
+#ifndef INC_DATATYPES_H
+#define INC_DATATYPES_H
 
 #include <new>        /* for placement new */
 #include <assert.h>
@@ -23,6 +23,13 @@
 
 typedef struct _iobuf FILE;
 class Buffer;
+
+/* index & string pair for the disorganized ES data */
+struct PAIR
+{
+	int index;
+	char *name;
+};
 
 /* Simple Variable-length string */
 
@@ -463,4 +470,4 @@ template <class _AC> bool SList <_AC>::remove(SLink <_AC> *which)
 	return ret;
 }
 
-#endif //SSTRING_H
+#endif //INC_DATATYPES_H

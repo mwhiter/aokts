@@ -538,6 +538,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\view\LinkListBox.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\LinkListBox.h"
+				>
+			</File>
+			<File
 				RelativePath=".\view\mapview.cpp"
 				>
 			</File>

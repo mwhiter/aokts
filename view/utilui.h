@@ -6,9 +6,7 @@
 	VIEW/CONTROLLER
 **/
 
-#include "../model/esdata.h"
-#include <windows.h>
-#include <commctrl.h>
+#include "../util/winugly.h"
 #include <climits>
 
 /* Shared msgbox strings */
@@ -59,23 +57,6 @@ inline LRESULT Combo_GetSelData(HWND combobox);
  * found.
  */
 unsigned ListBox_Find(HWND listbox, const void *);
-
-/*
- * Appends a Link * to a List Box. Should be used in conjunction with
- * LinkListBox_Get().
- */
-LRESULT LinkListBox_Add(HWND listbox, const Link *);
-
-/*
- * Retrieves Link * from the specified index in the listbox. Returns NULL if
- * an error occurs. Should be used in conjunction with LinkListBox_Add().
- */
-const Link * LinkListBox_Get(HWND listbox, WPARAM index);
-
-/*
- * Retrieves Link * from the currently-selected item in the listbox.
- */
-inline const Link * LinkListBox_GetSel(HWND listbox);
 
 /** Dialog Utility Functions **/
 
@@ -137,8 +118,6 @@ bool GetOpenFileNameA(HWND owner, char * path, DWORD maxPath);
 bool GetSaveFileNameA(HWND owner, char * path, DWORD maxPath);
 // TODO: allow pre-filled path
 
-#ifdef TOOLTIPS_CLASS
-
 /* Tooltips */
 void TooltipInit(HWND tt);
 BOOL AddTool(HWND dialog, int ctrlId, LPTSTR text);
@@ -146,18 +125,10 @@ BOOL AddTool(HWND dialog, int ctrlId, LPTSTR text);
 /* Special Edit control subclass */
 LRESULT CALLBACK TVEditWndProc(HWND control, UINT msg, WPARAM wParam, LPARAM lParam);
 
-#endif //TOOLTIPS_CLASS
-
 /** Inline function definitions **/
 
 LRESULT Combo_GetSelData(HWND combobox)
 {
 	return SendMessage(combobox, CB_GETITEMDATA,
 			SendMessage(combobox, CB_GETCURSEL, 0, 0), 0);
-}
-
-const Link * LinkListBox_GetSel(HWND listbox)
-{
-	return LinkListBox_Get(listbox,
-		SendMessage(listbox, LB_GETCURSEL, 0, 0));
 }

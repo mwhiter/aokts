@@ -13,14 +13,13 @@
 #include "../resource.h"
 #include "utilunit.h"
 #include "LCombo.h"
-#include "../util/winugly.h"
+#include "LinkListBox.h"
+#include "mapview.h"
 
+#include "utilui.h"
 #include <time.h>
 #include <commdlg.h>
 #include <stdio.h>
-#include <commctrl.h>
-#include "utilui.h"
-#include "mapview.h"
 
 const char *errorBadReturn =
 "An unidentified error occured. Please report this to DiGiT and look\n"

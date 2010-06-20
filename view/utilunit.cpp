@@ -9,9 +9,9 @@
 
 #include "utilunit.h"
 
-#include "../util/winugly.h"
 #include "../util/settings.h"
 
+#include "LinkListBox.h"
 #include "utilui.h"
 #include "../resource.h"
 #include <stdio.h>

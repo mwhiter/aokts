@@ -10,11 +10,11 @@
 
 #include "../util/settings.h"
 
-#include "../util/winugly.h"
 #include <stdio.h>
 #include "../resource.h"
-#include "LCombo.h"
 #include "utilui.h"
+#include "LCombo.h"
+#include "LinkListBox.h"
 #include "utilunit.h"
 #include "mapview.h"
 

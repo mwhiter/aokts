@@ -1,3 +1,6 @@
+#ifndef INC_WINUGLY_H
+#define INC_WINUGLY_H
+
 /**
 	AOK Trigger Studio (See aokts.cpp for legal conditions.)
 	WINDOWS VERSION.
@@ -7,6 +10,9 @@
 **/
 
 #include <windows.h>
+/* Go ahead and include commctrl.h here. Some clients don't need it, but it's
+ * better than keeping a separate "commugly"... and "utilcomm.h".
+ */
 #include <commctrl.h>
 
 /**
@@ -189,3 +195,6 @@ inline LRESULT ToolTip_AddTool(HWND tooltip, TOOLINFO * ti)
 {
 	return SendMessage(tooltip, TTM_ADDTOOL, 0, (LPARAM)ti);
 }
+
+#endif // INC_WINUGLY_H
+

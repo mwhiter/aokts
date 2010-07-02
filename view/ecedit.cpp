@@ -31,9 +31,7 @@ EditEffect::EditEffect(Effect &source)
 
 void EditEffect::update(Trigger *t)
 {
-	Effect& target = t->effects[index];
-
-	target.set(e);
+	t->effects[index] = e;
 }
 
 void EditCondition::update(Trigger *t)

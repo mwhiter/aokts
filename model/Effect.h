@@ -68,7 +68,6 @@ public:
 
 	// rule of three: default copy constructor, destructor, assignment fine
 
-	void set(const Effect &e);
 	void tobuffer(Buffer &b) const;
 	void read(FILE *in);
 	void write(FILE *out);

@@ -93,19 +93,6 @@ void Effect::tobuffer(Buffer &buffer) const
 		buffer.write(uids, sizeof(uids));
 }
 
-void Effect::set(const Effect &e)
-{
-	type = e.type;
-	memcpy(&ai_goal, &e.ai_goal, EFFECT_MEMBERS * sizeof(long));
-	text.set(e.text.c_str());
-	sound.set(e.sound.c_str());
-	if (e.num_sel > 0)
-		memcpy(uids, &e.uids, sizeof(uids));
-
-	pTech = e.pTech;
-	pUnit = e.pUnit;
-}
-
 void Effect::read(FILE *in)
 {
 	Genie_Effect genie;

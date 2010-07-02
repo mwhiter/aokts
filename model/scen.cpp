@@ -18,6 +18,7 @@
 #include <math.h>
 #include <fstream>
 #include <algorithm>
+#include <functional>
 
 using std::vector;
 
@@ -1024,26 +1025,24 @@ public:
 	RECT source;
 
 	size_t unitcount[NUM_PLAYERS];
-	SList<Unit> units;
-
-	~MapCopyCache()
-	{
-		units.clear(true);
-	}
+	std::vector<Unit> units;
+	//SList<Unit> units;
 };
 
 #define ISINRECT(r, x, y) \
 	(x >= r.left && x <= r.right && y >= r.bottom && y <= r.top)
 
 // functor to check if a unit is in a RECT
-class unit_in_rect
+class unit_in_rect : public std::unary_function<const Unit, bool>
 {
 public:
 	unit_in_rect(const RECT& rect)
 		: _rect(rect)
 	{}
 
-	bool operator()(const Unit& u)
+	// I'm a little confused that you can use a reference here, since we tell
+	// others we take "const Unit", but it works. Shrug.
+	bool operator()(const Unit& u) const
 	{
 		return ISINRECT(_rect, u.x, u.y);
 	}
@@ -1078,18 +1077,15 @@ int Scenario::map_size(const RECT &source, MapCopyCache *&mcc)
 		// Convenience, to ensure we modify the right unitcount.
 		size_t& unitcount = mcc->unitcount[i];
 
-		unitcount = 0;
+		// Get the initial size: this is a hack because I'm too lazy to make
+		// individual vectors for each player.
+		unitcount = mcc->units.size();
 
-		for (vector<Unit>::const_iterator iter = p->units.begin();
-			iter != p->units.end(); ++iter)
-		{
-			if (in_source(*iter))
-			{
-				ret += iter->size;
-				mcc->units.append(new Unit(*iter));
-				++unitcount;
-			}
-		}
+		std::remove_copy_if(p->units.begin(), p->units.end(),
+			std::back_inserter(mcc->units), std::not1(in_source));
+
+		unitcount = mcc->units.size() - unitcount;
+		ret += unitcount * Unit::size;
 	}
 
 	return ret;
@@ -1112,11 +1108,13 @@ AOKTS_ERROR Scenario::map_copy(Buffer &to, const MapCopyCache *mcc)
 
 	map.writeArea(to, mcc->source);
 
-	for (const SLink<Unit> *parse = mcc->units.first(); parse; parse = parse->next)
+	for (vector<Unit>::const_iterator iter = mcc->units.begin();
+		iter != mcc->units.end(); ++iter)
 	{
-		parse->item->x -= x;
-		parse->item->y -= y;
-		parse->item->toBuffer(to);
+		Unit u(*iter);
+		u.x -= x;
+		u.y -= y;
+		u.toBuffer(to);
 	}
 
 	delete mcc;

@@ -231,22 +231,18 @@ public:
 
 	/*	map_size: returns size of memory needed to copy rectangle.
 	
-		We need to do this since the app has to allocate the memory using Win API
-		functions for clipboard.
-	*/
-	int map_size(const RECT &source) const;
-
-	/*	map_copy: copies terrain and units from one area of the map to another.
-	
 		WARNING: This function assumes source is a valid rectangle, ie. (top < bottom &&
 		left < right).
+	
+		We need to do this since the app has to allocate the memory using Win API
+		functions for clipboard.
 
 		Note: The returned MapCopyCache object is deleted in map_copy().
 	*/
 	int map_size(const RECT &source, MapCopyCache *&mcc);
 
 	/*	map_copy: copies terrain and units from a specified area of the map
-		to a MapCopyData structure.
+		to a Buffer.
 
 		Returns: Error code
 
@@ -256,7 +252,7 @@ public:
 
 	/*	map_paste: "pastes" terrain and units from a buffer to a specified point.
 
-		Note: The buffer should have been created by map_copy.
+		Note: The buffer should have been filled by map_copy.
 	*/
 	AOKTS_ERROR map_paste(const POINT &to, Buffer &from);
 

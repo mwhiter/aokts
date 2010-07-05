@@ -265,7 +265,7 @@ bool ItemData::Copy(HWND treeview, HTREEITEM, HTREEITEM target)
 		{
 			/*	Note: this does NOT make a real copy, it can really
 				only be used for moving. */
-			scen.t_order.insert(t_target, index);
+			scen.t_order.insert(t_target + 1, index);
 			TrigTree_AddTrig(treeview, index, target);
 
 			ret = true;

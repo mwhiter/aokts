@@ -237,7 +237,6 @@ void Player::read_data3(FILE *in, float *view)
 	short nlen;
 	short ndiplomacy;
 	long end;
-	char unk;
 
 	// just skip the constant name, dunno why it's there
 	readbin(in, &nlen);
@@ -263,27 +262,14 @@ void Player::read_data3(FILE *in, float *view)
 
 	if (ucount != 1.0F && ucount != 2.0F)
 	{
-		printf("Unknown PlayerData3 float value: %f\n", ucount);
+		printf("Unknown PlayerData3 float value %f at %X\n", ucount, ftell(in));
 		throw bad_data_error("Unknown PlayerData3 float value");
 	}
 	// printf("PD3 ucount was %f\n", ucount);
 
+	short unk;
 	readbin(in, &unk);
-	check<char>(unk, 0, "PD3 char 1");
-	readunk<char>(in, 0, "PD3 char 2");
-	readunk<char>(in, 0, "PD3 char 3");
-	readunk<char>(in, 0, "PD3 char 4");
-	readunk<char>(in, 0, "PD3 char 5");
-	readunk<char>(in, 0, "PD3 char 6");
-	readunk<char>(in, 0, "PD3 char 7");
-	readunk<char>(in, 0, "PD3 char 8");
-	readunk<char>(in, 0, "PD3 char 9");
-
-	if (unk)
-	{
-		printf("Skipping pd3 section, GTE hack.\n");
-		SKIP(in, 44); // for Grand Theft Empires
-	}
+	check<short>(unk, 0, "PD3 unknown count");
 
 	if (ucount == 2.0F)
 	{
@@ -296,6 +282,16 @@ void Player::read_data3(FILE *in, float *view)
 		readunk<char>(in, 0, "PD3 char-2 7");
 		readunk<char>(in, 0, "PD3 char-2 8");
 	}
+
+	SKIP(in, 44 * unk); // Grand Theft Empires, AYBABTU
+
+	readunk<char>(in, 0, "PD3 char 1");
+	readunk<char>(in, 0, "PD3 char 2");
+	readunk<char>(in, 0, "PD3 char 3");
+	readunk<char>(in, 0, "PD3 char 4");
+	readunk<char>(in, 0, "PD3 char 5");
+	readunk<char>(in, 0, "PD3 char 6");
+	readunk<char>(in, 0, "PD3 char 7");
 
 	readbin(in, &end);
 	printf("End was %d\n", end);

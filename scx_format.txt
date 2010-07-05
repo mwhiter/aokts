@@ -340,8 +340,10 @@ N*u8   |        | Diplomacy: 0 = allied, 1 = neutral, 2 = ?, 3 = enemy
 N*u32  |        | Diplomacy: 0=GAIA, 1=self, 2=allied, 3=neutral, 4=enemy
 u32    |        | Color, see values below
 f32    |        | Unknown, affects below items
-9*u8   |        | Usually 0
-8*u8   |        | Only included if above unknown value == 2.0
+u16    |        | Unknown, N
+8*u8   |        | Only included if above f32 value == 2.0
+N*44   |        | Unknown structure, found in Grand Theft Empires
+7*u8   |        | Usually 0
 s32    |        | Seems to be 0 if Unknown == 1.0, -1 if Unknown == 2.0
 
 ==== Triggers Section ====

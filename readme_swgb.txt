@@ -4,7 +4,8 @@ cyan.spam@gmail.com
 http://sourceforge.net/projects/aokts/
 
 
---Installation--
+== Installation ==
+
 Zip contents:
 swgbts.exe - the program
 aokts.ini - configuration settings
@@ -24,7 +25,8 @@ Instructions:
    the sourceforge.net page.
 
 
---How to Use--
+== How to Use ==
+
 This program loads and saves Age of Empires II scenarios. It offers/will offer
 more features than the standard AOK editor, including:
  * Placing Beta units just like any other unit
@@ -41,13 +43,14 @@ If you have suggestions, comments, or bugs report them at
 request a feature too). Thanks for trying it out!
 
 
---System Requirements--
+== System Requirements ==
+
 HDD Space:	20MB (dependant on scenario size)
 RAM usage:	Approximately 20MB.
 Minimum OS:	Windows 2000 with IE 5.0
 
 
---Changes--
+== Changes ==
 
 Bugfixes:
 - Unreliability in loading Genie data (data_aok.xml).
@@ -93,8 +96,9 @@ Known Issues:
 - Map copy area selections do not appear on map viewer.
 
 
---Notes and legal--
-- Please DO NOT SAVE OVER your original scenarios with this program. I'd really
+== Notes and legal ==
+
+- Please do NOT save over your original scenarios with this program. I'd really
   hate for you to lose all your hard work with a bug!  
 - The constant list previously included in this zip can be found under
   'Complete Constant Lists' in the AOKH utilities.  

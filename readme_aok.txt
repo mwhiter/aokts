@@ -95,6 +95,7 @@ Improvements:
 
 Known Issues:
 - Map copy area selections do not appear on map viewer.
+- Window size is too small.
 
 
 == Notes and legal ==

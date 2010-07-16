@@ -45,13 +45,17 @@ bool Link::read(const wchar_t * name, const wchar_t * value)
 
 const Link *getById(const Link* list, int id)
 {
+	// Genie uses -1 to represent no value.
+	if (id == -1)
+		return NULL;
+
 	for (; list; list = list->next())
 	{
 		if (list->id() == id)
-			break;
+			return list;
 	}
 
-	return list;
+	throw std::domain_error("Could not lookup ID in ESDATA.");
 }
 
 const Link* readLink(Buffer &b, const Link *list)
@@ -270,7 +274,7 @@ void ESDATA::readUnitGroup(const XML_Char **attrs)
 				if (*uparse = (UnitLink*)getById(esdata.units, i))
 					uparse++;
 				else
-					printf("Discarding non-existent unit type %d.\n", i);
+					printf("Discarding unknown unit type %d from group.\n", i);
 			} while (p = wcstok(NULL, L","));
 
 			attrs++;
@@ -502,9 +506,11 @@ UnitLink *ESDATA::getUnitById(int id)
 
 	UnitLink *ret;
 
-	ret = (UnitLink*)getById(esdata.units, id);
-
-	if (!ret)
+	try
+	{
+		ret = (UnitLink*)getById(esdata.units, id);
+	}
+	catch (std::domain_error) // id was unrecognized
 	{
 		wchar_t buffer[BUFSIZE];
 		swprintf(buffer, BUFSIZE, L"?%d", id);

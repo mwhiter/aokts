@@ -1013,7 +1013,7 @@ void TrigTree_Paste(HWND dialog)
 				else if (*ec_data == CONDITION)
 				{
 					t->conds.push_back(Condition(buffer));
-					data = new ConditionItemData(t->effects.size() - 1,
+					data = new ConditionItemData(t->conds.size() - 1,
 						index_sel);
 					TreeView_AddChild(treeview, (LPARAM)data, parent,
 						TrigTree_GetLastCondition(treeview, parent));

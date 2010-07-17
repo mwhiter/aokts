@@ -54,44 +54,22 @@ Basically, if you can run AOK, you can run AOKTS.
 == Changes ==
 
 Bugfixes:
-- Unreliability in loading Genie data (data_aok.xml).
-- Memory leaks and crashes in trigger handling.
-- Loading crashed when decompressed scenario data is unexpected.
-- "<<" (clear) button didn't work in Disables editor.
-- Bad-trigger "X" icon looked really gimpy.
-- Trigger editor tree's edit controls (for rename) took TAB keypresses.
-- Effect editor cleared resource type for Send Tribute effect.
-- Removal of single item in Disables editor could later cause a crash.
-- Condition editor didn't load resource type combo box.
-- Unit editor could crash when user selected a different unit group.
-- Scenario could be corrupted if Play Sound effects had long filenames.
-- Falsely logged a warning when loading a scenario with an instructions bitmap.
-- Unit selector box (for conditions/effects) did not pre-select player.
-- Hiding and then re-showing map view stopped it from updating.
-- Errors during scenario saving usually resulted in crashes.
-- Embedded files in scenario were not properly skipped when not included.
-- Map viewer did not refresh after doing a map paste.
-- Scenarios with triggers with no description but "Display as Objective" set
-  did not save properly. (Just re-save with 1.0.0 to fix.)
-- Embedded files were not written during scenario save.
-- Changing effect/condition type didn't work if you cleared.
-- Leaked (sometimes lots of) memory during scenario save.
-- aokts.ini would sometimes be saved to Scenario directory.
+- "Duplicate for all players" changed player if original player was GAIA
+  (sf#2992333, thanks Impeached.)
+- Effects could be corrupted when copy+pasting.
+- Unit-selection popup didn't always show current selection when opening.
+- Changing effect/condition type caused some combo boxes to have duplicate
+  items. (sf#3018528)
+- Couldn't read player data 3 in some rare instances. (sf#2953792)
+- Trigger drag & drop placement was wrong. (sf#3002507)
+- Pasting a condition into a trigger with no effects crashed. (sf#3026075,
+  thanks again Impeached)
+- Effects and conditions referencing non-stock unit constants corrupted
+  scenario. (sf#3006947, thanks Wizardboy)
 
 Improvements:
-- Greatly improved source code structure for you curious types.
-- Source code compiles with modern tools, i.e., Visual Studio 2005.
-- Moving units via map clicks add 0.5 to position to emulate AOK.
-- Error reports from scenario loading are more detailed.
-- Genie data (data_aok.xml) supports Unicode.
-- Condition, Effect editors are larger for better user-friendliness.
-- Pressing RETURN opens appropriate Condition or Effect editor.
-- Slightly more detailed aokts.log during scenario load.
-- File -> "Write trigtext..." dumps triggers as text. WARNING: the format is
-  similar BUT NOT THE SAME AS Jatayu's java program; don't try to use them
-  interchangeably!
-- Saving scenarios after deleting lots of triggers was very slow; sped it up.
-- Map viewer automatically expands when loading a scenario, no more scrolling.
+- Source now has dependencies (expat, zlib) included.
+- Write trigtext now pre-fills a filename. But no read support yet. :(
 
 Known Issues:
 - Map copy area selections do not appear on map viewer.

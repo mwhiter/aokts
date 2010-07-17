@@ -8,9 +8,9 @@
 
 #define VER_MAJOR 0x0001
 #define VER_MINOR 0x00000
-#define VER_BUGFIX 0x0000
-#define VER_BUILD 0x0002
-#define VER_STRING "1.0.0"
+#define VER_BUGFIX 0x0001
+#define VER_BUILD 0x0000
+#define VER_STRING "1.0.1"
 
 /* Custom controls */
 #define LCOMBO "LinkedCombo"

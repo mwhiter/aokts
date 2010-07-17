@@ -12,7 +12,7 @@ CAPTION "About"
 FONT 8, "MS Sans Serif"
 BEGIN
 	PUSHBUTTON	"OK",1,178,7,50,14,BS_DEFPUSHBUTTON
-	LTEXT		"SWGB Trigger Studio 1.0.0\nby David Tombs (DiGiT)\ncyan.spam@gmail.com",
+	LTEXT		"SWGB Trigger Studio 1.0.1\nby David Tombs (DiGiT)\ncyan.spam@gmail.com",
 				IDC_STATIC,46,13,110,26
 	CONTROL	IDB_LOGO,IDC_STATIC,"Static",SS_BITMAP,7,14,0,0
 END

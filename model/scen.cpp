@@ -1185,7 +1185,7 @@ Map::Terrain::Terrain()
 }
 
 Map::Map()
-:	aitype(8), x(0), y(0)
+:	aitype(-1), x(0), y(0)
 {
 }
 
@@ -1193,7 +1193,7 @@ void Map::reset()
 {
 	Terrain *parse;
 
-	aitype = 8;	//8 is kinda the -1 for maps (since the base value is 9)
+	aitype = esdata.aitypes->id();	// pick the first one
 	x = *MapSizes;
 	y = *MapSizes;
 

@@ -1,4 +1,4 @@
-AOK Trigger Studio - 1.0.0 (06 April 2010)
+AOK Trigger Studio - 1.0.1 (16 July 2010)
 Created by David Tombs (DiGiT)
 cyan.spam@gmail.com
 http://sourceforge.net/projects/aokts/

@@ -24,9 +24,26 @@
 //Custom windows messages
 enum AOKTS_Msgs
 {
-	AOKTS_Loading = WM_APP,	//Instructs active page to load new data.
-	AOKTS_Saving,			//Instructs active page to save any data.
-	AOKTS_Closing,			//Instructs active page to reset UI.
+	/**
+	 * Instructs active page to load new data.
+	 *
+	 * Return value: ignored.
+	 */
+	AOKTS_Loading = WM_APP,
+
+	/**
+	 * Instructs active page to save any data.
+	 *
+	 * Return value: ignored.
+	 */
+	AOKTS_Saving,
+
+	/**
+	 * Instructs active page to reset UI.
+	 *
+	 * Return value: ignored.
+	 */
+	AOKTS_Closing,
 };
 
 #define NUM_FORMATS 2

@@ -219,42 +219,55 @@ void LoadEffect(HWND dialog, EditEffect *data)
 {
 	Effect *e = &data->e;
 
-	// Refresh trigger combo box.
-	SendMessageW(GetDlgItem(dialog, IDC_E_TRIG), CB_RESETCONTENT, 0, 0);
-	data->TrigCallback(GetDlgItem(dialog, IDC_E_TRIG), e->trig_index);
+	try
+	{
+		// Refresh trigger combo box.
+		SendMessageW(GetDlgItem(dialog, IDC_E_TRIG), CB_RESETCONTENT, 0, 0);
+		data->TrigCallback(GetDlgItem(dialog, IDC_E_TRIG), e->trig_index);
 
-	SendDlgItemMessage(dialog, IDC_E_TYPE, CB_SETCURSEL, e->type, 0);
-	SetDlgItemText(dialog, IDC_E_SOUND, e->sound.c_str());
-	SendDlgItemMessage(dialog, IDC_E_PANEL, CB_SETCURSEL, e->panel, 0);
-	SetDlgItemText(dialog, IDC_E_TEXT, e->text.c_str());
-	SetDlgItemInt(dialog, IDC_E_DTIME, e->disp_time, TRUE);
-	SetDlgItemInt(dialog, IDC_E_STRINGID, e->stringid, TRUE);
-	SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_SETCURSEL, e->s_player, 0);
-	SendDlgItemMessage(dialog, IDC_E_TPLAY, CB_SETCURSEL, e->t_player, 0);
-	SendDlgItemMessage(dialog, IDC_E_DSTATE, CB_SETCURSEL, e->diplomacy, 0);
-	SetDlgItemInt(dialog, IDC_E_LOCX, e->location.x, TRUE);
-	SetDlgItemInt(dialog, IDC_E_LOCY, e->location.y, TRUE);
+		SendDlgItemMessage(dialog, IDC_E_TYPE, CB_SETCURSEL, e->type, 0);
+		SetDlgItemText(dialog, IDC_E_SOUND, e->sound.c_str());
+		SendDlgItemMessage(dialog, IDC_E_PANEL, CB_SETCURSEL, e->panel, 0);
+		SetDlgItemText(dialog, IDC_E_TEXT, e->text.c_str());
+		SetDlgItemInt(dialog, IDC_E_DTIME, e->disp_time, TRUE);
+		SetDlgItemInt(dialog, IDC_E_STRINGID, e->stringid, TRUE);
+		SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_SETCURSEL, e->s_player, 0);
+		SendDlgItemMessage(dialog, IDC_E_TPLAY, CB_SETCURSEL, e->t_player, 0);
+		SendDlgItemMessage(dialog, IDC_E_DSTATE, CB_SETCURSEL, e->diplomacy, 0);
+		SetDlgItemInt(dialog, IDC_E_LOCX, e->location.x, TRUE);
+		SetDlgItemInt(dialog, IDC_E_LOCY, e->location.y, TRUE);
 
-	if (e->num_sel > 0)
-		MakeUIDString(e->uids, e->num_sel, GetDlgItem(dialog, IDC_E_UIDS));
-	else
-		SetDlgItemText(dialog, IDC_E_UIDS, "");
+		if (e->num_sel > 0)
+			MakeUIDString(e->uids, e->num_sel, GetDlgItem(dialog, IDC_E_UIDS));
+		else
+			SetDlgItemText(dialog, IDC_E_UIDS, "");
 
-	SetDlgItemInt(dialog, IDC_E_LOCUID, e->uid_loc, TRUE);
-	SetDlgItemInt(dialog, IDC_E_AREAX1, e->area.left, TRUE);
-	SetDlgItemInt(dialog, IDC_E_AREAY1, e->area.bottom, TRUE);
-	SetDlgItemInt(dialog, IDC_E_AREAX2, e->area.right, TRUE);
-	SetDlgItemInt(dialog, IDC_E_AREAY2, e->area.top, TRUE);
-	SetDlgItemInt(dialog, IDC_E_AIGOAL, e->ai_goal, TRUE);
-	LCombo_Select(dialog, IDC_E_UCNST, e->pUnit);
-	Combo_SelectByData(GetDlgItem(dialog, IDC_E_GROUP), e->group);
-	Combo_SelectByData(GetDlgItem(dialog, IDC_E_UTYPE), e->utype);
-	LCombo_Select(dialog, IDC_E_RESEARCH, e->pTech);
-	SetDlgItemInt(dialog, IDC_E_AMOUNT, e->amount, TRUE);
-	LCombo_SelById(dialog, IDC_E_RESTYPE, e->res_type);
-	//trig_index selected above
-	SendDlgItemMessage(dialog, IDC_E_LOCM, BM_SETCHECK,
-		(e->uid_loc != -1) ? BST_CHECKED : BST_UNCHECKED, 0);
+		SetDlgItemInt(dialog, IDC_E_LOCUID, e->uid_loc, TRUE);
+		SetDlgItemInt(dialog, IDC_E_AREAX1, e->area.left, TRUE);
+		SetDlgItemInt(dialog, IDC_E_AREAY1, e->area.bottom, TRUE);
+		SetDlgItemInt(dialog, IDC_E_AREAX2, e->area.right, TRUE);
+		SetDlgItemInt(dialog, IDC_E_AREAY2, e->area.top, TRUE);
+		SetDlgItemInt(dialog, IDC_E_AIGOAL, e->ai_goal, TRUE);
+		LCombo_Select(dialog, IDC_E_UCNST, e->pUnit);
+		Combo_SelectByData(GetDlgItem(dialog, IDC_E_GROUP), e->group);
+		Combo_SelectByData(GetDlgItem(dialog, IDC_E_UTYPE), e->utype);
+		LCombo_Select(dialog, IDC_E_RESEARCH, e->pTech);
+		SetDlgItemInt(dialog, IDC_E_AMOUNT, e->amount, TRUE);
+		LCombo_SelById(dialog, IDC_E_RESTYPE, e->res_type);
+		//trig_index selected above
+		SendDlgItemMessage(dialog, IDC_E_LOCM, BM_SETCHECK,
+			(e->uid_loc != -1) ? BST_CHECKED : BST_UNCHECKED, 0);
+	}
+	catch (std::domain_error & ex)
+	{
+		std::string message =
+			std::string("Unrecognized value while populating controls. Please do not save your scenario.\n\nDETAILS: ") + ex.what();
+		MessageBox(
+			dialog,
+			message.c_str(),
+			"Warning",
+			MB_ICONWARNING);
+	}
 
 	if (e->u2 != -1)
 		MessageBox(dialog, "OMG! An unknown had a meaningful value! You must report this!",
@@ -665,23 +678,36 @@ void LoadCond(HWND dialog, EditCondition *data)
 {
 	Condition *c = &data->c;
 
-	SendDlgItemMessage(dialog, IDC_C_TYPE, CB_SETCURSEL, c->type, 0);
-	SendDlgItemMessage(dialog, IDC_C_PLAYER, CB_SETCURSEL, c->player, 0);
-	SetDlgItemInt(dialog, IDC_C_UIDOBJ, c->object, TRUE);
-	SetDlgItemInt(dialog, IDC_C_UIDLOC, c->u_loc, TRUE);
-	LCombo_Select(dialog, IDC_C_UCNST, c->pUnit);
-	Combo_SelectByData(GetDlgItem(dialog, IDC_C_GROUP), c->group);
-	Combo_SelectByData(GetDlgItem(dialog, IDC_C_UTYPE), c->utype);
-	SetDlgItemInt(dialog, IDC_C_AREAX1, c->area.left, TRUE);
-	SetDlgItemInt(dialog, IDC_C_AREAY1, c->area.bottom, TRUE);
-	SetDlgItemInt(dialog, IDC_C_AREAX2, c->area.right, TRUE);
-	SetDlgItemInt(dialog, IDC_C_AREAY2, c->area.top, TRUE);
-	SetDlgItemInt(dialog, IDC_C_TIMER, c->timer, TRUE);
-	SetDlgItemInt(dialog, IDC_C_AISIG, c->ai_signal, TRUE);
-	LCombo_Select(dialog, IDC_C_RESEARCH, c->pTech);
-	SetDlgItemInt(dialog, IDC_C_U1, c->u1, TRUE);
-	SetDlgItemInt(dialog, IDC_C_AMOUNT, c->amount, TRUE);
-	LCombo_SelById(dialog, IDC_C_RESTYPE, c->res_type);
+	try
+	{
+		SendDlgItemMessage(dialog, IDC_C_TYPE, CB_SETCURSEL, c->type, 0);
+		SendDlgItemMessage(dialog, IDC_C_PLAYER, CB_SETCURSEL, c->player, 0);
+		SetDlgItemInt(dialog, IDC_C_UIDOBJ, c->object, TRUE);
+		SetDlgItemInt(dialog, IDC_C_UIDLOC, c->u_loc, TRUE);
+		LCombo_Select(dialog, IDC_C_UCNST, c->pUnit);
+		Combo_SelectByData(GetDlgItem(dialog, IDC_C_GROUP), c->group);
+		Combo_SelectByData(GetDlgItem(dialog, IDC_C_UTYPE), c->utype);
+		SetDlgItemInt(dialog, IDC_C_AREAX1, c->area.left, TRUE);
+		SetDlgItemInt(dialog, IDC_C_AREAY1, c->area.bottom, TRUE);
+		SetDlgItemInt(dialog, IDC_C_AREAX2, c->area.right, TRUE);
+		SetDlgItemInt(dialog, IDC_C_AREAY2, c->area.top, TRUE);
+		SetDlgItemInt(dialog, IDC_C_TIMER, c->timer, TRUE);
+		SetDlgItemInt(dialog, IDC_C_AISIG, c->ai_signal, TRUE);
+		LCombo_Select(dialog, IDC_C_RESEARCH, c->pTech);
+		SetDlgItemInt(dialog, IDC_C_U1, c->u1, TRUE);
+		SetDlgItemInt(dialog, IDC_C_AMOUNT, c->amount, TRUE);
+		LCombo_SelById(dialog, IDC_C_RESTYPE, c->res_type);
+	}
+	catch (std::domain_error & ex)
+	{
+		std::string message =
+			std::string("Unrecognized value while populating controls. Please do not save your scenario.\n\nDETAILS: ") + ex.what();
+		MessageBox(
+			dialog,
+			message.c_str(),
+			"Warning",
+			MB_ICONWARNING);
+	}
 
 	if (c->u1 != -1)
 		MessageBox(dialog, "OMG! An unknown member had a meaningful value! You must report this!",

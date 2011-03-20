@@ -114,6 +114,27 @@ int LinkComboBox_Find(HWND combobox, const Link * data)
 	return ret;
 }
 
+int LCombo_Select(HWND dialog, int id, const Link * item)
+{
+	// Get the combobox handle
+	HWND combobox = GetDlgItem(dialog, id);
+
+	// Lookup the index of the item in the combobox
+	int index = LinkComboBox_Find(combobox, item);
+
+	// If the item was not found, throw domain_error
+	if (index == -1)
+	{
+		throw std::domain_error(
+			"No entry for " + linkString(item) + " in LinkComboBox");
+	}
+
+	// Set the selection to the item's index
+	SendMessage(combobox, CB_SETCURSEL, index, 0);
+
+	return index;
+}
+
 int LinkComboBox_SelById(HWND combobox, int x)
 {
 	int ret = -1, i;

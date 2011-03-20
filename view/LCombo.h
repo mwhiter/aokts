@@ -75,16 +75,10 @@ inline LRESULT LCombo_Find(HWND dialog, int id, const Link * item)
 
 /**
  * Convenience method to find the specified item in the LCombo and select it.
+ * Will throw a domain_error if the combo box has no associated entry.
  * @return the index selected
  */
-inline int LCombo_Select(HWND dialog, int id, const Link * item)
-{
-	HWND combobox = GetDlgItem(dialog, id);
-	int index = LinkComboBox_Find(combobox, item);
-	SendMessage(combobox, CB_SETCURSEL, index, 0);
-
-	return index;
-}
+int LCombo_Select(HWND dialog, int id, const Link * item);
 
 int LinkComboBox_SelById(HWND combobox, int x);
 

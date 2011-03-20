@@ -1137,11 +1137,11 @@ void TrigTree_HandleEdit(HWND treeview, HWND parent)
 
 /** Message-processing Functions **/
 
-/*
-	HandleInit: Initializes the trigger editor, namely the
-		tree's image list, in response to WM_INITDIALOG.
+/**
+ * Initializes the trigger editor, namely the tree's image list, in response to
+ * WM_INITDIALOG.
 */
-BOOL HandleInit(HWND dialog)
+BOOL Handle_WM_INITDIALOG(HWND dialog)
 {
 	HIMAGELIST il;
 	HWND treeview;
@@ -1206,6 +1206,7 @@ void TrigTree_HandleSelChanged(NMTREEVIEW *treehdr, HWND dialog)
 	data_new = (class ItemData*)treehdr->itemNew.lParam;
 	data_old = (class ItemData*)treehdr->itemOld.lParam;
 
+	// If there was an old selection and it was a Trigger, save it.
 	if (treehdr->itemOld.hItem && data_old->type == TRIGGER)
 		SaveTrigger(dialog, scen.triggers.at(data_old->index));
 
@@ -1414,7 +1415,10 @@ void TrigTree_HandleKeyDown(HWND dialog, NMTVKEYDOWN * keydown)
 		TrigTree_HandleEdit(GetDlgItem(dialog, IDC_T_TREE), dialog);
 }
 
-void Triggers_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
+/**
+ * Handles a WM_COMMAND message sent to the dialog.
+ */
+INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 {
 	HWND treeview = GetDlgItem(dialog, IDC_T_TREE);	//all use this
 
@@ -1501,191 +1505,277 @@ void Triggers_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_GRAYED);
 		break;
 	}
+
+	// "If an application processes this message, it should return zero."
+	return 0;
 }
 
-INT_PTR CALLBACK TrigDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+/**
+ * Handles a WM_NOTIFY message sent to the dialog.
+ */
+INT_PTR Handle_WM_NOTIFY(HWND dialog, NMHDR const * header)
 {
-	INT_PTR ret = FALSE;	//default: does not process message
+	INT_PTR ret = FALSE;   // reasonable default?
 
+	switch (header->code)
+	{
+		case PSN_SETACTIVE:
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			SetWindowText(propdata.statusbar, help_msg);
+			//return 0?
+			break;
+
+		case TVN_GETDISPINFO:
+			TrigTree_HandleGetDispInfo((NMTVDISPINFO*)header);
+			break;
+
+		case TVN_BEGINLABELEDIT:
+			{
+				const NMTVDISPINFO *dispinfo = (NMTVDISPINFO*)header;
+				class ItemData *data = (class ItemData*)dispinfo->item.lParam;
+				HWND editbox = TreeView_GetEditControl(header->hwndFrom);
+
+				if (data->type != TRIGGER)
+				{
+					SetWindowLongPtr(dialog, DWLP_MSGRESULT, TRUE);	//cancel the editing
+					ret = TRUE;
+				}
+				else
+				{
+					SendMessage(editbox, EM_SETLIMITTEXT, 40, 0);
+					SubclassTreeEditControl(editbox);
+				}
+			}
+			break;
+
+		case TVN_ENDLABELEDIT:
+			{
+				const NMTVDISPINFO *dispinfo = (NMTVDISPINFO*)header;
+				class ItemData *data = (class ItemData*)dispinfo->item.lParam;
+
+				LPTSTR newname = dispinfo->item.pszText;
+
+				if (newname)
+				{
+					ret = TRUE;	//activates DWLP_MSGRESULT
+
+					if (strlen(newname))
+					{
+						strcpy(scen.triggers.at(data->index)->name, newname);
+						SetWindowLongPtr(dialog, DWLP_MSGRESULT, TRUE);
+					}
+					else	//reject no-name triggers
+						SetWindowLongPtr(dialog, DWLP_MSGRESULT, FALSE);
+				}
+			}
+			break;
+			/*
+			   case TVN_SETDISPINFO:
+			   _ASSERT(false);
+			   break;
+			   */
+		case TVN_SELCHANGED:
+			TrigTree_HandleSelChanged((NMTREEVIEW*)header, dialog);
+			break;
+
+		case TVN_KEYDOWN:
+			TrigTree_HandleKeyDown(dialog, (LPNMTVKEYDOWN)header);
+			break;
+
+		case TVN_DELETEITEM:
+			{
+				const NMTREEVIEW *info = (NMTREEVIEW*)header;
+				class ItemData *data = (class ItemData*)info->itemOld.lParam;
+
+				delete data;
+			}
+			break;
+
+		case TVN_BEGINDRAG:
+			TrigTree_HandleDrag(header->hwndFrom, (NMTREEVIEW*)header);
+			break;
+
+		case PSN_KILLACTIVE:
+			ret = IDOK;
+			if (editor_count)
+			{
+				ret = MessageBox(dialog,
+						warningEditorsClosing, szTrigTitle, MB_ICONWARNING | MB_OKCANCEL);
+			}
+
+			if (ret == IDOK)
+			{
+				//Gray menu items for next window.
+				Triggers_EditMenu(propdata.menu, false);
+
+				/*	Remove selection because this page has no clue what the user
+					does while it's not active. Note that the following line ends
+					up saving the current trigger. */
+				TreeView_SelectItem(GetDlgItem(dialog, IDC_T_TREE), NULL);
+				c_trig = NULL;
+			}
+			SetWindowLongPtr(dialog, DWLP_MSGRESULT, ret != IDOK);	//false to continue
+			ret = TRUE;
+			break;
+	}
+
+	return ret;
+}
+
+INT_PTR Handle_WM_MOUSEMOVE(HWND dialog, WPARAM wParam, int x, int y)
+{
+	KillTimer(dialog, TT_Scroll);
+	lastCursorPos.x = x;
+	lastCursorPos.y = y;
+	HandleMouseMove(dialog);	//x, y "passed" in lastCursorPos
+
+	// "If an application processes this message, it should return zero."
+	return 0;
+}
+
+INT_PTR Handle_WM_LBUTTONUP(HWND dialog, WPARAM wParam, int x, int y)
+{
+	if (dragging)
+	{
+		try
+		{
+			TrigTree_EndDrag(GetDlgItem(dialog, IDC_T_TREE), x, y);
+		}
+		catch (std::exception& ex) // don't let it propagate to Win32 code
+		{
+			MessageBox(dialog, ex.what(), "Drag operation failed.",
+					MB_ICONWARNING);
+		}
+	}
+
+	// "If an application processes this message, it should return zero."
+	return 0;
+}
+
+/**
+ * Handles AOKTS_Loading message sent to the dialog.
+ */
+INT_PTR Handle_AOKTS_Loading(HWND dialog)
+{
+	TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+
+	/* Return anything: it is ignored. */
+	return TRUE;
+}
+
+/**
+ * Handles AOKTS_Saving message sent to the dialog.
+ */
+INT_PTR Handle_AOKTS_Saving(HWND dialog)
+{
+	SaveTrigger(dialog, c_trig);
+
+	/* Return anything: it is ignored. */
+	return TRUE;
+}
+
+/**
+ * Handles AOKTS_Closing message sent to the dialog.
+ */
+INT_PTR Handle_AOKTS_Closing(HWND dialog)
+{
+	TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), false);
+	LoadTrigger(dialog, NULL);
+
+	/* Return anything: it is ignored. */
+	return TRUE;
+}
+
+/**
+ * Handles EC_Closing message sent to the dialog.
+ */
+INT_PTR Handle_EC_Closing(HWND dialog, WPARAM wParam, EditEC * editec)
+{
+	TrigTree_HandleClosing(GetDlgItem(dialog, IDC_T_TREE), wParam, editec);
+
+	/* Return anything: it is ignored. */
+	return FALSE;
+}
+
+/**
+ * Handles a WM_DESTROY message sent to the dialog.
+ */
+static INT_PTR Handle_WM_DESTROY(HWND dialog)
+{
+	// Free treeview's ImageList
+	HIMAGELIST il =
+		TreeView_GetImageList(GetDlgItem(dialog, IDC_T_TREE), TVSIL_NORMAL);
+	ImageList_Destroy(il);
+
+	// "If an application processes this message, it should return zero."
+	return 0;
+}
+
+/**
+ * Handles a WM_TIMER message sent to the dialog.
+ */
+static INT_PTR Handle_WM_TIMER(HWND dialog, WPARAM timerId, LPARAM callback)
+{
+	if (timerId == TT_Scroll)
+		HandleMouseMove(dialog);
+
+	// "If an application processes this message, it should return zero."
+	return 0;
+}
+
+/**
+ * Dialog Box Procedure for the Trigger editor dialog.
+ *
+ * This function is "dumb": it performs no real processing. It only calls
+ * handler functions for each method and "unpacks" the parameters from wParam
+ * and lParam into their real meanings. It contains no other knowledge of the
+ * messages--particularly not regarding proper return values. Return values
+ * are left to the handler functions.
+ */
+INT_PTR CALLBACK TrigDlgProc(
+		HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	switch (msg)
 	{
 	case WM_INITDIALOG:
-		ret = HandleInit(dialog);
-		break;
+		return Handle_WM_INITDIALOG(dialog);
 
 	case WM_COMMAND:
-		ret = 0;	//processing message
-		Triggers_HandleCommand(dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
-		break;
+		return Handle_WM_COMMAND(
+				dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
 
 	case WM_NOTIFY:
-		{
-			const NMHDR *header = (NMHDR*)lParam;
-
-			switch (header->code)
-			{
-			case PSN_SETACTIVE:
-				TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-				SetWindowText(propdata.statusbar, help_msg);
-				//return 0?
-				break;
-
-			case TVN_GETDISPINFO:
-				TrigTree_HandleGetDispInfo((NMTVDISPINFO*)header);
-				break;
-
-			case TVN_BEGINLABELEDIT:
-				{
-					const NMTVDISPINFO *dispinfo = (NMTVDISPINFO*)header;
-					class ItemData *data = (class ItemData*)dispinfo->item.lParam;
-					HWND editbox = TreeView_GetEditControl(header->hwndFrom);
-
-					if (data->type != TRIGGER)
-					{
-						SetWindowLongPtr(dialog, DWLP_MSGRESULT, TRUE);	//cancel the editing
-						ret = TRUE;
-					}
-					else
-					{
-						SendMessage(editbox, EM_SETLIMITTEXT, 40, 0);
-						SubclassTreeEditControl(editbox);
-					}
-				}
-				break;
-
-			case TVN_ENDLABELEDIT:
-				{
-					const NMTVDISPINFO *dispinfo = (NMTVDISPINFO*)header;
-					class ItemData *data = (class ItemData*)dispinfo->item.lParam;
-
-					LPTSTR newname = dispinfo->item.pszText;
-
-					if (newname)
-					{
-						ret = TRUE;	//activates DWLP_MSGRESULT
-
-						if (strlen(newname))
-						{
-							strcpy(scen.triggers.at(data->index)->name, newname);
-							SetWindowLongPtr(dialog, DWLP_MSGRESULT, TRUE);
-						}
-						else	//reject no-name triggers
-							SetWindowLongPtr(dialog, DWLP_MSGRESULT, FALSE);
-					}
-				}
-				break;
-/*
-			case TVN_SETDISPINFO:
-				_ASSERT(false);
-				break;
-*/
-			case TVN_SELCHANGED:
-				TrigTree_HandleSelChanged((NMTREEVIEW*)header, dialog);
-				break;
-
-			case TVN_KEYDOWN:
-				TrigTree_HandleKeyDown(dialog, (LPNMTVKEYDOWN)lParam);
-				break;
-
-			case TVN_DELETEITEM:
-				{
-					const NMTREEVIEW *info = (NMTREEVIEW*)header;
-					class ItemData *data = (class ItemData*)info->itemOld.lParam;
-
-					delete data;
-				}
-				break;
-
-			case TVN_BEGINDRAG:
-				TrigTree_HandleDrag(header->hwndFrom, (NMTREEVIEW*)header);
-				break;
-
-			case PSN_KILLACTIVE:
-				ret = IDOK;
-				if (editor_count)
-				{
-					ret = MessageBox(dialog,
-						warningEditorsClosing, szTrigTitle, MB_ICONWARNING | MB_OKCANCEL);
-				}
-
-				if (ret == IDOK)
-				{
-					//Gray menu items for next window.
-					Triggers_EditMenu(propdata.menu, false);
-
-					/*	Remove selection because this page has no clue what the user
-						does while it's not active. Note that the following line ends
-						up saving the current trigger. */
-					TreeView_SelectItem(GetDlgItem(dialog, IDC_T_TREE), NULL);
-					c_trig = NULL;
-				}
-				SetWindowLongPtr(dialog, DWLP_MSGRESULT, ret != IDOK);	//false to continue
-				ret = TRUE;
-				break;
-			}
-			break;
-		}
-		break;
+		return Handle_WM_NOTIFY(dialog, (NMHDR*)lParam);
 
 	case WM_MOUSEMOVE:
-		KillTimer(dialog, TT_Scroll);
-		lastCursorPos.x = GET_X_LPARAM(lParam);
-		lastCursorPos.y = GET_Y_LPARAM(lParam);
-		HandleMouseMove(dialog);	//x, y "passed" in lastCursorPos
-		break;
+		return Handle_WM_MOUSEMOVE(
+				dialog, wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
 	case WM_LBUTTONUP:
-		if (dragging)
-		{
-			try
-			{
-				TrigTree_EndDrag(GetDlgItem(dialog, IDC_T_TREE),
-					LOWORD(lParam), HIWORD(lParam));
-			}
-			catch (std::exception& ex) // don't let it propagate to Win32 code
-			{
-				MessageBox(dialog, ex.what(), "Drag operation failed.",
-					MB_ICONWARNING);
-			}
-		}
-		break;
+		return Handle_WM_LBUTTONUP(
+				dialog, wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
 	case AOKTS_Loading:
-		ret = TRUE;
-		TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-		break;
+		return Handle_AOKTS_Loading(dialog);
 
 	case AOKTS_Saving:
-		ret = TRUE;
-		SaveTrigger(dialog, c_trig);
-		break;
+		return Handle_AOKTS_Saving(dialog);
 
 	case AOKTS_Closing:
-		ret = TRUE;
-		TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), false);
-		LoadTrigger(dialog, NULL);
-		break;
+		return Handle_AOKTS_Closing(dialog);
 
 	case EC_Closing:
-		TrigTree_HandleClosing(GetDlgItem(dialog, IDC_T_TREE),
-			wParam, reinterpret_cast<EditEC*>(lParam));
-		break;
+		return Handle_EC_Closing(
+				dialog, wParam, reinterpret_cast<EditEC*>(lParam));
 
 	case WM_DESTROY:
-		{
-			HIMAGELIST il;
-			ret = 0;	//processes message
-
-			il = TreeView_GetImageList(GetDlgItem(dialog, IDC_T_TREE), TVSIL_NORMAL);
-			ImageList_Destroy(il);
-		}
-		break;
+		return Handle_WM_DESTROY(dialog);
 
 	case WM_TIMER:
-		if (wParam == TT_Scroll)
-			HandleMouseMove(dialog);
-		break;
-
+		return Handle_WM_TIMER(dialog, wParam, lParam);
 	}
-	return ret;
+
+	/* "Typically, the dialog box procedure should return TRUE if it processed
+	 * the message, and FALSE if it did not.  */
+	return FALSE;
 }

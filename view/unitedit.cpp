@@ -371,51 +371,63 @@ INT_PTR CALLBACK UnitDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam
 {
 	INT_PTR ret = FALSE;
 
-	switch (msg)
+	try
 	{
-	case WM_INITDIALOG:
-		ret = Units_HandleInit(dialog);
-		break;
-
-	case WM_COMMAND:
-		ret = 0;
-		Units_HandleCommand(dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
-		break;
-
-	case WM_NOTIFY:
+		switch (msg)
 		{
-			NMHDR *header = (NMHDR*)lParam;
-			switch (header->code)
+		case WM_INITDIALOG:
+			ret = Units_HandleInit(dialog);
+			break;
+
+		case WM_COMMAND:
+			ret = 0;
+			Units_HandleCommand(dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+			break;
+
+		case WM_NOTIFY:
 			{
-			case PSN_SETACTIVE:
-				SendDlgItemMessage(dialog, IDC_U_SELP, CB_SETCURSEL, propdata.pindex, 0);
-				Units_Reset(dialog);
-				break;
+				NMHDR *header = (NMHDR*)lParam;
+				switch (header->code)
+				{
+				case PSN_SETACTIVE:
+					SendDlgItemMessage(
+						dialog, IDC_U_SELP, CB_SETCURSEL, propdata.pindex, 0);
+					Units_Reset(dialog);
+					break;
 
-			case PSN_KILLACTIVE:
-				Units_Save(dialog);
-				SendMessage(propdata.mapview, MAP_UnhighlightPoint, MAP_UNHIGHLIGHT_ALL, 0);
+				case PSN_KILLACTIVE:
+					Units_Save(dialog);
+					SendMessage(
+						propdata.mapview, MAP_UnhighlightPoint, MAP_UNHIGHLIGHT_ALL, 0);
+				}
 			}
+			break;
+
+		case WM_VKEYTOITEM:
+			if (LOWORD(wParam) == VK_DELETE)
+				Units_HandleDelete(dialog);
+			ret = -1;
+			break;
+
+		case AOKTS_Loading:
+			Units_Reset(dialog);
+			break;
+
+		case AOKTS_Saving:
+			Units_Save(dialog);
+			break;
+
+		case MAP_Click:
+			Units_HandleMapClick(dialog, LOWORD(lParam), HIWORD(lParam));
+			break;
 		}
-		break;
-
-	case WM_VKEYTOITEM:
-		if (LOWORD(wParam) == VK_DELETE)
-			Units_HandleDelete(dialog);
-		ret = -1;
-		break;
-
-	case AOKTS_Loading:
-		Units_Reset(dialog);
-		break;
-
-	case AOKTS_Saving:
-		Units_Save(dialog);
-		break;
-
-	case MAP_Click:
-		Units_HandleMapClick(dialog, LOWORD(lParam), HIWORD(lParam));
-		break;
+	}
+	catch (std::exception& ex)
+	{
+		// Show a user-friendly message, bug still crash to allow getting all
+		// the debugging info.
+		unhandledExceptionAlert(dialog, msg, ex);
+		throw;
 	}
 
 	return ret;

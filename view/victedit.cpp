@@ -97,43 +97,60 @@ void Victory_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 	}
 }
 
-INT_PTR CALLBACK VictDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+/**
+ * Resets the dialog when new data is available, such as when activating the
+ * dialog.
+ */
+void reset(HWND dialog)
 {
-	switch (msg)
-	{
-	case WM_INITDIALOG:
-		return TRUE;
-
-	case WM_COMMAND:
-		Victory_HandleCommand(dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
-		break;
-
-	case WM_NOTIFY:
-		{
-			NMHDR *header = (NMHDR*)lParam;
-			switch (header->code)
-			{
-			case PSN_SETACTIVE:
-				goto Reset;
-			case PSN_KILLACTIVE:
-				SaveVictory(dialog);
-				break;
-			}
-		}
-		break;
-
-	case AOKTS_Loading:
-		goto Reset;
-
-	case AOKTS_Saving:
-		SaveVictory(dialog);
-	}
-
-	return 0;
-
-Reset:
 	LoadVictory(dialog);
 	Vict_DisableControls(dialog, scen.vict.mode);
+}
+
+INT_PTR CALLBACK VictDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	try
+	{
+		switch (msg)
+		{
+		case WM_INITDIALOG:
+			return TRUE;
+
+		case WM_COMMAND:
+			Victory_HandleCommand(
+				dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+			break;
+
+		case WM_NOTIFY:
+			{
+				NMHDR *header = (NMHDR*)lParam;
+				switch (header->code)
+				{
+				case PSN_SETACTIVE:
+					reset(dialog);
+					break;
+				case PSN_KILLACTIVE:
+					SaveVictory(dialog);
+					break;
+				}
+			}
+			break;
+
+		case AOKTS_Loading:
+			reset(dialog);
+			return 0;
+
+		case AOKTS_Saving:
+			SaveVictory(dialog);
+		}
+	}
+	catch (std::exception& ex)
+	{
+		// Show a user-friendly message, bug still crash to allow getting all
+		// the debugging info.
+		unhandledExceptionAlert(dialog, msg, ex);
+		throw;
+	}
 
 	return 0;
 }

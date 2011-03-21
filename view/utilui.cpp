@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <commdlg.h>
+#include <sstream>
 
 /* Options */
 const size_t CONV_BUFF_SIZE = 32; // size of string conversion buffers
@@ -20,6 +21,25 @@ const size_t CONV_BUFF_SIZE = 32; // size of string conversion buffers
 /* Globals */
 HWND tooltip;	//set with TooltipInit()
 /* Interface */
+
+static std::string makeUnhandledMessage(UINT msg, std::exception& ex)
+{
+	std::stringstream stream;
+	stream << "Unhandled exception while processing message "
+		   << msg
+		   << ". Sorry, but I will now crash.\n\nDETAILS: "
+		   << ex.what();
+	return stream.str();
+}
+
+void unhandledExceptionAlert(HWND parent, UINT msg, std::exception& ex)
+{
+	MessageBox(
+			parent,
+			makeUnhandledMessage(msg, ex).c_str(),
+			"Error",
+			MB_ICONERROR);
+}
 
 void Combo_Fill(HWND dialog, int id, char const * * strings, size_t count)
 {

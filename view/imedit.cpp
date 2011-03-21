@@ -142,45 +142,56 @@ INT_PTR CALLBACK IMsgsDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lPara
 {
 	INT_PTR ret = FALSE;
 
+	try
+	{
 	switch (msg)
 	{
-	case WM_INITDIALOG:
-		{
-			Combo_Fill(dialog, IDC_M_SEL, message_names, NUM_MSGS);
-			Combo_Fill(dialog, IDC_M_SELC, cinem_names, NUM_CINEM);
-
-			return TRUE;
-		}
-
-	case WM_COMMAND:
-		IMsgs_HandleCommand(dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
-		break;
-
-	case WM_NOTIFY:
-		{
-			NMHDR *header = (NMHDR*)lParam;
-			switch (header->code)
+		case WM_INITDIALOG:
 			{
-			case PSN_SETACTIVE:
-				IMsgs_Reset(dialog);
-				ret = 0;
-				break;
+				Combo_Fill(dialog, IDC_M_SEL, message_names, NUM_MSGS);
+				Combo_Fill(dialog, IDC_M_SELC, cinem_names, NUM_CINEM);
 
-			case PSN_KILLACTIVE:
-				SaveM(dialog);
-				break;
+				return TRUE;
 			}
+
+		case WM_COMMAND:
+			IMsgs_HandleCommand(
+				dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+			break;
+
+		case WM_NOTIFY:
+			{
+				NMHDR *header = (NMHDR*)lParam;
+				switch (header->code)
+				{
+				case PSN_SETACTIVE:
+					IMsgs_Reset(dialog);
+					ret = 0;
+					break;
+
+				case PSN_KILLACTIVE:
+					SaveM(dialog);
+					break;
+				}
+			}
+			break;
+
+		case AOKTS_Saving:
+			SaveM(dialog);
+			break;
+
+		case AOKTS_Loading:
+			IMsgs_Reset(dialog);
+			ret = 0;
+			break;
 		}
-		break;
-
-	case AOKTS_Saving:
-		SaveM(dialog);
-		break;
-
-	case AOKTS_Loading:
-		IMsgs_Reset(dialog);
-		ret = 0;
-		break;
+	}
+	catch (std::exception& ex)
+	{
+		// Show a user-friendly message, bug still crash to allow getting all
+		// the debugging info.
+		unhandledExceptionAlert(dialog, msg, ex);
+		throw;
 	}
 
 	return ret;

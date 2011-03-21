@@ -285,44 +285,57 @@ INT_PTR CALLBACK PlyDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR ret = FALSE;
 
-	switch (msg)
+	try
 	{
-	case WM_INITDIALOG:
-		ret = Players_Init(dialog);
-		break;
-
-	case WM_COMMAND:
-		ret = 0;
-		Players_HandleCommand(dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
-		break;
-
-	case WM_NOTIFY:
+		switch (msg)
 		{
-			ret = TRUE;
+		case WM_INITDIALOG:
+			ret = Players_Init(dialog);
+			break;
 
-			NMHDR *header = (NMHDR*)lParam;
-			switch (header->code)
+		case WM_COMMAND:
+			ret = 0;
+			Players_HandleCommand(
+				dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+			break;
+
+		case WM_NOTIFY:
 			{
-			case PSN_SETACTIVE:
-				CheckRadioButton(dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
-				LoadPlayer(dialog);
-				return ret;
+				ret = TRUE;
 
-			case PSN_KILLACTIVE:
-				SavePlayer(dialog);
-				break;
+				NMHDR *header = (NMHDR*)lParam;
+				switch (header->code)
+				{
+				case PSN_SETACTIVE:
+					CheckRadioButton(
+						dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+					LoadPlayer(dialog);
+					return ret;
+
+				case PSN_KILLACTIVE:
+					SavePlayer(dialog);
+					break;
+				}
 			}
+			break;
+
+		case AOKTS_Loading:
+			ret = TRUE;
+			CheckRadioButton(
+				dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+			LoadPlayer(dialog);
+			return ret;
+
+		case AOKTS_Saving:
+			SavePlayer(dialog);
 		}
-		break;
-
-	case AOKTS_Loading:
-		ret = TRUE;
-		CheckRadioButton(dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
-		LoadPlayer(dialog);
-		return ret;
-
-	case AOKTS_Saving:
-		SavePlayer(dialog);
+	}
+	catch (std::exception& ex)
+	{
+		// Show a user-friendly message, bug still crash to allow getting all
+		// the debugging info.
+		unhandledExceptionAlert(dialog, msg, ex);
+		throw;
 	}
 
 	return ret;

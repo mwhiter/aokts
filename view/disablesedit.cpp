@@ -267,45 +267,64 @@ void Disables_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 	}
 }
 
-INT_PTR CALLBACK DisDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+/**
+ * Resets the dialog when new data is available, such as when activating the
+ * dialog.
+ */
+static void reset(HWND dialog)
 {
-	switch (msg)
-	{
-	case WM_INITDIALOG:
-		Combo_Fill(dialog, IDC_D_SPLY, Player::names, NUM_PLAYERS - 1);
-		Combo_Fill(dialog, IDC_D_STYPE, dtypes, NUM_TYPES);
-		return TRUE;
-
-	case WM_COMMAND:
-		Disables_HandleCommand(dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
-		break;
-
-	case WM_NOTIFY:
-		{
-			NMHDR *header = (NMHDR*)lParam;
-			switch (header->code)
-			{
-			case PSN_SETACTIVE:
-				goto Reset;
-			case PSN_KILLACTIVE:
-				SaveDisables(dialog);
-			}
-		}
-		break;
-
-	case AOKTS_Loading:
-		goto Reset;
-
-	case AOKTS_Saving:
-		SaveDisables(dialog);
-	}
-
-	return 0;
-
-Reset:
 	propdata.sel0 = 0;
 	LoadDisables(dialog);
 	SendDlgItemMessage(dialog, IDC_D_SPLY, CB_SETCURSEL, propdata.pindex, 0);
 	SendDlgItemMessage(dialog, IDC_D_STYPE, CB_SETCURSEL, 0, 0);
+}
+
+INT_PTR CALLBACK DisDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	try
+	{
+		switch (msg)
+		{
+		case WM_INITDIALOG:
+			Combo_Fill(dialog, IDC_D_SPLY, Player::names, NUM_PLAYERS - 1);
+			Combo_Fill(dialog, IDC_D_STYPE, dtypes, NUM_TYPES);
+			return TRUE;
+
+		case WM_COMMAND:
+			Disables_HandleCommand(
+				dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+			break;
+
+		case WM_NOTIFY:
+			{
+				NMHDR *header = (NMHDR*)lParam;
+				switch (header->code)
+				{
+				case PSN_SETACTIVE:
+					reset(dialog);
+					break;
+				case PSN_KILLACTIVE:
+					SaveDisables(dialog);
+					break;
+				}
+			}
+			break;
+
+		case AOKTS_Loading:
+			reset(dialog);
+			return 0;
+
+		case AOKTS_Saving:
+			SaveDisables(dialog);
+		}
+	}
+	catch (std::exception& ex)
+	{
+		// Show a user-friendly message, bug still crash to allow getting all
+		// the debugging info.
+		unhandledExceptionAlert(dialog, msg, ex);
+		throw;
+	}
+
 	return 0;
 }

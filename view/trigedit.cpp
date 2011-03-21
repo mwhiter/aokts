@@ -1735,44 +1735,54 @@ static INT_PTR Handle_WM_TIMER(HWND dialog, WPARAM timerId, LPARAM callback)
 INT_PTR CALLBACK TrigDlgProc(
 		HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
+	try
 	{
-	case WM_INITDIALOG:
-		return Handle_WM_INITDIALOG(dialog);
+		switch (msg)
+		{
+		case WM_INITDIALOG:
+			return Handle_WM_INITDIALOG(dialog);
 
-	case WM_COMMAND:
-		return Handle_WM_COMMAND(
-				dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+		case WM_COMMAND:
+			return Handle_WM_COMMAND(
+					dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
 
-	case WM_NOTIFY:
-		return Handle_WM_NOTIFY(dialog, (NMHDR*)lParam);
+		case WM_NOTIFY:
+			return Handle_WM_NOTIFY(dialog, (NMHDR*)lParam);
 
-	case WM_MOUSEMOVE:
-		return Handle_WM_MOUSEMOVE(
-				dialog, wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		case WM_MOUSEMOVE:
+			return Handle_WM_MOUSEMOVE(
+					dialog, wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
-	case WM_LBUTTONUP:
-		return Handle_WM_LBUTTONUP(
-				dialog, wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		case WM_LBUTTONUP:
+			return Handle_WM_LBUTTONUP(
+					dialog, wParam, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
-	case AOKTS_Loading:
-		return Handle_AOKTS_Loading(dialog);
+		case AOKTS_Loading:
+			return Handle_AOKTS_Loading(dialog);
 
-	case AOKTS_Saving:
-		return Handle_AOKTS_Saving(dialog);
+		case AOKTS_Saving:
+			return Handle_AOKTS_Saving(dialog);
 
-	case AOKTS_Closing:
-		return Handle_AOKTS_Closing(dialog);
+		case AOKTS_Closing:
+			return Handle_AOKTS_Closing(dialog);
 
-	case EC_Closing:
-		return Handle_EC_Closing(
-				dialog, wParam, reinterpret_cast<EditEC*>(lParam));
+		case EC_Closing:
+			return Handle_EC_Closing(
+					dialog, wParam, reinterpret_cast<EditEC*>(lParam));
 
-	case WM_DESTROY:
-		return Handle_WM_DESTROY(dialog);
+		case WM_DESTROY:
+			return Handle_WM_DESTROY(dialog);
 
-	case WM_TIMER:
-		return Handle_WM_TIMER(dialog, wParam, lParam);
+		case WM_TIMER:
+			return Handle_WM_TIMER(dialog, wParam, lParam);
+		}
+	}
+	catch (std::exception& ex)
+	{
+		// Show a user-friendly message, bug still crash to allow getting all
+		// the debugging info.
+		unhandledExceptionAlert(dialog, msg, ex);
+		throw;
 	}
 
 	/* "Typically, the dialog box procedure should return TRUE if it processed

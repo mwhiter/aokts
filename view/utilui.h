@@ -8,6 +8,7 @@
 
 #include "../util/winugly.h"
 #include <climits>
+#include <string>
 
 /* Shared msgbox strings */
 
@@ -32,6 +33,16 @@ const char warningNoFormat[] =
 void GetWindowText(HWND wnd, SString &value);
 
 void SetWindowText(HWND wnd, int value);
+
+/**
+ * Displays an error message box indicating that an unhandled exception
+ * occurred while processing /msg/ and that the application will now quit.
+ * Intended to be used in a WindowProc or DialogProc try/catch wrapper.
+ * @param parent the parent window of the message box
+ * @param msg the Windows Message ID that was being processed
+ * @param ex the unhandled exception that occurred
+ */
+void unhandledExceptionAlert(HWND parent, UINT msg, std::exception& ex);
 
 /** Combo Box Utility Functions **/
 

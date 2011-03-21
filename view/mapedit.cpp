@@ -392,52 +392,63 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR ret = FALSE;	//default: doesn't process message
 
-	switch (msg)
+	try
 	{
-	case WM_INITDIALOG:
+		switch (msg)
 		{
-			LinkListBox_Fill(GetDlgItem(dialog, IDC_TR_ID), esdata.terrains);
+			case WM_INITDIALOG:
+				{
+					LinkListBox_Fill(GetDlgItem(dialog, IDC_TR_ID), esdata.terrains);
 
-			LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes);
-			Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
-			Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
+					LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes);
+					Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
+					Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
 
-			ret = TRUE;
-		}
-		break;
+					ret = TRUE;
+				}
+				break;
 
-	case WM_COMMAND:
-		Map_HandleCommand(dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
-		break;
+			case WM_COMMAND:
+				Map_HandleCommand(
+						dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+				break;
 
-	case WM_NOTIFY:
-		{
-			NMHDR *header = (NMHDR*)lParam;
-			switch (header->code)
-			{
-			case PSN_SETACTIVE:
+			case WM_NOTIFY:
+				{
+					NMHDR *header = (NMHDR*)lParam;
+					switch (header->code)
+					{
+						case PSN_SETACTIVE:
+							Map_Reset(dialog);
+							break;
+						case PSN_KILLACTIVE:
+							SaveMap(dialog);
+							break;
+					}
+
+					ret = TRUE;
+				}
+				break;
+
+			case MAP_Click:
+				Map_HandleMapClick(dialog, LOWORD(lParam), HIWORD(lParam));
+				break;
+
+			case AOKTS_Loading:
 				Map_Reset(dialog);
 				break;
-			case PSN_KILLACTIVE:
+
+			case AOKTS_Saving:
 				SaveMap(dialog);
 				break;
-			}
-
-			ret = TRUE;
 		}
-		break;
-
-	case MAP_Click:
-		Map_HandleMapClick(dialog, LOWORD(lParam), HIWORD(lParam));
-		break;
-
-	case AOKTS_Loading:
-		Map_Reset(dialog);
-		break;
-
-	case AOKTS_Saving:
-		SaveMap(dialog);
-		break;
+	}
+	catch (std::exception& ex)
+	{
+		// Show a user-friendly message, bug still crash to allow getting all
+		// the debugging info.
+		unhandledExceptionAlert(dialog, msg, ex);
+		throw;
 	}
 
 	return ret;

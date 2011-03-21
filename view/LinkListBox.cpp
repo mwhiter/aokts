@@ -2,6 +2,12 @@
 
 #include "../util/winugly.h"
 
+void LinkListBox_Fill(HWND listbox, Link *list)
+{
+	for (; list; list = list->next())
+		LinkListBox_Add(listbox, list);
+}
+
 LRESULT LinkListBox_Add(HWND listbox, const Link *link)
 {
 	WPARAM index = List_AddStringW(listbox, link->name());

@@ -8,6 +8,11 @@
  * LinkListBox: a List Box that stores Link *'s associated with each item.
  */
 
+/**
+ * Fills the given listbox with links from the given list.
+ */
+void LinkListBox_Fill(HWND listbox, Link *list);
+
 /*
  * Appends a Link * to a List Box. Should be used in conjunction with
  * LinkListBox_Get().

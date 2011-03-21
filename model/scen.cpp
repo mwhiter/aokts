@@ -861,7 +861,11 @@ int Scenario::write_data(const char *path)
 		t_parse++;
 	}
 
-	fwrite(&t_order.front(), sizeof(long), num, dcout);
+	// Write out t_order vector
+	if (num > 0)  // ugly: have to do this check because we call front()
+	{
+		fwrite(&t_order.front(), sizeof(long), num, dcout);
+	}
 
 	/* Included Files */
 

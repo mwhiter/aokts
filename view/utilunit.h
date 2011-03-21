@@ -4,8 +4,6 @@
 
 	utilunit.h: Declares various utility functions for units management.
 
-	Note: windows.h must be included before this file.
-
 	VIEW/CONTROLLER
 **/
 

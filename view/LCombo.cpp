@@ -122,11 +122,10 @@ int LCombo_Select(HWND dialog, int id, const Link * item)
 	// Lookup the index of the item in the combobox
 	int index = LinkComboBox_Find(combobox, item);
 
-	// If the item was not found, throw domain_error
-	if (index == -1)
+	// If the item was not found and is not null, add an entry for it.
+	if (index == -1 && item != NULL)
 	{
-		throw std::domain_error(
-			"No entry for " + linkString(item) + " in LinkComboBox");
+		index = Combo_AddW(combobox, item->name(), item);
 	}
 
 	// Set the selection to the item's index

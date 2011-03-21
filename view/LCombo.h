@@ -75,7 +75,9 @@ inline LRESULT LCombo_Find(HWND dialog, int id, const Link * item)
 
 /**
  * Convenience method to find the specified item in the LCombo and select it.
- * Will throw a domain_error if the combo box has no associated entry.
+ * Passing NULL will cause no selection (even if LCombo does not have a "no
+ * selection" entry). Passing a non-null link that has no associated entry will
+ * create an entry for that link.
  * @return the index selected
  */
 int LCombo_Select(HWND dialog, int id, const Link * item);

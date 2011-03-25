@@ -45,7 +45,7 @@ bool Link::read(const wchar_t * name, const wchar_t * value)
 
 const Link *getById(const Link* list, int id)
 {
-	// Genie uses -1 to represent no value.
+	// Translate -1 into NULL for no selection.
 	if (id == -1)
 		return NULL;
 

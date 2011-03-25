@@ -83,6 +83,12 @@ template <class XLink> void destroylist(XLink *parse)
 
 /* Link I/O functions */
 
+/**
+ * Looks up the id in the given list. If the id is -1, returns NULL as a
+ * translation of the "no selection" special value. If the id is not -1, it
+ * returns a pointer to the associated Link or throws a domain_error if none
+ * found.
+ */
 const Link *getById(const Link *list, int id);
 
 // read an ID from Buffer and return the relevant Link

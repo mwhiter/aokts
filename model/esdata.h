@@ -230,8 +230,8 @@ public:
 	/* LL heads */
 	TechLink *techs;
 	ColorLink *colors;
-	UnitLink *units;
-	Link *resources;
+	LinkList<UnitLink> units;
+	LinkList<Link> resources;
 	LinkList<Link> aitypes;
 	ColorLink *terrains;
 	UnitGroupLink *unitgroups;
@@ -252,8 +252,6 @@ private:
 	// TODO: this is stupid, I should use real containers for this
 	TechLink *tech_tail;
 	ColorLink *color_tail;
-	UnitLink *unit_tail;
-	Link *res_tail;
 	ColorLink *terrain_tail;
 	UnitGroupLink *unitgroup_tail;
 	CivLink *civ_tail;
@@ -286,7 +284,9 @@ template <class T> T * LinkList<T>::head()
  */
 template <class T> T findId(T head, int id)
 {
-	for (T parse = head; parse; parse = parse->next())
+	for (T parse = head;
+		parse;
+		parse = static_cast<T>(parse->next()))   // Return type isn't covariant
 	{
 		if (parse->id() == id)
 		{

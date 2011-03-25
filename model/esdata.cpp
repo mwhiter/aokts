@@ -125,8 +125,6 @@ void addNode(Link *&head, Link *&tail, Link *item)
 ESDATA::ESDATA()
 :	techs(NULL), tech_tail(NULL),
 	colors(NULL), color_tail(NULL),
-	units(NULL), unit_tail(NULL),
-	resources(NULL), res_tail(NULL),
 	unitgroups(NULL), unitgroup_tail(NULL),
 	ug_buildings(NULL), ug_units(NULL)
 {
@@ -189,7 +187,7 @@ void ESDATA::readUnit(const XML_Char **attrs)
 		attrs++;
 	}
 
-	addNode((Link*&)units, (Link*&)unit_tail, link);
+	units.push_back(link);
 	unit_count++;
 }
 
@@ -230,7 +228,7 @@ void ESDATA::readSimple(const XML_Char **attrs)
 	switch (rstate.pos)
 	{
 	case ESD_resources:
-		addNode(*&resources, *&res_tail, link);
+		resources.push_back(link);
 		res_count++;
 		break;
 	case ESD_aitypes:
@@ -283,7 +281,7 @@ void ESDATA::readUnitGroup(const XML_Char **attrs)
 			do
 			{
 				swscanf(p, L"%d", &i);
-				if (*uparse = (UnitLink*)getById(esdata.units, i))
+				if (*uparse = (UnitLink*)esdata.units.getById(i))
 					uparse++;
 				else
 					printf("Discarding unknown unit type %d from group.\n", i);
@@ -503,25 +501,5 @@ int ESDATA::getCount(enum ESD_GROUP group)
 
 UnitLink *ESDATA::getUnitById(int id)
 {
-	const size_t BUFSIZE = 32; // should enough to hold int
-
-	UnitLink *ret;
-
-	try
-	{
-		ret = (UnitLink*)getById(esdata.units, id);
-	}
-	catch (std::domain_error) // id was unrecognized
-	{
-		wchar_t buffer[BUFSIZE];
-		swprintf(buffer, BUFSIZE, L"?%d", id);
-
-		printf("Creating new protounit for unrecognized typeid %d.\n", id);
-
-		ret = new UnitLink(id, buffer);
-
-		addNode((Link*&)units, (Link*&)unit_tail, ret);
-	}
-
-	return ret;
+	return static_cast<UnitLink*>(esdata.units.getByIdSafe(id));
 }

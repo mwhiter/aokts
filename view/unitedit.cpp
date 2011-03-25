@@ -57,7 +57,8 @@ bool Units_Load(HWND dialog)
 	if (u_index == SIZE_MAX)
 	{
 		u = &blank;
-		u->setType(esdata.units);
+		// Use first unit type
+		u->setType(esdata.units.head());
 	}
 
 	else if (u_index < propdata.p->units.size())

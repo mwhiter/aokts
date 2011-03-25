@@ -28,12 +28,12 @@ void Unit::read(FILE *in)
 
 const UnitLink *Unit::getType()
 {
-	return (pType) ? pType : (pType = (UnitLink*)getById(esdata.units, cnst));
+	return (pType) ? pType : (pType = (UnitLink*)esdata.units.getById(cnst));
 }
 
 const UnitLink *Unit::getType() const
 {
-	return (pType) ? pType : (UnitLink*)getById(esdata.units, cnst);
+	return (pType) ? pType : (UnitLink*)esdata.units.getById(cnst);
 }
 
 void Unit::setType(const UnitLink *t)

@@ -209,10 +209,10 @@ void E_Init(HWND dialog)
 	Combo_Fill(dialog, IDC_E_DSTATE, dnames, 3);
 	Combo_Fill(dialog, IDC_E_PANEL, pnames, 3);
 	LCombo_Fill(dialog, IDC_E_RESEARCH, esdata.techs);
-	LCombo_Fill(dialog, IDC_E_RESTYPE, esdata.resources);
+	LCombo_Fill(dialog, IDC_E_RESTYPE, esdata.resources.head());
 	Combo_PairFill(GetDlgItem(dialog, IDC_E_GROUP), NUM_GROUPS, groups);
 	Combo_PairFill(GetDlgItem(dialog, IDC_E_UTYPE), NUM_UTYPES, utypes);
-	LCombo_Fill(dialog, IDC_E_UCNST, esdata.units, noselect);
+	LCombo_Fill(dialog, IDC_E_UCNST, esdata.units.head(), noselect);
 }
 
 void LoadEffect(HWND dialog, EditEffect *data)
@@ -655,10 +655,10 @@ void C_Init(HWND dialog)
 	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, NUM_CONDS);
 	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS);
 	LCombo_Fill(dialog, IDC_C_RESEARCH, esdata.techs);
-	LCombo_Fill(dialog, IDC_C_RESTYPE, esdata.resources);
+	LCombo_Fill(dialog, IDC_C_RESTYPE, esdata.resources.head());
 	Combo_PairFill(GetDlgItem(dialog, IDC_C_GROUP), NUM_GROUPS, groups);
 	Combo_PairFill(GetDlgItem(dialog, IDC_C_UTYPE), NUM_UTYPES, utypes);
-	LCombo_Fill(dialog, IDC_C_UCNST, esdata.units, noselect);
+	LCombo_Fill(dialog, IDC_C_UCNST, esdata.units.head(), noselect);
 }
 
 void LoadCond(HWND dialog, EditCondition *data)

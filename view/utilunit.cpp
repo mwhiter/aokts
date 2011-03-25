@@ -172,11 +172,7 @@ void UnitList_FillGroup(HWND typebox, const UnitGroupLink *group)
 	}
 	else
 	{
-		for (const UnitLink *l_parse = esdata.units;
-			l_parse; l_parse = (UnitLink*)l_parse->next())
-		{
-			LinkListBox_Add(typebox, l_parse);
-		}
+		LinkListBox_Fill(typebox, esdata.units.head());
 	}
 }
 

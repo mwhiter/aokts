@@ -39,7 +39,7 @@ void Disables_HandleAdd(HWND dialog, int data)
 	if (propdata.sel0 == DIS_tech)
 		list = esdata.techs;
 	else
-		list = esdata.units;
+		list = esdata.units.head();
 
 	/* Get item index */
 	if (data >= 0)

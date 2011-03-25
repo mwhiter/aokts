@@ -17,13 +17,13 @@ Unit::Unit(UID id)
 Unit::Unit(Buffer &from)
 {
 	from.read(this, size);
-	pType = esdata.getUnitById(cnst);
+	pType = esdata.units.getByIdSafe(cnst);
 }
 
 void Unit::read(FILE *in)
 {
 	fread(this, size, 1, in);
-	pType = esdata.getUnitById(cnst);
+	pType = esdata.units.getByIdSafe(cnst);
 }
 
 const UnitLink *Unit::getType()

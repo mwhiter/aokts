@@ -498,8 +498,3 @@ int ESDATA::getCount(enum ESD_GROUP group)
 
 	return 0;
 }
-
-UnitLink *ESDATA::getUnitById(int id)
-{
-	return static_cast<UnitLink*>(esdata.units.getByIdSafe(id));
-}

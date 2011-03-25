@@ -184,7 +184,7 @@ void Condition::fromGenie(const Genie_Condition& genie)
 	amount = genie.amount;
 	object = genie.uid_object;
 	u_loc = genie.uid_location;
-	pUnit = esdata.getUnitById(genie.unit_const);
+	pUnit = esdata.units.getByIdSafe(genie.unit_const);
 	player = genie.player;
 	pTech = static_cast<const TechLink*>(
 			getById(esdata.techs, genie.technology));

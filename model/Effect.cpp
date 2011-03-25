@@ -261,7 +261,7 @@ void Effect::fromGenie(const Genie_Effect& genie)
 	diplomacy = genie.diplomacy;
 	num_sel = genie.num_selected;
 	uid_loc = genie.uid_location;
-	pUnit = esdata.getUnitById(genie.unit_constant);
+	pUnit = esdata.units.getByIdSafe(genie.unit_constant);
 	s_player = genie.player_source;
 	t_player = genie.player_target;
 	pTech = static_cast<const TechLink*>(

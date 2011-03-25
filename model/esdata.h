@@ -169,7 +169,7 @@ public:
 	 * return a valid pointer.
 	 */
 	/* TODO: get rid of Link return */
-	Link * getByIdSafe(int id);
+	T * getByIdSafe(int id);
 
 private:
 	T * _head;
@@ -245,7 +245,6 @@ public:
 	void load(const char *path);
 
 	int getCount(enum ESD_GROUP group);
-	UnitLink *getUnitById(int id);
 
 private:
 	/* LL Tails */
@@ -302,7 +301,7 @@ template <class T> Link const * LinkList<T>::getById(int id) const
 	return ::getById(_head, id);
 }
 
-template <class T> Link * LinkList<T>::getByIdSafe(int id)
+template <class T> T * LinkList<T>::getByIdSafe(int id)
 {
 	// Translate -1 into NULL for no selection
 	if (id == -1)

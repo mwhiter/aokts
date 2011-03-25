@@ -43,19 +43,25 @@ bool Link::read(const wchar_t * name, const wchar_t * value)
 	return ret;
 }
 
-const Link *getById(const Link* list, int id)
+Link const *getById(Link const * list, int id)
 {
-	// Translate -1 into NULL for no selection.
+	// Translate -1 into NULL for no selection
 	if (id == -1)
-		return NULL;
-
-	for (; list; list = list->next())
 	{
-		if (list->id() == id)
-			return list;
+		return NULL;
 	}
 
-	throw std::domain_error("Could not lookup ID in ESDATA.");
+	// Lookup item if it exists
+	Link const * item = findId(list, id);
+
+	if (item != NULL)
+	{
+		return item;
+	}
+	else
+	{
+		throw std::domain_error("Could not lookup ID in game data.");
+	}
 }
 
 const Link* readLink(Buffer &b, const Link *list)
@@ -103,6 +109,17 @@ CivLink::CivLink()
 CivLink::~CivLink()
 {
 	destroylist(units);
+}
+
+void addNode(Link *&head, Link *&tail, Link *item)
+{
+	if (!head)
+		head = item;
+
+	if (tail)
+		tail->setNext(item);
+
+	tail = item;
 }
 
 ESDATA::ESDATA()
@@ -213,19 +230,14 @@ void ESDATA::readSimple(const XML_Char **attrs)
 	switch (rstate.pos)
 	{
 	case ESD_resources:
-		dest = &resources;
-		dest_tail = &res_tail;
+		addNode(*&resources, *&res_tail, link);
 		res_count++;
 		break;
 	case ESD_aitypes:
-		dest = &aitypes;
-		dest_tail = &aitype_tail;
+		aitypes.push_back(link);
 		aitype_count++;
 		break;
 	}
-
-	if (dest && dest_tail)
-		addNode(*dest, *dest_tail, link);
 }
 
 void ESDATA::readResources(const XML_Char **)
@@ -390,17 +402,6 @@ void XMLCALL endHandler(void *userdata, const XML_Char *name)
 void XMLCALL characterDataHandler(void *, const XML_Char *, int)
 {
 	// do nothing
-}
-
-void ESDATA::addNode(Link *&head, Link *&tail, Link *item)
-{
-	if (!head)
-		head = item;
-
-	if (tail)
-		tail->setNext(item);
-
-	tail = item;
 }
 
 void ESDATA::load(const char *path)

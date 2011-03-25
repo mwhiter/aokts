@@ -1197,7 +1197,7 @@ void Map::reset()
 {
 	Terrain *parse;
 
-	aitype = esdata.aitypes->id();	// pick the first one
+	aitype = esdata.aitypes.head()->id();	// pick the first one
 	x = *MapSizes;
 	y = *MapSizes;
 

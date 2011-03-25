@@ -137,6 +137,54 @@ public:
 	UnitLink *units, *unit_tail;
 };
 
+/**
+ * This class is a custom linked-list implementation that provides convenient
+ * functions for looking up an item basd
+ */
+template <class T> class LinkList
+{
+public:
+	LinkList();
+
+	/**
+	 * Returns the first item in the list, from which all other items can be
+	 * accessed.
+	 */
+	T * head();
+	T const * head() const;
+
+	/**
+	 * Returns the item in the list that has the given id, or throws a
+	 * domain_error if no such item exists.
+	 */
+	/* TODO: get rid of Link return */
+	Link const * getById(int id) const;
+
+	/**
+	 * Looks up an item by its id. Returns a pointer to the item that is
+	 * already in the list if it exists, or creates a new instance, adds it to
+	 * the list, and returns it.
+	 *
+	 * Unlike getById(), this will not throw a domain_error but will always
+	 * return a valid pointer.
+	 */
+	/* TODO: get rid of Link return */
+	Link * getByIdSafe(int id);
+
+private:
+	T * _head;
+	T * _tail;
+
+	/**
+	 * Appends the given item to the list. I don't like "push_back", but it's
+	 * C++ convention.
+	 */
+	void push_back(T * item);
+
+	// HACK: allow ESDATA only to call push_back
+	friend class ESDATA;
+};
+
 enum ESD_GROUP
 {
 	ESD_nowhere,
@@ -165,7 +213,6 @@ extern class ESDATA
 	} pfuncs[];
 
 	/* Reading funcs */
-	void addNode(Link *&head, Link *&tail, Link *item);
 	void readTech(const XML_Char **attrs);
 	void readColor(const XML_Char **attrs);
 	void readUnit(const XML_Char **attrs);
@@ -185,7 +232,7 @@ public:
 	ColorLink *colors;
 	UnitLink *units;
 	Link *resources;
-	Link *aitypes;
+	LinkList<Link> aitypes;
 	ColorLink *terrains;
 	UnitGroupLink *unitgroups;
 	CivLink *civs;
@@ -207,7 +254,6 @@ private:
 	ColorLink *color_tail;
 	UnitLink *unit_tail;
 	Link *res_tail;
-	Link *aitype_tail;
 	ColorLink *terrain_tail;
 	UnitGroupLink *unitgroup_tail;
 	CivLink *civ_tail;
@@ -221,5 +267,86 @@ private:
 	friend void XMLCALL startHandler(void *, const XML_Char *, const XML_Char **);
 	friend void XMLCALL endHandler(void *, const XML_Char *);
 } esdata;
+
+/** Template Member Function definitions here... don't look! **/
+
+template <class T> LinkList<T>::LinkList()
+:   _head(NULL),
+	_tail(NULL)
+{
+}
+
+template <class T> T * LinkList<T>::head()
+{
+	return _head;
+}
+
+/**
+ * Finds the link with the given id, or returns NULL if none could be found.
+ */
+template <class T> T findId(T head, int id)
+{
+	for (T parse = head; parse; parse = parse->next())
+	{
+		if (parse->id() == id)
+		{
+			return parse;
+		}
+	}
+
+	return NULL;
+}
+
+template <class T> Link const * LinkList<T>::getById(int id) const
+{
+	return ::getById(_head, id);
+}
+
+template <class T> Link * LinkList<T>::getByIdSafe(int id)
+{
+	// Translate -1 into NULL for no selection
+	if (id == -1)
+	{
+		return NULL;
+	}
+
+	// Lookup item if it exists
+	T * item = findId(_head, id);
+
+	// Item did not exist, we need to make a new one.
+	if (item == NULL)
+	{
+		printf("Creating new gamedata item for unrecognized id %d.\n", id);
+
+		// First, create a name for the new item
+		// Use a buffer big enough to hold MAX_INT
+		const size_t BUFSIZE = 32;
+		wchar_t name[BUFSIZE];
+		swprintf(name, BUFSIZE, L"?%d", id);
+
+		// Create the new instance
+		item = new T(id, name);
+
+		// Add the item to the list
+		push_back(item);
+	}
+
+	// Always return item
+	return item;
+}
+
+template <class T> void LinkList<T>::push_back(T * item)
+{
+	// If list is empty, make item the head.
+	if (!_head)
+		_head = item;
+
+	// If list already has a tail, set the current tail's next ptr to the item.
+	if (_tail)
+		_tail->setNext(item);
+
+	// item will always be the new tail.
+	_tail = item;
+}
 
 #endif // INC_ESDATA_H

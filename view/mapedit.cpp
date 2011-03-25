@@ -76,16 +76,9 @@ void LoadMap(HWND dialog, bool all)
 	if (i == NUM_SIZES)
 		SetDlgItemInt(dialog, IDC_TR_SIZE, scen.map.x, FALSE);
 
-	ait = getById(esdata.aitypes, scen.map.aitype);
+	ait = esdata.aitypes.getByIdSafe(scen.map.aitype);
 
-	if (ait)
-	{
-		index = LCombo_Find(dialog, IDC_TR_AITYPE, ait);
-	}
-	else
-		printf("WARNING: Unknown ai constant (%d).\n", scen.map.aitype);
-
-	SendDlgItemMessage(dialog, IDC_TR_AITYPE, CB_SETCURSEL, index, 0);
+	LCombo_Select(dialog, IDC_TR_AITYPE, ait);
 }
 
 void SaveMap(HWND dialog)
@@ -400,7 +393,7 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					LinkListBox_Fill(GetDlgItem(dialog, IDC_TR_ID), esdata.terrains);
 
-					LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes);
+					LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
 					Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
 					Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
 

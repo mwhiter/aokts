@@ -265,7 +265,7 @@ void Effect::fromGenie(const Genie_Effect& genie)
 	s_player = genie.player_source;
 	t_player = genie.player_target;
 	pTech = static_cast<const TechLink*>(
-		getById(esdata.techs, genie.technology));
+		esdata.techs.getById(genie.technology));
 	stringid = genie.stable;
 	u2 = genie.unknown;
 	disp_time = genie.display_time;

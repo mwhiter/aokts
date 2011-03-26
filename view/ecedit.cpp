@@ -208,7 +208,7 @@ void E_Init(HWND dialog)
 	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_DSTATE, dnames, 3);
 	Combo_Fill(dialog, IDC_E_PANEL, pnames, 3);
-	LCombo_Fill(dialog, IDC_E_RESEARCH, esdata.techs);
+	LCombo_Fill(dialog, IDC_E_RESEARCH, esdata.techs.head());
 	LCombo_Fill(dialog, IDC_E_RESTYPE, esdata.resources.head());
 	Combo_PairFill(GetDlgItem(dialog, IDC_E_GROUP), NUM_GROUPS, groups);
 	Combo_PairFill(GetDlgItem(dialog, IDC_E_UTYPE), NUM_UTYPES, utypes);
@@ -654,7 +654,7 @@ void C_Init(HWND dialog)
 {
 	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, NUM_CONDS);
 	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS);
-	LCombo_Fill(dialog, IDC_C_RESEARCH, esdata.techs);
+	LCombo_Fill(dialog, IDC_C_RESEARCH, esdata.techs.head());
 	LCombo_Fill(dialog, IDC_C_RESTYPE, esdata.resources.head());
 	Combo_PairFill(GetDlgItem(dialog, IDC_C_GROUP), NUM_GROUPS, groups);
 	Combo_PairFill(GetDlgItem(dialog, IDC_C_UTYPE), NUM_UTYPES, utypes);

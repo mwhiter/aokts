@@ -68,19 +68,6 @@ inline const wchar_t * Link::name() const
 	return _name.c_str();
 }
 
-/** Need this to destroy any type of Link list **/
-template <class XLink> void destroylist(XLink *parse)
-{
-	XLink *t;
-
-	while (parse)
-	{
-		t = parse;
-		parse = (XLink*)parse->next();
-		delete t;
-	}
-}
-
 /* Link I/O functions */
 
 /**
@@ -128,15 +115,6 @@ public:
 	const UnitLink **list;
 };
 
-class CivLink : public Link
-{
-public:
-	CivLink();
-	~CivLink();
-
-	UnitLink *units, *unit_tail;
-};
-
 /**
  * This class is a custom linked-list implementation that provides convenient
  * functions for looking up an item basd
@@ -145,6 +123,7 @@ template <class T> class LinkList
 {
 public:
 	LinkList();
+	~LinkList();
 
 	/**
 	 * Returns the first item in the list, from which all other items can be
@@ -178,6 +157,9 @@ private:
 	/**
 	 * Appends the given item to the list. I don't like "push_back", but it's
 	 * C++ convention.
+	 *
+	 * After this operation, the list owns the pointer. It will delete it when
+	 * destructing the list.
 	 */
 	void push_back(T * item);
 
@@ -228,37 +210,28 @@ extern class ESDATA
 
 public:
 	/* LL heads */
-	TechLink *techs;
-	ColorLink *colors;
+	LinkList<TechLink> techs;
+	LinkList<ColorLink> colors;
 	LinkList<UnitLink> units;
 	LinkList<Link> resources;
 	LinkList<Link> aitypes;
-	ColorLink *terrains;
-	UnitGroupLink *unitgroups;
-	CivLink *civs;
+	LinkList<ColorLink> terrains;
+	LinkList<UnitGroupLink> unitgroups;
+	LinkList<Link> civs;
 
 	/* Special unit groups */
 	UnitGroupLink *ug_buildings, *ug_units;
 
 	ESDATA();
-	~ESDATA();
 	void load(const char *path);
 
 	int getCount(enum ESD_GROUP group);
 
 private:
-	/* LL Tails */
-	// TODO: this is stupid, I should use real containers for this
-	TechLink *tech_tail;
-	ColorLink *color_tail;
-	ColorLink *terrain_tail;
-	UnitGroupLink *unitgroup_tail;
-	CivLink *civ_tail;
 
 	struct
 	{
 		enum ESD_GROUP pos;
-		CivLink *civ;
 	} rstate;
 
 	friend void XMLCALL startHandler(void *, const XML_Char *, const XML_Char **);
@@ -271,6 +244,18 @@ template <class T> LinkList<T>::LinkList()
 :   _head(NULL),
 	_tail(NULL)
 {
+}
+
+template <class T> LinkList<T>::~LinkList()
+{
+	T *parse = _head;
+
+	while (parse)
+	{
+		T * t = parse;
+		parse = static_cast<T*>(parse->next());
+		delete t;
+	}
 }
 
 template <class T> T * LinkList<T>::head()

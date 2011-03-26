@@ -260,10 +260,10 @@ char ttAI[] =
 BOOL Players_Init(HWND dialog)
 {
 	/* Fill Combo Boxes */
-	LCombo_Fill(dialog, IDC_P_CIV, esdata.civs);
+	LCombo_Fill(dialog, IDC_P_CIV, esdata.civs.head());
 	Combo_Fill(dialog, IDC_P_SPDIP, Player::names, NUM_PLAYERS);
 	SendDlgItemMessage(dialog, IDC_P_SPDIP, CB_SETCURSEL, 0, 0);	//set to player 0, or we get diplomacy[-1]
-	LCombo_Fill(dialog, IDC_P_COLOR, esdata.colors);
+	LCombo_Fill(dialog, IDC_P_COLOR, esdata.colors.head());
 	Combo_Fill(dialog, IDC_P_AGE, ages, NUM_AGES);
 
 	/* Set resource names per game */

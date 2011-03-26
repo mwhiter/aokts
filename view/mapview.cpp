@@ -408,13 +408,21 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 
 	tBrushes = new HBRUSH[esdata.getCount(ESD_terrains)];
 
-	for (i = 0, parse = esdata.terrains; parse; parse = (ColorLink*)parse->next(), i++)
+	for (i = 0, parse = esdata.terrains.head();
+		parse;
+		parse = (ColorLink*)parse->next(), i++)
+	{
 		tBrushes[i] = CreateSolidBrush(parse->ref);
+	}
 
 	pBrushes = new HBRUSH[esdata.getCount(ESD_colors)];
 
-	for (i = 0, parse = esdata.colors; parse; parse = (ColorLink*)parse->next(), i++)
+	for (i = 0, parse = esdata.colors.head();
+		parse;
+		parse = (ColorLink*)parse->next(), i++)
+	{
 		pBrushes[i] = CreateSolidBrush(parse->ref);
+	}
 
 	bWhite = CreateSolidBrush(0xFFFFFF);
 	data.statusbar = makestatus(window);

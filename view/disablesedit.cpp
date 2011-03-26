@@ -37,7 +37,7 @@ void Disables_HandleAdd(HWND dialog, int data)
 
 	list_all = GetDlgItem(dialog, IDC_D_ALL);
 	if (propdata.sel0 == DIS_tech)
-		list = esdata.techs;
+		list = esdata.techs.head();
 	else
 		list = esdata.units.head();
 
@@ -138,7 +138,7 @@ void LoadDisables(HWND dialog)
 
 	case DIS_tech:
 
-		LinkListBox_Fill(list_all, esdata.techs);
+		LinkListBox_Fill(list_all, esdata.techs.head());
 
 		d_parse = propdata.p->dis_tech;
 		for (i = 0; i < propdata.p->ndis_t; i++)

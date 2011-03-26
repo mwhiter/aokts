@@ -101,16 +101,6 @@ UnitGroupLink::~UnitGroupLink()
 	delete [] list;
 }
 
-CivLink::CivLink()
-:	units(NULL), unit_tail(NULL)
-{
-}
-
-CivLink::~CivLink()
-{
-	destroylist(units);
-}
-
 void addNode(Link *&head, Link *&tail, Link *item)
 {
 	if (!head)
@@ -123,17 +113,8 @@ void addNode(Link *&head, Link *&tail, Link *item)
 }
 
 ESDATA::ESDATA()
-:	techs(NULL), tech_tail(NULL),
-	colors(NULL), color_tail(NULL),
-	unitgroups(NULL), unitgroup_tail(NULL),
-	ug_buildings(NULL), ug_units(NULL)
+:	ug_buildings(NULL), ug_units(NULL)
 {
-}
-
-ESDATA::~ESDATA()
-{
-	destroylist(techs);
-	destroylist(colors);
 }
 
 void ESDATA::readTech(const XML_Char **attrs)
@@ -150,7 +131,7 @@ void ESDATA::readTech(const XML_Char **attrs)
 		attrs++;
 	}
 
-	addNode((Link*&)techs, (Link*&)tech_tail, link);
+	techs.push_back(link);
 	tech_count++;
 }
 
@@ -169,7 +150,7 @@ void ESDATA::readColor(const XML_Char **attrs)
 		attrs += 2;
 	}
 
-	addNode((Link*&)colors, (Link*&)color_tail, link);
+	colors.push_back(link);
 	color_count++;
 }
 
@@ -206,7 +187,7 @@ void ESDATA::readTerrain(const XML_Char **attrs)
 		attrs +=2 ;
 	}
 
-	addNode((Link*&)terrains, (Link*&)terrain_tail, link);
+	terrains.push_back(link);
 	terrain_count++;
 }
 
@@ -316,14 +297,13 @@ void ESDATA::readUnitGroup(const XML_Char **attrs)
 	else if (!ug_units && !wcscmp(link->name(), L"Units"))
 		ug_units = link;
 
-	// FIXME: ugly casts
-	addNode((Link*&)unitgroups, (Link*&)unitgroup_tail, link);
+	unitgroups.push_back(link);
 	unitgroup_count++;
 }
 
 void ESDATA::readCiv(const XML_Char **attrs)
 {
-	CivLink *link = new CivLink;
+	Link *link = new Link;
 
 	while (*attrs)
 	{
@@ -335,10 +315,8 @@ void ESDATA::readCiv(const XML_Char **attrs)
 		attrs++;
 	}
 
-	addNode((Link*&)civs, (Link*&)civ_tail, link);
+	civs.push_back(link);
 	civ_count++;
-
-	rstate.civ = link;
 }
 
 #define PF(n, f) { n, f }	//I just prefer this syntax
@@ -384,11 +362,6 @@ void ESDATA::endResources()
 	rstate.pos = ESD_nowhere;
 }
 
-void ESDATA::endCiv()
-{
-	rstate.civ = NULL;
-}
-
 void XMLCALL endHandler(void *userdata, const XML_Char *name)
 {
 	ESDATA *esdata = (ESDATA *)userdata;
@@ -418,7 +391,6 @@ void ESDATA::load(const char *path)
 	unitgroup_count = 0;
 	civ_count = 0;
 	rstate.pos = ESD_nowhere;
-	rstate.civ = NULL;
 	printf("\nReading esdata from \"%s\"...\n", path);
 
 	parser = XML_ParserCreate(NULL);

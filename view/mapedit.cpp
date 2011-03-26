@@ -391,7 +391,8 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			case WM_INITDIALOG:
 				{
-					LinkListBox_Fill(GetDlgItem(dialog, IDC_TR_ID), esdata.terrains);
+					LinkListBox_Fill(
+						GetDlgItem(dialog, IDC_TR_ID), esdata.terrains.head());
 
 					LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
 					Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);

@@ -24,52 +24,82 @@ const char *dtypes[NUM_TYPES] = { "Buildings", "Units", "Techs" };
 
 const char d_title[] = "Disables Editor";
 
-/*
-	Disables_HandleAdd: Moves a string from left box to right box.
-
-	data: optionally specifies string by data. otherwise, current sel.
-*/
-void Disables_HandleAdd(HWND dialog, int data)
+/**
+ * Directly moves an entry for the "all" listbox to the "disabled" listbox by
+ * listbox index.
+ */
+static void MoveToDisabled(HWND dialog, int index)
 {
-	int index;
-	HWND list_all;
-	const Link *l = NULL, *list;
+	HWND const list_all = GetDlgItem(dialog, IDC_D_ALL);
+	HWND const list_dis = GetDlgItem(dialog, IDC_D_SEL);
 
-	list_all = GetDlgItem(dialog, IDC_D_ALL);
-	if (propdata.sel0 == DIS_tech)
-		list = esdata.techs.head();
-	else
-		list = esdata.units.head();
+	// Get Link pointer from "all" listbox entry.
+	const Link * link = LinkListBox_Get(list_all, index);
 
-	/* Get item index */
-	if (data >= 0)
+	if (link == NULL)
 	{
-		int count;
-
-		l = getById(list, data);
-
-		count = SendMessage(list_all, LB_GETCOUNT, 0, 0);
-		for (index = 0; index < count; index++)
-		{
-			if (LinkListBox_Get(list_all, index) == l)
-				break;
-		}
-	}
-	else
-	{
-		index = SendMessage(list_all, LB_GETCURSEL, 0, 0);
-		if (index >= 0)
-			l = LinkListBox_Get(list_all, index);
+		MessageBox(
+				dialog,
+				"Error while retrieving entry for left list. Please report this.",
+				"Disables editor",
+				MB_ICONWARNING);
+		return;
 	}
 
-	/* Delete */
+	// Remove entry for "all" listbox
 	SendMessage(list_all, LB_DELETESTRING, index, 0);
 
-	/* Add copy item to selection list */
-	if (l)
-		LinkListBox_Add(GetDlgItem(dialog, IDC_D_SEL), l);
+	// Add entry to "disabled" listbox with appropriate Link pointer.
+	LinkListBox_Add(list_dis, link);
+}
+
+/**
+ * Disables the unit or technology specified by the given id. Whether a unit or
+ * technology is disabled depends on the current selection of the list in the
+ * UI.
+ */
+static void DisableItem(HWND dialog, int id)
+{
+	// Get the index of the id in the "all" list.
+	int index;
+	HWND list_all = GetDlgItem(dialog, IDC_D_ALL);
+
+	// Get the Link * from the appropriate list: techs or units.
+	Link const * link = (propdata.sel0 == DIS_tech) ?
+		esdata.techs.getById(id) :
+		esdata.units.getById(id);
+
+	// And use the Link * to lookup the index. This is inefficient, but it's UI
+	// speed anyway.
+	index = LinkListBox_GetIndex(list_all, link);
+
+	// Call MoveToDisabled() with the index.
+	MoveToDisabled(dialog, index);
+}
+
+/**
+ * Disables the item currently selected in "all" list.
+ */
+void DisableSelectedItem(HWND dialog)
+{
+	// Get current selection index
+	LRESULT index = SendDlgItemMessage(dialog, IDC_D_ALL, LB_GETCURSEL, 0, 0);
+
+	// Ensure there was a current selection before proceeding.
+	if (index != LB_ERR)
+	{
+		// Call MoveToDisabled with the index.
+		MoveToDisabled(dialog, index);
+	}
 	else
-		MessageBox(dialog, "Could not locate selection.", "Disables editor", MB_ICONWARNING);
+	{
+		// No selection! There should have been, so alert the user.
+		MessageBox(
+				dialog,
+				"No selection! Please report this error.",
+				"Disables Editor",
+				MB_ICONWARNING);
+	}
 }
 
 void Disables_HandleDel(HWND dialog)
@@ -132,7 +162,7 @@ void LoadDisables(HWND dialog)
 
 		d_parse = propdata.p->dis_bldg;
 		for (i = 0; i < propdata.p->ndis_b; i++)
-			Disables_HandleAdd(dialog, *d_parse++);
+			DisableItem(dialog, *d_parse++);
 
 		break;
 
@@ -144,7 +174,7 @@ void LoadDisables(HWND dialog)
 		for (i = 0; i < propdata.p->ndis_t; i++)
 		{
 			if (*d_parse > 0)
-				Disables_HandleAdd(dialog, *d_parse++);
+				DisableItem(dialog, *d_parse++);
 		}
 
 		break;
@@ -158,7 +188,7 @@ void LoadDisables(HWND dialog)
 
 		d_parse = propdata.p->dis_unit;
 		for (i = 0; i < propdata.p->ndis_u; i++)
-			Disables_HandleAdd(dialog, *d_parse++);
+			DisableItem(dialog, *d_parse++);
 		break;
 	}
 }
@@ -227,7 +257,7 @@ void Disables_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			break;
 
 		case IDC_D_ADD:
-			Disables_HandleAdd(dialog, -1);
+			DisableSelectedItem(dialog);
 			break;
 
 		case IDC_D_DEL:

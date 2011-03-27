@@ -1,7 +1,7 @@
 #ifndef INC_LINKLISTBOX_H
 #define INC_LINKLISTBOX_H
 
-#include <windows.h>
+#include "utilui.h"
 #include "../model/esdata.h"
 
 /**
@@ -30,12 +30,23 @@ const Link * LinkListBox_Get(HWND listbox, WPARAM index);
  */
 inline const Link * LinkListBox_GetSel(HWND listbox);
 
+/**
+ * Returns index of the item that has the specified associated Link, or
+ * UINT_MAX if none found.
+ */
+inline LRESULT LinkListBox_GetIndex(HWND listbox, Link const * link);
+
 /** Inline function definitions... don't look! **/
 
 const Link * LinkListBox_GetSel(HWND listbox)
 {
 	return LinkListBox_Get(listbox,
 		SendMessage(listbox, LB_GETCURSEL, 0, 0));
+}
+
+inline LRESULT LinkListBox_GetIndex(HWND listbox, Link const * link)
+{
+	return ListBox_Find(listbox, link);
 }
 
 #endif // INC_LINKLISTBOX_H

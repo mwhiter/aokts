@@ -68,20 +68,6 @@ inline const wchar_t * Link::name() const
 	return _name.c_str();
 }
 
-/* Link I/O functions */
-
-/**
- * Looks up the id in the given list. If the id is -1, returns NULL as a
- * translation of the "no selection" special value. If the id is not -1, it
- * returns a pointer to the associated Link or throws a domain_error if none
- * found.
- */
-const Link *getById(const Link *list, int id);
-
-// read an ID from Buffer and return the relevant Link
-const Link* readLink(Buffer& b, const Link *list);
-void writeLink(Buffer& b, const Link *link);
-
 /* Derived links */
 
 class TechLink : public Link
@@ -147,7 +133,6 @@ public:
 	 * Unlike getById(), this will not throw a domain_error but will always
 	 * return a valid pointer.
 	 */
-	/* TODO: get rid of Link return */
 	T * getByIdSafe(int id);
 
 private:
@@ -283,7 +268,23 @@ template <class T> T findId(T head, int id)
 
 template <class T> Link const * LinkList<T>::getById(int id) const
 {
-	return ::getById(_head, id);
+	// Translate -1 into NULL for no selection
+	if (id == -1)
+	{
+		return NULL;
+	}
+
+	// Lookup item if it exists
+	Link const * item = findId(_head, id);
+
+	if (item != NULL)
+	{
+		return item;
+	}
+	else
+	{
+		throw std::domain_error("Could not lookup ID in game data.");
+	}
 }
 
 template <class T> T * LinkList<T>::getByIdSafe(int id)

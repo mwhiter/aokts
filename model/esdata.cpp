@@ -43,45 +43,6 @@ bool Link::read(const wchar_t * name, const wchar_t * value)
 	return ret;
 }
 
-Link const *getById(Link const * list, int id)
-{
-	// Translate -1 into NULL for no selection
-	if (id == -1)
-	{
-		return NULL;
-	}
-
-	// Lookup item if it exists
-	Link const * item = findId(list, id);
-
-	if (item != NULL)
-	{
-		return item;
-	}
-	else
-	{
-		throw std::domain_error("Could not lookup ID in game data.");
-	}
-}
-
-const Link* readLink(Buffer &b, const Link *list)
-{
-	long id;
-
-	b.read(&id, sizeof(long));
-
-	return getById(list, id);
-}
-
-void writeLink(Buffer &b, const Link *link)
-{
-	long id;
-	
-	id = (link) ? link->id() : -1;
-
-	b.write(&id, sizeof(id));
-}
-
 UnitLink::UnitLink()
 {
 }

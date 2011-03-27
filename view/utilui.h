@@ -1,3 +1,6 @@
+#ifndef INC_UTILUI_H
+#define INC_UTILUI_H
+
 /**
 	AOK Trigger Studio (See aokts.cpp for legal conditions.)
 	WINDOWS VERSION.
@@ -30,7 +33,7 @@ const char warningNoFormat[] =
 /*
 	GetWindowText: Retrieves text from a window and stores it in an SString class.
 */
-void GetWindowText(HWND wnd, SString &value);
+void GetWindowText(HWND wnd, class SString &value);
 
 void SetWindowText(HWND wnd, int value);
 
@@ -149,3 +152,5 @@ LRESULT Combo_GetSelData(HWND combobox)
 	return SendMessage(combobox, CB_GETITEMDATA,
 			SendMessage(combobox, CB_GETCURSEL, 0, 0), 0);
 }
+
+#endif // INC_UTILUI_H

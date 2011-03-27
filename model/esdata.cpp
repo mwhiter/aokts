@@ -223,7 +223,7 @@ void ESDATA::readUnitGroup(const XML_Char **attrs)
 			do
 			{
 				swscanf(p, L"%d", &i);
-				if (*uparse = (UnitLink*)esdata.units.getById(i))
+				if (*uparse = esdata.units.getById(i))
 					uparse++;
 				else
 					printf("Discarding unknown unit type %d from group.\n", i);

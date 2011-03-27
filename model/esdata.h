@@ -122,8 +122,7 @@ public:
 	 * Returns the item in the list that has the given id, or throws a
 	 * domain_error if no such item exists.
 	 */
-	/* TODO: get rid of Link return */
-	Link const * getById(int id) const;
+	T const * getById(int id) const;
 
 	/**
 	 * Looks up an item by its id. Returns a pointer to the item that is
@@ -266,7 +265,7 @@ template <class T> T findId(T head, int id)
 	return NULL;
 }
 
-template <class T> Link const * LinkList<T>::getById(int id) const
+template <class T> T const * LinkList<T>::getById(int id) const
 {
 	// Translate -1 into NULL for no selection
 	if (id == -1)
@@ -275,7 +274,7 @@ template <class T> Link const * LinkList<T>::getById(int id) const
 	}
 
 	// Lookup item if it exists
-	Link const * item = findId(_head, id);
+	T const * item = findId(_head, id);
 
 	if (item != NULL)
 	{

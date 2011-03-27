@@ -65,8 +65,9 @@ static void DisableItem(HWND dialog, int id)
 	HWND list_all = GetDlgItem(dialog, IDC_D_ALL);
 
 	// Get the Link * from the appropriate list: techs or units.
+	// Downcast with static_cast to make the condition operator work.
 	Link const * link = (propdata.sel0 == DIS_tech) ?
-		esdata.techs.getById(id) :
+		static_cast<Link const *>(esdata.techs.getById(id)) :
 		esdata.units.getById(id);
 
 	// And use the Link * to lookup the index. This is inefficient, but it's UI

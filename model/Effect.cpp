@@ -264,7 +264,7 @@ void Effect::fromGenie(const Genie_Effect& genie)
 	pUnit = esdata.units.getByIdSafe(genie.unit_constant);
 	s_player = genie.player_source;
 	t_player = genie.player_target;
-	pTech = esdata.techs.getById(genie.technology);
+	pTech = esdata.techs.getByIdSafe(genie.technology);
 	stringid = genie.stable;
 	u2 = genie.unknown;
 	disp_time = genie.display_time;

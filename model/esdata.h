@@ -73,6 +73,9 @@ inline const wchar_t * Link::name() const
 class TechLink : public Link
 {
 public:
+	TechLink();
+	TechLink(int id, const wchar_t * name);
+
 	char *civ;
 };
 

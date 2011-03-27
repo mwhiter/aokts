@@ -43,6 +43,15 @@ bool Link::read(const wchar_t * name, const wchar_t * value)
 	return ret;
 }
 
+TechLink::TechLink()
+{
+}
+
+TechLink::TechLink(int id, const wchar_t *name)
+:	Link(id, name)
+{
+}
+
 UnitLink::UnitLink()
 {
 }

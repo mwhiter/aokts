@@ -6,13 +6,13 @@
 #include <Winresrc.h>
 #define IDC_STATIC -1
 
-IDD_ABOUT DIALOG DISCARDABLE 0, 0, 235, 55
+IDD_ABOUT DIALOG DISCARDABLE 0, 0, 235, 65
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 8, "MS Sans Serif"
 BEGIN
 	PUSHBUTTON	"OK",1,178,7,50,14,BS_DEFPUSHBUTTON
-	LTEXT		"AOK Trigger Studio 1.0.1\nby David Tombs (DiGiT)\ncyan.spam@gmail.com",IDC_STATIC,46,13,96,26
+	LTEXT		"AOK Trigger Studio 1.0.1\nby David Tombs (DiGiT)\ncyan.spam@gmail.com\nUnofficial version 1.0.3\nPatch by E/X mantis",IDC_STATIC,46,13,96,42
 	CONTROL	IDB_LOGO,IDC_STATIC,"Static",SS_BITMAP,7,14,0,0
 END
 

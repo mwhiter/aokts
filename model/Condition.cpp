@@ -81,7 +81,7 @@ bool Condition::check() const
 	case CONDITION_OwnObjects:
 	case CONDITION_OwnFewerObjects:
 	case CONDITION_OwnFewerFoundations:
-		return (player >= 0 && amount >= 0);
+		return (player >= 0 && amount >= 0 && !(area.top == 0 && area.left == 0 && area.bottom == 0 && area.right == 0));
 
 	case CONDITION_ObjectsInArea:
 	case CONDITION_SelectedObjectsInArea:

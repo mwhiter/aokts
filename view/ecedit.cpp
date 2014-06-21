@@ -121,18 +121,18 @@ const short ectrls[NUM_EFFECTS][5] =
 	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
 	{ IDC_E_UCNST, ECC_LOCATION },
 	/* 0x1A = Change Object Name */
-	{ IDC_E_UIDS, IDC_E_TEXT },
-	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
+	{ IDC_E_UIDS, IDC_E_TEXT, ECC_AREA },
+	{ IDC_E_UIDS, ECC_UNITSEL, IDC_E_AMOUNT },
 	/* 0x1C = Change Object Attack */
 	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
 	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA },
 	{ ECC_LOCATION },
 	{ 0 },
 	/* 0x20 = Enable Tech */
-	{ IDC_E_RESEARCH },
-	{ IDC_E_RESEARCH },
-	{ IDC_E_UCNST },
-	{ IDC_E_UCNST },
+	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
+	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA },
+	{ ECC_LOCATION },
+	{ 0 },
 	/* 0x24 = Flash Objects */
 	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA },
 };
@@ -627,6 +627,7 @@ void ConditionControls(HWND dialog, int type)
 
 	while (count-- && (id = *controls++))
 	{
+		ENABLE_WND(IDC_C_U1, true);
 		if (id == ECC_AREA)
 		{
 			ENABLE_WND(IDC_C_AREAX1, true);
@@ -679,13 +680,13 @@ void LoadCond(HWND dialog, EditCondition *data)
 	SetDlgItemInt(dialog, IDC_C_TIMER, c->timer, TRUE);
 	SetDlgItemInt(dialog, IDC_C_AISIG, c->ai_signal, TRUE);
 	LCombo_Select(dialog, IDC_C_RESEARCH, c->pTech);
-	SetDlgItemInt(dialog, IDC_C_U1, c->u1, TRUE);
+	SetDlgItemInt(dialog, IDC_C_U1, c->u1, TRUE); //Controls Condition Reversing
 	SetDlgItemInt(dialog, IDC_C_AMOUNT, c->amount, TRUE);
 	LCombo_SelById(dialog, IDC_C_RESTYPE, c->res_type);
 
-	if (c->u1 != -1)
+	/* if (c->u1 != -1)
 		MessageBox(dialog, "OMG! An unknown member had a meaningful value! You must report this!",
-			"Condition Load", MB_OK);
+			"Condition Load", MB_OK); */ //Code for detecting Value of the unknown field. Since UP uses it, I decided to disable this code
 }
 
 void SaveCond(HWND dialog, EditCondition *data)
@@ -704,7 +705,7 @@ void SaveCond(HWND dialog, EditCondition *data)
 	c->area.top =	GetDlgItemInt(dialog, IDC_C_AREAY2, NULL, FALSE);
 	c->timer =		GetDlgItemInt(dialog, IDC_C_TIMER, NULL, TRUE);
 	c->ai_signal =	GetDlgItemInt(dialog, IDC_C_AISIG, NULL, TRUE);
-	c->u1 =			GetDlgItemInt(dialog, IDC_C_U1, NULL, TRUE);
+	c->u1 =			GetDlgItemInt(dialog, IDC_C_U1, NULL, TRUE); //Controls Condition Reversing
 	c->pTech =		(TechLink*)LCombo_GetSelPtr(dialog, IDC_C_RESEARCH);
 	c->amount =		GetDlgItemInt(dialog, IDC_C_AMOUNT, NULL, TRUE);
 	c->res_type =	LCombo_GetSelId(dialog, IDC_C_RESTYPE);

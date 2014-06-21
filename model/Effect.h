@@ -43,17 +43,17 @@ enum EffectType
 	EFFECT_StopUnit,
 
 	/* SWGB-only after here */
-	EFFECT_SnapView,
-	EFFECT_Unknown31,
-	EFFECT_EnableTech,
-	EFFECT_DisableTech,
+	EFFECT_SnapView, //Equal to UP Change Speed
+	EFFECT_Unknown31, //Equal to UP Change Range
+	EFFECT_EnableTech, //Equal to UP Change Armor #1
+	EFFECT_DisableTech, //Equal to UP Change Range #2
 	EFFECT_EnableUnit,
 	EFFECT_DisableUnit,
 	EFFECT_FlashObjects
 };
 
 #if (GAME == 1)
-#define MAX_EFFECT EFFECT_StopUnit
+#define MAX_EFFECT EFFECT_DisableTech
 
 #elif (GAME == 2)
 #define MAX_EFFECT EFFECT_FlashObjects

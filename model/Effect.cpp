@@ -183,7 +183,6 @@ bool Effect::check() const
 	//EFFECT_KillObject, EFFECT_RemoveObject above.
 
 	case EFFECT_ChangeView:
-	case EFFECT_SnapView:
 		return (s_player >= 0 && location.x >= 0 && location.y >= 0);
 
 	case EFFECT_Unload:
@@ -213,6 +212,10 @@ bool Effect::check() const
 	case EFFECT_DamageObject:
 	case EFFECT_ChangeObjectHP:
 	case EFFECT_ChangeObjectAttack:
+	case EFFECT_SnapView: //Equal to UP Change Speed
+	case EFFECT_EnableTech: //Equal to UP Change Armor #1
+	case EFFECT_DisableTech: //Equal to UP Change Armor #2
+	case EFFECT_Unknown31: //Equal to UP Change Range
 		return (amount != 0		//amount can be negative
 			&& (num_sel >= 0 || area.left >= 0));	//AOK missing this
 
@@ -221,14 +224,13 @@ bool Effect::check() const
 			&& location.x >= 0 && location.y >= 0);
 
 	case EFFECT_ChangeObjectName:
-		return (num_sel >= 0);	//no text check
+		return (area.left >= 0);	//no text check
 
-	//EFFECT_ChangeObjectHP, EFFECT_ChangeObjectAttack, EFFECT_StopUnit above
+	//EFFECT_ChangeObjectHP, EFFECT_ChangeObjectAttack, EFFECT_StopUnit, and new UP effects above
 
 	//EFFECT_SnapView shares with EFFECT_ChangeView above
 
-	case EFFECT_EnableTech:
-	case EFFECT_DisableTech:
+	
 		return (pTech != NULL);
 
 	case EFFECT_EnableUnit:
@@ -338,10 +340,10 @@ const char *Effect::types[] =
 	"Change Object HP",
 	"Change Object Attack",
 	"Stop Unit",
-	"Snap View",
-	"Unknown (31)",
-	"Enable Tech",
-	"Disable Tech",
+	"Change Speed",
+	"Change Range",
+	"Change Armor #1",
+	"Change Armor #2",
 	"Enable Unit",
 	"Disable Unit",
 	"Flash Objects"

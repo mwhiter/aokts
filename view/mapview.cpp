@@ -698,4 +698,4 @@ HWND CreateMapView(HWND owner, int x, int y, Scenario * scenario)
 		owner, NULL, instance, scenario);
 
 	return mapview;
-}
+}

@@ -178,6 +178,11 @@ void Player::read_dis_bldgs(FILE * in, const PerVersion& pv)
 	readbin(in, dis_bldg, pv.max_disables2);
 }
 
+/*void Player::read_dis_bldgsx(FILE * in)
+{
+	readbin(in, &dis_bldgx);
+}*/
+
 void Player::read_age(FILE * in)
 {
 	readbin(in, &age);

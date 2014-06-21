@@ -715,10 +715,13 @@ HTREEITEM TrigTree_AddTrig(HWND treeview, int index, HTREEITEM after)
 		SendMessage(treeview, TVM_INSERTITEM, 0, (LPARAM)&tvis);
 	}
 
+	//printf("Start addtrig %d\n", index);
 	// Don't use iterators: we need the index.
 	for (unsigned ec_index = 0; ec_index != t->effects.size(); ++ec_index)
 	{
 		good &= (tvis.item.iImage = t->effects[ec_index].check());
+		//printf("trig index: %d...\n", t->effects[ec_index].trig_index);
+		//good &= (tvis.item.iImage = (t->effects[ec_index].check() && scen.triggers.at(t->effects[ec_index].trig_index) != NULL));
 		tvis.item.iSelectedImage = tvis.item.iImage;
 		tvis.item.lParam = (LPARAM)new EffectItemData(ec_index, index);
 		SendMessage(treeview, TVM_INSERTITEM, 0, (LPARAM)&tvis);

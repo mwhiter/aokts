@@ -53,6 +53,7 @@ public:
 	void read_dis_units(FILE * in, const PerVersion& pv);
 	void read_ndis_bldgs(FILE * in);
 	void read_dis_bldgs(FILE * in, const PerVersion& pv);
+	/*void read_dis_bldgsx(FILE * in);*/
 	void read_age(FILE * in);
 	void read_camera_longs(FILE * in);
 	void read_data4(FILE * in, ScenVersion v);

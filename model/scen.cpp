@@ -40,6 +40,13 @@ const PerVersion Scenario::pv1_22 =
 	30, 20
 };
 
+const PerVersion Scenario::pv1_23 =
+{
+	6,
+	true,
+	30, 20
+};
+
 const PerVersion Scenario::pv1_30 =
 {
 	6,
@@ -466,6 +473,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 	readbin(dc2in.get(), &next_uid);
 	readbin(dc2in.get(), &ver2);
 
+	printf("Version: %d...\n", myround(ver2 * 100));
 	/* Set PerVersion according to ver2 */
 	switch (myround(ver2 * 100))
 	{
@@ -478,6 +486,11 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	case 122:
 		perversion = &pv1_22;
+		break;
+
+	case 123:
+		perversion = &pv1_23;
+		printf("SCX v%f.\n", ver2);
 		break;
 
 	case 130:
@@ -577,7 +590,15 @@ void Scenario::read_data(const char *path)	//decompressed data
 		p->read_ndis_bldgs(dc2in.get());
 	FEP(p)
 		p->read_dis_bldgs(dc2in.get(), *perversion);
-
+	/*FEP(p)
+		p->read_dis_bldgsx(dc2in.get());*/
+	/*readunk<long>(dc2in.get(), -1, "Disables extended", true);*/
+	switch (myround(ver2 * 100))
+	{
+	case 123:
+		readbin(dc2in.get(), &dis_bldgx);
+		break;
+	}
 	readunk<long>(dc2in.get(), 0, "Disables unused 1", true);
 	readunk<long>(dc2in.get(), 0, "Disables unused 2", true);
 	readbin(dc2in.get(), &all_techs);
@@ -641,6 +662,11 @@ void Scenario::read_data(const char *path)	//decompressed data
 		t_order.resize(n_trigs);
 		readbin(dc2in.get(), &t_order.front(), n_trigs);
 
+		// save the trigger display order to the trigger objects
+		for (int i = 0; i < n_trigs; i++) {
+			triggers.at(t_order[i])->display_order = i;
+		}
+
 		// verify just the first one because I'm lazy
 		if (t_order.front() > n_trigs)
 			throw bad_data_error("Trigger order list corrupted. Possibly out of sync.");
@@ -697,6 +723,16 @@ int Scenario::write_data(const char *path)
 	/* Compressed header */
 
 	writebin(dcout, &next_uid);
+
+	/* save as 1.22 if it is 1.23. disable this or the below */
+	/*f = ver2 - 0.01;
+	if (myround(ver2 * 100) == 123) {
+		writebin(dcout, &f);
+	} else {
+		writebin(dcout, &ver2);
+	}*/
+
+	/* saves normally. disable this or the above */
 	writebin(dcout, &ver2);
 
 	FEP(p)
@@ -797,6 +833,16 @@ int Scenario::write_data(const char *path)
 		fwrite(&p->ndis_b, sizeof(long), 1, dcout);
 	FEP(p)
 		fwrite(&p->dis_bldg, sizeof(long), perversion->max_disables2, dcout);
+	/*FEP(p)
+		fwrite(&p->dis_bldgx, 4, 1, dcout);*/
+	
+	/* disable this. save as 1.22 */
+	switch (myround(ver2 * 100))
+	{
+	case 123:
+	fwrite(&dis_bldgx, sizeof(long), 1, dcout);
+	}
+	
 	NULLS(dcout, 0x8);
 	fwrite(&all_techs, sizeof(long), 1, dcout);
 	FEP(p)

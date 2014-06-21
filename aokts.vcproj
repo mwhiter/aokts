@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir)deps\include"
+				AdditionalIncludeDirectories="&quot;C:\Users\shane\Downloads\zlib-1.2.3-lib\include&quot;;&quot;C:\Program Files (x86)\Expat 2.1.0\Source\lib&quot;;&quot;$(ProjectDir)deps\include&quot;"
 				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=1"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -53,7 +53,6 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -120,7 +119,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				FavorSizeOrSpeed="2"
-				AdditionalIncludeDirectories="$(ProjectDir)deps\include"
+				AdditionalIncludeDirectories="&quot;C:\Users\shane\Downloads\zlib-1.2.3-lib\include&quot;;&quot;C:\Program Files (x86)\Expat 2.1.0\Source\lib&quot;;&quot;$(ProjectDir)deps\include&quot;"
 				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=1"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -140,7 +139,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="zlib1.lib comctl32.lib libexpatw.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(ProjectDir)deps\lib"
+				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Expat 2.1.0\Bin&quot;;&quot;C:\Users\shane\Downloads\zlib-1.2.3-lib\lib&quot;;&quot;$(ProjectDir)deps\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -275,7 +274,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(ProjectDir)deps\include"
+				AdditionalIncludeDirectories="&quot;C:\Users\shane\Downloads\zlib-1.2.3-lib\include&quot;;&quot;C:\Program Files (x86)\Expat 2.1.0\Source\lib&quot;;&quot;$(ProjectDir)deps\include&quot;"
 				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=2"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -296,7 +295,7 @@
 				AdditionalDependencies="zlib1.lib comctl32.lib libexpatw.lib"
 				OutputFile="$(OutDir)\swgbts.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(ProjectDir)deps\lib"
+				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Expat 2.1.0\Bin&quot;;&quot;C:\Users\shane\Downloads\zlib-1.2.3-lib\lib&quot;;&quot;$(ProjectDir)deps\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -515,10 +514,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\view\disablesedit.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\view\ecedit.cpp"
 				>
 			</File>
@@ -527,11 +522,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\view\editors.h"
+				RelativePath=".\view\editors.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\view\imedit.cpp"
+				RelativePath=".\view\editors.h"
 				>
 			</File>
 			<File
@@ -551,19 +546,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\view\mapedit.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\view\mapview.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\view\mapview.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view\playeredit.cpp"
 				>
 			</File>
 			<File
@@ -600,10 +587,6 @@
 			</File>
 			<File
 				RelativePath=".\view\utilunit.h"
-				>
-			</File>
-			<File
-				RelativePath=".\view\victedit.cpp"
 				>
 			</File>
 		</Filter>
@@ -669,6 +652,10 @@
 				</FileConfiguration>
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\resource"
+			>
+		</File>
 		<File
 			RelativePath=".\scx_format.txt"
 			>

@@ -161,7 +161,7 @@ bool Effect::check() const
 
 	case EFFECT_ActivateTrigger:
 	case EFFECT_DeactivateTrigger:
-		return (trig_index >= 0);
+		return (trig_index >= 0 && trig_index != (unsigned)-1 && trig_index != (unsigned)-2);
 
 	case EFFECT_AIScriptGoal:
 		return (s_player >= 0 && ai_goal >= 0);
@@ -173,6 +173,7 @@ bool Effect::check() const
 	case EFFECT_TaskObject:
 	case EFFECT_KillObject:
 	case EFFECT_RemoveObject:
+		return true;
 	case EFFECT_FreezeUnit:
 	case EFFECT_StopUnit:
 		return (num_sel >= 0 || area.left >= 0 || utype >= 0);	//AOK missing this
@@ -191,8 +192,9 @@ bool Effect::check() const
 			&& location.x >=0 && location.y >= 0);
 
 	case EFFECT_ChangeOwnership:
-		return (s_player >= 0 && t_player >= 0
-			&& (num_sel >= 0 || area.left >= 0 || utype >= 0));	//AOK missing this
+		return true;
+		//return (s_player >= 0 && t_player >= 0
+		//	&& (num_sel >= 0 || area.left >= 0 || utype >= 0));	//AOK missing this
 
 	case EFFECT_Patrol:
 		return (num_sel >= 0 && location.x >= 0 && location.y >= 0);
@@ -212,6 +214,9 @@ bool Effect::check() const
 	case EFFECT_DamageObject:
 	case EFFECT_ChangeObjectHP:
 	case EFFECT_ChangeObjectAttack:
+		return true;
+		//return (amount != 0		//amount can be negative
+		//	&& (num_sel >= 0 || area.left >= 0));	//AOK missing this
 	case EFFECT_SnapView: //Equal to UP Change Speed
 	case EFFECT_EnableTech: //Equal to UP Change Armor #1
 	case EFFECT_DisableTech: //Equal to UP Change Armor #2
@@ -224,13 +229,15 @@ bool Effect::check() const
 			&& location.x >= 0 && location.y >= 0);
 
 	case EFFECT_ChangeObjectName:
-		return (area.left >= 0);	//no text check
+		return true;
+		//return (num_sel >= 0);	//no text check
+		//return (area.left >= 0);	//no text check
 
 	//EFFECT_ChangeObjectHP, EFFECT_ChangeObjectAttack, EFFECT_StopUnit, and new UP effects above
 
 	//EFFECT_SnapView shares with EFFECT_ChangeView above
 
-	
+
 		return (pTech != NULL);
 
 	case EFFECT_EnableUnit:

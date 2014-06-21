@@ -130,6 +130,7 @@ class Scenario
 	static const PerVersion pv1_18;
 	static const PerVersion pv1_21;
 	static const PerVersion pv1_22;
+	static const PerVersion pv1_23;
 	static const PerVersion pv1_30;
 
 //	Internal Status Stuff (aka not in the SCX)
@@ -184,6 +185,7 @@ public:
 	SString unk[NUM_UNK];	//probably part of PlayerData2
 	Player players[NUM_PLAYERS];
 	Victory vict;
+	long dis_bldgx;
 	long all_techs;
 	Map map;
 	float	editor_pos[2];

@@ -122,7 +122,7 @@ const short ectrls[NUM_EFFECTS][5] =
 	{ IDC_E_UCNST, ECC_LOCATION },
 	/* 0x1A = Change Object Name */
 	{ IDC_E_UIDS, IDC_E_TEXT, ECC_AREA },
-	{ IDC_E_UIDS, ECC_UNITSEL, IDC_E_AMOUNT },
+	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
 	/* 0x1C = Change Object Attack */
 	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
 	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA },
@@ -180,12 +180,14 @@ void EffectControls(HWND dialog, int type)
 			break;
 
 		case IDC_E_TEXT:
+			ENABLE_WND(IDC_E_UCNST, true);
+			ENABLE_WND(IDC_E_GROUP, true);
 			ENABLE_WND(IDC_E_STRINGID, true);	//both go with Display Instructions
 
 		default:
 			ENABLE_WND(id, true);
 		}
-			
+
 		if (id == IDC_E_UIDS)
 			ENABLE_WND(IDC_E_OPENSEL, true);	//IDC_E_OPENSEL modifies IDC_E_UIDS, so...
 	}
@@ -365,7 +367,7 @@ void OnOpenSel(HWND dialog, EditEffect *data)
 		data->e.s_player = ue.player;
 		data->e.num_sel = ue.count;
 		memcpy(data->e.uids, ue.ids, sizeof(UID) * ue.count);
-		
+
 		/* Update controls */
 		MakeUIDString(data->e.uids, data->e.num_sel, GetDlgItem(dialog, IDC_E_UIDS));
 		SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_SETCURSEL, data->e.s_player, 0);
@@ -405,7 +407,7 @@ void E_HandleSetFocus(HWND dialog, WORD id)
 
 void E_HandleKillFocus(HWND dialog, WORD)
 {
-	EditEffect * data = 
+	EditEffect * data =
 		static_cast<EditEffect*>(GetDialogUserData_ptr(dialog));
 
 	if (data->mapview)
@@ -441,6 +443,17 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 	switch (code)
 	{
 	case BN_CLICKED:
+		switch (id)
+		{
+		case IDC_BUTTON_AREA_ALL:
+			{
+				SetDlgItemInt(dialog, IDC_E_AREAX1, -1, TRUE);
+				SetDlgItemInt(dialog, IDC_E_AREAY1, -1, TRUE);
+				SetDlgItemInt(dialog, IDC_E_AREAX2, -1, TRUE);
+				SetDlgItemInt(dialog, IDC_E_AREAY2, -1, TRUE);
+			}
+			break;
+		}
 	case CBN_SELCHANGE:
 		data = (EditEffect*)GetWindowLongPtr(dialog, DWLP_USER);
 		switch (id)
@@ -591,7 +604,7 @@ const short cctrls[NUM_CONDS][5] =
 	{ IDC_C_UIDOBJ, ECC_AREA },
 	{ IDC_C_UIDOBJ, IDC_C_UIDLOC },
 	{ ECC_UNITSEL, IDC_C_AMOUNT, IDC_C_PLAYER },
-	{ ECC_UNITSEL, IDC_C_AMOUNT, IDC_C_PLAYER },	//0x4 = Own Fewer Objects
+	{ ECC_UNITSEL, IDC_C_AMOUNT, IDC_C_PLAYER, ECC_AREA },	//0x4 = Own Fewer Objects
 	{ ECC_UNITSEL, IDC_C_AMOUNT, IDC_C_PLAYER, ECC_AREA },
 	{ IDC_C_UIDOBJ },
 	{ IDC_C_PLAYER, IDC_C_UIDOBJ },
@@ -618,7 +631,7 @@ const short cctrls[NUM_CONDS][5] =
 void ConditionControls(HWND dialog, int type)
 {
 	int id;
-	
+
 	for (id = IDC_C_AMOUNT; id <= IDC_C_USEL2; id++)
 		ENABLE_WND(id, false);
 
@@ -699,10 +712,10 @@ void SaveCond(HWND dialog, EditCondition *data)
 	c->object =		GetDlgItemInt(dialog, IDC_C_UIDOBJ, NULL, TRUE);
 	c->u_loc =		GetDlgItemInt(dialog, IDC_C_UIDLOC, NULL, TRUE);
 	c->group =		SendDlgItemMessage(dialog, IDC_C_GROUP, CB_GETCURSEL, 0, 0);
-	c->area.left =	GetDlgItemInt(dialog, IDC_C_AREAX1, NULL, FALSE);
-	c->area.bottom =	GetDlgItemInt(dialog, IDC_C_AREAY1, NULL, FALSE);
-	c->area.right =	GetDlgItemInt(dialog, IDC_C_AREAX2, NULL, FALSE);
-	c->area.top =	GetDlgItemInt(dialog, IDC_C_AREAY2, NULL, FALSE);
+	c->area.left =	GetDlgItemInt(dialog, IDC_C_AREAX1, NULL, TRUE);
+	c->area.bottom =	GetDlgItemInt(dialog, IDC_C_AREAY1, NULL, TRUE);
+	c->area.right =	GetDlgItemInt(dialog, IDC_C_AREAX2, NULL, TRUE);
+	c->area.top =	GetDlgItemInt(dialog, IDC_C_AREAY2, NULL, TRUE);
 	c->timer =		GetDlgItemInt(dialog, IDC_C_TIMER, NULL, TRUE);
 	c->ai_signal =	GetDlgItemInt(dialog, IDC_C_AISIG, NULL, TRUE);
 	c->u1 =			GetDlgItemInt(dialog, IDC_C_U1, NULL, TRUE); //Controls Condition Reversing
@@ -719,7 +732,7 @@ const char warnInvalidC[] =
 
 void C_HandleSetFocus(HWND dialog, WORD id)
 {
-	EditEC * data = 
+	EditEC * data =
 		static_cast<EditEC*>(GetDialogUserData_ptr(dialog));
 
 	switch (id)
@@ -740,7 +753,7 @@ void C_HandleSetFocus(HWND dialog, WORD id)
 
 void C_HandleKillFocus(HWND dialog, WORD)
 {
-	EditEC * data = 
+	EditEC * data =
 		static_cast<EditEC*>(GetDialogUserData_ptr(dialog));
 
 	if (data->mapview)
@@ -771,12 +784,26 @@ void C_HandleChangeType(HWND dialog, EditCondition *data)
 void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 {
 	EditCondition *data = (EditCondition*)GetWindowLongPtr(dialog, DWLP_USER);
-
+	switch (code)
+		{
+		case BN_CLICKED:
+			switch (id)
+			{
+			case IDC_BUTTON_AREA_ALL_COND:
+				{
+					SetDlgItemInt(dialog, IDC_C_AREAX1, -1, TRUE);
+					SetDlgItemInt(dialog, IDC_C_AREAY1, -1, TRUE);
+					SetDlgItemInt(dialog, IDC_C_AREAX2, -1, TRUE);
+					SetDlgItemInt(dialog, IDC_C_AREAY2, -1, TRUE);
+				}
+				break;
+			}
+	}
 	if (id == IDOK)
 	{
 		bool valid;
 		int ret = IDOK;
-		
+
 		SaveCond(dialog, data);	//update type
 		valid = data->c.check();
 

@@ -892,8 +892,12 @@
 #define WM_PENWINFIRST                  0x0380
 #define WM_PENWINLAST                   0x038F
 #define WM_DDE_FIRST                    0x03E0
+#define IDC_COMBO1                      1000
 #define IDC_M_MSGS                      1001
+#define IDC_BUTTON1                     1001
+#define IDC_BUTTON_AREA_ALL             1001
 #define IDC_M_CINEM                     1002
+#define IDC_BUTTON_AREA_ALL_COND        1002
 #define IDC_M_STABLE                    1003
 #define IDC_M_EXPORT                    1009
 #define IDC_G_VER                       1010
@@ -1228,8 +1232,6 @@
 #define IDC_E_PANEL                     1810
 #define IDC_E_LOCX                      1811
 #define IDC_E_LOCY                      1812
-#define IDC_BUTTON_AREA_ALL             1001
-#define IDC_BUTTON_AREA_ALL_COND        1002
 #define IDC_E_AREAX1                    1813
 #define IDC_E_AREAY1                    1814
 #define IDC_E_AREAX2                    1815
@@ -1379,7 +1381,6 @@
 #define ID_EDIT_PASTE                   0xE125
 #define ID_EDIT_DELETE                  0xE126
 #define ID_EDIT_UNDO                    0xE12B
-#define ID_VIEW_STATUS_BAR              0xE131
 #define ID_VIEW_STATISTICS              0xE132
 #define ID_VIEW_MAP                     0xE133
 #define ID_APP_ABOUT                    0xE140
@@ -1411,7 +1412,6 @@
 #define HTERROR                         -2
 #define PWR_FAIL                        -1
 #define HTTRANSPARENT                   -1
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 
@@ -1419,7 +1419,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

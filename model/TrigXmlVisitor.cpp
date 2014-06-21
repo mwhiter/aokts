@@ -99,6 +99,7 @@ void TrigXmlVisitor::visit(Trigger& t)
 	fprintf(out, "\t<looping>%d</looping>\n", t.loop);
 	fprintf(out, "\t<objective>%d</objective>\n", t.obj);
 	fprintf(out, "\t<desc_order>%d</desc_order>\n", t.obj_order);
+	fprintf(out, "\t<display_order>%d</display_order>\n", t.display_order);
 	if (t.description.length())
 		fprintf(out, "\t<description>%s</description>\n",
 			escape(t.description.c_str()).c_str());
@@ -117,6 +118,7 @@ void TrigXmlVisitor::visit(Effect& e)
 	writeXmlLong(out, "resource", e.res_type);
 	writeXmlLong(out, "diplomacy", e.diplomacy);
 	writeXmlLong(out, "num_selected", e.num_sel); // TODO: don't write this
+	writeXmlLong(out, "unit_ids", e.num_sel > 0 ? e.uids[0] : -1);
 	writeXmlLong(out, "location_unit", e.uid_loc);
 	if (e.pUnit)
 		writeXmlLong(out, "unit_type", e.pUnit->id());

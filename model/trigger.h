@@ -29,6 +29,7 @@ public:
 
 	const static size_t MAX_TRIGNAME = 128;
 
+	long display_order;
 	long state, loop;
 	char u1, obj;
 	long obj_order;

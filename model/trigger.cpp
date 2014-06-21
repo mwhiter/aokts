@@ -15,14 +15,14 @@
 #define PLAYER1_INDEX 1
 
 Trigger::Trigger()
-:	state(1), loop(0), u1(0), obj(0), obj_order(0)
+:	state(1), loop(0), u1(0), obj(0), obj_order(0), display_order(-1)
 {
 	memset(name, 0, sizeof(name));
 }
 
 Trigger::Trigger(const Trigger &t) // TODO: we can use the compiler's version
 :	state(t.state), loop(t.loop), u1(t.u1), obj(t.obj), obj_order(t.obj_order),
-	description(t.description), effects(t.effects), conds(t.conds)
+	description(t.description), effects(t.effects), conds(t.conds), display_order(t.display_order)
 {
 	strcpy(name, t.name);
 }
@@ -72,6 +72,8 @@ Trigger::Trigger(Buffer& buffer)
 		buffer.read(&index, sizeof(index));
 		this->conds.push_back(conditions[index]);
 	}
+
+	display_order = -1;
 }
 
 void Trigger::read(FILE *in)

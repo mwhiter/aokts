@@ -707,6 +707,7 @@
 #define EM_LINEFROMCHAR                 0x00C9
 #define IDB_EVIL                        202
 #define EM_SETTABSTOPS                  0x00CB
+#define IDB_WALL                        203
 #define EM_SETPASSWORDCHAR              0x00CC
 #define EM_EMPTYUNDOBUFFER              0x00CD
 #define EM_GETFIRSTVISIBLELINE          0x00CE
@@ -892,9 +893,7 @@
 #define WM_PENWINFIRST                  0x0380
 #define WM_PENWINLAST                   0x038F
 #define WM_DDE_FIRST                    0x03E0
-#define IDC_COMBO1                      1000
 #define IDC_M_MSGS                      1001
-#define IDC_BUTTON1                     1001
 #define IDC_BUTTON_AREA_ALL             1001
 #define IDC_M_CINEM                     1002
 #define IDC_BUTTON_AREA_ALL_COND        1002
@@ -1417,9 +1416,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        101
+#define _APS_NEXT_RESOURCE_VALUE        102
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1003
-#define _APS_NEXT_SYMED_VALUE           101
+#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_SYMED_VALUE           102
 #endif
 #endif

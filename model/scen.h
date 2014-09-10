@@ -29,7 +29,7 @@ typedef struct _iobuf FILE;	//makes including <stdio.h> unnecessary
 
 /* Options */
 
-#define MAX_MAPSIZE		256	//maximum size of one side of a map
+#define MAX_MAPSIZE		480	//maximum size of one side of a map
 #define PLAYER1_INDEX	0	//index of Player 1 (may change)
 
 #define UNREAD(n)

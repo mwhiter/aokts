@@ -15,7 +15,8 @@ size_t MapSizes[] =
 	168,	//Medium
 	200,	//Normal
 	220,	//Large
-	240		//Giant
+	240,	//Giant
+	480		//Ludakris
 };
 
 const char *message_names[] =

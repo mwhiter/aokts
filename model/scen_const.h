@@ -59,7 +59,7 @@ enum Diplomacy
 	DIP_ally, DIP_neutral, DIP_unknown, DIP_enemy
 };
 
-extern size_t MapSizes[6]; //conversion from standard sizes to tiles (see scen.cpp for values)
+extern size_t MapSizes[7]; //conversion from standard sizes to tiles (see scen.cpp for values)
 
 #define NUM_STYPES 4		//number of stockpile resource types
 

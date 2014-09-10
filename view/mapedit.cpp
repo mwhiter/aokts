@@ -20,7 +20,7 @@
   propdata.sel1 = Current tile y
 */
 
-#define NUM_SIZES 6
+#define NUM_SIZES 7
 #define NUM_ELEVS 9
 
 enum CLICK_STATES
@@ -37,7 +37,7 @@ const char *szMapStatus =
 
 const char *sizes[NUM_SIZES] =
 {
-	"Tiny (120)", "Small (144)", "Medium (168)", "Normal (200)", "Large (220)", "Giant (240)"
+	"Tiny (120)", "Small (144)", "Medium (168)", "Normal (200)", "Large (220)", "Giant (240)", "LUDAKRIS (480)"
 };
 const char *elevs[NUM_ELEVS] = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
 

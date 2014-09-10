@@ -889,20 +889,27 @@ void Trig_ToClipboard(HWND dialog, Trigger *t, class ItemData *data)
 	}
 	else if (data->type == CONDITION || data->type == EFFECT)
 	{
-		ECBase& source =
-			(data->type == CONDITION) ?
-			static_cast<ECBase&>(t->conds[data->index]) :
-			t->effects[data->index];
-
-		// get the size by doing a dummy write
 		NullBuffer nullbuff;
-		source.tobuffer(nullbuff);
-		needed = nullbuff.size();
+		if (data->type == CONDITION) {
+			Condition& cond_source = t->conds[data->index];
+			cond_source.tobuffer(nullbuff);
+			needed = nullbuff.size();
 
-		copy_clip = GlobalAlloc(GMEM_MOVEABLE, needed);
-		clip_buff = (char *)GlobalLock(copy_clip);
-		MemBuffer b(clip_buff, needed);
-		source.tobuffer(b);
+			copy_clip = GlobalAlloc(GMEM_MOVEABLE, needed);
+			clip_buff = (char *)GlobalLock(copy_clip);
+			MemBuffer b(clip_buff, needed);
+			cond_source.tobuffer(b);
+		} else {
+			Effect& effect_source = t->effects[data->index];
+			effect_source.tobuffer(nullbuff);
+			needed = nullbuff.size();
+
+			copy_clip = GlobalAlloc(GMEM_MOVEABLE, needed);
+			clip_buff = (char *)GlobalLock(copy_clip);
+			MemBuffer b(clip_buff, needed);
+			effect_source.tobuffer(b);
+		}
+
 		GlobalUnlock(copy_clip);
 
 		if (!SetClipboardData(propdata.ecformat, copy_clip))

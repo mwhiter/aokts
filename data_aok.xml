@@ -2,931 +2,581 @@
 <!DOCTYPE geniedata>
 
 <geniedata>
+<!--
+Updated by JustTesting1234 - 02/01/12
+-->
 
 <techs>
-<!-- techs: 'A' is a make-avail tech, 'S' is a special one for team bonus, etc. -->
-<tech id="1" name="A: Tarkan"
-	civ="Huns" />
-<tech id="2" name="Elite Tarkan"
-	civ="Huns" />
-<tech id="3" name="Yeomen" 
-	civ="Britons" />
-<tech id="4" name="El Dorado"
-	civ="Mayans" />
-<tech id="5" name="Furor Celtica"
-	civ="Celts" />
-<tech id="6" name="Drill"
-	civ="Mongols" />
-<tech id="7" name="Mahouts"
-	civ="Persians" />
-<tech id="8" name="Town Watch"
-	/>
-<tech id="9" name="Zealotry"
-	civ="Saracens" />
-<tech id="10" name="Artillery"
-	civ="Turks" />
-<tech id="11" name="Crenellations"
-	civ="Teutons" />
-<tech id="12" name="Crop Rotation"
-	/>
-<tech id="13" name="Heavy Plow"
-	/>
-<tech id="14" name="Horse Collar"
-	/>
-<tech id="15" name="Guilds"
-	/>
-<tech id="16" name="Anarchy"
-	civ="Goths" />
-<tech id="17" name="Banking"
-	/>
-<tech id="18" name="S: Barracks Huskarl"
-	civ="Goths" />
-<tech id="19" name="Cartography"
-	/>
-<tech id="20" name="?20"
-	/>
-<tech id="21" name="Atheism"
-	civ="Huns" />
-<tech id="22" name="Loom"
-	/>
-<tech id="23" name="Coinage"
-	/>
-<tech id="24" name="Garland Wars"
-	civ="Aztecs" />
-<tech id="25" name="A: Stable"
-	/>
-<tech id="26" name="A: Plumed Archer"
-	civ="Mayans" />
-<tech id="27" name="Elited Plumed Archer"
-	civ="Mayans" />
-<tech id="28" name="?28"
-	/>
-<tech id="29" name="S: Atonement +5HP"
-	civ="Aztecs" />
-<tech id="30" name="S: Sanctity +5HP"
-	civ="Aztecs" />
-<tech id="31" name="S: Fervor +5HP"
-	civ="Aztecs" />
-<tech id="32" name="S: Redemption +5HP"
-	civ="Aztecs" />
-<tech id="33" name="S: Faith +5HP"
-	civ="Aztecs" />
-<tech id="34" name="War Galley"
-	/>
-<tech id="35" name="Galleon"
-	/>
-<tech id="36" name="S: Illumination +5HP"
-	civ="Aztecs" />
-<tech id="37" name="Cannon Galleon"
-	/>
-<tech id="38" name="S: Block Printing +5HP"
-	civ="Aztecs" />
-<tech id="39" name="Husbandry"
-	/>
-<tech id="40" name="S: Heresy + 5 Monk HP"
-	civ="Aztecs" />
-<tech id="41" name="S: Theocracy + 5 Monk HP"
-	civ="Aztecs" />
-<tech id="42" name="S: ?42"
-	civ="Aztecs" />
-<tech id="43" name="S: ?43"
-	civ="Aztecs" />
-<tech id="44" name="S: ?44"
-	civ="Aztecs" />
-<tech id="45" name="Faith"
-	/>
-<tech id="46" name="?46"
-	/>
-<tech id="47" name="Chemistry"
-	/>
-<tech id="48" name="Caravan"
-	/>
-<tech id="49" name="Berserkergang"
-	civ="Vikings" />
-<tech id="50" name="Masonry"
-	/>
-<tech id="51" name="Architecture"
-	/>
-<tech id="52" name="Rocketry"
-	civ="Chinese" />
-<tech id="53" name="S: -20% Archer Cost in Castle Age"
-	civ="Mayans" />
-<tech id="54" name="Treadmill Crane"
-	/>
-<tech id="55" name="Gold Mining"
-	/>
-<tech id="56" name="S: -30% Archer Cost in Imperial Age"
-	civ="Mayans" />
-<tech id="57" name="S: Ballistics -> Cannon Galleons"
-	civ="Spanish" />
-<tech id="58" name="A: Conquistador"
-	civ="Spanish" />
-<tech id="59" name="Kataparuto"
-	civ="Japanese" />
-<tech id="60" name="Elite Conquistador"
-	civ="Spanish" />
-<tech id="61" name="Logistica"
-	civ="Byzantines" />
-<tech id="62" name="?62"
-	/>
-<tech id="63" name="Keep"
-	/>
-<tech id="64" name="Bombard Towers"
-	/>
-<tech id="65" name="?65"
-	/>
-<tech id="66" name="?66"
-	/>
-<tech id="67" name="Forging"
-	/>
-<tech id="68" name="Iron Casting"
-	/>
-<tech id="69" name="?69"
-	/>
-<tech id="70" name="?70"
-	/>
-<tech id="71" name="?71"
-	/>
-<tech id="72" name="?72"
-	/>
-<tech id="73" name="?73"
-	/>
-<tech id="74" name="Scale Mail Armor"
-	/>
-<tech id="75" name="Blast Furnace"
-	/>
-<tech id="76" name="Chain Mail Armor"
-	/>
-<tech id="77" name="Plate Mail Armor"
-	/>
-<tech id="78" name="?78"
-	/>
-<tech id="79" name="?79"
-	/>
-<tech id="80" name="Plate Barding Armor"
-	/>
-<tech id="81" name="Scale Barding Armor"
-	/>
-<tech id="82" name="Chain Barding Armor"
-	/>
-<tech id="83" name="Bearded Axe"
-	civ="Frank" />
-<tech id="84" name="A: Missionary"
-	civ="Spanish" />
-<tech id="85" name="A: Hand Cannoneer"
-	/>
-<tech id="86" name="?86"
-	/>
-<tech id="87" name="A: Spearman"
-	/>
-<tech id="88" name="?88"
-	/>
-<tech id="89" name="?89"
-	/>
-<tech id="90" name="Tracking"
-	/>
-<tech id="91" name="?91"
-	/>
-<tech id="92" name="?92"
-	/>
-<tech id="93" name="Ballistics"
-	/>
-<tech id="94" name="A: Scorpion"
-	/>
-<tech id="95" name="S: Hussar upgrades free"
-	civ="Turks" />
-<tech id="96" name="Capped Ram"
-	/>
-<tech id="97" name="?97"
-	/>
-<tech id="98" name="Elite Skirmisher"
-	/>
-<tech id="99" name="A: Skirmisher"
-	/>
-<tech id="100" name="Crossbowman"
-	/>
-<tech id="101" name="Feudal Age"
-	/>
-<tech id="102" name="Castle Age"
-	/>
-<tech id="103" name="Imperial Age"
-	/>
-<tech id="104" name="Dark Age"
-	/>
-<tech id="105" name="?105"
-	/>
-<tech id="106" name="?106"
-	/>
-<tech id="107" name="?107"
-	/>
-<tech id="108" name="?108"
-	/>
-<tech id="109" name="?109"
-	/>
-<tech id="110" name="?110"
-	/>
-<tech id="111" name="Camelry Armour Fixing (+25)"
-	/>
-<tech id="112" name="?112"
-	/>
-<tech id="113" name="?113"
-	/>
-<tech id="114" name="?114"
-	/>
-<tech id="115" name="?115"
-	/>
-<tech id="116" name="?116"
-	/>
-<tech id="117" name="?117"
-	/>
-<tech id="118" name="?118"
-	/>
-<tech id="119" name="?119"
-	/>
-<tech id="120" name="?120"
-	/>
-<tech id="121" name="?121"
-	/>
-<tech id="122" name="?122"
-	/>
-<tech id="123" name="?123"
-	/>
-<tech id="124" name="?124"
-	/>
-<tech id="125" name="?125"
-	/>
-<tech id="126" name="?126"
-	/>
-<tech id="127" name="A: Watch Tower "
-	/>
-<tech id="128" name="?128"
-	/>
-<tech id="129" name="?129"
-	/>
-<tech id="130" name="?130"
-	/>
-<tech id="131" name="?131"
-	/>
-<tech id="132" name="?132"
-	/>
-<tech id="133" name="?133"
-	/>
-<tech id="134" name="?134"
-	/>
-<tech id="135" name="?135"
-	/>
-<tech id="136" name="?136"
-	/>
-<tech id="137" name="A: Castle"
-	/>
-<tech id="138" name="?138"
-	/>
-<tech id="139" name="?139"
-	/>
-<tech id="140" name="Guard Tower"
-	/>
-<tech id="141" name="?141"
-	/>
-<tech id="142" name="?142"
-	/>
-<tech id="143" name="?143"
-	/>
-<tech id="144" name="A: Wonder"
-	/>
-<tech id="145" name="?145"
-	/>
-<tech id="146" name="?146"
-	/>
-<tech id="147" name="A: Archery Range"
-	/>
-<tech id="148" name="A: Market"
-	/>
-<tech id="149" name="A: Siege Workshop"
-	/>
-<tech id="150" name="A: University"
-	/>
-<tech id="151" name="A: Archery Range"
-	/>
-<tech id="152" name="?152"
-	/>
-<tech id="153" name="?153"
-	/>
-<tech id="154" name="?154"
-	/>
-<tech id="155" name="?155"
-	/>
-<tech id="156" name="?156"
-	/>
-<tech id="157" name="A: Monk"
-	/>
-<tech id="158" name="?158"
-	/>
-<tech id="159" name="?159"
-	/>
-<tech id="160" name="?160"
-	/>
-<tech id="161" name="A: Trade Cart"
-	/>
-<tech id="162" name="A: Battering Ram"
-	/>
-<tech id="163" name="?163"
-	/>
-<tech id="164" name="?164"
-	/>
-<tech id="165" name="?165"
-	/>
-<tech id="166" name="A: Knight"
-	/>
-<tech id="167" name="?167"
-	/>
-<tech id="168" name="?168"
-	/>
-<tech id="169" name="?169"
-	/>
-<tech id="170" name="?170"
-	/>
-<tech id="171" name="?171"
-	/>
-<tech id="172" name="?172"
-	/>
-<tech id="173" name="?173"
-	/>
-<tech id="174" name="?174"
-	/>
-<tech id="175" name="?175"
-	/>
-<tech id="176" name="?176"
-	/>
-<tech id="177" name="?177"
-	/>
-<tech id="178" name="?178"
-	/>
-<tech id="179" name="?179"
-	/>
-<tech id="180" name="A: Trade Cog"
-	/>
-<tech id="181" name="?181"
-	/>
-<tech id="182" name="Gold Shaft Mining"
-	/>
-<tech id="183" name="?183"
-	/>
-<tech id="184" name="?184"
-	/>
-<tech id="185" name="?185"
-	/>
-<tech id="186" name="Long Swordsman?"
-	/>
-<tech id="187" name="A: Town Center"
-	/>
-<tech id="188" name="A: Bombard Cannon"
-	/>
-<tech id="189" name="A: Wall / Gate"
-	/>
-<tech id="190" name="?190"
-	/>
-<tech id="191" name="?191"
-	/>
-<tech id="192" name="A: Cavalry Archer"
-	/>
-<tech id="193" name="?193"
-	/>
-<tech id="194" name="Fortified Walls"
-	/>
-<tech id="195" name="?195"
-	/>
-<tech id="196" name="?196"
-	/>
-<tech id="197" name="Pikeman"
-	/>
-<tech id="198" name="?198"
-	/>
-<tech id="199" name="Fletching"
-	/>
-<tech id="200" name="Bodkin Arrow"
-	/>
-<tech id="201" name="Bracer"
-	/>
-<tech id="202" name="Double-Bit Axe"
-	/>
-<tech id="203" name="Bow Saw"
-	/>
-<tech id="204" name="A: Scout Cavalry"
-	/>
-<tech id="205" name="?205"
-	/>
-<tech id="206" name="?206"
-	/>
-<tech id="207" name="Long Swordsman"
-	/>
-<tech id="208" name="?208"
-	/>
-<tech id="209" name="Cavalier"
-	/>
-<tech id="210" name="A: Monastery"
-	/>
-<tech id="211" name="Padded Archer Armor"
-	/>
-<tech id="212" name="Leather Archer Armor"
-	/>
-<tech id="213" name="Wheel Barrow"
-	/>
-<tech id="214" name="?214"
-	/>
-<tech id="215" name="Squires"
-	/>
-<tech id="216" name="A: Farm"
-	/>
-<tech id="217" name="Two-Handed Swordsman"
-	/>
-<tech id="218" name="Heavy Cavalry Archer"
-	/>
-<tech id="219" name="Ring Archer Armor"
-	/>
-<tech id="220" name="A: Barracks"
-	/>
-<tech id="221" name="Two-Man Saw"
-	/>
-<tech id="222" name="Man-at-Arms"
-	/>
-<tech id="223" name="?223"
-	/>
-<tech id="224" name="?224"
-	/>
-<tech id="225" name="?225"
-	/>
-<tech id="226" name="?226"
-	/>
-<tech id="227" name="?227"
-	/>
-<tech id="228" name="?228"
-	/>
-<tech id="229" name="?229"
-	/>
-<tech id="230" name="Block Printing"
-	/>
-<tech id="231" name="Sanctity"
-	/>
-<tech id="232" name="?232"
-	/>
-<tech id="233" name="Illumination"
-	/>
-<tech id="234" name="Conversion"
-	/>
-<tech id="235" name="A: Camel"
-	/>
-<tech id="236" name="Heavy Camel"
-	/>
-<tech id="237" name="Arbalest"
-	/>
-<tech id="238" name="?238"
-	/>
-<tech id="239" name="Heavy Scorpion"
-	/>
-<tech id="240" name="A: Galley"
-	/>
-<tech id="241" name="?241"
-	/>
-<tech id="242" name="A: Demolition Ship "
-	/>
-<tech id="243" name="A: Fire Ship "
-	/>
-<tech id="244" name="Heavy Demolition Ship"
-	/>
-<tech id="245" name="?245"
-	/>
-<tech id="246" name="Fast Fire Ship"
-	/>
-<tech id="247" name="?247"
-	/>
-<tech id="248" name="?248"
-	/>
-<tech id="249" name="Hand Cart"
-	/>
-<tech id="250" name="?250"
-	/>
-<tech id="251" name="?251"
-	/>
-<tech id="252" name="Fervor"
-	/>
-<tech id="253" name="?253"
-	/>
-<tech id="254" name="Light Cavalry"
-	/>
-<tech id="255" name="Siege Ram"
-	/>
-<tech id="256" name="A: Trebuchet (Packed)"
-	/>
-<tech id="257" name="Onager"
-	/>
-<tech id="258" name="?258"
-	/>
-<tech id="259" name="?259"
-	/>
-<tech id="260" name="?260"
-	/>
-<tech id="261" name="A: Transport Ship"
-	/>
-<tech id="262" name="A: Samurai"
-	civ="Japanese" />
-<tech id="263" name="A: Longbowman"
-	civ="Britons" />
-<tech id="264" name="Champion"
-	/>
-<tech id="265" name="Paladin"
-	/>
-<tech id="266" name="?266"
-	/>
-<tech id="267" name="A: Cataphract"
-	civ="Byzantines" />
-<tech id="268" name="A: Chu Ko Nu"
-	civ="Chinese" />
-<tech id="269" name="A: Mameluke"
-	civ="Saracens" />
-<tech id="270" name="?270"
-	/>
-<tech id="271" name="A: Jannisary"
-	civ="Turks" />
-<tech id="272" name="A: Longboat"
-	civ="Vikings" />
-<tech id="273" name="A: Mangudai"
-	civ="Mongols" />
-<tech id="274" name="A: War Elephant"
-	civ="Persians" />
-<tech id="275" name="A: Throwing Axemen"
-	civ="Frank" />
-<tech id="276" name="A: Teutonic Knight"
-	civ="Teutons" />
-<tech id="277" name="A: Woad Raider"
-	civ="Celts" />
-<tech id="278" name="Stone Mining"
-	/>
-<tech id="279" name="Stone Shaft Mining"
-	/>
-<tech id="280" name="Town Patrol"
-	/>
-<tech id="281" name="A: Blacksmith"
-	/>
-<tech id="282" name="?282"
-	/>
-<tech id="283" name="S: Buildings +10%HP Dark Age"
-	civ="Byzantines" />
-<tech id="284" name="S: Camels, Skirmishers, Pikemen, Halberdiers cost -25%"
-	civ="Byzantines" />
-<tech id="285" name="S: Free Chemistry"
-	civ="Turks" />
-<tech id="286" name="S: Cannon Galleons +25%HP"
-	civ="Turks" />
-<tech id="287" name="S: Free Horse Collar"
-	civ="Franks" />
-<tech id="288" name="S: Free Heavy Plow"
-	civ="Franks" />
-<tech id="289" name="S: Free Crop Rotation"
-	civ="Franks" />
-<tech id="290" name="S: Knights +20% Hit Points"
-	civ="Franks" />
-<tech id="291" name="?291"
-	/>
-<tech id="292" name="?292"
-	/>
-<tech id="293" name="?293"
-	/>
-<tech id="294" name="?294"
-	/>
-<tech id="295" name="?295"
-	/>
-<tech id="296" name="?296"
-	/>
-<tech id="297" name="?297"
-	/>
-<tech id="298" name="?298"
-	/>
-<tech id="299" name="?299"
-	/>
-<tech id="300" name="S: Miners Work 15% Faster"
-	civ="Turks" />
-<tech id="301" name="S: Gunpowder Units +25%HP"
-	civ="Turks" />
-<tech id="302" name="S: Start With +3 Villagers"
-	civ="Chinese" />
-<tech id="303" name="?303"
-	/>
-<tech id="304" name="Chinese: ?304"
-	/>
-<tech id="305" name="?305"
-	/>
-<tech id="306" name="S: Fishing Ships Improvements (Dark)"
-	civ="Japanese" />
-<tech id="307" name="?307"
-	/>
-<tech id="308" name="?308"
-	/>
-<tech id="309" name="?309"
-	/>
-<tech id="310" name="?310"
-	/>
-<tech id="311" name="?311"
-	/>
-<tech id="312" name="S: Cavalry Archers +3 Attack vs. Buildings "
-	civ="Saracens" />
-<tech id="313" name="?313"
-	/>
-<tech id="314" name="S: Farms Cost -33%"
-	civ="Teutons" />
-<tech id="315" name="Conscription"
-	/>
-<tech id="316" name="Redemption"
-	/>
-<tech id="317" name="Boarding"
-	/>
-<tech id="318" name="?318"
-	/>
-<tech id="319" name="Atonement"
-	/>
-<tech id="320" name="Siege Onager"
-	/>
-<tech id="321" name="Sappers"
-	/>
-<tech id="322" name="Murder Holes"
-	/>
-<tech id="323" name="?323"
-	/>
-<tech id="324" name="?324"
-	/>
-<tech id="325" name="S: Castles Cost -25%"
-	civ="Franks" />
-<tech id="326" name="?326"
-	/>
-<tech id="327" name="S: Infantry +1 Building Attack"
-	civ="Goths" />
-<tech id="328" name="?328"
-	/>
-<tech id="329" name="?329"
-	/>
-<tech id="330" name="?330"
-	/>
-<tech id="331" name="S: ?331"
-	civ="Goths" />
-<tech id="332" name="A: Outpost"
-	/>
-<tech id="333" name="S: ?333"
-	civ="Teutons" /> <!-- Possibly part of unique tech? -->
-<tech id="334" name="?334"
-	/>
-<tech id="335" name="?335"
-	/>
-<tech id="336" name="S: Town Center +2A, +5LOS"
-	civ="Teutons" />
-<tech id="337" name="S: Transport Ships x2HP, x2G"
-	civ="Saracens" />
-<tech id="338" name="?338"
-	/>
-<tech id="339" name="S: Galleys x1.5LOS"
-	civ="Japanese" />
-<tech id="340" name="S: Mill, Lumber/Mining Camps x.5Cost"
-	civ="Japanese" />
-<tech id="341" name="S: Infantry x1.1 Attack Speed Feudal"
-	civ="Japanese" />
-<tech id="342" name="S: Town Center x2HP"
-	civ="Persians" />
-<tech id="343" name="S: ?242"
-	civ="Goths" />
-<tech id="344" name="S: Infantry x.90 Cost Feudal"
-	civ="Goths" />
-<tech id="345" name="S: Infantry x.85 Cost Castle"
-	civ="Goths" />
-<tech id="346" name="S: Infantry x.75 Cost Imperial"
-	civ="Goths" />
-<tech id="347" name="S: Monks x2 Range"
-	civ="Teutons" />
-<tech id="348" name="?348"
-	/>
-<tech id="349" name="S: Docks x2HP"
-	civ="Persians" />
-<tech id="350" name="S: Techs x.90 Cost Feudal"
-	civ="Chinese" />
-<tech id="351" name="S: Techs x.85 Cost Castle"
-	civ="Chinese" />
-<tech id="352" name="S: Techs x.80 Cost Imperial"
-	civ="Chinese" />
-<tech id="353" name="S: Towers x2 Garrison"
-	civ="Teutons" />
-<tech id="354" name="Castle"
-	civ="Turks" />
-<tech id="355" name="S: Market Trade Tax 5%"
-	civ="Saracens" />
-<tech id="356" name="?356"
-	/>
-<tech id="357" name="A: Fish Trap"
-	/>
-<tech id="358" name="A: Mangonel"
-	/>
-<tech id="359" name="?359"
-	/>
-<tech id="360" name="Elite Longbowman"
-	civ="Britons" />
-<tech id="361" name="Elite Cataphract"
-	civ="Byzantines" />
-<tech id="362" name="Elite Chu Ko Nu"
-	civ="Chinese" />
-<tech id="363" name="Elite Throwing Axeman"
-	civ="Frank" />
-<tech id="364" name="Elite Teutonic Knight"
-	civ="Teutons" />
-<tech id="365" name="Elite Huskarl"
-	civ="Goths" />
-<tech id="366" name="Elite Samurai"
-	civ="Japanese" />
-<tech id="367" name="Elite War Elephant"
-	civ="Persians" />
-<tech id="368" name="Elite Mameluke"
-	civ="Saracens" />
-<tech id="369" name="Elite Janissary"
-	civ="Turks" />
-<tech id="370" name="Elite Woad Raider"
-	civ="Celts" />
-<tech id="371" name="Elite Mangudai"
-	civ="Mongols" />
-<tech id="372" name="Elite Longboat"
-	civ="Vikings" />
-<tech id="373" name="Shipwright"
-	/>
-<tech id="374" name="Careening"
-	/>
-<tech id="375" name="Dry Dock"
-	/>
-<tech id="376" name="Elite Cannon Galleon"
-	/>
-<tech id="377" name="Siege Engineers"
-	/>
-<tech id="378" name="?378"
-	/>
-<tech id="379" name="Hoardings"
-	/>
-<tech id="380" name="Heated Shot"
-	/>
-<tech id="381" name="S: Town Centers Cost -50% Wood in Castle Age"
-	civ="Britons" />
-<tech id="382" name="S: Foot Archers Have +1 Range Castle Age"
-	civ="Britons" />
-<tech id="383" name="S: Shepherds Work 25% Faster"
-	civ="Britons" />
-<tech id="384" name="?384"
-	/>
-<tech id="385" name="S:Lumberjacks Work 15% Faster"
-	civ="Celts"/>
-<tech id="386" name="S:Siege Weapons Fire 20% Faster"
-	civ="Celts"/>
-<tech id="387" name="?387"
-	/>
-<tech id="388" name="S:Light Cavalry, Hussar +30% Hit Points"
-	civ="Mongols"/>
-<tech id="389" name="S:Hunters Work 50% Faster"
-	civ="Mongols"/>
-<tech id="390" name="?390"
-	/>
-<tech id="391" name="S:Infantry +20% Hit Points Imperial Age "
-	civ="Vikings"/>
-<tech id="392" name="S:?"
-	civ="Vikings"/>
-<tech id="393" name="S:Infantry Move 15% Faster"
-	civ="Celts"/>
-<tech id="394" name="S:Cavalry Archers Fire 20% Faster"
-	civ="Mongols"/>
-<tech id="395" name="S: Warships Cost -20%"
-	civ="Vikings"/>
-<tech id="396" name="S: Demolition ships +50% Hit Points"
-	civ="Chinese"/>
-<tech id="397" name="S: Fire ships +20% Attack"
-	civ="Byzantines"/>
-<tech id="398" name="Elite Berserk"
-	civ="Vikings" />
-<tech id="399" name="Berserk"
-	civ="Vikings" />
-<tech id="400" name="S: ?"
-	civ="Vikings"/>
-<tech id="401" name="S: ?"
-	civ="Byzantines"/>
-<tech id="402" name="S: Hunters +5 Attack vs. Wild Boar, Carry +15"
-	civ="Goths"/>
-<tech id="403" name="S: Foot Archers Have +1 Range Imperial Age"
-	civ="Britons"/>
-<tech id="404" name="S: Galleys Attack 20% Faster"
-	civ="Saracens"/>
-<tech id="405" name="S: Sheep Conversion resistance"
-	civ="Celts"/> <!-- One unit's LOS protects -->
-<tech id="406" name="S: +10 Population in Imperial"
-	civ="Goths"/>
-<tech id="407" name="Healing Range"
-	/>
-<tech id="408" name="Spies/Treason"
-	/>
-<tech id="409" name="S: Town Center Work Rate +10% Feudal"
-	civ="Persians"/>
-<tech id="410" name="S: Town Center Work Rate +15% Castle"
-	civ="Persians"/>
-<tech id="411" name="S: Town Center Work Rate +20% Imperial"
-	civ="Persians"/>
-<tech id="412" name="S: Dock Work Rate +10% Feudal"
-	civ="Persians"/>
-<tech id="413" name="S: Dock Work Rate +15% Castle"
-	civ="Persians"/>
-<tech id="414" name="S: Dock Work Rate +20% Imperial"
-	civ="Persians"/>
-<tech id="415" name="S: Infantry +15% HP Castle"
-	civ="Vikings"/>
-<tech id="416" name="S: Infantry +10% HP Feudal"
-	civ="Vikings"/>
-<tech id="417" name="S: Buildings +20% HP Feudal"
-	civ="Byzantines"/>
-<tech id="418" name="S: Buildings +30% HP Castle"
-	civ="Byzantines"/>
-<tech id="419" name="S: Buildings +40% HP Imperial"
-	civ="Byzantines"/>
-<tech id="420" name="S: Infantry Attack +15% Faster Castle Age"
-	civ="Japanese"/>
-<tech id="421" name="S: Infantry Attack +25% Faster Imperial Age"
-	civ="Japanese"/>
-<tech id="422" name="S: Fishing Ships Work Rate +10% Feudal Age"
-	civ="Japanese"/>
-<tech id="423" name="S: Fishing Ships Work Rate +15% Castle Age"
-	civ="Japanese"/>
-<tech id="424" name="S: Fishing Ships Work Rate +20% Imperial Age"
-	civ="Japanese"/>
-<tech id="425" name="S: Town Centers Support 10 Population"
-	civ="Chinese"/>
-<tech id="426" name="A: Petard"
-	/>
-<tech id="427" name="A: Genitour"
-	/>
-<tech id="428" name="Hussar"
-	/>
-<tech id="429" name="Halberdier"
-	/>
-<tech id="430" name="Elite Genitour"
-	/>
-<tech id="431" name="A: Jaguar Warrior"
-	civ="Aztecs" />
-<tech id="432" name="Elite Jaguar Warrior"
-	civ="Aztecs" />
-<tech id="433" name="A: Eagle Warrior"
-	/>
-<tech id="434" name="Elite Eagle Warrior"
-	/>
-<tech id="435" name="Bloodlines"
-	/>
-<tech id="436" name="Parthian Tactics"
-	/>
-<tech id="437" name="Thumb Ring"
-	/>
-<tech id="438" name="Theocracy"
-	/>
-<tech id="439" name="Heresy"
-	/>
-<tech id="440" name="Supermacy"
-	civ="Spanish" />
-<tech id="441" name="Herbal Medicine"
-	/>
-<tech id="442" name="S: Free Guard Tower Upgrade"
-	civ="Koreans" />
-<tech id="443" name="S: Free Keep Upgrade"
-	civ="Koreans" />
-<tech id="444" name="S: Free Bombard Tower Upgrade"
-	civ="Koreans" />
-<tech id="445" name="Shinkichon"
-	civ="Koreans" />
-<tech id="446" name="A: Huskarl"
-	civ="Goths" />
-<tech id="447" name="A: Turtle Ship"
-	civ="Koreans" />
-<tech id="448" name="Elite Turtle Ship"
-	civ="Koreans" />
-<tech id="449" name="A: War Wagon"
-	civ="Koreans" />
-<tech id="450" name="Elite War Wagon"
-	civ="Koreans" />
-<tech id="451" name="Koreans: ?"
-	/>
-<tech id="452" name="Koreans: Tower range +1 Castle Age"
-	/>
-<tech id="453" name="Koreans: Tower range +2 Imperial Age"
-	/>
-<tech id="454" name="S:Eagle Warrior Extra Bonus"
-	civ="Aztecs"/>
-<tech id="455" name="S: Eagle Warrior Extra Bonus"
-	civ="Mayans"/>
-<tech id="456" name="Aztecs: Herbal Medicine + 5 Monk HP"
-	/>
-<tech id="457" name="Perfusion"
-	civ="Goths" />
-<tech id="458" name="Huns: Cavalry Archers cost -25% Castle Age"
-	/>
-<tech id="459" name="Huns: Cavalry Archers cost -30% Imperial Age"
-	/>
+<!--
+(A) - Make available
+(H) - Hidden tech
+(U) - Unimplemented/Unknown/Unused
+(CIV) - Only available for that civilization
+AP - Attack Points
+HP - Hit Points
+MA - Melee Armor
+PA - Pierce Armor
+AS - Attack Speed
+MS - Move Speed
+WS - Work Speed
+-->
+<tech id="0" name="New Research 0 (U)(GAI)" />
+<tech id="1" name="Tarkan (A)(HUN)" />
+<tech id="2" name="Elite Tarkan (HUN)" />
+<tech id="3" name="Yeomen (BRI)"  />
+<tech id="4" name="El Dorado (MAY)" />
+<tech id="5" name="Furor Celtica (CEL)" />
+<tech id="6" name="Drill (MON)" />
+<tech id="7" name="Mahouts (PER)" />
+<tech id="8" name="Town Watch" />
+<tech id="9" name="Zealotry (SAR)" />
+<tech id="10" name="Artillery (TUR)" />
+<tech id="11" name="Crenellations (TEU)" />
+<tech id="12" name="Crop Rotation" />
+<tech id="13" name="Heavy Plow" />
+<tech id="14" name="Horse Collar" />
+<tech id="15" name="Guilds" />
+<tech id="16" name="Anarchy (GOT)" />
+<tech id="17" name="Banking" />
+<tech id="18" name="Barracks Huskarl (GOT)" />
+<tech id="19" name="Cartography" />
+<tech id="20" name="Currency (U)" />
+<tech id="21" name="Atheism (HUN)" />
+<tech id="22" name="Loom" />
+<tech id="23" name="Coinage" />
+<tech id="24" name="Garland Wars (AZT)" />
+<tech id="25" name="Stable (A)" />
+<tech id="26" name="Plumed Archer (A)(MAY)" />
+<tech id="27" name="Elited Plumed Archer (MAY)" />
+<tech id="28" name="Compass (U)" />
+<tech id="29" name="Atonement +5 Monk HP (AZT)" />
+<tech id="30" name="Sanctity +5 Monk HP (AZT)" />
+<tech id="31" name="Fervor +5 Monk HP (AZT)" />
+<tech id="32" name="Redemption +5 Monk HP (AZT)" />
+<tech id="33" name="Faith +5 Monk HP (AZT)" />
+<tech id="34" name="War Galley" />
+<tech id="35" name="Galleon" />
+<tech id="36" name="Illumination +5 Monk HP (AZT)" />
+<tech id="37" name="Cannon Galleon" />
+<tech id="38" name="Block Printing +5 Monk HP (AZT)" />
+<tech id="39" name="Husbandry" />
+<tech id="40" name="Heresy +5 Monk HP (AZT)" />
+<tech id="41" name="Theocracy +5 Monk HP (AZT)" />
+<tech id="42" name="Infantry +1 attack (U)(AZT)" />
+<tech id="43" name="Infantry +2 attack (U)(AZT)" />
+<tech id="44" name="Infantry +3 attack (U)(AZT)" />
+<tech id="45" name="Faith" />
+<tech id="46" name="Block printing (U)" />
+<tech id="47" name="Chemistry" />
+<tech id="48" name="Caravan" />
+<tech id="49" name="Berserkergang (VIK)" />
+<tech id="50" name="Masonry" />
+<tech id="51" name="Architecture" />
+<tech id="52" name="Rocketry (CHI)" />
+<tech id="53" name="Archers -20% Cost (MAY)" />
+<tech id="54" name="Treadmill Crane" />
+<tech id="55" name="Gold Mining" />
+<tech id="56" name="Archers -30% Cost (MAY)" />
+<tech id="57" name="Spanish Cannon Galleon (U)" />
+<tech id="58" name="Conquistador (A)(SPA)" />
+<tech id="59" name="Kataparuto (JAP)" />
+<tech id="60" name="Elite Conquistador (SPA)" />
+<tech id="61" name="Logistica (BYZ)" />
+<tech id="62" name="Upgrade Castle to Fortress (U)(GAI)" />
+<tech id="63" name="Keep" />
+<tech id="64" name="Bombard Tower" />
+<tech id="65" name="Gillnets" />
+<tech id="66" name="New Research 66 (U)(GAI)" />
+<tech id="67" name="Forging" />
+<tech id="68" name="Iron Casting" />
+<tech id="69" name="Villagers +30 AP vs Animals (MAG)" />
+<tech id="70" name="Start with eagle (U)(INC)" />
+<tech id="71" name="Stone Wall / Gate x2 HP" />
+<tech id="72" name="Fortified Wall / Gate x2 HP (U)" />
+<tech id="73" name="Inf, 2H Swordsman, Pikeman, Spearman +1 MA (U)(GAI)" />
+<tech id="74" name="Scale Mail Armor" />
+<tech id="75" name="Blast Furnace" />
+<tech id="76" name="Chain Mail Armor" />
+<tech id="77" name="Plate Mail Armor" />
+<tech id="78" name="New Research 78 (U)(GAI)" />
+<tech id="79" name="Cavalry, Cav Archers +1/+1 Armor (U)(GAI)" />
+<tech id="80" name="Plate Barding Armor" />
+<tech id="81" name="Scale Barding Armor" />
+<tech id="82" name="Chain Barding Armor" />
+<tech id="83" name="Bearded Axe (FRA)" />
+<tech id="84" name="Missionary (A)(SPA)" />
+<tech id="85" name="Hand Cannoneer (A)" />
+<tech id="86" name="Allow Formations (U)(GAI)" />
+<tech id="87" name="Spearman (A)" />
+<tech id="88" name="New Research 88 (U)(GAI)" />
+<tech id="89" name="Siege Weapons +20% AP vs Buildings (U)(GAI)" />
+<tech id="90" name="Tracking" />
+<tech id="91" name="New Research 91 (U)(GAI)" />
+<tech id="92" name="New Research 92 (U)(GAI)" />
+<tech id="93" name="Ballistics" />
+<tech id="94" name="Scorpion (A)" />
+<tech id="95" name="Free Hussar (U)(TUR)" />
+<tech id="96" name="Capped Ram" />
+<tech id="97" name="New Research 97 (U)(GAI)" />
+<tech id="98" name="Elite Skirmisher" />
+<tech id="99" name="Skirmisher (A)" />
+<tech id="100" name="Crossbowman" />
+<tech id="101" name="Feudal Age" />
+<tech id="102" name="Castle Age" />
+<tech id="103" name="Imperial Age" />
+<tech id="104" name="Dark Age" />
+<tech id="105" name="New Research 105 (U)(GAI)" />
+<tech id="106" name="Shadow Blacksmith Age 1 (U)" />
+<tech id="107" name="Shadow Monastery Age 1 (U)" />
+<tech id="108" name="Shadow Dock Age 1 (U)" />
+<tech id="109" name="Shadow Farm Age 1 (U)" />
+<tech id="110" name="Shadow Mill Age 1 (U)" />
+<tech id="111" name="Camelry (H)" />
+<tech id="112" name="Fishing Ship (U)" />
+<tech id="113" name="New Research 113 (U)(GAI)" />
+<tech id="114" name="Spearman (U)" />
+<tech id="115" name="New Research 115 (U)(GAI)" />
+<tech id="116" name="Villager (U)" />
+<tech id="117" name="Palisade Wall (U)" />
+<tech id="118" name="Shadow Town Center Age 1 (U)" />
+<tech id="119" name="New Research 119 (U)(GAI)" />
+<tech id="120" name="Shadow Node Age 2 (U)" />
+<tech id="121" name="New Research 121 (U)(GAI)" />
+<tech id="122" name="Shadow Barracks Age 2 (U)" />
+<tech id="123" name="Shadow Blacksmith Age 2 (U)" />
+<tech id="124" name="Shadow Monastery Age 2 (U)" />
+<tech id="125" name="Shadow Dock Age 2 (U)" />
+<tech id="126" name="Shadow Farm Age 2 (U)" />
+<tech id="127" name="Watch Tower (A)" />
+<tech id="128" name="Shadow Market Age 2 (U)" />
+<tech id="129" name="Shadow Mill Age 2 (U)" />
+<tech id="130" name="Shadow Stable Age 2 (U)" />
+<tech id="131" name="Shadow Trade WorkShop Age 2 (U)" />
+<tech id="132" name="Shadow Archery Range Age 2 (U)" />
+<tech id="133" name="Upgrade Palisade Wall to Stone Wall (U)" />
+<tech id="134" name="Upgrade Barracks to Archery Range (U)" />
+<tech id="135" name="Shadow Node Age 3 (U)" />
+<tech id="136" name="Castle (U)(GAI)" />
+<tech id="137" name="Castle (A)" />
+<tech id="138" name="Shadow Siege Workshop Age 3 (U)" />
+<tech id="139" name="Fortified Wall (U)(GAI)" />
+<tech id="140" name="Guard Tower" />
+<tech id="141" name="Castles +10 MA, +20% HP, +2 Armor (U)(GAI)" />
+<tech id="142" name="Shadow Node Age 4 (U)" />
+<tech id="143" name="Shadow Tower Age 4 (U)" />
+<tech id="144" name="Wonder (A)" />
+<tech id="145" name="New Research 145 (U)(GAI)" />
+<tech id="146" name="Shadow University Age 3 (U)" />
+<tech id="147" name="Archery Range (A)" />
+<tech id="148" name="Market (A)" />
+<tech id="149" name="Siege Workshop (A)" />
+<tech id="150" name="University (A)" />
+<tech id="151" name="Archer (A)" />
+<tech id="152" name="Cavalry Archer (U)(GAI)" />
+<tech id="153" name="Trade Cog (U)(GAI)" />
+<tech id="154" name="Skirmisher (U)(GAI)" />
+<tech id="155" name="War Galley (U)(GAI)" />
+<tech id="156" name="Light Camel (U)" />
+<tech id="157" name="Monk (A)" />
+<tech id="158" name="Spearman (U)" />
+<tech id="159" name="Bandit (U)(GAI)" />
+<tech id="160" name="Man-At-Arms (U)" />
+<tech id="161" name="Trade Cart (A)" />
+<tech id="162" name="Battering Ram (A)" />
+<tech id="163" name="Crossbowman (U)(GAI)" />
+<tech id="164" name="Elite Skirmisher (U)(GAI)" />
+<tech id="165" name="Heavy Swordsman (U)(GAI)" />
+<tech id="166" name="Knight (A)" />
+<tech id="167" name="Mangonel (U)(GAI)" />
+<tech id="168" name="OMTBO (U)(GAI)" />
+<tech id="169" name="Scorpion (U)(GAI)" />
+<tech id="170" name="Galleon (U)(GAI)" />
+<tech id="171" name="Capped Ram (U)(GAI)" />
+<tech id="172" name="Bombard Cannon (U)" />
+<tech id="173" name="Cannon Galleon (U)(GAI)" />
+<tech id="174" name="Hand Cannoner (U)" />
+<tech id="175" name="Cavalier (U)" />
+<tech id="176" name="PMANG (U)(GAI)" />
+<tech id="177" name="Trade Boats Carry +50% (U)(GAI)" />
+<tech id="178" name="All Ages (U)" />
+<tech id="179" name="New Research 179 (U)(GAI)" />
+<tech id="180" name="Trade Cog (A)" />
+<tech id="181" name="New Research 181 (U)(GAI)" />
+<tech id="182" name="Gold Shaft Mining" />
+<tech id="183" name="New Research 183 (U)(GAI)" />
+<tech id="184" name="Port (U)(GAI)" />
+<tech id="185" name="Cathedral (U)(GAI)" />
+<tech id="186" name="Long Swordsman (H)" />
+<tech id="187" name="Town Center (A)" />
+<tech id="188" name="Bombard Cannon (A)" />
+<tech id="189" name="Stone Wall / Gate (A)" />
+<tech id="190" name="New Research 190 (U)(GAI)" />
+<tech id="191" name="New Research 191 (U)(GAI)" />
+<tech id="192" name="Cavalry Archer (A)" />
+<tech id="193" name="New Research 193 (U)(GAI)" />
+<tech id="194" name="Fortified Walls" />
+<tech id="195" name="New Research 195 (U)(GAI)" />
+<tech id="196" name="New Research 196 (U)(GAI)" />
+<tech id="197" name="Pikeman" />
+<tech id="198" name="New Research 198 (U)(GAI)" />
+<tech id="199" name="Fletching" />
+<tech id="200" name="Bodkin Arrow" />
+<tech id="201" name="Bracer" />
+<tech id="202" name="Double-Bit Axe" />
+<tech id="203" name="Bow Saw" />
+<tech id="204" name="Scout Cavalry (A)" />
+<tech id="205" name="New Research 205 (U)(GAI)" />
+<tech id="206" name="New Research 206 (U)(GAI)" />
+<tech id="207" name="Long Swordsman" />
+<tech id="208" name="New Research 208 (U)(GAI)" />
+<tech id="209" name="Cavalier" />
+<tech id="210" name="Monastery (A)" />
+<tech id="211" name="Padded Archer Armor" />
+<tech id="212" name="Leather Archer Armor" />
+<tech id="213" name="Wheel Barrow" />
+<tech id="214" name="New Research 214 (U)(GAI)" />
+<tech id="215" name="Squires" />
+<tech id="216" name="Farm (A)" />
+<tech id="217" name="Two-Handed Swordsman" />
+<tech id="218" name="Heavy Cavalry Archer" />
+<tech id="219" name="Ring Archer Armor" />
+<tech id="220" name="Barracks (A)" />
+<tech id="221" name="Two-Man Saw" />
+<tech id="222" name="Man-at-Arms" />
+<tech id="223" name="New Research 223 (U)(GAI)" />
+<tech id="224" name="New Research 224 (U)(GAI)" />
+<tech id="225" name="New Research 225 (U)(GAI)" />
+<tech id="226" name="New Research 226 (U)(GAI)" />
+<tech id="227" name="New Research 227 (U)(GAI)" />
+<tech id="228" name="New Research 228 (U)(GAI)" />
+<tech id="229" name="New Research 229 (U)(GAI)" />
+<tech id="230" name="Block Printing" />
+<tech id="231" name="Sanctity" />
+<tech id="232" name="New Research 232 (U)(GAI)" />
+<tech id="233" name="Illumination" />
+<tech id="234" name="Conversion Enabler (H)" />
+<tech id="235" name="Camel (A)" />
+<tech id="236" name="Heavy Camel" />
+<tech id="237" name="Arbalest" />
+<tech id="238" name="New Research 238 (U)(GAI)" />
+<tech id="239" name="Heavy Scorpion" />
+<tech id="240" name="Galley (A)" />
+<tech id="241" name="New Research 241 (U)(GAI)" />
+<tech id="242" name="Demolition Ship (A)" />
+<tech id="243" name="Fire Ship (A)" />
+<tech id="244" name="Heavy Demolition Ship" />
+<tech id="245" name="New Research 245 (U)(GAI)" />
+<tech id="246" name="Fast Fire Ship" />
+<tech id="247" name="New Research 247 (U)(GAI)" />
+<tech id="248" name="New Research 248 (U)(GAI)" />
+<tech id="249" name="Hand Cart" />
+<tech id="250" name="New Research 250 (U)(GAI)" />
+<tech id="251" name="New Research 251 (U)(GAI)" />
+<tech id="252" name="Fervor" />
+<tech id="253" name="New Research 253 (U)(GAI)" />
+<tech id="254" name="Light Cavalry" />
+<tech id="255" name="Siege Ram" />
+<tech id="256" name="Trebuchet, Packed (A)" />
+<tech id="257" name="Onager" />
+<tech id="258" name="Shadow Saw Mill 1 (U)" />
+<tech id="259" name="New Research 259 (U)(GAI)" />
+<tech id="260" name="New Research 260 (U)(GAI)" />
+<tech id="261" name="Transport Ship (A)" />
+<tech id="262" name="Samurai (A)(JAP)" />
+<tech id="263" name="Longbowman (A)(BRI)" />
+<tech id="264" name="Champion" />
+<tech id="265" name="Paladin" />
+<tech id="266" name="Castle Built (U)" />
+<tech id="267" name="Cataphract (A)(BYZ)" />
+<tech id="268" name="Chu Ko Nu (A)(CHI)" />
+<tech id="269" name="Mameluke (A)(SAR)" />
+<tech id="270" name="Berserker (U)(GOT)" />
+<tech id="271" name="Jannisary (A)(TUR)" />
+<tech id="272" name="Longboat (A)(VIK)" />
+<tech id="273" name="Mangudai (A)(MON)" />
+<tech id="274" name="War Elephant (A)(PER)" />
+<tech id="275" name="Throwing Axemen (A)(FRA)" />
+<tech id="276" name="Teutonic Knight (A)(TEU)" />
+<tech id="277" name="Woad Raider (A)(CEL)" />
+<tech id="278" name="Stone Mining" />
+<tech id="279" name="Stone Shaft Mining" />
+<tech id="280" name="Town Patrol" />
+<tech id="281" name="Blacksmith (A)" />
+<tech id="282" name="Mine has been built (U)" />
+<tech id="283" name="Buildings +10% HP (BYZ)" />
+<tech id="284" name="Trash Units Cost -25% (BYZ)" />
+<tech id="285" name="Free Chemistry (U)(TUR)" />
+<tech id="286" name="Cannon Galleons +25% HP (TUR)" />
+<tech id="287" name="Free Horse Collar (U)(FRA)" />
+<tech id="288" name="Free Heavy Plow (U)(FRA)" />
+<tech id="289" name="Free Crop Rotation (U)(FRA)" />
+<tech id="290" name="Knights +20% HP (FRA)" />
+<tech id="291" name="Infantry Cost -50% (H)" />
+<tech id="292" name="New Research 292 (U)(GAI)" />
+<tech id="293" name="Fishing Ships, Trade Cogs +20% MS (H)" />
+<tech id="294" name="Units 2 Conversion Resistance (H)" />
+<tech id="295" name="New Research 295 (U)(GAI)" />
+<tech id="296" name="New Research 296 (U)(GAI)" />
+<tech id="297" name="New Research 297 (U)(GAI)" />
+<tech id="298" name="New Research 298 (U)(GAI)" />
+<tech id="299" name="New Research 299 (U)(GAI)" />
+<tech id="300" name="Gold Miners +15% WS (TUR)" />
+<tech id="301" name="Gunpowder Units +25% HP (TUR)" />
+<tech id="302" name="Start With 6 Villagers (CHI)" />
+<tech id="303" name="New Research 303 (U)(GAI)" />
+<tech id="304" name="Techs Cost -0% (CHI)" />
+<tech id="305" name="New Research 305 (U)(GAI)" />
+<tech id="306" name="Fishing Ships X2 HP, +5% WS, +2 PA (JAP)" />
+<tech id="307" name="New Research 307 (U)(GAI)" />
+<tech id="308" name="New Research 308 (U)(GAI)" />
+<tech id="309" name="New Research 309 (U)(GAI)" />
+<tech id="310" name="New Research 310 (U)(GAI)" />
+<tech id="311" name="Transport Ships x2 HP, x2 Garrison (U)" />
+<tech id="312" name="Cav Archers +4 AP vs Buildings (SAR)" />
+<tech id="313" name="New Research 313 (U)(GAI)" />
+<tech id="314" name="Farms Cost -33% (TEU)" />
+<tech id="315" name="Conscription" />
+<tech id="316" name="Redemption" />
+<tech id="317" name="Boarding (H)" />
+<tech id="318" name="New Research 318 (U)(GAI)" />
+<tech id="319" name="Atonement" />
+<tech id="320" name="Siege Onager" />
+<tech id="321" name="Sappers" />
+<tech id="322" name="Murder Holes" />
+<tech id="323" name="New Research 323 (U)(GAI)" />
+<tech id="324" name="New Research 324 (U)(GAI)" />
+<tech id="325" name="Castles Cost -25% (FRA)" />
+<tech id="326" name="New Research 326 (U)(GAI)" />
+<tech id="327" name="Infantry +1 AP vs Buildings (GOT)" />
+<tech id="328" name="New Research 328 (U)(GAI)" />
+<tech id="329" name="New Research 329 (U)(GAI)" />
+<tech id="330" name="New Research 330 (U)(GAI)" />
+<tech id="331" name="Houses Cost, Creation Time 1/3 (U)(GOT)" />
+<tech id="332" name="Outpost (A)" />
+<tech id="333" name="Towers +4 Max Arrows (U)(TEU)" />
+<tech id="334" name="New Research 334 (U)(GAI)" />
+<tech id="335" name="New Research 335 (U)(GAI)" />
+<tech id="336" name="Town Centers +10 Garrison (TEU)" />
+<tech id="337" name="Transport Ships x2 HP, x2 Garrison (SAR)" />
+<tech id="338" name="Archers 87% Accuracy (H)" />
+<tech id="339" name="Galleys x2 LoS (U)(JAP)" />
+<tech id="340" name="Mills, Lumber/Mining Camps Cost -50% (JAP)" />
+<tech id="341" name="Infantry +25% AS (JAP)" />
+<tech id="342" name="Town Center x2 HP (PER)" />
+<tech id="343" name="Infantry Cost -0% (GOT)" />
+<tech id="344" name="Infantry Cost -25% (GOT)" />
+<tech id="345" name="Infantry Cost -35% (U)(GOT)" />
+<tech id="346" name="Infantry Cost -50% (U)(GOT)" />
+<tech id="347" name="Monks 8 Healing Range (TEU)" />
+<tech id="348" name="New Research 348 (U)(GAI)" />
+<tech id="349" name="Docks x2 HP (PER)" />
+<tech id="350" name="Techs Cost -10% (CHI)" />
+<tech id="351" name="Techs Cost -15% (CHI)" />
+<tech id="352" name="Techs Cost -20% (CHI)" />
+<tech id="353" name="Towers +5 Garrison, +4 Max Arrows (TEU)" />
+<tech id="354" name="Castle (A)(TUR)" />
+<tech id="355" name="Markets Tax 5%, Cost -75 Wood (SAR)" />
+<tech id="356" name="Techs Cost -50% (U)" />
+<tech id="357" name="Fish Trap (A)" />
+<tech id="358" name="Mangonel (A)" />
+<tech id="359" name="Sub-Shadow Age4 (U)" />
+<tech id="360" name="Elite Longbowman (BRI)" />
+<tech id="361" name="Elite Cataphract (BYZ)" />
+<tech id="362" name="Elite Chu Ko Nu (CHI)" />
+<tech id="363" name="Elite Throwing Axeman (FRA)" />
+<tech id="364" name="Elite Teutonic Knight (TEU)" />
+<tech id="365" name="Elite Huskarl (GOT)" />
+<tech id="366" name="Elite Samurai (JAP)" />
+<tech id="367" name="Elite War Elephant (PER)" />
+<tech id="368" name="Elite Mameluke (SAR)" />
+<tech id="369" name="Elite Janissary (TUR)" />
+<tech id="370" name="Elite Woad Raider (CEL)" />
+<tech id="371" name="Elite Mangudai (MON)" />
+<tech id="372" name="Elite Longboat (VIK)" />
+<tech id="373" name="Shipwright" />
+<tech id="374" name="Careening" />
+<tech id="375" name="Dry Dock" />
+<tech id="376" name="Elite Cannon Galleon" />
+<tech id="377" name="Siege Engineers" />
+<tech id="378" name="New Research 378 (U)(GAI)" />
+<tech id="379" name="Hoardings" />
+<tech id="380" name="Heated Shot" />
+<tech id="381" name="TCs Cost -50% Wood (BRI)" />
+<tech id="382" name="Foot Archers +1 Range (BRI)" />
+<tech id="383" name="Shepherds +25% WS (BRI)" />
+<tech id="384" name="Eagle Warrior" />
+<tech id="385" name="Lumberjacks +15% WS (CEL)" />
+<tech id="386" name="Siege Weapons +20% AS (CEL)" />
+<tech id="387" name="Eagle Scout extra AP (INC)" />
+<tech id="388" name="Light Cavalry, Hussar +30% HP (MON)" />
+<tech id="389" name="Hunters +50% WS (MON)" />
+<tech id="390" name="Fortifications Built 25% Faster (KOR)" />
+<tech id="391" name="Infantry +20% HP (VIK)" />
+<tech id="392" name="Free Wheelbarrow (U)(VIK)" />
+<tech id="393" name="Infantry +15% MS (CEL)" />
+<tech id="394" name="Cav Archers +20% AS (MON)" />
+<tech id="395" name="Boats 10% Cheaper (VIK)" />
+<tech id="396" name="Demolition Ships +50% HP (CHI)" />
+<tech id="397" name="Fire Ships +20% AS (BYZ)" />
+<tech id="398" name="Elite Berserk (VIK)" />
+<tech id="399" name="Berserk (A)(VIK)" />
+<tech id="400" name="Free Hand Cart (U)(VIK)" />
+<tech id="401" name="Farmers +15% WS (U)(BYZ)" />
+<tech id="402" name="Hunters +5 AP vs Boars, Carry +15 (GOT)" />
+<tech id="403" name="Foot Archers +2 Range (BRI)" />
+<tech id="404" name="Galleys +20% AS (SAR)" />
+<tech id="405" name="Sheep Conversion Resistance (CEL)" />
+<tech id="406" name="Bonus Population +10 (GOT)" />
+<tech id="407" name="Monks 4 Healing Range (H)" />
+<tech id="408" name="Spies/Treason" />
+<tech id="409" name="TCs +10%/+15%/+20% WS (PER)" />
+<tech id="410" name="TCs +15% WS (U)(PER)" />
+<tech id="411" name="TCs +20% WS (U)(PER)" />
+<tech id="412" name="Docks +10/+15%/+20% WS (PER)" />
+<tech id="413" name="Docks +15% WS (U)(PER)" />
+<tech id="414" name="Docks +20% WS (U)(PER)" />
+<tech id="415" name="Infantry +15% HP (VIK)" />
+<tech id="416" name="Infantry +10% HP (VIK)" />
+<tech id="417" name="Buildings +20% HP (BYZ)" />
+<tech id="418" name="Buildings +30% HP (BYZ)" />
+<tech id="419" name="Buildings +40% HP (BYZ)" />
+<tech id="420" name="Infantry +15% AS (U)(JAP)" />
+<tech id="421" name="Infantry +20% AS (U)(JAP)" />
+<tech id="422" name="Fishing Ships +10% WS (JAP)" />
+<tech id="423" name="Fishing Ships +15% WS (JAP)" />
+<tech id="424" name="Fishing Ships +20% WS (JAP)" />
+<tech id="425" name="Town Centers +5 Pop (CHI)" />
+<tech id="426" name="Petard (A)" />
+<tech id="427" name="Genitour (A)" />
+<tech id="428" name="Hussar" />
+<tech id="429" name="Halberdier" />
+<tech id="430" name="Elite Genitour" />
+<tech id="431" name="Jaguar Warrior (A)(AZT)" />
+<tech id="432" name="Elite Jaguar Warrior (AZT)" />
+<tech id="433" name="Eagle Scout (A)" />
+<tech id="434" name="Elite Eagle Warrior" />
+<tech id="435" name="Bloodlines" />
+<tech id="436" name="Parthian Tactics" />
+<tech id="437" name="Thumb Ring" />
+<tech id="438" name="Theocracy" />
+<tech id="439" name="Heresy" />
+<tech id="440" name="Supremacy (SPA)" />
+<tech id="441" name="Herbal Medicine" />
+<tech id="442" name="Free Guard Tower (KOR)" />
+<tech id="443" name="Free Keep (KOR)" />
+<tech id="444" name="Free Bombard Tower (KOR)" />
+<tech id="445" name="Shinkichon (KOR)" />
+<tech id="446" name="Huskarl (A)(GOT)" />
+<tech id="447" name="Turtle Ship (A)(KOR)" />
+<tech id="448" name="Elite Turtle Ship (KOR)" />
+<tech id="449" name="War Wagon (A)(KOR)" />
+<tech id="450" name="Elite War Wagon (KOR)" />
+<tech id="451" name="Tower +1 range (U)(KOR)" />
+<tech id="452" name="Tower +2 range (KOR)" />
+<tech id="453" name="Tower +3 range (KOR)" />
+<tech id="454" name="Eagle Scout extra AP (AZT)" />
+<tech id="455" name="Eagle Scout extra AP (MAY)" />
+<tech id="456" name="Herbal Medicine +5 Monk HP (AZT)" />
+<tech id="457" name="Perfusion (GOT)" />
+<tech id="458" name="Cav Archers Cost -25% (HUN)" />
+<tech id="459" name="Cav Archers Cost -30% (HUN)" />
+<tech id="460" name="Atlatl (AZT)" />
+<tech id="461" name="Warwolf (BRI)" />
+<tech id="462" name="Great Wall (CHI)" />
+<tech id="463" name="Chieftains (VIK)" />
+<tech id="464" name="Greek Fire (BYZ)" />
+<tech id="465" name="Cartography (U)" />
+<tech id="466" name="Free War Galley (ITA)" />
+<tech id="467" name="Genoese Crossbowman (A)(ITA)" />
+<tech id="468" name="Elite Genoese Crossbowman (ITA)" />
+<tech id="469" name="New Research (U)(GAI)" />
+<tech id="470" name="Wonder Built (U)(GAI)" />
+<tech id="471" name="Magyar Huszar (A)(MAG)" />
+<tech id="472" name="Elite Magyar Huszar (MAG)" />
+<tech id="473" name="Scouts 10% Cheaper (MAG)" />
+<tech id="474" name="Vil Forging (INC)" />
+<tech id="475" name="Vil Iron Casting (INC)" />
+<tech id="476" name="Vil Blast Furnace (INC)" />
+<tech id="477" name="Vil Scale Armor (INC)" />
+<tech id="478" name="Vil Chain Armor (INC)" />
+<tech id="479" name="Vil Plate Armor (INC)" />
+<tech id="480" name="Elephant Archer (A)(IND)" />
+<tech id="481" name="Elite Elephant Archer (IND)" />
+<tech id="482" name="Stronghold (CEL)" />
+<tech id="483" name="Marauders (HUN)" />
+<tech id="484" name="Yasama (JAP)" />
+<tech id="485" name="Tlatoani (MAY)" />
+<tech id="486" name="Panokseon (KOR)" />
+<tech id="487" name="Nomads (MON)" />
+<tech id="488" name="Boiling Oil (PER)" />
+<tech id="489" name="Ironclad (TEU)" />
+<tech id="490" name="Madrasah (SARA)" />
+<tech id="491" name="Sipahi (TUR)" />
+<tech id="492" name="Inquisition (SPA)" />
+<tech id="493" name="Chivalry (FRA)" />
+<tech id="494" name="Pavise (ITA)" />
+<tech id="495" name="Houses +5 pop (INC)" />
+<tech id="496" name="Villager Cost -10% (IND)" />
+<tech id="497" name="Villager Cost -20% (IND)" />
+<tech id="498" name="Villager Cost -30% (IND)" />
+<tech id="499" name="Silk Road (ITA)" />
+<tech id="500" name="Gunpowder Units 15% Cheaper (ITA)" />
+<tech id="501" name="Boats 15% Cheaper (VIK)" />
+<tech id="502" name="Boats 20% Cheaper (VIK)" />
+<tech id="503" name="Boyar (A)(SLA)" />
+<tech id="504" name="Elite Boyar (SLA)" />
+<tech id="505" name="Camels +1/+1 Armor (IND)" />
+<tech id="506" name="Sultans (IND)" />
+<tech id="507" name="Shatagni (IND)" />
+<tech id="508" name="Kamayuk (A)(INC)" />
+<tech id="509" name="Elite Kamayuk (INC)" />
+<tech id="510" name="Siege Tower (U)" />
+<tech id="511" name="Siege 15% Cheaper (SLA)" />
+<tech id="512" name="Orthodoxy (SLA)" />
+<tech id="513" name="Druzhina (SLA)" />
+<tech id="514" name="Mercenaries (MAG)" />
+<tech id="515" name="Recurve Bow (MAG)" />
+<tech id="516" name="Andean Sling (INC)" />
+<tech id="517" name="Couriers (INC)" />
+<tech id="518" name="Fisher Carry +25 (IND)" />
+<tech id="519" name="Buildings Cost -20% Stone (INC)" />
+<tech id="520" name="Archer HP (U)(MAG)" />
+<tech id="521" name="Imperial Camel (IND)" />
+<tech id="522" name="Condottiero (A)" />
+<tech id="523" name="Palisade Gate (A)" />
+<tech id="524" name="Foragers +25% WS (FRA)" />
+<tech id="525" name="Revetments (H)" />
+<tech id="526" name="Hunting Dogs" />
+<tech id="527" name="Fire Tower (A)(H)" />
+<tech id="528" name="Slinger (A)(INC)" />
+<tech id="529" name="Civ: Britons (BRI)" />
+<tech id="530" name="Civ: Franks (FRA)" />
+<tech id="531" name="Civ: Goths (GOT)" />
+<tech id="532" name="Civ: Teutons (TEU)" />
+<tech id="533" name="Civ: Japanese (JAP)" />
+<tech id="534" name="Civ: Chinese (CHI)" />
+<tech id="535" name="Civ: Byzantines (BYZ)" />
+<tech id="536" name="Civ: Persians (PER)" />
+<tech id="537" name="Civ: Saracens (SAR)" />
+<tech id="538" name="Civ: Turks (TUR)" />
+<tech id="539" name="Civ: Vikings (VIK)" />
+<tech id="540" name="Civ: Mongols (MON)" />
+<tech id="541" name="Civ: Celts (CEL)" />
+<tech id="542" name="Civ: Spanish (SPA)" />
+<tech id="543" name="Civ: Aztecs (AZT)" />
+<tech id="544" name="Civ: Mayans (MAY)" />
+<tech id="545" name="Civ: Huns (HUN)" />
+<tech id="546" name="Civ: Koreans (KOR)" />
+<tech id="547" name="Civ: Italians (ITA)" />
+<tech id="548" name="Civ: Indians (IND)" />
+<tech id="549" name="Civ: Incas (INC)" />
+<tech id="550" name="Civ: Magyars (MAG)" />
+<tech id="551" name="Civ: Slavs (SLA)" />
+<tech id="552" name="Hunting Dogs (MON)" />
 </techs>
 
 <pcolors>
-<!-- player colors. Note that the ref attribute is reverse-order. -->
+<!-- Player colors. Note that the ref attribute is reverse-order. -->
 <color id="0" name="Blue"
 	color="FF0000" />
 <color id="1" name="Red"
@@ -945,11 +595,10 @@
 	color="0182FF" />
 </pcolors>
 
-<civ id="0" name="GAIA">
-<!-- Count: 866 (842 non-crashing, 23 crashing) -->
+<units>
 <protounit id="0" name="Academy, Disabled" />
-<protounit id="1" name="Gator, disabled" />
-<!-- 2 -->
+<protounit id="1" name="Legionary" />
+<protounit id="2" name="Legionary, D" />
 <protounit id="3" name="Archer, D" />
 <protounit id="4" name="Archer" />
 <protounit id="5" name="Hand Cannoneer" />
@@ -980,7 +629,7 @@
 <protounit id="30" name="Monastery 2" />
 <protounit id="31" name="Monastery 3" />
 <protounit id="32" name="Monastery 4" />
-<protounit id="33" name="Castle 4" />
+<protounit id="33" name="Fortress" />
 <protounit id="34" name="Cavalry Archer, D" />
 <protounit id="35" name="Battering Ram" />
 <protounit id="36" name="Bombard Cannon" />
@@ -989,7 +638,7 @@
 <protounit id="39" name="Cavalry Archer" />
 <protounit id="40" name="Cataphract" />
 <protounit id="41" name="Huskarl" />
-<protounit id="42" name="Trebuchet (Unpacked)" />
+<protounit id="42" name="Trebuchet, Unpacked" />
 <protounit id="43" name="Deer, D" />
 <protounit id="44" name="Mameluke, D" />
 <protounit id="45" name="Dock" />
@@ -999,7 +648,7 @@
 <protounit id="49" name="Siege Workshop" />
 <protounit id="50" name="Farm" />
 <protounit id="51" name="Dock 4" />
-<protounit id="52" name="Fish 1, Disabled" />
+<protounit id="52" name="Royal Janissary" />
 <protounit id="53" name="Fish (Perch)" />
 <protounit id="54" name="Proj, VOL" />
 <protounit id="55" name="Fishing Ship, D" />
@@ -1008,8 +657,8 @@
 <protounit id="58" name="Fisher, M D" />
 <protounit id="59" name="Forage Bush" />
 <protounit id="60" name="Fisher, F D" />
-<protounit id="61" name="Galley, D (Canoe?)" />
-<protounit id="62" name="Huskarl (E?), D" />
+<protounit id="61" name="Dolphin" />
+<protounit id="62" name="Huskarl, D" />
 <protounit id="63" name="Gate, AA3" />
 <protounit id="64" name="Gate, AA2" />
 <protounit id="65" name="Deer" />
@@ -1066,7 +715,7 @@
 <protounit id="116" name="Market 3" />
 <protounit id="117" name="Wall, Stone" />
 <protounit id="118" name="Builder, M" />
-<protounit id="119" name="Fisherman, disabled" />
+<protounit id="119" name="Wall, Palisade 2" />
 <protounit id="120" name="Forager, M" />
 <protounit id="121" name="Mangonel, D" />
 <protounit id="122" name="Hunter, M" />
@@ -1075,7 +724,6 @@
 <protounit id="125" name="Monk" />
 <protounit id="126" name="Wolf" />
 <protounit id="127" name="Explorer, Old" />
-
 <protounit id="128" name="Trade Cart, Empty" />
 <protounit id="129" name="Mill 2" />
 <protounit id="130" name="Mill 3" />
@@ -1086,7 +734,7 @@
 <protounit id="135" name="Mangudai, D" />
 <protounit id="136" name="War Elephant, D" />
 <protounit id="137" name="Market 4" />
-<protounit id="138" name="OUTLW, D" />
+<protounit id="138" name="Spy" />
 <protounit id="139" name="Paladin, D" />
 <protounit id="140" name="Spearman, D" />
 <protounit id="141" name="Town Center 3" />
@@ -1106,7 +754,7 @@
 <protounit id="155" name="Wall, Fortified" />
 <protounit id="156" name="Repairer, M" />
 <protounit id="157" name="Throwing Axeman, D" />
-<protounit id="158" name="OUTLW" />
+<protounit id="158" name="Rain" />
 <protounit id="159" name="Relic Cart" />
 <protounit id="160" name="Richard The Lionharted" />
 <protounit id="161" name="The Black Prince" />
@@ -1130,17 +778,17 @@
 <protounit id="179" name="Trade Workshop 4" />
 <protounit id="180" name="Long Swordsman, D" />
 <protounit id="181" name="Teutonic Knight, D" />
-<protounit id="182" name="TMISA" />
+<protounit id="182" name="WNDR" />
 <protounit id="183" name="TMISB" />
-<protounit id="184" name="TMISC" />
-<protounit id="185" name="TMISD" />
-<protounit id="186" name="TMISE" />
-<protounit id="187" name="TMISF" />
-<protounit id="188" name="TMISG" />
-<protounit id="189" name="TMISH" />
-<protounit id="190" name="TMISI" />
-<protounit id="191" name="TMISJ" />
-<protounit id="192" name="TMISK" />
+<protounit id="184" name="Condottiero 2" />
+<protounit id="185" name="Slinger" />
+<protounit id="186" name="Slinger, D" />
+<protounit id="187" name="Slinger, Proj." />
+<protounit id="188" name="Dragon" />
+<protounit id="189" name="Dragon, D" />
+<protounit id="190" name="Fire Tower" />
+<protounit id="191" name="Rubble 2 x 2" />
+<protounit id="192" name="Rubble 2 x 2" />
 <protounit id="193" name="TMISL" />
 <protounit id="194" name="Trebuchet, D" />
 <protounit id="195" name="Kitabatake" />
@@ -1154,8 +802,8 @@
 <protounit id="203" name="Rabid Wolf, D" />
 <protounit id="204" name="Trade Cart, Full" />
 <protounit id="205" name="Trade Cart, Full D" />
-<protounit id="206" name="VMDL" />
-<protounit id="207" name="VMDL, D" />
+<protounit id="206" name="VDML" />
+<protounit id="207" name="Imperial Camel" />
 <protounit id="208" name="TWAL" />
 <protounit id="209" name="University" />
 <protounit id="210" name="University 4" />
@@ -1179,7 +827,7 @@
 <protounit id="228" name="Lumberjack, M D" />
 <protounit id="229" name="Stone Miner, M D" />
 <protounit id="230" name="Repairer, M D" />
-<!-- 231 -->
+<protounit id="231" name="Aqueduct" />
 <protounit id="232" name="Woad Raider" />
 <protounit id="233" name="Woad Raider, D" />
 <protounit id="234" name="Guard Tower" />
@@ -1199,7 +847,7 @@
 <protounit id="248" name="Pile Of Stone" />
 <protounit id="249" name="POREX" />
 <protounit id="250" name="Longboat" />
-<protounit id="251" name="Goldminer, Disabled" />
+<protounit id="251" name="Amphitheatre" />
 <protounit id="252" name="Pile Of Gold" />
 <protounit id="253" name="Pile Of Wood" />
 <protounit id="254" name="PILE1" />
@@ -1211,7 +859,7 @@
 <protounit id="260" name="Fish3, Disabled" />
 <protounit id="261" name="PILE8" />
 <protounit id="262" name="Pile Of Food" />
-<protounit id="263" name="Fish4, Disabled" />
+<protounit id="263" name="Colosseum" />
 <protounit id="264" name="Cliff 1" />
 <protounit id="265" name="Cliff 2" />
 <protounit id="266" name="Cliff 3" />
@@ -1223,9 +871,9 @@
 <protounit id="272" name="Cliff 9" />
 <protounit id="273" name="Cliff 10" />
 <protounit id="274" name="Flare 2" />
-<!-- 275 -->
+<protounit id="275" name="Centurion" />
 <protounit id="276" name="Wonder" />
-<!-- 277? -->
+<protounit id="277" name="Centurion, D" />
 <protounit id="278" name="Fishtrap, D" />
 <protounit id="279" name="Scorpion" />
 <protounit id="280" name="Mangonel" />
@@ -1247,16 +895,16 @@
 <protounit id="296" name="Saracen Relic" />
 <protounit id="297" name="Teutonic Relic" />
 <protounit id="298" name="Turkish Relic" />
-<protounit id="299" name="Infiltrator" />
-<protounit id="300" name="Monk With British Relic" />
-<protounit id="301" name="Monk With Byzantine Relic" />
-<protounit id="302" name="Monk With Chinese Relic" />
-<protounit id="303" name="Monk With Frankish Relic" />
-<protounit id="304" name="Monk With Gothic Relic" />
-<protounit id="305" name="Monk With Japanese Relic" />
-<protounit id="306" name="Monk With Persian Relic" />
-<protounit id="307" name="Monk With Saracen Relic" />
-<protounit id="308" name="Monk With Teutonic Relic" />
+<protounit id="299" name="Bandit" />
+<protounit id="300" name="Imperial Camel, D" />
+<protounit id="301" name="Grass Patch" />
+<protounit id="302" name="Bush" />
+<protounit id="303" name="Seagulls" />
+<protounit id="304" name="Bonfire" />
+<protounit id="305" name="Cactus" />
+<protounit id="306" name="Shadow" />
+<protounit id="307" name="Cactus" />
+<protounit id="308" name="Cactus" />
 <protounit id="309" name="Monk With Turkish Relic" />
 <protounit id="310" name="Mountain 1" />
 <protounit id="311" name="Mountain 2" />
@@ -1309,8 +957,8 @@
 <protounit id="358" name="Pikeman" />
 <protounit id="359" name="Halberdier" />
 <protounit id="360" name="Arrow 2, F" />
-<!-- 361 -->
-<!-- 362 -->
+<protounit id="361" name="Nordic Swordsman" />
+<protounit id="362" name="Nordic Swordsman, D" />
 <protounit id="363" name="Proj, Archer" />
 <protounit id="364" name="Proj, Crossbowman" />
 <protounit id="365" name="Proj, Skirmisher" />
@@ -1318,7 +966,7 @@
 <protounit id="367" name="Proj, Scorpion" />
 <protounit id="368" name="Proj, Bombard Cannon" />
 <protounit id="369" name="Proj, Mangonel" />
-<protounit id="370" name="Fish 2, Disabled" />
+<protounit id="370" name="City Wall" />
 <protounit id="371" name="Proj, Trebuchet" />
 <protounit id="372" name="Proj, Galleon" />
 <protounit id="373" name="Proj, War Galley" />
@@ -1327,16 +975,16 @@
 <protounit id="376" name="Proj, Skirmisher F" />
 <protounit id="377" name="Proj, Elite Skirmisher F" />
 <protounit id="378" name="Proj, Scorpion F" />
-<!-- 379 -->
+<protounit id="379" name="Disabled (379)" />
 <protounit id="380" name="Proj, H Cannoneer" />
 <protounit id="381" name="Bolt, F" />
-<!-- 382 -->
-<!-- 383 -->
-<!-- 384 -->
+<protounit id="382" name="Disabled (382)" />
+<protounit id="383" name="Disabled (383)" />
+<protounit id="384" name="Disabled (384)" />
 <protounit id="385" name="Bolt 1, F" />
-<!-- 386 -->
-<!-- 387 -->
-<!-- 388 -->
+<protounit id="386" name="Disabled (386)" />
+<protounit id="387" name="Disabled (387)" />
+<protounit id="388" name="Disabled (388)" />
 <protounit id="389" name="Sea Rocks 1" />
 <protounit id="390" name="TERRB" />
 <protounit id="391" name="TERRD" />
@@ -1360,7 +1008,7 @@
 <protounit id="409" name="Tree K" />
 <protounit id="410" name="Tree L" />
 <protounit id="411" name="Forest Tree" />
-<!-- 412 -->
+<protounit id="412" name="MONKX_DSARA" />
 <protounit id="413" name="Snow Pine Tree" />
 <protounit id="414" name="Jungle Tree" />
 <protounit id="415" name="Stump" />
@@ -1415,12 +1063,12 @@
 <protounit id="464" name="House 3" />
 <protounit id="465" name="House 4" />
 <protounit id="466" name="Proj, Archer F" />
-<!-- 467 -->
+<protounit id="467" name="Disabled (467)" />
 <protounit id="468" name="Projectile, Mangonel F" />
 <protounit id="469" name="Projectile, Treb F" />
 <protounit id="470" name="Proj, Galleon F" />
 <protounit id="471" name="Proj, War Galley F" />
-<!-- 472 -->
+<protounit id="472" name="Loot" />
 <protounit id="473" name="Two Handed Swordsman" />
 <protounit id="474" name="Heavy Cavalry Archer" />
 <protounit id="475" name="Proj, HAR F" />
@@ -1434,10 +1082,10 @@
 <protounit id="483" name="Town Center 3C" />
 <protounit id="484" name="Town Center 3X" />
 <protounit id="485" name="Arrow, Town Center" />
-<!-- 486 -->
+<protounit id="486" name="Tiger" />
 <protounit id="487" name="Gate, AX2" />
 <protounit id="488" name="Gate, AX3" />
-<!-- 489 -->
+<protounit id="489" name="Tiger, D" />
 <protounit id="490" name="Gate, BX2" />
 <protounit id="491" name="Gate, BX3" />
 <protounit id="492" name="Arbalest" />
@@ -1675,7 +1323,7 @@
 <protounit id="724" name="Genitour, Dead" />
 <protounit id="725" name="Jaguar Warrior" />
 <protounit id="726" name="Elite Jaguar Warrior" />
-<!-- 727 -->
+<protounit id="727" name="Disabled (727)" />
 <protounit id="728" name="Ice Spots" />
 <protounit id="729" name="Gods Own Sling, Packed" />
 <protounit id="730" name="Bad Neighbor, Packed" />
@@ -1699,16 +1347,16 @@
 <protounit id="748" name="Cobra Car" />
 <protounit id="749" name="Cobra, D" />
 <protounit id="750" name="Jaguar Warrior, D" />
-<protounit id="751" name="Eagle Warrior" />
+<protounit id="751" name="Eagle Scout" />
 <protounit id="752" name="Elite Eagle Warrior" />
-<!-- 753 -->
+<protounit id="753" name="Eagle Warrior" />
 <protounit id="754" name="Eagle Warrior, D" />
 <protounit id="755" name="Tarkan" />
 <protounit id="756" name="Tarkan, D" />
 <protounit id="757" name="Elite Tarkan" />
-<!-- 758 -->
-<protounit id="759" name="Huskarl" />
-<protounit id="760" name="Huskarl, Dead" />
+<protounit id="758" name="Disabled (758)" />
+<protounit id="759" name="Huskarl 2" />
+<protounit id="760" name="Huskarl 2, Dead" />
 <protounit id="761" name="Elite Huskarl" />
 <protounit id="762" name="Elite Huskarl, Dead" />
 <protounit id="763" name="Plumed Archer" />
@@ -1716,9 +1364,9 @@
 <protounit id="765" name="Elite Plumed Archer" />
 <protounit id="766" name="Elite Plumed Archer, D" />
 <protounit id="767" name="Proj, Elite Cannon Galleon" />
-<!-- 768 -->
-<!-- 769 -->
-<!-- 770 -->
+<protounit id="768" name="Disabled (768)" />
+<protounit id="769" name="Disabled (769)" />
+<protounit id="770" name="Disabled (770)" />
 <protounit id="771" name="Conquistador" />
 <protounit id="772" name="Conquistador, D" />
 <protounit id="773" name="Elite Conquistador" />
@@ -1737,22 +1385,22 @@
 <protounit id="786" name="Proj, Sea Tower" />
 <protounit id="787" name="Proj, Sea Tower Flaming" />
 <protounit id="788" name="Sea Wall" />
-<protounit id="789" name="Sea Gate, AA" />
-<protounit id="790" name="Sea Gate, AB" />
-<protounit id="791" name="Sea Gate, AC" />
-<protounit id="792" name="Sea Gate, AX" />
-<protounit id="793" name="Sea Gate, BA" />
-<protounit id="794" name="Sea Gate, BB" />
-<protounit id="795" name="Sea Gate, BC" />
-<protounit id="796" name="Sea Gate, BX" />
-<protounit id="797" name="Sea Gate, CA" />
-<protounit id="798" name="Sea Gate, CB" />
-<protounit id="799" name="Sea Gate, CC" />
-<protounit id="800" name="Sea Gate, CX" />
-<protounit id="801" name="Sea Gate, DA" />
-<protounit id="802" name="Sea Gate, DB" />
-<protounit id="803" name="Sea Gate, DC" />
-<protounit id="804" name="Sea Gate, DX" />
+<protounit id="789" name="Palisade Gate, AA" />
+<protounit id="790" name="Palisade Gate, AB" />
+<protounit id="791" name="Palisade Gate, AC" />
+<protounit id="792" name="Palisade Gate, AX" />
+<protounit id="793" name="Palisade Gate, BA" />
+<protounit id="794" name="Palisade Gate, BB" />
+<protounit id="795" name="Palisade Gate, BC" />
+<protounit id="796" name="Palisade Gate, BX" />
+<protounit id="797" name="Palisade Gate, CA" />
+<protounit id="798" name="Palisade Gate, CB" />
+<protounit id="799" name="Palisade Gate, CC" />
+<protounit id="800" name="Palisade Gate, CX" />
+<protounit id="801" name="Palisade Gate, DA" />
+<protounit id="802" name="Palisade Gate, DB" />
+<protounit id="803" name="Palisade Gate, DC" />
+<protounit id="804" name="Palisade Gate, DX" />
 <protounit id="805" name="S Dock" />
 <protounit id="806" name="S Dock 2" />
 <protounit id="807" name="S Dock 3" />
@@ -1814,70 +1462,288 @@
 <protounit id="863" name="Rubble 1 X 1" />
 <protounit id="864" name="Rubble 2 X 2" />
 <protounit id="865" name="Rubble 3 X 3" />
-</civ>
-
-<civ id="1" name="Britons" />
-<civ id="2" name="Franks" />
-<civ id="3" name="Goths" />
-<civ id="4" name="Teutons" />
-<civ id="5" name="Japanese" />
-<civ id="6" name="Chinese" />
-<civ id="7" name="Byzantines" />
-<civ id="8" name="Persians" />
-<civ id="9" name="Saracens" />
-<civ id="10" name="Turks" />
-<civ id="11" name="Vikings" />
-<civ id="12" name="Mongols" />
-<civ id="13" name="Celts" />
-<civ id="14" name="Spanish" />
-<civ id="15" name="Aztecs" />
-<civ id="16" name="Mayans" />
-<civ id="17" name="Huns" />
-<civ id="18" name="Koreans" />
+<protounit id="866" name="Genoese Crossbowman" />
+<protounit id="867" name="Genoese Crossbowman, D" />
+<protounit id="868" name="Elite Genoese Crossbowman" />
+<protounit id="869" name="Magyar Huszar" />
+<protounit id="870" name="Magyar Huszar, D" />
+<protounit id="871" name="Elite Magyar Huszar" />
+<protounit id="872" name="Quimper Cathedral" />
+<protounit id="873" name="Elephant Archer" />
+<protounit id="874" name="Elephant Archer, D" />
+<protounit id="875" name="Elite Elephant Archer" />
+<protounit id="876" name="Boyar" />
+<protounit id="877" name="Boyar, D" />
+<protounit id="878" name="Elite Boyar" />
+<protounit id="879" name="Kamayuk" />
+<protounit id="880" name="Kamayuk, D" />
+<protounit id="881" name="Elite Kamayuk" />
+<protounit id="882" name="Condottiero" />
+<protounit id="883" name="Condottiero, D" />
+<protounit id="884" name="Wild Camel" />
+<protounit id="885" name="Siege Tower" />
+<protounit id="886" name="Tarkan 2" />
+<protounit id="887" name="Elite Tarkan 2" />
+<protounit id="888" name="Inca_Turkey+Eagle" />
+<protounit id="889" name="Inca_Eagle" />
+<protounit id="890" name="Inca_Turkey" />
+<protounit id="891" name="Siege Tower, D" />
+<protounit id="892" name="Pikeman 2" />
+<protounit id="893" name="Pikeman 2, D" />
+<protounit id="894" name="Eastern Swordsman" />
+<protounit id="895" name="Eastern Swordsman, D" />
+<protounit id="896" name="Waterfall" />
+<protounit id="897" name="Camel 2" />
+<protounit id="898" name="Camel 2, D" />
+<protounit id="899" name="Arch of Constantine" />
+</units>
 
 <resources>
-<simple id="0" name="Food" />
-<simple id="1" name="Wood" />
-<simple id="2" name="Stone" />
-<simple id="3" name="Gold" />
-<simple id="4" name="Population Limit" />
-<simple id="7" name="Relics" />
-<simple id="11" name="Population" />
-<simple id="20" name="Kills" />
-<simple id="21" name="Technologies" />
-<simple id="37" name="Villager Population" />
-<simple id="40" name="Military Population" />
-<simple id="41" name="Conversions" />
-<simple id="43" name="Razings" />
+<!-- Thanks to everybody that researched on this list (scenario_t_c, Finaldeath, marathon, etc). -->
+<simple id="0" name="Food Storage" />
+<simple id="1" name="Wood Storage" />
+<simple id="2" name="Stone Storage" />
+<simple id="3" name="Gold Storage" />
+<simple id="4" name="Population Headroom" />
+<simple id="5" name="Conversion Range (Unused)" />
+<simple id="6" name="Current Age" />
+<simple id="7" name="Relics Captured" />
+<simple id="8" name="Trade Bonus (Unused?)" />
+<simple id="9" name="Trade Goods (Unused?)" />
+<simple id="10" name="Trade Production Rate (Unused?)" />
+<simple id="11" name="Population (Current and Headroom)" />
+<simple id="12" name="Corpse Decay Time (Unused?)" />
+<simple id="13" name="Discovery (Unused?)" />
+<simple id="14" name="Monuments/Ruins Captured" />
+<simple id="15" name="Animal Food (Unused)" />
+<simple id="16" name="Berries Food (Unused)" />
+<simple id="17" name="Fish Storage" />
+<simple id="18" name="Unknown" />
+<simple id="19" name="Total Units Created" />
+<simple id="20" name="Units Killed" />
+<simple id="21" name="Research Count" />
+<simple id="22" name="% Map Explored" />
+<simple id="23" name="Castle Age?" />
+<simple id="24" name="Imperial Age?" />
+<simple id="25" name="Feudal Age?" />
+<simple id="26" name="Unknown" />
+<simple id="27" name="Atonement" />
+<simple id="28" name="Redemption" />
+<simple id="29" name="Unknown" />
+<simple id="30" name="Building Limit" />
+<simple id="31" name="Food Limit" />
+<simple id="32" name="Bonus Population" />
+<simple id="33" name="Maintenance (Unused?)" />
+<simple id="34" name="Faith (Unused?)" />
+<simple id="35" name="Faith Recharging Rate" />
+<simple id="36" name="Farm Food Amount" />
+<simple id="37" name="Civilian Units (Villager High)" />
+<simple id="38" name="Unknown" />
+<simple id="39" name="All Techs Achieved" />
+<simple id="40" name="Military Units (Largest Army)" />
+<simple id="41" name="Units and Buildings Converted" />
+<simple id="42" name="Standing Wonders" />
+<simple id="43" name="Buildings Razed" />
 <simple id="44" name="Kill Ratio" />
+<simple id="45" name="Survival to Finish" />
+<simple id="46" name="Tribute Fee" />
+<simple id="47" name="Gold Mining Productivity" />
+<simple id="48" name="Town Center Unavailable" />
+<simple id="49" name="Gold Counter" />
+<simple id="50" name="Cartography" />
+<simple id="51" name="Houses (Unused)" />
+<simple id="52" name="Monastery Count" />
+<simple id="53" name="Tribute Sent" />
+<simple id="54" name="All Ruins Have Been Captured" />
+<simple id="55" name="All Relics Have Been Captured" />
+<simple id="56" name="Ore Storage (Unused)" />
+<simple id="57" name="Captured Units (Unused?)" />
+<simple id="58" name="Dark Age?" />
+<simple id="59" name="Trade Good Quality (Unused?)" />
+<simple id="60" name="Trade Market Level (Unused?)" />
+<simple id="61" name="Formations (Unused?)" />
+<simple id="62" name="Building Housing Rate" />
+<simple id="63" name="Gather Tax Rate" />
+<simple id="64" name="Gather Accumulator" />
+<simple id="65" name="Salvage Decay Rate" />
+<simple id="66" name="Allow Formations" />
+<simple id="67" name="Conversions" />
+<simple id="68" name="Hit Points Killed (Unused)" />
+<simple id="69" name="Killed P1" />
+<simple id="70" name="Killed P2" />
+<simple id="71" name="Killed P3" />
+<simple id="72" name="Killed P4" />
+<simple id="73" name="Killed P5" />
+<simple id="74" name="Killed P6" />
+<simple id="75" name="Killed P7" />
+<simple id="76" name="Killed P8" />
+<simple id="77" name="Conversion Resistance" />
+<simple id="78" name="Trade Fee" />
+<simple id="79" name="Stone Mining Productivity" />
+<simple id="80" name="Queued Units" />
+<simple id="81" name="Training Count" />
+<simple id="82" name="Start With Packed Town Center / Raider" />
+<simple id="83" name="Boarding Recharge Rate" />
+<simple id="84" name="Starting Villagers" />
+<simple id="85" name="Researches' Cost Multiplier" />
+<simple id="86" name="Researches' Time Multiplier" />
+<simple id="87" name="Boarding" />
+<simple id="88" name="Fish Trap Food Amount" />
+<simple id="89" name="Bonus Healing Rate" />
+<simple id="90" name="Healing Range" />
+<simple id="91" name="Bonus Starting Food" />
+<simple id="92" name="Bonus Starting Wood" />
+<simple id="93" name="Bonus Starting Stone" />
+<simple id="94" name="Bonus Starting Gold" />
+<simple id="95" name="Enable Town Center Packing / Raider Ability" />
+<simple id="96" name="Self Healing Seconds (Berserkers)" />
+<simple id="97" name="Sheep/Turkey Dominant LOS" />
+<simple id="98" name="Economy Score" />
+<simple id="99" name="Technology Score" />
+<simple id="100" name="Relic Gold (Collected)" />
+<simple id="101" name="Trade Profit" />
+<simple id="102" name="P1 Tribute" />
+<simple id="103" name="P2 Tribute" />
+<simple id="104" name="P3 Tribute" />
+<simple id="105" name="P4 Tribute" />
+<simple id="106" name="P5 Tribute" />
+<simple id="107" name="P6 Tribute" />
+<simple id="108" name="P7 Tribute" />
+<simple id="109" name="P8 Tribute" />
+<simple id="110" name="P1 Kill Score" />
+<simple id="111" name="P2 Kill Score" />
+<simple id="112" name="P3 Kill Score" />
+<simple id="113" name="P4 Kill Score" />
+<simple id="114" name="P5 Kill Score" />
+<simple id="115" name="P6 Kill Score" />
+<simple id="116" name="P7 Kill Score" />
+<simple id="117" name="P8 Kill Score" />
+<simple id="118" name="P1 Razings" />
+<simple id="119" name="P2 Razings" />
+<simple id="120" name="P3 Razings" />
+<simple id="121" name="P4 Razings" />
+<simple id="122" name="P5 Razings" />
+<simple id="123" name="P6 Razings" />
+<simple id="124" name="P7 Razings" />
+<simple id="125" name="P8 Razings" />
+<simple id="126" name="P1 Razing Score" />
+<simple id="127" name="P2 Razing Score" />
+<simple id="128" name="P3 Razing Score" />
+<simple id="129" name="P4 Razing Score" />
+<simple id="130" name="P5 Razing Score" />
+<simple id="131" name="P6 Razing Score" />
+<simple id="132" name="P7 Razing Score" />
+<simple id="133" name="P8 Razing Score" />
+<simple id="134" name="Standing Castles" />
+<simple id="135" name="Hit Points Razing (Unused)" />
+<simple id="136" name="Kills By P1" />
+<simple id="137" name="Kills By P2" />
+<simple id="138" name="Kills By P3" />
+<simple id="139" name="Kills By P4" />
+<simple id="140" name="Kills By P5" />
+<simple id="141" name="Kills By P6" />
+<simple id="142" name="Kills By P7" />
+<simple id="143" name="Kills By P8" />
+<simple id="144" name="Razings By P1" />
+<simple id="145" name="Razings By P2" />
+<simple id="146" name="Razings By P3" />
+<simple id="147" name="Razings By P4" />
+<simple id="148" name="Razings By P5" />
+<simple id="149" name="Razings By P6" />
+<simple id="150" name="Razings By P7" />
+<simple id="151" name="Razings By P8" />
+<simple id="152" name="Units Lost Score" />
+<simple id="153" name="Buildings Lost Score" />
+<simple id="154" name="Units Lost" />
+<simple id="155" name="Buildings Lost" />
+<simple id="156" name="Tribute From P1" />
+<simple id="157" name="Tribute From P2" />
+<simple id="158" name="Tribute From P3" />
+<simple id="159" name="Tribute From P4" />
+<simple id="160" name="Tribute From P5" />
+<simple id="161" name="Tribute From P6" />
+<simple id="162" name="Tribute From P7" />
+<simple id="163" name="Tribute From P8" />
+<simple id="164" name="Current Units Score" />
+<simple id="165" name="Current Buildings Score" />
+<simple id="166" name="Food Collected" />
+<simple id="167" name="Wood Collected" />
+<simple id="168" name="Stone Collected" />
+<simple id="169" name="Gold Collected" />
+<simple id="170" name="Score: Military" />
+<simple id="171" name="Tribute Received" />
+<simple id="172" name="Razing Score" />
+<simple id="173" name="Total Castles" />
+<simple id="174" name="Total Wonders" />
+<simple id="175" name="Score: Economy (Tribute)" />
+<simple id="176" name="Convert Min Adjustment" />
+<simple id="177" name="Convert Max Adjustment" />
+<simple id="178" name="Convert Resist Min Adjustment" />
+<simple id="179" name="Convert Resist Max Adjustment" />
+<simple id="180" name="Convert Building Min" />
+<simple id="181" name="Convert Building Max" />
+<simple id="182" name="Convert Building Chance" />
+<simple id="183" name="Spies" />
+<simple id="184" name="Society Score" />
+<simple id="185" name="Food Score" />
+<simple id="186" name="Wood Score" />
+<simple id="187" name="Stone Score" />
+<simple id="188" name="Gold Score" />
+<simple id="189" name="Chopping Productivity" />
+<simple id="190" name="Food-gathering Productivity" />
+<simple id="191" name="Relic Gold Production Rate" />
+<simple id="192" name="Heresy" />
+<simple id="193" name="Theocracy" />
+<simple id="194" name="Crenellations (Garrisoned Inf.)" />
+<simple id="195" name="Build Rate (Except Wonders)" />
+<simple id="196" name="Atheism (Wonder Bonus)" />
+<simple id="197" name="Atheism (Spies Discount)" />
 </resources>
 
 <aitypes>
+<simple id="2" name="Default" />
 <simple id="9" name="Arabia" />
 <simple id="10" name="Archipelago" />
 <simple id="11" name="Baltic" />
-<simple id="12" name="Black forest" />
+<simple id="12" name="Black Forest" />
 <simple id="13" name="Coastal" />
 <simple id="14" name="Continental" />
-<simple id="15" name="Crater lake" />
+<simple id="15" name="Crater Lake" />
 <simple id="16" name="Fortress" />
-<simple id="17" name="Gold rush" />
+<simple id="17" name="Gold Rush" />
 <simple id="18" name="Highland" />
 <simple id="19" name="Islands" />
 <simple id="20" name="Mediterranean" />
 <simple id="21" name="Migration" />
 <simple id="22" name="Rivers" />
-<simple id="23" name="Team islands" />
-<simple id="24" name="UNKNOWN" />
+<simple id="23" name="Team Islands" />
 <simple id="25" name="Scandinavia" />
 <simple id="26" name="Mongolia" />
 <simple id="27" name="Yucatan" />
-<simple id="28" name="Salt marsh" />
+<simple id="28" name="Salt Marsh" />
 <simple id="29" name="Arena" />
-<simple id="30" name="King of the hill" />
+<simple id="30" name="King of the Hill" />
 <simple id="31" name="Oasis" />
 <simple id="32" name="Ghost Lake" />
 <simple id="33" name="Nomad" />
+<simple id="34" name="Real World, Spain" />
+<simple id="35" name="Real World, Britain" />
+<simple id="36" name="Real World, Mideast" />
+<simple id="37" name="Real World, Texas" />
+<simple id="38" name="Real World, Italy" />
+<simple id="39" name="Real World, Caribbean" />
+<simple id="40" name="Real World, France" />
+<simple id="41" name="Real World, Jutland" />
+<simple id="42" name="Real World, Nippon" />
+<simple id="43" name="Real World, Byzantium" />
+<simple id="44" name="Custom" />
+<!--
+<simple id="45" name="Unknown (45)" />
+<simple id="46" name="Unknown (46)" />
+<simple id="47" name="Unknown (47)" />
+<simple id="48" name="Blind Random (Coastal)" />
+<simple id="49" name="Unknown (49)" />
+-->
 </aitypes>
 
 <terrains>
@@ -1899,10 +1765,10 @@ usual.
 <terrain id="10" color="157615" name="Forest" />
 <terrain id="11" color="52A2E4" name="Dirt 2" />
 <terrain id="12" color="279933" name="Grass 2" />
-<terrain id="13" color="157615" name="Palm Forest" />
+<terrain id="13" color="157615" name="Palm Desert" />
 <terrain id="14" color="78B4E8" name="Desert" />
-<terrain id="15" color="B65D30" name="Water, No Shore" />
-<terrain id="16" color="279933" name="Grass" />
+<terrain id="15" color="B65D30" name="Water (Other)" />
+<terrain id="16" color="279933" name="Grass 1 (Other)" />
 <terrain id="17" color="157615" name="Jungle" />
 <terrain id="18" color="157615" name="Bamboo" />
 <terrain id="19" color="157615" name="Pine Forest" />
@@ -1911,27 +1777,27 @@ usual.
 <terrain id="22" color="BB4A00" name="Water, Deep" />
 <terrain id="23" color="BB4A00" name="Water, Medium" />
 <terrain id="24" color="52A2E4" name="Road" />
-<terrain id="25" color="52A2E4" name="Broken Road" />
-<terrain id="26" color="49ECFF" name="Trail" /><!-- yellowish for unknown -->
-<terrain id="27" color="52A2E4" name="Dirt2" />
-<terrain id="28" color="B65D30" name="Water, No Shore" />
-<terrain id="29" color="4d8882" name="Farm, unplanted" />
-<terrain id="30" color="4d8882" name="Farm, small plants" />
-<terrain id="31" color="4d8882" name="Farm, large plants" />
+<terrain id="25" color="52A2E4" name="Road, Broken" />
+<terrain id="26" color="49ECFF" name="Ice (Other)" />
+<terrain id="27" color="52A2E4" name="Dirt 2 (Building)" />
+<terrain id="28" color="B65D30" name="Water (Bridge)" />
+<terrain id="29" color="4d8882" name="Farm 1" />
+<terrain id="30" color="4d8882" name="Farm 2" />
+<terrain id="31" color="4d8882" name="Farm 3" />
 <terrain id="32" color="FFD8C8" name="Snow" />
 <terrain id="33" color="FFD8C8" name="Snow Dirt" />
 <terrain id="34" color="FFD8C8" name="Snow Grass" />
 <terrain id="35" color="F0C098" name="Ice" />
-<terrain id="36" color="FFD8C8" name="Snow Dirt" />
-<terrain id="37" color="F0C098" name="Ice/Snow Shore" />
-<terrain id="38" color="FFD8C8" name="Ice Road" />
-<terrain id="39" color="FFD8C8" name="Fungus Road" />
-<terrain id="40" color="52A2E4" name="Road" />
+<terrain id="36" color="FFD8C8" name="Snow Dirt (Building)" />
+<terrain id="37" color="F0C098" name="Ice (Beach)" />
+<terrain id="38" color="FFD8C8" name="Road, Snow" />
+<terrain id="39" color="FFD8C8" name="Road, Fungus" />
+<terrain id="40" color="52A2E4" name="Road (Other)" />
 </terrains>
 
 <!-- The following are custom unit groups. They have no effect on the saved scenario,
      just the editor itself. Feel free to add some more if you like. Also, make sure
-	 this is after the specifications of the units themselves. -->
+     this is after the specifications of the units themselves. -->
 <unitgroups>
 <group name="Archers"
 	units="4,5,24,39,474,492" />
@@ -1974,5 +1840,32 @@ usual.
 <group name="Walls"
 	units="63,64,67,78,80,81,85,88,90,91,92,95,117,155,487,488,490,491,659,660,661,662,663,664,665,666,667,668,669,670,671,672,673,674,789,790,791,792,793,794,795,796,797,798,799,800,801,802,803,804" />
 </unitgroups>
+
+<civs>
+<civ id="0" name="GAIA" />
+<civ id="1" name="Britons" />
+<civ id="2" name="Franks" />
+<civ id="3" name="Goths" />
+<civ id="4" name="Teutons" />
+<civ id="5" name="Japanese" />
+<civ id="6" name="Chinese" />
+<civ id="7" name="Byzantines" />
+<civ id="8" name="Persians" />
+<civ id="9" name="Saracens" />
+<civ id="10" name="Turks" />
+<civ id="11" name="Vikings" />
+<civ id="12" name="Mongols" />
+<civ id="13" name="Celts" />
+<civ id="14" name="Spanish" />
+<civ id="15" name="Aztecs" />
+<civ id="16" name="Mayans" />
+<civ id="17" name="Huns" />
+<civ id="18" name="Koreans" />
+<civ id="19" name="Italians" />
+<civ id="20" name="Indians" />
+<civ id="21" name="Incas" />
+<civ id="22" name="Magyars" />
+<civ id="23" name="Slavs" />
+</civs>
 
 </geniedata>

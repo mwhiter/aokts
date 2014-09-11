@@ -88,11 +88,12 @@ DLGPROC procs[NUM_PAGES] =
 	&IMsgsDlgProc,
 	&PlyDlgProc,
 	&VictDlgProc,
-	&DisDlgProc,
 	&MapDlgProc,
 	&UnitDlgProc,
 	&TrigDlgProc
 };
+// put as last if using
+//	&DisDlgProc
 
 /* Strings */
 const char * askSaveChanges =
@@ -123,9 +124,9 @@ const char warnNoVersionChange[] =
 "Warning: AOKTS cannot yet convert between versions. Saving an scx"
 " as an scn will only change the extension!";
 const char extOpen[] =
-"All Scenarios (*.scn, *.scx)\0*.scn;*.scx\0All files (*.*)\0*.*\0";
+"All Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0All files (*.*)\0*.*\0";
 const char extSave[] =
-"Scenarios (*.scn)\0*.scn\0Expansion Scenarios (*.scx)\0*.scx\0All files\0*.*\0";
+"Scenarios (*.scn)\0*.scn\0Expansion Scenarios (*.scx)\0*.scx\0AoF Scenarios (*.scx2)\0*.scx2\0All files\0*.*\0";
 const char datapath[] = "data_aok.xml";
 const char warnNoAOEII[] =
 "You don't seem to have Age of Empires II installed. I don't know how useful this will be.";
@@ -826,7 +827,7 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 
 	case IDCANCEL:
 	case IDOK:
-		assert(false);
+		assert(true);
 		break;
 
 	case ID_VIEW_STATISTICS:
@@ -1127,8 +1128,8 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 			"Could not register clipboard format. Clipboard operations will not function.",
 			"Warning", MB_ICONWARNING);
 	}
-	if (!ret)
-		MessageBox(sheet, warnNoAOEII, "Warning", MB_ICONWARNING);
+	//if (!ret)
+	//	MessageBox(sheet, warnNoAOEII, "Warning", MB_ICONWARNING);
 
 	//open mapview window
 	propdata.mapview = MakeMapView(sheet, cmdshow);

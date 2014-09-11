@@ -82,7 +82,7 @@ void Trigger::read(FILE *in)
 
 	long n_effects, n_conds;
 
-	// TODO: read in as struct
+	// TODO: read in as stru3ct
 	/*long testlong;
 	unsigned char testchar;
 	readbin(in, &testlong); printf("State: "); show_binrep(testlong);
@@ -102,10 +102,10 @@ void Trigger::read(FILE *in)
 	readunk<long>(in, 0, "trigger zeroes", false);
 
 	description.read(in, sizeof(long));
-	readcsDebug<unsigned short>(in, name, sizeof(name));
-	unsigned short testlong;
-	readbin(in, &testlong);
-	//readcs<unsigned long>(in, name, sizeof(name));
+	//readcsDebug<unsigned short>(in, name, sizeof(name));
+	readcs<unsigned long>(in, name, sizeof(name));
+	//unsigned short testlong;
+	//readbin(in, &testlong);
 
 	
 	

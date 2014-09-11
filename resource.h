@@ -569,13 +569,13 @@
 #define VK_DIVIDE                       0x6F
 #define IDD_VICTORY                     112
 #define VK_F1                           0x70
-#define IDD_DISABLES                    113
+#define IDD_TERRAIN                     113
 #define VK_F2                           0x71
-#define IDD_TERRAIN                     114
+#define IDD_UNITS                       114
 #define VK_F3                           0x72
-#define IDD_UNITS                       115
+#define IDD_TRIGGERS                    115
 #define VK_F4                           0x73
-#define IDD_TRIGGERS                    116
+#define IDD_DISABLES                    116
 #define VK_F5                           0x74
 #define VK_F6                           0x75
 #define IDD_EFFECT                      118

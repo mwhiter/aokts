@@ -326,7 +326,7 @@ void EffectItemData::GetName(char *buffer)
 	Trigger *t = GetTrigger();
 	assert(t);
 
-	sprintf(buffer, "E: %s", t->effects[index].getName().c_str());
+	sprintf(buffer, "E: %s", t->effects[index].getNameTip().c_str());
 }
 
 void EffectItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)
@@ -505,7 +505,7 @@ void ConditionItemData::GetName(char *buffer)
 	Trigger *t = GetTrigger();
 	assert(t);
 
-	sprintf(buffer, "C: %s", t->conds[index].getName().c_str());
+	sprintf(buffer, "C: %s", t->conds[index].getNameTip().c_str());
 }
 
 void ConditionItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)

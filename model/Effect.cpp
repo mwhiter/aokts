@@ -126,6 +126,11 @@ void Effect::write(FILE *out)
 
 std::string Effect::getName() const
 {
+	return (type < NUM_EFFECTS) ? types[type] : "Unknown!";
+}
+
+std::string Effect::getNameTip() const
+{
     std::string stype = std::string((type < NUM_EFFECTS) ? types[type] : "Unknown!");
     if (type == 8 || type == 9) {
         if (trig_index >= 0 && trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {

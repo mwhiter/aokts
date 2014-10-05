@@ -56,6 +56,11 @@ Condition::Condition(Buffer& b)
 
 std::string Condition::getName() const
 {
+	return (type < NUM_CONDS) ? types[type] : "Unknown!";
+}
+
+std::string Condition::getNameTip() const
+{
     std::string stype = std::string((type < NUM_CONDS) ? types[type] : "Unknown!");
     if (type == 10) {
         stype.append(": ");

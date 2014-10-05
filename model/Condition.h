@@ -61,6 +61,7 @@ public:
 	void tobuffer(Buffer &b) const;
 
 	std::string getName() const;
+	std::string getNameTip() const;
 
 	int getPlayer() const;
 	void setPlayer(int);

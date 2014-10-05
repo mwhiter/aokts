@@ -77,6 +77,7 @@ public:
 	bool check() const;
 
 	std::string getName() const;
+	std::string getNameTip() const;
 
 	/**
 	 * Accepts a TriggerVisitor.

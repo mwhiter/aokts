@@ -1,4 +1,5 @@
 #include "Condition.h"
+#include <sstream>
 #include "TriggerVisitor.h"
 
 #include "../util/utilio.h"
@@ -55,7 +56,14 @@ Condition::Condition(Buffer& b)
 
 std::string Condition::getName() const
 {
-	return (type < NUM_CONDS) ? types[type] : "Unknown!";
+    std::string stype = std::string((type < NUM_CONDS) ? types[type] : "Unknown!");
+    if (type == 10) {
+        stype.append(": ");
+        std::ostringstream convert;
+        convert << timer;
+        stype.append(convert.str());
+    }
+	return stype;
 }
 
 int Condition::getPlayer() const

@@ -148,6 +148,13 @@ std::string Effect::getName() const
         convert << amount;
         stype.append(convert.str());
     }
+    if (type == 2) {
+        if (pTech && pTech->id()) {
+            stype.append(": ");
+            std::wstring techname(pTech->name());
+            stype.append(std::string( techname.begin(), techname.end()));
+        }
+    }
     if (type == 3 || type == 20 || type == 26) {
         stype.append(": ");
         stype.append(text.c_str());

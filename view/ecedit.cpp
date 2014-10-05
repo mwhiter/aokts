@@ -126,11 +126,14 @@ const short ectrls[NUM_EFFECTS][5] =
 	/* 0x1C = Change Object Attack */
 	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
 	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA },
-	{ ECC_LOCATION },
-	{ 0 },
-	/* 0x20 = Enable Tech */
-	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
-	{ IDC_E_UIDS, ECC_UNITSEL, ECC_AREA },
+	/* Change Speed */
+    { IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
+	/* Change Range */
+    { IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
+	/* 0x20 = Change Armor 1 */
+    { IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
+	/* 0x21 = Change Armor 2 */
+    { IDC_E_UIDS, ECC_UNITSEL, ECC_AREA, IDC_E_AMOUNT },
 	{ ECC_LOCATION },
 	{ 0 },
 	/* 0x24 = Flash Objects */

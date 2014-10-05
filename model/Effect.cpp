@@ -1,9 +1,12 @@
 #include "Effect.h"
+#include <sstream>
+#include "scen.h"
 #include "TriggerVisitor.h"
 
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
 
+extern class Scenario scen;
 #define EFFECT_MEMBERS 22	//count of all the static members of class Effect
 
 #pragma pack(push, 4)
@@ -123,7 +126,51 @@ void Effect::write(FILE *out)
 
 std::string Effect::getName() const
 {
-	return (type < NUM_EFFECTS) ? types[type] : "Unknown!";
+    std::string stype = std::string((type < NUM_EFFECTS) ? types[type] : "Unknown!");
+    if (type == 8 || type == 9) {
+        if (trig_index >= 0 && trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
+            stype.append(": ");
+            stype.append(scen.triggers.at(trig_index)->name);
+            //std::ostringstream convert;
+            //convert << trig_index;
+            //stype.append(convert.str());
+        }
+    }
+    if (type == 13) {
+        stype.append(": ");
+        std::ostringstream convert;
+        convert << s_player;
+        stype.append(convert.str());
+    }
+    if (type == 5 || type == 24 || type == 27 || type == 28 || type == 30 || type == 31 || type == 32 || type == 33) {
+        stype.append(": ");
+        std::ostringstream convert;
+        convert << amount;
+        stype.append(convert.str());
+    }
+    if (type == 3 || type == 20 || type == 26) {
+        stype.append(": ");
+        stype.append(text.c_str());
+    }
+    // create object
+    if (type == 11 || type == 14 || type == 15 || type == 18) {
+        //if ((pUnit && pUnit->id())) {
+            //if (utype >= 0) {
+            //    std::ostringstream convert;
+            //    convert << pUnit->id();
+            //    stype.append(convert.str());
+            //}
+            if (pUnit && pUnit->id()) {
+                stype.append(": ");
+                std::wstring unitname(pUnit->name());
+                stype.append(std::string( unitname.begin(), unitname.end()));
+                //std::ostringstream convert;
+                //convert << pUnit->id();
+                //stype.append(convert.str());
+            }
+        //}
+    }
+	return stype;
 }
 
 int Effect::getPlayer() const
@@ -218,11 +265,15 @@ bool Effect::check() const
 		//return (amount != 0		//amount can be negative
 		//	&& (num_sel >= 0 || area.left >= 0));	//AOK missing this
 	case EFFECT_SnapView: //Equal to UP Change Speed
+		return true;
 	case EFFECT_EnableTech: //Equal to UP Change Armor #1
+		return true;
 	case EFFECT_DisableTech: //Equal to UP Change Armor #2
+		return true;
 	case EFFECT_Unknown31: //Equal to UP Change Range
-		return (amount != 0		//amount can be negative
-			&& (num_sel >= 0 || area.left >= 0));	//AOK missing this
+		return true;
+		//return (amount != 0		//amount can be negative
+		//	&& (num_sel >= 0 || area.left >= 0));	//AOK missing this
 
 	case EFFECT_PlaceFoundation:
 		return (s_player >= 0 && pUnit
@@ -347,10 +398,10 @@ const char *Effect::types[] =
 	"Change Object HP",
 	"Change Object Attack",
 	"Stop Unit",
-	"Change Speed",
-	"Change Range",
-	"Change Armor #1",
-	"Change Armor #2",
+	"Ch UP Speed - HD Attack-Move",
+	"Ch UP Range - HD Armor",
+	"Ch UP Armor1 - HD Range",
+	"Ch UP Armor2 - HD Speed",
 	"Enable Unit",
 	"Disable Unit",
 	"Flash Objects"

@@ -73,11 +73,12 @@ void LoadPlayer(HWND dialog)
 	SendDlgItemMessage(dialog, IDC_P_COLOR, CB_SETCURSEL, p->color, 0);	//assuming in order
 	SendDlgItemMessage(dialog, IDC_P_AV, BM_SETCHECK, p->avictory, 0);
 	if (propdata.sel0 == -1) {
-		MessageBox(
-					dialog,
-					"Problem detected. Reload page.",
-					"Player Editor",
-					MB_ICONWARNING);
+	    true;
+		//MessageBox(
+		//			dialog,
+		//			"Problem detected. Reload page.",
+		//			"Player Editor",
+		//			MB_ICONWARNING);
 	} else {
 		SendDlgItemMessage(dialog, IDC_P_DSTATE, BM_SETCHECK, d_to_b[p->diplomacy[propdata.sel0]], 0);
 	}

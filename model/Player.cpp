@@ -314,6 +314,18 @@ void Player::write_header_stable(FILE * out)
 	writebin(out, &stable);
 }
 
+void Player::write_no_units(FILE *out)
+{
+	// Write count
+	unsigned long num = 0;
+	fwrite(&num, sizeof(long), 1, out);
+
+	// Write units
+	for (std::vector<Unit>::const_iterator iter = units.begin();
+		iter != units.end(); ++iter)
+		true;
+}
+
 void Player::write_units(FILE *out)
 {
 	// Write count

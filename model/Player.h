@@ -72,6 +72,7 @@ public:
 	void write_data1(FILE * out);
 
 	void write_units(FILE *out);
+	void write_no_units(FILE *out);
 	void write_data3(FILE *out, int me, float *view);
 
 	bool import_ai(const char *path);

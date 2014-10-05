@@ -940,6 +940,10 @@ int Scenario::write_data(const char *path)
 			fwrite(&players[i].pop, 4, 1, dcout);
 	}
 
+	//this would remove all gaia units
+	//players[8].write_no_units(dcout);
+	//dunno what this does
+    //fwrite(0, sizeof(long), 1, dcout);
 	players[8].write_units(dcout);
 	for (i = PLAYER1_INDEX; i < num_players - 1; i++)
 	{

@@ -1496,6 +1496,13 @@ WS - Work Speed
 <protounit id="897" name="Camel 2" />
 <protounit id="898" name="Camel 2, D" />
 <protounit id="899" name="Arch of Constantine" />
+
+<protounit id="904" name="Wooden Bridge A Top" />
+<protounit id="905" name="Wooden Bridge A Middle" />
+<protounit id="906" name="Wooden Bridge A Bottom" />
+<protounit id="907" name="Wooden Bridge B Top" />
+<protounit id="908" name="Wooden Bridge B Middle" />
+<protounit id="909" name="Wooden Bridge B Bottom" />
 </units>
 
 <resources>

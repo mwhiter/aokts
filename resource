@@ -907,6 +907,7 @@
 #define IDC_G_ONAME                     1012
 #define IDC_M_SEL                       1014
 #define IDC_M_SELC                      1016
+#define IDC_M_SELC2                     1017
 #define IDC_G_ALLTECHS                  1018
 #define IDC_G_X                         1019
 #define IDC_G_Y                         1020
@@ -1386,7 +1387,6 @@
 #define ID_EDIT_PASTE                   0xE125
 #define ID_EDIT_DELETE                  0xE126
 #define ID_EDIT_UNDO                    0xE12B
-#define ID_VIEW_STATUS_BAR              0xE131
 #define ID_VIEW_STATISTICS              0xE132
 #define ID_VIEW_MAP                     0xE133
 #define ID_APP_ABOUT                    0xE140
@@ -1418,7 +1418,6 @@
 #define HTERROR                         -2
 #define PWR_FAIL                        -1
 #define HTTRANSPARENT                   -1
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

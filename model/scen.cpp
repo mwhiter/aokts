@@ -1286,7 +1286,7 @@ AOKTS_ERROR Scenario::map_paste(const POINT &to, Buffer &from)
 
 AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 {
-	unsigned dx, dy, toright, totop;
+	LONG dx, dy, toright, totop;
 
 	dx = to.x - from.left;
 	dy = to.y - from.bottom;

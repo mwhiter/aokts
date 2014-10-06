@@ -21,6 +21,7 @@
 //MAC USERS: Please replace this block of code with whatever you need.
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>	//for bitmaps, POINT, and RECT
+//#include <math.h> // for abs
 
 #include <stdlib.h>	//for _MAX_FNAME and the like.
 #include <time.h>		//for time_t typedef.
@@ -81,6 +82,8 @@ public:
 		returns: true if successful
 	*/
 	bool writeArea(Buffer &b, const RECT &area);
+	/*   swapArea: swaps an area with the one at the target */
+    bool swapArea(const RECT &area, const POINT &target);
 };
 
 #pragma pack(4)
@@ -258,6 +261,9 @@ public:
 		Note: The buffer should have been filled by map_copy.
 	*/
 	AOKTS_ERROR map_paste(const POINT &to, Buffer &from);
+
+	/*  map_move: moves the units, terrain and triggers in that terrain */
+    AOKTS_ERROR map_move(const RECT &from, const POINT &to);
 
 	int getPlayerCount();
 

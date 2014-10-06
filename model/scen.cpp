@@ -1284,6 +1284,90 @@ AOKTS_ERROR Scenario::map_paste(const POINT &to, Buffer &from)
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
+{
+	unsigned dx, dy, toright, totop;
+
+	dx = to.x - from.left;
+	dy = to.y - from.bottom;
+	toright = to.x + dx;
+	totop = to.y + dy;
+
+	map.swapArea(from, to);
+
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+	    for (vector<Unit>::iterator iter = players[i].units.begin(); iter != players[i].units.end(); ++iter) {
+		    if ((iter->x >= from.left && iter->x <= from.right) && (iter->y >= from.bottom && iter->y <= from.top)) {
+		        iter->x += dx;
+		        iter->y += dy;
+		    } else if ((iter->x >= to.x && iter->x <= toright) && (iter->y >= to.y && iter->y <= totop)) {
+		        iter->x -= dx;
+		        iter->y -= dy;
+		    }
+	    }
+	}
+
+	Trigger *trig = triggers.first();
+	long num = triggers.count();
+
+	long i = num;
+	while (i--)
+	{
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+            if (iter->location.x >= 0 && iter->location.y >= 0) {
+		        if ((iter->location.x >= from.left && iter->location.x <= from.right) && (iter->location.y >= from.bottom && iter->location.y <= from.top)) {
+		            iter->location.x += dx;
+		            iter->location.y += dy;
+		        } else if ((iter->location.x >= to.x && iter->location.x <= toright) && (iter->location.y >= to.y && iter->location.y <= totop)) {
+		            iter->location.x -= dx;
+		            iter->location.y -= dy;
+		        }
+		    }
+            if (iter->area.right >= 0 && iter->area.top >= 0) {
+		        if ((iter->area.right >= from.left && iter->area.right <= from.right) && (iter->area.top >= from.bottom && iter->area.top <= from.top)) {
+		            iter->area.right += dx;
+		            iter->area.top += dy;
+		        } else if ((iter->area.right >= to.x && iter->area.right <= toright) && (iter->area.top >= to.y && iter->area.top <= totop)) {
+		            iter->area.right -= dx;
+		            iter->area.top -= dy;
+		        }
+		    }
+		    if (iter->area.left >= 0 && iter->area.bottom >= 0) {
+		        if ((iter->area.left >= from.left && iter->area.left <= from.right) && (iter->area.bottom >= from.bottom && iter->area.bottom <= from.top)) {
+		            iter->area.left += dx;
+		            iter->area.bottom += dy;
+		        } else if ((iter->area.left >= to.x && iter->area.left <= toright) && (iter->area.bottom >= to.y && iter->area.bottom <= totop)) {
+		            iter->area.left -= dx;
+		            iter->area.bottom -= dy;
+		        }
+		    }
+		}
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+            if (iter->area.right >= 0 && iter->area.top >= 0) {
+		        if ((iter->area.right >= from.left && iter->area.right <= from.right) && (iter->area.top >= from.bottom && iter->area.top <= from.top)) {
+		            iter->area.right += dx;
+		            iter->area.top += dy;
+		        } else if ((iter->area.right >= to.x && iter->area.right <= toright) && (iter->area.top >= to.y && iter->area.top <= totop)) {
+		            iter->area.right -= dx;
+		            iter->area.top -= dy;
+		        }
+		    }
+		    if (iter->area.left >= 0 && iter->area.bottom >= 0) {
+		        if ((iter->area.left >= from.left && iter->area.left <= from.right) && (iter->area.bottom >= from.bottom && iter->area.bottom <= from.top)) {
+		            iter->area.left += dx;
+		            iter->area.bottom += dy;
+		        } else if ((iter->area.left >= to.x && iter->area.left <= toright) && (iter->area.bottom >= to.y && iter->area.bottom <= totop)) {
+		            iter->area.left -= dx;
+		            iter->area.bottom -= dy;
+		        }
+	        }
+		}
+		trig++;
+	}
+
+	return ERR_none;
+}
+
 int Scenario::getPlayerCount()
 {
 	int ret = 0;
@@ -1411,6 +1495,41 @@ bool Map::writeArea(Buffer &b, const RECT &area)
 		{
 			b.write(parse, sizeof(Terrain));
 			parse++;
+		}
+	}
+
+	return true;
+}
+
+bool Map::swapArea(const RECT &area, const POINT &target)
+{
+	Terrain *parse;
+	Terrain temp;
+	LONG dx = 0, dy = 0, xstep = 0, ystep = 0;
+	dx = target.x - area.left;
+	dy = target.y - area.bottom;
+	//xstep = dx/abs(dx);
+	//ystep = dy/abs(dy);
+
+	//printf("x1: %d\n", area.left);
+	//printf("y1: %d\n", area.bottom);
+	//printf("dx: %d\n", dx);
+	//printf("dy: %d\n", dy);
+	//printf("x2: %d\n", target.x);
+	//printf("y2: %d\n", target.y);
+
+	/* perform some validation on input */
+	if (area.bottom < 0 || static_cast<unsigned>(area.top) > y ||
+		area.left < 0 || static_cast<unsigned>(area.right) > x)
+		return false;
+
+	for (LONG i = area.left; i <= area.right; i++)
+	{
+		for (LONG j = area.bottom; j <= area.top; j++)
+		{
+		    temp = terrain[i+dx][j+dy];
+		    terrain[i+dx][j+dy] = terrain[i][j];
+            terrain[i][j] = temp;
 		}
 	}
 

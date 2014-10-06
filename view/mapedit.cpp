@@ -28,7 +28,10 @@ enum CLICK_STATES
 	CLICK_Default,	//just selects tile on map
 	CLICK_MCSet1,	//sets x,y coords for map copy rect from1
 	CLICK_MCSet2,	//sets x,y coords for map copy rect from2
-	CLICK_MCSetT	//sets x,y coords for map copy rect to
+	CLICK_MCSetT,	//sets x,y coords for map copy rect to
+	CLICK_MMSet1,	//sets x,y coords for map move rect from1
+	CLICK_MMSet2,	//sets x,y coords for map move rect from2
+	CLICK_MMSetT	//sets x,y coords for map move rect to
 } click_state = CLICK_Default;
 
 const char *szMapTitle = "Map Editor";
@@ -153,6 +156,21 @@ void Map_HandleMapClick(HWND dialog, short x, short y)
 		ctrly = IDC_TR_MCYT;
 		click_state = CLICK_Default;
 		break;
+	case CLICK_MMSet1:
+		ctrlx = IDC_TR_MMX1;
+		ctrly = IDC_TR_MMY1;
+		click_state = CLICK_Default;
+		break;
+	case CLICK_MMSet2:
+		ctrlx = IDC_TR_MMX2;
+		ctrly = IDC_TR_MMY2;
+		click_state = CLICK_Default;
+		break;
+	case CLICK_MMSetT:
+		ctrlx = IDC_TR_MMXT;
+		ctrly = IDC_TR_MMYT;
+		click_state = CLICK_Default;
+		break;
 	default:
 		return;
 	}
@@ -202,7 +220,7 @@ void Map_HandleMapCopy(HWND dialog)
 	{
 		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
 	}
-	
+
 	EmptyClipboard();
 
 	/* allocate the clipboard memory */
@@ -229,7 +247,7 @@ void Map_HandleMapCopy(HWND dialog)
 		MessageBox(dialog, errorSetClipboard, szMapTitle, MB_ICONWARNING);
 
 	EnableWindow(GetDlgItem(dialog, IDC_TR_MCPASTE), true);
-	
+
 Cleanup:
 	CloseClipboard();
 }
@@ -275,6 +293,45 @@ void Map_HandleMapPaste(HWND dialog)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
+void Map_HandleMapMove(HWND dialog)
+{
+	bool disp = false;
+	RECT source;
+	POINT target;
+	long temp;
+
+	/* Get the source rect */
+	source.left   = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+	source.bottom    = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	source.right  = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+	source.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
+
+	/* Get the target point */
+	target.x = GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE);
+	target.y = GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE);
+
+	/* We need to make sure it's a sane rectangle. */
+	if (source.left > source.right)
+	{
+		temp = source.left;
+		source.left = source.right;
+		source.right = temp;
+		disp = true;
+	}
+	if (source.bottom > source.top)
+	{
+		temp = source.top;
+		source.top = source.bottom;
+		source.bottom = temp;
+		disp = true;
+	}
+	if (disp) {
+		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
+	} else {
+	    scen.map_move(source, target);
+	}
+}
+
 void Map_HandleSetFocus(HWND, WORD)
 {
 	EnableMenuItem(propdata.menu, ID_EDIT_COPY, MF_ENABLED);
@@ -307,6 +364,23 @@ void Map_HandleKillFocus(HWND dialog, WORD id)
 		SendMessage(propdata.mapview, MAP_HighlightPoint,
 			GetDlgItemInt(dialog, IDC_TR_MCXT, NULL, FALSE),
 			GetDlgItemInt(dialog, IDC_TR_MCYT, NULL, FALSE));
+		break;
+	case IDC_TR_MMX1:
+	case IDC_TR_MMY1:
+	case IDC_TR_MMX2:
+	case IDC_TR_MMY2:
+	case IDC_TR_MMXT:
+	case IDC_TR_MMYT:
+		SendMessage(propdata.mapview, MAP_UnhighlightPoint, MAP_UNHIGHLIGHT_ALL, 0);
+		SendMessage(propdata.mapview, MAP_HighlightPoint,
+			GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE),
+			GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE));
+		SendMessage(propdata.mapview, MAP_HighlightPoint,
+			GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE),
+			GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE));
+		SendMessage(propdata.mapview, MAP_HighlightPoint,
+			GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE),
+			GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE));
 		break;
 	}
 }
@@ -352,12 +426,28 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 			click_state = CLICK_MCSetT;
 			break;
 
+		case IDC_TR_MMSET1:
+			click_state = CLICK_MMSet1;
+			break;
+
+		case IDC_TR_MMSET2:
+			click_state = CLICK_MMSet2;
+			break;
+
+		case IDC_TR_MMSETT:
+			click_state = CLICK_MMSetT;
+			break;
+
 		case IDC_TR_MCCOPY:
 			Map_HandleMapCopy(dialog);
 			break;
 
 		case IDC_TR_MCPASTE:
 			Map_HandleMapPaste(dialog);
+			break;
+
+		case IDC_TR_MMMOVE:
+			Map_HandleMapMove(dialog);
 			break;
 		}
 

@@ -1184,6 +1184,17 @@
 #define IDC_TR_MCSETT                   1418
 #define IDC_TR_MCPASTE                  1419
 #define IDC_TR_MCCOPY                   1420
+#define IDC_TR_MMX1                     1432
+#define IDC_TR_MMY1                     1433
+#define IDC_TR_MMSET1                   1434
+#define IDC_TR_MMX2                     1435
+#define IDC_TR_MMY2                     1436
+#define IDC_TR_MMSET2                   1437
+#define IDC_TR_MMXT                     1438
+#define IDC_TR_MMYT                     1439
+#define IDC_TR_MMSETT                   1440
+#define IDC_TR_MCPASTE2                 1441
+#define IDC_TR_MMMOVE                   1442
 #define IDC_U_SELU                      1500
 #define IDC_U_SELP                      1501
 #define IDC_U_TYPE                      1502

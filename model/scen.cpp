@@ -656,10 +656,10 @@ void Scenario::read_data(const char *path)	//decompressed data
 	readbin(dc2in.get(), &testchar[0]);
 	show_binrep(testchar);
 
-	// sometimes there is an extra null byte -- so much mystery.
-	if (testchar[0] == '\0') {
-		testchar[0] = readval<unsigned char>(dc2in.get());
-	}
+	// sometimes there is an extra null byte just here -- so much
+	// mystery in this section.
+
+	testchar[0] = readval<unsigned char>(dc2in.get());
 	testchar[1] = readval<unsigned char>(dc2in.get());
 	testchar[2] = readval<unsigned char>(dc2in.get());
 	testchar[3] = readval<unsigned char>(dc2in.get());

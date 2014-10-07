@@ -1151,6 +1151,9 @@ public:
 #define ISINRECT(r, x, y) \
 	(x >= r.left && x <= r.right && y >= r.bottom && y <= r.top)
 
+//#define OVERLAP(r1, r2) \
+//	(ISINRECT(r1, r2.left, r2.left) || ISINRECT(r1, r2.right, r2.top))
+//
 // functor to check if a unit is in a RECT
 class unit_in_rect : public std::unary_function<const Unit, bool>
 {
@@ -1298,7 +1301,15 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 
 	map.swapArea(from, to);
 
+    // each player
 	for (int i = 0; i < NUM_PLAYERS; i++) {
+        // camera
+        if (ISINRECT(from, players[i].camera[0], players[i].camera[0])) {
+            players[i].camera[0] += dx;
+            players[i].camera[1] += dy;
+        }
+
+        // units
 	    for (vector<Unit>::iterator iter = players[i].units.begin(); iter != players[i].units.end(); ++iter) {
             if (ISINRECT(from, iter->x, iter->y)) {
 		        iter->x += dx;
@@ -1313,57 +1324,50 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 	Trigger *trig = triggers.first();
 	long num = triggers.count();
 
+    // triggers
 	long i = num;
 	while (i--)
 	{
+	    // effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
-            if (iter->location.x >= 0 && iter->location.y >= 0) {
-		        if (ISINRECT(from, iter->location.x, iter->location.y)) {
-		            iter->location.x += dx;
-		            iter->location.y += dy;
-		        } else if (ISINRECT(torect, iter->location.x, iter->location.y)) {
-		            iter->location.x -= dx;
-		            iter->location.y -= dy;
-		        }
+		    if (ISINRECT(from, iter->location.x, iter->location.y)) {
+		        iter->location.x += dx;
+		        iter->location.y += dy;
+		    } else if (ISINRECT(torect, iter->location.x, iter->location.y)) {
+		        iter->location.x -= dx;
+		        iter->location.y -= dy;
 		    }
-            if (iter->area.right >= 0 && iter->area.top >= 0) {
-		        if (ISINRECT(from, iter->area.right, iter->area.top)) {
-		            iter->area.right += dx;
-		            iter->area.top += dy;
-		        } else if (ISINRECT(torect, iter->area.right, iter->area.top)) {
-		            iter->area.right -= dx;
-		            iter->area.top -= dy;
-		        }
+		    if (ISINRECT(from, iter->area.right, iter->area.top)) {
+		        iter->area.right += dx;
+		        iter->area.top += dy;
+		    } else if (ISINRECT(torect, iter->area.right, iter->area.top)) {
+		        iter->area.right -= dx;
+		        iter->area.top -= dy;
 		    }
-		    if (iter->area.left >= 0 && iter->area.bottom >= 0) {
-		        if (ISINRECT(from, iter->area.left, iter->area.bottom)) {
-		            iter->area.left += dx;
-		            iter->area.bottom += dy;
-		        } else if (ISINRECT(torect, iter->area.left, iter->area.bottom)) {
-		            iter->area.left -= dx;
-		            iter->area.bottom -= dy;
-		        }
+		    if (ISINRECT(from, iter->area.left, iter->area.bottom)) {
+		        iter->area.left += dx;
+		        iter->area.bottom += dy;
+		    } else if (ISINRECT(torect, iter->area.left, iter->area.bottom)) {
+		        iter->area.left -= dx;
+		        iter->area.bottom -= dy;
 		    }
 		}
+	    // conditions
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
-            if (iter->area.right >= 0 && iter->area.top >= 0) {
-		        if (ISINRECT(from, iter->area.right, iter->area.top)) {
-		            iter->area.right += dx;
-		            iter->area.top += dy;
-		        } else if (ISINRECT(torect, iter->area.right, iter->area.top)) {
-		            iter->area.right -= dx;
-		            iter->area.top -= dy;
-		        }
+		    if (ISINRECT(from, iter->area.right, iter->area.top)) {
+		        iter->area.right += dx;
+		        iter->area.top += dy;
+		    } else if (ISINRECT(torect, iter->area.right, iter->area.top)) {
+		        iter->area.right -= dx;
+		        iter->area.top -= dy;
 		    }
-		    if (iter->area.left >= 0 && iter->area.bottom >= 0) {
-		        if (ISINRECT(from, iter->area.right, iter->area.top)) {
-		            iter->area.left += dx;
-		            iter->area.bottom += dy;
-		        } else if (ISINRECT(torect, iter->area.left, iter->area.bottom)) {
-		            iter->area.left -= dx;
-		            iter->area.bottom -= dy;
-		        }
-	        }
+		    if (ISINRECT(from, iter->area.left, iter->area.bottom)) {
+		        iter->area.left += dx;
+		        iter->area.bottom += dy;
+		    } else if (ISINRECT(torect, iter->area.left, iter->area.bottom)) {
+		        iter->area.left -= dx;
+		        iter->area.bottom -= dy;
+		    }
 		}
 		trig++;
 	}
@@ -1549,20 +1553,22 @@ bool Map::swapArea(const RECT &area, const POINT &target)
 		}
 	}
 
+    /* erase */
+    /*
 	for (LONG i = 0; i < cw; i++) {
 		for (LONG j = 0; j < ch; j++) {
 		    terrain[area.left + i][area.bottom + j] = blank;
             terrain[area.left + i][area.bottom + j].elev = destbuffer[i][j].elev;
 		}
 	}
+    */
 
-    /*
+    // swap
 	for (LONG i = 0; i < cw; i++) {
 		for (LONG j = 0; j < ch; j++) {
 		    terrain[area.left + i][area.bottom + j] = destbuffer[i][j];
 		}
 	}
-	*/
 
 	// gets priority
 	for (LONG i = 0; i < cw; i++) {

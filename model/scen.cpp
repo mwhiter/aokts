@@ -1289,15 +1289,17 @@ AOKTS_ERROR Scenario::map_paste(const POINT &to, Buffer &from)
 
 AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 {
-	LONG dx, dy;
+	LONG dx, dy, w, h;
 
 	dx = to.x - from.left;
 	dy = to.y - from.bottom;
+	w = from.right - from.left;
+	h = from.top - from.bottom;
 	RECT torect;
 	torect.left = to.x;
-	torect.right = to.x + dx;
+	torect.right = to.x + w;
 	torect.bottom = to.y;
-	torect.top = to.y + dy;
+	torect.top = to.y + h;
 
 	map.swapArea(from, to);
 

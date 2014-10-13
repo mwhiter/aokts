@@ -97,6 +97,7 @@
 			OutputDirectory=".\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			UseOfMFC="0"
 			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
@@ -120,7 +121,7 @@
 				Optimization="2"
 				FavorSizeOrSpeed="2"
 				AdditionalIncludeDirectories="&quot;C:\Users\shane\Downloads\zlib-1.2.3-lib\include&quot;;&quot;C:\Program Files (x86)\Expat 2.1.0\Source\lib&quot;;&quot;$(ProjectDir)deps\include&quot;"
-				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=1"
+				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=1;_AFXDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -511,6 +512,14 @@
 			>
 			<File
 				RelativePath=".\view\aokts.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\cbit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\cbit.h"
 				>
 			</File>
 			<File

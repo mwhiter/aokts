@@ -1174,6 +1174,7 @@
 #define IDC_TR_TY                       1405
 #define IDC_TR_ID                       1406
 #define IDC_TR_ELEV                     1407
+#define IDC_TR_SIZE2                    1408
 #define IDC_TR_MCX1                     1410
 #define IDC_TR_MCY1                     1411
 #define IDC_TR_MCX2                     1412

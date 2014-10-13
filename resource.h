@@ -907,6 +907,7 @@
 #define IDC_G_ONAME                     1012
 #define IDC_M_SEL                       1014
 #define IDC_M_SELC                      1016
+#define IDC_M_SELC2                     1017
 #define IDC_G_ALLTECHS                  1018
 #define IDC_G_X                         1019
 #define IDC_G_Y                         1020
@@ -1173,6 +1174,7 @@
 #define IDC_TR_TY                       1405
 #define IDC_TR_ID                       1406
 #define IDC_TR_ELEV                     1407
+#define IDC_TR_SIZE2                    1408
 #define IDC_TR_MCX1                     1410
 #define IDC_TR_MCY1                     1411
 #define IDC_TR_MCX2                     1412

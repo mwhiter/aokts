@@ -330,6 +330,8 @@ void Map_HandleMapMove(HWND dialog)
 	} else {
 	    scen.map_move(source, target);
 	}
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
 void Map_HandleSetFocus(HWND, WORD)

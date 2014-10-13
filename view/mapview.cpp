@@ -39,7 +39,8 @@ struct MapViewData
 	Scenario * scen;
 	HDC copydc;				//DC used for saving what's under a highlight, etc.
 	HBITMAP mapbmp;			//bitmap storage for map
-	int bmpsize;
+	int bmphsize;
+	int bmpvsize;
 	int offsetx, offsety;
 	int scrollMaxX, scrollMaxY;
 	HWND statusbar;
@@ -62,6 +63,9 @@ const double root2 = sqrt(2.0);
 
 void rotate(int origin, int xi, int yi, int &xo, int &yo)
 {
+    //xo = xi * setts.zoom;
+    //yo = yi * setts.zoom;
+    //return;
 	/**
 	 * This algorithm deserves a bit of explanation. We're basically rotating
 	 * the square map by 45deg. to make a diamon as AOK displays it. The
@@ -104,10 +108,15 @@ void rotate(int origin, int xi, int yi, int &xo, int &yo)
     yo = myround((ox - oy) * sin45 * root2) + origin * 2;
 	xo *= setts.zoom;
 	yo *= setts.zoom;
+	yo /=2;
 }
 
 void unrotate(int origin, int xi, int yi, unsigned &xo, unsigned &yo)
 {
+    //xo = xi / setts.zoom;
+    //yo = yi / setts.zoom;
+    //return;
+    yi *=2;
 	double xr = xi / setts.zoom - origin * 2;
 	double yr = yi / setts.zoom - origin * 2;
 
@@ -132,9 +141,9 @@ void PaintUnits(HDC dc)
 		{
 			rotate(half, (int)iter->x, (int)iter->y, rx, ry);
 			area.left = rx;
-			area.right = rx + 2 * setts.zoom;
+			area.right = rx + setts.zoom;
 			area.top = ry;
-			area.bottom = ry + 2 * setts.zoom;
+			area.bottom = ry + setts.zoom;
 			FillRect(dc, &area, pBrushes[p.color]);
 		}
 	}
@@ -156,9 +165,9 @@ void PaintUnits(HDC dc)
 	{
 		rotate(half, hparse->x, hparse->y, rx, ry);
 		area.left = rx;
-		area.right = rx + 2 * setts.zoom;
+		area.right = rx + setts.zoom;
 		area.top = ry;
-		area.bottom = ry + 2 * setts.zoom;
+		area.bottom = ry + setts.zoom;
 		FillRect(dc, &area, bWhite);
 	}
 }
@@ -172,8 +181,9 @@ void PaintMap(HDC dcdest)
 	RECT area;
 
 	/* Create a bitmap */
-	data.bmpsize = 2 * data.scen->map.x * setts.zoom + 1;
-	data.mapbmp = CreateCompatibleBitmap(dcdest, data.bmpsize, data.bmpsize);
+	data.bmphsize = (2 * data.scen->map.x + 1) * setts.zoom;
+	data.bmpvsize = (1 * data.scen->map.x + 1) * setts.zoom;
+	data.mapbmp = CreateCompatibleBitmap(dcdest, data.bmphsize, data.bmpvsize);
 	half = data.scen->map.x / 2;
 
 	/* Do the painting. */
@@ -185,9 +195,9 @@ void PaintMap(HDC dcdest)
 		{
 			rotate(half, x, y, rx, ry);
 			area.left = rx;
-			area.right = rx + 2 * setts.zoom;
+			area.right = rx + setts.zoom;
 			area.top = ry;
-			area.bottom = ry + 2 * setts.zoom;
+			area.bottom = ry + setts.zoom;
 			FillRect(data.copydc, &area, tBrushes[parse->cnst]);
 		}
 	}
@@ -230,20 +240,20 @@ void UpdateScrollbars(HWND window, int width, int height)
 	GetWindowRect(data.statusbar, &statusSize);
 
 	/* horizontal scrollbar */
-	si.nMax = data.scrollMaxX = data.bmpsize - width;
+	si.nMax = data.scrollMaxX = data.bmphsize - width;
 	si.nPage = si.nMax / 10;
 	SetScrollInfo(window, SB_HORZ, &si, TRUE);
 
 	/* vertical scrollbar */
 	si.nMax = data.scrollMaxY =
-		data.bmpsize - height + (statusSize.bottom - statusSize.top + 1);	//big hack here
+		data.bmpvsize - height + (statusSize.bottom - statusSize.top + 1);	//big hack here
 	si.nPage = si.nMax / 10;
 	SetScrollInfo(window, SB_VERT, &si, TRUE);
 }
 
-/* HandleRefresh: redrawing the map, not just blitting */
-void HandleRefresh(HWND window, BOOL erase) 
-{// TODO: why is this called "Handle"??
+/* Refresh: redrawing the map, not just blitting */
+void Refresh(HWND window, BOOL erase) 
+{
 	HDC dc;
 	RECT wndSize;
 	
@@ -285,7 +295,7 @@ void HandlePaint(HWND window)
 		data.offsety = (data.scrollMaxY > 0) ? -si.nPos : 0;
 
 		SelectObject(data.copydc, data.mapbmp);
-		BitBlt(dc, data.offsetx, data.offsety, data.bmpsize, data.bmpsize,
+		BitBlt(dc, data.offsetx, data.offsety, data.bmphsize, data.bmpvsize,
 			data.copydc, 0, 0, SRCCOPY);
 
 		/* Cleanup */
@@ -307,7 +317,7 @@ void UnhighlightPoint(HWND window, Highlight *h)
 
 	delete h;
 
-	HandleRefresh(window, FALSE);
+	Refresh(window, FALSE);
 }
 
 void UnhighlightPoint(HWND window, int x, int y)
@@ -362,7 +372,7 @@ void HighlightPoint(HWND window, int x, int y)
 	nh->x = static_cast<short>(x);
 	nh->y = static_cast<short>(y);
 
-	HandleRefresh(window, FALSE);
+	Refresh(window, FALSE);
 }
 
 #define NUM_SB_SIZES 2
@@ -402,7 +412,8 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	/* init window data */
 	data.scen = static_cast<Scenario *>(cs->lpCreateParams);
 	data.mapbmp = NULL;
-	data.bmpsize = 0;
+	data.bmphsize = 0;
+	data.bmpvsize = 0;
 	data.statusbar = NULL;
 	data.highlights = NULL;
 
@@ -574,7 +585,7 @@ void OnMAP_Reset(HWND mapview, bool resize)
 	}
 
 	// Erase everything and re-draw
-	HandleRefresh(mapview, TRUE);
+	Refresh(mapview, TRUE);
 }
 
 LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -635,7 +646,7 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			const NMHDR *header = (NMHDR*)lParam;
 			if (header->hwndFrom == data.statusbar && header->code == NM_CLICK)
-				HandleRefresh(window, TRUE);
+				Refresh(window, TRUE);
 		}
 		break;
 

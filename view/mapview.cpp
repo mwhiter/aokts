@@ -43,9 +43,89 @@ struct MapViewData
 	int bmpvsize;
 	int offsetx, offsety;
 	int scrollMaxX, scrollMaxY;
+    int diamondorsquare;
 	HWND statusbar;
 	Highlight *highlights;	//LL of the highlighted points
 } data;
+
+BOOL SaveToFile(HBITMAP hBitmap3, LPCTSTR lpszFileName)
+{
+    HDC hDC;
+    int iBits;
+    WORD wBitCount;
+    DWORD dwPaletteSize=0, dwBmBitsSize=0, dwDIBSize=0, dwWritten=0;
+    BITMAP Bitmap0;
+    BITMAPFILEHEADER bmfHdr;
+    BITMAPINFOHEADER bi;
+    LPBITMAPINFOHEADER lpbi;
+    HANDLE fh, hDib, hPal,hOldPal2=NULL;
+    hDC = CreateDC("DISPLAY", NULL, NULL, NULL);
+    iBits = GetDeviceCaps(hDC, BITSPIXEL) * GetDeviceCaps(hDC, PLANES);
+    DeleteDC(hDC);
+    if (iBits <= 1)
+        wBitCount = 1;
+    else if (iBits <= 4)
+        wBitCount = 4;
+    else if (iBits <= 8)
+        wBitCount = 8;
+    else
+        wBitCount = 24;
+    GetObject(hBitmap3, sizeof(Bitmap0), (LPSTR)&Bitmap0);
+    bi.biSize = sizeof(BITMAPINFOHEADER);
+    bi.biWidth = Bitmap0.bmWidth;
+    bi.biHeight =-Bitmap0.bmHeight;
+    bi.biPlanes = 1;
+    bi.biBitCount = wBitCount;
+    bi.biCompression = BI_RGB;
+    bi.biSizeImage = 0;
+    bi.biXPelsPerMeter = 0;
+    bi.biYPelsPerMeter = 0;
+    bi.biClrImportant = 0;
+    bi.biClrUsed = 256;
+    dwBmBitsSize = ((Bitmap0.bmWidth * wBitCount +31) & ~31) /8
+        * Bitmap0.bmHeight;
+    hDib = GlobalAlloc(GHND,dwBmBitsSize + dwPaletteSize + sizeof(BITMAPINFOHEADER));
+    lpbi = (LPBITMAPINFOHEADER)GlobalLock(hDib);
+    *lpbi = bi;
+
+    hPal = GetStockObject(DEFAULT_PALETTE);
+    if (hPal)
+    {
+        hDC = GetDC(NULL);
+        hOldPal2 = SelectPalette(hDC, (HPALETTE)hPal, FALSE);
+        RealizePalette(hDC);
+    }
+
+
+    GetDIBits(hDC, hBitmap3, 0, (UINT) Bitmap0.bmHeight, (LPSTR)lpbi + sizeof(BITMAPINFOHEADER) + dwPaletteSize, (BITMAPINFO *)lpbi, DIB_RGB_COLORS);
+
+    if (hOldPal2)
+    {
+        SelectPalette(hDC, (HPALETTE)hOldPal2, TRUE);
+        RealizePalette(hDC);
+        ReleaseDC(NULL, hDC);
+    }
+
+    fh = CreateFile(lpszFileName, GENERIC_WRITE,0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+
+    if (fh == INVALID_HANDLE_VALUE)
+        return FALSE;
+
+    bmfHdr.bfType = 0x4D42; // "BM"
+    dwDIBSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dwPaletteSize + dwBmBitsSize;
+    bmfHdr.bfSize = dwDIBSize;
+    bmfHdr.bfReserved1 = 0;
+    bmfHdr.bfReserved2 = 0;
+    bmfHdr.bfOffBits = (DWORD)sizeof(BITMAPFILEHEADER) + (DWORD)sizeof(BITMAPINFOHEADER) + dwPaletteSize;
+
+    WriteFile(fh, (LPSTR)&bmfHdr, sizeof(BITMAPFILEHEADER), &dwWritten, NULL);
+
+    WriteFile(fh, (LPSTR)lpbi, dwDIBSize, &dwWritten, NULL);
+    GlobalUnlock(hDib);
+    GlobalFree(hDib);
+    CloseHandle(fh);
+    return TRUE;
+}
 
 /* Handles negatives as well */
 inline int myround(double n)
@@ -63,9 +143,10 @@ const double root2 = sqrt(2.0);
 
 void rotate(int originx, int originy, int xi, int yi, int &xo, int &yo)
 {
-    //xo = xi * setts.zoom;
-    //yo = yi * setts.zoom;
-    //return;
+    if (data.diamondorsquare) {
+        xo = xi * setts.zoom;
+        yo = yi * setts.zoom;
+    } else {
 	/**
 	 * This algorithm deserves a bit of explanation. We're basically rotating
 	 * the square map by 45deg. to make a diamon as AOK displays it. The
@@ -102,25 +183,28 @@ void rotate(int originx, int originy, int xi, int yi, int &xo, int &yo)
 	 *    y3 = (y2 + origin * root2) * root2
 	 *    x3 = (x2 + origin * root2) * root2
 	 */
-    xo = myround((xi + yi) * sin45 * root2);
-    yo = myround((xi - yi) * sin45 * root2) + originy * 2;
-	xo *= setts.zoom;
-	yo *= setts.zoom;
-	yo /=2;
+        xo = myround((xi + yi) * sin45 * root2);
+        yo = myround((xi - yi) * sin45 * root2) + originy * 2;
+	    xo *= setts.zoom;
+	    yo *= setts.zoom;
+	    yo /=2;
+	}
 }
 
 void unrotate(int originx, int originy, int xi, int yi, unsigned &xo, unsigned &yo)
 {
-    //xo = xi / setts.zoom;
-    //yo = yi / setts.zoom;
-    //return;
-    yi *=2;
-    xi /= setts.zoom;
-	yi /= setts.zoom;
-	yi -= originy * 2;
+    if (data.diamondorsquare) {
+        xo = xi / setts.zoom;
+        yo = yi / setts.zoom;
+    } else {
+        yi *=2;
+        xi /= setts.zoom;
+	    yi /= setts.zoom;
+	    yi -= originy * 2;
 
-    xo = -myround((xi + yi) * nsin45 / root2);
-    yo = -myround((xi - yi) * nsin45 / root2);
+        xo = -myround((xi + yi) * nsin45 / root2);
+        yo = -myround((xi - yi) * nsin45 / root2);
+    }
 }
 
 void PaintUnits(HDC dc)
@@ -203,6 +287,8 @@ void PaintMap(HDC dcdest)
 	}
 
 	PaintUnits(data.copydc);
+	//SaveToFile(data.mapbmp, LPCTSTR lpszFileName);
+	SaveToFile(data.mapbmp, "preview.bmp");
 }
 
 POINT CalculateMinSize(HWND mapview)
@@ -255,7 +341,7 @@ void Refresh(HWND window, BOOL erase)
 {
 	HDC dc;
 	RECT wndSize;
-	
+
 	/* actually redraw the map */
 	dc = GetDC(window);
 	if (data.mapbmp)
@@ -377,7 +463,7 @@ void HighlightPoint(HWND window, int x, int y)
 #define NUM_SB_SIZES 2
 int sb_sizes[NUM_SB_SIZES] =
 { 150, -1 };
-const char *sb_msg = "Click here to force refresh.";
+const char *sb_msg = "Refresh/Toggle Diamond.";
 
 HWND makestatus(HWND parent)
 {
@@ -413,6 +499,7 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	data.mapbmp = NULL;
 	data.bmphsize = 0;
 	data.bmpvsize = 0;
+	data.diamondorsquare = -1;
 	data.statusbar = NULL;
 	data.highlights = NULL;
 
@@ -644,8 +731,10 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_NOTIFY:
 		{
 			const NMHDR *header = (NMHDR*)lParam;
-			if (header->hwndFrom == data.statusbar && header->code == NM_CLICK)
+			if (header->hwndFrom == data.statusbar && header->code == NM_CLICK) {
+                data.diamondorsquare = !data.diamondorsquare;
 				Refresh(window, TRUE);
+			}
 		}
 		break;
 

@@ -240,13 +240,12 @@ void UpdateScrollbars(HWND window, int width, int height)
 	GetWindowRect(data.statusbar, &statusSize);
 
 	/* horizontal scrollbar */
-	si.nMax = data.scrollMaxX = data.bmphsize - width;
+	si.nMax = data.scrollMaxX = data.bmphsize;
 	si.nPage = si.nMax / 10;
 	SetScrollInfo(window, SB_HORZ, &si, TRUE);
 
 	/* vertical scrollbar */
-	si.nMax = data.scrollMaxY =
-		data.bmpvsize - height + (statusSize.bottom - statusSize.top + 1);	//big hack here
+	si.nMax = data.scrollMaxY = data.bmpvsize;	//big hack here
 	si.nPage = si.nMax / 10;
 	SetScrollInfo(window, SB_VERT, &si, TRUE);
 }

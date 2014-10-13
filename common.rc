@@ -36,8 +36,8 @@ IDB_WALL                BITMAP                  "res\\wall.bmp"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,1,0
- PRODUCTVERSION 1,0,1,0
+ FILEVERSION 1,0,3,9
+ PRODUCTVERSION 1,0,3,9
  FILEFLAGSMASK 0x1L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -60,7 +60,7 @@ BEGIN
             VALUE "LegalTrademarks", "Age of Empires II is a legal trademark of Microsoft Corporation."
             VALUE "OriginalFilename", "aokts.exe"
             VALUE "ProductName", " AOK Trigger Studio"
-            VALUE "ProductVersion", "1.0.3"
+            VALUE "ProductVersion", "1.0.3.9"
         END
     END
     BLOCK "VarFileInfo"
@@ -259,13 +259,30 @@ STYLE DS_SETFONT | WS_POPUP | WS_CAPTION
 CAPTION "Map"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    COMBOBOX        IDC_TR_SIZE,48,21,51,87,CBS_DROPDOWN | WS_TABSTOP
-    COMBOBOX        IDC_TR_SIZE2,114,21,51,87,CBS_DROPDOWN | WS_TABSTOP
-    COMBOBOX        IDC_TR_AITYPE,48,38,118,72,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_TR_TX,35,80,18,12,ES_NUMBER
-    EDITTEXT        IDC_TR_TY,35,95,18,12,ES_NUMBER
-    COMBOBOX        IDC_TR_ELEV,35,112,30,80,CBS_DROPDOWNLIST | WS_TABSTOP
-    LISTBOX         IDC_TR_ID,76,79,89,78,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "H",IDC_STATIC,103,25,8,8
+    GROUPBOX        "Map",IDC_STATIC,9,10,165,66
+    GROUPBOX        "Terrain Copy",IDC_STATIC,222,9,126,100
+    GROUPBOX        "Selected Tile",IDC_STATIC,9,82,165,102
+    GROUPBOX        "Relocate Area (maintains triggers)",IDC_STATIC,222,117,126,83
+    GROUPBOX        "Scale Area (not operational)",IDC_STATIC,9,191,126,81
+    LTEXT           "Size:",IDC_STATIC,16,25,16,8
+    LTEXT           "AI Type:",IDC_STATIC,17,42,28,8
+    LTEXT           "X:",IDC_STATIC,26,97,8,8
+    LTEXT           "Y:",IDC_STATIC,26,112,8,8
+    LTEXT           "Elev:",IDC_STATIC,16,129,17,8
+    LTEXT           "From (X,Y):",IDC_STATIC,15,207,36,10
+    LTEXT           "To (X,Y):",IDC_STATIC,22,234,29,10
+    LTEXT           "From (X,Y):",IDC_STATIC,228,23,36,10
+    LTEXT           "To (X,Y):",IDC_STATIC,235,74,29,10
+    LTEXT           "From (X,Y):",IDC_STATIC,228,133,36,10
+    LTEXT           "To (X,Y):",IDC_STATIC,235,160,29,10
+    COMBOBOX        IDC_TR_SIZE,48,23,51,87,CBS_DROPDOWN | WS_TABSTOP
+    COMBOBOX        IDC_TR_SIZE2,114,23,51,87,CBS_DROPDOWN | WS_TABSTOP
+    COMBOBOX        IDC_TR_AITYPE,48,40,118,72,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_TR_TX,35,95,18,12,ES_NUMBER
+    EDITTEXT        IDC_TR_TY,35,110,18,12,ES_NUMBER
+    COMBOBOX        IDC_TR_ELEV,35,127,30,80,CBS_DROPDOWNLIST | WS_TABSTOP
+    LISTBOX         IDC_TR_ID,76,95,89,80,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_TR_MCX1,266,22,18,12,ES_NUMBER
     EDITTEXT        IDC_TR_MCY1,287,22,18,12,ES_NUMBER
     PUSHBUTTON      "Set...",IDC_TR_MCSET1,310,22,29,12
@@ -297,24 +314,8 @@ BEGIN
     EDITTEXT        IDC_TR_MMYT2,74,234,18,12,ES_NUMBER
     PUSHBUTTON      "Set...",IDC_TR_MMSETT2,97,234,29,12
     PUSHBUTTON      "Move",IDC_TR_MMMOVE2,53,252,73,13
-    LTEXT           "X:",IDC_STATIC,26,82,8,8
-    LTEXT           "Y:",IDC_STATIC,26,97,8,8
-    GROUPBOX        "Relocate Area",IDC_STATIC,222,117,126,83
-    GROUPBOX        "Terrain Copy",IDC_STATIC,222,9,126,100
-    LTEXT           "Size:",IDC_STATIC,16,23,16,8
-    LTEXT           "AI Type:",IDC_STATIC,17,40,28,8
-    LTEXT           "Elev:",IDC_STATIC,16,114,17,8
-    LTEXT           "From (X,Y):",IDC_STATIC,228,23,36,10
-    LTEXT           "To (X,Y):",IDC_STATIC,235,74,29,10
-    LTEXT           "From (X,Y):",IDC_STATIC,228,133,36,10
-    LTEXT           "To (X,Y):",IDC_STATIC,235,160,29,10
-    GROUPBOX        "Scale Area (doesn't work)",IDC_STATIC,9,191,126,81
-    LTEXT           "From (X,Y):",IDC_STATIC,15,207,36,10
-    LTEXT           "To (X,Y):",IDC_STATIC,22,234,29,10
-    GROUPBOX        "Map",IDC_STATIC,9,10,165,50
-    GROUPBOX        "Selected Tile",IDC_STATIC,9,67,165,98
-    LTEXT           "W",IDC_STATIC,37,23,8,8
-    LTEXT           "H",IDC_STATIC,103,23,8,8
+    LTEXT           "W",IDC_STATIC,37,25,8,8
+    LTEXT           "Width must equal height to work.",IDC_STATIC,48,60,118,10
 END
 
 IDD_UNITS DIALOGEX 0, 0, 356, 280

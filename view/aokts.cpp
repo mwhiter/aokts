@@ -1132,7 +1132,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 	//	MessageBox(sheet, warnNoAOEII, "Warning", MB_ICONWARNING);
 
 	//open mapview window
-	propdata.mapview = MakeMapView(sheet, cmdshow);
+	propdata.mapview = MakeMapView(sheet, cmdshow || SW_MAXIMIZE);
 
 	//check for, then open the scenario specified in command string
 	if (*cmdline != '\0')

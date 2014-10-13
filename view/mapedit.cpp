@@ -78,6 +78,16 @@ void LoadMap(HWND dialog, bool all)
 	}
 	if (i == NUM_SIZES)
 		SetDlgItemInt(dialog, IDC_TR_SIZE, scen.map.x, FALSE);
+	for (i = 0; i < NUM_SIZES; i++)
+	{
+		if (scen.map.y == MapSizes[i])
+		{
+			SendDlgItemMessage(dialog, IDC_TR_SIZE2, CB_SETCURSEL, i, 0);
+			break;
+		}
+	}
+	if (i == NUM_SIZES)
+		SetDlgItemInt(dialog, IDC_TR_SIZE2, scen.map.y, FALSE);
 
 	ait = esdata.aitypes.getByIdSafe(scen.map.aitype);
 
@@ -86,22 +96,30 @@ void LoadMap(HWND dialog, bool all)
 
 void SaveMap(HWND dialog)
 {
-	int size;
+	int w,h;
 	Map::Terrain *tn = scen.map.terrain[propdata.sel0] + propdata.sel1;
 
 	//First check standard sizes. If that fails, get the custom size.
-	if ((size = SendDlgItemMessage(dialog, IDC_TR_SIZE, CB_GETCURSEL, 0, 0)) != LB_ERR)
-		scen.map.x = MapSizes[size];
+	if ((w = SendDlgItemMessage(dialog, IDC_TR_SIZE, CB_GETCURSEL, 0, 0)) != LB_ERR)
+		scen.map.x = MapSizes[w];
 	else
 		scen.map.x = GetDlgItemInt(dialog, IDC_TR_SIZE, NULL, FALSE);
 
-	if (scen.map.x > MAX_MAPSIZE)
+	if ((h = SendDlgItemMessage(dialog, IDC_TR_SIZE2, CB_GETCURSEL, 0, 0)) != LB_ERR)
+		scen.map.y = MapSizes[h];
+	else
+		scen.map.y = GetDlgItemInt(dialog, IDC_TR_SIZE2, NULL, FALSE);
+
+	if (scen.map.x > MAX_MAPSIZE || scen.map.y > MAX_MAPSIZE)
 	{
-		scen.map.x = MAX_MAPSIZE;
+	    if (scen.map.x > MAX_MAPSIZE)
+		    scen.map.x = MAX_MAPSIZE;
+	    if (scen.map.y > MAX_MAPSIZE)
+		    scen.map.y = MAX_MAPSIZE;
 		MessageBox(dialog, warningExceededMaxSize, szMapTitle, MB_ICONWARNING);
 	}
 
-	scen.map.y = scen.map.x;	//maps are square
+	//scen.map.y = scen.map.x;	//maps are square
 
 	scen.map.aitype = LCombo_GetSelId(dialog, IDC_TR_AITYPE);
 	tn->cnst = static_cast<char>(
@@ -488,6 +506,7 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 
 					LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
 					Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
+					Combo_Fill(dialog, IDC_TR_SIZE2, sizes, NUM_SIZES);
 					Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
 
 					ret = TRUE;

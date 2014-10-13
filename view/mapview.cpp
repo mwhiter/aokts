@@ -61,7 +61,7 @@ const double root2 = sqrt(2.0);
 
 /* rotates points 45deg to make a diamond from a square */
 
-void rotate(int origin, int xi, int yi, int &xo, int &yo)
+void rotate(int originx, int originy, int xi, int yi, int &xo, int &yo)
 {
     //xo = xi * setts.zoom;
     //yo = yi * setts.zoom;
@@ -74,8 +74,6 @@ void rotate(int origin, int xi, int yi, int &xo, int &yo)
 	 * 1) We're rotating about the center, so translate points to be relative
 	 *    to center, not bottom-left corner.
 	 */
-	double ox = xi - origin;
-	double oy = yi - origin;
 
 	/**
 	 * 2) Perform the actual rotation:
@@ -104,24 +102,25 @@ void rotate(int origin, int xi, int yi, int &xo, int &yo)
 	 *    y3 = (y2 + origin * root2) * root2
 	 *    x3 = (x2 + origin * root2) * root2
 	 */
-    xo = myround((ox + oy) * sin45 * root2) + origin * 2;
-    yo = myround((ox - oy) * sin45 * root2) + origin * 2;
+    xo = myround((xi + yi) * sin45 * root2);
+    yo = myround((xi - yi) * sin45 * root2) + originy * 2;
 	xo *= setts.zoom;
 	yo *= setts.zoom;
 	yo /=2;
 }
 
-void unrotate(int origin, int xi, int yi, unsigned &xo, unsigned &yo)
+void unrotate(int originx, int originy, int xi, int yi, unsigned &xo, unsigned &yo)
 {
     //xo = xi / setts.zoom;
     //yo = yi / setts.zoom;
     //return;
     yi *=2;
-	double xr = xi / setts.zoom - origin * 2;
-	double yr = yi / setts.zoom - origin * 2;
+    xi /= setts.zoom;
+	yi /= setts.zoom;
+	yi -= originy * 2;
 
-    xo = origin - myround((xr + yr) * nsin45 / root2);
-    yo = origin - myround((xr - yr) * nsin45 / root2);
+    xo = -myround((xi + yi) * nsin45 / root2);
+    yo = -myround((xi - yi) * nsin45 / root2);
 }
 
 void PaintUnits(HDC dc)
@@ -129,7 +128,7 @@ void PaintUnits(HDC dc)
 	using std::vector;
 
 	int rx, ry;
-	int half = data.scen->map.x / 2;
+	int half = max(data.scen->map.x, data.scen->map.y) / 2;
 	RECT area;
 
 	for (int i = 0; i < 8; i++)	//skip GAIA for now
@@ -139,7 +138,7 @@ void PaintUnits(HDC dc)
 		for (vector<Unit>::const_iterator iter = p.units.begin();
 			iter != p.units.end(); ++iter)
 		{
-			rotate(half, (int)iter->x, (int)iter->y, rx, ry);
+			rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->x, (int)iter->y, rx, ry);
 			area.left = rx;
 			area.right = rx + setts.zoom;
 			area.top = ry;
@@ -163,7 +162,7 @@ void PaintUnits(HDC dc)
 	/* Highlighting */
 	for (Highlight *hparse = data.highlights; hparse; hparse = hparse->next)
 	{
-		rotate(half, hparse->x, hparse->y, rx, ry);
+		rotate(data.scen->map.x/2, data.scen->map.y/2, hparse->x, hparse->y, rx, ry);
 		area.left = rx;
 		area.right = rx + setts.zoom;
 		area.top = ry;
@@ -174,17 +173,18 @@ void PaintUnits(HDC dc)
 
 void PaintMap(HDC dcdest)
 {
-	int half;
+	int half,full;
 	unsigned y, x;
 	int ry, rx;	//rotated
 	Map::Terrain *parse;
 	RECT area;
 
 	/* Create a bitmap */
-	data.bmphsize = (2 * data.scen->map.x + 1) * setts.zoom;
-	data.bmpvsize = (1 * data.scen->map.x + 1) * setts.zoom;
+	full = max(data.scen->map.x, data.scen->map.y);
+	data.bmphsize = (2 * full + 1) * setts.zoom;
+	data.bmpvsize = (full + 1) * setts.zoom;
 	data.mapbmp = CreateCompatibleBitmap(dcdest, data.bmphsize, data.bmpvsize);
-	half = data.scen->map.x / 2;
+	half = full / 2;
 
 	/* Do the painting. */
 	SelectObject(data.copydc, data.mapbmp);
@@ -193,7 +193,7 @@ void PaintMap(HDC dcdest)
 		parse = data.scen->map.terrain[x];
 		for (y = 0; y < data.scen->map.y; y++, parse++)
 		{
-			rotate(half, x, y, rx, ry);
+			rotate(data.scen->map.x/2, data.scen->map.y/2, x, y, rx, ry);
 			area.left = rx;
 			area.right = rx + setts.zoom;
 			area.top = ry;
@@ -455,7 +455,7 @@ void OnWM_MOUSEMOVE(HWND, int x, int y)
 
 	x -= data.offsetx;
 	y -= data.offsety;
-	unrotate(data.scen->map.x / 2, x, y, rx, ry);
+	unrotate(data.scen->map.x/2, data.scen->map.y/2, x, y, rx, ry);
 
 	if (rx >= 0 && rx < data.scen->map.x && ry >= 0 && ry < data.scen->map.y)
 		sprintf(text, "%d, %d", rx, ry);
@@ -468,7 +468,7 @@ void OnWM_LBUTTONUP(HWND window, int x, int y)
 	HWND owner = GetWindow(window, GW_OWNER);
 	unsigned rx, ry;	//un-rotated
 
-	unrotate(data.scen->map.x / 2, x - data.offsetx, y - data.offsety, rx, ry);
+	unrotate(data.scen->map.x/2, data.scen->map.y/2, x - data.offsetx, y - data.offsety, rx, ry);
 
 	if (rx >= 0 && rx < data.scen->map.x && ry >= 0 && ry < data.scen->map.y)
 		SendMessage(owner, MAP_Click, 0, MAKELPARAM(rx, ry));

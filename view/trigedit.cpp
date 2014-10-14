@@ -1480,6 +1480,11 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			TreeView_EditLabel(treeview, TreeView_GetSelection(treeview));
 			break;
 
+		case IDC_T_HIDENAMES:
+			scen.remove_trigger_names();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
 		case IDC_T_ADD:
 			SAFETY();
 			TrigTree_AddNew(treeview);

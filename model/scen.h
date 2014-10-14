@@ -247,6 +247,8 @@ public:
 	*/
 	int map_size(const RECT &source, MapCopyCache *&mcc);
 
+	AOKTS_ERROR remove_trigger_names();
+
 	/*	map_copy: copies terrain and units from a specified area of the map
 		to a Buffer.
 

@@ -1154,6 +1154,7 @@
 #define IDC_T_DEL                       1210
 #define IDC_T_ADD                       1211
 #define IDC_T_DUPP                      1212
+#define IDC_T_HIDENAMES                 1213
 #define ctlLast                         0x04ff
 #define _WIN32_WINNT                    0x0500
 #define _WIN32_IE                       0x0501
@@ -1196,7 +1197,17 @@
 #define IDC_TR_MMYT                     1439
 #define IDC_TR_MMSETT                   1440
 #define IDC_TR_MCPASTE2                 1441
+#define IDC_TR_MMX3                     1441
 #define IDC_TR_MMMOVE                   1442
+#define IDC_TR_MMY3                     1443
+#define IDC_TR_MMSET3                   1444
+#define IDC_TR_MMX4                     1445
+#define IDC_TR_MMY4                     1446
+#define IDC_TR_MMSET4                   1447
+#define IDC_TR_MMXT2                    1448
+#define IDC_TR_MMYT2                    1449
+#define IDC_TR_MMSETT2                  1450
+#define IDC_TR_MMMOVE2                  1451
 #define IDC_U_SELU                      1500
 #define IDC_U_SELP                      1501
 #define IDC_U_TYPE                      1502

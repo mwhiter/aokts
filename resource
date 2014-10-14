@@ -1154,6 +1154,7 @@
 #define IDC_T_DEL                       1210
 #define IDC_T_ADD                       1211
 #define IDC_T_DUPP                      1212
+#define IDC_T_HIDENAMES                 1213
 #define ctlLast                         0x04ff
 #define _WIN32_WINNT                    0x0500
 #define _WIN32_IE                       0x0501

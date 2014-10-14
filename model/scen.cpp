@@ -1377,6 +1377,21 @@ AOKTS_ERROR Scenario::map_paste(const POINT &to, Buffer &from)
 //	return ERR_none;
 //}
 
+AOKTS_ERROR Scenario::remove_trigger_names()
+{
+	Trigger *trig = triggers.first();
+	long num = triggers.count();
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    strcpy(trig->name, "");
+		trig++;
+	}
+
+	return ERR_none;
+}
 
 AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 {

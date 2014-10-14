@@ -37,6 +37,7 @@ enum ConditionType
 	CONDITION_OwnFewerFoundations,
 	CONDITION_SelectedObjectsInArea,
 	CONDITION_PoweredObjectsInArea,
+	/* AOK too */
 	CONDITION_UnitsQueuedPastPopCap
 };
 

@@ -61,7 +61,7 @@ std::string Condition::getName() const
 
 std::string Condition::getNameTip() const
 {
-    std::string stype = std::string((type < NUM_CONDS) ? types[type] : "Unknown!");
+    std::string stype = std::string((type < NUM_CONDS) ? types_short[type] : "Unknown!");
     if (type == 10) {
         stype.append(": ");
         std::ostringstream convert;

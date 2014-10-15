@@ -90,6 +90,7 @@ public:
 //internal
 
 	static const char* types[NUM_CONDS];
+	static const char* types_short[NUM_CONDS];
 
 private:
 	void fromGenie(const struct Genie_Condition&);

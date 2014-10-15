@@ -131,11 +131,11 @@ std::string Effect::getName() const
 
 std::string Effect::getNameTip() const
 {
-    std::string stype = std::string((type < NUM_EFFECTS) ? types[type] : "Unknown!");
+    std::string stype = std::string((type < NUM_EFFECTS) ? types_short[type] : "Unknown!");
     if (type == 8 || type == 9) {
         if (trig_index >= 0 && trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
             stype.append(": ");
-            stype.append(scen.triggers.at(trig_index)->name);
+            stype.append(scen.triggers.at(trig_index).name);
             //std::ostringstream convert;
             //convert << trig_index;
             //stype.append(convert.str());
@@ -414,6 +414,47 @@ const char *Effect::types[] =
 	"Ch UP Range - HD Armor",
 	"Ch UP Armor1 - HD Range",
 	"Ch UP Armor2 - HD Speed",
+	"Enable Unit",
+	"Disable Unit",
+	"Flash Objects"
+};
+
+const char *Effect::types_short[] =
+{
+	"Undefined",
+	"Change Diplomacy",
+	"Research",
+	"Chat",
+	"Sound",
+	"Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate",
+	"Deactivate",
+	"AI Script Goal",
+	"Create",
+	"Task",
+	"Declare Victory",
+	"Kill",
+	"Remove",
+	"Change View",
+	"Unload",
+	"Change Ownership",
+	"Patrol",
+	"Instructions",
+	"Clear Instructions",
+	"Freeze",
+	"Use Advanced Buttons",
+	"Damage Object",
+	"Place Foundation",
+	"Name",
+	"HP",
+	"Attack",
+	"Stop Unit",
+	"Speed - HD Attack-Move",
+	"Range - HD Armor",
+	"Armor1 - HD Range",
+	"Armor2 - HD Speed",
 	"Enable Unit",
 	"Disable Unit",
 	"Flash Objects"

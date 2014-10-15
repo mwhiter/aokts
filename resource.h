@@ -1155,6 +1155,14 @@
 #define IDC_T_ADD                       1211
 #define IDC_T_DUPP                      1212
 #define IDC_T_HIDENAMES                 1213
+#define IDC_T_ADD2                      1214
+#define IDC_T_GOTO                      1214
+#define IDC_T_DO                        1215
+#define IDC_T_SHOWFIREORDER             1215
+#define IDC_T_DO2                       1216
+#define IDC_T_READMODE                  1216
+#define IDC_T_HIDENAMES2                1217
+#define IDC_T_SYNC                      1217
 #define ctlLast                         0x04ff
 #define _WIN32_WINNT                    0x0500
 #define _WIN32_IE                       0x0501
@@ -1187,6 +1195,7 @@
 #define IDC_TR_MCSETT                   1418
 #define IDC_TR_MCPASTE                  1419
 #define IDC_TR_MCCOPY                   1420
+#define IDC_TR_SIZE3                    1421
 #define IDC_TR_MMX1                     1432
 #define IDC_TR_MMY1                     1433
 #define IDC_TR_MMSET1                   1434

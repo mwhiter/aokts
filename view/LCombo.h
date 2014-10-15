@@ -64,7 +64,7 @@ inline const Link * LCombo_GetSelPtr(HWND dialog, int id)
 }
 
 /*
- * return: index of deisred item
+ * return: index of desired item
  */
 int LinkComboBox_Find(HWND combobox, const Link * data);
 

@@ -194,7 +194,7 @@ public:
 	float	editor_pos[2];
 	//SString unk2;     // might be related to triggers?
 	char unk2;
-	SVector <Trigger> triggers;
+    std::vector<Trigger> triggers;
 	std::vector<unsigned long> t_order;
 
 	long unk3; // TODO: rename
@@ -266,6 +266,8 @@ public:
 
 	/*  map_move: moves the units, terrain and triggers in that terrain */
     AOKTS_ERROR map_move(const RECT &from, const POINT &to);
+
+    AOKTS_ERROR sync_triggers();
 
 	int getPlayerCount();
 

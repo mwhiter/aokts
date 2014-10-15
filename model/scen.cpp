@@ -708,11 +708,11 @@ void Scenario::read_data(const char *path)	//decompressed data
 	/*readunk<char>(dc2in.get(), 0, "pre-trigger unknown",false); // ok
 	readunk<char>(dc2in.get(), 0, "pre-trigger unknown",false); // ok
 	readunk<char>(dc2in.get(), 0, "pre-trigger unknown",false); // ok*/
-	triggers.allocate(n_trigs, true);
+	triggers.resize(n_trigs);
 
 	if (n_trigs)
 	{
-		Trigger *t = triggers.first();
+		Trigger *t = &(*triggers.begin());
 
 		//read triggers
 		for (unsigned int i = 0; i < n_trigs; ++i)
@@ -730,7 +730,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 		// save the trigger display order to the trigger objects
 		for (unsigned int j = 0; j < n_trigs; j++) {
 			//printf("%hu\n",j);
-			triggers.at(t_order[j])->display_order = j;
+			triggers.at(t_order[j]).display_order = j;
 		}
 
 		// verify just the first one because I'm lazy
@@ -965,8 +965,8 @@ int Scenario::write_data(const char *path)
 
 	/* Triggers */
 
-	Trigger *t_parse = triggers.first();
-	num = triggers.count();
+	Trigger *t_parse = &(*triggers.begin());
+	num = triggers.size();
 	fwrite(&num, sizeof(long), 1, dcout);
 
 	i = num;
@@ -1014,7 +1014,7 @@ bool Scenario::export_bmp(const char *path)
 //I HATE THIS FUNCTION!
 void Scenario::clean_triggers()
 {
-	vector<bool> kill(triggers.count(), true); //contains whether a trigger should be deleted
+	vector<bool> kill(triggers.size(), true); //contains whether a trigger should be deleted
 
 	// don't kil the ones that are still indexed on t_order
 	for (vector<unsigned long>::const_iterator i = t_order.begin();
@@ -1023,7 +1023,7 @@ void Scenario::clean_triggers()
 
 	/* Now delete the ones still on the kill list. We do this backwards because
 	 * that only invalidates the indices on and after the current one. */
-	for (size_t i = triggers.count(); i != 0; --i)
+	for (size_t i = triggers.size(); i != 0; --i)
 	{
 		// i is the index - 1 to make i != 0 work
 		size_t t_index = i - 1;
@@ -1032,7 +1032,7 @@ void Scenario::clean_triggers()
 			continue;           //... skip all this
 
 
-		triggers.remove(t_index);
+		triggers.erase(triggers.begin() + t_index);
 
 		// Decrement t_order entries referencing triggers beyond the one we
 		// just removed.
@@ -1044,8 +1044,8 @@ void Scenario::clean_triggers()
 		}
 
 		//adjust effect's trigger indexes accordingly (UGH!)
-		Trigger *t_parse = triggers.first();
-		for (size_t j = 0; j != triggers.count(); ++j)
+		Trigger *t_parse = &(*triggers.begin());
+		for (size_t j = 0; j != triggers.size(); ++j)
 		{
 			for (vector<Effect>::iterator i = t_parse->effects.begin();
 				i != t_parse->effects.end(); ++i)
@@ -1063,7 +1063,8 @@ void Scenario::clean_triggers()
 
 size_t Scenario::insert_trigger(Trigger *t, size_t after)
 {
-	size_t tindex = triggers.append(*t);
+    triggers.push_back(*t);
+	size_t tindex = triggers.size() - 1;
 
 	// TODO: does the -1 work?
 	if (after == -1)
@@ -1089,8 +1090,8 @@ size_t Scenario::insert_trigger(Trigger *t, size_t after)
 
 void Scenario::accept(TriggerVisitor& tv)
 {
-	for (size_t i = 0; i != triggers.count(); ++i)
-		triggers.at(i)->accept(tv);
+	for (size_t i = 0; i != triggers.size(); ++i)
+		triggers.at(i).accept(tv);
 }
 
 bool Scenario::exFile(const char *directory, long index)
@@ -1211,6 +1212,41 @@ int Scenario::map_size(const RECT &source, MapCopyCache *&mcc)
 	}
 
 	return ret;
+}
+
+AOKTS_ERROR Scenario::sync_triggers() {
+	size_t num = triggers.size();
+	if (num > 0) {
+        for (size_t i = 0; i < num; i++) {
+            if (triggers.at(i).display_order != (long)i) {
+                for (size_t j = i+1; j < num; j++) {
+                    if (triggers.at(j).display_order == (long)i) {
+                        iter_swap(triggers.begin() + i, triggers.begin() + j);
+                        for (size_t k = 0; k < num; k++) {
+                            for (size_t ie = 0; ie < triggers.at(k).effects.size(); ie++) {
+                                if (triggers.at(k).effects.at(ie).trig_index == i) {
+                                    triggers.at(k).effects.at(ie).trig_index = j;
+                                } else if (triggers.at(k).effects.at(ie).trig_index == j) {
+                                    triggers.at(k).effects.at(ie).trig_index = i;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+		    //// save the trigger display order to the trigger objects
+		    //for (unsigned int j = 0; j < n_trigs; j++) {
+			//    //printf("%hu\n",j);
+			//    triggers.at(t_order[j]).display_order = j;
+		    //}
+			//triggers.at(.display_order = j;
+			t_order[i] = i;
+
+		    //*t_order.begin() = i;
+        }
+    }
+
+	return ERR_none;
 }
 
 AOKTS_ERROR Scenario::map_copy(Buffer &to, const MapCopyCache *mcc)
@@ -1379,15 +1415,20 @@ AOKTS_ERROR Scenario::map_paste(const POINT &to, Buffer &from)
 
 AOKTS_ERROR Scenario::remove_trigger_names()
 {
-	Trigger *trig = triggers.first();
-	long num = triggers.count();
+	long num = triggers.size();
+	if (num > 0) {
+	    Trigger *trig = &(*triggers.begin());
 
-    // triggers
-	long i = num;
-	while (i--)
-	{
-	    strcpy(trig->name, "");
-		trig++;
+        // triggers
+	    long i = num;
+	    while (i--)
+	    {
+	        strcpy(trig->name, "");
+		    char *cstr = trig->description.unlock(1);
+	        strcpy(cstr, "");
+		    trig->description.lock();
+		    trig++;
+	    }
 	}
 
 	return ERR_none;
@@ -1437,8 +1478,8 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 	    }
 	}
 
-	Trigger *trig = triggers.first();
-	long num = triggers.count();
+	Trigger *trig = &(*triggers.begin());
+	long num = triggers.size();
 
     // triggers
 	long i = num;

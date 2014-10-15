@@ -112,6 +112,7 @@ public:
 #pragma pack(pop)
 
 	static const char* types[NUM_EFFECTS];
+	static const char* types_short[NUM_EFFECTS];
 
 private:
 	void fromGenie(const struct Genie_Effect&);

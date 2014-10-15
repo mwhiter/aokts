@@ -660,11 +660,11 @@ BOOL DisplayStats(HWND dialog)
 	SetDlgItemInt(dialog, IDC_S_UNITS, total, FALSE);
 
 	/* total triggers */
-	SetDlgItemInt(dialog, IDC_S_TRIGGERS, scen.triggers.count(), FALSE);
+	SetDlgItemInt(dialog, IDC_S_TRIGGERS, scen.triggers.size(), FALSE);
 
 	/* total effects & conditions */
-	total = scen.triggers.count();
-	t_parse = scen.triggers.first();
+	total = scen.triggers.size();
+	t_parse = &(*scen.triggers.begin());
 	while (total--)
 	{
 		ne += t_parse->effects.size();

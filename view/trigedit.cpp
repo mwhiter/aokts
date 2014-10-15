@@ -106,7 +106,7 @@ void FillTrigCB(HWND combobox, size_t select)
 	for (vector<unsigned long>::const_iterator i = scen.t_order.begin();
 		i != scen.t_order.end(); ++i)
 	{
-		LRESULT idx = Combo_AddStringA(combobox, scen.triggers.at(*i)->name);
+		LRESULT idx = Combo_AddStringA(combobox, scen.triggers.at(*i).name);
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
 
 		if (*i == select)	//to avoid cycling through again in LoadEffect()
@@ -166,7 +166,7 @@ public:
 	virtual bool Copy(HWND treeview, HTREEITEM source, HTREEITEM target);
 
 	inline virtual Trigger *GetTrigger()
-	{ return scen.triggers.at(index); }
+	{ return &scen.triggers.at(index); }
 
 };
 
@@ -196,7 +196,7 @@ bool ItemData::Delete(HWND, HTREEITEM)
 
 void ItemData::GetName(char *buffer)
 {
-	Trigger *t = scen.triggers.at(index);
+	Trigger *t = &scen.triggers.at(index);
 
 	strcpy(buffer, (t) ? t->name : "NULL Trigger.");
 }
@@ -205,7 +205,7 @@ void ItemData::DuplicatePlayers(HWND treeview, HTREEITEM item)
 {
 	int i, player;
 	size_t n_index;
-	Trigger *t_source = scen.triggers.at(index);
+	Trigger *t_source = &scen.triggers.at(index);
 	Trigger *t_dup;
 
 	player = t_source->get_player();
@@ -229,8 +229,8 @@ void ItemData::DuplicatePlayers(HWND treeview, HTREEITEM item)
 			continue;
 
 		n_index = scen.insert_trigger(t_source, n_index);
-		t_source = scen.triggers.at(index);	//might have changed
-		t_dup = scen.triggers.at(n_index);
+		t_source = &scen.triggers.at(index);	//might have changed
+		t_dup = &scen.triggers.at(n_index);
 		t_dup->accept(ChangePlayerVisitor(i));
 
 		//new name!
@@ -293,7 +293,7 @@ public:
 	bool Copy(HWND treeview, HTREEITEM source, HTREEITEM target);
 
 	inline Trigger *GetTrigger()
-	{ return scen.triggers.at(trig_index); }
+	{ return &scen.triggers.at(trig_index); }
 
 	unsigned trig_index;	//not essential, but very useful
 	HWND editor;
@@ -445,7 +445,7 @@ bool EffectItemData::Copy(HWND treeview, HTREEITEM, HTREEITEM target)
 
 	/* Add the new one */
 	t_target->effects.insert(e_target, *e_source);
-	id_new = new EffectItemData(newindex, t_target - scen.triggers.first());
+	id_new = new EffectItemData(newindex, t_target - &(*scen.triggers.begin()));
 	tvis.item.mask =
 		TVIF_IMAGE | TVIF_TEXT | TVIF_PARAM | TVIF_SELECTEDIMAGE;
 	tvis.item.lParam = (LPARAM)id_new;
@@ -472,7 +472,7 @@ public:
 	bool Copy(HWND treeview, HTREEITEM source, HTREEITEM target);
 
 	inline Trigger *GetTrigger()
-	{ return scen.triggers.at(trig_index); }
+	{ return &scen.triggers.at(trig_index); }
 
 	unsigned trig_index;	//not essential, but very useful
 	HWND editor;
@@ -613,7 +613,7 @@ bool ConditionItemData::Copy(HWND treeview, HTREEITEM, HTREEITEM target)
 
 	/* Add the new one */
 	ConditionItemData *id_new =
-		new ConditionItemData(newindex, t_target - scen.triggers.first());
+		new ConditionItemData(newindex, t_target - &(*scen.triggers.begin()));
 	t_target->conds.insert(t_target->conds.begin() + newindex, *c_source);
 	tvis.item.mask =
 		TVIF_IMAGE | TVIF_TEXT | TVIF_PARAM | TVIF_SELECTEDIMAGE;
@@ -689,7 +689,7 @@ HTREEITEM TrigTree_AddTrig(HWND treeview, int index, HTREEITEM after)
 {
 	TVINSERTSTRUCT tvis;
 	HTREEITEM trignode;	//parent of condition/effect nodes
-	Trigger *t = scen.triggers.at(index);
+	Trigger *t = &scen.triggers.at(index);
 	bool good = true;
 
 	/* These paramters are for both triggers and conditions/effects */
@@ -1000,7 +1000,7 @@ void TrigTree_Paste(HWND dialog)
 			MessageBox(dialog, "Please select an item first. Pasting aborted.",
 				szTrigTitle, MB_ICONWARNING);
 
-		t = scen.triggers.at(index_sel);
+		t = &scen.triggers.at(index_sel);
 
 		char *ec_data = static_cast<char*>(GlobalLock(clip_data));
 		if (ec_data)
@@ -1106,7 +1106,7 @@ void TrigTree_AddNew(HWND treeview)
 	}
 
 	//add the trigger to the vector
-	sprintf(t.name, "New Trigger %d", scen.triggers.count());
+	sprintf(t.name, "New Trigger %d", scen.triggers.size());
 	index_new = scen.insert_trigger(&t, index_sibling);
 
 	//add the node to the treeview
@@ -1218,7 +1218,7 @@ void TrigTree_HandleSelChanged(NMTREEVIEW *treehdr, HWND dialog)
 
 	// If there was an old selection and it was a Trigger, save it.
 	if (treehdr->itemOld.hItem && data_old->type == TRIGGER)
-		SaveTrigger(dialog, scen.triggers.at(data_old->index));
+		SaveTrigger(dialog, &scen.triggers.at(data_old->index));
 
 	if (treehdr->itemNew.hItem)	//new selection
 	{
@@ -1261,7 +1261,7 @@ void TrigTree_HandleClosing(HWND treeview, WPARAM wParam, class EditEC *edit_dat
 	if (wParam)	//was modified
 	{
 		TVITEM item;
-		Trigger *parent = scen.triggers.at(edit_data->trigindex);
+		Trigger *parent = &scen.triggers.at(edit_data->trigindex);
 
 		edit_data->update(parent);
 
@@ -1385,7 +1385,7 @@ void TrigTree_HandleNewEffect(HWND treeview)
 
 	TreeView_AddChild(treeview,
 		(LPARAM)new EffectItemData(c_trig->effects.size() - 1,
-			c_trig - scen.triggers.first()),
+			c_trig - &(*scen.triggers.begin())),
 		GetRootSel(treeview),
 		TVI_LAST
 		);
@@ -1400,7 +1400,7 @@ void TrigTree_HandleNewCondition(HWND treeview)
 
 	TreeView_AddChild(treeview,
 		(LPARAM)new ConditionItemData(c_trig->conds.size() - 1,
-			c_trig - scen.triggers.first()),
+			c_trig - &(*scen.triggers.begin())),
 		trigger,
 		TrigTree_GetLastCondition(treeview, trigger)
 		);
@@ -1478,6 +1478,11 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 
 		case ID_EDIT_RENAME:
 			TreeView_EditLabel(treeview, TreeView_GetSelection(treeview));
+			break;
+
+		case IDC_T_SYNC:
+			scen.sync_triggers();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
 		case IDC_T_HIDENAMES:
@@ -1576,7 +1581,7 @@ INT_PTR Handle_WM_NOTIFY(HWND dialog, NMHDR const * header)
 
 					if (strlen(newname))
 					{
-						strcpy(scen.triggers.at(data->index)->name, newname);
+						strcpy(scen.triggers.at(data->index).name, newname);
 						SetWindowLongPtr(dialog, DWLP_MSGRESULT, TRUE);
 					}
 					else	//reject no-name triggers

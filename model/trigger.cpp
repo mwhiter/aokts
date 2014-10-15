@@ -339,3 +339,31 @@ const char *Condition::types[] =
 	"Powered Objects in Area",
 	"Units Queued Past Pop Cap"
 };
+
+const char *Condition::types_short[] =
+{
+	"Undefined",
+	"In Area",
+	"At Object",
+	"Own",
+	"Own Fewer",
+	"In Area",
+	"Destroyed",
+	"Captured",
+	"Accumulate",
+	"Research",
+	"Timer",
+	"Selected",
+	"AI Signal",
+	"Defeated",
+	"Targetting",
+	"Visible",
+	"Not Visible",
+	"Researching",
+	"Units Garrisoned",
+	"Difficulty",
+	"Own Fewer Foundations",
+	"Selected Objects in Area",
+	"Powered Objects in Area",
+	"Units Queued Past Pop Cap"
+};

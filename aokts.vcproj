@@ -686,6 +686,30 @@
 			>
 		</File>
 		<File
+			RelativePath=".\resource"
+			>
+		</File>
+		<File
+			RelativePath=".\resource"
+			>
+		</File>
+		<File
+			RelativePath=".\resource"
+			>
+		</File>
+		<File
+			RelativePath=".\resource"
+			>
+		</File>
+		<File
+			RelativePath=".\resource"
+			>
+		</File>
+		<File
+			RelativePath=".\resource"
+			>
+		</File>
+		<File
 			RelativePath=".\scx_format.txt"
 			>
 		</File>

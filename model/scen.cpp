@@ -1214,6 +1214,33 @@ int Scenario::map_size(const RECT &source, MapCopyCache *&mcc)
 	return ret;
 }
 
+AOKTS_ERROR Scenario::move_triggers(size_t start, size_t end, size_t to) {
+	size_t num = triggers.size();
+	if (num > 0) {
+        for (size_t i = 0; i < num; i++) {
+            long displacement = to - start;
+            size_t range = end - start;
+            size_t toend = to + range;
+            if (triggers.at(i).display_order >= (long)start && triggers.at(i).display_order <= (long)end) {
+                triggers.at(i).display_order += displacement;
+            } else {
+                if (displacement > 0 && triggers.at(i).display_order > (long)end && triggers.at(i).display_order <= (long)toend) {
+                    triggers.at(i).display_order -= (range + 1);
+                } else if (displacement < 0 && triggers.at(i).display_order >= (long)to && triggers.at(i).display_order < (long)start) {
+                    triggers.at(i).display_order += (range + 1);
+                }
+            }
+            //t_order[(size_t)triggers.at(i).display_order] = i;
+        }
+        for (size_t i = 0; i < num; i++) {
+            t_order[triggers.at(i).display_order] = i;
+        }
+        //clean_triggers();
+    }
+
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::sync_triggers() {
 	size_t num = triggers.size();
 	if (num > 0) {
@@ -1244,6 +1271,9 @@ AOKTS_ERROR Scenario::sync_triggers() {
 
 		    //*t_order.begin() = i;
         }
+        //for (size_t i = 0; i < num; i++) {
+        //    t_order[triggers.at(i).display_order] = i;
+        //}
     }
 
 	return ERR_none;
@@ -1450,11 +1480,16 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 	truefrom.bottom = from.bottom;
 	truefrom.right = from.left + truew;
 	truefrom.top = from.bottom + trueh;
-	RECT torect;
-	torect.left = to.x;
-	torect.right = to.x + truew;
-	torect.bottom = to.y;
-	torect.top = to.y + trueh;
+	//RECT falseto;
+	//falseto.left = to.x;
+	//falseto.right = to.x + w;
+	//falseto.bottom = to.y;
+	//falseto.top = to.y + h;
+	RECT trueto;
+	trueto.left = to.x;
+	trueto.right = to.x + truew;
+	trueto.bottom = to.y;
+	trueto.top = to.y + trueh;
 
 	map.swapArea(truefrom, to);
 
@@ -1471,7 +1506,7 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
             if (ISINRECT(truefrom, iter->x, iter->y)) {
 		        iter->x += dx;
 		        iter->y += dy;
-		    } else if (ISINRECT(torect, iter->x, iter->y)) {
+		    } else if (ISINRECT(trueto, iter->x, iter->y)) {
 		        iter->x -= dx;
 		        iter->y -= dy;
 		    }
@@ -1490,21 +1525,21 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 		    if (ISINRECT(truefrom, iter->location.x, iter->location.y)) {
 		        iter->location.x += dx;
 		        iter->location.y += dy;
-		    } else if (ISINRECT(torect, iter->location.x, iter->location.y)) {
+		    } else if (ISINRECT(trueto, iter->location.x, iter->location.y)) {
 		        iter->location.x -= dx;
 		        iter->location.y -= dy;
 		    }
 		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
 		        iter->area.right += dx;
 		        iter->area.top += dy;
-		    } else if (ISINRECT(torect, iter->area.right, iter->area.top)) {
+		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
 		        iter->area.right -= dx;
 		        iter->area.top -= dy;
 		    }
 		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
 		        iter->area.left += dx;
 		        iter->area.bottom += dy;
-		    } else if (ISINRECT(torect, iter->area.left, iter->area.bottom)) {
+		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
 		        iter->area.left -= dx;
 		        iter->area.bottom -= dy;
 		    }
@@ -1514,14 +1549,14 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
 		        iter->area.right += dx;
 		        iter->area.top += dy;
-		    } else if (ISINRECT(torect, iter->area.right, iter->area.top)) {
+		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
 		        iter->area.right -= dx;
 		        iter->area.top -= dy;
 		    }
 		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
 		        iter->area.left += dx;
 		        iter->area.bottom += dy;
-		    } else if (ISINRECT(torect, iter->area.left, iter->area.bottom)) {
+		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
 		        iter->area.left -= dx;
 		        iter->area.bottom -= dy;
 		    }

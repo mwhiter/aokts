@@ -267,6 +267,7 @@ public:
 	/*  map_move: moves the units, terrain and triggers in that terrain */
     AOKTS_ERROR map_move(const RECT &from, const POINT &to);
 
+    AOKTS_ERROR move_triggers(size_t start, size_t end, size_t to);
     AOKTS_ERROR sync_triggers();
 
 	int getPlayerCount();

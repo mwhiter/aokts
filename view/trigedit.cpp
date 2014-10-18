@@ -198,7 +198,7 @@ void ItemData::GetName(char *buffer)
 {
 	Trigger *t = &scen.triggers.at(index);
 
-	strcpy(buffer, (t) ? t->name : "NULL Trigger.");
+	strcpy(buffer, (t) ? std::string(toString<long>(t->display_order)).append(std::string(" (").append(toString<long>(index))).append(") ").append(t->name).c_str() : "NULL Trigger.");
 }
 
 void ItemData::DuplicatePlayers(HWND treeview, HTREEITEM item)
@@ -1178,6 +1178,9 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	treeview = GetDlgItem(dialog, IDC_T_TREE);
 	TreeView_SetImageList(treeview, il, TVSIL_NORMAL);
 
+	CheckDlgButton(dialog, IDC_T_SHOWDISPLAYORDER, true);
+	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, true);
+
 	return TRUE;
 }
 
@@ -1480,8 +1483,15 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			TreeView_EditLabel(treeview, TreeView_GetSelection(treeview));
 			break;
 
+		case IDC_T_MOVE:
+			scen.move_triggers(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_DEST, NULL, FALSE));
+			//scen.clean_triggers();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
 		case IDC_T_SYNC:
 			scen.sync_triggers();
+			//scen.clean_triggers();
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 

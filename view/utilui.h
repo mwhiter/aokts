@@ -12,6 +12,7 @@
 #include "../util/winugly.h"
 #include <climits>
 #include <string>
+#include <sstream>
 
 /* Shared msgbox strings */
 
@@ -36,6 +37,14 @@ const char warningNoFormat[] =
 void GetWindowText(HWND wnd, class SString &value);
 
 void SetWindowText(HWND wnd, int value);
+
+template<typename T>
+std::string toString(const T& value)
+{
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
+}
 
 /**
  * Displays an error message box indicating that an unhandled exception

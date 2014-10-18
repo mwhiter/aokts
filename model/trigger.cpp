@@ -350,9 +350,9 @@ const char *Condition::types_short[] =
 	"In Area",
 	"Destroyed",
 	"Captured",
-	"Accumulate",
-	"Research",
-	"Timer",
+	"Accumulated",
+	"Researched",
+	"Time",
 	"Selected",
 	"AI Signal",
 	"Defeated",
@@ -360,10 +360,10 @@ const char *Condition::types_short[] =
 	"Visible",
 	"Not Visible",
 	"Researching",
-	"Units Garrisoned",
+	"Garrisoned",
 	"Difficulty",
-	"Own Fewer Foundations",
-	"Selected Objects in Area",
-	"Powered Objects in Area",
-	"Units Queued Past Pop Cap"
+	"Fewer Foundations",
+	"Selected in Area",
+	"Powered in Area",
+	"Queued Past Pop Cap"
 };

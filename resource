@@ -894,9 +894,13 @@
 #define WM_PENWINLAST                   0x038F
 #define WM_DDE_FIRST                    0x03E0
 #define IDC_U_IDENT_LABEL               1000
+#define IDC_T_MOVE                      1000
 #define IDC_M_MSGS                      1001
+#define IDC_T_START                     1001
 #define IDC_M_CINEM                     1002
+#define IDC_T_END                       1002
 #define IDC_M_STABLE                    1003
+#define IDC_T_DEST                      1003
 #define IDC_BUTTON_AREA_ALL             1004
 #define IDC_BUTTON_AREA_ALL_COND        1005
 #define IDC_STATIC_X                    1006
@@ -1155,13 +1159,9 @@
 #define IDC_T_ADD                       1211
 #define IDC_T_DUPP                      1212
 #define IDC_T_HIDENAMES                 1213
-#define IDC_T_ADD2                      1214
 #define IDC_T_GOTO                      1214
-#define IDC_T_DO                        1215
 #define IDC_T_SHOWFIREORDER             1215
-#define IDC_T_DO2                       1216
-#define IDC_T_READMODE                  1216
-#define IDC_T_HIDENAMES2                1217
+#define IDC_T_SHOWDISPLAYORDER          1216
 #define IDC_T_SYNC                      1217
 #define ctlLast                         0x04ff
 #define _WIN32_WINNT                    0x0500
@@ -1209,6 +1209,7 @@
 #define IDC_TR_MMX3                     1441
 #define IDC_TR_MMMOVE                   1442
 #define IDC_TR_MMY3                     1443
+#define IDC_T_DELETE                    1443
 #define IDC_TR_MMSET3                   1444
 #define IDC_TR_MMX4                     1445
 #define IDC_TR_MMY4                     1446
@@ -1419,7 +1420,6 @@
 #define ID_EDIT_PASTE                   0xE125
 #define ID_EDIT_DELETE                  0xE126
 #define ID_EDIT_UNDO                    0xE12B
-#define ID_VIEW_STATUS_BAR              0xE131
 #define ID_VIEW_STATISTICS              0xE132
 #define ID_VIEW_MAP                     0xE133
 #define ID_APP_ABOUT                    0xE140
@@ -1451,7 +1451,6 @@
 #define HTERROR                         -2
 #define PWR_FAIL                        -1
 #define HTTRANSPARENT                   -1
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 
@@ -1459,7 +1458,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1004
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

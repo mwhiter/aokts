@@ -146,6 +146,7 @@ void rotate(int originx, int originy, int xi, int yi, int &xo, int &yo)
     if (data.diamondorsquare) {
         xo = xi * setts.zoom;
         yo = yi * setts.zoom;
+        yo = originy * 2 * setts.zoom - yi * setts.zoom - setts.zoom;
     } else {
 	/**
 	 * This algorithm deserves a bit of explanation. We're basically rotating
@@ -196,6 +197,7 @@ void unrotate(int originx, int originy, int xi, int yi, unsigned &xo, unsigned &
     if (data.diamondorsquare) {
         xo = xi / setts.zoom;
         yo = yi / setts.zoom;
+        yo = ((originy * 2 * setts.zoom - yi)) / setts.zoom;
     } else {
         yi *=2;
         xi /= setts.zoom;

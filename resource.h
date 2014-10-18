@@ -1196,6 +1196,7 @@
 #define IDC_TR_MCPASTE                  1419
 #define IDC_TR_MCCOPY                   1420
 #define IDC_TR_SIZE3                    1421
+#define IDC_TR_FIXTRIGGEROUTLIERS       1421
 #define IDC_TR_MMX1                     1432
 #define IDC_TR_MMY1                     1433
 #define IDC_TR_MMSET1                   1434
@@ -1209,6 +1210,7 @@
 #define IDC_TR_MMX3                     1441
 #define IDC_TR_MMMOVE                   1442
 #define IDC_TR_MMY3                     1443
+#define IDC_T_DELETE                    1443
 #define IDC_TR_MMSET3                   1444
 #define IDC_TR_MMX4                     1445
 #define IDC_TR_MMY4                     1446
@@ -1233,6 +1235,8 @@
 #define IDC_U_IDENT                     1513
 #define IDC_U_NEXT_AVAIL                1514
 #define IDC_STATIC_NEXT_AVAIL           1515
+#define IDC_U_COMPRESS                  1516
+#define IDC_U_RENUMBER                  1516
 #define FILEOPENORD                     1536
 #define MULTIFILEOPENORD                1537
 #define PRINTDLGORD                     1538
@@ -1459,7 +1463,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1004
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

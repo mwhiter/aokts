@@ -746,6 +746,7 @@ void LoadTrigger(HWND dialog, Trigger *t)
 		CheckDlgButton(dialog, IDC_T_LOOP, t->loop);
 		CheckDlgButton(dialog, IDC_T_OBJ, t->obj);
 		SetDlgItemText(dialog, IDC_T_DESC, t->description.c_str());
+		SetDlgItemText(dialog, IDC_T_NAME, t->name);
 		SetDlgItemInt(dialog, IDC_T_ORDER, t->obj_order, FALSE);
 	}
 	else
@@ -754,6 +755,7 @@ void LoadTrigger(HWND dialog, Trigger *t)
 		CheckDlgButton(dialog, IDC_T_STATE, BST_UNCHECKED);
 		CheckDlgButton(dialog, IDC_T_LOOP, BST_UNCHECKED);
 		CheckDlgButton(dialog, IDC_T_OBJ, BST_UNCHECKED);
+		SetDlgItemText(dialog, IDC_T_NAME, "");
 		SetDlgItemText(dialog, IDC_T_DESC, "");
 		SetDlgItemText(dialog, IDC_T_ORDER, "");
 	}
@@ -767,6 +769,7 @@ void SaveTrigger(HWND dialog, Trigger *t)
 		t->loop = IsDlgButtonChecked(dialog, IDC_T_LOOP);
 		t->obj = (IsDlgButtonChecked(dialog, IDC_T_OBJ) != 0);
 		GetWindowText(GetDlgItem(dialog, IDC_T_DESC), t->description);
+		GetWindowTextCstr(GetDlgItem(dialog, IDC_T_NAME), t->name);
 		t->obj_order = GetDlgItemInt(dialog, IDC_T_ORDER, NULL, FALSE);
 	}
 }

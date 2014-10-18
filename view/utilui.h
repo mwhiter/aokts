@@ -35,6 +35,7 @@ const char warningNoFormat[] =
 	GetWindowText: Retrieves text from a window and stores it in an SString class.
 */
 void GetWindowText(HWND wnd, class SString &value);
+void GetWindowTextCstr(HWND wnd, char *value);
 
 void SetWindowText(HWND wnd, int value);
 

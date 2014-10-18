@@ -1196,6 +1196,7 @@
 #define IDC_TR_MCPASTE                  1419
 #define IDC_TR_MCCOPY                   1420
 #define IDC_TR_SIZE3                    1421
+#define IDC_TR_FIXTRIGGEROUTLIERS       1421
 #define IDC_TR_MMX1                     1432
 #define IDC_TR_MMY1                     1433
 #define IDC_TR_MMSET1                   1434
@@ -1234,6 +1235,8 @@
 #define IDC_U_IDENT                     1513
 #define IDC_U_NEXT_AVAIL                1514
 #define IDC_STATIC_NEXT_AVAIL           1515
+#define IDC_U_COMPRESS                  1516
+#define IDC_U_RENUMBER                  1516
 #define FILEOPENORD                     1536
 #define MULTIFILEOPENORD                1537
 #define PRINTDLGORD                     1538
@@ -1420,6 +1423,7 @@
 #define ID_EDIT_PASTE                   0xE125
 #define ID_EDIT_DELETE                  0xE126
 #define ID_EDIT_UNDO                    0xE12B
+#define ID_VIEW_STATUS_BAR              0xE131
 #define ID_VIEW_STATISTICS              0xE132
 #define ID_VIEW_MAP                     0xE133
 #define ID_APP_ABOUT                    0xE140
@@ -1451,6 +1455,7 @@
 #define HTERROR                         -2
 #define PWR_FAIL                        -1
 #define HTTRANSPARENT                   -1
+#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

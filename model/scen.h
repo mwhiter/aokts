@@ -248,6 +248,7 @@ public:
 	int map_size(const RECT &source, MapCopyCache *&mcc);
 
 	AOKTS_ERROR remove_trigger_names();
+	AOKTS_ERROR fix_trigger_outliers();
 
 	/*	map_copy: copies terrain and units from a specified area of the map
 		to a Buffer.
@@ -264,6 +265,7 @@ public:
 	*/
 	AOKTS_ERROR map_paste(const POINT &to, Buffer &from);
 
+    AOKTS_ERROR compress_unit_ids();
 	/*  map_move: moves the units, terrain and triggers in that terrain */
     AOKTS_ERROR map_move(const RECT &from, const POINT &to);
 

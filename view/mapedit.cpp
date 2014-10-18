@@ -472,6 +472,10 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		case IDC_TR_MMMOVE:
 			Map_HandleMapMove(dialog);
 			break;
+
+		case IDC_TR_FIXTRIGGEROUTLIERS:
+			scen.fix_trigger_outliers();
+			break;
 		}
 
 	case EN_SETFOCUS:

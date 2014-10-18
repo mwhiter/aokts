@@ -9,7 +9,7 @@
 #include "../model/datatypes.h"
 #include "utilui.h"
 #include "../util/winugly.h"
-
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <commdlg.h>
@@ -72,6 +72,17 @@ void GetWindowText(HWND wnd, SString &value)
 	}
 	else
 		value.erase();
+}
+
+void GetWindowTextCstr(HWND wnd, char *value)
+{
+	int len = GetWindowTextLengthA(wnd);
+	if (len)
+	{
+		GetWindowTextA(wnd, value, len + 1);
+	}
+	else
+	    strcpy(value, "");
 }
 
 void SetWindowText(HWND wnd, int value)

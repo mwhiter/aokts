@@ -1467,6 +1467,133 @@ AOKTS_ERROR Scenario::remove_trigger_names()
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::fix_trigger_outliers() {
+	RECT area;
+	area.left = -1;
+	area.bottom = -1;
+	area.right = map.x - 1;
+	area.top = map.y - 1;
+
+	Trigger *trig = &(*triggers.begin());
+	long num = triggers.size();
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+		    if (!ISINRECT(area, iter->location.x, iter->location.y)) {
+		        iter->location.x = area.right;
+		        iter->location.y = area.top;
+		    }
+		    if (!ISINRECT(area, iter->area.left, iter->area.bottom)) {
+		        iter->area.left = area.right;
+		        iter->area.bottom = area.top;
+		    }
+		    if (!ISINRECT(area, iter->area.right, iter->area.top)) {
+		        iter->area.right = area.right;
+		        iter->area.top = area.top;
+		    }
+		    //if (iter->location.x == 123 && iter->location.y == 123) {
+		    //    iter->location.x = -1;
+		    //    iter->location.y = -1;
+		    //}
+		    //if (iter->area.left == 123 && iter->area.bottom == 123) {
+		    //    iter->area.left = -1;
+		    //    iter->area.bottom = -1;
+		    //}
+		    //if (iter->area.right == 123 && iter->area.top == 123) {
+		    //    iter->area.right = -1;
+		    //    iter->area.top = -1;
+		    //}
+		}
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+		    if (!ISINRECT(area, iter->area.left, iter->area.bottom)) {
+		        iter->area.left = area.right;
+		        iter->area.bottom = area.top;
+		    }
+		    if (!ISINRECT(area, iter->area.right, iter->area.top)) {
+		        iter->area.right = area.right;
+		        iter->area.top = area.top;
+		    }
+		    //if (iter->area.left == 123 && iter->area.bottom == 123) {
+		    //    iter->area.left = -1;
+		    //    iter->area.bottom = -1;
+		    //}
+		    //if (iter->area.right == 123 && iter->area.top == 123) {
+		    //    iter->area.right = -1;
+		    //    iter->area.top = -1;
+		    //}
+		    //if (iter->type == 1 && ((trig->display_order >= 164 && trig->display_order <= 181) || (trig->display_order >= 193 && trig->display_order <= 324))) {
+		    //    iter->area.right = 123;
+		    //    iter->area.top = 123;
+		    //}
+		    //if (iter->area.left == 123 && iter->area.bottom == 123) {
+		    //    iter->area.left = -1;
+		    //    iter->area.bottom = -1;
+		    //}
+		}
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::compress_unit_ids()
+{
+	Trigger *trig;
+	long num = triggers.size();
+    // triggers
+	long j = 0;
+	long newu = 0;
+
+    // each player
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+        // units
+	    for (vector<Unit>::iterator unit = players[i].units.begin(); unit != players[i].units.end(); ++unit, ++newu) {
+	        // fix garrisons
+	        for (vector<Unit>::iterator unitgar = players[i].units.begin(); unitgar != players[i].units.end(); ++unitgar) {
+	            if (unit->ident == unitgar->garrison) {
+	                unitgar->garrison = newu;
+	            }
+	        }
+	        // fix triggers
+		    trig = &(*triggers.begin());
+		    j = num;
+	        while (j--)
+	        {
+	            // effects
+	            for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	                if (iter->uid_loc == unit->ident) {
+	                    iter->uid_loc = newu;
+	                }
+	                for (int u = 0; u < iter->num_sel; u++) {
+	                    //memcpy(ue.ids, data->e.uids, sizeof(UID) * data->e.num_sel);
+	                    if (iter->uids[u] == unit->ident) {
+	                        iter->uids[u] = newu;
+	                    }
+	                }
+		        }
+	            // conditions
+	            for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+	                if (iter->u_loc == unit->ident) {
+	                    iter->u_loc = newu;
+	                }
+	                if (iter->object == unit->ident) {
+	                    iter->object = newu;
+	                }
+		        }
+		        trig++;
+	        }
+		    unit->ident = newu;
+	    }
+	}
+	next_uid = newu;
+
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 {
 	LONG dx, dy, w, h, truew, trueh;

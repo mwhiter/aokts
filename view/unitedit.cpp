@@ -286,6 +286,11 @@ void Units_HandleTypeChange(HWND dialog, HWND typelist)
 		static_cast<const UnitGroupLink *>(LinkComboBox_GetSelPtr(typelist)));
 }
 
+void Units_HandleRenumber(HWND dialog)
+{
+    scen.compress_unit_ids();
+}
+
 void Units_HandleAdd(HWND dialog)
 {
 	UID new_uid = GetDlgItemInt(dialog, IDC_U_IDENT, NULL, TRUE);
@@ -338,6 +343,11 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 
 		case IDC_U_ADD:		//BN_CLICKED
 			Units_HandleAdd(dialog);
+			break;
+
+		case IDC_U_RENUMBER:		//BN_CLICKED
+			Units_HandleRenumber(dialog);
+			Units_Reset(dialog);
 			break;
 
 		case IDC_U_DEL:			//BN_CLICKED

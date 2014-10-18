@@ -1622,7 +1622,7 @@ INT_PTR Handle_WM_NOTIFY(HWND dialog, NMHDR const * header)
 			break;
 
 		case TVN_BEGINDRAG:
-			TrigTree_HandleDrag(header->hwndFrom, (NMTREEVIEW*)header);
+			//TrigTree_HandleDrag(header->hwndFrom, (NMTREEVIEW*)header);
 			break;
 
 		case PSN_KILLACTIVE:

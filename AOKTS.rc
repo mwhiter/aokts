@@ -11,7 +11,7 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 8, "MS Sans Serif"
 BEGIN
-	LTEXT		"AOK Trigger Studio\nby David Tombs (DiGiT)\ncyan.spam@gmail.com\nVersion 1.0.3.9  [   http://goo.gl/BTYOSh   ]\nUpdated by E/X mantis",IDC_STATIC,46,13,150,42
+	LTEXT		"AOK Trigger Studio\nby David Tombs (DiGiT)\ncyan.spam@gmail.com\nVersion 1.0.3.10  [   http://goo.gl/BTYOSh   ]\nUpdated by E/X mantis",IDC_STATIC,46,13,150,42
 	PUSHBUTTON	"OK",1,178,7,50,14,BS_DEFPUSHBUTTON
 	CONTROL	IDB_LOGO,IDC_STATIC,"Static",SS_BITMAP,7,14,0,0
 END

@@ -1216,7 +1216,8 @@ int Scenario::map_size(const RECT &source, MapCopyCache *&mcc)
 
 AOKTS_ERROR Scenario::move_triggers(size_t start, size_t end, size_t to) {
 	size_t num = triggers.size();
-	if (num > 0) {
+	// don't need to do this as start is unsigned: start >= 0
+	if (num > 0 && end >= start && to < num && end < num) {
         for (size_t i = 0; i < num; i++) {
             long displacement = to - start;
             size_t range = end - start;
@@ -1232,8 +1233,10 @@ AOKTS_ERROR Scenario::move_triggers(size_t start, size_t end, size_t to) {
             }
             //t_order[(size_t)triggers.at(i).display_order] = i;
         }
+
         for (size_t i = 0; i < num; i++) {
-            t_order[triggers.at(i).display_order] = i;
+            if (triggers.at(i).display_order >= 0 && triggers.at(i).display_order < (long)triggers.size())
+                t_order[triggers.at(i).display_order] = i;
         }
         //clean_triggers();
     }

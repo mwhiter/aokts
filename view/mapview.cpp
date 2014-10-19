@@ -217,7 +217,7 @@ void PaintUnits(HDC dc)
 	int half = max(data.scen->map.x, data.scen->map.y) / 2;
 	RECT area;
 
-	for (int i = 0; i < 8; i++)	//skip GAIA for now
+	for (int i = 0; i < 9; i++)	//skip GAIA for now
 	{
 		Player& p = data.scen->players[i];
 
@@ -229,7 +229,7 @@ void PaintUnits(HDC dc)
 			area.right = rx + setts.zoom;
 			area.top = ry;
 			area.bottom = ry + setts.zoom;
-			FillRect(dc, &area, pBrushes[p.color]);
+			FrameRect(dc, &area, pBrushes[p.color]);
 		}
 	}
 

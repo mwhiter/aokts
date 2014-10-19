@@ -137,8 +137,11 @@ void Map_UpdatePos(HWND dialog, WORD id)
 
 	if (value < scen.map.x)	//map is square, so we can compare to just map.x
 	{
-		if (propdata.sel0 >= 0 && propdata.sel1 >= 0)
+		if (propdata.sel0 >= 0 && propdata.sel1 >= 0) {
+		    Map::Terrain *tn = scen.map.terrain[propdata.sel0] + propdata.sel1;
+		    SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
 			SaveMap(dialog);
+		}
 
 		if (id == IDC_TR_TX)
 			propdata.sel0 = value;

@@ -10,14 +10,14 @@
 
 #include "../util/settings.h"
 #include "../model/scen.h"
-
+#include "../util/hsv.h"
 #include "../util/winugly.h"
 #include <math.h>	//all the trig functions
 #include <stdio.h>
 #include <climits>
 
 /* Brushes (created with window) */
-HBRUSH *tBrushes;
+std::vector<std::vector<HBRUSH>> tBrushes;
 HBRUSH *pBrushes;
 HBRUSH bWhite;
 
@@ -284,7 +284,7 @@ void PaintMap(HDC dcdest)
 			area.right = rx + setts.zoom;
 			area.top = ry;
 			area.bottom = ry + setts.zoom;
-			FillRect(data.copydc, &area, tBrushes[parse->cnst]);
+			FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(parse->elev));
 		}
 	}
 
@@ -404,7 +404,7 @@ void UnhighlightPoint(HWND window, Highlight *h)
 
 	delete h;
 
-	Refresh(window, FALSE);
+	//Refresh(window, FALSE);
 }
 
 void UnhighlightPoint(HWND window, int x, int y)
@@ -459,7 +459,7 @@ void HighlightPoint(HWND window, int x, int y)
 	nh->x = static_cast<short>(x);
 	nh->y = static_cast<short>(y);
 
-	Refresh(window, FALSE);
+	//Refresh(window, FALSE);
 }
 
 #define NUM_SB_SIZES 2
@@ -493,8 +493,10 @@ HWND makestatus(HWND parent)
 void OnWM_Create(HWND window, CREATESTRUCT * cs)
 {
 	ColorLink *parse;
-	int i;
+	int i, j;
 	HDC dc;
+	hsv_t * hsv;
+    COLORREF tmp;
 
 	/* init window data */
 	data.scen = static_cast<Scenario *>(cs->lpCreateParams);
@@ -505,13 +507,23 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	data.statusbar = NULL;
 	data.highlights = NULL;
 
-	tBrushes = new HBRUSH[esdata.getCount(ESD_terrains)];
+	tBrushes.reserve(esdata.getCount(ESD_terrains));
 
-	for (i = 0, parse = esdata.terrains.head();
-		parse;
-		parse = (ColorLink*)parse->next(), i++)
+	for (i = 0, parse = esdata.terrains.head(); parse; parse = (ColorLink*)parse->next(), i++)
 	{
-		tBrushes[i] = CreateSolidBrush(parse->ref);
+	    tBrushes.push_back(std::vector<HBRUSH>());
+	    tBrushes[i].reserve(256);
+	    // this messes up the memory when 256
+	    for (j = 0; j < 200; j++)
+	    {
+	        hsv = new hsv_t();
+            rgb2hsv(parse->ref, hsv);
+            hsv->value /= 2;
+            hsv->value += j * 256 / 16;
+            tmp = hsv2rgb(hsv);
+		    //tBrushes[i].push_back(CreateSolidBrush(tmp));
+		    tBrushes[i].push_back(CreateSolidBrush(tmp));
+	    }
 	}
 
 	pBrushes = new HBRUSH[esdata.getCount(ESD_colors)];
@@ -679,7 +691,7 @@ void OnMAP_Reset(HWND mapview, bool resize)
 LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT ret = 0;
-	int i;
+	int i,j;
 
 	switch (msg)
 	{
@@ -700,12 +712,9 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DESTROY:
 		ret = 0;
-		for (i = 0; i <  esdata.getCount(ESD_terrains); i++)
-			DeleteObject(tBrushes[i]);
 		for (i = 0; i < esdata.getCount(ESD_colors); i++)
 			DeleteObject(pBrushes[i]);
 		delete [] pBrushes;
-		delete [] tBrushes;
 		DeleteDC(data.copydc);
 		break;
 

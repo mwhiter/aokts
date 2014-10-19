@@ -341,6 +341,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\util\hsv.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\util\hsv.h"
+				>
+			</File>
+			<File
 				RelativePath=".\util\MemBuffer.cpp"
 				>
 			</File>

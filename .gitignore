@@ -1,0 +1,9 @@
+*.obj
+Release
+*.log
+*.ncb
+*.pdb
+*.APS
+*.exe
+*.user
+*.aps

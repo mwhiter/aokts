@@ -5,6 +5,7 @@
 
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
+#include "../util/settings.h"
 
 #include <vector>
 #include <algorithm>
@@ -111,7 +112,10 @@ void Trigger::read(FILE *in)
 	
 	//read effects
 	readbin(in, &n_effects);
-	printf("nEffects: "); show_binrep(n_effects);
+	if (setts.intense) {
+	    printf("nEffects: ");
+	    show_binrep(n_effects);
+	}
 
 	if (n_effects > 0)
 	{
@@ -142,7 +146,10 @@ void Trigger::read(FILE *in)
 	
 	//read conditions
 	readbin(in, &n_conds);
-	printf("nConds: "); show_binrep(n_conds);
+	if (setts.intense) {
+	    printf("nConds: ");
+	    show_binrep(n_conds);
+	}
 
 	if (n_conds > 0)
 	{

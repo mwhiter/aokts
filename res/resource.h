@@ -245,6 +245,7 @@
 #define IDC_C_END	IDC_C_AISIG
 #define IDC_C_USEL1             1917
 #define IDC_C_USEL2             1918
+#define IDC_C_AREA_ALL          1919
 
 /* Effect Controls */
 #define IDC_E_TYPE				1800

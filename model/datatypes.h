@@ -65,6 +65,11 @@ public:
 	 */
 	void read(Buffer&, size_t lensize);
 
+	/* 
+	 * Read a variable length string from a file.
+	*/
+	bool read(FILE *in);
+
 	/**
 	 * Write the string to a FILE.
 	 * @param lensize number of bytes in length field

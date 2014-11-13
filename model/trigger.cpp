@@ -83,18 +83,35 @@ void Trigger::read(FILE *in)
 	long n_effects, n_conds;
 
 	// TODO: read in as struct
+	/*long testlong;
+	unsigned char testchar;
+	readbin(in, &testlong); printf("State: "); show_binrep(testlong);
+	readbin(in, &testlong); printf("Loop: "); show_binrep(testlong);
+	readbin(in, &testchar); printf("u1: "); show_binrep(testchar);
+	readbin(in, &testchar); printf("obj: "); show_binrep(testchar);
+	readbin(in, &testlong); printf("obj_order: "); show_binrep(testlong);
+	readbin(in, &testlong); printf("Zeroes: "); show_binrep(testlong);
+	readbin(in, &testlong); printf("Description: "); show_binrep(testlong);
+	readbin(in, &testlong); printf("Name: "); show_binrep(testlong);*/
+	
 	readbin(in, &state);
 	readbin(in, &loop);
 	readbin(in, &u1);
 	readbin(in, &obj);
 	readbin(in, &obj_order);
-	readunk<long>(in, 0, "trigger zeroes", true);
+	readunk<long>(in, 0, "trigger zeroes", false);
 
 	description.read(in, sizeof(long));
-	readcs<unsigned long>(in, name, sizeof(name));
+	readcsDebug<unsigned short>(in, name, sizeof(name));
+	unsigned short testlong;
+	readbin(in, &testlong);
+	//readcs<unsigned long>(in, name, sizeof(name));
 
+	
+	
 	//read effects
 	readbin(in, &n_effects);
+	printf("nEffects: "); show_binrep(n_effects);
 
 	if (n_effects > 0)
 	{
@@ -122,8 +139,10 @@ void Trigger::read(FILE *in)
 		}
 	}
 
+	
 	//read conditions
 	readbin(in, &n_conds);
+	printf("nConds: "); show_binrep(n_conds);
 
 	if (n_conds > 0)
 	{

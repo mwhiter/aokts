@@ -44,3 +44,9 @@ bad_data_error::bad_data_error(const std::string& what)
 :	runtime_error("There was a problem with the scenario data: " + what)
 {
 }
+
+void swapByteOrder(unsigned short& us)
+{
+    us = (us >> 8) |
+         (us << 8);
+}

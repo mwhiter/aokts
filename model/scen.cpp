@@ -92,7 +92,7 @@ Scenario::~Scenario()
 void Scenario::reset()
 {
 	int i;
-	
+
 	/* Internal */
 	mod_status = false;
 	ver = SVER_AOE2TC;
@@ -247,7 +247,7 @@ void Scenario::open(const char *path, const char *dpath)
 
 	mod_status = false;
 	memset(msg, 0, sizeof(msg));
-	
+
 	AutoFile scx(path, "rb");
 
 	/* Header */
@@ -344,7 +344,7 @@ int Scenario::save(const char *path, const char *dpath, bool write)
 	temp.close();
 
 	code = deflate_file(uncompressed, uc_len, scx.get());
-	
+
 	/* translate zlib codes to AOKTS_ERROR codes */
 	switch (code)
 	{
@@ -637,34 +637,99 @@ void Scenario::read_data(const char *path)	//decompressed data
 			i == PLAYER1_INDEX ? editor_pos : NULL	//See scx_format.txt.
 			);
 	}
-	readunk<double>(dc2in.get(), 1.6, "post-PlayerData3 unknown");
-	readbin(dc2in.get(), &unk2);
-	check<char>(unk2, 0, "post-PlayerData3 unknown char");
+
+	//readunk<double>(dc2in.get(), 1.6, "post-PlayerData3 unknown"); // ok
+	double testbin;
+	readbin(dc2in.get(), &testbin);
+	show_binrep(testbin);
+
+	/*readbin(dc2in.get(), &unk2);
+	check<char>(unk2, 0, "post-PlayerData3 unknown char");*/
+
+	unsigned char testchar[4];
+	readbin(dc2in.get(), &testchar[0]);
+	show_binrep(testchar);
+
+	// sometimes there is an extra null byte -- so much mystery.
+	if (testchar[0] == '\0') {
+		testchar[0] = readval<unsigned char>(dc2in.get());
+	}
+	testchar[1] = readval<unsigned char>(dc2in.get());
+	testchar[2] = readval<unsigned char>(dc2in.get());
+	testchar[3] = readval<unsigned char>(dc2in.get());
+	unsigned long n_trigs = *((int*)testchar);
+
+	/*char nullchar = '\0';
+	printf("Nullchar: ");
+	show_binrep(nullchar);
+	printf("\n");*/
+
+	/*printf("sizeof(int) = %d bytes\n", (int) sizeof(int));
+	printf("sizeof(double) = %d bytes\n", (int) sizeof(double));
+	printf("sizeof(unsigned short) = %d bytes\n", (int) sizeof(unsigned short));
+	printf("sizeof(unsigned long) = %d bytes\n", (int) sizeof(unsigned long));*/
+
+	// remove this para
+	/*double testbin;
+	readbin(dc2in.get(), &testbin);
+	show_binrep(testbin);*/
+	/*char testbin2;
+	readbin(dc2in.get(), &testbin2);
+	show_binrep(testbin2);*/
+	/*unsigned short testbin3;
+	readbin(dc2in.get(), &testbin3);
+	show_binrep(testbin3);
+	printf("Num trigs: %hu\n",_byteswap_ushort(testbin3));*/
+
+	//unk2.read(dc2in.get());
 
 	/* Triggers */
 
-	unsigned long n_trigs = readval<unsigned long>(dc2in.get());
+	//unsigned long n_trigs = readval<unsigned long>(dc2in.get());
+	printf("n_trigs: ");
+	show_binrep(n_trigs);
+	/*n_trigs = _byteswap_ushort(n_trigs);*/
+	//swapByteOrder(n_trigs);
+	printf("Num triggers: %lu\n", n_trigs);
+
+
+	//char testbin2;
+	/*readbin(dc2in.get(), &testbin2);
+	show_binrep(testbin2);
+	readbin(dc2in.get(), &testbin2);
+	show_binrep(testbin2);
+	readbin(dc2in.get(), &testbin2);
+	show_binrep(testbin2);*/
+	/*readunk<char>(dc2in.get(), 0, "pre-trigger unknown",false); // ok
+	readunk<char>(dc2in.get(), 0, "pre-trigger unknown",false); // ok
+	readunk<char>(dc2in.get(), 0, "pre-trigger unknown",false); // ok*/
 	triggers.allocate(n_trigs, true);
+
+	/*long bigdata[100];
+	readbin(dc2in.get(), &bigdata);
+	show_binrep(bigdata);*/
 
 	if (n_trigs)
 	{
 		Trigger *t = triggers.first();
 
 		//read triggers
-		for (unsigned i = 0; i != n_trigs; ++i)
+		for (unsigned int i = 0; i < n_trigs; ++i)
 		{
 			if (setts.intense)
 				printf("Reading trigger %d.\n", i);
 			t++->read(dc2in.get());
 		}
 
+		//return;//remove this
 		// Directly read trigger order: this /is/ allowed by std::vector.
 		t_order.resize(n_trigs);
 		readbin(dc2in.get(), &t_order.front(), n_trigs);
 
 		// save the trigger display order to the trigger objects
-		for (int i = 0; i < n_trigs; i++) {
-			triggers.at(t_order[i])->display_order = i;
+		for (unsigned int j = 0; j < n_trigs; j++) {
+			//printf("%hu\n",j);
+			triggers.at(t_order[j])->display_order = j;
 		}
 
 		// verify just the first one because I'm lazy
@@ -699,8 +764,8 @@ void Scenario::read_data(const char *path)	//decompressed data
 		}
 	}
 
-	if (fgetc(dc2in.get()) != EOF)
-		throw bad_data_error("Unrecognized data at end.");
+	/*if (fgetc(dc2in.get()) != EOF)
+		throw bad_data_error("Unrecognized data at end.");*/
 
 	// FILE close taken care of by AutoFile! yay.
 
@@ -725,22 +790,22 @@ int Scenario::write_data(const char *path)
 	writebin(dcout, &next_uid);
 
 	/* save as 1.22 if it is 1.23. disable this or the below */
-	/*f = ver2 - 0.01;
+	f = ver2 - 0.01;
 	if (myround(ver2 * 100) == 123) {
 		writebin(dcout, &f);
 	} else {
 		writebin(dcout, &ver2);
-	}*/
+	}
 
 	/* saves normally. disable this or the above */
-	writebin(dcout, &ver2);
+	//writebin(dcout, &ver2);
 
 	FEP(p)
 		p->write_header_name(dcout);
 
 	FEP(p)
 		p->write_header_stable(dcout);
-	
+
 	FEP(p)
 		p->write_data1(dcout);
 
@@ -811,7 +876,7 @@ int Scenario::write_data(const char *path)
 	NULLS(dcout, 0x2D00);	//lol
 
 	writeval(dcout, sect);
-	
+
 	//2nd allied victory
 	FEP(p)
 	{
@@ -835,14 +900,13 @@ int Scenario::write_data(const char *path)
 		fwrite(&p->dis_bldg, sizeof(long), perversion->max_disables2, dcout);
 	/*FEP(p)
 		fwrite(&p->dis_bldgx, 4, 1, dcout);*/
-	
-	/* disable this. save as 1.22 */
-	switch (myround(ver2 * 100))
-	{
+
+	/* disable this when saving as 1.22 */
+	/*switch (myround(ver2 * 100)){
 	case 123:
-	fwrite(&dis_bldgx, sizeof(long), 1, dcout);
-	}
-	
+		fwrite(&dis_bldgx, sizeof(long), 1, dcout);
+	}*/
+
 	NULLS(dcout, 0x8);
 	fwrite(&all_techs, sizeof(long), 1, dcout);
 	FEP(p)
@@ -874,7 +938,7 @@ int Scenario::write_data(const char *path)
 		if (ver == SVER_AOE2TC)
 			fwrite(&players[i].pop, 4, 1, dcout);
 	}
-	
+
 	players[8].write_units(dcout);
 	for (i = PLAYER1_INDEX; i < num_players - 1; i++)
 	{
@@ -1032,7 +1096,7 @@ bool Scenario::exFile(const char *directory, long index)
 	char buffer[_MAX_PATH];
 
 	_mkdir(directory);
-	
+
 	if (index < 0)
 	{
 		c = cFiles;

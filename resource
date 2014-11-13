@@ -893,11 +893,14 @@
 #define WM_PENWINFIRST                  0x0380
 #define WM_PENWINLAST                   0x038F
 #define WM_DDE_FIRST                    0x03E0
+#define IDC_U_IDENT_LABEL               1000
 #define IDC_M_MSGS                      1001
-#define IDC_BUTTON_AREA_ALL             1001
 #define IDC_M_CINEM                     1002
-#define IDC_BUTTON_AREA_ALL_COND        1002
 #define IDC_M_STABLE                    1003
+#define IDC_BUTTON_AREA_ALL             1004
+#define IDC_BUTTON_AREA_ALL_COND        1005
+#define IDC_STATIC_X                    1006
+#define IDC_BUTTON1                     1007
 #define IDC_M_EXPORT                    1009
 #define IDC_G_VER                       1010
 #define IDC_G_TIMESTAMP                 1011
@@ -1194,6 +1197,9 @@
 #define IDC_U_DEL                       1510
 #define IDC_U_GARRISON                  1511
 #define IDC_U_SORT                      1512
+#define IDC_U_IDENT                     1513
+#define IDC_U_NEXT_AVAIL                1514
+#define IDC_STATIC_NEXT_AVAIL           1515
 #define FILEOPENORD                     1536
 #define MULTIFILEOPENORD                1537
 #define PRINTDLGORD                     1538
@@ -1380,6 +1386,7 @@
 #define ID_EDIT_PASTE                   0xE125
 #define ID_EDIT_DELETE                  0xE126
 #define ID_EDIT_UNDO                    0xE12B
+#define ID_VIEW_STATUS_BAR              0xE131
 #define ID_VIEW_STATISTICS              0xE132
 #define ID_VIEW_MAP                     0xE133
 #define ID_APP_ABOUT                    0xE140
@@ -1411,14 +1418,15 @@
 #define HTERROR                         -2
 #define PWR_FAIL                        -1
 #define HTTRANSPARENT                   -1
+#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        102
+#define _APS_NEXT_RESOURCE_VALUE        101
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
-#define _APS_NEXT_SYMED_VALUE           102
+#define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

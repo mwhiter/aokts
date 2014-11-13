@@ -707,6 +707,7 @@
 #define EM_LINEFROMCHAR                 0x00C9
 #define IDB_EVIL                        202
 #define EM_SETTABSTOPS                  0x00CB
+#define IDB_WALL                        203
 #define EM_SETPASSWORDCHAR              0x00CC
 #define EM_EMPTYUNDOBUFFER              0x00CD
 #define EM_GETFIRSTVISIBLELINE          0x00CE
@@ -892,9 +893,14 @@
 #define WM_PENWINFIRST                  0x0380
 #define WM_PENWINLAST                   0x038F
 #define WM_DDE_FIRST                    0x03E0
+#define IDC_U_IDENT_LABEL               1000
 #define IDC_M_MSGS                      1001
 #define IDC_M_CINEM                     1002
 #define IDC_M_STABLE                    1003
+#define IDC_BUTTON_AREA_ALL             1004
+#define IDC_BUTTON_AREA_ALL_COND        1005
+#define IDC_STATIC_X                    1006
+#define IDC_BUTTON1                     1007
 #define IDC_M_EXPORT                    1009
 #define IDC_G_VER                       1010
 #define IDC_G_TIMESTAMP                 1011
@@ -1191,6 +1197,9 @@
 #define IDC_U_DEL                       1510
 #define IDC_U_GARRISON                  1511
 #define IDC_U_SORT                      1512
+#define IDC_U_IDENT                     1513
+#define IDC_U_NEXT_AVAIL                1514
+#define IDC_STATIC_NEXT_AVAIL           1515
 #define FILEOPENORD                     1536
 #define MULTIFILEOPENORD                1537
 #define PRINTDLGORD                     1538
@@ -1228,8 +1237,6 @@
 #define IDC_E_PANEL                     1810
 #define IDC_E_LOCX                      1811
 #define IDC_E_LOCY                      1812
-#define IDC_BUTTON_AREA_ALL             1001
-#define IDC_BUTTON_AREA_ALL_COND        1002
 #define IDC_E_AREAX1                    1813
 #define IDC_E_AREAY1                    1814
 #define IDC_E_AREAX2                    1815

@@ -72,7 +72,15 @@ void LoadPlayer(HWND dialog)
 	SetDlgItemFloat(dialog, IDC_P_Y, p->camera[1]);
 	SendDlgItemMessage(dialog, IDC_P_COLOR, CB_SETCURSEL, p->color, 0);	//assuming in order
 	SendDlgItemMessage(dialog, IDC_P_AV, BM_SETCHECK, p->avictory, 0);
-	SendDlgItemMessage(dialog, IDC_P_DSTATE, BM_SETCHECK, d_to_b[p->diplomacy[propdata.sel0]], 0);
+	if (propdata.sel0 == -1) {
+		MessageBox(
+					dialog,
+					"Problem detected. Reload page.",
+					"Player Editor",
+					MB_ICONWARNING);
+	} else {
+		SendDlgItemMessage(dialog, IDC_P_DSTATE, BM_SETCHECK, d_to_b[p->diplomacy[propdata.sel0]], 0);
+	}
 	SendDlgItemMessage(dialog, IDC_P_AGE, CB_SETCURSEL, p->age, 0);
 	SetDlgItemFloat(dialog, IDC_P_UF, p->ucount);
 	SetDlgItemInt(dialog, IDC_P_US0, p->u1, FALSE);

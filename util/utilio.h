@@ -11,6 +11,9 @@
 #include <assert.h>
 #include <stdexcept>
 #include <string>
+#include <intrin.h>
+#include <bitset>
+#include <iostream>
 
 /*
 	REPORT(expr, action)
@@ -164,6 +167,20 @@ template <class T> void readcs(FILE * in, char * dest, size_t space)
 	dest[len] = '\0'; // Scenario strings are not always null-terminated.
 }
 
+template <class T> void readcsDebug(FILE * in, char * dest, size_t space)
+{
+	T len;
+
+	readbin(in, &len);
+	printf("String length: "); show_binrep(len);
+
+	if (len >= space) // need one for NULL term
+		throw std::length_error("readcs: not enough space in dest string");
+
+	readbin(in, dest, len);
+	dest[len] = '\0'; // Scenario strings are not always null-terminated.
+}
+
 /* Output */
 
 /**
@@ -196,4 +213,16 @@ void writecs(FILE *out, const char *source, bool null = true)
 
 	writebin(out, &len);
 	fwrite(source, sizeof(char), len, out);
+}
+
+void swapByteOrder(unsigned short& us);
+
+template<typename T>
+void show_binrep(const T& a)
+{
+    const char* beg = reinterpret_cast<const char*>(&a);
+    const char* end = beg + sizeof(a);
+    while(beg != end)
+        std::cout << std::bitset<CHAR_BIT>(*beg++) << ' ';
+    std::cout << '\n';
 }

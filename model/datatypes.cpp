@@ -162,6 +162,26 @@ void SString::read(Buffer& b, size_t lensize)
 	}
 }
 
+bool SString::read(FILE *in)
+{
+	size_t lensize = sizeof(char);
+	size_t len = 0;
+	bool ret = true;
+
+	char *temp = new char[32];
+
+	readbin(in, temp, 1);
+	while (temp[len] != '\0') {
+		len++;
+		readbin(in, temp + len, 1);
+	}
+
+	delete [] data;
+	data = temp;
+
+	return ret;
+}
+
 void SString::write(FILE *out, size_t lensize, bool force) const
 {
 	int len = length();

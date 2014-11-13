@@ -59,6 +59,7 @@ bool Units_Load(HWND dialog)
 		u = &blank;
 		// Use first unit type
 		u->setType(esdata.units.head());
+		u->ident = scen.next_uid;
 	}
 
 	else if (u_index < propdata.p->units.size())
@@ -99,8 +100,10 @@ bool Units_Load(HWND dialog)
 	SetDlgItemFloat(dialog, IDC_U_X, u->x);
 	SetDlgItemFloat(dialog, IDC_U_Y, u->y);
 	SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_SETCURSEL, (int)(u->rotate / PI * 4), 0);
-	SetDlgItemInt(dialog, IDC_U_FRAME, u->frame, FALSE);
+	SetDlgItemInt(dialog, IDC_U_FRAME, u->frame, TRUE);
 	SetDlgItemInt(dialog, IDC_U_GARRISON, u->garrison, TRUE);
+	SetDlgItemInt(dialog, IDC_U_IDENT, u->ident, TRUE);
+	SetDlgItemInt(dialog, IDC_U_NEXT_AVAIL, scen.next_uid, TRUE);
 
 	return ret;
 }
@@ -119,8 +122,9 @@ void Units_Save(HWND dialog)
 		if (ucnst_sel) // will be NULL if user changed group
 			u.setType(static_cast<const UnitLink *>(ucnst_sel));
 		u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
-		u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, FALSE);
+		u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, TRUE);
 		u.garrison = GetDlgItemInt(dialog, IDC_U_GARRISON, NULL, TRUE);
+		u.ident = GetDlgItemInt(dialog, IDC_U_IDENT, NULL, TRUE);
 	}
 }
 
@@ -215,6 +219,44 @@ void Units_HandleDelete(HWND dialog)
 		u_index = SIZE_MAX;
 	}
 }
+void Units_HandleChangeOwnership(HWND dialog)
+{
+	unsigned index, count, data;
+	HWND selbox = GetDlgItem(dialog, IDC_U_SELU);
+
+	if (u_index == SIZE_MAX)
+	{
+		MessageBox(dialog, warningNoSelDelete, szTitle, MB_ICONWARNING);
+		return;
+	}
+
+	propdata.p->erase_unit(u_index);
+
+	index = SendMessage(selbox, LB_GETCURSEL, 0, 0);
+	SendMessage(selbox, LB_DELETESTRING, index, 0);
+
+	/* Update the other items' data. */
+	count = SendMessage(selbox, LB_GETCOUNT, 0, 0);
+	for (unsigned i = 0; i < count; i++)
+	{
+		data = SendMessage(selbox, LB_GETITEMDATA, i, 0);
+		if (data > u_index)
+			SendMessage(selbox, LB_SETITEMDATA, i, data - 1);
+	}
+
+	/* Set selection to next item down. If there isn't one, reset stuff. */
+	if (SendMessage(selbox, LB_GETCOUNT, 0, 0))
+	{
+		SendMessage(selbox, LB_SETCURSEL, index, 0);
+		u_index = SendMessage(selbox, LB_GETITEMDATA, index, 0);
+		Units_Load(dialog);
+	}
+	else
+	{
+		ENABLE_WND(IDC_U_DEL, false);
+		u_index = SIZE_MAX;
+	}
+}
 
 void Units_HandleSelChange(HWND dialog, HWND listbox)
 {
@@ -246,9 +288,21 @@ void Units_HandleTypeChange(HWND dialog, HWND typelist)
 
 void Units_HandleAdd(HWND dialog)
 {
-	Unit u(scen.next_uid++);
+	UID new_uid = GetDlgItemInt(dialog, IDC_U_IDENT, NULL, TRUE);
+	printf("next_uid: %d, new_uid: %d\n", scen.next_uid, new_uid);
+	Unit u(new_uid);
+	if (scen.next_uid == new_uid) {
+		scen.next_uid++;
+	}
+	SetDlgItemInt(dialog, IDC_U_IDENT, scen.next_uid, TRUE);
+	SetDlgItemInt(dialog, IDC_U_NEXT_AVAIL, scen.next_uid, TRUE);
 	HWND listbox = GetDlgItem(dialog, IDC_U_SELU);
 
+	u.x =		GetDlgItemFloat(dialog, IDC_U_X);
+	u.y =		GetDlgItemFloat(dialog, IDC_U_Y);
+	u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
+	u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, TRUE);
+	u.garrison = GetDlgItemInt(dialog, IDC_U_GARRISON, NULL, TRUE);
 	u.setType(static_cast<const UnitLink *>(
 		LinkListBox_Get(GetDlgItem(dialog, IDC_U_UNIT), c_index)));
 	propdata.p->units.push_back(u);

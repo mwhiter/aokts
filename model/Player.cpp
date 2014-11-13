@@ -270,7 +270,7 @@ void Player::read_data3(FILE *in, float *view)
 		printf("Unknown PlayerData3 float value %f at %X\n", ucount, ftell(in));
 		throw bad_data_error("Unknown PlayerData3 float value");
 	}
-	// printf("PD3 ucount was %f\n", ucount);
+	printf("PD3 ucount was %f\n", ucount);
 
 	short unk;
 	readbin(in, &unk);

@@ -189,7 +189,8 @@ public:
 	long all_techs;
 	Map map;
 	float	editor_pos[2];
-	char    unk2;     // might be related to triggers?
+	//SString unk2;     // might be related to triggers?
+	char unk2;
 	SVector <Trigger> triggers;
 	std::vector<unsigned long> t_order;
 

@@ -212,6 +212,16 @@
 #define IDC_T_DESCID			1213
 #define IDC_T_OBJSTATE			1214
 #define IDC_T_UNKNOWN			1215
+#define IDC_T_GOTO              1216
+#define IDC_T_SHOWFIREORDER     1217
+#define IDC_T_SHOWDISPLAYORDER  1218
+#define IDC_T_SYNC              1219
+#define IDC_T_START             1220
+#define IDC_T_END               1221
+#define IDC_T_DEST              1222
+#define IDC_T_MOVE              1223
+#define IDC_T_DELETE            1224
+#define IDC_T_HIDENAMES         1225
 
 /* Condition Controls */
 #define IDC_C_TYPE				1900

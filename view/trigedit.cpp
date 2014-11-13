@@ -1204,6 +1204,9 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	treeview = GetDlgItem(dialog, IDC_T_TREE);
 	TreeView_SetImageList(treeview, il, TVSIL_NORMAL);
 
+	CheckDlgButton(dialog, IDC_T_SHOWDISPLAYORDER, true);
+	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, true);
+
 	return TRUE;
 }
 
@@ -1506,6 +1509,23 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			TreeView_EditLabel(treeview, TreeView_GetSelection(treeview));
 			break;
 
+		case IDC_T_MOVE:
+			scen.move_triggers(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_DEST, NULL, FALSE));
+			//scen.clean_triggers();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case IDC_T_SYNC:
+			scen.sync_triggers();
+			//scen.clean_triggers();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case IDC_T_HIDENAMES:
+			scen.remove_trigger_names();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
 		case IDC_T_ADD:
 			SAFETY();
 			TrigTree_AddNew(treeview);
@@ -1622,7 +1642,7 @@ INT_PTR Handle_WM_NOTIFY(HWND dialog, NMHDR const * header)
 			break;
 
 		case TVN_BEGINDRAG:
-			TrigTree_HandleDrag(header->hwndFrom, (NMTREEVIEW*)header);
+			//TrigTree_HandleDrag(header->hwndFrom, (NMTREEVIEW*)header);
 			break;
 
 		case PSN_SETACTIVE:

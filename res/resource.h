@@ -272,11 +272,12 @@
 #define IDC_E_GROUP				1821
 #define IDC_E_UTYPE				1822
 #define IDC_E_PANEL				1823
-#define IDC_E_END	IDC_E_PANEL
-#define IDC_E_TEXTID          1825
-#define IDC_E_SOUNDID          1826
+#define IDC_E_END	            1824
+#define IDC_E_TEXTID            1825
+#define IDC_E_SOUNDID           1826
 #define IDC_E_OPENSEL			1827
 #define IDC_E_OPENSEL2			1828
+#define IDC_E_AREA_ALL			1829
 
 /* Unit Selection Controls */
 #define IDC_US_UNITS			1700
@@ -290,7 +291,7 @@
 #define IDC_S_CONDITIONS	1053
 #define IDC_S_EFFECTS		1054
 #define IDC_S_MAPSIZE		1055
-#define IDC_S_UNITS		1060
+#define IDC_S_UNITS		    1060
 #define IDC_S_UNITS1		1061
 #define IDC_S_UNITS2		1062
 #define IDC_S_UNITS3		1063

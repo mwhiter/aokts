@@ -10,7 +10,10 @@
 
 #include "../util/settings.h"
 #include "../model/scen.h"
+#include "../res/resource.h"
 #include "../util/hsv.h"
+#include "editors.h"
+
 #include "../util/winugly.h"
 #include <math.h>	//all the trig functions
 #include <stdio.h>
@@ -339,7 +342,7 @@ void UpdateScrollbars(HWND window, int width, int height)
 }
 
 /* Refresh: redrawing the map, not just blitting */
-void Refresh(HWND window, BOOL erase) 
+void Refresh(HWND window, BOOL erase)
 {
 	HDC dc;
 	RECT wndSize;
@@ -691,7 +694,7 @@ void OnMAP_Reset(HWND mapview, bool resize)
 LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT ret = 0;
-	int i,j;
+	int i;
 
 	switch (msg)
 	{
@@ -771,7 +774,7 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 void MakeMapClass(HINSTANCE instance)
 {
 	WNDCLASS wc;
-	
+
 	wc.style       = CS_HREDRAW | CS_VREDRAW;
 //	wc.style       = 0;
 	wc.lpfnWndProc = MapWndProc;
@@ -801,11 +804,11 @@ HWND CreateMapView(HWND owner, int x, int y, Scenario * scenario)
 		registered = true;
 	}
 
-	HWND mapview = CreateWindowEx(WS_EX_TOOLWINDOW, MapClass, "Map Viewer", 
+	HWND mapview = CreateWindowEx(WS_EX_TOOLWINDOW, MapClass, "Map Viewer",
 		WS_OVERLAPPEDWINDOW | WS_HSCROLL | WS_VSCROLL,
 		x, y,
 		0, 0,   // width, height are calculated in OnWM_CREATE
 		owner, NULL, instance, scenario);
 
 	return mapview;
-}
+}

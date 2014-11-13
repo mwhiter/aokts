@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <commdlg.h>
+#include <sstream>
 
 /* Options */
 const size_t CONV_BUFF_SIZE = 32; // size of string conversion buffers

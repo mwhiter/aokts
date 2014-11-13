@@ -16,7 +16,7 @@
 #include "../util/NullBuffer.h"
 #include "../util/settings.h"
 #include "../model/ChangePlayerVisitor.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "ecedit.h"
 #include "utilui.h"
 #include "treeutil.h"
@@ -64,7 +64,7 @@ enum Timers
 const char szTrigTitle[] = "Trigger Editor";
 
 const char noticeNoDelete[] =
-"Sorry, you may not delete a trigger while effect or condition editors are open."
+"Sorry, you may not delete a trigger while effect or condition editors are open. "
 "Deletion cancelled.";
 const char noteNoTrigInTrig[] =
 "Sorry mate, can\'t place a trigger inside another trigger.";
@@ -74,20 +74,19 @@ const char errorEditorsOpen[] =
 "Sorry, you may not switch tabs with open effects or conditions. Maybe in a later version.";
 const char warningEditorsClosing[] =
 "Warning: Switching tabs will cancel all open effects or conditions. Continue Anyway?";
-const char errorNoEditTrig[] =
+const char errorNoEditTrig[] = //removed
 "Error: No condition or effect selected. I honestly don\'t know how you clicked that.";
-const char warningNoSelection[] =
-"Warning: I could not locate the current selection in the Tree-View, and thus"
-"cancelled any pending operation. I may now be unstable, so it is recommended that"
+const char warningNoSelection[] = //removed
+"Warning: I could not locate the current selection in the Tree-View, and thus "
+"cancelled any pending operation. I may now be unstable, so it is recommended that "
 "you restart me after saving the scenario to a different file.";
-
 const char warningInconsistentPlayer[] =
-"Warning: This trigger appears to have conditions and/or effects\n"
-"for multiple players. The duplicates will have all players replaced.\n"
+"Warning: This trigger appears to have conditions and/or effects \n"
+"for multiple players. The duplicates will have all players replaced. \n"
 "Is this what you want to do?";
 const char warningNoPlayer[] =
-"Warning: This trigger appears to have no player assigned, meaning\n"
-"that this operation will just produce copies of the source trigger.\n"
+"Warning: This trigger appears to have no player assigned, meaning \n"
+"that this operation will just produce copies of the source trigger. \n"
 "Is this what you want to do?";
 
 /*	editor_count: number of condition/effect editors currently opened */
@@ -247,7 +246,7 @@ void ItemData::ModifyIndex(int operand)
 
 void ItemData::OpenEditor(HWND parent, HTREEITEM)
 {
-	MessageBox(parent, errorNoEditTrig, szTrigTitle, MB_ICONWARNING);
+	//MessageBox(parent, errorNoEditTrig, szTrigTitle, MB_ICONWARNING);
 }
 
 // TODO: this is retarded, it should be Move instead!
@@ -272,7 +271,7 @@ bool ItemData::Copy(HWND treeview, HTREEITEM, HTREEITEM target)
 		}
 	}
 	else
-		MessageBox(treeview, noteNoTrigInTrig, szTrigTitle, MB_OK);
+		MessageBox(treeview, noteNoTrigInTrig, szTrigTitle, MB_ICONWARNING);
 
 	return ret;
 }
@@ -748,6 +747,8 @@ void LoadTrigger(HWND dialog, Trigger *t)
 		SetDlgItemText(dialog, IDC_T_DESC, t->description.c_str());
 		SetDlgItemText(dialog, IDC_T_NAME, t->name);
 		SetDlgItemInt(dialog, IDC_T_ORDER, t->obj_order, FALSE);
+		SetDlgItemInt(dialog, IDC_T_DESCID, t->obj_str_id, FALSE);
+		SetDlgItemInt(dialog, IDC_T_UNKNOWN, t->u1, FALSE);
 	}
 	else
 	{
@@ -758,7 +759,24 @@ void LoadTrigger(HWND dialog, Trigger *t)
 		SetDlgItemText(dialog, IDC_T_NAME, "");
 		SetDlgItemText(dialog, IDC_T_DESC, "");
 		SetDlgItemText(dialog, IDC_T_ORDER, "");
+		SetDlgItemText(dialog, IDC_T_DESCID, "");
+		SetDlgItemText(dialog, IDC_T_UNKNOWN, "");
 	}
+}
+
+void ResetTriggerSection(HWND dialog)
+{
+	CheckDlgButton(dialog, IDC_T_OBJSTATE, BST_UNCHECKED);
+}
+
+void SaveTriggerSection(HWND dialog)
+{
+	scen.objstate = IsDlgButtonChecked(dialog, IDC_T_OBJSTATE);
+}
+
+void LoadTriggerSection(HWND dialog)
+{
+	CheckDlgButton(dialog, IDC_T_OBJSTATE, scen.objstate);
 }
 
 void SaveTrigger(HWND dialog, Trigger *t)
@@ -771,8 +789,11 @@ void SaveTrigger(HWND dialog, Trigger *t)
 		GetWindowText(GetDlgItem(dialog, IDC_T_DESC), t->description);
 		GetWindowTextCstr(GetDlgItem(dialog, IDC_T_NAME), t->name);
 		t->obj_order = GetDlgItemInt(dialog, IDC_T_ORDER, NULL, FALSE);
+		t->obj_str_id = GetDlgItemInt(dialog, IDC_T_DESCID, NULL, FALSE);
+		t->u1 = GetDlgItemInt(dialog, IDC_T_UNKNOWN, NULL, FALSE);
 	}
 }
+
 
 /*
 	Triggers_EditMenu: Enables/Disables items on the Edit Menu.
@@ -811,7 +832,7 @@ bool Update_ctrig(HWND treeview)
 	sel = TreeView_GetNextItem(treeview, 0, TVGN_CARET);
 	data = (ItemData*)GetItemParam(treeview, sel);
 
-	if (!data)
+	if (!sel || !data)
 		return false;
 
 	c_trig = data->GetTrigger();
@@ -842,14 +863,14 @@ void TrigTree_HandleDelete(HWND dialog, HWND treeview)
 
 	target = TreeView_GetNextItem(treeview, 0, TVGN_CARET);
 	next = TreeView_GetNextItem(treeview, target, TVGN_NEXT);
-	data = (class ItemData*)GetItemParam(treeview, target);
+	data = (ItemData*)GetItemParam(treeview, target);
 
-	if (!target || data <= 0)
+	if (!target || !data)
 		return;
 
 	if (!data->Delete(treeview, target))
 	{
-		MessageBox(dialog, noticeNoDelete, szTrigTitle, MB_ICONINFORMATION);
+		MessageBox(dialog, noticeNoDelete, szTrigTitle, MB_ICONWARNING);
 		return;
 	}
 
@@ -1034,7 +1055,7 @@ void TrigTree_Paste(HWND dialog)
 			}
 			catch (std::exception &ex)
 			{
-				printf("Paste: %s", ex.what());
+				printf("Paste: %s\n", ex.what());
 				MessageBox(dialog, "Error placing condition/effect.", szTrigTitle, MB_ICONWARNING);
 			}
 		}
@@ -1054,6 +1075,8 @@ void TrigTree_DuplicatePlayers(HWND treeview)
 
 	selected = TreeView_GetSelection(treeview);
 	data = (ItemData*)GetItemParam(treeview, selected);
+	if (!selected || !data)
+		return;
 	data->DuplicatePlayers(treeview, selected);
 }
 
@@ -1131,7 +1154,7 @@ void TrigTree_HandleEdit(HWND treeview, HWND parent)
 
 	if ((!c_trig && !Update_ctrig(treeview)) || !item)
 	{
-		MessageBox(treeview, warningNoSelection, szTrigTitle, MB_ICONWARNING);
+		//MessageBox(treeview, warningNoSelection, szTrigTitle, MB_ICONWARNING);
 		return;
 	}
 
@@ -1181,9 +1204,6 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	treeview = GetDlgItem(dialog, IDC_T_TREE);
 	TreeView_SetImageList(treeview, il, TVSIL_NORMAL);
 
-	CheckDlgButton(dialog, IDC_T_SHOWDISPLAYORDER, true);
-	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, true);
-
 	return TRUE;
 }
 
@@ -1203,7 +1223,7 @@ void TrigTree_HandleGetDispInfo(NMTVDISPINFO *dispinfo)
 			if (setts.intense)
 				printf("GetDispInfo returned name: %s\n", dispinfo->item.pszText);
 		}
-		catch (std::exception& ex) // don't let any bubble up
+		catch (std::exception &ex) // don't let any bubble up
 		{
 			strcpy(dispinfo->item.pszText, ex.what());
 		}
@@ -1420,7 +1440,7 @@ void TrigTree_HandleNewCondition(HWND treeview)
 /* This macro checks that c_trig is valid before it is used. */
 #define SAFECHECK() \
 	if (!c_trig && !Update_ctrig(treeview)) \
-	{	MessageBox(dialog, warningNoSelection, szTrigTitle, MB_ICONWARNING); \
+	{	/*MessageBox(dialog, warningNoSelection, szTrigTitle, MB_ICONWARNING);*/ \
 		break;	}
 
 void TrigTree_HandleKeyDown(HWND dialog, NMTVKEYDOWN * keydown)
@@ -1486,23 +1506,6 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			TreeView_EditLabel(treeview, TreeView_GetSelection(treeview));
 			break;
 
-		case IDC_T_MOVE:
-			scen.move_triggers(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_DEST, NULL, FALSE));
-			//scen.clean_triggers();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_SYNC:
-			scen.sync_triggers();
-			//scen.clean_triggers();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_HIDENAMES:
-			scen.remove_trigger_names();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
 		case IDC_T_ADD:
 			SAFETY();
 			TrigTree_AddNew(treeview);
@@ -1552,12 +1555,6 @@ INT_PTR Handle_WM_NOTIFY(HWND dialog, NMHDR const * header)
 
 	switch (header->code)
 	{
-		case PSN_SETACTIVE:
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			SetWindowText(propdata.statusbar, help_msg);
-			//return 0?
-			break;
-
 		case TVN_GETDISPINFO:
 			TrigTree_HandleGetDispInfo((NMTVDISPINFO*)header);
 			break;
@@ -1625,10 +1622,18 @@ INT_PTR Handle_WM_NOTIFY(HWND dialog, NMHDR const * header)
 			break;
 
 		case TVN_BEGINDRAG:
-			//TrigTree_HandleDrag(header->hwndFrom, (NMTREEVIEW*)header);
+			TrigTree_HandleDrag(header->hwndFrom, (NMTREEVIEW*)header);
+			break;
+
+		case PSN_SETACTIVE:
+			LoadTriggerSection(dialog);
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			SetWindowText(propdata.statusbar, help_msg);
+			ret = FALSE;
 			break;
 
 		case PSN_KILLACTIVE:
+			SaveTriggerSection(dialog);
 			ret = IDOK;
 			if (editor_count)
 			{
@@ -1674,7 +1679,7 @@ INT_PTR Handle_WM_LBUTTONUP(HWND dialog, WPARAM wParam, int x, int y)
 		{
 			TrigTree_EndDrag(GetDlgItem(dialog, IDC_T_TREE), x, y);
 		}
-		catch (std::exception& ex) // don't let it propagate to Win32 code
+		catch (std::exception &ex) // don't let it propagate to Win32 code
 		{
 			MessageBox(dialog, ex.what(), "Drag operation failed.",
 					MB_ICONWARNING);
@@ -1690,6 +1695,7 @@ INT_PTR Handle_WM_LBUTTONUP(HWND dialog, WPARAM wParam, int x, int y)
  */
 INT_PTR Handle_AOKTS_Loading(HWND dialog)
 {
+	LoadTriggerSection(dialog);
 	TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 
 	/* Return anything: it is ignored. */
@@ -1701,6 +1707,7 @@ INT_PTR Handle_AOKTS_Loading(HWND dialog)
  */
 INT_PTR Handle_AOKTS_Saving(HWND dialog)
 {
+	SaveTriggerSection(dialog);
 	SaveTrigger(dialog, c_trig);
 
 	/* Return anything: it is ignored. */
@@ -1712,6 +1719,7 @@ INT_PTR Handle_AOKTS_Saving(HWND dialog)
  */
 INT_PTR Handle_AOKTS_Closing(HWND dialog)
 {
+	ResetTriggerSection(dialog);
 	TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), false);
 	LoadTrigger(dialog, NULL);
 

@@ -35,7 +35,7 @@ LPARAM GetItemParam(HWND treeview, HTREEITEM which)
 
 	item.mask = TVIF_HANDLE | TVIF_PARAM;
 	item.hItem = which ? which : TreeView_GetNextItem(treeview, NULL, TVGN_CARET);
-	item.lParam = -1;
+	item.lParam = 0; //why was -1?
 
 	if (item.hItem)	//TVM_GETITIEM does NOT have NULL-protection
 		TreeView_GetItem(treeview, &item);

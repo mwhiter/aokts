@@ -126,7 +126,7 @@ void TrigXmlVisitor::visit(Effect& e)
 	writeXmlLong(out, "player_target", e.t_player);
 	if (e.pTech)
 		writeXmlLong(out, "technology", e.pTech->id());
-	writeXmlLong(out, "stringid", e.stringid);
+	writeXmlLong(out, "textid", e.textid);
 	writeXmlLong(out, "display_time", e.disp_time);
 	writeXmlLong(out, "trigger", e.trig_index);
 	writeXml(out, "location", e.location);

@@ -7,14 +7,13 @@
 **/
 
 #include "editors.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "LinkListBox.h"
 #include "utilunit.h"
 #include "utilui.h"
 
 /* Disabled */
 
-#define MAX_DISABLED 30
 #define NUM_TYPES 3
 
 enum DTypes
@@ -203,25 +202,27 @@ void SaveDisables(HWND dialog)
 	list_sel = GetDlgItem(dialog, IDC_D_SEL);
 	count = SendMessage(list_sel, LB_GETCOUNT, 0, 0);
 
-	/* count must be limited to MAX_DISABLED */
-	if (count > MAX_DISABLED)
-		count = MAX_DISABLED;	//TODO: buildings?
-
 	switch (propdata.sel0)
 	{
-	case DIS_bldg:
-		propdata.p->ndis_b = count;
-		array = propdata.p->dis_bldg;
-		break;
-		
 	case DIS_tech:
+		if (count > MAX_DIS_TECH)
+			count = MAX_DIS_TECH;
 		propdata.p->ndis_t = count;
 		array = propdata.p->dis_tech;
 		break;
 		
 	case DIS_unit:
+		if (count > MAX_DIS_UNIT)
+			count = MAX_DIS_UNIT;
 		propdata.p->ndis_u = count;
 		array = propdata.p->dis_unit;
+		break;
+
+	case DIS_bldg:
+		if (count > MAX_DIS_TECH)
+			count = MAX_DIS_BLDG;
+		propdata.p->ndis_b = count;
+		array = propdata.p->dis_bldg;
 		break;
 
 	default:
@@ -317,7 +318,7 @@ INT_PTR CALLBACK DisDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (msg)
 		{
 		case WM_INITDIALOG:
-			Combo_Fill(dialog, IDC_D_SPLY, Player::names, NUM_PLAYERS - 1);
+			Combo_Fill(dialog, IDC_D_SPLY, Player::names, NUM_PLAYERS);
 			Combo_Fill(dialog, IDC_D_STYPE, dtypes, NUM_TYPES);
 			return TRUE;
 

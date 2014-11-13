@@ -7,7 +7,7 @@
 **/
 
 #include "../util/settings.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "ecedit.h"
 #include "utilui.h"
 #include "LCombo.h"

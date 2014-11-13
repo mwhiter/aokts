@@ -17,12 +17,12 @@ public:
 	Unit(Buffer &from);
 
 	float	y, x;		//stupid order
-	float	u_float;	//always 1.0 (any use for this?)
+	float	z;
 	UID		ident;	//identifies unit for triggers, etc.
 private:
 	UCNST	cnst;		//constant (type) of unit
 public:
-	char	u_char;	//always 2
+	char	state;	//default 2
 	float	rotate;	//in radians
 	short	frame;
 	UID		garrison;

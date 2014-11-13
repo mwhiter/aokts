@@ -30,8 +30,9 @@ typedef struct _iobuf FILE;	//makes including <stdio.h> unnecessary
 
 /* Options */
 
-#define MAX_MAPSIZE		480	//maximum size of one side of a map
 #define PLAYER1_INDEX	0	//index of Player 1 (may change)
+#define MAX_MAPSIZE	480
+#define MAX_MAPSIZE_OLD	256
 
 #define UNREAD(n)
 
@@ -69,8 +70,8 @@ public:
 	Map();
 
 	void reset();
-	void read(FILE *in, ScenVersion v);
-	void write(FILE *out, ScenVersion v);
+	void read(FILE *in, ScenVersion1 v);
+	void write(FILE *out, ScenVersion1 v);
 
 	/*	readArea: copies terrain data from a buffer to the specified area */
 	bool readArea(Buffer &from, const RECT &area);
@@ -128,14 +129,6 @@ class Scenario
 		void reset();
 	};
 
-	const PerVersion *perversion;	//yes, I know that's a word. :-P
-
-	static const PerVersion pv1_18;
-	static const PerVersion pv1_21;
-	static const PerVersion pv1_22;
-	static const PerVersion pv1_23;
-	static const PerVersion pv1_30;
-
 //	Internal Status Stuff (aka not in the SCX)
 	bool mod_status;
 
@@ -159,7 +152,9 @@ public:
 	/* The scenario */
 
 	// Internal use, set according to header::version[]
-	ScenVersion ver;
+	ScenVersion1 ver1;
+	// Internal use, set according to version2
+	ScenVersion2 ver2;
 
 //	Un-compressed Header
 	struct _header
@@ -172,12 +167,12 @@ public:
 
 		void reset();
 		bool read(FILE *scx);	//error return
-		void write(FILE *scx, const SString *instr, long players);
+		void write(FILE *scx, const SString *instr, long players, ScenVersion1 v);
 	} header;
 
 //	Compression starts here
 	UID	next_uid;
-	float	ver2;
+	float	version2;
 	long	unknown;	//usually 1?
 	char	origname[_MAX_FNAME];
 	long	mstrings[NUM_MSGS];
@@ -188,13 +183,13 @@ public:
 	SString unk[NUM_UNK];	//probably part of PlayerData2
 	Player players[NUM_PLAYERS];
 	Victory vict;
-	long dis_bldgx;
+	long lock_teams;
 	long all_techs;
 	Map map;
 	float	editor_pos[2];
-	//SString unk2;     // might be related to triggers?
-	char unk2;
-    std::vector<Trigger> triggers;
+	double	trigver;
+	char    objstate;
+	std::vector<Trigger> triggers;
 	std::vector<unsigned long> t_order;
 
 	long unk3; // TODO: rename
@@ -203,7 +198,7 @@ public:
 	AOKFile *files;
 
 	void open(const char *path, const char *dpath);
-	int save(const char *path, const char *dpath, bool write);
+	int save(const char *path, const char *dpath, bool write, int convert);
 	void reset();
 	bool export_bmp(const char *path);
 	//exFile: Exports all (index of -1) or one file to the specified directory
@@ -276,7 +271,8 @@ public:
 
 	bool needsave()	{ return mod_status; }
 
-	bool isExpansion();
+	bool isScx();
+	bool isScx2();
 };
 
 #undef UNREAD

@@ -16,13 +16,13 @@
 #define PLAYER1_INDEX 1
 
 Trigger::Trigger()
-:	state(1), loop(0), u1(0), obj(0), obj_order(0), display_order(-1)
+:	state(1), loop(0), u1(0), obj(0), obj_order(0), display_order(-1), obj_str_id(0)
 {
 	memset(name, 0, sizeof(name));
 }
 
 Trigger::Trigger(const Trigger &t) // TODO: we can use the compiler's version
-:	state(t.state), loop(t.loop), u1(t.u1), obj(t.obj), obj_order(t.obj_order),
+:	state(t.state), loop(t.loop), u1(t.u1), obj(t.obj), obj_order(t.obj_order), obj_str_id(t.obj_str_id),
 	description(t.description), effects(t.effects), conds(t.conds), display_order(t.display_order)
 {
 	strcpy(name, t.name);
@@ -35,8 +35,7 @@ Trigger::Trigger(Buffer& buffer)
 
 	int num;
 
-	buffer.read(&state, 14);
-	buffer.fill(0, sizeof(long));
+	buffer.read(&state, 18);
 	description.read(buffer, sizeof(long));
 	buffer.reads(name, sizeof(long));
 
@@ -83,33 +82,17 @@ void Trigger::read(FILE *in)
 
 	long n_effects, n_conds;
 
-	// TODO: read in as stru3ct
-	/*long testlong;
-	unsigned char testchar;
-	readbin(in, &testlong); printf("State: "); show_binrep(testlong);
-	readbin(in, &testlong); printf("Loop: "); show_binrep(testlong);
-	readbin(in, &testchar); printf("u1: "); show_binrep(testchar);
-	readbin(in, &testchar); printf("obj: "); show_binrep(testchar);
-	readbin(in, &testlong); printf("obj_order: "); show_binrep(testlong);
-	readbin(in, &testlong); printf("Zeroes: "); show_binrep(testlong);
-	readbin(in, &testlong); printf("Description: "); show_binrep(testlong);
-	readbin(in, &testlong); printf("Name: "); show_binrep(testlong);*/
-	
+	// TODO: read in as struct
 	readbin(in, &state);
 	readbin(in, &loop);
 	readbin(in, &u1);
 	readbin(in, &obj);
 	readbin(in, &obj_order);
-	readunk<long>(in, 0, "trigger zeroes", false);
+	readbin(in, &obj_str_id);
 
 	description.read(in, sizeof(long));
-	//readcsDebug<unsigned short>(in, name, sizeof(name));
 	readcs<unsigned long>(in, name, sizeof(name));
-	//unsigned short testlong;
-	//readbin(in, &testlong);
 
-	
-	
 	//read effects
 	readbin(in, &n_effects);
 	if (setts.intense) {
@@ -143,7 +126,6 @@ void Trigger::read(FILE *in)
 		}
 	}
 
-	
 	//read conditions
 	readbin(in, &n_conds);
 	if (setts.intense) {
@@ -181,8 +163,7 @@ void Trigger::write(FILE *out)
 {
 	int num, i;
 
-	fwrite(&state, 14, 1, out);	//state, loop, u1, obj, obj_order
-	NULLS(out, 4);
+	fwrite(&state, 18, 1, out);	//state, loop, u1, obj, obj_order, obj_str_id
 	description.write(out, sizeof(long), true);
 	num = strlen(name) + 1;
 	fwrite(&num, 4, 1, out);
@@ -215,32 +196,28 @@ void Trigger::tobuffer(Buffer& buffer) const
 {
 	int i, num;
 
-	buffer.write(&state, 14);
-	buffer.fill(0, sizeof(long));
+	// trigger
+	buffer.write(&state, 18);
 	description.write(buffer, sizeof(long));
 	buffer.writes(name, sizeof(long));
 
-	//effects
-
+	// effects
 	num = effects.size();
-
 	buffer.write(&num, sizeof(long));
 	for (i = 0; i < num; i++)
 		effects[i].tobuffer(buffer);
 
+	// effects order
 	for (i = 0; i < num; i++)
 		buffer.write(&i, sizeof(long));
 
-	//conditions
-
+	// conditions
 	num = conds.size();
-
 	buffer.write(&num, sizeof(long));
-
 	for (i = 0; i < num; i++)
 		conds[i].tobuffer(buffer);
 
-	//condition order
+	// conditions order
 	for (i = 0; i < num; i++)
 		buffer.write(&i, sizeof(long));
 }

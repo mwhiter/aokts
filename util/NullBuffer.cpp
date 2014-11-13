@@ -35,8 +35,7 @@ void NullBuffer::write(const void * source, const size_t length)
 
 void NullBuffer::writes(const char * source, const size_t lensize)
 {
-	// no null terminator
-	_size += lensize + strlen(source);
+	_size += lensize + strlen(source) + 1;
 }
 
 void NullBuffer::fill(int value, size_t length)

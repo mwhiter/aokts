@@ -1,7 +1,7 @@
 #include "LCombo.h"
 
 #include "../model/esdata.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "../util/winugly.h"
 
 /*

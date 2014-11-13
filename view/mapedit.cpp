@@ -7,7 +7,7 @@
 **/
 
 #include "editors.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "../util/settings.h"
 #include "../util/MemBuffer.h"
 #include "LCombo.h"
@@ -19,9 +19,6 @@
   propdata.sel0 = Current tile x
   propdata.sel1 = Current tile y
 */
-
-#define NUM_SIZES 8
-#define NUM_ELEVS 9
 
 enum CLICK_STATES
 {
@@ -38,11 +35,14 @@ const char *szMapTitle = "Map Editor";
 const char *szMapStatus =
 "Click \"Set...\" and then a point on the map to automatically fill values.";
 
+#define NUM_SIZES 8
 const char *sizes[NUM_SIZES] =
 {
-	"Tiny (120)", "Small (144)", "Medium (168)", "Normal (200)", "Large (220)", "Giant (240)", "Max (256)", "Ludks (480)"
+	"Tiny (120)", "Small (144)", "Medium (168)", "Normal (200)", "Large (220)", "Giant (240)", "LudiKRIS (480)"
 };
-const char *elevs[NUM_ELEVS] = { "0", "1", "2", "3", "4", "5", "6", "7", "8" };
+
+#define NUM_ELEVS 16
+const char *elevs[NUM_ELEVS] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16" };
 
 const char *warningExceededMaxSize =
 "Sorry, you have exceeded the maximum allowed mapsize. I will now set the mapsize to maximum.";
@@ -99,6 +99,10 @@ void SaveMap(HWND dialog)
 {
 	int w,h;
 	Map::Terrain *tn = scen.map.terrain[propdata.sel0] + propdata.sel1;
+	unsigned long maxsize = MAX_MAPSIZE;
+
+	if (scen.ver2 != SV2_AOE2TF)
+		maxsize = MAX_MAPSIZE_OLD;
 
 	//First check standard sizes. If that fails, get the custom size.
 	if ((w = SendDlgItemMessage(dialog, IDC_TR_SIZE, CB_GETCURSEL, 0, 0)) != LB_ERR)
@@ -111,12 +115,12 @@ void SaveMap(HWND dialog)
 	else
 		scen.map.y = GetDlgItemInt(dialog, IDC_TR_SIZE2, NULL, FALSE);
 
-	if (scen.map.x > MAX_MAPSIZE || scen.map.y > MAX_MAPSIZE)
+	if (scen.map.x > maxsize || scen.map.y > maxsize)
 	{
-	    if (scen.map.x > MAX_MAPSIZE)
-		    scen.map.x = MAX_MAPSIZE;
-	    if (scen.map.y > MAX_MAPSIZE)
-		    scen.map.y = MAX_MAPSIZE;
+	    if (scen.map.x > maxsize)
+		    scen.map.x = maxsize;
+	    if (scen.map.y > maxsize)
+		    scen.map.y = maxsize;
 		MessageBox(dialog, warningExceededMaxSize, szMapTitle, MB_ICONWARNING);
 	}
 

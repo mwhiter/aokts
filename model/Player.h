@@ -15,8 +15,12 @@
 
 /*	Unfortunately, the player classes have to know something about their indices
 	because of the scenario format. */
-#define NUM_PLAYERS	0x10
+#define NUM_PLAYERS	16 // or 0x10
 const int GAIA_INDEX = 8; //index of GAIA players (may change)
+
+#define MAX_DIS_TECH	30
+#define MAX_DIS_UNIT	30
+#define MAX_DIS_BLDG	20
 
 enum AIModes
 {
@@ -48,15 +52,14 @@ public:
 	void read_resources(FILE * in);
 	void read_diplomacy(FILE * in);
 	void read_ndis_techs(FILE * in);
-	void read_dis_techs(FILE * in, const PerVersion& pv);
+	void read_dis_techs(FILE * in);
 	void read_ndis_units(FILE * in);
-	void read_dis_units(FILE * in, const PerVersion& pv);
+	void read_dis_units(FILE * in);
 	void read_ndis_bldgs(FILE * in);
-	void read_dis_bldgs(FILE * in, const PerVersion& pv);
-	/*void read_dis_bldgsx(FILE * in);*/
+	void read_dis_bldgs(FILE * in);
 	void read_age(FILE * in);
 	void read_camera_longs(FILE * in);
-	void read_data4(FILE * in, ScenVersion v);
+	void read_data4(FILE * in, ScenVersion1 v);
 	void read_units(FILE *in);
 
 	/*
@@ -100,7 +103,7 @@ public:
 
 	//disables
 	//long AlliedVictory;  // UNREAD
-	long dis_tech[60], dis_unit[60], dis_bldg[34];
+	long dis_tech[MAX_DIS_TECH], dis_unit[MAX_DIS_UNIT], dis_bldg[MAX_DIS_BLDG];
 	long ndis_t, ndis_u, ndis_b;
 
 	long age;	//starting age

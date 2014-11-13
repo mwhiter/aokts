@@ -7,7 +7,7 @@
 **/
 
 #include "editors.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "../util/settings.h"
 #include "utilui.h"
 #include <commdlg.h>
@@ -22,7 +22,11 @@ void LoadIM(HWND dialog)
 	SetDlgItemText(dialog, IDC_M_MSGS, scen.messages[IM_msel].c_str());
 	SetDlgItemText(dialog, IDC_M_CINEM, scen.cinem[IM_csel]);
 	CheckDlgButton(dialog, IDC_G_ALLTECHS, scen.all_techs);
+	CheckDlgButton(dialog, IDC_G_LOCKTEAMS, scen.lock_teams);
 	SetDlgItemInt(dialog, IDC_M_STABLE, scen.mstrings[IM_msel], TRUE);
+	SetDlgItemInt(dialog, IDC_G_NEXTID, scen.next_uid, FALSE);
+	SetDlgItemFloat(dialog, IDC_G_X, scen.editor_pos[0]);
+	SetDlgItemFloat(dialog, IDC_G_Y, scen.editor_pos[1]);
 }
 
 void SaveM(HWND dialog)
@@ -30,7 +34,11 @@ void SaveM(HWND dialog)
 	GetWindowText(GetDlgItem(dialog, IDC_M_MSGS), scen.messages[IM_msel]);
 	GetDlgItemText(dialog, IDC_M_CINEM, scen.cinem[IM_csel], 0x20);
 	scen.all_techs = IsDlgButtonChecked(dialog, IDC_G_ALLTECHS);
+	scen.lock_teams = IsDlgButtonChecked(dialog, IDC_G_LOCKTEAMS);
 	scen.mstrings[IM_msel] = GetDlgItemInt(dialog, IDC_M_STABLE, NULL, TRUE);
+	scen.next_uid = GetDlgItemInt(dialog, IDC_G_NEXTID, NULL, FALSE);
+	scen.editor_pos[0] = GetDlgItemFloat(dialog, IDC_G_X);
+	scen.editor_pos[1] = GetDlgItemFloat(dialog, IDC_G_Y);
 }
 
 void ExportBitmap(HWND dialog)
@@ -117,14 +125,18 @@ void IMsgs_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_GRAYED);
 		break;
 	}
+
 }
 
 void IMsgs_Reset(HWND dialog)
 {
-	char string[20];
+	char string[32], version[5] = "0.00";
+	char *version1 = scen.header.version;
 
 	//these aren't gonna change, so load them here
-	sprintf(string, "%s (%.2f)", scen.header.version, scen.ver2);
+	if (version1[0] == '\0')
+		version1 = version;
+	sprintf(string, "%s - %.2f", version1, scen.version2);
 	SetDlgItemText(dialog, IDC_G_VER, string);
 	SetDlgItemText(dialog, IDC_G_TIMESTAMP, _ctime32(&scen.header.timestamp));
 	SetDlgItemText(dialog, IDC_G_ONAME, scen.origname);

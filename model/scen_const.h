@@ -14,23 +14,24 @@ typedef short UCNST;
  * This is not saved in the scenario but is used internally by many data
  * reading functions.
  */
-enum ScenVersion
+enum ScenVersion1
 {
-	SVER_AOE1		= 10,
-	SVER_AOE2		= 18,
-	SVER_AOE2TC	= 21,
-	SVER_SWGB    = 21
+	SV1_AOE1		= 10,
+	SV1_AOE2		= 18,
+	SV1_AOE2TC		= 21,
+	SV1_SWGB    = 21
 };
 
 /**
  * This is not saved in the scenario, but is used internally by AOKTS to
  * encapsulate differences in versions of the scenario format.
  */
-struct PerVersion
+
+enum ScenVersion2
 {
-	int messages_count;
-	bool mstrings;
-	int max_disables1, max_disables2;
+	SV2_AOE2		= 18,
+	SV2_AOE2TC		= 22,
+	SV2_AOE2TF		= 23 //The Forgotten
 };
 
 /* Internal Constants */
@@ -39,6 +40,7 @@ const double PI = 3.1415927;	//for radians
 
 enum AOKTS_ERROR
 {
+	ERR_unknown = -11,	//unknown error
 	ERR_outofbounds = -10,	//something went out of bounds, depends on context
 	ERR_overlap = -9,	//used for map copy, target overlaps source
 	ERR_data = -8,		//decompressed data error
@@ -74,10 +76,10 @@ extern const char* cinem_names[NUM_CINEM];
 extern const char* difficulties_18[NUM_DIFFICULTIES];
 extern const char* difficulties_21[NUM_DIFFICULTIES];
 
-#define NUM_AGES 5
-extern const char* ages[NUM_AGES];
+#define NUM_AGES 6
+extern const struct PAIR ages[NUM_AGES];
 
-#define NUM_GROUPS 54
+#define NUM_GROUPS 63
 extern const struct PAIR groups[NUM_GROUPS];
 
 #define NUM_UTYPES 5

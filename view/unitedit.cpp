@@ -11,7 +11,7 @@
 #include "../util/settings.h"
 
 #include <stdio.h>
-#include "../resource.h"
+#include "../res/resource.h"
 #include "utilui.h"
 #include "LCombo.h"
 #include "LinkListBox.h"
@@ -99,10 +99,12 @@ bool Units_Load(HWND dialog)
 
 	SetDlgItemFloat(dialog, IDC_U_X, u->x);
 	SetDlgItemFloat(dialog, IDC_U_Y, u->y);
+	SetDlgItemFloat(dialog, IDC_U_Z, u->z);
 	SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_SETCURSEL, (int)(u->rotate / PI * 4), 0);
-	SetDlgItemInt(dialog, IDC_U_FRAME, u->frame, TRUE);
+	SetDlgItemInt(dialog, IDC_U_FRAME, u->frame, FALSE);
 	SetDlgItemInt(dialog, IDC_U_GARRISON, u->garrison, TRUE);
-	SetDlgItemInt(dialog, IDC_U_IDENT, u->ident, TRUE);
+	SetDlgItemInt(dialog, IDC_U_ID, u->ident, FALSE);
+	SetDlgItemInt(dialog, IDC_U_STATE, u->state, FALSE);
 	SetDlgItemInt(dialog, IDC_U_NEXT_AVAIL, scen.next_uid, TRUE);
 
 	return ret;
@@ -119,12 +121,14 @@ void Units_Save(HWND dialog)
 
 		u.x =		GetDlgItemFloat(dialog, IDC_U_X);
 		u.y =		GetDlgItemFloat(dialog, IDC_U_Y);
+		u.z =		GetDlgItemFloat(dialog, IDC_U_Z);
 		if (ucnst_sel) // will be NULL if user changed group
 			u.setType(static_cast<const UnitLink *>(ucnst_sel));
 		u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
-		u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, TRUE);
+		u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, FALSE);
 		u.garrison = GetDlgItemInt(dialog, IDC_U_GARRISON, NULL, TRUE);
-		u.ident = GetDlgItemInt(dialog, IDC_U_IDENT, NULL, TRUE);
+		u.ident = GetDlgItemInt(dialog, IDC_U_ID, NULL, FALSE);
+		u.state = (char)GetDlgItemInt(dialog, IDC_U_STATE, NULL, FALSE);
 	}
 }
 
@@ -219,6 +223,8 @@ void Units_HandleDelete(HWND dialog)
 		u_index = SIZE_MAX;
 	}
 }
+
+// not used yet
 void Units_HandleChangeOwnership(HWND dialog)
 {
 	unsigned index, count, data;
@@ -293,18 +299,19 @@ void Units_HandleRenumber(HWND dialog)
 
 void Units_HandleAdd(HWND dialog)
 {
-	UID new_uid = GetDlgItemInt(dialog, IDC_U_IDENT, NULL, TRUE);
+	UID new_uid = GetDlgItemInt(dialog, IDC_U_ID, NULL, TRUE);
 	printf("next_uid: %d, new_uid: %d\n", scen.next_uid, new_uid);
 	Unit u(new_uid);
 	if (scen.next_uid == new_uid) {
 		scen.next_uid++;
 	}
-	SetDlgItemInt(dialog, IDC_U_IDENT, scen.next_uid, TRUE);
+	SetDlgItemInt(dialog, IDC_U_ID, scen.next_uid, TRUE);
 	SetDlgItemInt(dialog, IDC_U_NEXT_AVAIL, scen.next_uid, TRUE);
 	HWND listbox = GetDlgItem(dialog, IDC_U_SELU);
 
 	u.x =		GetDlgItemFloat(dialog, IDC_U_X);
 	u.y =		GetDlgItemFloat(dialog, IDC_U_Y);
+	u.z =		GetDlgItemFloat(dialog, IDC_U_Z);
 	u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
 	u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, TRUE);
 	u.garrison = GetDlgItemInt(dialog, IDC_U_GARRISON, NULL, TRUE);

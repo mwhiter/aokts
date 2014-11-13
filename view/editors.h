@@ -17,8 +17,8 @@
 /* Options */
 
 //Number of property pages (tabs)
-//7 when using disables
-#define NUM_PAGES 6
+//6 when disabling disables
+#define NUM_PAGES 7
 
 /* Global Variables */
 

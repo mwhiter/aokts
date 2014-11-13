@@ -578,7 +578,7 @@ WS - Work Speed
 <pcolors>
 <!-- Player colors. Note that the ref attribute is reverse-order. -->
 <color id="0" name="Blue"
-	color="FF0000" />
+	color="FF3300" />
 <color id="1" name="Red"
 	color="0000FF" />
 <color id="2" name="Green"
@@ -589,12 +589,12 @@ WS - Work Speed
 	color="FFFF00" />
 <color id="5" name="Purple"
 	color="FF00FF" />
-<color id="6" name="Grey"
-	color="B9B9B9" />
+<color id="6" name="White"
+	color="FFFFFF" />
 <color id="7" name="Orange"
-	color="0182FF" />
-<color id="8" name="Black"
-	color="000000" />
+	color="0077FF" />
+<color id="8" name="Dark Green"
+	color="004400" />
 </pcolors>
 
 <units>

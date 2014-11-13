@@ -19,7 +19,7 @@ struct Genie_Condition
 	long player;
 	long technology;
 	long timer;
-	long unknown;
+	long reserved;
 	AOKRECT area;
 	long unit_group;
 	long unit_type;
@@ -37,7 +37,7 @@ Condition::Condition()
 	player(-1),
 	pTech(NULL),
 	timer(-1),
-	u1(-1),
+	reserved(-1),
 	// AOKRECT default constructor OK
 	group(-1),
 	utype(-1),
@@ -48,6 +48,7 @@ Condition::Condition()
 Condition::Condition(Buffer& b)
 :	ECBase(CONDITION)
 {
+	// read flat data
 	Genie_Condition genie;
 	b.read(&genie, sizeof(genie));
 	std::swap(genie.type, genie.check); // HACK: un-swap type, check
@@ -173,6 +174,7 @@ void Condition::tobuffer(Buffer &b) const
 	 * one sucky and one slightly-less-sucky format.
 	 */
 
+	// write flat data
 	Genie_Condition genie = toGenie();
 	std::swap(genie.type, genie.check); // HACK: swap type, check
 	b.write(&genie, sizeof(genie));
@@ -188,9 +190,6 @@ void Condition::fromGenie(const Genie_Condition& genie)
 	if (genie.check != CONDITION)
 		throw bad_data_error("Condition has incorrect check value.");
 
-	if (genie.type > MAX_CONDITION)
-		printf("WARNING: Unknown condition %d.\n", type);
-
 	type = genie.type;
 	ttype = static_cast<TType>(genie.check);
 	res_type = genie.resource_type;
@@ -201,7 +200,7 @@ void Condition::fromGenie(const Genie_Condition& genie)
 	player = genie.player;
 	pTech = esdata.techs.getByIdSafe(genie.technology);
 	timer = genie.timer;
-	u1 = genie.unknown;
+	reserved = genie.reserved;
 	area = genie.area;
 	group = genie.unit_group;
 	utype = genie.unit_type;
@@ -222,7 +221,7 @@ Genie_Condition Condition::toGenie() const
 		player,
 		pTech ? pTech->id() : -1,
 		timer,
-		u1,
+		reserved,
 		area,
 		group,
 		utype,

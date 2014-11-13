@@ -76,7 +76,7 @@ void MemBuffer::write(const void *source, const size_t length)
 
 void MemBuffer::writes(const char *source, const size_t lensize)
 {
-	size_t len = strlen(source);
+	size_t len = strlen(source) + 1;
 
 	checkFits(lensize + len);
 

@@ -7,10 +7,9 @@
 #include "../util/Buffer.h"
 
 extern class Scenario scen;
-#define EFFECT_MEMBERS 22	//count of all the static members of class Effect
 
 #pragma pack(push, 4)
-// An effect as stored in in scenario, up to strings
+// An effect as stored in scenario, up to strings
 struct Genie_Effect
 {
 	long type;
@@ -25,8 +24,8 @@ struct Genie_Effect
 	long player_source;
 	long player_target;
 	long technology;
-	long stable;         // string table for text
-	long unknown;
+	long textid;
+	long soundid;
 	long display_time;
 	long trigger_index;
 	AOKPT location;
@@ -49,8 +48,8 @@ Effect::Effect()
 	s_player(-1),
 	t_player(-1),
 	pTech(NULL),
-	stringid(-1),
-	u2(-1),
+	textid(-1),
+	soundid(-1),
 	disp_time(-1),
 	trig_index(-1),
 	// location default ctor fine
@@ -62,23 +61,23 @@ Effect::Effect()
 	memset(uids, -1, sizeof(uids));
 }
 
-Effect::Effect(Buffer &buffer)
+Effect::Effect(Buffer &b)
 :	ECBase(EFFECT)
 {
 	// read flat data
 	Genie_Effect genie;
-	buffer.read(&genie, sizeof(genie));
+	b.read(&genie, sizeof(genie));
 	std::swap(genie.type, genie.check); // HACK: un-swap type, check
 	fromGenie(genie);
 
 	// move on to non-flat data
-	text.read(buffer, sizeof(long));
-	sound.read(buffer, sizeof(long));
+	text.read(b, sizeof(long));
+	sound.read(b, sizeof(long));
 	if (num_sel > 0)
-		buffer.read(uids, sizeof(uids));
+		b.read(uids, sizeof(uids));
 }
 
-void Effect::tobuffer(Buffer &buffer) const
+void Effect::tobuffer(Buffer &b) const
 {
 	/* Even though the Genie format sucks, we use it for Buffer operations
 	 * (i.e., copy & paste) since it's easier to maintain one sucky format than
@@ -88,12 +87,12 @@ void Effect::tobuffer(Buffer &buffer) const
 	// write flat data
 	Genie_Effect genie = toGenie();
 	std::swap(genie.type, genie.check); // HACK: swap type, check
-	buffer.write(&genie, sizeof(genie));
+	b.write(&genie, sizeof(genie));
 
-	text.write(buffer, sizeof(long));
-	sound.write(buffer, sizeof(long));
+	text.write(b, sizeof(long));
+	sound.write(b, sizeof(long));
 	if (num_sel > 0)
-		buffer.write(uids, sizeof(uids));
+		b.write(uids, sizeof(uids));
 }
 
 void Effect::read(FILE *in)
@@ -260,7 +259,7 @@ bool Effect::check() const
 
 	case EFFECT_DisplayInstructions:
 		return (panel >= 0 && disp_time >= 0
-			&& (*text.c_str() || stringid));	//AOK missing text
+			&& (*text.c_str() || textid));	//AOK missing text
 
 	case EFFECT_ClearInstructions:
 		return (panel >= 0);
@@ -325,6 +324,9 @@ void Effect::fromGenie(const Genie_Effect& genie)
 	if (genie.check != EFFECT)
 		throw bad_data_error("Effect has incorrect check value.");
 
+	if (genie.type >= NUM_EFFECTS) // MAX_EFFECTS = NUM_EFFECTS - 1
+		printf("WARNING: Unknown effect %d.\n", genie.type);
+
 	type = genie.type;
 	ttype = static_cast<TType>(genie.check);
 	ai_goal = genie.ai_goal;
@@ -337,8 +339,8 @@ void Effect::fromGenie(const Genie_Effect& genie)
 	s_player = genie.player_source;
 	t_player = genie.player_target;
 	pTech = esdata.techs.getByIdSafe(genie.technology);
-	stringid = genie.stable;
-	u2 = genie.unknown;
+	textid = genie.textid;
+	soundid = genie.soundid;
 	disp_time = genie.display_time;
 	trig_index = genie.trigger_index;
 	location = genie.location;
@@ -364,8 +366,8 @@ Genie_Effect Effect::toGenie() const
 		s_player,
 		t_player,
 		(pTech) ? pTech->id() : -1,
-		stringid,
-		u2,
+		textid,
+		soundid,
 		disp_time,
 		trig_index,
 		location,

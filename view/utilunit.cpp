@@ -13,7 +13,7 @@
 
 #include "LinkListBox.h"
 #include "utilui.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include <stdio.h>
 #include <algorithm>
 

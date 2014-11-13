@@ -53,67 +53,81 @@ const char *difficulties_21[] =
 	"Easy", "Standard", "Moderate", "Hard", "Hardest"
 };
 
-const char *ages[] =
+const struct PAIR ages[] =
 {
-	"Dark", "Feudal", "Castle", "Imperial", "Post-Imperial"
+	{ -1, "None" },
+	{  0, "Dark" },
+	{  1, "Feudal" },
+	{  2, "Castle" },
+	{  3, "Imperial" },
+	{  4, "Post-Imperial" }
 };
 
 const struct PAIR groups[] =
 {
-	{ 0x00, "Archer" },
-	{ 0x01, "Artifact" },
-	{ 0x02, "Trade Boat" },
-	{ 0x03, "Building" },
-	{ 0x04, "Civilian" },
-	{ 0x05, "Sea Fish" },
-	{ 0x06, "Soldier" },
-	{ 0x07, "Berry Bush" },
-	{ 0x08, "Stone Mine" },
-	{ 0x09, "Prey Animal" },
-	{ 0x0A, "Predator Animal" },
-	{ 0x0B, "Other" },
-	{ 0x0C, "Cavalry" },
-	{ 0x0D, "Siege Weapon" },
-	{ 0x0E, "Map Decoration" },
-	{ 0x0F, "Tree" },
-	{ 0x12, "Priest" },
-	{ 0x13, "Trade Cart" },
-	{ 0x14, "Transport Boat" },
-	{ 0x15, "Fishing Boat" },
-	{ 0x16, "War Boat" },
-	{ 0x17, "Conquistador" },
-	{ 0x1B, "Walls" },
-	{ 0x1C, "Phalanx" },
-	{ 0x1E, "Flags" },
-	{ 0x20, "Gold Mine" },
-	{ 0x21, "Shore Fish" },
-	{ 0x22, "Cliff" },
-	{ 0x23, "Petard" },
-	{ 0x24, "Cavalry Archer" },
-	{ 0x25, "Dolphin" },
-	{ 0x26, "Birds" },	//only FLDOG, lol
-	{ 0x27, "Gates" },
-	{ 0x28, "Piles" },
-	{ 0x29, "Resource" },
-	{ 0x2A, "Relic" },
-	{ 0x2B, "Monk with Relic" },
-	{ 0x2C, "Hand Cannoneer" },
-	{ 0x2D, "Two-Handed Swordsman" },
-	{ 0x2E, "Pikeman" },
-	{ 0x2F, "Scout Cavalry" },
-	{ 0x30, "Ore Mine" },
-	{ 0x31, "Farm" },
-	{ 0x32, "Spearman" },
-	{ 0x33, "Packed Siege Units" },
-	{ 0x34, "Tower" },
-	{ 0x35, "Boarding Boat" },
-	{ 0x36, "Unpacked Siege Units" },
-	{ 0x37, "Scorpion" },
-	{ 0x38, "Raider" },
-	{ 0x39, "Cavalry Raider" },
-	{ 0x3A, "Sheep" },
-	{ 0x3B, "King" },	//doesn't include King?
-	{ 0x3D, "Horse" }
+	{ -1, "None" },
+	{  0, "Archer" },
+	{  1, "Artifact" },
+	{  2, "Trade Boat" },
+	{  3, "Building" },
+	{  4, "Civilian" },
+	{  5, "Sea Fish" },
+	{  6, "Infantry" },
+	{  7, "Forage Bush" },
+	{  8, "Stone Mine" },
+	{  9, "Prey Animal" },
+	{ 10, "Predator Animal" },
+	{ 11, "Other/Dead/Projectile" },
+	{ 12, "Cavalry" },
+	{ 13, "Siege Weapon" },
+	{ 14, "Map Decoration" },
+	{ 15, "Tree" },
+	{ 16, "?16" }, //Tree Stump
+	{ 17, "?17" },
+	{ 18, "Priest" },
+	{ 19, "Trade Cart" },
+	{ 20, "Transport Boat" },
+	{ 21, "Fishing Boat" },
+	{ 22, "War Boat" },
+	{ 23, "Conquistador" },
+	{ 24, "Monk" }, //War Elephant
+	{ 25, "?25" }, //Hero
+	{ 26, "?26" }, //Elephant Archer
+	{ 27, "Wall" },
+	{ 28, "?28" }, //Phalanx
+	{ 29, "?29" },
+	{ 30, "Flag" },
+	{ 31, "?31" },
+	{ 32, "Gold Mine" },
+	{ 33, "Shore Fish" },
+	{ 34, "Cliff" },
+	{ 35, "Petard" },
+	{ 36, "Cavalry Archer" },
+	{ 37, "Dolphin" },
+	{ 38, "Flying Dog" }, //Bird
+	{ 39, "Gate" },
+	{ 40, "Pile" },
+	{ 41, "Resource Pile" },
+	{ 42, "Relic" },
+	{ 43, "Monk with Relic" },
+	{ 44, "Hand Cannoneer" },
+	{ 45, "?45" }, //Two-Handed Swordsman
+	{ 46, "?46" }, //Pikeman
+	{ 47, "Scout Cavalry" },
+	{ 48, "Ore Mine" },
+	{ 49, "Farm / Fish Trap" },
+	{ 50, "?50" }, //Spearman
+	{ 51, "Packed Siege Units" },
+	{ 52, "Tower" },
+	{ 53, "Boarding Boat" },
+	{ 54, "Unpacked Siege Units" },
+	{ 55, "Scorpion" },
+	{ 56, "Raider" },
+	{ 57, "Cavalry Raider" },
+	{ 58, "Sheep/Turkey" },
+	{ 59, "King" },
+	{ 60, "?60" },
+	{ 61, "Horse" }
 };
 
 const struct PAIR utypes[] =

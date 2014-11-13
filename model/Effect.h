@@ -7,6 +7,9 @@
 class TriggerVisitor;
 
 #define NUM_EFFECTS	37	//+1 for undefined
+#define EFFECT_CONTROLS	23
+
+//todo: check UP, HD
 #define MAX_UNITSEL 22
 
 enum EffectType
@@ -94,8 +97,8 @@ public:
 	long s_player;	// GAIA = 0, Player 1 = 1, ...
 	long t_player;	// GAIA = 0, Player 1 = 1, ...
 	const TechLink *pTech;	//long in file, of course
-	long stringid;
-	long u2;
+	long textid;
+	long soundid;
 	long disp_time;
 	unsigned long trig_index;
 	AOKPT location;

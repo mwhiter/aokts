@@ -25,35 +25,6 @@ using std::vector;
 /* some options */
 #define BMP_READ_HACK
 
-/* PerVersions */
-const PerVersion Scenario::pv1_18 =
-{
-	5,
-	true,
-	30, 20
-};
-
-const PerVersion Scenario::pv1_22 =
-{
-	6,
-	true,
-	30, 20
-};
-
-const PerVersion Scenario::pv1_23 =
-{
-	6,
-	true,
-	30, 20
-};
-
-const PerVersion Scenario::pv1_30 =
-{
-	6,
-	true,
-	60, 60
-};
-
 /* The Scenario */
 
 #define SMSG	" For stability\'s sake, I must discontinue reading the scenario." \
@@ -76,6 +47,11 @@ const char e_bitmap[]	= "Sorry, the bitmap data in this scenario appears incompl
 
 #endif
 
+inline int myround(float n)
+{
+	return int((n >= 0.0) ? n + 0.5 : n - 0.5);
+}
+
 Scenario::Scenario()
 :	mod_status(false),
 	next_uid(0), bBitmap(false), files(NULL)
@@ -95,12 +71,13 @@ void Scenario::reset()
 
 	/* Internal */
 	mod_status = false;
-	ver = SVER_AOE2TC;
+	ver1 = SV1_AOE2TC;
+	ver2 = SV2_AOE2TC;
 
 	/* "Blank" scenario */
 	strcpy(header.version, "1.21");
 	next_uid = 0;
-	ver2 = 1.22F;
+	version2 = 1.22F;
 	memset(origname, 0, sizeof(origname));
 
 	for (i = 0; i < 6; i++)
@@ -112,15 +89,18 @@ void Scenario::reset()
 	memset(cinem, 0, sizeof(cinem));
 	bBitmap = false;
 
+	lock_teams = 0;
 	for (i = 0; i < NUM_PLAYERS; i++)
 		players[i].reset();
 	players[0].enable = true;
 	players[0].human = true;
-	Player::num_players = 9;
+	Player::num_players = EC_NUM_PLAYERS;
 
 	memset(&vict, 0, sizeof(vict));
 	map.reset();
 
+	trigver = 1.6;
+	objstate = 0;
 	triggers.clear();
 	t_order.clear();
 
@@ -202,30 +182,22 @@ void Scenario::AOKBMP::reset()
 	delete [] image;
 }
 
-bool Scenario::isExpansion()
+bool Scenario::isScx() //The Conquerors
 {
-	bool ret;
+	bool ret = false;
 
-#if (GAME == 1)
-	switch (ver)
-	{
-	case SVER_AOE1:
-	case SVER_AOE2:
-	default:
-		ret = false;
-		break;
-
-	case SVER_AOE2TC:
+	if (ver1 == SV1_AOE2TC)
 		ret = true;
-	}
-#elif (GAME == 2)
-	switch (ver)
-	{
-	case SVER_AOE2TC:
-	default:
-		ret = false;
-	}
-#endif
+
+	return ret;
+}
+
+bool Scenario::isScx2() //The Forgotten
+{
+	bool ret = false;
+
+	if (ver1 == SV1_AOE2TC && ver2 == SV2_AOE2TF)
+		ret = true;
 
 	return ret;
 }
@@ -253,28 +225,28 @@ void Scenario::open(const char *path, const char *dpath)
 	/* Header */
 	if (!header.read(scx.get()))
 	{
-		printf("Invalid scenario header in %s", path);
+		printf("Invalid scenario header in %s\n", path);
 		throw runtime_error("Not a valid scenario.");
 	}
 
-	if (header.version[2] == '1' && header.version[3] == '8') // 1.18
+	if (!strncmp(header.version, "1.18", 4))
 	{
-		ver = SVER_AOE2;
+		ver1 = SV1_AOE2;
 	}
-	else if (header.version[2] == '2' && header.version[3] == '1') // 1.21
+	else if (!strncmp(header.version, "1.21", 4))
 	{
-		ver = SVER_AOE2TC;
+		ver1 = SV1_AOE2TC;
 	}
 #ifdef _DEBUG	//testing AOE1 support in debug mode
 	else if (header.version[2] == '1' &&
 		(header.version[3] == '0' || header.version[3] == '1')) // 1.10 or 1.11
 	{
-		ver = SVER_AOE1;
+		ver = SV1_AOE1;
 	}
 #endif
 	else
 	{
-		printf("Unrecognized scenario version: %s.", header.version);
+		printf("Unrecognized scenario version: %s.\n", header.version);
 		throw bad_data_error("unrecognized format version");
 	}
 
@@ -320,15 +292,31 @@ void Scenario::open(const char *path, const char *dpath)
 
 /* Open a destination scenario, write the header, and optionally write compressed data */
 
-int Scenario::save(const char *path, const char *dpath, bool write)
+int Scenario::save(const char *path, const char *dpath, bool write, int convert)
 {
 	size_t uc_len;
 	int code = 0;	//return from zlib functions
 
 	AutoFile scx(path, "wb");
 
+	switch (convert)
+	{
+		case 1:
+			ver1 = SV1_AOE2;
+			ver2 = SV2_AOE2;
+			break;
+		case 2:
+			ver1 = SV1_AOE2TC;
+			ver2 = SV2_AOE2TC;
+			break;
+		case 3:
+			ver1 = SV1_AOE2TC;
+			ver2 = SV2_AOE2TF;
+			break;
+	}
+
 	/* Header */
-	header.write(scx.get(), messages, getPlayerCount());
+	header.write(scx.get(), messages, getPlayerCount(), ver1);
 
 	/* Write uncompressed data to a temp file */
 	if (write)
@@ -373,6 +361,10 @@ int Scenario::save(const char *path, const char *dpath, bool write)
 		code = ERR_zver;
 		sprintf(msg, e_zver, ZLIB_VERSION);
 		break;
+	default:
+		code = ERR_unknown;
+		strcpy(msg, "Unknown error!");
+		break;
 	}
 
 	delete [] uncompressed;
@@ -392,7 +384,7 @@ bool Scenario::_header::read(FILE *scx)
 	fread(&length, sizeof(long), 1, scx);
 
 	fread(&check, sizeof(long), 1, scx);
-	REPORTS(check == 2, ret = false, "Header check value invalid.");
+	REPORTS(check == 2, ret = false, "Header check value invalid.\n");
 
 	fread(&timestamp, sizeof(timestamp), 1, scx);
 
@@ -404,10 +396,22 @@ bool Scenario::_header::read(FILE *scx)
 	return ret;
 }
 
-void Scenario::_header::write(FILE *scx, const SString *instr, long players)
+void Scenario::_header::write(FILE *scx, const SString *instr, long players, ScenVersion1 v)
 {
 	long num;
 
+	switch (v)
+	{
+	case SV1_AOE2:
+		strcpy(version, "1.18");
+		break;
+	case SV1_AOE2TC:
+		strcpy(version, "1.21");
+		break;
+	default:
+		strcpy(version, "0.00");
+		break;
+	}
 	fwrite(version, sizeof(char), 4, scx);
 
 	/* Length calculation is a little tricky */
@@ -441,11 +445,6 @@ void Scenario::_header::reset()
 #define FEP(p) \
 	for (i = PLAYER1_INDEX, p = players; i < NUM_PLAYERS; i++, p++)
 
-inline int myround(float n)
-{
-	return int((n >= 0.0) ? n + 0.5 : n - 0.5);
-}
-
 /**
  * I suppose this is as good a place as any to document how I designed the
  * reading and writing of scenario data. The idea is that each class knows how
@@ -462,7 +461,7 @@ inline int myround(float n)
 
 void Scenario::read_data(const char *path)	//decompressed data
 {
-	int i;
+	int i, messages_count = 6;
 	Player *p;
 
 	printf("Read decompressed data file %s...\n", path);
@@ -471,41 +470,31 @@ void Scenario::read_data(const char *path)	//decompressed data
 	/* Compressed Header */
 
 	readbin(dc2in.get(), &next_uid);
-	readbin(dc2in.get(), &ver2);
+	readbin(dc2in.get(), &version2);
 
-	printf("Version: %d...\n", myround(ver2 * 100));
-	/* Set PerVersion according to ver2 */
-	switch (myround(ver2 * 100))
+	switch (myround(version2 * 100))
 	{
 	case 118:
-	case 119:
-	case 120:
-	case 121:
-		perversion = &pv1_18;
+		ver2 = SV2_AOE2;
 		break;
 
 	case 122:
-		perversion = &pv1_22;
+		ver2 = SV2_AOE2TC;
 		break;
 
 	case 123:
-		perversion = &pv1_23;
-		printf("SCX v%f.\n", ver2);
-		break;
-
-	case 130:
-		perversion = &pv1_30;
+		ver2 = SV2_AOE2TF;
 		break;
 
 	default:
-		printf("Unrecognized scenario version2: %f.\n", ver2);
+		printf("Unrecognized scenario version2: %f.\n", version2);
 		throw bad_data_error("unrecognized format version");
 	}
 
 	FEP(p)
 		p->read_header_name(dc2in.get());
 
-	if (ver >= SVER_AOE2)
+	if (ver1 >= SV1_AOE2)
 	{
 		FEP(p)
 			p->read_header_stable(dc2in.get());
@@ -521,10 +510,12 @@ void Scenario::read_data(const char *path)	//decompressed data
 	readcs<unsigned short>(dc2in.get(), origname, sizeof(origname));
 
 	/* Messages & Cinematics */
-	if (perversion->mstrings)
-		fread(mstrings, sizeof(long), perversion->messages_count, dc2in.get());
+	if (ver2 == SV2_AOE2)
+		messages_count--;
 
-	for (i = 0; i < perversion->messages_count; i++)
+	fread(mstrings, sizeof(long), messages_count, dc2in.get());
+
+	for (i = 0; i < messages_count; i++)
 		messages[i].read(dc2in.get(), sizeof(short));
 
 	for (i = 0; i < NUM_CINEM; i++)
@@ -575,30 +566,25 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	SKIP(dc2in.get(), sizeof(long) * NUM_PLAYERS);	//other allied victory
 
+	if (ver2 == SV2_AOE2TF)
+		readbin(dc2in.get(), &lock_teams);
+
 	/* Disables */
 
 	// UGH why not just one big struct for each player?!
 	FEP(p)
 		p->read_ndis_techs(dc2in.get());
 	FEP(p)
-		p->read_dis_techs(dc2in.get(), *perversion);
+		p->read_dis_techs(dc2in.get());
 	FEP(p)
 		p->read_ndis_units(dc2in.get());
 	FEP(p)
-		p->read_dis_units(dc2in.get(), *perversion);
+		p->read_dis_units(dc2in.get());
 	FEP(p)
 		p->read_ndis_bldgs(dc2in.get());
 	FEP(p)
-		p->read_dis_bldgs(dc2in.get(), *perversion);
-	/*FEP(p)
-		p->read_dis_bldgsx(dc2in.get());*/
-	/*readunk<long>(dc2in.get(), -1, "Disables extended", true);*/
-	switch (myround(ver2 * 100))
-	{
-	case 123:
-		readbin(dc2in.get(), &dis_bldgx);
-		break;
-	}
+		p->read_dis_bldgs(dc2in.get());
+
 	readunk<long>(dc2in.get(), 0, "Disables unused 1", true);
 	readunk<long>(dc2in.get(), 0, "Disables unused 2", true);
 	readbin(dc2in.get(), &all_techs);
@@ -610,14 +596,14 @@ void Scenario::read_data(const char *path)	//decompressed data
 	readunk(dc2in.get(), sect, "map sect begin", true);
 
 	players[0].read_camera_longs(dc2in.get());
-	map.read(dc2in.get(), ver);
+	map.read(dc2in.get(), ver1);
 
 	/* Population Limits & Units */
 
 	readunk<long>(dc2in.get(), 9, "Player count before units", true);
 
 	for (i = PLAYER1_INDEX; i < GAIA_INDEX; i++)
-		players[i].read_data4(dc2in.get(), ver);
+		players[i].read_data4(dc2in.get(), ver1);
 
 	// GAIA first! Grrrr.
 	players[GAIA_INDEX].read_units(dc2in.get());
@@ -638,76 +624,12 @@ void Scenario::read_data(const char *path)	//decompressed data
 			);
 	}
 
-	//readunk<double>(dc2in.get(), 1.6, "post-PlayerData3 unknown"); // ok
-	double testbin;
-	readbin(dc2in.get(), &testbin);
-	show_binrep(testbin);
-
-	/*readbin(dc2in.get(), &unk2);
-	check<char>(unk2, 0, "post-PlayerData3 unknown char");*/
-
-	/*long bigdata[100];
-	readbin(dc2in.get(), &bigdata);
-	show_binrep(bigdata);
-
-	assert(false);*/
-
-	unsigned char testchar[4];
-	readbin(dc2in.get(), &testchar[0]);
-	show_binrep(testchar);
-
-	// sometimes there is an extra null byte just here -- so much
-	// mystery in this section.
-
-	testchar[0] = readval<unsigned char>(dc2in.get());
-	testchar[1] = readval<unsigned char>(dc2in.get());
-	testchar[2] = readval<unsigned char>(dc2in.get());
-	testchar[3] = readval<unsigned char>(dc2in.get());
-	unsigned long n_trigs = *((int*)testchar);
-
-	/*char nullchar = '\0';
-	printf("Nullchar: ");
-	show_binrep(nullchar);
-	printf("\n");*/
-
-	/*printf("sizeof(int) = %d bytes\n", (int) sizeof(int));
-	printf("sizeof(double) = %d bytes\n", (int) sizeof(double));
-	printf("sizeof(unsigned short) = %d bytes\n", (int) sizeof(unsigned short));
-	printf("sizeof(unsigned long) = %d bytes\n", (int) sizeof(unsigned long));*/
-
-	// remove this para
-	/*double testbin;
-	readbin(dc2in.get(), &testbin);
-	show_binrep(testbin);*/
-	/*char testbin2;
-	readbin(dc2in.get(), &testbin2);
-	show_binrep(testbin2);*/
-	/*unsigned short testbin3;
-	readbin(dc2in.get(), &testbin3);
-	show_binrep(testbin3);
-	printf("Num trigs: %hu\n",_byteswap_ushort(testbin3));*/
-
-	//unk2.read(dc2in.get());
-
 	/* Triggers */
 
-	//unsigned long n_trigs = readval<unsigned long>(dc2in.get());
-	printf("n_trigs: ");
-	show_binrep(n_trigs);
-	/*n_trigs = _byteswap_ushort(n_trigs);*/
-	//swapByteOrder(n_trigs);
-	printf("Num triggers: %lu\n", n_trigs);
+	readunk<double>(dc2in.get(), 1.6, "Trigger system version");
+	readbin(dc2in.get(), &objstate);
 
-	//char testbin2;
-	/*readbin(dc2in.get(), &testbin2);
-	show_binrep(testbin2);
-	readbin(dc2in.get(), &testbin2);
-	show_binrep(testbin2);
-	readbin(dc2in.get(), &testbin2);
-	show_binrep(testbin2);*/
-	/*readunk<char>(dc2in.get(), 0, "pre-trigger unknown",false); // ok
-	readunk<char>(dc2in.get(), 0, "pre-trigger unknown",false); // ok
-	readunk<char>(dc2in.get(), 0, "pre-trigger unknown",false); // ok*/
+	unsigned long n_trigs = readval<unsigned long>(dc2in.get());
 	triggers.resize(n_trigs);
 
 	if (n_trigs)
@@ -722,7 +644,6 @@ void Scenario::read_data(const char *path)	//decompressed data
 			t++->read(dc2in.get());
 		}
 
-		//return;//remove this
 		// Directly read trigger order: this /is/ allowed by std::vector.
 		t_order.resize(n_trigs);
 		readbin(dc2in.get(), &t_order.front(), n_trigs);
@@ -765,8 +686,8 @@ void Scenario::read_data(const char *path)	//decompressed data
 		}
 	}
 
-	/*if (fgetc(dc2in.get()) != EOF)
-		throw bad_data_error("Unrecognized data at end.");*/
+	if (fgetc(dc2in.get()) != EOF)
+		throw bad_data_error("Unrecognized data at end.");
 
 	// FILE close taken care of by AutoFile! yay.
 
@@ -778,7 +699,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 int Scenario::write_data(const char *path)
 {
 	FILE *dcout;
-	int i;
+	int i, messages_count = 6;
 	long num;
 	float f;
 	int num_players = Player::num_players;	//for quick access
@@ -790,16 +711,22 @@ int Scenario::write_data(const char *path)
 
 	writebin(dcout, &next_uid);
 
-	/* save as 1.22 if it is 1.23. disable this or the below */
-	/*f = ver2 - 0.01;
-	if (myround(ver2 * 100) == 123) {
-		writebin(dcout, &f);
-	} else {
-		writebin(dcout, &ver2);
-	}*/
-
-	/* saves normally. disable this or the above */
-	writebin(dcout, &ver2);
+	switch (ver2)
+	{
+		case SV2_AOE2:
+			version2 = 1.18F;
+			break;
+		case SV2_AOE2TC:
+			version2 = 1.22F;
+			break;
+		case SV2_AOE2TF:
+			version2 = 1.23F;
+			break;
+		default:
+			version2 = 0.00F;
+			break;
+	}
+	writebin(dcout, &version2);
 
 	FEP(p)
 		p->write_header_name(dcout);
@@ -817,10 +744,12 @@ int Scenario::write_data(const char *path)
 	writecs<unsigned short>(dcout, origname, false);
 
 	/* Messages & Cinematics */
-	if (perversion->mstrings)
-		fwrite(mstrings, sizeof(long), perversion->messages_count, dcout);
+	if (ver2 == SV2_AOE2)
+		messages_count--;
 
-	for (i = 0; i < perversion->messages_count; i++)
+	fwrite(mstrings, sizeof(long), messages_count, dcout);
+
+	for (i = 0; i < messages_count; i++)
 		messages[i].write(dcout, sizeof(short));
 
 	for (i = 0; i < NUM_CINEM; i++)
@@ -885,29 +814,23 @@ int Scenario::write_data(const char *path)
 		fwrite(&num, sizeof(long), 1, dcout);
 	}
 
+	if (ver2 == SV2_AOE2TF)
+		fwrite(&lock_teams, sizeof(long), 1, dcout);
+
 	/* Disables */
 
 	FEP(p)
 		fwrite(&p->ndis_t, sizeof(long), 1, dcout);
 	FEP(p)
-		fwrite(&p->dis_tech, sizeof(long), perversion->max_disables1, dcout);
+		fwrite(&p->dis_tech, sizeof(long), MAX_DIS_TECH, dcout);
 	FEP(p)
 		fwrite(&p->ndis_u, sizeof(long), 1, dcout);
 	FEP(p)
-		fwrite(&p->dis_unit, sizeof(long), perversion->max_disables1, dcout);
+		fwrite(&p->dis_unit, sizeof(long), MAX_DIS_UNIT, dcout);
 	FEP(p)
 		fwrite(&p->ndis_b, sizeof(long), 1, dcout);
 	FEP(p)
-		fwrite(&p->dis_bldg, sizeof(long), perversion->max_disables2, dcout);
-	/*FEP(p)
-		fwrite(&p->dis_bldgx, 4, 1, dcout);*/
-
-	/* disable this when saving as 1.22 */
-	switch (myround(ver2 * 100)){
-	case 123:
-		fwrite(&dis_bldgx, sizeof(long), 1, dcout);
-	}
-
+		fwrite(&p->dis_bldg, sizeof(long), MAX_DIS_BLDG, dcout);
 	NULLS(dcout, 0x8);
 	fwrite(&all_techs, sizeof(long), 1, dcout);
 	FEP(p)
@@ -920,7 +843,7 @@ int Scenario::write_data(const char *path)
 	fwrite(&num, 4, 1, dcout);
 	num = (long)players[0].camera[0];
 	fwrite(&num, 4, 1, dcout);
-	map.write(dcout, ver);
+	map.write(dcout, ver1);
 
 	/* Population Limits & Units */
 
@@ -936,14 +859,10 @@ int Scenario::write_data(const char *path)
 		resources[5] = 0.0F;
 		fwrite(resources, sizeof(float), PLAYER_POP_UNREAD_COUNT, dcout);
 
-		if (ver == SVER_AOE2TC)
+		if (ver1 == SV1_AOE2TC)
 			fwrite(&players[i].pop, 4, 1, dcout);
 	}
 
-	//this would remove all gaia units
-	//players[8].write_no_units(dcout);
-	//dunno what this does
-    //fwrite(0, sizeof(long), 1, dcout);
 	players[8].write_units(dcout);
 	for (i = PLAYER1_INDEX; i < num_players - 1; i++)
 	{
@@ -959,11 +878,11 @@ int Scenario::write_data(const char *path)
 			i == PLAYER1_INDEX ? editor_pos : NULL	//See scx_format.txt.
 			);
 	}
-	double temp = 1.6;
-	fwrite(&temp, 8, 1, dcout);
-	writebin(dcout, &unk2);
 
 	/* Triggers */
+
+	fwrite(&trigver, 8, 1, dcout); //trigger system version
+	writebin(dcout, &objstate); //objectives state
 
 	Trigger *t_parse = &(*triggers.begin());
 	num = triggers.size();
@@ -1152,9 +1071,6 @@ public:
 #define ISINRECT(r, x, y) \
 	(x >= r.left && x <= r.right && y >= r.bottom && y <= r.top)
 
-//#define OVERLAP(r1, r2) \
-//	(ISINRECT(r1, r2.left, r2.left) || ISINRECT(r1, r2.right, r2.top))
-//
 // functor to check if a unit is in a RECT
 class unit_in_rect : public std::unary_function<const Unit, bool>
 {
@@ -1712,7 +1628,7 @@ int Scenario::getPlayerCount()
 /* Map */
 
 Map::Terrain::Terrain()
-:	cnst(0), elev(2)
+:	cnst(0), elev(1)
 {
 }
 
@@ -1726,23 +1642,23 @@ void Map::reset()
 	Terrain *parse;
 
 	aitype = esdata.aitypes.head()->id();	// pick the first one
-	x = *MapSizes;
-	y = *MapSizes;
+	x = MapSizes[1];
+	y = MapSizes[1];
 
 	parse = *terrain;
 	for (int i = 0; i < MAX_MAPSIZE * MAX_MAPSIZE; i++)
 	{
 		parse->cnst = 0;
-		parse->elev = 2;
+		parse->elev = 1;
 		parse++;
 	}
 }
 
-void Map::read(FILE *in, ScenVersion version)
+void Map::read(FILE *in, ScenVersion1 version)
 {
 	Terrain *t_parse;
 
-	if (version >= SVER_AOE2TC)
+	if (version >= SV1_AOE2TC)
 		readbin(in, &aitype);
 
 	readbin(in, &x);
@@ -1765,13 +1681,13 @@ void Map::read(FILE *in, ScenVersion version)
 	}
 }
 
-void Map::write(FILE *out, ScenVersion version)
+void Map::write(FILE *out, ScenVersion1 version)
 {
 	unsigned int count;
 	Terrain *t_parse;
 
 	//there's no aitype in non-TC
-	if (version >= SVER_AOE2TC)
+	if (version >= SV1_AOE2TC)
 		fwrite(this, sizeof(long), 3, out);	//aitype, x, y
 	else
 		fwrite(&x, sizeof(long), 2, out);	//x, y

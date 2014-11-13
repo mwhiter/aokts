@@ -30,11 +30,14 @@ public:
 	const static size_t MAX_TRIGNAME = 128;
 
 	long display_order;
-	long state, loop;
-	char u1, obj;
+	long state;
+	char loop;
+	long u1;
+	char obj;
 	long obj_order;
+	long obj_str_id;
 	SString description;
-	char name[MAX_TRIGNAME];
+	char name[MAX_TRIGNAME]; //TODO: SString?
 	std::vector<Effect> effects;
 	std::vector<Condition> conds;
 

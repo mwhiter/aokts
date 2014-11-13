@@ -15,8 +15,22 @@ int Player::num_players = 9;
 
 const char *Player::names[] =
 {
-	"Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6", "Player 7", "Player 8",
-	"GAIA", "Player 10", "Player 11", "Player 12", "Player 13", "Player 14", "Player 15", "Player 16"
+	"Player 1",
+	"Player 2",
+	"Player 3",
+	"Player 4",
+	"Player 5",
+	"Player 6",
+	"Player 7",
+	"Player 8",
+	"GAIA",
+	"Player 10",
+	"Player 11",
+	"Player 12",
+	"Player 13",
+	"Player 14",
+	"Player 15",
+	"Player 16"
 };
 
 Player::Player()
@@ -29,7 +43,7 @@ void Player::reset()
 	memset(name, 0, 30);
 	stable = -1;
 	enable = human = false;
-	civ = 1;	//TODO: ini var
+	civ = 0;
 	strcpy(ai, "RandomGame");
 	aimode = AI_standard;
 	aifile.erase();
@@ -44,7 +58,7 @@ void Player::reset()
 	camera[1] = 0;
 	avictory = false;
 	memset(diplomacy, 0, sizeof(diplomacy));
-	color = 8;
+	color = 0;
 	ucount = 2;
 	units.clear();
 }
@@ -153,9 +167,9 @@ void Player::read_ndis_techs(FILE * in)
 	readbin(in, &ndis_t);
 }
 
-void Player::read_dis_techs(FILE * in, const PerVersion& pv)
+void Player::read_dis_techs(FILE * in)
 {
-	readbin(in, dis_tech, pv.max_disables1);
+	readbin(in, dis_tech, MAX_DIS_TECH);
 }
 
 void Player::read_ndis_units(FILE * in)
@@ -163,9 +177,9 @@ void Player::read_ndis_units(FILE * in)
 	readbin(in, &ndis_u);
 }
 
-void Player::read_dis_units(FILE * in, const PerVersion& pv)
+void Player::read_dis_units(FILE * in)
 {
-	readbin(in, dis_unit, pv.max_disables1);
+	readbin(in, dis_unit, MAX_DIS_UNIT);
 }
 
 void Player::read_ndis_bldgs(FILE * in)
@@ -173,9 +187,9 @@ void Player::read_ndis_bldgs(FILE * in)
 	readbin(in, &ndis_b);
 }
 
-void Player::read_dis_bldgs(FILE * in, const PerVersion& pv)
+void Player::read_dis_bldgs(FILE * in)
 {
-	readbin(in, dis_bldg, pv.max_disables2);
+	readbin(in, dis_bldg, MAX_DIS_BLDG);
 }
 
 /*void Player::read_dis_bldgsx(FILE * in)
@@ -199,7 +213,7 @@ void Player::read_camera_longs(FILE * in)
 	camera[0] = static_cast<float>(value);
 }
 
-void Player::read_data4(FILE * in, ScenVersion version)
+void Player::read_data4(FILE * in, ScenVersion1 version)
 {
 	// Read and check duplicate copies of resources.
 	readunk(in, static_cast<float>(resources[2]), "food float");
@@ -212,7 +226,7 @@ void Player::read_data4(FILE * in, ScenVersion version)
 	readunk(in, static_cast<float>(resources[5]), "?? res float");
 #endif
 
-	if (version >= SVER_AOE2TC)
+	if (version >= SV1_AOE2TC)
 		readbin(in, &pop);
 }
 
@@ -270,7 +284,7 @@ void Player::read_data3(FILE *in, float *view)
 		printf("Unknown PlayerData3 float value %f at %X\n", ucount, ftell(in));
 		throw bad_data_error("Unknown PlayerData3 float value");
 	}
-	printf("PD3 ucount was %f\n", ucount);
+	//printf("PD3 ucount was %f\n", ucount);
 
 	short unk;
 	readbin(in, &unk);
@@ -299,7 +313,7 @@ void Player::read_data3(FILE *in, float *view)
 	readunk<char>(in, 0, "PD3 char 7");
 
 	readbin(in, &end);
-	printf("End was %d\n", end);
+	//printf("End was %d\n", end);
 }
 
 void Player::write_header_name(FILE * out)

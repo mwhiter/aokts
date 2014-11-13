@@ -7,7 +7,7 @@
 **/
 
 #include "editors.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "utilui.h"
 #include "../util/settings.h"
 #include "LCombo.h"
@@ -273,7 +273,7 @@ BOOL Players_Init(HWND dialog)
 	Combo_Fill(dialog, IDC_P_SPDIP, Player::names, NUM_PLAYERS);
 	SendDlgItemMessage(dialog, IDC_P_SPDIP, CB_SETCURSEL, 0, 0);	//set to player 0, or we get diplomacy[-1]
 	LCombo_Fill(dialog, IDC_P_COLOR, esdata.colors.head());
-	Combo_Fill(dialog, IDC_P_AGE, ages, NUM_AGES);
+	Combo_PairFill(GetDlgItem(dialog, IDC_P_AGE), NUM_AGES, ages);
 
 	/* Set resource names per game */
 	Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_FOOD), FOOD_STRING);

@@ -7,6 +7,7 @@
 class TriggerVisitor;
 
 #define NUM_CONDS	24	//+1 for undefined
+#define COND_CONTROLS	16
 
 #pragma pack(push, 4)	//everything in effects/conditions is a long
 
@@ -32,22 +33,11 @@ enum ConditionType
 	CONDITION_ResearchingTechnology,
 	CONDITION_UnitsGarrisoned,
 	CONDITION_DifficultyLevel,
-
-	/* SWGB-only */
-	CONDITION_OwnFewerFoundations,
-	CONDITION_SelectedObjectsInArea,
-	CONDITION_PoweredObjectsInArea,
-	/* AOK too */
-	CONDITION_UnitsQueuedPastPopCap
+	CONDITION_OwnFewerFoundations,   // (SWGB only)
+	CONDITION_SelectedObjectsInArea, // (SWGB only)
+	CONDITION_PoweredObjectsInArea,  // (SWGB only)
+	CONDITION_UnitsQueuedPastPopCap  // (works in AOK)
 };
-
-#if (GAME == 1)
-#define MAX_CONDITION CONDITION_DifficultyLevel
-
-#elif (GAME == 2)
-#define MAX_CONDITION CONDITION_UnitsQueuedPastPopCap
-
-#endif
 
 class Condition : public ECBase
 {
@@ -73,21 +63,19 @@ public:
 	 */
 	void accept(TriggerVisitor&);
 
-	long	amount;
-	long	res_type;
-	UID		object;
-	UID		u_loc;
+	long amount;
+	long res_type;
+	UID object;
+	UID u_loc;
 	const UnitLink *pUnit;	//long in file, of course
-	long	player;	// GAIA = 0, Player 1 = 1, ...
+	long player;	// GAIA = 0, Player 1 = 1, ...
 	const TechLink *pTech;	//long in file, of course
-	long	timer;
-	long	u1;
-	AOKRECT	area;
-	long	group;
-	long	utype;
-	long	ai_signal;
-
-//internal
+	long timer;
+	long reserved;
+	AOKRECT area;
+	long group;
+	long utype;
+	long ai_signal;
 
 	static const char* types[NUM_CONDS];
 	static const char* types_short[NUM_CONDS];

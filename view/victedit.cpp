@@ -7,7 +7,7 @@
 **/
 
 #include "editors.h"
-#include "../resource.h"
+#include "../res/resource.h"
 #include "utilui.h"
 
 /* Global Victory */

@@ -38,7 +38,7 @@ const char *szMapStatus =
 #define NUM_SIZES 8
 const char *sizes[NUM_SIZES] =
 {
-	"Tiny (120)", "Small (144)", "Medium (168)", "Normal (200)", "Large (220)", "Giant (240)", "LudiKRIS (480)"
+	"Tiny (120)", "Small (144)", "Medium (168)", "Normal (200)", "Large (220)", "Giant (240)", "Max (256)", "Ludks (480)"
 };
 
 #define NUM_ELEVS 16

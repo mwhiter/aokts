@@ -1390,8 +1390,10 @@ AOKTS_ERROR Scenario::fix_trigger_outliers() {
 	area.right = map.x - 1;
 	area.top = map.y - 1;
 
-	Trigger *trig = &(*triggers.begin());
 	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
 
     // triggers
 	long i = num;

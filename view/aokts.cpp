@@ -674,12 +674,14 @@ BOOL DisplayStats(HWND dialog)
 
 	/* total effects & conditions */
 	total = scen.triggers.size();
-	t_parse = &(*scen.triggers.begin());
-	while (total--)
-	{
-		ne += t_parse->effects.size();
-		nc += t_parse->conds.size();
-		t_parse++;
+	if (total > 0) {
+	    t_parse = &(*scen.triggers.begin());
+	    while (total--)
+	    {
+		    ne += t_parse->effects.size();
+		    nc += t_parse->conds.size();
+		    t_parse++;
+	    }
 	}
 	SetDlgItemInt(dialog, IDC_S_CONDITIONS, nc, FALSE);
 	SetDlgItemInt(dialog, IDC_S_EFFECTS, ne, FALSE);

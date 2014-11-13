@@ -597,7 +597,7 @@ BEGIN
     COMBOBOX        IDC_US_PLAYER,121,7,58,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
-IDD_UNITSEL2 DIALOG DISCARDABLE  0, 0, 186, 90
+IDD_UNITSEL2 DIALOG DISCARDABLE  0, 0, 186, 94
 STYLE WS_POPUP | WS_CAPTION
 CAPTION "Select Units..."
 FONT 8, "MS Sans Serif"
@@ -608,7 +608,7 @@ BEGIN
     LTEXT           "Sort By:",IDC_STATIC,119,26,26,8
     COMBOBOX        IDC_US_SORT,146,24,33,48,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_US_PLAYER,121,7,58,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Warning: Will ignore selections beyond 22 units.",IDC_US_NOTE,8,81,160,9
+    LTEXT           "Warning: Will ignore selections beyond 22 units.",IDC_US_NOTE,8,83,160,9
 END
 
 /////////////////////////////////////////////////////////////////////////////

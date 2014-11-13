@@ -10,7 +10,8 @@
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.1.0 Alpha"
+#define VER_STRING "1.2.0 Alpha"
+#define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
 #define LCOMBO "LinkedCombo"

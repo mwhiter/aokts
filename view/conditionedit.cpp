@@ -211,6 +211,21 @@ void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 {
 	EditCondition *data = (EditCondition*)GetWindowLongPtr(dialog, DWLP_USER);
 
+	switch (code)
+	{
+	case BN_CLICKED:
+		switch (id)
+		{
+		case IDC_C_AREA_ALL:
+			{
+				SetDlgItemInt(dialog, IDC_C_AREAX1, -1, TRUE);
+				SetDlgItemInt(dialog, IDC_C_AREAY1, -1, TRUE);
+				SetDlgItemInt(dialog, IDC_C_AREAX2, -1, TRUE);
+				SetDlgItemInt(dialog, IDC_C_AREAY2, -1, TRUE);
+			}
+			break;
+		}
+	}
 	if (id == IDOK)
 	{
 		bool valid;

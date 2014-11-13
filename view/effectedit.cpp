@@ -392,6 +392,17 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 	switch (code)
 	{
 		case BN_CLICKED:
+		    switch (id)
+		    {
+		    case IDC_E_AREA_ALL:
+			    {
+				    SetDlgItemInt(dialog, IDC_E_AREAX1, -1, TRUE);
+				    SetDlgItemInt(dialog, IDC_E_AREAY1, -1, TRUE);
+				    SetDlgItemInt(dialog, IDC_E_AREAX2, -1, TRUE);
+				    SetDlgItemInt(dialog, IDC_E_AREAY2, -1, TRUE);
+			    }
+			    break;
+		    }
 		case CBN_SELCHANGE:
 			data = (EditEffect*)GetWindowLongPtr(dialog, DWLP_USER);
 			switch (id)

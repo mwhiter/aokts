@@ -162,6 +162,16 @@
 #define IDC_TR_MMYT                 1430
 #define IDC_TR_MMSETT               1431
 #define IDC_TR_MMMOVE               1432
+#define IDC_TR_MMX3                 1433
+#define IDC_TR_MMY3                 1434
+#define IDC_TR_MMSET3               1435
+#define IDC_TR_MMX4                 1436
+#define IDC_TR_MMY4                 1437
+#define IDC_TR_MMSET4               1438
+#define IDC_TR_MMXT2                1439
+#define IDC_TR_MMYT2                1440
+#define IDC_TR_MMSETT2              1441
+#define IDC_TR_MMMOVE2              1442
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

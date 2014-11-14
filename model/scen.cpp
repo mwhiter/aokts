@@ -19,6 +19,7 @@
 #include <fstream>
 #include <algorithm>
 #include <functional>
+#include <iterator>
 
 using std::vector;
 

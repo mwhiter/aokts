@@ -1186,6 +1186,7 @@
 #define IDC_TR_MCSETT                   1418
 #define IDC_TR_MCPASTE                  1419
 #define IDC_TR_MCCOPY                   1420
+#define IDC_TR_SIZE3                    1421
 #define IDC_TR_MMX1                     1432
 #define IDC_TR_MMY1                     1433
 #define IDC_TR_MMSET1                   1434

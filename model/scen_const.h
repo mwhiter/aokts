@@ -60,6 +60,7 @@ enum Diplomacy
 };
 
 extern size_t MapSizes[8]; //conversion from standard sizes to tiles (see scen.cpp for values)
+extern size_t Elevations[9]; //conversion from standard sizes to tiles (see scen.cpp for values)
 
 #define NUM_STYPES 4		//number of stockpile resource types
 

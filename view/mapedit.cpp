@@ -62,7 +62,6 @@ void LoadMap(HWND dialog, bool all)
 	int index = -1, i;
 
 	SendDlgItemMessage(dialog, IDC_TR_ID, LB_SETCURSEL, tn->cnst, 0);
-	SendDlgItemMessage(dialog, IDC_TR_ELEV, CB_SETCURSEL, tn->elev, 0);
 
 	if (!all)
 		return;
@@ -88,6 +87,8 @@ void LoadMap(HWND dialog, bool all)
 	}
 	if (i == NUM_SIZES)
 		SetDlgItemInt(dialog, IDC_TR_SIZE2, scen.map.y, FALSE);
+
+	SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
 
 	ait = esdata.aitypes.getByIdSafe(scen.map.aitype);
 
@@ -124,8 +125,8 @@ void SaveMap(HWND dialog)
 	scen.map.aitype = LCombo_GetSelId(dialog, IDC_TR_AITYPE);
 	tn->cnst = static_cast<char>(
 		LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id());
-	tn->elev = static_cast<char>(
-		SendDlgItemMessage(dialog, IDC_TR_ELEV, CB_GETCURSEL, 0, 0));
+
+	tn->elev = GetDlgItemInt(dialog, IDC_TR_ELEV, NULL, FALSE);
 }
 
 void Map_UpdatePos(HWND dialog, WORD id)
@@ -195,6 +196,8 @@ void Map_HandleMapClick(HWND dialog, short x, short y)
 
 	SetDlgItemInt(dialog, ctrlx, x, FALSE);
 	SetDlgItemInt(dialog, ctrly, y, FALSE);
+	Map::Terrain *tn = &scen.map.terrain[propdata.sel0][propdata.sel1];
+	SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
 }
 
 void Map_HandleMapCopy(HWND dialog)

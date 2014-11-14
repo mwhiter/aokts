@@ -20,6 +20,19 @@ size_t MapSizes[] =
 	480		//Ludakris
 };
 
+size_t Elevations[] =
+{
+	0,
+	1,
+	2,
+	3,
+	4,
+	5,
+	6,
+	7,
+	8
+};
+
 const char *message_names[] =
 {
 	"Instructions", "Hints", "Victory", "Loss", "History", "Scouts"

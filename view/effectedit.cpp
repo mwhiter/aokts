@@ -126,10 +126,17 @@ const char etable1_14RC[NUM_EFFECTS][EFFECT_CONTROLS] = // Using 0 instead of -1
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Use Advanced Buttons
 	{ 0, 2, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Damage Object
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },	// Place Foundation
-	{ 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0 },	// Change Object Name
+	{ 0, 0, 0, 0, 1, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0 },	// Change Object Name
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Change Object HP
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Change Object Attack
-	{ 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 }		// Stop Unit
+	{ 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Stop Unit
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Ch UP Speed - HD Attack-Move
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Ch UP Range - HD Armor
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Ch UP Armor1 - HD Range
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Ch UP Armor2 - HD Speed
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Enable Unit
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 },	// Disable Unit
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 }		// Flash Objects
 };
 
 void EffectControls(HWND dialog, int type)
@@ -328,7 +335,14 @@ const bool multiSelEffect[] =
 	true,	// Change Object Name
 	true,	// Change Object HP
 	true,	// Change Object Attack
-	true	// Stop Unit
+	true,	// Stop Unit
+	true,	// Ch UP Speed - HD Attack-Move
+	true,	// Ch UP Range - HD Armor
+	true,	// Ch UP Armor1 - HD Range
+	true,	// Ch UP Armor2 - HD Speed
+	true,   // Enable Unit
+	true,   // Disable Unit
+	true    // Flash Objects
 };
 
 void OnOpenSel(HWND dialog, EditEffect *data)
@@ -347,7 +361,7 @@ void OnOpenSel(HWND dialog, EditEffect *data)
 		data->e.s_player = ue.player;
 		data->e.num_sel = ue.count;
 		memcpy(data->e.uids, ue.ids, sizeof(UID) * ue.count);
-		
+
 		/* Update controls */
 		MakeUIDString(data->e.uids, data->e.num_sel, GetDlgItem(dialog, IDC_E_UIDS));
 		SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_SETCURSEL, data->e.s_player, 0);
@@ -387,7 +401,7 @@ void E_HandleSetFocus(HWND dialog, WORD id)
 
 void E_HandleKillFocus(HWND dialog, WORD)
 {
-	EditEffect * data = 
+	EditEffect * data =
 		static_cast<EditEffect*>(GetDialogUserData_ptr(dialog));
 
 	if (data->mapview)
@@ -408,8 +422,8 @@ void E_HandleChangeType(HWND dialog, EditEffect *data)
 	}
 */
 	int newtype = SendDlgItemMessage(dialog, IDC_E_TYPE, CB_GETCURSEL, 0, 0);
-	if (data->e.type != newtype) 
-		data->e = Effect();	
+	if (data->e.type != newtype)
+		data->e = Effect();
 	data->e.type = newtype;
 	EffectControls(dialog, newtype);
 	LoadEffect(dialog, data);

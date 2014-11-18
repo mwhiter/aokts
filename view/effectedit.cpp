@@ -274,6 +274,8 @@ void SaveEffect(HWND dialog, EditEffect *data)
 		e->s_player = SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_GETCURSEL, 0, 0);
 		e->t_player = SendDlgItemMessage(dialog, IDC_E_TPLAY, CB_GETCURSEL, 0, 0);
 		e->diplomacy = (enum Diplomacy)SendDlgItemMessage(dialog, IDC_E_DSTATE, CB_GETCURSEL, 0, 0);
+		e->location.x = GetDlgItemInt(dialog, IDC_E_LOCX, NULL, TRUE);
+		e->location.y = GetDlgItemInt(dialog, IDC_E_LOCY, NULL, TRUE);
 		e->area.left = GetDlgItemInt(dialog, IDC_E_AREAX1, NULL, TRUE);
 		e->area.bottom = GetDlgItemInt(dialog, IDC_E_AREAY1, NULL, TRUE);
 		e->area.right = GetDlgItemInt(dialog, IDC_E_AREAX2, NULL, TRUE);

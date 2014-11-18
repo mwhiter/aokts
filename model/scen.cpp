@@ -1513,6 +1513,89 @@ AOKTS_ERROR Scenario::compress_unit_ids()
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::map_duplicate_terrain(const RECT &from, const POINT &to)
+{
+	LONG dx, dy, w, h, truew, trueh;
+
+	dx = to.x - from.left;
+	dy = to.y - from.bottom;
+	w = from.right - from.left;
+	h = from.top - from.bottom;
+    // +1 because right - left == 0 represents 1 tile
+	truew = w + 1;
+	trueh = h + 1;
+	RECT truefrom;
+	truefrom.left = from.left;
+	truefrom.bottom = from.bottom;
+	truefrom.right = from.left + truew;
+	truefrom.top = from.bottom + trueh;
+	RECT trueto;
+	trueto.left = to.x;
+	trueto.right = to.x + truew;
+	trueto.bottom = to.y;
+	trueto.top = to.y + trueh;
+
+	map.duplicateTerrain(truefrom, to);
+
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::map_duplicate_units(const RECT &from, const POINT &to)
+{
+	LONG dx, dy, w, h, truew, trueh;
+
+	dx = to.x - from.left;
+	dy = to.y - from.bottom;
+	w = from.right - from.left;
+	h = from.top - from.bottom;
+    // +1 because right - left == 0 represents 1 tile
+	truew = w + 1;
+	trueh = h + 1;
+	RECT truefrom;
+	truefrom.left = from.left;
+	truefrom.bottom = from.bottom;
+	truefrom.right = from.left + truew;
+	truefrom.top = from.bottom + trueh;
+	RECT trueto;
+	trueto.left = to.x;
+	trueto.right = to.x + truew;
+	trueto.bottom = to.y;
+	trueto.top = to.y + trueh;
+
+    // each player
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+        // units
+        vector<Unit>::iterator end = players[i].units.end();
+        LONG numunits = players[i].units.size();
+	    for (int j = 0; j < numunits; j++) {
+            if (ISINRECT(truefrom, players[i].units.at(j).x, players[i].units.at(j).y)) {
+	            Unit spec(players[i].units.at(j));
+	            spec.ident = scen.next_uid++;
+		        spec.x += dx;
+		        spec.y += dy;
+		        //players[i].units.reserve(players[i].units.size() + 1);
+		        players[i].units.push_back(spec);
+                //players[i].add_unit(uspec);
+		    }
+	    }
+	    // using iterator like this doesn't work
+	    //for (vector<Unit>::iterator iter = players[i].units.begin(); iter != end; ++iter) {
+        //    if (ISINRECT(truefrom, iter->x, iter->y)) {
+        //        numnewu++;
+	    //        Unit spec(*iter);
+	    //        spec.ident = scen.next_uid++;
+		//        spec.x += dx;
+		//        spec.y += dy;
+		//        //players[i].units.reserve(players[i].units.size() + 1);
+		//        players[i].units.push_back(spec);
+        //        //players[i].add_unit(uspec);
+		//    }
+	    //}
+	}
+
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to)
 {
 	LONG dx, dy, w, h, truew, trueh;
@@ -1884,6 +1967,52 @@ bool Map::swapArea(const RECT &area, const POINT &target)
 	}
 
 	// gets priority
+	for (LONG i = 0; i < cw; i++) {
+		for (LONG j = 0; j < ch; j++) {
+		    terrain[torect.left + i][torect.bottom + j] = frombuffer[i][j];
+		}
+	}
+
+	return true;
+}
+
+bool Map::duplicateTerrain(const RECT &area, const POINT &target)
+{
+	Terrain blank;
+	blank.cnst=0;
+	blank.elev=0;
+
+	LONG dx = 0, dy = 0;
+	dx = target.x - area.left;
+	dy = target.y - area.bottom;
+
+    LONG cw = area.right - area.left;
+    LONG ch = area.top - area.bottom;
+
+	RECT torect;
+	torect.left = target.x;
+	torect.right = target.x + cw;
+	torect.bottom = target.y;
+	torect.top = target.y + ch;
+
+	//xstep = dx/abs(dx);
+	//ystep = dy/abs(dy);
+
+	/* perform some validation on input */
+	if (area.bottom < 0 || static_cast<unsigned>(area.top) > y ||
+		area.left < 0 || static_cast<unsigned>(area.right) > x ||
+	    torect.bottom < 0 || static_cast<unsigned>(torect.top) > y ||
+		torect.left < 0 || static_cast<unsigned>(torect.right) > x)
+		return false;
+
+    // temporarily store the area to move before copying
+    vector<vector<Terrain>> frombuffer(cw, vector<Terrain>(ch));
+	for (LONG i = 0; i < cw; i++) {
+		for (LONG j = 0; j < ch; j++) {
+		    frombuffer[i][j] = terrain[area.left + i][area.bottom + j];
+		}
+	}
+
 	for (LONG i = 0; i < cw; i++) {
 		for (LONG j = 0; j < ch; j++) {
 		    terrain[torect.left + i][torect.bottom + j] = frombuffer[i][j];

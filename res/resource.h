@@ -172,6 +172,8 @@
 #define IDC_TR_MMYT2                1440
 #define IDC_TR_MMSETT2              1441
 #define IDC_TR_MMMOVE2              1442
+#define IDC_TR_MDUPT                1443
+#define IDC_TR_MDUPU                1444
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

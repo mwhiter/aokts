@@ -263,7 +263,7 @@ BEGIN
     GROUPBOX        "Map (width must equal height)",IDC_STATIC,9,10,165,66
     GROUPBOX        "Terrain Copy",IDC_STATIC,222,9,126,102
     GROUPBOX        "Selected Tile",IDC_STATIC,9,82,165,102
-    GROUPBOX        "Relocate Area (maintains triggers)",IDC_STATIC,222,118,126,83
+    GROUPBOX        "Area Operations (maintains triggers)",IDC_STATIC,222,118,126,115
     GROUPBOX        "Scale Area",IDC_STATIC,9,191,126,81
     LTEXT           "Size:",IDC_STATIC,16,25,16,8
     LTEXT           "AI Type:",IDC_STATIC,17,42,28,8
@@ -302,6 +302,8 @@ BEGIN
     EDITTEXT        IDC_TR_MMYT,287,161,18,12,ES_NUMBER
     PUSHBUTTON      "Set...",IDC_TR_MMSETT,310,161,29,12
     PUSHBUTTON      "Move",IDC_TR_MMMOVE,266,179,73,15
+    PUSHBUTTON      "Duplicate Terrain",IDC_TR_MDUPT,266,196,73,15
+    PUSHBUTTON      "Duplicate Units",IDC_TR_MDUPU,266,213,73,15
     EDITTEXT        IDC_TR_MMX3,53,206,18,12,ES_NUMBER
     EDITTEXT        IDC_TR_MMY3,74,206,18,12,ES_NUMBER
     PUSHBUTTON      "Set...",IDC_TR_MMSET3,97,206,29,12

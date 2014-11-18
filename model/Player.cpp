@@ -436,3 +436,22 @@ bool Player::export_ai(const char *path)
 	fclose(ai_out);
 	return true;
 }
+
+void Player::add_unit(Unit& uspec)
+{
+	//Unit u(scen.next_uid++);
+	Unit u(uspec);
+	u.x = uspec.x;
+	u.y = uspec.y;
+	u.z = uspec.z;
+	u.rotate = uspec.rotate;
+	u.frame = uspec.frame;
+	u.garrison = uspec.garrison;
+	u.setType(uspec.getType());
+	units.push_back(u);
+}
+
+void Player::add_unit(Unit * uspec)
+{
+	units.push_back(*uspec);
+}

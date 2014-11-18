@@ -15,6 +15,7 @@ class Unit
 public:
 	Unit(UID id = 0);
 	Unit(Buffer &from);
+	Unit(const Unit & spec);
 
 	float	y, x;		//stupid order
 	float	z;
@@ -41,4 +42,4 @@ private:
 	const UnitLink *pType;
 };
 
-#pragma pack(pop)
+#pragma pack(pop)

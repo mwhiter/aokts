@@ -20,6 +20,19 @@ Unit::Unit(Buffer &from)
 	pType = esdata.units.getByIdSafe(cnst);
 }
 
+Unit::Unit(const Unit & spec)
+{
+    x = spec.x;
+    y = spec.y;
+    z = spec.z;
+    ident = spec.ident;
+    cnst = spec.cnst;
+    state = spec.state;
+    rotate = spec.rotate;
+    frame = spec.frame;
+    setType(spec.getType());
+}
+
 void Unit::read(FILE *in)
 {
 	fread(this, size, 1, in);

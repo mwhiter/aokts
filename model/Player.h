@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <vector>
 
+
 #pragma pack(push, 1)
 
 /*	Unfortunately, the player classes have to know something about their indices
@@ -21,6 +22,8 @@ const int GAIA_INDEX = 8; //index of GAIA players (may change)
 #define MAX_DIS_TECH	30
 #define MAX_DIS_UNIT	30
 #define MAX_DIS_BLDG	20
+
+extern class Scenario scen;
 
 enum AIModes
 {
@@ -80,6 +83,8 @@ public:
 
 	bool import_ai(const char *path);
 	bool export_ai(const char *path);
+	void add_unit(Unit& uspec);
+	void add_unit(Unit * uspec);
 
 	char name[30];	//256 bytes in file, but only allows 29 characters
 	long stable;	//string table

@@ -95,6 +95,9 @@ Length | MinVer | Description
 ---------------------------------------------------------------------
 c4     |        | Version (ASCII): 1.10, 1.18, 1.21
 u32    |        | Length of header (excluding version and self)
+                  Gseless for now; it was only useful in very early
+                  pre-alpha scenarios so as to skip the instructions and
+                  deflate the scenario.
 s32    |        | Unknown cosntant = 2
 u32    |        | Timestamp of last save
 str32  |        | Scenario Instructions
@@ -124,6 +127,8 @@ u32    |        | Active, boolean
 u32    |        | Human, boolean
 u32    |        | Civilization, see IDs at bottom
 u32    |        | Unknown constant = 4
+                  This is always = 4? NO! In alpha/beta scenarios it
+                  equals various values from 0-4.
 
 ==== Messages and Cinematics ====
 
@@ -156,8 +161,9 @@ SIZE   |        | Bitmap, SIZE calculated from above
 
 Length | MinVer | Description
 ---------------------------------------------------------------------
-32str16|        | Unknown strings (2 per player?)
-16str16|        | AI names, one per player
+16str16|        | VC names, one per player
+16str16|        | CTY names, one per player
+16str16|        | PER names, one per player
 16*var |        | AI files, see sub-struct below
 u8     |        | AI type, 0 = custom, 1 = standard, 2 = none. Thanks iberico.
 u32    |        | Separator, 0xFFFFFF9D
@@ -167,9 +173,12 @@ Sub-struct, AI file:
 
 Length | MinVer | Description
 ---------------------------------------------------------------------
-u32    |        | unknown, always 0
-u32    |        | unknown, always 0
-str32  |        | AI .per file text
+u32    |        | VC .per file length
+u32    |        | CTY .per file length
+u32    |        | PER .per file length
+str32  |        | VC .per file data
+str32  |        | CTY .per file data
+str32  |        | PER .per file data
 
 Sub-struct, resources:
 
@@ -188,9 +197,9 @@ Length | MinVer | Description
 ---------------------------------------------------------------------
 u32    |        | Separator, 0xFFFFFF9D
 u32    |        | Boolean: conquest required? (for custom vict)
-u32    |        | Unused = 0
-u32    |        | Number of relics required
-u32    |        | Unused = 0
+u32    |        | Ruins
+u32    |        | Artifacts
+u32    |        | Discovery
 u32    |        | Explored % required
 u32    |        | Unused = 0
 u32    |        | Boolean: all custom conditions required?
@@ -493,12 +502,12 @@ AI Map Types:
 15	Migration
 16	Rivers
 17	Team islands
-18	
+18
 19	Scandinavia
-1A	
+1A
 1B	Yucatan
 1C	Salt marsh
-1D	
+1D
 1E	King of the hill
 1F	Oasis
 21	Nomad
@@ -574,23 +583,23 @@ F	Remove Object
 24  Flash Objects
 
 Conditions:
-1	Bring Object to Area 
-2	Bring Object to Object 
-3	Own Objects 
-4	Own Fewer Objects 
-5	Objects in Area 
-6	Destroy Object 
-7	Capture Object 
-8	Accumulate Attribute 
-9	Research Tehcnology 
-A	Timer 
-B	Object Selected 
-C	AI Signal 
-D	Player Defeated 
-E	Object Has Target 
-F	Object Visible 
-10	Object Not Visible 
-11	Researching Technology 
+1	Bring Object to Area
+2	Bring Object to Object
+3	Own Objects
+4	Own Fewer Objects
+5	Objects in Area
+6	Destroy Object
+7	Capture Object
+8	Accumulate Attribute
+9	Research Tehcnology
+A	Timer
+B	Object Selected
+C	AI Signal
+D	Player Defeated
+E	Object Has Target
+F	Object Visible
+10	Object Not Visible
+11	Researching Technology
 12	Units Garrisoned
 13	Difficulty Level
 14  Own Fewer Foundations

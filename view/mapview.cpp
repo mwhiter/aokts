@@ -729,6 +729,26 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		OnWM_LBUTTONUP(window, LOWORD(lParam), HIWORD(lParam));
 		break;
 
+	case WM_KEYDOWN:
+	{
+		switch (wParam)
+		{
+		case VK_OEM_PLUS:
+		    if (setts.zoom < 15) {
+		        setts.zoom+=1;
+		        Refresh(window, TRUE);
+		    }
+		    break;
+		case VK_OEM_MINUS:
+		    if (setts.zoom > 1) {
+		        setts.zoom-=1;
+		        Refresh(window, TRUE);
+		    }
+		    break;
+		}
+		break;
+	}
+
 	case WM_SIZE:
 		UpdateScrollbars(window, LOWORD(lParam), HIWORD(lParam));
 		SendMessage(data.statusbar, WM_SIZE, 0, 0);

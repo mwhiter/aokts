@@ -174,6 +174,7 @@
 #define IDC_TR_MMMOVE2              1442
 #define IDC_TR_MDUPT                1443
 #define IDC_TR_MDUPU                1444
+#define IDC_TR_NORMALIZE_ELEV  	    1445
 
 /* Units Controls */
 #define IDC_U_SELU			    1500
@@ -196,6 +197,15 @@
 #define IDC_STATIC_NEXT_AVAIL   1517
 #define IDC_U_COMPRESS          1518
 #define IDC_U_RENUMBER          1519
+#define IDC_U_MAKEP1 		    1520
+#define IDC_U_MAKEP2 		    1521
+#define IDC_U_MAKEP3 		    1522
+#define IDC_U_MAKEP4 		    1523
+#define IDC_U_MAKEP5 		    1524
+#define IDC_U_MAKEP6 		    1525
+#define IDC_U_MAKEP7 		    1526
+#define IDC_U_MAKEP8 		    1527
+#define IDC_U_MAKEGA 		    1528
 
 /* Trigger Controls */
 #define IDC_T_TREE				1200

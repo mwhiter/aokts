@@ -30,6 +30,7 @@ Unit::Unit(const Unit & spec)
     state = spec.state;
     rotate = spec.rotate;
     frame = spec.frame;
+    garrison = -1;
     setType(spec.getType());
 }
 

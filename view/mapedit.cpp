@@ -133,13 +133,16 @@ void SaveMap(HWND dialog)
 	tn->elev = GetDlgItemInt(dialog, IDC_TR_ELEV, NULL, FALSE);
 }
 
-void Map_UpdatePos(HWND dialog, WORD id)
+void Map_UpdatePos(HWND dialog, WORD idx, WORD idy)
 {
-	unsigned int value = GetDlgItemInt(dialog, id, NULL, FALSE);
+	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
+	SendMessage(propdata.mapview, MAP_UnhighlightPoint,
+		MAP_UNHIGHLIGHT_ALL, 0);
+	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
 	SendMessage(propdata.mapview, MAP_UnhighlightPoint,
 		MAP_UNHIGHLIGHT_ALL, 0);
 
-	if (value < scen.map.x)	//map is square, so we can compare to just map.x
+	if (xpos < scen.map.x && ypos < scen.map.y)
 	{
 		if (propdata.sel0 >= 0 && propdata.sel1 >= 0) {
 		    Map::Terrain *tn = scen.map.terrain[propdata.sel0] + propdata.sel1;
@@ -147,10 +150,10 @@ void Map_UpdatePos(HWND dialog, WORD id)
 			SaveMap(dialog);
 		}
 
-		if (id == IDC_TR_TX)
-			propdata.sel0 = value;
+		if (idx == IDC_TR_TX)
+			propdata.sel0 = xpos;
 		else
-			propdata.sel1 = value;
+			propdata.sel1 = ypos;
 
 		SendMessage(propdata.mapview, MAP_HighlightPoint, propdata.sel0, propdata.sel1);
 		LoadMap(dialog, false);
@@ -403,6 +406,78 @@ void Map_HandleMapDuplicateTerrain(HWND dialog)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
+void Map_HandleNormalizeElevation(HWND dialog)
+{
+    RECT search;
+    search.top = propdata.sel0;
+    search.left = propdata.sel1;
+    search.bottom = propdata.sel0;
+    search.right = propdata.sel1;
+
+    int sidelength = 3;
+    int xpos = propdata.sel0;
+    int ypos = propdata.sel1;
+    int xpos_temp = 0;
+    int ypos_temp = 0;
+    Map::Terrain * tn = scen.map.terrain[xpos] + ypos;
+	char elev = tn->elev;
+    int nincreased = 0;
+    int ndecreased = 0;
+    bool searchagain = true;
+    while (searchagain && (search.top >= 0 || search.bottom < (LONG)scen.map.x || search.left >= 0 || search.right < (LONG)scen.map.y)) {
+        nincreased = 0;
+        ndecreased = 0;
+        int squarestocheck = 4*(sidelength-1);
+        // search the perimeter of the RECT
+        for (int i = 0; i < squarestocheck; i++) {
+            if (i < sidelength) {
+                xpos_temp = search.left + i;
+                ypos_temp = search.top;
+            } else if (i < sidelength * 2) {
+                xpos_temp = search.left + sidelength - 1;
+                ypos_temp = search.top + i - sidelength;
+            } else if (i < sidelength * 3) {
+                xpos_temp = search.left + sidelength - (i - sidelength * 2);
+                ypos_temp = search.top + sidelength - 1;
+            } else {
+                xpos_temp = search.left;
+                ypos_temp = search.top + sidelength - 1 - (i - sidelength * 3);
+            }
+
+            // level out the terrain
+            if (ypos >= 0 || ypos < (LONG)scen.map.x || xpos >= 0 || xpos < (LONG)scen.map.y) {
+	            tn = scen.map.terrain[xpos] + ypos;
+                if (tn->elev > elev) {
+                    tn->elev = elev + 1;
+                    nincreased++;
+                } else if (tn->elev > elev) {
+                    tn->elev = elev - 1;
+                    ndecreased++;
+                }
+            }
+        }
+        search.top--;
+        search.bottom++;
+        search.left--;
+        search.right++;
+        sidelength+=2;
+
+        // search again if able to
+        if (ndecreased == squarestocheck) {
+            searchagain = true;
+            MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
+            elev--;
+        } else if (nincreased == squarestocheck) {
+            searchagain = true;
+            elev++;
+        } else {
+            searchagain = false;
+        }
+    }
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
 void Map_HandleMapDuplicateUnits(HWND dialog)
 {
 	bool disp = false;
@@ -507,7 +582,7 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		{
 		case IDC_TR_TX:
 		case IDC_TR_TY:
-			Map_UpdatePos(dialog, id);
+			Map_UpdatePos(dialog, IDC_TR_TX, IDC_TR_TY);
 			break;
 
 		case ID_EDIT_COPY:
@@ -573,6 +648,10 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_TR_FIXTRIGGEROUTLIERS:
 			scen.fix_trigger_outliers();
+			break;
+
+		case IDC_TR_NORMALIZE_ELEV:
+			Map_HandleNormalizeElevation(dialog);
 			break;
 		}
 

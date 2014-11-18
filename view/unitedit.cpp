@@ -38,8 +38,8 @@ const char errorUnfoundUnit[] =
 "Could not find unit to load. I most likely incorrectly deleted a unit.";
 const char errorUnfoundType[] =
 "You have some strange units on this map, my friend. Unpredictable results may occur.";
-const char warningNoSelDelete[] =
-"Unknown unit selected! Deleting aborted.";
+const char warningNoSelDelete[] = "No unit selected! Deleting aborted.";
+const char warningNoSelChangeOwnership[] = "No unit selected! Change ownership aborted.";
 
 inline int truncate(float x)
 {
@@ -192,7 +192,7 @@ void Units_HandleDelete(HWND dialog)
 
 	if (u_index == SIZE_MAX)
 	{
-		MessageBox(dialog, warningNoSelDelete, szTitle, MB_ICONWARNING);
+		MessageBox(dialog, warningNoSelChangeOwnership, szTitle, MB_ICONWARNING);
 		return;
 	}
 
@@ -224,8 +224,7 @@ void Units_HandleDelete(HWND dialog)
 	}
 }
 
-// not used yet
-void Units_HandleChangeOwnership(HWND dialog)
+void Units_HandleChangeOwnership(HWND dialog, unsigned int player)
 {
 	unsigned index, count, data;
 	HWND selbox = GetDlgItem(dialog, IDC_U_SELU);
@@ -235,6 +234,10 @@ void Units_HandleChangeOwnership(HWND dialog)
 		MessageBox(dialog, warningNoSelDelete, szTitle, MB_ICONWARNING);
 		return;
 	}
+
+    Player * p = scen.players + player;
+
+    p->add_unit(*(propdata.p->units.begin() + u_index));
 
 	propdata.p->erase_unit(u_index);
 
@@ -354,6 +357,51 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 
 		case IDC_U_RENUMBER:		//BN_CLICKED
 			Units_HandleRenumber(dialog);
+			Units_Reset(dialog);
+			break;
+
+		case IDC_U_MAKEP1:		//BN_CLICKED
+			Units_HandleChangeOwnership(dialog, 0);
+			Units_Reset(dialog);
+			break;
+
+		case IDC_U_MAKEP2:		//BN_CLICKED
+			Units_HandleChangeOwnership(dialog, 1);
+			Units_Reset(dialog);
+			break;
+
+		case IDC_U_MAKEP3:		//BN_CLICKED
+			Units_HandleChangeOwnership(dialog, 2);
+			Units_Reset(dialog);
+			break;
+
+		case IDC_U_MAKEP4:		//BN_CLICKED
+			Units_HandleChangeOwnership(dialog, 3);
+			Units_Reset(dialog);
+			break;
+
+		case IDC_U_MAKEP5:		//BN_CLICKED
+			Units_HandleChangeOwnership(dialog, 4);
+			Units_Reset(dialog);
+			break;
+
+		case IDC_U_MAKEP6:		//BN_CLICKED
+			Units_HandleChangeOwnership(dialog, 5);
+			Units_Reset(dialog);
+			break;
+
+		case IDC_U_MAKEP7:		//BN_CLICKED
+			Units_HandleChangeOwnership(dialog, 6);
+			Units_Reset(dialog);
+			break;
+
+		case IDC_U_MAKEP8:		//BN_CLICKED
+			Units_HandleChangeOwnership(dialog, 7);
+			Units_Reset(dialog);
+			break;
+
+		case IDC_U_MAKEGA:		//BN_CLICKED
+			Units_HandleChangeOwnership(dialog, 8);
 			Units_Reset(dialog);
 			break;
 

@@ -58,7 +58,7 @@ void Player::reset()
 	camera[1] = 0;
 	avictory = false;
 	memset(diplomacy, 0, sizeof(diplomacy));
-	color = 0;
+	color = 8;
 	ucount = 2;
 	units.clear();
 }

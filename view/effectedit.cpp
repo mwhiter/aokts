@@ -157,7 +157,7 @@ void EffectControls(HWND dialog, int type)
 	ENABLE_WND(IDC_E_OPENSEL, false);
 	ENABLE_WND(IDC_E_OPENSEL2, false);
 
-	const char *table = etable1_10C[type];
+	const char *table = etable1_14RC[type];
 
 	for (i = 0; i < EFFECT_CONTROLS; i++)
 	{

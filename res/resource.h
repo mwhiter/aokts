@@ -175,6 +175,7 @@
 #define IDC_TR_MDUPT                1443
 #define IDC_TR_MDUPU                1444
 #define IDC_TR_NORMALIZE_ELEV  	    1445
+#define IDC_TR_SAVETILE        	    1446
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

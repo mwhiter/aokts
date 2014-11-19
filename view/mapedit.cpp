@@ -133,29 +133,32 @@ void SaveMap(HWND dialog)
 	tn->elev = GetDlgItemInt(dialog, IDC_TR_ELEV, NULL, FALSE);
 }
 
+void Map_SaveTile(HWND dialog)
+{
+	Map::Terrain *tn = scen.map.terrain[propdata.sel0] + propdata.sel1;
+	tn->cnst = static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id());
+	tn->elev = GetDlgItemInt(dialog, IDC_TR_ELEV, NULL, FALSE);
+}
+
+// called when a change is made to the coordinate textboxes
 void Map_UpdatePos(HWND dialog, WORD idx, WORD idy)
 {
 	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
-	SendMessage(propdata.mapview, MAP_UnhighlightPoint,
-		MAP_UNHIGHLIGHT_ALL, 0);
+	SendMessage(propdata.mapview, MAP_UnhighlightPoint, MAP_UNHIGHLIGHT_ALL, 0);
 	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
-	SendMessage(propdata.mapview, MAP_UnhighlightPoint,
-		MAP_UNHIGHLIGHT_ALL, 0);
+	SendMessage(propdata.mapview, MAP_UnhighlightPoint, MAP_UNHIGHLIGHT_ALL, 0);
 
-	if (xpos < scen.map.x && ypos < scen.map.y)
+    // unsigned so only need < comparison
+	if (xpos < scen.map.x && ypos < scen.map.y && idx == IDC_TR_TX)
 	{
-		if (propdata.sel0 >= 0 && propdata.sel1 >= 0) {
-		    Map::Terrain *tn = scen.map.terrain[propdata.sel0] + propdata.sel1;
-		    SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
-			SaveMap(dialog);
-		}
+		propdata.sel0 = xpos;
+		propdata.sel1 = ypos;
 
-		if (idx == IDC_TR_TX)
-			propdata.sel0 = xpos;
-		else
-			propdata.sel1 = ypos;
+		Map::Terrain *tn = scen.map.terrain[xpos] + ypos;
+		SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
+		SendDlgItemMessage(dialog, IDC_TR_ID, LB_SETCURSEL, tn->cnst, 0);
 
-		SendMessage(propdata.mapview, MAP_HighlightPoint, propdata.sel0, propdata.sel1);
+		SendMessage(propdata.mapview, MAP_HighlightPoint, xpos, ypos);
 		LoadMap(dialog, false);
 	}
 }
@@ -585,6 +588,12 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 			Map_UpdatePos(dialog, IDC_TR_TX, IDC_TR_TY);
 			break;
 
+        //this will cause recursive updating. need a save button
+		//case IDC_TR_ID:
+		//case IDC_TR_ELEV:
+		//    Map_SaveTile(dialog);
+		//	break;
+
 		case ID_EDIT_COPY:
 			SendMessage(GetFocus(), WM_COPY, 0, 0);
 			break;
@@ -648,6 +657,10 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_TR_FIXTRIGGEROUTLIERS:
 			scen.fix_trigger_outliers();
+			break;
+
+		case IDC_TR_SAVETILE:
+			Map_SaveTile(dialog);
 			break;
 
 		case IDC_TR_NORMALIZE_ELEV:

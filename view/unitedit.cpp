@@ -267,6 +267,18 @@ void Units_HandleChangeOwnership(HWND dialog, unsigned int player)
 	}
 }
 
+void Units_HandleRandomizeRotation(HWND dialog)
+{
+    //std::ostringstream convert;
+    unsigned int cnst = (static_cast<const UnitLink *>(LinkListBox_Get(GetDlgItem(dialog, IDC_U_UNIT), c_index)))->id();
+    //printf("randomize unit frames \"%d\"\n", 0);
+    //convert << cnst;
+    //const std::string tmp = convert.str();
+    //MessageBox(dialog, tmp.c_str(), szTitle, MB_ICONERROR);
+    scen.randomize_unit_frames(cnst);
+  	Units_Load(dialog);
+}
+
 void Units_HandleSelChange(HWND dialog, HWND listbox)
 {
 	int index;
@@ -403,6 +415,11 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		case IDC_U_MAKEGA:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 8);
 			Units_Reset(dialog);
+			break;
+
+		case IDC_U_RANDOMIZE_ROT:
+			Units_HandleRandomizeRotation(dialog);
+			//Units_Reset(dialog);
 			break;
 
 		case IDC_U_DEL:			//BN_CLICKED

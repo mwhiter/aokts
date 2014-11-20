@@ -17,6 +17,7 @@
 #include <string.h>
 #include <math.h>
 #include <fstream>
+#include <sstream>
 #include <algorithm>
 #include <functional>
 #include <iterator>
@@ -1537,6 +1538,39 @@ AOKTS_ERROR Scenario::map_duplicate_terrain(const RECT &from, const POINT &to)
 
 	map.duplicateTerrain(truefrom, to);
 
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::randomize_unit_frames(const unsigned int cnst)
+{
+    switch (cnst)
+    {
+    case 351: // Forest, Palm
+        vector<Unit>::iterator end = players[8].units.end();
+        LONG numunits = players[8].units.size();
+	    for (int j = 0; j < numunits; j++) {
+	        if (players[8].units.at(j).getType()->id() == cnst) {
+                players[8].units.at(j).rotate = (float)(rand() % (int)(8));
+                players[8].units.at(j).frame = (short)(rand() % (int)(13));
+	        }
+	    }
+        break;
+        /*
+    default:
+        // each player
+	    for (int i = 0; i < NUM_PLAYERS; i++) {
+            // units
+            vector<Unit>::iterator end = players[i].units.end();
+            LONG numunits = players[i].units.size();
+	        for (int j = 0; j < numunits; j++) {
+	            if (players[i].units.at(j).getType()->id() == cnst) {
+                    players[i].units.at(j).rotate = (float)(rand() % (int)(8));
+                    players[i].units.at(j).frame = (short)(rand() % (int)(13));
+	            }
+	        }
+	    }
+	    */
+	}
 	return ERR_none;
 }
 

@@ -264,6 +264,7 @@ public:
     AOKTS_ERROR compress_unit_ids();
 	/*  map_move: moves the units, terrain and triggers in that terrain */
     AOKTS_ERROR map_move(const RECT &from, const POINT &to);
+    AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);
     AOKTS_ERROR map_duplicate_terrain(const RECT &from, const POINT &to);
     AOKTS_ERROR map_duplicate_units(const RECT &from, const POINT &to);
 

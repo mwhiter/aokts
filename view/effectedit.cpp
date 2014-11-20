@@ -421,9 +421,11 @@ void E_HandleChangeType(HWND dialog, EditEffect *data)
 		data->e = Effect();
 	}
 */
+    // Assume the user wants to change to similar effect. Otherwise
+    // would make new
 	int newtype = SendDlgItemMessage(dialog, IDC_E_TYPE, CB_GETCURSEL, 0, 0);
-	if (data->e.type != newtype)
-		data->e = Effect();
+	//if (data->e.type != newtype)
+	//	data->e = Effect();
 	data->e.type = newtype;
 	EffectControls(dialog, newtype);
 	LoadEffect(dialog, data);

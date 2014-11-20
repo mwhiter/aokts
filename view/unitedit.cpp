@@ -81,7 +81,7 @@ bool Units_Load(HWND dialog)
 		MessageBox(dialog, errorUnfoundType, szTitle, MB_ICONERROR);
 		return false;
 	}
-	SetDlgItemInt(dialog, IDC_U_CONST, type->id(), FALSE);
+	SetDlgItemInt(dialog, IDC_U_CONST, type->id(), TRUE);
 	c_index = ListBox_Find(unitbox, type);
 
 	//if unit is not in current list, change list to "All"
@@ -101,10 +101,10 @@ bool Units_Load(HWND dialog)
 	SetDlgItemFloat(dialog, IDC_U_Y, u->y);
 	SetDlgItemFloat(dialog, IDC_U_Z, u->z);
 	SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_SETCURSEL, (int)(u->rotate / PI * 4), 0);
-	SetDlgItemInt(dialog, IDC_U_FRAME, u->frame, FALSE);
+	SetDlgItemInt(dialog, IDC_U_FRAME, u->frame, TRUE);
 	SetDlgItemInt(dialog, IDC_U_GARRISON, u->garrison, TRUE);
-	SetDlgItemInt(dialog, IDC_U_ID, u->ident, FALSE);
-	SetDlgItemInt(dialog, IDC_U_STATE, u->state, FALSE);
+	SetDlgItemInt(dialog, IDC_U_ID, u->ident, TRUE);
+	SetDlgItemInt(dialog, IDC_U_STATE, u->state, TRUE);
 	SetDlgItemInt(dialog, IDC_U_NEXT_AVAIL, scen.next_uid, TRUE);
 
 	return ret;
@@ -125,10 +125,10 @@ void Units_Save(HWND dialog)
 		if (ucnst_sel) // will be NULL if user changed group
 			u.setType(static_cast<const UnitLink *>(ucnst_sel));
 		u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
-		u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, FALSE);
+		u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, TRUE);
 		u.garrison = GetDlgItemInt(dialog, IDC_U_GARRISON, NULL, TRUE);
-		u.ident = GetDlgItemInt(dialog, IDC_U_ID, NULL, FALSE);
-		u.state = (char)GetDlgItemInt(dialog, IDC_U_STATE, NULL, FALSE);
+		u.ident = GetDlgItemInt(dialog, IDC_U_ID, NULL, TRUE);
+		u.state = (char)GetDlgItemInt(dialog, IDC_U_STATE, NULL, TRUE);
 	}
 }
 

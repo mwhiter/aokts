@@ -10,7 +10,7 @@
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0 Alpha"
+#define VER_STRING "1.2.0 Alpha 1"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -207,6 +207,7 @@
 #define IDC_U_MAKEP7 		    1526
 #define IDC_U_MAKEP8 		    1527
 #define IDC_U_MAKEGA 		    1528
+#define IDC_U_RANDOMIZE_ROT     1529
 
 /* Trigger Controls */
 #define IDC_T_TREE				1200

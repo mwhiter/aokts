@@ -41,8 +41,8 @@ const char *sizes[NUM_SIZES] =
 	"Tiny (120)", "Small (144)", "Medium (168)", "Normal (200)", "Large (220)", "Giant (240)", "Max (256)", "Ludks (480)"
 };
 
-#define NUM_ELEVS 16
-const char *elevs[NUM_ELEVS] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16" };
+#define NUM_ELEVS 7
+const char *elevs[NUM_ELEVS] = { "0", "1", "2", "3", "4", "5", "6" };
 
 const char *warningExceededMaxSize =
 "Sorry, you have exceeded the maximum allowed mapsize. I will now set the mapsize to maximum.";
@@ -230,9 +230,9 @@ void Map_HandleMapCopy(HWND dialog)
 	}
 
 	/* Get the source rect */
-	source.left   = GetDlgItemInt(dialog, IDC_TR_MCX1, NULL, FALSE);
-	source.bottom    = GetDlgItemInt(dialog, IDC_TR_MCY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
-	source.right  = GetDlgItemInt(dialog, IDC_TR_MCX2, NULL, FALSE);
+	source.left = GetDlgItemInt(dialog, IDC_TR_MCX1, NULL, FALSE);
+	source.bottom = GetDlgItemInt(dialog, IDC_TR_MCY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	source.right = GetDlgItemInt(dialog, IDC_TR_MCX2, NULL, FALSE);
 	source.top = GetDlgItemInt(dialog, IDC_TR_MCY2, NULL, FALSE);
 
 	/* We need to make sure it's a sane rectangle. */
@@ -335,9 +335,9 @@ void Map_HandleMapMove(HWND dialog)
 	long temp;
 
 	/* Get the source rect */
-	source.left   = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
-	source.bottom    = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
-	source.right  = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+	source.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+	source.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	source.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
 	source.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
 
 	/* Get the target point */
@@ -368,6 +368,47 @@ void Map_HandleMapMove(HWND dialog)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
+void Map_HandleMapDuplicateElevation(HWND dialog)
+{
+	bool disp = false;
+	RECT source;
+	POINT target;
+	long temp;
+
+	/* Get the source rect */
+	source.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+	source.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	source.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+	source.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
+
+	/* Get the target point */
+	target.x = GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE);
+	target.y = GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE);
+
+	/* We need to make sure it's a sane rectangle. */
+	if (source.left > source.right)
+	{
+		temp = source.left;
+		source.left = source.right;
+		source.right = temp;
+		disp = true;
+	}
+	if (source.bottom > source.top)
+	{
+		temp = source.top;
+		source.top = source.bottom;
+		source.bottom = temp;
+		disp = true;
+	}
+	if (disp) {
+		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
+	} else {
+	    scen.map_duplicate_elevation(source, target);
+	}
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
 void Map_HandleMapDuplicateTerrain(HWND dialog)
 {
 	bool disp = false;
@@ -376,9 +417,9 @@ void Map_HandleMapDuplicateTerrain(HWND dialog)
 	long temp;
 
 	/* Get the source rect */
-	source.left   = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
-	source.bottom    = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
-	source.right  = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+	source.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+	source.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	source.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
 	source.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
 
 	/* Get the target point */
@@ -411,50 +452,52 @@ void Map_HandleMapDuplicateTerrain(HWND dialog)
 
 void Map_HandleNormalizeElevation(HWND dialog)
 {
-    RECT search;
-    search.top = propdata.sel0;
-    search.left = propdata.sel1;
-    search.bottom = propdata.sel0;
-    search.right = propdata.sel1;
-
-    int sidelength = 3;
+    // remember, y is iverted on map
     int xpos = propdata.sel0;
     int ypos = propdata.sel1;
     int xpos_temp = 0;
     int ypos_temp = 0;
-    Map::Terrain * tn = scen.map.terrain[xpos] + ypos;
+    Map::Terrain * tn = scen.map.terrain[xpos] + ypos; // this works
+    RECT search;
+    search.left = xpos - 1;
+    search.top = ypos - 1;
+    search.right = xpos + 1;
+    search.bottom = ypos + 1;
+
+    int segmentlen = 2; // sidelength - 1 = 3 - 1, initially
 	char elev = tn->elev;
     int nincreased = 0;
     int ndecreased = 0;
     bool searchagain = true;
-    while (searchagain && (search.top >= 0 || search.bottom < (LONG)scen.map.x || search.left >= 0 || search.right < (LONG)scen.map.y)) {
+    int tier = 1;
+    while (searchagain && (search.top >= 0 || search.bottom < (LONG)scen.map.x || search.left >= 0 || search.right < (LONG)scen.map.y)) { // this works
         nincreased = 0;
         ndecreased = 0;
-        int squarestocheck = 4*(sidelength-1);
+        int squarestocheck = 4*segmentlen;
         // search the perimeter of the RECT
         for (int i = 0; i < squarestocheck; i++) {
-            if (i < sidelength) {
+            if (i < segmentlen) {
                 xpos_temp = search.left + i;
                 ypos_temp = search.top;
-            } else if (i < sidelength * 2) {
-                xpos_temp = search.left + sidelength - 1;
-                ypos_temp = search.top + i - sidelength;
-            } else if (i < sidelength * 3) {
-                xpos_temp = search.left + sidelength - (i - sidelength * 2);
-                ypos_temp = search.top + sidelength - 1;
+            } else if (i < segmentlen * 2) {
+                xpos_temp = search.left + segmentlen;
+                ypos_temp = search.top + i - segmentlen;
+            } else if (i < segmentlen * 3) {
+                xpos_temp = search.left - i + 3 * segmentlen;
+                ypos_temp = search.top + segmentlen;
             } else {
                 xpos_temp = search.left;
-                ypos_temp = search.top + sidelength - 1 - (i - sidelength * 3);
+                ypos_temp = search.top - i + 4 * segmentlen;
             }
 
             // level out the terrain
-            if (ypos >= 0 || ypos < (LONG)scen.map.x || xpos >= 0 || xpos < (LONG)scen.map.y) {
-	            tn = scen.map.terrain[xpos] + ypos;
-                if (tn->elev > elev) {
-                    tn->elev = elev + 1;
+            if (ypos_temp >= 0 || ypos_temp < (LONG)scen.map.x || xpos_temp >= 0 || xpos_temp < (LONG)scen.map.y) { // works
+	            tn = scen.map.terrain[xpos_temp] + ypos_temp;
+                if (elev - tn->elev < -tier) {
+                    tn->elev = elev + tier;
                     nincreased++;
-                } else if (tn->elev > elev) {
-                    tn->elev = elev - 1;
+                } else if (elev - tn->elev > tier) {
+                    tn->elev = elev - tier;
                     ndecreased++;
                 }
             }
@@ -463,19 +506,17 @@ void Map_HandleNormalizeElevation(HWND dialog)
         search.bottom++;
         search.left--;
         search.right++;
-        sidelength+=2;
+        segmentlen+=2;
 
         // search again if able to
         if (ndecreased == squarestocheck) {
             searchagain = true;
-            MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
-            elev--;
         } else if (nincreased == squarestocheck) {
             searchagain = true;
-            elev++;
         } else {
             searchagain = false;
         }
+        tier++;
     }
 
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
@@ -645,6 +686,10 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_TR_MMMOVE:
 			Map_HandleMapMove(dialog);
+			break;
+
+		case IDC_TR_MDUPE:
+			Map_HandleMapDuplicateElevation(dialog);
 			break;
 
 		case IDC_TR_MDUPT:

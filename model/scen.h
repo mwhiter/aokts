@@ -85,7 +85,9 @@ public:
 	bool writeArea(Buffer &b, const RECT &area);
 	/*   swapArea: swaps an area with the one at the target */
     bool swapArea(const RECT &area, const POINT &target);
+    bool scaleArea(const RECT &area, const float scale);
     bool duplicateTerrain(const RECT &area, const POINT &target);
+    bool duplicateElevation(const RECT &area, const POINT &target);
 };
 
 #pragma pack(4)
@@ -264,9 +266,11 @@ public:
     AOKTS_ERROR compress_unit_ids();
 	/*  map_move: moves the units, terrain and triggers in that terrain */
     AOKTS_ERROR map_move(const RECT &from, const POINT &to);
+    AOKTS_ERROR map_scale(const RECT &area, const float scale);
     AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);
     AOKTS_ERROR map_duplicate_terrain(const RECT &from, const POINT &to);
     AOKTS_ERROR map_duplicate_units(const RECT &from, const POINT &to);
+    AOKTS_ERROR map_duplicate_elevation(const RECT &from, const POINT &to);
 
     AOKTS_ERROR move_triggers(size_t start, size_t end, size_t to);
     AOKTS_ERROR sync_triggers();

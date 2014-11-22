@@ -489,7 +489,7 @@ void Units_HandleMapClick(HWND dialog, int x, int y)
 		int ret = MessageBox(dialog,
 			"Do you want to move the selected unit?",
 			"Unit Editor", MB_YESNO);
-		if (ret = IDYES)
+		if (ret == IDYES)
 		{
 			HWND mv = propdata.mapview;
 			SendMessage(mv, MAP_UnhighlightPoint,

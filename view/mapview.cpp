@@ -292,8 +292,6 @@ void PaintMap(HDC dcdest)
 	}
 
 	PaintUnits(data.copydc);
-	//SaveToFile(data.mapbmp, LPCTSTR lpszFileName);
-	SaveToFile(data.mapbmp, "preview.bmp");
 }
 
 POINT CalculateMinSize(HWND mapview)
@@ -407,7 +405,7 @@ void UnhighlightPoint(HWND window, Highlight *h)
 
 	delete h;
 
-	//Refresh(window, FALSE);
+	Refresh(window, FALSE);
 }
 
 void UnhighlightPoint(HWND window, int x, int y)
@@ -462,13 +460,13 @@ void HighlightPoint(HWND window, int x, int y)
 	nh->x = static_cast<short>(x);
 	nh->y = static_cast<short>(y);
 
-	//Refresh(window, FALSE);
+	Refresh(window, FALSE);
 }
 
 #define NUM_SB_SIZES 2
 int sb_sizes[NUM_SB_SIZES] =
-{ 150, -1 };
-const char *sb_msg = "Refresh/Toggle Diamond.";
+{ 360, -1 };
+const char *sb_msg = "R refreshes, Space toggles diamond, -= zooms, S saves bitmap, O reset";
 
 HWND makestatus(HWND parent)
 {
@@ -733,16 +731,29 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		switch (wParam)
 		{
+		case VK_SPACE:
+            data.diamondorsquare = !data.diamondorsquare;
+		    Refresh(window, FALSE);
+		    break;
+		case 0x53: // S key
+	        SaveToFile(data.mapbmp, "preview.bmp");
+	        break;
+		case 0x4F: // O key
+		    Refresh(window, TRUE);
+		    break;
+		case 0x52: // R key
+		    Refresh(window, FALSE);
+		    break;
 		case VK_OEM_PLUS:
 		    if (setts.zoom < 15) {
 		        setts.zoom+=1;
-		        Refresh(window, TRUE);
+		        Refresh(window, FALSE);
 		    }
 		    break;
 		case VK_OEM_MINUS:
 		    if (setts.zoom > 1) {
 		        setts.zoom-=1;
-		        Refresh(window, TRUE);
+		        Refresh(window, FALSE);
 		    }
 		    break;
 		}
@@ -766,7 +777,6 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			const NMHDR *header = (NMHDR*)lParam;
 			if (header->hwndFrom == data.statusbar && header->code == NM_CLICK) {
-                data.diamondorsquare = !data.diamondorsquare;
 				Refresh(window, TRUE);
 			}
 		}

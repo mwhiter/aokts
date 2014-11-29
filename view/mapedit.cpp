@@ -563,6 +563,9 @@ void Map_HandleMapDuplicateUnits(HWND dialog)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
+void Map_HandleMapScale(HWND dialog)
+{
+}
 
 void Map_HandleSetFocus(HWND, WORD)
 {
@@ -698,6 +701,10 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_TR_MDUPU:
 			Map_HandleMapDuplicateUnits(dialog);
+			break;
+
+		case IDC_TR_SCALE:
+			Map_HandleMapScale(dialog);
 			break;
 
 		case IDC_TR_FIXTRIGGEROUTLIERS:

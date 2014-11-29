@@ -169,6 +169,7 @@
 #define IDC_TR_MDUPE                1437
 #define IDC_TR_FACTOR               1438
 #define IDC_TR_SCALE                1439
+#define IDC_TABS                    1440
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

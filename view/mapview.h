@@ -10,6 +10,8 @@
 #define OEMRESOURCE	//OCR_NORMAL
 #include <windows.h>
 
+extern class Scenario scen;
+
 const char MapClass[] = "AOKTSMapView";
 
 /**

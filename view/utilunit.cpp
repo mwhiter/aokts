@@ -56,12 +56,11 @@ bool compare_name(const UnitSortData& first,
 {
 	// Windows doesn't support POSIX strcasecmp().
 	int sort = _wcsicmp(first.u->getType()->name(),
-		second.u->getType()->name());
+		second.u ->getType()->name());
 
 	if (sort != 0) // not equal
 	{
-		// _wcsicmp() returns -1 if first precedes second
-		return (sort == -1);
+		return (sort < 0);
 	}
 	else
 	{

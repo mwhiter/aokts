@@ -1375,6 +1375,112 @@ AOKTS_ERROR Scenario::remove_trigger_names()
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::up_to_aofe() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // using a lamba function, delete speed range armor1 armor2
+        trig->effects.erase(std::remove_if(trig->effects.begin(), trig->effects.end(), [](const Effect & e) { return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33; }), trig->effects.end());
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::up_to_10c() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // using a lamba function, delete speed range armor1 armor2
+        // remove effects that change name over area
+        // prevent using damage on gaia
+        trig->effects.erase(std::remove_if(trig->effects.begin(), trig->effects.end(), [](const Effect & e) {
+                    return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33
+                    || (e.type == 24 && e.s_player == 0)
+                    || (e.type == 26 && (e.area.left != -2 || e.area.right != -1 || e.area.top != -1 || e.area.bottom != -1)); }), trig->effects.end());
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::up_to_hd() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        switch (iter->type) {
+	            case 30: // speed
+	                iter->type = 33;
+	            break;
+	            case 31: // range
+	                iter->type = 32;
+	            break;
+	            case 32: // armor 1
+	                iter->type = 31;
+	            break;
+	            case 33: // armor 2
+	                iter->type = 31;  // no way to make this function reversible
+	            break;
+	        }
+		}
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::hd_to_up() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    vector<Effect> neweffects;
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        switch (iter->type) {
+	            case 33: // speed
+	                iter->type = 30;
+	            break;
+	            case 32: // range
+	                iter->type = 31;
+	            break;
+	            case 31: // armor
+	                iter->type = 32; // this is up armor 1. ∴ add an effect with type 33
+		            neweffects.push_back(*iter);
+		            neweffects.back().type = 33;
+	            break;
+	        }
+		}
+	    for (vector<Effect>::iterator iter = neweffects.begin(); iter != neweffects.end(); ++iter) {
+	        trig->effects.push_back(*iter);
+	    }
+		trig++;
+	}
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::fix_trigger_outliers() {
 	RECT area;
 	area.left = -1;
@@ -1452,54 +1558,105 @@ AOKTS_ERROR Scenario::fix_trigger_outliers() {
 
 AOKTS_ERROR Scenario::compress_unit_ids()
 {
-	Trigger *trig;
-	long num = triggers.size();
     // triggers
-	long j = 0;
 	long newu = 0;
+	long oldu;
 
-    // each player
+	// create array for the unit
+	long numunits = 0;
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+	    numunits += players[i].units.size();
+	}
+    std::vector<std::pair<int, int>> unittrans;
+    unittrans.reserve(numunits);
+
+	newu = 0;
+    // each player i
 	for (int i = 0; i < NUM_PLAYERS; i++) {
         // units
-	    for (vector<Unit>::iterator unit = players[i].units.begin(); unit != players[i].units.end(); ++unit, ++newu) {
-	        // fix garrisons
-	        for (vector<Unit>::iterator unitgar = players[i].units.begin(); unitgar != players[i].units.end(); ++unitgar) {
-	            if (unit->ident == unitgar->garrison) {
-	                unitgar->garrison = newu;
-	            }
-	        }
-	        // fix triggers
-		    trig = &(*triggers.begin());
-		    j = num;
-	        while (j--)
-	        {
-	            // effects
-	            for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
-	                if (iter->uid_loc == unit->ident) {
-	                    iter->uid_loc = newu;
-	                }
-	                for (int u = 0; u < iter->num_sel; u++) {
-	                    //memcpy(ue.ids, data->e.uids, sizeof(UID) * data->e.num_sel);
-	                    if (iter->uids[u] == unit->ident) {
-	                        iter->uids[u] = newu;
-	                    }
-	                }
-		        }
-	            // conditions
-	            for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
-	                if (iter->u_loc == unit->ident) {
-	                    iter->u_loc = newu;
-	                }
-	                if (iter->object == unit->ident) {
-	                    iter->object = newu;
-	                }
-		        }
-		        trig++;
-	        }
-		    unit->ident = newu;
+	    for (std::vector<Unit>::iterator unit = players[i].units.begin(); unit != players[i].units.end(); ++unit, ++newu) {
+
+	        oldu = unit->ident;
+
+            // don't do anything for units with negative ids
+            if (oldu >= 0) {
+	            unittrans.push_back(std::make_pair(unit->ident, newu));
+	        } else {
+                newu--;
+            }
 	    }
 	}
+
 	next_uid = newu;
+
+    // each player i
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+        // each unit
+	    for (std::vector<Unit>::iterator unit = players[i].units.begin(); unit != players[i].units.end(); ++unit) {
+	        // update ids including duplicates
+	        for (std::vector<std::pair<int, int>>::iterator unitt = unittrans.begin(); unitt != unittrans.end(); ++unitt) {
+	            if (unit->ident == unitt->first) {
+	                unit->ident = unitt->second;
+	                break;
+	            }
+	        }
+	        // update garrisons
+	        for (std::vector<std::pair<int, int>>::iterator unitt = unittrans.begin(); unitt != unittrans.end(); ++unitt) {
+	            if (unit->garrison == unitt->first) {
+	                unit->garrison = unitt->second;
+	                break;
+	            }
+	        }
+	    }
+	}
+
+    // each triggers
+	for (vector<Trigger>::iterator trig = triggers.begin(); trig != triggers.end(); ++trig) {
+	    // each effect
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        // each unit trans
+	        for (std::vector<std::pair<int, int>>::iterator unitt = unittrans.begin(); unitt != unittrans.end(); ++unitt) {
+	            // update uid_loc
+	            if (iter->uid_loc == unitt->first) {
+	                iter->uid_loc = unitt->second;
+	                break;
+	            }
+	        }
+	    }
+	    // each effect
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        // each uid
+	        for (int u = 0; u < iter->num_sel; u++) {
+	            // each unit trans
+	            for (std::vector<std::pair<int, int>>::iterator unitt = unittrans.begin(); unitt != unittrans.end(); ++unitt) {
+	                // update uid
+	                if (iter->uids[u] == unitt->first) {
+	                    iter->uids[u] = unitt->second;
+	                    break;
+	                }
+	            }
+		    }
+		}
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+	        // each unit trans
+	        for (std::vector<std::pair<int, int>>::iterator unitt = unittrans.begin(); unitt != unittrans.end(); ++unitt) {
+	            // update u_loc
+	            if (iter->u_loc == unitt->first) {
+	                iter->u_loc = unitt->second;
+	                break;
+	            }
+	        }
+	        // each unit trans
+	        for (std::vector<std::pair<int, int>>::iterator unitt = unittrans.begin(); unitt != unittrans.end(); ++unitt) {
+	            // update object
+	            if (iter->object == unitt->first) {
+	                iter->object = unitt->second;
+	                break;
+	            }
+		    }
+        }
+	}
 
 	return ERR_none;
 }

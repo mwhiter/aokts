@@ -1526,6 +1526,26 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
+		case IDC_T_TOUP:
+			scen.hd_to_up();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case IDC_T_TOHD:
+			scen.up_to_hd();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case IDC_T_TOAOFE:
+			scen.up_to_aofe();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case IDC_T_TO1C:
+			scen.up_to_10c();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
 		case IDC_T_ADD:
 			SAFETY();
 			TrigTree_AddNew(treeview);

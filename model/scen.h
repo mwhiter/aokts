@@ -246,6 +246,10 @@ public:
 	int map_size(const RECT &source, MapCopyCache *&mcc);
 
 	AOKTS_ERROR remove_trigger_names();
+	AOKTS_ERROR up_to_hd();
+	AOKTS_ERROR up_to_aofe();
+	AOKTS_ERROR up_to_10c();
+	AOKTS_ERROR hd_to_up();
 	AOKTS_ERROR fix_trigger_outliers();
 
 	/*	map_copy: copies terrain and units from a specified area of the map

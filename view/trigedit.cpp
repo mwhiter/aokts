@@ -102,10 +102,12 @@ HTREEITEM TrigTree_GetLastCondition(HWND treeview, HTREEITEM trigger);
 */
 void FillTrigCB(HWND combobox, size_t select)
 {
+    Trigger * trig;
 	for (vector<unsigned long>::const_iterator i = scen.t_order.begin();
 		i != scen.t_order.end(); ++i)
 	{
-		LRESULT idx = Combo_AddStringA(combobox, scen.triggers.at(*i).name);
+	    trig = &scen.triggers.at(*i);
+		LRESULT idx = Combo_AddStringA(combobox, std::string(trig->getNameTip()).append(" <").append(toString<long>(trig->display_order).append(">")).c_str());
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
 
 		if (*i == select)	//to avoid cycling through again in LoadEffect()
@@ -197,7 +199,7 @@ void ItemData::GetName(char *buffer)
 {
 	Trigger *t = &scen.triggers.at(index);
 
-	strcpy(buffer, (t) ? std::string(toString<long>(t->display_order)).append(std::string(" (").append(toString<long>(index))).append(") ").append(t->name).c_str() : "NULL Trigger.");
+	strcpy(buffer, (t) ? std::string("<").append(toString<long>(t->display_order)).append(std::string("> (").append(toString<long>(index))).append(") ").append(t->getNameTip()).c_str() : "NULL Trigger.");
 }
 
 void ItemData::DuplicatePlayers(HWND treeview, HTREEITEM item)

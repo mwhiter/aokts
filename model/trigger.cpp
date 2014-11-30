@@ -6,6 +6,7 @@
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
 #include "../util/settings.h"
+#include "../view/utilui.h"
 
 #include <vector>
 #include <algorithm>
@@ -74,6 +75,11 @@ Trigger::Trigger(Buffer& buffer)
 	}
 
 	display_order = -1;
+}
+
+std::string Trigger::getNameTip()
+{
+	return std::string(name).c_str();
 }
 
 void Trigger::read(FILE *in)

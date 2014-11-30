@@ -4,6 +4,7 @@
 #include "TriggerVisitor.h"
 
 #include "../util/utilio.h"
+#include "../view/utilui.h"
 #include "../util/Buffer.h"
 
 extern class Scenario scen;
@@ -134,7 +135,7 @@ std::string Effect::getNameTip() const
     if (type == 8 || type == 9) {
         if (trig_index >= 0 && trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
             stype.append(": ");
-            stype.append(scen.triggers.at(trig_index).name);
+            stype.append(scen.triggers.at(trig_index).name).append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
             //std::ostringstream convert;
             //convert << trig_index;
             //stype.append(convert.str());

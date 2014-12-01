@@ -284,7 +284,7 @@ class EffectItemData : public ItemData
 public:
 	EffectItemData(unsigned index, unsigned trig_index);
 	~EffectItemData();
-	
+
 	bool Delete(HWND treeview, HTREEITEM target);
 	void GetName(char *buffer);
 	void DuplicatePlayers(HWND treeview, HTREEITEM target);
@@ -371,7 +371,7 @@ Effect *EffectItemData::GetEffect()
 void EffectItemData::ModifyIndex(int operand)
 {
 	index += operand;
-	
+
 	if (editor)
 		SendMessage(editor, EC_Update, operand, 0);
 }
@@ -380,7 +380,7 @@ void EffectItemData::OpenEditor(HWND parent, HTREEITEM item)
 {
 	Effect *target = GetEffect();
 
-	EditEffect *edit_data = new EditEffect(*target);	
+	EditEffect *edit_data = new EditEffect(*target);
 	edit_data->trigindex = trig_index;
 	edit_data->index = index;
 	edit_data->TrigCallback = FillTrigCB;
@@ -547,7 +547,7 @@ Condition *ConditionItemData::GetCondition()
 void ConditionItemData::ModifyIndex(int operand)
 {
 	index += operand;
-	
+
 	if (editor)
 		SendMessage(editor, EC_Update, operand, 0);
 }
@@ -707,7 +707,7 @@ HTREEITEM TrigTree_AddTrig(HWND treeview, int index, HTREEITEM after)
 
 	/* Then add the condition/effect nodes */
 	tvis.hParent = trignode;
-	
+
 	for (unsigned ec_index = 0; ec_index != t->conds.size(); ++ec_index)
 	{
 		good &= (tvis.item.iImage = t->conds[ec_index].check());
@@ -1161,7 +1161,7 @@ void TrigTree_HandleEdit(HWND treeview, HWND parent)
 	}
 
 	data = (ItemData*)GetItemParam(treeview, item);
-	
+
 	/*
 	Modeless Editors:
 

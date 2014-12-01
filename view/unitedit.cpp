@@ -182,6 +182,15 @@ void Units_Reset(HWND dialog)
 		propdata.p->units);
 	u_index = SIZE_MAX;
 	ENABLE_WND(IDC_U_DEL, false);
+	ENABLE_WND(IDC_U_MAKEP1, false);
+	ENABLE_WND(IDC_U_MAKEP2, false);
+	ENABLE_WND(IDC_U_MAKEP3, false);
+	ENABLE_WND(IDC_U_MAKEP4, false);
+	ENABLE_WND(IDC_U_MAKEP5, false);
+	ENABLE_WND(IDC_U_MAKEP6, false);
+	ENABLE_WND(IDC_U_MAKEP7, false);
+	ENABLE_WND(IDC_U_MAKEP8, false);
+	ENABLE_WND(IDC_U_MAKEGA, false);
 	Units_Load(dialog);
 }
 
@@ -220,6 +229,15 @@ void Units_HandleDelete(HWND dialog)
 	else
 	{
 		ENABLE_WND(IDC_U_DEL, false);
+		ENABLE_WND(IDC_U_MAKEP1, false);
+		ENABLE_WND(IDC_U_MAKEP2, false);
+		ENABLE_WND(IDC_U_MAKEP3, false);
+		ENABLE_WND(IDC_U_MAKEP4, false);
+		ENABLE_WND(IDC_U_MAKEP5, false);
+		ENABLE_WND(IDC_U_MAKEP6, false);
+		ENABLE_WND(IDC_U_MAKEP7, false);
+		ENABLE_WND(IDC_U_MAKEP8, false);
+		ENABLE_WND(IDC_U_MAKEGA, false);
 		u_index = SIZE_MAX;
 	}
 }
@@ -263,6 +281,15 @@ void Units_HandleChangeOwnership(HWND dialog, unsigned int player)
 	else
 	{
 		ENABLE_WND(IDC_U_DEL, false);
+		ENABLE_WND(IDC_U_MAKEP1, false);
+		ENABLE_WND(IDC_U_MAKEP2, false);
+		ENABLE_WND(IDC_U_MAKEP3, false);
+		ENABLE_WND(IDC_U_MAKEP4, false);
+		ENABLE_WND(IDC_U_MAKEP5, false);
+		ENABLE_WND(IDC_U_MAKEP6, false);
+		ENABLE_WND(IDC_U_MAKEP7, false);
+		ENABLE_WND(IDC_U_MAKEP8, false);
+		ENABLE_WND(IDC_U_MAKEGA, false);
 		u_index = SIZE_MAX;
 	}
 }
@@ -292,6 +319,15 @@ void Units_HandleSelChange(HWND dialog, HWND listbox)
 	if (u_index >= 0)
 	{
 		EnableWindow(GetDlgItem(dialog, IDC_U_DEL), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP1), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP2), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP3), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP4), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP5), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP6), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP7), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP8), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEGA), TRUE);
 		EnableMenuItem(propdata.menu, ID_EDIT_DELETE, MF_ENABLED);
 	}
 
@@ -338,6 +374,15 @@ void Units_HandleAdd(HWND dialog)
 	// Select new item.
 	SendMessage(listbox, LB_SETCURSEL, index, 0);
 	ENABLE_WND(IDC_U_DEL, true);
+	ENABLE_WND(IDC_U_MAKEP1, true);
+	ENABLE_WND(IDC_U_MAKEP2, true);
+	ENABLE_WND(IDC_U_MAKEP3, true);
+	ENABLE_WND(IDC_U_MAKEP4, true);
+	ENABLE_WND(IDC_U_MAKEP5, true);
+	ENABLE_WND(IDC_U_MAKEP6, true);
+	ENABLE_WND(IDC_U_MAKEP7, true);
+	ENABLE_WND(IDC_U_MAKEP8, true);
+	ENABLE_WND(IDC_U_MAKEGA, true);
 }
 
 void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)

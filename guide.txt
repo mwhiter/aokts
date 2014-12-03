@@ -1,0 +1,1410 @@
+The Ultimate Scenario Designer's Guide Version 1.41
+by zyxomma100 ([myname]@gmail.com)
+Project Started: 2/23/03
+Project Finished (Last Update): 7/17/03 (2/5/08)
+
+Table of Contents
+
+I. Author's Notes
+	A. My Notes
+	B. Version History
+II. Basic Elements of Scenario Designing
+	A. Map
+	B. Terrain
+	C. Players
+	D. Units
+	E. Diplomacy
+	F. Global Victory
+	G. Options
+	H. Messages
+	I. Cinematics
+III. Triggers
+	A. Basics of a trigger
+		1. What is a Trigger?
+		2. How to Create a Trigger
+		3. Looping Triggers
+		4. Starting Condition
+		5. Set as Instructions
+		6. List of Conditions/Effects
+	B. Basic Uses
+IV. AI Files
+	A. General
+	B. Taunt Detection
+	C. AI Signals
+	D. AI Script Goal
+V. Trigger Tricks
+VI. FAQs
+VII. Links
+VIII. Credits/Closing
+
+=========================================================================
+
+------------------------Article I: Author's Notes------------------------
+
+=========================================================================
+This is my place to type in whatever I want. It's stuff that doesn't pertain to
+the subject, but I feel is worthy enough to add. I suggest you read my notes. It
+has some info you mught want to know before you ask me a question.
+
+--------------------
+--Part A: My Notes--              PLEASE READ
+--------------------
+I haven't edited this guide in a long time, and to be honest, its goals have
+changed drastically since I first started it. I first wrote this to try and
+document as many "trigger tricks" as I could, but now it seems that it acts more
+as a beginner's guide to learning how to use triggers, with some extra links
+added. I still think that it's a useful resource for most beginner to moderate
+scenario designers, just that it's not what I originally intended years ago.
+
+This place (my notes)  used to be some sort of list of scenarios I had created,
+but I realized that a GameFAQs guide is hardly the place for that. I think it's
+better if I leave it as it is. I might add some more links and stuff in the
+future, but I'm content with what it's done so far. Thanks to everyone who's
+e-mailed to thank me over the past five years.
+
+For those that have read this guide over the past year, my e-mail address has
+changed... sorry if you tried to e-mail me and got a broken address. I'm still
+willing to help with any questions that are asked. And if you want, you can
+visit the scenario design forums over at aok.heavengames.com. I believe it is
+the most active AoK design forum around, and from my experience the people there
+are very friendly.
+
+If you need to contact me, I can be found at [myname]@gmail.com, my name being
+zyxomma100. I do answer all my e-mails, but I have no guarantees on my
+promptness.
+
+---------------------------
+--Part B: Version History--
+---------------------------
+Version 1.0- First release, obviously. I don't really think I need to do an
+update unless some new trick is discovered, but I think the Map Editor's Age of
+Discovery is way past its prime. (Edit: 4/11, Philip Dunscombe is back at AOKH.
+Expect updates. :) I have enough info to help someone who's never seen the Map
+Editor before, as well as tips for even the experienced scenario designer. Many
+more updates to come, as I have plenty to add to the downloads list and the
+trigger tricks page.
+
+Version 1.1- Fixed it so it can be viewed in 800x600. Edited my project
+listings, and added several trigger tricks and downloads. Finished taunt
+detection setup. AI Signals and Script Goals to come.
+
+Version 1.2- Okay. NOW it works in 800x600. Fixed typos, and added some stuff to
+the Links and trigger tricks. Removed AI Script Goal and AI Signal info, because
+it's really unneeded for most scenario designing. Not many more updates to come,
+unless I want to add other links or trigger tricks.
+
+Version 1.3 (6/23/04)- Formatting changes added to make the titles separated
+from the different sections. Several links and trigger tricks added.
+
+Version 1.4 (6/20/05)- Fixed a link (Thanks Robin), and added other stuff. Edit:
+6/20/05: Well, this update has been on my computer for months, but I never
+submitted it. Well, the AOKH Blacksmith has changed layout, so there were about
+10 billion links that suddenly died, which I've now fixed. Fixed false info
+under AI, and added a few new links.
+
+Version 1.41 (2/5/08)- Updated contact info. New information under "My Notes".
+
+==========================================================================
+
+-------------Article II: Basic Elements of Scenario Designing-------------
+
+==========================================================================
+Before you can create a scenario, you must know what to do, right? This is a
+breakdown of the menu and what you can do with each selection.
+
+---------------
+--Part A: Map--
+---------------
+In this menu you can choose from thousands of pre-built maps. You'll have three
+choices: Blank Map, Random Map, and Seed Map. Blank Map will give you a map with
+no elevation filled with the same terrain, that you specify. You also get to
+choose the map size. In the Random Map choice, you choose the map size and
+location, such as Black Forest or Yucatan or Arabia. In other words, the Random
+Maps that came with the game. Seed Map lets you choose the map size. location,
+and the seed. Just type a number in the box provided. Each time you type in the
+same number, or seed, the same map will be generated. This is useful for
+searching for the perfect random map for your scenario, if you're too lazy to
+create your own.
+
+-------------------
+--Part B: Terrain--
+-------------------
+In this menu you have 5 choices. The first is terrain. You can select what type
+of terrain you want to add, and the size of the brush. Then just paint away at
+the terrain. :) The next choice is Elevation. it's very useful for giving your
+map a more rugged look. For single player scenario designers, adding elevation
+is a must. The next choice is Cliffs. Just click on the map and hold, then drag
+where you want to add cliffs. Right click to remove cliffs you no longer want.
+You can do many interesting things with cliffs. Check "Other Tricks" for
+details. The next choice is Map Copy. This tool is a nice little gem. It works
+like this:
+
+1. Highlight the area on the map you want to copy.
+2. Click "Copy Selected Map Area"
+3. Click on rotate left, rotate right, flip right/left, or flip up/down as
+necessary.
+4. If you want to, you can change the ownership of all units in the area by
+hitting "No Change Player" then specifing the player to change to.
+5. Click wherever on the map you want to place your newly edited area.
+
+Map copy is very useful for moving a section of the map if you have to. But it
+has more lucrative uses. In certain cases, you can map copy units or other
+buildings on top of each other. Experiment, and you might find a "new building"
+that looks very neat. Also in this selection they added "AI Map type," for some
+stupid reason. They should have put it somewhere else... It allows you to
+specify what type the map is. Some AIs do different things based on the map
+they're on. This allows you to change what the AI thinks the map it's on is. Be
+warned: Some AIs will not work if you botch this choice up, such as saying
+you're on an Arabia map when in reality it's a Team Islands map. If you're more
+casual about scenario designing, like I am, and don't use complicated AIs, you
+won't have to worry about this at all.
+
+The final choice is Erase Units/Buildings. I don't use it much, but I guess it's
+useful for removing certain items and not others in a cluttered area. For some
+strange reason, trebuchets are erased when you "erase buildings." I don't
+understand why ES made the Map Editor consider trebuchets as buildings. :S
+
+-------------------
+--Part C: Players--
+-------------------
+Here you can edit each player's attributes such as civilization, color, etc. To
+do this, set the number of player, then select the appropriate player from the
+drop-down list, then change:
+
+Starting Age: The age the player starts in. If you choose Feudal Age-Imperial
+Age, all techs from the previous ages will start out researched. Post-Imperial
+Age is where the player starts out with every tech available to his
+civilization except spies.
+-Food: The amount of food the player starts with.
+-Wood: The amount of wood the player starts with.
+-Stone: The amount of stone the player starts with.
+-Gold: The amount of gold the player starts with.
+-Pop Limit: The maximum number of units that player can build. This rule does
+not apply to units created with triggers or converted via monks or triggers, and
+this number can only be set in increments of 25.
+-Color: The color this player's units will be. You can't change the color of
+GAIA's units.
+-Tribe Name: The name this player will be when viewing stats for the game.
+Useless in multiplayer, unless for a computer civ.
+-String Table: Unknown. See FAQ if you want to know what a string table is.
+-Player Type: Unknown, the game says that this chooses whether this player
+should be a human or a computer, but it doesn't seem to change anything.
+-Civilization: Choose the civ of the player. Has no effect in multiplayer games.
+-Personality: Choose the AI you want for this player. All AIs in your AI folder
+will be displayed. Has no effect on human players. This will NOT work in a
+multiplayer game.
+
+-----------------
+--Part D: Units--
+-----------------
+Here you can place units on the map. Choose the player for the units, then
+choose a unit and place wherever you want on the map. GAIA units, buildings, and
+heros will convert to the first human player that sees it. Most of the "Other"
+objects will not be affected. Note that to place gold mines, forage bushes, etc,
+you must set the player as GAIA, then click others.
+
+---------------------
+--Part E: Diplomacy--
+---------------------
+Here you can choose what player is allied to who. It's hard to explain exactly
+how to change diplomacy, but it's self-explanitory. Keep in mind that one player
+might declare another an ally, but the other won't. Be sure that if Player 1 has
+Player 5 as an ally, you probably want to have Player 5 declare Player 1 an
+ally. (There are, of course, specialized times you don't.)
+
+Allied Victory determines whether a team wins if all enemies have been
+destroyed. Only in Last Man Standing condition do you want this unchecked.
+(usually)
+
+--------------------------
+--Part F: Global Victory--
+--------------------------
+This lets you choose how each player can win. There are five choices. The first
+is Standard. With this checked, a player can win by ether building a Wonder,
+collecting all the relics, or simply defeating all his enemies. The next choice
+is Conquest. With this, a Player must defeat all his enemies to win. The next
+choice is Score. The first person to reach the score you specify will win. The
+next choice is Time Limit. You choose the time, and after that time is up, the
+player with the highest score wins. The final choice is Custom. You can have a
+player win by completing a certain number of victory conditions, which you
+control.
+Conquest: Explained above.
+Exploration: The first player to explore a certain amount of the map wins.
+Relics: This time you get to choose how many relics the player must get to win.
+You can specify whether the players must complete one of the objectives, or
+all of them.
+
+Note that in the scenario objectives screen, the type of victory will be tacked
+on to the end of the instructions. If you don't want this, select "Custom,"
+then leave all the checkmarks blank. You will then have to make the player win
+with triggers. (Even killing all other players won't let you win.)
+
+-------------------
+--Part G: Options--
+-------------------
+It's not very descriptive, because every single menu choice has game options. :p
+They might as well have called this "Miscellaneous." Here are the choices here.
+-Full Tech Tree: This allows each player to research every technology in the
+game. However, they will lose their civilization attributes and team bonuses.
+-Testing Difficulty: This has no influence on actual gameplay, but when you test
+your map in the map editor, this chooses the difficulty level. Useful when you
+need to test triggers that activate based on difficulty level.
+-Set View: This chooses where each player's view will be at the start of the
+game. Note that this chooses the starting view for EACH PLAYER; you can't have
+each player have a different starting view. Use the Change View effect if you
+want each player to have a different starting view.
+-Go to View: After setting a starting view, this allows you to go back and
+recall what you chose.
+
+Now you have three choices: Disable Buildings, Units, or Techs. You can use this
+to stop certain players from getting certain techs or units. To disable certain
+items, click the appropriate category, then find what you want to disable in the
+list to the right. Click on it, then move it to the list to the left by clicking
+on the arrows. For example, if I didn't want Player 3 to ever research Spies,
+I'd choose Player 3 from the dropdown list, click Disable Techs, click on Spies
+in the list at the right, then click on the arrow pointing to the left. You can
+add and remove items from the disabled list as necessary.
+
+--------------------
+--Part H: Messages--
+--------------------
+There are a few special messages in the game, and here you can choose what each
+message says.
+
+-Scenario Instructions: This is the main message in a sense. It is the first
+thing a player sees when accessing the -Instructions menu, so you should
+probably put all important info here. But keep in mind if you have a trigger
+that chages instrucions, this info will be removed.
+-Hints: If you have any hints to help the player win your scenario, and you want
+to tell them, you should put them in here.
+-Victory: All players that win your scenario will see this message at the end of
+the game.
+-Defeat: All players that lose your scenario will see this message at the end of
+the game.
+-Scouts: This is usually used to give information about the map of your
+scenario.
+-History: This is usually used to give background information about the
+storyline of your scenario. In a multiplayer map, the players will never get to
+see this message, so don't bother if you're a multiplayer designer.
+
+----------------------
+--Part I: Cinematics--
+----------------------
+This is the least used of the options you have, but it has one main use.
+-Pregame Cinematic: I have never seen a non-ES made scenario that uses this. If
+you have a movie in .avi format, you can put in in your AVI folder and it will
+show up on this list. I believe the movie also needs to be the correct size, but
+I'm not sure what it is. Useless in multiplayer scenarios.
+-Victory Cinematic: Same as above, only this will be showed at the end of the
+game if the player wins.
+-Loss Cinematic: Same as above, only this will be showed at the end at the end
+of the game if the player loses.
+-Scenario Instruction Map: This is really the only practical use for the
+Cinematics menu. if you have a bitmap image that is 548x288, put it in your AOK
+main folder and it will show up in this list. This is the map that shows up
+before the game in single player scenarios. If you wish to make your own, open
+up the scenariobkg.bmp file in your AOK main folder and edit it to your needs,
+then save it as a different filename. Put the finished bitmap in your AOK main
+folder.
+
+==========================================================================
+
+-----------------------Article III: Trigger Basics------------------------
+
+==========================================================================
+Whether you have never used a trigger before or you have just experimented with
+them a bit, you will probably learn SOMETHING by reading this. Advanced users
+can completely skip this Article and head for Article IV: AI Files and Their
+Uses.
+
+------------------
+--Part A: Basics--
+------------------
+This is for all new scenario designers. Triggers are the actions of your
+scenario. With them, you can make messages appear, units appear from thin air,
+and create heros from ordinary units. Ah, this is starting to sound like an
+inspirational speech. What I'm trying to say is that triggers can make your
+scenario much more interesting. I personally find build and destroy scenarios
+boring. If I wanted to play a build and destroy map, I'd be in the Random Map
+rooms of the Zone, not in the map editor creating a custom scenario. If you have
+no clue what a trigger is, don't go asking someone, I think it's the most
+annoying question to answer. Believe me; I've tried. So leave us scenario
+designers alone, read this, and learn. :) If you can't understand what I'm
+saying, you're not going to understand triggers, because this is about as far
+down as triggers can be broken down into.
+
+-------------------------------
+-Section 1: What is a trigger?-
+-------------------------------
+First you need to understand the basics. A trigger can be broken down into two
+main parts: the conditions and effects. If all the conditions happen, then the
+effects will happen. For example:
+
+If Player 1 Owns 60 Villagers, then a message appears saying, "Congratulations!"
+
+In this case, "If Player 1 Owns 60 Villagers" is the condition, and "a message
+saying 'Congratulations'" is the effect. This trigger can be written as:
+
+Trigger0: Set as Instructions Off: Starting Condition On: Looping Off
+Condition0: Own Objects: Player 1: Villager: 60
+Effect0: Display Instructions: "Congratulations!"
+
+------------------------------------
+-Section 2: How to create a trigger-
+------------------------------------
+First let's look at the trigger screen. You'll see two boxes. The top box is
+where you create and manage your triggers. The bottom box is where you edit an
+individual trigger.
+
+To create a trigger, click the "New" button in the top box. Now click "New
+Condition" in the bottom box. A dropdown box will appear at the bottom of the
+screen. Here is where you choose what you want to happen before your effects.
+Let's create a sample problem. Let's say you want some swordsman to talk when
+you click on him. You want the message to be "Hello, there." So choose "Object
+Selected" from the dropdown box. Now you must set the correct object. Click on
+"Set Object," then click on the swordsman.
+
+Now we must create the effect. Click on "New Effect" in the bottom box. From the
+dropdown box, choose "Display Instructions." Three new boxes to type in will
+show up. For now, ignore the top two and type "Hello, there." in the big text
+box.
+
+That's it! To test your new trigger, click the "menu" button at the top right
+corner of the screen, then click "Test." In the game, click on the swordsman,
+and the message should pop up. If it doesn't, you didn't follow my explicit
+instructions. Click on the trigger in the top box, then click "delete" and start
+over. Once you get it to work, you can read on.
+
+There are many different conditions and effects you can use. Most of them are
+self explanitory, but there is a list in Section 6 below.
+
+There are a few things to keep in mind when createing a trigger. A trigger can
+have as many conditions and/or effects as it needs. For example say that if
+Player 1 moves an archer to a flag, an archer is created somewhere else and it
+is moved to another flag. In addition, the first archer is removed. So the
+trigger will look like this:
+
+Trigger0: Set as Instructions Off: Starting Condition On: Looping Off
+Condition0: Bring Object to Area: (Set Object: the Archer): (Set Area: the Flag)
+Effect0: Create Object: Archer: (Set Location: The Flag you want it to be
+created at)
+Effect1: Task Object: (Set Area: The location where the archer was created)
+(Set Location: Wherever you want it to move)
+Effect2: Remove Object: Player 1: (Set Area: the place where the first archer
+was)
+
+That wasn't so hard, was it? You can have multiple conditions, too, if you want.
+But remember that EACH CONDITION must happen AT THE SAME TIME before the effects
+will happen. If you don't have conditions, the effects will happen right away.
+You must always have at least one effect, or else the trigger is useless.
+(One exception, but we'll get to that later.)
+
+You can also rename triggers. Click on a trigger, then you'll see a text box at
+the bottom. Type the new name of your trigger here. From then on, in the list it
+will have that name. This makes it easier to find the right trigger if you ever
+need to go back and find a certain one.
+
+-----------------------------
+-Section 3: Looping Triggers-
+-----------------------------
+Now we'll take it up to the next level. Now you know how to create a trigger,
+but there are other things to do. A useful trick is to loop the trigger. Click
+on any trigger, and you'll see an option at the bottom called "Trigger Looping."
+Set this to on.
+
+What looping does is just what it says -- it will loop the conditions and
+effects. Usually a trigger deactivates itself after being used. But a looped
+trigger will keep on going. Let's take this sample trigger.
+
+Trigger0: Looping On: Starting Condition On: Set as Instructions Off
+Condition0: Timer 2
+Effect0: Change Object HP: (Set Object: a blacksmith): 3
+
+Because it is looping, the game will constantly check the condition. Every 2
+seconds, the blacksmith will gain 3 HP. here's another, more commonly used,
+example.
+
+Trigger0: Looping On: Starting Condition On: Set as Instructions Off
+Conditiono: Objects in Area: (Set Area: a flag): Player 1: Genghis Khan
+Condition1: Own Fewer Objects: Player 1: Genghis Khan: 5
+Effect0: Create Object: Player 1: Genghis Khan: (Set Location: Any Location)
+Effect1: Task Object: Player 1: (Set Area: the place where the Genghis Khan was
+created): (Set Location: Any location)
+
+Take a look at the trigger above. Here's the explanation. If Player 1 has a
+Genghis Khan on this flag AND if he owns 5 or fewer Genghis Khans, a Genghis
+Khan is created and tasked somewhere else. Remember that ALL the conditions
+must be met before the effects happen. So if Player 1 moves the Genghis off the
+flag, they are stopped from creating. If Player 1 owns 6 or more Genghis Khans,
+they won't be created. But remember: you haven't deactivated the trigger. If one
+of those Genghis's die, another will be created, assuming the first Genghis
+stays on the flag. I suggest you try to copy that trigger and get it to work
+before trying the next lesson, er, section.
+
+Simply put, a looping trigger will keep on doing the effects as long as the
+conditions are met. Regular triggers only fire off once then quit for the rest
+of the scenario. Looping triggers never quit. Every single time the conditions
+are met, the trigger fires off.
+
+-------------------------------
+-Section 4: Starting Condition-
+-------------------------------
+Next to Trigger Looping is the "Starting Condition" option. This allows you to
+delay triggers to happen whenever you want, not just when the conditions are
+met. To put it in simpler terms, it's an on/off switch. Turning it off means
+that it will NEVER fire off -- it will just lay there, dormant, waiting for
+instructions from another trigger.
+
+To make a deactivated trigger fire, we need another trigger. You would use the
+"Activate Trigger" effect to make the dormant trigger work.
+
+You might be wondering, "Why would I want a trigger that just stands there until
+another trigger tells it what to do? I'll show you. Here's a sample of what
+might happen during an RPG. You want the player to return home at the end of the
+game and win. So you'd need a trigger like this:
+
+Trigger0: Looping Off: Starting Condition On: Set as Instructions Off
+Condition0: Bring Object to Area: (Set Object: the hero): (Set Area: the area
+where the hero starts off at)
+Effect0: Declare Victory: Player 1
+
+It's a perfect trigger, but if you do this, the player will win as soon as the
+game starts. How do you fix this? Turn the trigger off. Set the Starting
+Condition to off, then use another trigger to activate it later in the game.
+Pretend that this happens: The hero saves the world or whatever, then he says,
+"I want to return home." Do this in another trigger.
+
+Trigger1: Looping Off: Starting Condition On: Set as Instructions Off
+Condition0: Destroy Object: (Set Object: the bad guy)
+Effect0: Display Instructions: "I want to return home"
+Effect1: Activate Trigger: "Trigger0"
+
+That's it! Be sure you have done both triggers exactly the way they are above,
+then test it. It should work.
+
+Remember: You can deactivate triggers too. For example, you have a trigger that
+makes the player lose after 300 seconds because of a nuclear explosion. The hero
+ must deactivate the nuclear bomb within that time. The trigger looks like this:
+
+Trigger0: Looping Off: Starting Condition On: Set as Instructions Off
+Condition0: Timer 300
+Effect0: Kill Object (Set Object: the hero)
+
+Now we need to have another trigger deactivate this.
+
+Trigger1: Looping Off: Starting Condition On: Set as Instructions Off
+Condition0: Bring Object to Area: (Set Object: the hero): (Set Area: the place
+where the bomb is)
+Effect0: Display Instructions: "You have disarmed the nuclear bomb!"
+Effect1: Deactivate Trigger: "Trigger0"
+
+By deacivating the first trigger, you have turned it off. The hero has disarmed
+the bomb, so we turn off the trigger that makes it explode. :)
+
+--------------------------------
+-Section 5: Set as Instructions-
+--------------------------------
+Have you ever played the ES campaigns and wondered how they got the scenario
+instructions screen to change? Well, you can do it too, and it's not that hard.
+The final option is the "Set as Instructions" option. It's located right next to
+the Trigger looping and Starting Conditions options.
+
+Normally this is set to off, but try making a trigger and turning it on. By now
+you should be self sufficient enough with triggers that you can create one
+yourself. Now type something into the "Scenario Description" box -- anything.
+Now test your scenario and look at the scenario instruction screen. The message
+you typed in the Trigger Description screen is now there. Nifty, huh? Now try
+setting off the trigger and making the effects fire. A horn sound should be
+heard. Now look at the scenario instructions screen. The text you put in there
+will now be crossed out.
+
+This trick is useful for creating checklists for the player. Create multiple
+triggers, all set as instructions. Say that you want the player to collect 5
+items. Create five triggers, one for each item, and type the name of the item in
+the trigger description. As the player collects items, they will be crossed out
+from the list.
+
+But that's not everything you can do. Notice that there's an option called
+"Description Order" at the bottom of the screen. This allows you to control
+where the instructions are placed. The higher the number, the higher it appears
+on the list. A trigger with a Description Order number of 76 will always be
+higher than one with a Description Order of 45. If you don't set a Description
+Order, new instructions will just be placed at the bottom of the scenario
+instructions screen.
+
+But what happens if you have a scenario with many objectives? I have seen
+scenarios with 20 objectives, and the screen starts to look cluttered with all
+those crossed out messages. How do you get rid of them? It's simple --
+deactivate them. If you deactivate them in another trigger, they will be
+completely removed from the list. This prevents clutter in the scenario
+instructions screen, and gives a greater sense of organization to your scenario.
+
+There is one final trick to this option. The first message in the instructions
+screen, the one that you type in in the Messages menu, will disappear when you
+have objectives in there. There are a few bypasses.
+
+1. Make a trigger with the description as the story you want to stay on the
+screen.
+2. Sometimes you want headers, such as in Rpgs, and you want Spells, Attacks,
+and Items to be listed separately. Simply create a "decoy trigger" with one
+condition and no effects. Make the trigger description your header, then set it
+as instructions. Give it an appropriate Description Order, then you're set!
+
+---------------------------------------
+-Section 6: List of Conditions/Effects-
+---------------------------------------
+Most of the conditions and effects explain themselves, but for the sake of
+completeness I will describe each one here. If you are having trouble with a
+certain condition or effect, or just don't know what a certain one means, read
+it here. I have listed them here in the order they appear on the list.
+
+Conditions:
+
+Bring Object to Area- Very simple. This is set off when the selected object
+reaches the selected area. Please note that this does not work with relics or
+hero monks that need to pick up relics, due to technicalities with the game
+engine.
+
+Bring Object to Object- Also simple. This is set off when the selected object
+gets near the next selected object, or vice versa.
+
+Own Objects- You get to choose the player, the unit, or type of unit. For
+example, you set set this to go off when player 2 owns 50 villagers, or 60
+warboats. The number you type in as the quantity is the minimum needed to set
+off the trigger. For example, set this number at 12 and the player needs at
+least 12 whatever to set it off. You can leave all options blank (except for
+quantity) and it will count ALL units on the map for that player.
+
+Own Fewer Objects. You get to choose the player, the unit, or type of unit. For
+example, you set set this to go off when player 2 owns 50 or fewer villagers,
+or 60 or fewer warboats. The number you type in as the quantity is the minimum
+needed to set off the trigger. For example, set this number at 12 and the player
+needs 12 or fewer whatever to set it off. You can leave all options blank
+(except for quantity) and it will count ALL units on the map for that player.
+
+Objects In Area- You get to choose the player, the unit, or type of unit. This
+is set off when the selected type of objects of the selected player enter the
+area. You can also chose how many must be in the area. You can leave all options
+blank (except for quantity) and it will count ALL units in the area for that
+player.
+
+Destroy Object- This is set off when the selected object is
+destroyed/killed/removed with triggers. Please note that Relics and hero Monks
+are "destroyed" when they pick up a relic due to technicalities with the game
+engine.
+
+Capture Object- This is set off if the selected player owns the selected unit.
+The name is misleading -- the player does not need to convert the unit -- it
+just needs to own it.
+
+Accumulate Attribute- This is set off when the selected player has collected the
+selected amount of an attribute, such as kills, food stockpile, or civilian
+population.
+
+Research Technology- This is set off if the selected player has researched the
+selected technology.
+
+Timer- This is set off if the timer in this trigger has gone down to 0. If this
+trigger is deactivated, the count stops. If it is a looping trigger, the count
+restarts each time it loops. If the starting condition is off, the timer does
+not start until it is activated.
+
+Note that there is a peculiarity with Timers. If you deactivate a trigger with a
+timer in it, then reactivate it later, the timer doesn't reset, but instead
+continues where it left off. Not much of an issue, but this bug has wrecked one
+of my scenarios, and I never got around to fixing it. Perhaps this would be nice
+for recurring countdowns. ;)
+
+Object Selected- This is set off if the player has selected the object you
+chose. Does not work in multiplayer.
+
+AI Signal- This is set off if the creator has a special AI with his campaign
+that send an AI Signal. Only for advanced users.
+
+Player Defeated- This is set off if the selected player has been defeated. This
+includes resigning, being disconnected, etc.
+
+Object Has Target- This is supposed to be set off if the selected object has the
+next selected object as a target, such as attacking, following, guarding, etc.
+However, this condition is very buggy, and seems to set off whenever the first
+selected object has ANY target. :S
+
+Object Visible- This is set off if the player can view the selected object on
+the screen. Does not work in multiplayer.
+
+Object Not Visible- This is set off if the player does NOT have the selected
+unit visible on the screen. Does not work in multiplayer.
+
+Researching Tech- This is set of if the selected player is in the process of
+researching a certain technology. Keep in mind the player can cancel the
+research.
+
+Units Garrisoned- This is set off if the selected object has AT LEAST the
+quantity of units garrisoned as you specify.
+
+Difficulty Level- This is set off if the scenario is being played on the
+selected difficulty level or easier. For example, if you choose "Standard" in
+the trigger, playing standard or easiest will activate the trigger.
+
+
+Effects:
+
+Change Diplomacy- This changes the diplomacy of one player to another. Note that
+both players must declare each other an ally for them to be allies. In other
+words, two players can have different diplomacy settings for each other. Be
+sure that you change both player's diplomacy unless you want one player to
+attack another, but not vice versa. This will not work in games where teams
+have been locked, so I wouldn't use this in multiplayer.
+
+Research Technology- This automatically researches the selected technology for
+the selected player. Note that there is no sound indicating the technology has
+been researched. If a player researches an age via this method, no special
+message comes up and no "Age Advanced" sounds is heard. Also, a civilization
+cannot research a technology it's not entitled to in the tech tree. For example,
+you can't make the Byzantines research Blast Furnace with this trigger, unless
+All Techs are turned on.
+
+Send Chat- This sends a small message at the bottom of the screen to the
+selected player. You also have the choice to have a sound file played with the
+chat message. Useful for sending messages when you only want one player to see
+it. You can change the color of the text message by adding &lt;COLOR&gt; before the
+message. (Don't be stupid, you need to replace COLOR with the color you want,
+in capital letters.)
+
+Play Sound- This plays a selected sound for the selected player. Not much else
+to say.
+
+Tribute- This makes a selected player tribute a certain number of resources to
+another player. Tribute resources to GAIA to have them disappear. Have GAIA
+tribute resources to players to have them appear out of nowhere.
+
+Unlock Gate- This unlocks the selected gate.
+
+Lock Gate- This locks the selected gate.
+
+Activate Trigger- This activates the selected trigger. See section 4 of this
+article for more details.
+
+Deactivate Trigger- This deactivates the selected trigger. See section 4 of this
+article for more details.
+
+AI Script Goal- This sends a signal to the AI file to do a certain thing. See
+Article IV: AI Files and Their Uses for more details.
+
+Create Object- This creates a certain object for the selected player, in a place
+you choose. Don't you love the independence?
+
+Task Object- This tasks objects of the selected player to another location or
+unit. If you don't set a location, the unit will be stuck in one place, and
+won't be able to move.
+
+Declare Victory- This makes the selected player automatically win. Put multiple
+Declare Victory triggers in the same trigger to make multiple players win. Have
+GAIA declare victory to have everyone lose.
+
+Kill Object- This kills objects of the selected player. You can either choose
+the unit(s) or set an area.
+
+Remove Object- This removes objects of the selected player. You can either
+choose the unit or set an area. Instead of the unit dying, it just disappears
+into thin air.
+
+Change View- This changes the view of the selected player to the selected
+location. For some reason, you must set the location higher than what you
+actually want for this to work.
+
+Unload- This makes the selected units unload all units that are garrisoned. The
+unit (transport or ram) will move to the location and unload all it's units.
+Set the location on the base of a tower or other building to have that building
+eject all it's units. If you set this on a unit that can't unload, it will be
+frozen in one frame, even when moving. See Article V: Trigger Tricks for more
+details.
+
+Change Ownership- This changes the ownership of the selected units or area to
+the selected player.
+
+Patrol- This makes the selected unit(s) patrol from it's starting point to the
+selected location. It will attack any enemies it sees.
+
+Display Instructions- This sends a large message to each player. You have the
+choice of how long the message stays (timer), if a sound is played (sound file),
+and whether it's displayed in the top, middle or bottom (number). If another
+message is in the way, that one will disppear to make room for the new message.
+In other words, you can't overlap messages. Set the timer to 0 to have this
+message stay there for the rest of the game (unless another one moves it out of
+the way, or Clear Instructions is used).
+
+Clear Instructions- This removes instructions from the top, middle, or bottom of
+the screen.
+
+Freeze Unit- This stops units and puts them on No Attack Stance, if applicable.
+But lack of refresh time in the AOK Map Editor allows the units to continue
+walking if they are continuously tasked. If you need to find a way to freeze a
+unit, see Article V: Trigger Tricks, below.
+
+Use Advanced Buttons- This activates the advanced buttons for a player, in case
+they aren't already activated. Rarely used, but in more advanced scenarios that
+require lots of strategy for single units or whatever, it might be nice to
+activate the advanced buttons at the start of a scenario.
+
+Damage Object- This damages the objects of a selected player. You can set the
+object or an area.
+
+Place Foundation- This places the foundation of a selected unit. Useful for
+showing where a building must be created. But if the player deletes the
+foundation, they get the resources back. using this effect, you can have players
+build objects they otherwise couldn't, like Yurts and Bridges. If you place the
+foundation of a unit, that unit will simply be created.
+
+Change Object Name- This changes the name of the selected unit(s).
+Unfortunately, this can't change the name of units created with triggers.
+Any unit with its name changed cannot be upgraded with technologies.
+
+Change Object HP- This changes the maximum HP of objects of the selected player.
+You can either set the unit or an area. Any unit with its HP changed cannot be
+upgraded with technologies.
+
+Change Object Attack- This changes the attack of objects of the selected player.
+You can either set the unit or an area. Any unit with its attack changed
+cannot be upgraded with technologies.
+
+Stop Unit- This simply stops the selected unit (or units in area) for a fraction
+ of a second. The units are allowed to move immediately after that.
+
+==========================================================================
+
+---------------------------Article IV: AI Files---------------------------
+
+==========================================================================
+AI files have their uses if you're really trying to make a good scenario.
+Besides having the traditional role of giving computer players a special
+personality, they have uses for detecting certain conditions. If you're not
+planning on creating a full-blown campaign, I'd ignore this section.
+
+-------------------
+--Part A: General--
+-------------------
+AIs can be very complicated, especially if you're trying to create one that
+attacks, creates units, etc. If this is what you're trying to do, don't come to
+me for help. I have a whole 10 minutes of experience with AIs. If you purchased
+the Gold Edition of the game, there should be a file in the "Goodies" folder on
+the Conquerors CD. It will explain AI scripting much better than I could ever
+hope to do. If you don't have the Gold Edition, e-mail me and I'll send it to
+you. If I get enough requests, I'll just upload it somewhere and post a link.
+
+AI scripting is, IMO, only slightly tougher to understand than triggers. But
+with AIs, there are hundreds more "triggers," hundreds more "effects," and there
+is no map editor to help you. They don't call it scripting for nothing. You must
+type in every command, and *gasp* you have to worry about typos, which will
+eliminate many of you anyway.
+
+However, most of us aren't AI scripters, and the majority of AI scripting done
+is to do simple trigger detection, not to give a challenge to the player by
+providing him with a better AI than the one that came with the game. I will
+provide my meager knowledge of this kind of scripting here.
+
+If you're wanting to add an AI to your campaign, but don't want to or can't
+create your own, check the links section below. I have a few challenging AIs
+that can be used for your scenarios. Sorry, but if you're looking for AIs that
+detect conditions for triggers (as described in Parts B and C), you'll have to
+do it yourself. Each scenario that has this system has to use a different
+detection AI.
+
+In case you were wondering, you don't need any special program to make an AI
+file. Notepad, Microsoft Word, or any similar program will work. Just type your
+AI file in there, then change the file extension to .per, and you're done! Note
+that if you want the AI file to appear in the list to choose from, you must make
+another, blank file with the same name but a .ai extension.
+
+---------------------------
+--Part B: Taunt Detection--
+---------------------------
+You may have played a scenario or two that requires you to type in a certain
+number to make certain choices in the game. Most notable of these campaigns are
+Wrath of the Dark Lord and Land of Chaos, listed below.
+
+Back to the topic, you may have wondered how to do this. It's actually the
+simplest use of AIs.
+
+First, you must create a "dummy civ," one that is just there, one that doesn't
+have any part to do in the scenario at all. Give it one unit off to the side,
+where the player will never see it.
+
+Now decide what kind of taunt you want to use. Here's an example. Say, at the
+beginning of the game I want to ask the player if he wants to be the good guys
+or the bad guys. He should type 1 to be the good guys and 2 to be the bad guys.
+So put this command line in your AI file.
+
+(defrule
+(taunt-detected 1 1)
+=&gt;
+(set-signal 1)
+(disable-self)
+)
+
+
+(defrule
+(taunt-detected 1 2)
+=&gt;
+(set-signal 2)
+(disable-self)
+)
+
+After that, it's simple. Create a trigger with a condition of AI Signal 1 with
+the "good guy effects" and another trigger with a condition of AI Signal 2 for
+the "bad guy effects."
+
+If you want the taunt trigger to be looping, you won't be able to use the AI
+Signals. Instead, you'll have to use resources, by replacing "(set-signal 1)"
+with "(cc-add-resource wood 40)" and use an Accumulate Attribute trigger in the
+map editor to detect the taunts (tailor the resource type and number to whatever
+you want, obviously). This does, however, have the drawback of not bing able to
+be used if the computer player has to use resources.
+
+There are other uses. If you want different numbers to be used, change the
+second number of "(taunt-detected 1 1)." Maybe you could set up a menu system
+activated by taunts. See Life of a Mercenary, listed below, for excellent
+usage of the taunt system.
+
+===========================================================================
+
+-------------------------Article V: Trigger Tricks-------------------------
+
+===========================================================================
+Here we start the best part. Forget the basics -- now we start learning how to
+put together triggers to perform common tasks, such as RPG upgrades and
+Respawning Units. Also, I'll show you the more advanced triggers, such as food
+systems, wallets, and creating floods, etc. I'm going to assume that you know
+how to make a trigger and won't walk you through each click. Usually, the
+listing of the correct condition/effect will suffice.
+
+------------------------------------------------------------------------------
+-----------------------------Basic Trigger Tricks-----------------------------
+------------------------------------------------------------------------------
+The simplest you can find -- simple tricks such as Spawning Units and "Protect
+the Building." This is for the people who don't know how to set up basic
+triggers, but are creating a simple scenario with maybe 20 triggers.
+
+------------------
+-Respawning Units-
+------------------
+The simplest trick you can find. It involves a looping trigger with a create
+object and task object effect.
+
+Trigger0: Looping On: Starting Condition On: Set as Instructions Off
+Effect0: Create Object
+Effect1: Task Object
+
+Obviously, tweak each trigger accordingly. This type of trigger has many
+variations, to accomodate for different things you want it to do. The above
+trigger will create units non-stop. If you want a limit, put an "Own Fewer
+Objects" trigger. If you want a unit to step on a flag for this to happen, use
+an "Objects In Area" condition. You can have nearly unlimited combinations.
+Use it to the correct purpose for your scenario.
+
+--------------
+-RPG Upgrades-
+--------------
+There are a few ways you can do this. One is more lucrative than the other, but
+both are equally simple. The first way is to just use kill detection.
+
+Trigger0: Looping Off: Starting Condition On: Set as Instructions Off
+Condition0: Accumulate Attribute: Kills: 50
+Effect0: Change Object HP
+Effect1: Change Object Attack
+Effect2: Send Chat: "50 kills! +whatever HP"
+
+Again, tweak this to your needs. Use whatever number of kills you want, and
+change HP and attack however you want.
+
+But there is another way. the above trigger will activate whenever the player
+has 50 kills, and won't ever activate again. If you loop the trigger, it most
+likely won't give you the results you were expecting. Whenever the player gets
+50 kills, he always has 50 kills. it doesn't reset to 0 when the trigger
+activates. the trigger will just keep activating and activating... Soon that
+hero will die from having too much HP. (32768 is the limit.) But what does
+reset? Kill Ratio.
+
+Trigger0: Looping On: Starting Condition On: Set as Instructions Off
+Condition0: Accumulate Attribute: Kill Ratio: 1
+Effect0: Change Object HP
+Effect1: Change Object Attack
+Effect2: Create Object: (any object)
+Effect3: Remove Object: (the object you just created)
+
+Those of you who know what a ratio is are probably slapping their heads going,
+"Why didn't I think of that?!" Every time the player gets 1 kill, the hero gets
+the upgrade AND the kill ratio resets back to 0 because they suddenly lose a
+unit. The kill ratio can be whatever you want, but make sure the same number of
+units die.
+
+The first way is best if you don't want the hero to be upgraded after each kill.
+Also, if you have more than one hero for each player, the second way will not
+work exactly like you want it to, unless none of those units are allowed to die.
+
+Note that I have used Remove Object instead of Kill Object. So many designers
+use Kill Object, but it makes this unsightly unit die off to the side, and then
+you have a delay of 2 seconds, meaning the player could get extra HP for his
+kills. My suggestion is to use a Joan of Arc unit and remove it. This creates
+literally no noise, and works better than the regular way.
+
+--------------------------------
+-Protect the [insert unit here]-
+--------------------------------
+Pretty simple, really. You have to protect the building/hero/whatever. If it
+dies, you lose the game. All it takes are 4 conditions/effects at the most.
+
+Trigger0: Looping Off: Starting Condition On: Set as Instructions On
+Description: "Protect the [building/hero/whatever] from falling"
+Condition0: Destroy Object: (the object you need to protect)
+Effect0: Declare Victory: (any enemy player)
+
+That's the simplest way to do it, but the one that's the ugliest. If you ever
+download any of the campaigns listed below, you'll find they don't do it that
+way. Instead, they'll do this:
+
+Trigger0: Looping Off: Starting Condition On: Set as Instructions On
+Description: "Protect the [building/hero/whatever] from falling"
+Condition0: Destroy Object: (the object you need to protect)
+Effect0: Display Instructions: "Oh no! [building/hero/whatever] has fallen!"
+Effect1: Activate Trigger: Trigger1
+
+Trigger1: Looping Off: Starting Condition Off: Set as Instructions Off
+Condition0: Timer: 16
+Effect0: Declare Victory: (any enemy player)
+
+That gives the player a few seconds to realize what happened. With the first
+example, the unit died and the player suddenly loses, without an explanation
+about what happened. With the second example, the player knows that his hero
+died, and then has a chance to reload from a previous saved game or quit before
+the losing message shows up.
+
+-------------------------------------------------------------------------------
+--------------------------Intermediate Trigger Tricks--------------------------
+-------------------------------------------------------------------------------
+For people who know what they're doing, the ones who laugh at the triggers
+listed above. These are the people who make most of the multiplayer scenarios,
+the ones with a few hundred triggers, but looking for a neat effect in their
+scenario.
+
+---------------------
+-Creating Water/Sand-
+---------------------
+Simple, really. I would have put this as a beginners trick yet so few people
+outside of AOKH know about it. Simply Create bridges and remove them with
+triggers. Bridge Middles produce water, Bridge Ends produce sand. Be careful
+though. If you create water using this method, units will be able to walk on it
+normally. Hmm... Plenty of tricks can be done with walkable water.
+
+-------------------------------------------------------------------------------
+----------------------------Advanced Trigger Tricks----------------------------
+-------------------------------------------------------------------------------
+Not much here, since the vast majority of trigger tricks are rather simple.
+
+---------------
+-Healing Units-
+---------------
+This has been an elusive solution. For years scenario designers have wondered
+how to make a normal unit heal like a hero. You could damage the hero by -1
+every once in a while, but their HP would go over the maximum infinitely,
+like this: 75/70. Finally, scenario_t_c figured out how to heal a unit without
+going over the max HP. He posted his solution in this thread:
+http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=ct&amp;f=4,32383,0,all
+
+The thread just explains what I'm about to explain. To do it, create this
+trigger:
+
+Trigger0: Looping On
+Condition0: Timer: 3 (The lower the number, the faster the unit heals.)
+Effect0: Damage Object: -1 (This is the amount the unit will heal.)
+Effect1: Damage Object: -(16777216 - max HP)
+Effect2: Damage Object: (16777216 - max HP)
+
+To put a negative sign in the box, you need to paste it. (Ctrl-V won't work,
+you need to use the right-click/paste way.)
+
+For effects 1 and 2, do exactly as it says. For example, a Champion has 70 HP.
+16777216 - 70 = 16777146. So to heal a champion, do this:
+
+Effect1: Damage Object: -16777146
+Effect2: Damage Object: 16777146
+
+That's it! Make sure that after setting this trigger, you never click on the
+effects again, or else they will reset and go back to zero. You will then have
+to redo them.
+
+
+============================================================================
+
+------------------------------Article VI: FAQs------------------------------
+
+============================================================================
+This is a section I have so I don't have a billion e-mails asking me obvious
+questions. I've started with the most obvious, making my way down to less
+obvious and harder questions. READ THIS BEFORE ASKING ME A QUESTION!
+
+Edit: If a question you have is not listed here, there is a high chance it is
+listed in da hobo's FAQ. Please check it out before e-mailing me.
+http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=ct&amp;f=4,33254,0,30
+
+Q: How do I place Gold Mines, Forage Bushes, etc?
+A: Go to units. Now set the player as GAIA. Now go to others.
+
+Q: Who's ES?
+A: Ensemble Studios, creator of this game.
+
+Q: I've seen strange units in scenarios that aren't on the Units or Buildings
+menu. How do I get them in my scenario?
+A: Several units were created by ES when they were making the game, but were
+left out before they were completed. You can download certain templates, as
+mentioned in the downloads section above, to put these units in your scenario.
+Just Map Copy them.
+
+Q: What's an AI file?
+A: AI stands for Artificial Intelligence. In other words, give a computer player
+an AI, and it will do the things the AI file tells it to do. In most cases, the
+standard AI that came with the game will suffice, but occasionally you need to
+create your own to activate certain triggers or give the computer player a
+certain personality.
+
+Q: What's a String Table?
+A: They are special numbers used by ES in their campaigns, the ones that came
+with the game. They are practically useless for you, so don't bother with them.
+If you must know, putting certain numbers (not sure what) into these slots, you
+may get certain combinations of text from the original scenarios.
+
+Q: How do I remove Map Revealers? I placed them all over the map, and I can't
+get rid of them!
+A: If you are placing them with triggers and are trying to get rid of them, you
+can use the Remove Object trigger to get rid of them. If you used the Units
+menu, you'll notice you can't just delete it with the Delete function. Instead,
+you'll have to map copy over them, using a blank piece of terrain. (Actually,
+anything will work, just map copy over the map revealer.) If you don't know
+where the map revealer is, you can hit Ctrl-A, and everything on the map will be
+outlined. Look for a small square on the map with nothing else on it, and you've
+found the map revealer.
+
+Q: I'm having a problem with GeniEd! (insert question here about GeniEd)
+A: First of all, read the GeniEd FAQ:
+http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=ct&amp;f=9,33869,,30
+If that doesn't answer your question, feel free to e-mail me, but I will ignore
+any question that could be answered by reading the above thread.
+
+============================================================================
+
+-----------------------------Article VII: Links-----------------------------
+
+============================================================================
+There have been many great scenarios created, and they all allow you to look at
+them and find out how they were created. Every good campaign I've seen I've
+disassembled and looked at. Here are links to the greatest AOK has to offer:
+
+----------------------------------------------------------------------------
+---------------------------------Campaigns----------------------------------
+----------------------------------------------------------------------------
+We'll start off with the actual products themselves -- the finished campaigns.
+I've chosen the best of the best, so you can look at these and see how you rank
+among the masters. These are the best of the best for a reason, so I wouldn't
+freak out if you think your scenario is crap compared to these.
+
+-------------------------
+-Ulio, by Ingo Van Thiel-
+-------------------------
+I've started the campaign list with the master of all of them. Ulio is the
+masterpiece of Ingo Van Thiel, and probably his last creation for AoK. After
+creating Ulio, he announced that he had moved back to AoE to create scenarios
+there, possibly to help revive the game. With four playable scenarios, Ingo
+really left his mark before retiring back to AoE.
+
+Ulio is going to be the tough act to beat. It's been said by almost all to be
+the best campaign ever to be created for AoK. We'll have to see about that...
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=883
+
+--------------------------------------------------------
+-The Underworld II, by BeardedDragon (fixed by crasher)-
+--------------------------------------------------------
+When this scenario first came out a while ago, it was very buggy. However,
+crasher took the map and made major fixes, and I'd now say it ranks among the
+best scenarios in the blacksmith. It's worth the download.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=955
+
+------------------------------
+-The Quest, by Ingo Van Thiel-
+------------------------------
+Yet another work of Ingo. I believe this was his first AoK campaign. It doesn't
+matter; just play it. You won't be disappointed. :) Although there's only one
+scenario, it's great and challenging.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=13
+
+----------------------------------------
+-The King's Best Men, by Ingo Van Thiel-
+----------------------------------------
+You may be starting to wonder if Ingo is the only scenario designer out there.
+He's not; he's just one of the best. :) This is the sequel to The Quest, and
+IMO, the better of the two. With five playable scenarios, this is one of the
+most incredible campaigns ever made.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=219
+
+------------------------------------
+-Life of a Mercenary, by Death wish-
+------------------------------------
+Quite possibly the best usage of the taunt system. Some bugs, but deathwish has
+done an incredible job with this scenario, where you start off in a city and
+must work your way up through the ranks and become powerful. Very challenging
+and fun, not to mention original and creative.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=1002
+
+---------------------------------
+-Tannenberg 1410 AD, by MCrnigoj-
+---------------------------------
+Quite possibly the best historical campaign ever created. It's a fixed force
+scenario, and Marko has done an excellent job with the pregame cutscene and
+battle scene. Rated a total of 4.9 out of 5.0 by 5 reviewers, it doesn't get
+much better than that. :)
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=1061
+
+--------------------------------
+-Hastings 1066 AD, by  MCrnigoj-
+--------------------------------
+Another of Marko's historical campaigns, it is as good as the others. Like
+Tannenberg, it is a fast pace scenario that places skill of your command and
+placement of your troops above all else. You will not be disappointed.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=1068
+
+-------------------------------------
+-Sabato Returns, by Berserker Jerker-
+-------------------------------------
+One of the best scenarios ever created, it is just as good as Ingo's campaigns.
+This story allows you to choose from 3 different storylines, and allows you to
+choose from the side of Evil, working for Sabato, or on the side of good,
+fighting against her. With great replay value, I suggest you get it if you liked
+Ingo's works.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=1029
+
+---------------------------------------------
+-The Land of Chaos, by the Latin Design Team-
+---------------------------------------------
+The Land of Chaos is just one of the masterpieces created by the Latin Design
+Team. Challenging, well, challenges, excellent eye candy, a great story, and an
+immersive soundtrack make this a very enjoyable campaign. (I'm running out of
+good adjectives. :p) This scenario was one of the first to allow for TWO
+different stories, depending on which side you choose at the beginning of the
+game. Download it; it's one of the best overall campaigns on this list.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=711
+
+----------------------------------------------------
+-Visions of the Past: Chapter 1, by King Joshua III-
+----------------------------------------------------
+I playtested this scenario before it was released, and the story and scenery is
+mindblowing. You will be placed in charge of an orb of power and must protect it
+from the side of evil. One of the more challenging scenarios here, try playing
+it on Hard, and get ready for a tough and fun experience. :)
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=992
+
+--------------------------
+-The Two Towers, by KeLar-
+--------------------------
+I mention this because it is by far the BEST scenario ever created based on The
+Lord of the Rings. Both challenging and excellently made, I suggest that any
+LOTR fan get this, KeLar's best work, IMO.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=976
+
+--------------------------------------------
+-The Revenge of the Templars, by the xavill-
+--------------------------------------------
+My favorite city-based scenario ever. Starting off with an excellent story of
+revenge, you you have a great time dodging guards and choosing from three allies
+and plots.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=933
+
+--------------------------------------------
+-Wrath of The Dark Lord, by Dark_Warrior_1_-
+--------------------------------------------
+The first RPG on the list, this one defined the rest. This features a taunt
+system of using items, and a battle system never before seen in an AoK scenario.
+Learn spells and cast them in this scenario.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=847
+
+---------------------------------------------------------
+-Wolfcastle 2 - The Silence of the Clowns, by Andres_age-
+---------------------------------------------------------
+I am amazed at my stupidity for forgetting about this amazing scenario until
+now. Wolfcastle 2 is the only great scenario ever made that is set in modern
+times. Hilarious characters, puzzle solving, and jaw-dropping cities are enough,
+but what really makes this scenario great is the total-conversion mod that comes
+with it. Install the mod (link to Modpack Studio below) to see SWAT teams
+assault fortresses, towering skyscrapers, and APCs running over helpless
+enemies. ;) Playing without the mod is still fun, but the mod makes this one of
+my favorite.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=831
+
+-----------------------
+-Bouren, by Tonto_DaVe-
+-----------------------
+This is a scenario that, if released a few years back (which is when he started
+making this scenario :p), would have been a great AoKH classic. In this Ulio
+inspired campaign, play as Bouren, a young man who fights for justice... and
+seeks revenge for his father. Quite possibly one of the top 5 campaigns created
+for AoK.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=1236
+
+-----------------------------------------------------------------------------
+---------------------------------Multiplayer---------------------------------
+-----------------------------------------------------------------------------
+Although multiplayer isn't as elegant as Single Player, it has its place. The
+links here are based not by popularity, but by balance, replayability, and
+creativity. Most Blood maps just don't cut it.
+
+----------------------
+-TTF2, Author Unknown-
+----------------------
+My personal favorite. It was originally created by some Korean guy, but two
+people (don't know who) translated it into English. In TTF, you compete in a
+series of challenging races to earn gold. First place is 5 gold, second place is
+4 gold, and so on. At the end, the one with the most gold wins. With many
+different creative races, and a hard mode for experts, this will provide lots of
+entertainment. Trust me, you'll be hooked by the second race, where you must
+cross moving bridges... I won't spoil all the races, but if you don't have it,
+you MUST download it.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=3857
+
+----------------------------------
+-Battle for Europe, by Herr Coatl-
+----------------------------------
+At first glance, you might think it's boring because its a B&amp;D world map
+scenario. Wrong. This scenario features gods, capturing cities for units, and an
+actual timeline that triggers events. Very creative, and officially rated a 4.8
+out of 5.0 by yours truly.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=3912
+
+---------------------------------------------------------------------------
+----------------------------Utilities/Tutorials----------------------------
+---------------------------------------------------------------------------
+These are scenarios or documents that aren't meant to be played, but to teach
+scenario designers how to do certain things. There is something here for
+everyone, and even if you know every trick in the book, you can gain some use
+from these tutorials.
+
+--------------------------------------------------
+-Age of Kings Campaign Manager, by Lloyd Kinsella-
+--------------------------------------------------
+One of the most useful utilities out there. This is a program that allows you to
+extract the individual scenarios from any campaign, and play it like any other
+scenario. It can't extract AIs or bitmaps, so you won't be able to play any maps
+that require special AIs, but that's what other utilities are for...
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=5613
+
+----------------------------------------------------------
+-New Units and Objects Scenario Template, by Angel Rasher-
+----------------------------------------------------------
+and
+-------------------------------------------------------
+-New Units and New Objects Template, by Enrique Orduno-
+-------------------------------------------------------
+You can't really have one without the other. Both these invaluable templates
+allow you to map copy several previously unknown units into your scenario. Using
+these templates, you can get COBRAs (without cheats), special boats that can
+convert other ships, a special Gold Mine that makes villagers invisible, and
+much more.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=5416
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=5556
+
+------------------------------------------
+-Shoreless Water Template, by AzN_PaRaDoX-
+------------------------------------------
+This template allows you to create water that doesn't have shores. Shoreless
+water has limited uses, but at times it is better for eye candy to get rid of
+the shores.
+
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=5566
+
+---------------------------------------
+-Age of Kings Trigger Studio, by DiGiT-
+---------------------------------------
+This utility is still in progress, but already it has the invaluable use of
+being able to extract AI files from any scenario, allowing you to play any .scx
+file extracted from a campaign. When finished, this program will allow trigger
+copying, units being placed in formation, and currently a feature to add 8 extra
+players is being discussed! A must-see.
+
+The thread can be read here:
+http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=ct&amp;f=4,35245,0,30
+
+And the actual download can be found here:
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=5858
+
+---------------------
+-GeniEd2, by Ykkrosh-
+---------------------
+THE GREATEST UTILITY EVER CREATED FOR AOK. This program allows you to edit the
+stats of units, including LOS, ROF, speed, and much more. I HIGHLY SUGGEST YOU
+READ THE FAQ THREAD BEFORE ASKING ME A QUESTION. Note that this program only
+edits stats. To edit graphics, you need AoK Modpack Studio, below.
+
+An FAQ can be found here:
+http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=ct&amp;f=9,33869,,30
+
+And the actual download can be found here:
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=5837
+
+------------------------------
+-Mod Pack Studio, by JC Alsup-
+------------------------------
+My apologies for not including this download in earlier updates. AoK Modpack
+Studio is by far the most groundbreaking Utility (since it was released 4 years
+ago) ever created for AoK. This amazing program allows you to create Modpacks,
+which allow the designer to change the graphics of any unit so desired, and
+offer these changes in a small package for use with his scenario. Please,
+please, PLEASE don't e-mail me asking how to use the program. Instead, visit the
+Modpack Discussion Forum at AoKH and read the FAQs there.
+
+The forums can be found here:
+http://aok.heavengames.com/cgi-bin/aokcgi/display.cgi?action=t&amp;fn=9
+
+And the actual download can be found here:
+http://aok.heavengames.com/blacksmith/showfile.php?fileid=5537
+
+===========================================================================
+
+----------------------------Article VII: Credits---------------------------
+
+===========================================================================
+I would like to thank Ensemble Studios for creating such a great game. Despite
+what people say, AOK is not going to die anytime soon. (I mean c'mon! People
+were saying it was dying two years ago. And look at AoE. It's still alive and
+kicking, albeit barely.)
+
+Thanks to Age of Kings Heaven (aok.heavengames.com), where I learned a lot and
+found a friendly place to have a discussion. This is also the place that has
+hosted every scenario I have linked, and has the best scenario design forums
+you can find. (I know Woad or DGDN will argue about that...)
+
+I would also like to thank the excellent scenario designers before me who have
+created the scenarios and tricks listed above. Without you, this guide would be
+quite empty. To all of you, your names are listed next to the tricks/scenarios
+you created.
+
+I also need to thank myself for taking the time to compile all this. You should
+thank me too. :) Note that since I created it, you do not have the right to take
+this document and edit it in any way, or distribute it as yours. I give you
+permission to spread this wherever you want as long as it is COMPLETE and
+UNEDITED. Thanks!

@@ -333,7 +333,7 @@ const char *Condition::types[] =
 const char *Condition::types_short[] =
 {
 	"Undefined",
-	"In Area",
+	"Arrived",
 	"At Object",
 	"Own",
 	"Own Fewer",

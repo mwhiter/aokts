@@ -327,7 +327,13 @@ void EffectItemData::GetName(char *buffer)
 	Trigger *t = GetTrigger();
 	assert(t);
 
-	sprintf(buffer, "E: %s", t->effects[index].getNameTip().c_str());
+    // can't do this because when there are no conditions it is out of
+    // place
+	//if (index == 0) {
+	//    sprintf(buffer, "then %s", t->effects[index].getNameTip().c_str());
+	//} else {
+	    sprintf(buffer, "%s", t->effects[index].getNameTip().c_str());
+	//}
 }
 
 void EffectItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)
@@ -506,7 +512,11 @@ void ConditionItemData::GetName(char *buffer)
 	Trigger *t = GetTrigger();
 	assert(t);
 
-	sprintf(buffer, "C: %s", t->conds[index].getNameTip().c_str());
+	if (index == 0) {
+	    sprintf(buffer, "If %s", t->conds[index].getNameTip().c_str());
+	} else {
+	    sprintf(buffer, "and %s", t->conds[index].getNameTip().c_str());
+	}
 }
 
 void ConditionItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)

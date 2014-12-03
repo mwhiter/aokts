@@ -4,6 +4,7 @@
 
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
+#include "../util/helper.h"
 
 #pragma pack(push, 4)
 // An condition as stored in in scenario
@@ -62,12 +63,209 @@ std::string Condition::getName() const
 
 std::string Condition::getNameTip() const
 {
-    std::string stype = std::string((type < NUM_CONDS) ? types_short[type] : "Unknown!");
-    if (type == 10) {
-        stype.append(": ");
-        std::ostringstream convert;
-        convert << timer;
+    std::string stype = std::string("");
+    std::ostringstream convert;
+    switch (type) {
+    case 1: // Bring object to area
+        convert << "unit " << object;
+        if (area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1) {
+            convert << " is on the map";
+        } else {
+            if (area.left == area.right && area.top == area.bottom) {
+                convert << " is at (" << area.left << ", " << area.top << ")";
+            } else {
+                convert << " is in the area (" << area.left << ", " << area.top << ") - (" << area.right << ", " << area.bottom << ")";
+            }
+        }
         stype.append(convert.str());
+        break;
+    case 2: // Bring object to object
+        convert << "unit " << object << " is next to unit " << u_loc;
+        stype.append(convert.str());
+        break;
+    case 3: // Own
+    case 4: // Own Fewer
+    case 5: // In Area
+        {
+            if (player == 0) {
+                convert << "Gaia";
+            } else {
+                convert << "p" << player;
+            }
+            convert << " has ";
+            switch (type) {
+            case 3:
+            case 5:
+                convert << "at least ";
+                break;
+            case 4:
+                convert << "at most ";
+                break;
+                break;
+            }
+            convert << amount;
+            if (pUnit && pUnit->id()) {
+                std::wstring unitname(pUnit->name());
+                std::string un(unitname.begin(), unitname.end());
+                if (amount > 1 && !un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
+                    convert << " " << un << "s";
+                } else {
+                    convert << " " << un;
+                }
+            } else {
+                if (amount != 1) {
+                    convert << " units";
+                } else {
+                    convert << " unit";
+                }
+            }
+            if (area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1) {
+                convert << " on the map";
+            } else {
+                if (area.left == area.right && area.top == area.bottom) {
+                    convert << " at (" << area.left << "," << area.top << ")";
+                } else {
+                    convert << " in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                }
+            }
+            stype.append(convert.str());
+        }
+        break;
+    case 6: // Destroy object
+        convert << "unit " << object << " is destroyed";
+        stype.append(convert.str());
+        break;
+    case 8: // Accumulated
+        switch (res_type) {
+        case 0: // Food accumulated
+            convert << "p" << player << " has " << amount << " food";
+            break;
+        case 1: // Wood accumulated
+            convert << "p" << player << " has " << amount << " wood";
+            break;
+        case 2: // Stone accumulated
+            convert << "p" << player << " has " << amount << " stone";
+            break;
+        case 3: // Gold accumulated
+            convert << "p" << player << " has " << amount << " gold";
+            break;
+        case 20: // Units killed
+            if (amount == 1) {
+                convert << "p" << player << " kills a unit";
+            } else {
+                convert << "p" << player << " has killed " << amount << " units";
+            }
+            break;
+        case 44: // Kill ratio
+            if (amount == 0) {
+                convert << "p" << player << " has equal kills and fatalities";
+            } else if (amount == 1) {
+                convert << "p" << player << " has killed one more than lost";
+            } else if (amount > 0) {
+                convert << "p" << player << " has " << amount << " more kills than fatalities";
+            } else if (amount == -1) {
+                convert << "p" << player << " has lost one more unit than has killed";
+            } else {
+                convert << "p" << player << " has " << -amount << " more fatalities than kills";
+            }
+            break;
+        default:
+            //convert << types_short[type];
+            if (res_type >= 0) {
+                const Link * list = esdata.resources.head();
+	            for (int i=0; list; list = list->next(), i++)
+	            {
+		            if (i == res_type) {
+                        std::wstring resname(list->name());
+		                convert << "p" << player << " has " << amount << " ";
+                        convert << std::string( resname.begin(), resname.end());
+                        convert << "(res_type " << res_type << ")";
+		                break;
+		            }
+	            }
+	        }
+            break;
+        }
+        stype.append(convert.str());
+        break;
+    case  9: // Researched
+        if (pTech && pTech->id()) {
+            convert << "p" << player << " has tech ";
+            std::wstring techname(pTech->name());
+            convert << std::string( techname.begin(), techname.end());
+            convert << " researched";
+        } else {
+            convert << "INVALID";
+        }
+        stype.append(convert.str());
+        break;
+    case 10: // Time
+        { // scope needed here because we are initializing some variables inside a case
+            unsigned int seconds = timer;
+            unsigned int mins = seconds / 60;
+            unsigned int hours = mins / 60;
+            bool input = false;
+
+            seconds = seconds - mins * 60;
+            mins = mins - hours * 60;
+
+            if (timer == 0) {
+                convert << "no time has passed";
+            } else {
+                if (hours > 0) {
+                    convert << hours << " hr";
+                    if (hours > 1) {
+                        convert << "s";
+                    }
+                    input = true;
+                }
+                if (mins > 0) {
+                    if (input) {
+                        convert << " ";
+                    }
+                    convert << mins << " min";
+                    if (mins > 1) {
+                        convert << "s";
+                    }
+                    input = true;
+                }
+                if (seconds > 0) {
+                    if (input) {
+                        convert << " ";
+                    }
+                    convert << seconds << " second";
+                    if (seconds > 1) {
+                        convert << "s";
+                    }
+                }
+                convert << " has passed";
+            }
+            stype.append(convert.str());
+        }
+        break;
+    case 13: // Player defeated
+        if (player == 0) {
+            convert << "Gaia";
+        } else {
+            convert << "p" << player;
+        }
+        convert << " is defeated";
+        stype.append(convert.str());
+        break;
+    case 18: // Units Garrisoned
+        if (amount == 1) {
+            convert << "unit " << object << " has " << amount << " units garrisoned";
+        } else {
+            convert << "unit " << object << " has one unit garrisoned";
+        }
+        stype.append(convert.str());
+        break;
+    case 24: // Queued Past Pop Cap
+        convert << "p" << player << " has " << amount << " units queued past the pop cap";
+        stype.append(convert.str());
+        break;
+    default:
+        stype.append((type < NUM_CONDS) ? types_short[type] : "Unknown!");
     }
 	return stype;
 }

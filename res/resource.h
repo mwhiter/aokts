@@ -21,8 +21,7 @@
 #define LCBS_ALLOWNOSELECT CBS_HASSTRINGS	//Style to allow for no selection.
 
 /* Icons */
-#define IDI_LOGO_AOK   		16	//0x10
-#define IDI_LOGO_SWGB       17  //0x11
+#define IDI_LOGO      		16	//0x10
 
 /* Menus */
 #define IDM_MAIN			16	//0x10
@@ -34,8 +33,7 @@
 #define IDS_MAIN			48	//0x30
 
 /* Dialogs */
-#define IDD_ABOUT_AOK       101
-#define IDD_ABOUT_SWGB      102
+#define IDD_ABOUT           101
 #define IDD_STATS			103
 #define IDD_UNITSEL1		104
 #define IDD_UNITSEL2		105
@@ -52,8 +50,7 @@
 /* Bitmaps */
 #define IDB_GOOD			200
 #define IDB_EVIL			201
-#define IDB_LOGO_AOK   		202
-#define IDB_LOGO_SWGB       203
+#define IDB_LOGO       		202
 
 /* Info/Messages Controls */
 #define IDC_M_MSGS			1001

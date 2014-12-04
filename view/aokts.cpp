@@ -103,9 +103,6 @@ const char * askSaveChanges =
 const char *szTitle = "SWGB Trigger Studio";
 const char welcome[] =
 "Welcome to SWGBTS! Please open a scenario or make a new one.";
-const char warnNoVersionChange[] =
-"Warning: SWGBTS cannot yet convert between versions. Saving an sc1"
-" as an scx will only change the extension!";
 const char extOpen[] =
 "All Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
@@ -542,7 +539,11 @@ int CALLBACK PropSheetProc(HWND sheet, UINT msgid, LPARAM lParam)
 			TooltipInit(tooltip);
 
 			/* Set the big icon */
-			icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_LOGO));
+#if (GAME == 2)
+			icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_LOGO_SWGB));
+#elif (GAME == 1)
+			icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_LOGO_AOK));
+#endif
 			Window_SetIcon(sheet, ICON_BIG, icon);
 		}
 		break;
@@ -586,7 +587,11 @@ HWND MakeSheet(HINSTANCE app)
 		PSH_NOAPPLYNOW | PSH_NOCONTEXTHELP | PSH_USEICONID;
 	header.hwndParent = NULL;
 	header.hInstance = app;
-	header.pszIcon = MAKEINTRESOURCE(IDI_LOGO);
+#if (GAME == 2)
+	header.pszIcon = MAKEINTRESOURCE(IDI_LOGO_SWGB);
+#elif (GAME == 1)
+	header.pszIcon = MAKEINTRESOURCE(IDI_LOGO_AOK);
+#endif
 	header.pszCaption = szTitle;
 	header.nPages = NUM_PAGES;
 	header.nStartPage = 0;
@@ -883,7 +888,11 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		break;
 
 	case ID_APP_ABOUT:
-		DialogBoxParam(aokts, (LPCSTR)IDD_ABOUT, sheet, DefaultDialogProc, 0L);
+#if (GAME == 2)
+		DialogBoxParam(aokts, (LPCSTR)IDD_ABOUT_SWGB, sheet, DefaultDialogProc, 0L);
+#elif (GAME == 1)
+		DialogBoxParam(aokts, (LPCSTR)IDD_ABOUT_AOK, sheet, DefaultDialogProc, 0L);
+#endif
 		break;
 
 	default:

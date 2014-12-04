@@ -21,7 +21,8 @@
 #define LCBS_ALLOWNOSELECT CBS_HASSTRINGS	//Style to allow for no selection.
 
 /* Icons */
-#define IDI_LOGO			16	//0x10
+#define IDI_LOGO_AOK   		16	//0x10
+#define IDI_LOGO_SWGB       17  //0x11
 
 /* Menus */
 #define IDM_MAIN			16	//0x10
@@ -33,24 +34,26 @@
 #define IDS_MAIN			48	//0x30
 
 /* Dialogs */
-#define IDD_ABOUT			101
-#define IDD_STATS			102
-#define IDD_UNITSEL1		103
-#define IDD_UNITSEL2		104
-#define IDD_MSGS			110
-#define IDD_PLAYERS			111
-#define IDD_VICTORY			112
-#define IDD_DISABLES		113
-#define IDD_TERRAIN			114
-#define IDD_UNITS			115
-#define IDD_TRIGGERS		116
-#define IDD_EFFECT			118
-#define IDD_COND			119
+#define IDD_ABOUT_AOK       101
+#define IDD_ABOUT_SWGB      102
+#define IDD_STATS			103
+#define IDD_UNITSEL1		104
+#define IDD_UNITSEL2		105
+#define IDD_MSGS			111
+#define IDD_PLAYERS			112
+#define IDD_VICTORY			113
+#define IDD_DISABLES		114
+#define IDD_TERRAIN			115
+#define IDD_UNITS			116
+#define IDD_TRIGGERS		117
+#define IDD_EFFECT			119
+#define IDD_COND			120
 
 /* Bitmaps */
-#define IDB_LOGO			200
-#define IDB_GOOD			201
-#define IDB_EVIL			202
+#define IDB_GOOD			200
+#define IDB_EVIL			201
+#define IDB_LOGO_AOK   		202
+#define IDB_LOGO_SWGB       203
 
 /* Info/Messages Controls */
 #define IDC_M_MSGS			1001

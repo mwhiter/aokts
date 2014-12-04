@@ -1375,6 +1375,11 @@ AOKTS_ERROR Scenario::remove_trigger_names()
 	return ERR_none;
 }
 
+bool up_to_aofe_test(const Effect & e)
+{
+     return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33;
+}
+
 AOKTS_ERROR Scenario::up_to_aofe() {
 	long num = triggers.size();
 	if (num < 1)
@@ -1386,10 +1391,17 @@ AOKTS_ERROR Scenario::up_to_aofe() {
 	while (i--)
 	{
 	    // using a lamba function, delete speed range armor1 armor2
-        trig->effects.erase(std::remove_if(trig->effects.begin(), trig->effects.end(), [](const Effect & e) { return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33; }), trig->effects.end());
+        trig->effects.erase(std::remove_if(trig->effects.begin(), trig->effects.end(), up_to_aofe_test), trig->effects.end());
 		trig++;
 	}
 	return ERR_none;
+}
+
+bool up_to_10c_test(const Effect & e)
+{
+    return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33
+        || (e.type == 24 && e.s_player == 0)
+        || (e.type == 26 && (e.area.left != -2 || e.area.right != -1 || e.area.top != -1 || e.area.bottom != -1));
 }
 
 AOKTS_ERROR Scenario::up_to_10c() {
@@ -1405,10 +1417,7 @@ AOKTS_ERROR Scenario::up_to_10c() {
 	    // using a lamba function, delete speed range armor1 armor2
         // remove effects that change name over area
         // prevent using damage on gaia
-        trig->effects.erase(std::remove_if(trig->effects.begin(), trig->effects.end(), [](const Effect & e) {
-                    return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33
-                    || (e.type == 24 && e.s_player == 0)
-                    || (e.type == 26 && (e.area.left != -2 || e.area.right != -1 || e.area.top != -1 || e.area.bottom != -1)); }), trig->effects.end());
+        trig->effects.erase(std::remove_if(trig->effects.begin(), trig->effects.end(), up_to_10c_test), trig->effects.end());
 		trig++;
 	}
 	return ERR_none;

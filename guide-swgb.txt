@@ -1,0 +1,125 @@
+Star Wars Galactic Battlegrounds
+Trigger Conditions & Effects by AoErat
+
+Listed below is each condition and effect included in SWGB, along with a description of its use.
+
+Conditions
+
+Bring Object to Area: Allows you to set the object to bring, and the area it must be in. Good for quest scenarios.
+
+Bring Object to Object: Allows you to set the object to bring, as well as the object it must be brought to.
+
+Own Objects: Allows you to set a specific quantity of objects for a player to have. You can specifically select types (ie Trooper, War Center), or be general. (ie Military Units)
+
+Own Fewer Objects: Allows you to specify how few of an object a player should have before the condition "fires". You can specifically select types (ie Trooper, War Center), or be general. (ie Military Units)
+
+Objects in Area: Allows you to set an area a certain number of objects must be in. You can specifically select types (ie Trooper, War Center), or be general. (ie Military Units)
+
+Destroy Object: Fires when an object is destroyed. You can specifically select types (ie Trooper, War Center), or be general. (ie Military Units)
+
+Capture Object: A "capture" is usually a turning performed by a Jedi or Sith. Capture can also refer to finding a Gaia object. This condition allows you to set the object to be turned for the condition to be met.
+
+Accumulate Attribute: This condition is rather diverse. An "attribute" can be, for example, ore, food, population, turnings, as well as some generic counters (used in conjuction with the "Tribute" Effect). You specify amount to be met.
+
+Research Technology: This conditin allows you to select a specific technology to be research to "fire" the trigger.
+
+Timer: The timer is one of the most useful triggers. You simply enter a time (in seconds), and the trigger will wait that amount of time before "firing". This trigger is used best in conjunction with the "Activate Trigger" Effect.
+
+Object Selected: This condition allows you to set an object that must be selected for the trigger to "fire".
+
+AI Signal: In AI scripts, you can specify that the AI send a signal at certain events. This trigger will detect these signals. (Advanced users only)
+
+Player Defeated: Allows you to select a player that must be defeated for the trigger to "fire".
+
+Object has Target: A target is given to an object when you tell the object to attack, or perform some other function. In this condition, you set the object that must perform the target, and the receiving object. You can specifically select types (ie Trooper, War Center), or be general. (ie Military Units)
+
+Object Visible: Allows you to set a certain object that must be visible for the trigger to "fire".
+
+Object Not Visible: Allows you to set a certain object that must be not visible for the trigger to "fire".
+
+Researching Tech: Allows you to specify a technology that must be in the process of researching for the trigger to "fire".
+
+Units Garrisoned: This condition "fires" if a unit or multiple units are garrisoned in the object of your choice.
+
+Difficulty Level: This condition detects the difficulty level the user is playing on. You can use this to set the difficultly of the scenario. For example, if the difficulty level is "Easy", you can have only a few units attack, and, conversely, if the difficulty level is "Hard", you can have many units attack.
+
+Own Fewer Foundations: Allows you to specify how few foundations a player should have before the condition "fires". The equivalent of the Own Fewer Objects condition, except with building foundations.
+
+Selected Objects in Area: Allows detection of how many objects are selected within a certain area.
+
+Powered Objects in Area: Allows detection of how many buildings are effected by a power core within a certain area.
+
+Units Queued Past Pop Cap: Allows detection of the player having units queued past the set population cap of the scenario.
+
+
+Effects
+
+Change Alliance: Changes the alliance of the selected player with another selected player.
+
+Research Technology: Researches a set technology.
+
+Play Sound: Plays sound selected by you. Sound must be in Sound/Scenario folder.
+
+Tribute: Tributes a selected amount of resource or generic counter points (used in conjuction with the "Accumulate Attribute" condition) to a selected player.
+
+Unlock Gate: Unlocks the selected gate.
+
+Lock Gate: Locks the selected gate.
+
+Activate Trigger: Activates the selected trigger. (initially deactivate a trigger in the Options area of each trigger)
+
+Deactivate Trigger: Deactivates the selected trigger.
+
+AI Script Goal: Alerts the AI script that a preset goal must be reached. (Advanced users only)
+
+Create Object: Creates the selected object at the selected area.
+
+Task Object: Tasks an object to do whatever the selected area contains. For example, task a worker to a farm, and it will start farming. Task a military unit to a blank square, and it will simply move there.
+
+Declare Victory: Declares victory for the target player and ends the scenario.
+
+Kill Object: Kills the selected object or group.
+
+Remove Object: Removes the selected object or group. No death involved, it simply disappears. You can specifically select types (ie Trooper, War Center), or be general. (ie Military Units)
+
+Scroll View: Scrolls the player's view to the selected area. Centers on the selected tile.
+
+Unload: Unloads objects from the selected object. (Air Transport, Naval Transport, Jedi/Sith Temple, military building, Command Center, Mech, etc)
+
+Change Ownership: Changes the ownership of the selected object or group to the selected player.
+
+Patrol: Sets a certain object or group to patrol (move back and forth) between a selected point and the point they are at initially.
+
+Display Instructions: Displays text near the top of the screen. You can set the time (in seconds) that it is displayed, as well as a sound to go along with it and its number. (to be used in conjuction with the "Clear Instructions" effect) You can color the text by placing the color name before the text, enclosed in brackets. (ie: Hi, it's me) Accepted color names are RED, BLUE, GREEN, CYAN, YELLOW, PURPLE, GRAY, and ORANGE.
+
+Clear Instructions: Clears the specified instruction who's number currently displayed.
+
+Freeze Unit: Freezes the specified unit or group. This means the cannot move, attack, or perform any other function. The unit does not move at all.
+
+Enable Advanced Buttons: Activates the advanced user interface buttons. No parameters to set.
+
+Damage Object: Damages the selected object or group the specified amount. Good for creating wounded units are burning buildings.
+
+Place Foundation: Places a building foundation in the specified area.
+
+Change Object Name: Changes the selected object's name to the specified name.
+
+Change Object HP: Changes the selected object's hitpoints to the specified amount. Conventionally only works with increases. If you want to decrease the hitpoints, subtract the number you want to decrease the original amount to from 65536, (ie 65536 - [amount to remove]) and place that number in the box.
+
+Change Object Attack: Changes the selected object's attack to the specified amount. Conventionally only works with increases. If you want to decrease the attack, subtract the number you want to decrease the original amount to from 65536, (ie 65536 - [amount to remove]) and place that number in the box.
+
+Stop Unit: Stops the selected unit or group.
+
+Snap View: Instead of scrolling the view, this effect moves the user's view immediated (hence the "snap") to the specified location.
+
+Disable Advanced Buttons: Deactivates the advanced user interface buttons. No parameters to set.
+
+Enable Unit: Enables the selected unit.
+
+Disable Unit: Disables the selected unit. Makes it unable to move or attack.
+
+Enable Tech: Enables a technology so it is available for research.
+
+Disable Tech: Disables a technology so it is not possible to research.
+
+Flash Objects: Flashes a selection-circle graphic under the selected object. Also displays a large box on the mini-map centered on the selected object.

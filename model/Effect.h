@@ -57,10 +57,8 @@ enum EffectType
 
 #if (GAME == 1)
 #define MAX_EFFECT EFFECT_DisableTech
-
 #elif (GAME == 2)
 #define MAX_EFFECT EFFECT_FlashObjects
-
 #endif
 
 class Effect : public ECBase

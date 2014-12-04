@@ -200,7 +200,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(ProjectDir)deps\include"
-				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=2"
+				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=2;_AFXDLL"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -277,7 +277,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="&quot;C:\Users\shane\Downloads\zlib-1.2.3-lib\include&quot;;&quot;C:\Program Files (x86)\Expat 2.1.0\Source\lib&quot;;&quot;$(ProjectDir)deps\include&quot;"
-				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=2"
+				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=2;_AFXDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -636,31 +636,23 @@
 			Name="Resource Files"
 			>
 			<File
+				RelativePath=".\res\_AGE2_X10.bmp"
+				>
+			</File>
+			<File
 				RelativePath=".\res\AGE2_X10.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\AOKTS.rc"
+				RelativePath=".\res\aokts.ico"
 				>
-				<FileConfiguration
-					Name="SWGB Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="SWGB Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\aokts_big.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\common.rc"
 				>
 			</File>
 			<File
@@ -676,24 +668,8 @@
 				>
 			</File>
 			<File
-				RelativePath="swgbts.rc"
+				RelativePath=".\res\swgbts.ico"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCResourceCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\res\wall.bmp"

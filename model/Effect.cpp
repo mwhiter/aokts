@@ -254,7 +254,7 @@ std::string Effect::getNameTip() const
         break;
     case 16: // Change view
         if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
-            convert << "Change view for p" << s_player << " to (" << location.x << "," << location.y << ")";
+            convert << "Change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
         } else {
             convert << "INVALID";
         }
@@ -287,7 +287,7 @@ std::string Effect::getNameTip() const
             if (area.left == area.right && area.top == area.bottom) {
                 convert << " at (" << area.left << "," << area.top << ")";
             } else {
-                convert << " from area (" << area.left << "," << area.top << ") - (" << area.right << ", " << area.bottom << ")";
+                convert << " from area (" << area.left << ", " << area.top << ") - (" << area.right << ", " << area.bottom << ")";
             }
         }
         stype.append(convert.str());

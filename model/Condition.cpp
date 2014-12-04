@@ -86,7 +86,7 @@ std::string Condition::getNameTip() const
     case 3: // Own
     case 4: // Own Fewer
     case 5: // In Area
-        {
+        { // we define some variables in this block, therefore need scope as we are also in a case
             if (player == 0) {
                 convert << "Gaia";
             } else {
@@ -123,9 +123,9 @@ std::string Condition::getNameTip() const
                 convert << " on the map";
             } else {
                 if (area.left == area.right && area.top == area.bottom) {
-                    convert << " at (" << area.left << "," << area.top << ")";
+                    convert << " at (" << area.left << ", " << area.top << ")";
                 } else {
-                    convert << " in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                    convert << " in area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
                 }
             }
             stype.append(convert.str());

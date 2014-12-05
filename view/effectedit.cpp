@@ -215,7 +215,7 @@ void E_Init(HWND dialog)
 	Combo_Fill(dialog, IDC_E_SPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_DSTATE, dnames, 4);
-	Combo_Fill(dialog, IDC_E_PANEL, pnames, 4);
+	Combo_Fill(dialog, IDC_E_PANEL, pnames, 3); // should this be 4?
 	LCombo_Fill(dialog, IDC_E_RESEARCH, esdata.techs.head());
 	LCombo_Fill(dialog, IDC_E_RESTYPE, esdata.resources.head());
 	Combo_PairFill(GetDlgItem(dialog, IDC_E_GROUP), NUM_GROUPS, groups);

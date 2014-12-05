@@ -239,6 +239,10 @@ void Scenario::open(const char *path, const char *dpath)
 	{
 		ver1 = SV1_AOE2TC;
 	}
+	else if (!strncmp(header.version, "1.30", 4))
+	{
+		ver1 = SV1_AOE2TC;
+	}
 #ifdef _DEBUG	//testing AOE1 support in debug mode
 	else if (header.version[2] == '1' &&
 		(header.version[3] == '0' || header.version[3] == '1')) // 1.10 or 1.11
@@ -314,6 +318,10 @@ int Scenario::save(const char *path, const char *dpath, bool write, int convert)
 		case 3:
 			ver1 = SV1_AOE2TC;
 			ver2 = SV2_AOE2TF;
+			break;
+		case 4:
+			ver1 = SV1_SWGB;
+			ver2 = SV2_SWGB;
 			break;
 	}
 
@@ -410,6 +418,9 @@ void Scenario::_header::write(FILE *scx, const SString *instr, long players, Sce
 	case SV1_AOE2TC:
 		strcpy(version, "1.21");
 		break;
+	case SV1_SWGB:
+		strcpy(version, "1.30");
+		break;
 	default:
 		strcpy(version, "0.00");
 		break;
@@ -486,6 +497,10 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	case 123:
 		ver2 = SV2_AOE2TF;
+		break;
+
+	case 130:
+		ver2 = SV2_SWGB;
 		break;
 
 	default:
@@ -568,7 +583,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	SKIP(dc2in.get(), sizeof(long) * NUM_PLAYERS);	//other allied victory
 
-	if (ver2 == SV2_AOE2TF)
+	if (ver2 == SV2_AOE2TF || ver2 == SV2_SWGB)
 		readbin(dc2in.get(), &lock_teams);
 
 	/* Disables */
@@ -861,7 +876,7 @@ int Scenario::write_data(const char *path)
 		resources[5] = 0.0F;
 		fwrite(resources, sizeof(float), PLAYER_POP_UNREAD_COUNT, dcout);
 
-		if (ver1 == SV1_AOE2TC)
+		if (ver1 >= SV1_AOE2TC)
 			fwrite(&players[i].pop, 4, 1, dcout);
 	}
 

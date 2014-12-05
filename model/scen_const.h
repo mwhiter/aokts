@@ -19,7 +19,7 @@ enum ScenVersion1
 	SV1_AOE1		= 10,
 	SV1_AOE2		= 18,
 	SV1_AOE2TC		= 21,
-	SV1_SWGB    = 21
+	SV1_SWGB        = 22
 };
 
 /**
@@ -31,7 +31,8 @@ enum ScenVersion2
 {
 	SV2_AOE2		= 18,
 	SV2_AOE2TC		= 22,
-	SV2_AOE2TF		= 23 //The Forgotten
+	SV2_AOE2TF		= 23,// The Forgotten
+	SV2_SWGB		= 24 // SWGB ? 
 };
 
 /* Internal Constants */

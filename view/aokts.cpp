@@ -98,37 +98,17 @@ DLGPROC procs[NUM_PAGES] =
 const char * askSaveChanges =
 "Do you want to save your changes?";
 
-#if (GAME == 2)
 
-const char *szTitle = "SWGB Trigger Studio";
-const char welcome[] =
-"Welcome to SWGBTS! Please open a scenario or make a new one.";
-const char extOpen[] =
-"All Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
-const char extSave[] =
-"Scenarios (*.scx)\0*.scx\0Expansion Scenarios (*.sc1)\0*.sc1\0All files\0*.*\0";
-const char datapath[] = "data_swgb.xml";
-const char warnNoAOEII[] =
-"You don't seem to have Star Wars: Galactic Battlegrounds installed. I don't know how useful this will be.";
-
-#elif (GAME == 1)
-
-const char *szTitle = "AOK Trigger Studio";
+const char *szTitle = "Trigger Studio";
 const char welcome[] =
 "Welcome to AOKTS! Please open a scenario or make a new one.";
 const char extOpen[] =
-"All Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0All files (*.*)\0*.*\0";
+"AOEII Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0SWGB Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
-"Scenarios (*.scn)\0*.scn\0TC Scenarios (*.scx)\0*.scx\0TF Scenarios (*.scx2)\0*.scx2\0All files (*.*)\0*.*\0";
-const char datapath[] = "data_aok.xml";
-const char warnNoAOEII[] =
-"You don't seem to have Age of Empires II installed. I don't know how useful this will be.";
-
-#else
-
-#error unsupported game
-
-#endif
+"AOK Scenarios (*.scn)\0*.scn\0TC/SWGB Scenarios (*.scx)\0*.scx\0TF Scenarios (*.scx2)\0*.scx2\0CC Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
+//const char datapath[] = "data_aok.xml";
+const char datapath[] = "data_swgb.xml";
+//const char datapath[] = "data_test.xml";
 
 /** Functions **/
 
@@ -539,11 +519,7 @@ int CALLBACK PropSheetProc(HWND sheet, UINT msgid, LPARAM lParam)
 			TooltipInit(tooltip);
 
 			/* Set the big icon */
-#if (GAME == 2)
-			icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_LOGO_SWGB));
-#elif (GAME == 1)
-			icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_LOGO_AOK));
-#endif
+			icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_LOGO));
 			Window_SetIcon(sheet, ICON_BIG, icon);
 		}
 		break;
@@ -587,11 +563,7 @@ HWND MakeSheet(HINSTANCE app)
 		PSH_NOAPPLYNOW | PSH_NOCONTEXTHELP | PSH_USEICONID;
 	header.hwndParent = NULL;
 	header.hInstance = app;
-#if (GAME == 2)
-	header.pszIcon = MAKEINTRESOURCE(IDI_LOGO_SWGB);
-#elif (GAME == 1)
-	header.pszIcon = MAKEINTRESOURCE(IDI_LOGO_AOK);
-#endif
+	header.pszIcon = MAKEINTRESOURCE(IDI_LOGO);
 	header.pszCaption = szTitle;
 	header.nPages = NUM_PAGES;
 	header.nStartPage = 0;
@@ -888,11 +860,7 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		break;
 
 	case ID_APP_ABOUT:
-#if (GAME == 2)
-		DialogBoxParam(aokts, (LPCSTR)IDD_ABOUT_SWGB, sheet, DefaultDialogProc, 0L);
-#elif (GAME == 1)
-		DialogBoxParam(aokts, (LPCSTR)IDD_ABOUT_AOK, sheet, DefaultDialogProc, 0L);
-#endif
+		DialogBoxParam(aokts, (LPCSTR)IDD_ABOUT, sheet, DefaultDialogProc, 0L);
 		break;
 
 	default:

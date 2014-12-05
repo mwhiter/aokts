@@ -580,7 +580,9 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	    tBrushes.push_back(std::vector<HBRUSH>());
 	    tBrushes[i].reserve(256);
 	    // this messes up the memory when 256
-	    for (j = 0; j < 200; j++)
+	    // need to reduce to 200 for aokts and 190 for swgbts because
+	    // there are about 10 more terrains
+	    for (j = 0; j < 190; j++)
 	    {
 	        hsv = new hsv_t();
             rgb2hsv(parse->ref, hsv);

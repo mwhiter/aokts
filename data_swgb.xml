@@ -2,103 +2,564 @@
 <!DOCTYPE geniedata>
 
 <geniedata>
+<!--
+Tweaked by E/X mantis - Fri 05 Dec 2014 04:20:17 NZDT
+-->
 
-<aitypes>
-<simple id="9" name="Desert" />
-<simple id="10" name="Watermass" />
-<simple id="11" name="Sea" />
-<simple id="12" name="Forest" />
-<simple id="13" name="Shoreline" />
-<simple id="14" name="Landmass" />
-<simple id="16" name="Nova Lake" />
-<simple id="17" name="Fortress" />
-<simple id="18" name="Nova Assault" />
-<simple id="19" name="Precipice" />
-<simple id="20" name="Islands" />
-<simple id="21" name="Space Satellites" />
-<simple id="22" name="Large Sea" />
-<simple id="23" name="Asteroids" />
-<simple id="24" name="Forced Deployment" />
-<simple id="25" name="Rivers" />
-<simple id="26" name="Team Islands" />
-<simple id="27" name="Team Space Satellites" />
-<simple id="29" name="Tundra" />
-<simple id="30" name="Flats" />
-<simple id="31" name="Savannah" />
-<simple id="32" name="Swamp" />
-<simple id="33" name="Arena" />
-<simple id="35" name="Motherlode" />
-<simple id="36" name="Ice Lake" />
-<simple id="37" name="Raiders" />
-</aitypes>
+<techs>
+<tech  id="0" name="TECH-AGE1"/>
+<tech  id="1" name="Tech Level 2"/>
+<tech  id="2" name="Tech Level 3"/>
+<tech  id="3" name="Tech Level 4"/>
+<tech  id="4" name="TECH-POSTAGE4"/>
+<tech  id="5" name="AVAIL-TANIE"/>
+<tech  id="6" name="OPEN-TECH-AGE2"/>
+<tech  id="7" name="OPEN-TECH-AGE3"/>
+<tech  id="8" name="OPEN-TECH-AGE4"/>
+<tech  id="9" name="OPEN-TECH-AGE4"/>
+<tech  id="10" name="MADE-BLDG-BARRIER"/>
+<tech  id="11" name="MADE-BLDG-DEFENSEA"/>
+<tech  id="12" name="MADE-BLDG-DEFENSEB"/>
+<tech  id="13" name="MADE-BLDG-DROPCHOW"/>
+<tech  id="14" name="MADE-BLDG-DROPMIN"/>
+<tech  id="15" name="MADE-BLDG-DROPTIMBER"/>
+<tech  id="16" name="MADE-BLDG-DWELLING"/>
+<tech  id="17" name="MADE-BLDG-ENTRY"/>
+<tech  id="18" name="MADE-BLDG-FENCE"/>
+<tech  id="19" name="MADE-BLDG-FORTRESS"/>
+<tech  id="20" name="MADE-BLDG-GARDEN"/>
+<tech  id="21" name="MADE-BLDG-LOOKOUT"/>
+<tech  id="22" name="MADE-BLDG-MAIN"/>
+<tech  id="23" name="MADE-BLDG-MARVEL"/>
+<tech  id="24" name="MADE-BLDG-TECHA"/>
+<tech  id="25" name="MADE-BLDG-TECHB"/>
+<tech  id="26" name="MADE-BLDG-TRADEPLACE"/>
+<tech  id="27" name="MADE-BLDG-TRAINBOAT"/>
+<tech  id="28" name="MADE-BLDG-TRAINFOOT"/>
+<tech  id="29" name="MADE-BLDG-TRAINHOLY"/>
+<tech  id="30" name="MADE-BLDG-TRAINMOUNT"/>
+<tech  id="31" name="MADE-BLDG-TRAINRANGE"/>
+<tech  id="32" name="MADE-BLDG-TRAINSIEGE"/>
+<tech  id="33" name="Basic Training"/>
+<tech  id="34" name="AVAIL-TANIG"/>
+<tech  id="35" name="AVAIL-TANIN"/>
+<tech  id="36" name="AVAIL-TANIR"/>
+<tech  id="37" name="AVAIL-TANIW"/>
+<tech  id="38" name="AVAIL-TGREE"/>
+<tech  id="39" name="AVAIL-TGREG"/>
+<tech  id="40" name="Hvy Mech Destroyer"/>
+<tech  id="41" name="UPGRADE-UNIT-MH2TF"/>
+<tech  id="42" name="Hvy Strike Mech"/>
+<tech  id="43" name="Trooper"/>
+<tech  id="44" name="Hvy Trooper"/>
+<tech  id="45" name="Hvy A-Air Trooper"/>
+<tech  id="46" name="UPGRADE-UNIT-THMSF"/>
+<tech  id="47" name="AVAIL-TGREN"/>
+<tech  id="48" name="AVAIL-TGRER"/>
+<tech  id="49" name="Hvy A-A Destroyer"/>
+<tech  id="50" name="Hvy Destroyer"/>
+<tech  id="51" name="Adv Cruiser"/>
+<tech  id="52" name="Frigate"/>
+<tech  id="53" name="Adv Frigate"/>
+<tech  id="54" name="AVAIL-TGREW"/>
+<tech  id="55" name="Hvy Mnted Trooper"/>
+<tech  id="56" name="Hvy A-Air Mobile"/>
+<tech  id="57" name="Hvy Artillery"/>
+<tech  id="58" name="UPGRADE-UNIT-HARTF"/>
+<tech  id="59" name="Hvy Pummel"/>
+<tech  id="60" name="UPGRADE-UNIT-HHRMF"/>
+<tech  id="61" name="Holonet Tranceiver"/>
+<tech  id="62" name="Bothan SpyNet"/>
+<tech  id="63" name="Elevation Tracking"/>
+<tech  id="64" name="Light Plating"/>
+<tech  id="65" name="Basic Armor"/>
+<tech  id="66" name="Primary Focus Coils"/>
+<tech  id="67" name="Hvy Armor"/>
+<tech  id="68" name="Hvy Plating"/>
+<tech  id="69" name="Targeting Sensor"/>
+<tech  id="70" name="Enlarged Bomb Hold"/>
+<tech  id="71" name="Flight School"/>
+<tech  id="72" name="Efficient Manufacturing"/>
+<tech  id="73" name="Shield Modifications"/>
+<tech  id="74" name="Cooling Sleeves"/>
+<tech  id="75" name="External Sensor Pod"/>
+<tech  id="76" name="Advanced Flight School"/>
+<tech  id="77" name="Armored Platework"/>
+<tech  id="78" name="Advanced Engines"/>
+<tech  id="79" name="Light Armor"/>
+<tech  id="80" name="Medium Plating"/>
+<tech  id="81" name="Adv Power Pack"/>
+<tech  id="82" name="Stimulants"/>
+<tech  id="83" name="Genetics"/>
+<tech  id="84" name="AVAIL-TRECF"/>
+<tech  id="85" name="AVAIL-TRECE"/>
+<tech  id="86" name="Adv Mnted Trooper"/>
+<tech  id="87" name="AVAIL-TMISF"/>
+<tech  id="88" name="AVAIL-TANIF"/>
+<tech  id="89" name="AVAIL-TGREF"/>
+<tech  id="90" name="Repeater Trooper"/>
+<tech  id="91" name="AVAIL-JFSNF"/>
+<tech  id="92" name="UPGRADE-UNIT-JPADF"/>
+<tech  id="93" name="Sith Knight"/>
+<tech  id="94" name="Sith Master"/>
+<tech  id="95" name="AVAIL-MBIKF"/>
+<tech  id="96" name="AVAIL-M1TRF"/>
+<tech  id="97" name="AVAIL-M2TRF"/>
+<tech  id="98" name="AVAIL-M3TRF"/>
+<tech  id="99" name="Hvy Assault Mech"/>
+<tech  id="100" name="UPGRADE-UNIT-MH3TF"/>
+<tech  id="101" name="AVAIL-HRAMF"/>
+<tech  id="102" name="AVAIL-HLATF"/>
+<tech  id="103" name="AVAIL-HMMLF"/>
+<tech  id="104" name="AVAIL-AFGTF"/>
+<tech  id="105" name="MADE-BLDG-AIRBASE"/>
+<tech  id="106" name="AVAIL-ABOMF"/>
+<tech  id="107" name="Enh Bomber"/>
+<tech  id="108" name="Adv Bomber"/>
+<tech  id="109" name="Fast Fighter"/>
+<tech  id="110" name="Adv Fighter"/>
+<tech  id="111" name="AVAIL-GUNIF"/>
+<tech  id="112" name="AVAIL-GBLCF"/>
+<tech  id="113" name="Hvy Dest Droid"/>
+<tech  id="114" name="AVAIL-TMISE"/>
+<tech  id="115" name="AVAIL-STRNF"/>
+<tech  id="116" name="AVAIL-STRNF"/>
+<tech  id="117" name="AVAIL-SLSTF"/>
+<tech  id="118" name="AVAIL-SLASF"/>
+<tech  id="119" name="AVAIL-SMISF"/>
+<tech  id="120" name="AVAIL-SSSHF"/>
+<tech  id="121" name="AVAIL-SSSHF"/>
+<tech  id="122" name="AVAIL-OCSPF"/>
+<tech  id="123" name="AVAIL-OMEDF"/>
+<tech  id="124" name="AVAIL-TMISG"/>
+<tech  id="125" name="AVAIL-GBNTF"/>
+<tech  id="126" name="Sensor Beacon"/>
+<tech  id="127" name="Cloning"/>
+<tech  id="128" name="Upgraded Motivator"/>
+<tech  id="129" name="Optimized Motivator"/>
+<tech  id="130" name="Sensor Array"/>
+<tech  id="131" name="TECH-CCT-3-SENSARRY"/>
+<tech  id="132" name="Fusion Extractor"/>
+<tech  id="133" name="Self Regeneration"/>
+<tech  id="134" name="Irrigation"/>
+<tech  id="135" name="Harvesting Program"/>
+<tech  id="136" name="Adv Harvesting Program"/>
+<tech  id="137" name="Battle Armor"/>
+<tech  id="138" name="Taxation"/>
+<tech  id="139" name="Attack Programming"/>
+<tech  id="140" name="AVAIL-TMISN"/>
+<tech  id="141" name="Presidium"/>
+<tech  id="142" name="Shielding"/>
+<tech  id="143" name="Berserker Jet Packs"/>
+<tech  id="144" name="Strengthened Frame"/>
+<tech  id="145" name="Creature Training"/>
+<tech  id="146" name="Reinforced Frame"/>
+<tech  id="147" name="Mechanics"/>
+<tech  id="148" name="Forest Vision"/>
+<tech  id="149" name="Nova Beamdrill Mining"/>
+<tech  id="150" name="Hvy Nova Beamdrill"/>
+<tech  id="151" name="Jedi/Sith Agility"/>
+<tech  id="152" name="Jedi/Sith Concentration"/>
+<tech  id="153" name="Jedi/Sith Stamina"/>
+<tech  id="154" name="Jedi/Sith Purge"/>
+<tech  id="155" name="Faith in the Force"/>
+<tech  id="156" name="Force Influence"/>
+<tech  id="157" name="Force Strong"/>
+<tech  id="158" name="Jedi/Sith Perception"/>
+<tech  id="159" name="Jedi/Sith Mind Trick"/>
+<tech  id="160" name="Handheld CarbonExtr"/>
+<tech  id="161" name="Enhanced CarbonExtr"/>
+<tech  id="162" name="Hvy Duty CarbonExtr"/>
+<tech  id="163" name="Upgraded Generator"/>
+<tech  id="164" name="Walker Research"/>
+<tech  id="165" name="TECH-MCH-3E-TRANSPORT"/>
+<tech  id="166" name="Advanced Generator"/>
+<tech  id="167" name="Gungan Creature Armor"/>
+<tech  id="168" name="Advanced Redesign"/>
+<tech  id="169" name="Wookiee Ingenuity"/>
+<tech  id="170" name="Technicians"/>
+<tech  id="171" name="Ore Beamdrill Mining"/>
+<tech  id="172" name="Hvy Ore Beamdrill"/>
+<tech  id="173" name="Durasteel Beams"/>
+<tech  id="174" name="Ion Accu-Accelerator"/>
+<tech  id="175" name="Power Calibrator"/>
+<tech  id="176" name="Rotation Bearings"/>
+<tech  id="177" name="Tracking Computers"/>
+<tech  id="178" name="Homing Sensors"/>
+<tech  id="179" name="Hvy Weapons Engrs"/>
+<tech  id="180" name="Permacite Plating"/>
+<tech  id="181" name="Bacta Tanks"/>
+<tech  id="182" name="TECH-RCT-4-SHLDPROJ"/>
+<tech  id="183" name="Redesigned Specs"/>
+<tech  id="184" name="Advanced Propulsion"/>
+<tech  id="185" name="Redoubled Efforts"/>
+<tech  id="186" name="Adv Scanning Capability"/>
+<tech  id="187" name="Faster Growth Chambers"/>
+<tech  id="188" name="Hutt Endorsement"/>
+<tech  id="189" name="Neimoidian Endorsement"/>
+<tech  id="190" name="Galactic Banking"/>
+<tech  id="191" name="AVAIL-TMISR"/>
+<tech  id="192" name="Insider Trading"/>
+<tech  id="193" name="Galactic Trade Comm"/>
+<tech  id="194" name="Altered Bargains"/>
+<tech  id="195" name="Market Control"/>
+<tech  id="196" name="Droid Assistants"/>
+<tech  id="197" name="MacroBinoculars"/>
+<tech  id="198" name="Lighter Armor"/>
+<tech  id="199" name="Portable Scanners"/>
+<tech  id="200" name="TECH-TCT-3-PORTSCAN"/>
+<tech  id="201" name="FarSeeIn Binoculars"/>
+<tech  id="202" name="Explosive Yields Incrd"/>
+<tech  id="203" name="Integrated Rangefinder"/>
+<tech  id="204" name="Tougher Armor"/>
+<tech  id="205" name="Dexterity"/>
+<tech  id="206" name="Automated Processes"/>
+<tech  id="207" name="MADE-BLDG-DROPILLUM"/>
+<tech  id="208" name="AVAIL-TMISW"/>
+<tech  id="209" name="OPEN-TECH-AGE2B"/>
+<tech  id="210" name="AVAIL-JFSNE"/>
+<tech  id="211" name="AVAIL-JFSNG"/>
+<tech  id="212" name="AVAIL-JFSNN"/>
+<tech  id="213" name="AVAIL-JFSNR"/>
+<tech  id="214" name="AVAIL-JFSNW"/>
+<tech  id="215" name="MADE-BLDG-DROPANIM"/>
+<tech  id="216" name="MADE-BLDG-SHLDGEN"/>
+<tech  id="217" name="UPGRADE-UNIT-JPADE"/>
+<tech  id="218" name="UPGRADE-UNIT-JPADG"/>
+<tech  id="219" name="UPGRADE-UNIT-JPADN"/>
+<tech  id="220" name="UPGRADE-UNIT-JPADR"/>
+<tech  id="221" name="UPGRADE-UNIT-JPADW"/>
+<tech  id="222" name="Sith Knight"/>
+<tech  id="223" name="Jedi Knight"/>
+<tech  id="224" name="Jedi Knight"/>
+<tech  id="225" name="Jedi Knight"/>
+<tech  id="226" name="Jedi Knight"/>
+<tech  id="227" name="Sith Master"/>
+<tech  id="228" name="Jedi Master"/>
+<tech  id="229" name="Jedi Master"/>
+<tech  id="230" name="Jedi Master"/>
+<tech  id="231" name="Jedi Master"/>
+<tech  id="232" name="AVAIL-TRECG"/>
+<tech  id="233" name="AVAIL-TRECN"/>
+<tech  id="234" name="AVAIL-TRECR"/>
+<tech  id="235" name="AVAIL-TRECW"/>
+<tech  id="236" name="Adv Mnted Trooper"/>
+<tech  id="237" name="Adv Mnted Trooper"/>
+<tech  id="238" name="Adv Mnted Trooper"/>
+<tech  id="239" name="Adv Mnted Trooper"/>
+<tech  id="240" name="Adv Mnted Trooper"/>
+<tech  id="241" name="Hvy Mnted Trooper"/>
+<tech  id="242" name="Hvy Mnted Trooper"/>
+<tech  id="243" name="Hvy Mnted Trooper"/>
+<tech  id="244" name="Hvy Mnted Trooper"/>
+<tech  id="245" name="Hvy Mnted Trooper"/>
+<tech  id="246" name="Hvy A-Air Trooper"/>
+<tech  id="247" name="Hvy A-Air Trooper"/>
+<tech  id="248" name="Hvy A-Air Trooper"/>
+<tech  id="249" name="Hvy A-Air Trooper"/>
+<tech  id="250" name="Hvy A-Air Trooper"/>
+<tech  id="251" name="Hvy Trooper"/>
+<tech  id="252" name="Hvy Trooper"/>
+<tech  id="253" name="Hvy Trooper"/>
+<tech  id="254" name="Hvy Trooper"/>
+<tech  id="255" name="Hvy Trooper"/>
+<tech  id="256" name="Repeater Trooper"/>
+<tech  id="257" name="Repeater Trooper"/>
+<tech  id="258" name="Repeater Trooper"/>
+<tech  id="259" name="Repeater Trooper"/>
+<tech  id="260" name="Repeater Trooper"/>
+<tech  id="261" name="Trooper"/>
+<tech  id="262" name="Trooper"/>
+<tech  id="263" name="Trooper"/>
+<tech  id="264" name="Trooper"/>
+<tech  id="265" name="Trooper"/>
+<tech  id="266" name="AVAIL-M1TRE"/>
+<tech  id="267" name="AVAIL-M1TRG"/>
+<tech  id="268" name="AVAIL-M1TRN"/>
+<tech  id="269" name="AVAIL-M1TRR"/>
+<tech  id="270" name="AVAIL-M1TRW"/>
+<tech  id="271" name="AVAIL-M2TRE"/>
+<tech  id="272" name="AVAIL-M2TRG"/>
+<tech  id="273" name="AVAIL-M2TRN"/>
+<tech  id="274" name="AVAIL-M2TRR"/>
+<tech  id="275" name="AVAIL-M2TRW"/>
+<tech  id="276" name="AVAIL-M3TRE"/>
+<tech  id="277" name="AVAIL-M3TRG"/>
+<tech  id="278" name="AVAIL-M3TRN"/>
+<tech  id="279" name="AVAIL-M3TRR"/>
+<tech  id="280" name="AVAIL-M3TRW"/>
+<tech  id="281" name="AVAIL-MBIKE"/>
+<tech  id="282" name="AVAIL-MBIKG"/>
+<tech  id="283" name="AVAIL-MBIKN"/>
+<tech  id="284" name="AVAIL-MBIKR"/>
+<tech  id="285" name="AVAIL-MBIKW"/>
+<tech  id="286" name="AVAIL-MBIKW"/>
+<tech  id="287" name="AVAIL-MBIKW"/>
+<tech  id="288" name="AVAIL-MBIKW"/>
+<tech  id="289" name="AVAIL-MBIKW"/>
+<tech  id="290" name="AVAIL-MBIKW"/>
+<tech  id="291" name="AVAIL-MBIKW"/>
+<tech  id="292" name="AVAIL-MBIKW"/>
+<tech  id="293" name="AVAIL-MBIKW"/>
+<tech  id="294" name="AVAIL-MBIKW"/>
+<tech  id="295" name="AVAIL-MBIKW"/>
+<tech  id="296" name="AVAIL-MBIKW"/>
+<tech  id="297" name="AVAIL-MBIKW"/>
+<tech  id="298" name="AVAIL-MBIKW"/>
+<tech  id="299" name="AVAIL-MBIKW"/>
+<tech  id="300" name="AVAIL-MBIKW"/>
+<tech  id="301" name="Hvy Strike Mech"/>
+<tech  id="302" name="Hvy Strike Mech"/>
+<tech  id="303" name="Hvy Strike Mech"/>
+<tech  id="304" name="Hvy Strike Mech"/>
+<tech  id="305" name="Hvy Strike Mech"/>
+<tech  id="306" name="Hvy Mech Destroyer"/>
+<tech  id="307" name="Hvy Mech Destroyer"/>
+<tech  id="308" name="Hvy Mech Destroyer"/>
+<tech  id="309" name="Hvy Mech Destroyer"/>
+<tech  id="310" name="Hvy Mech Destroyer"/>
+<tech  id="311" name="Hvy Assault Mech"/>
+<tech  id="312" name="Hvy Assault Mech"/>
+<tech  id="313" name="Hvy Assault Mech"/>
+<tech  id="314" name="Hvy Assault Mech"/>
+<tech  id="315" name="Hvy Assault Mech"/>
+<tech  id="316" name="AVAIL-HLATE"/>
+<tech  id="317" name="AVAIL-HLATG"/>
+<tech  id="318" name="AVAIL-HLATN"/>
+<tech  id="319" name="AVAIL-HLATR"/>
+<tech  id="320" name="AVAIL-HLATW"/>
+<tech  id="321" name="AVAIL-HMMLE"/>
+<tech  id="322" name="AVAIL-HMMLG"/>
+<tech  id="323" name="AVAIL-HMMLN"/>
+<tech  id="324" name="AVAIL-HMMLR"/>
+<tech  id="325" name="AVAIL-HMMLW"/>
+<tech  id="326" name="AVAIL-HRAME"/>
+<tech  id="327" name="AVAIL-HRAMG"/>
+<tech  id="328" name="AVAIL-HRAMN"/>
+<tech  id="329" name="AVAIL-HRAMR"/>
+<tech  id="330" name="AVAIL-HRAMW"/>
+<tech  id="331" name="Hvy Artillery"/>
+<tech  id="332" name="Hvy Artillery"/>
+<tech  id="333" name="Hvy Artillery"/>
+<tech  id="334" name="Hvy Artillery"/>
+<tech  id="335" name="Hvy Artillery"/>
+<tech  id="336" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="337" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="338" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="339" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="340" name="UPGRADE-UNIT-HARTW"/>
+<tech  id="341" name="Hvy A-Air Mobile"/>
+<tech  id="342" name="Hvy A-Air Mobile"/>
+<tech  id="343" name="Hvy A-Air Mobile"/>
+<tech  id="344" name="Hvy A-Air Mobile"/>
+<tech  id="345" name="Hvy A-Air Mobile"/>
+<tech  id="346" name="Hvy Pummel"/>
+<tech  id="347" name="Hvy Pummel"/>
+<tech  id="348" name="Hvy Pummel"/>
+<tech  id="349" name="Hvy Pummel"/>
+<tech  id="350" name="Hvy Pummel"/>
+<tech  id="351" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="352" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="353" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="354" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="355" name="UPGRADE-UNIT-HHRMW"/>
+<tech  id="356" name="AVAIL-ABOME"/>
+<tech  id="357" name="AVAIL-ABOMG"/>
+<tech  id="358" name="AVAIL-ABOMN"/>
+<tech  id="359" name="AVAIL-ABOMR"/>
+<tech  id="360" name="AVAIL-ABOMW"/>
+<tech  id="361" name="AVAIL-AFGTE"/>
+<tech  id="362" name="AVAIL-AFGTG"/>
+<tech  id="363" name="AVAIL-AFGTN"/>
+<tech  id="364" name="AVAIL-AFGTR"/>
+<tech  id="365" name="AVAIL-AFGTW"/>
+<tech  id="366" name="Adv Bomber"/>
+<tech  id="367" name="Adv Bomber"/>
+<tech  id="368" name="Adv Bomber"/>
+<tech  id="369" name="Adv Bomber"/>
+<tech  id="370" name="Adv Bomber"/>
+<tech  id="371" name="Adv Fighter"/>
+<tech  id="372" name="Adv Fighter"/>
+<tech  id="373" name="Adv Fighter"/>
+<tech  id="374" name="Adv Fighter"/>
+<tech  id="375" name="Adv Fighter"/>
+<tech  id="376" name="Enh Bomber"/>
+<tech  id="377" name="Enh Bomber"/>
+<tech  id="378" name="Enh Bomber"/>
+<tech  id="379" name="Enh Bomber"/>
+<tech  id="380" name="Enh Bomber"/>
+<tech  id="381" name="Fast Fighter"/>
+<tech  id="382" name="Fast Fighter"/>
+<tech  id="383" name="Fast Fighter"/>
+<tech  id="384" name="Fast Fighter"/>
+<tech  id="385" name="Fast Fighter"/>
+<tech  id="386" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="387" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="388" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="389" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="390" name="UPGRADE-UNIT-AHFTW"/>
+<tech  id="391" name="AVAIL-SLASE"/>
+<tech  id="392" name="AVAIL-SLASG"/>
+<tech  id="393" name="AVAIL-SLASN"/>
+<tech  id="394" name="AVAIL-SLASR"/>
+<tech  id="395" name="AVAIL-SLASW"/>
+<tech  id="396" name="AVAIL-SLSTE"/>
+<tech  id="397" name="AVAIL-SLSTG"/>
+<tech  id="398" name="AVAIL-SLSTN"/>
+<tech  id="399" name="AVAIL-SLSTR"/>
+<tech  id="400" name="AVAIL-SLSTW"/>
+<tech  id="401" name="AVAIL-SMISE"/>
+<tech  id="402" name="AVAIL-SMISG"/>
+<tech  id="403" name="AVAIL-SMISN"/>
+<tech  id="404" name="AVAIL-SMISR"/>
+<tech  id="405" name="AVAIL-SMISW"/>
+<tech  id="406" name="AVAIL-SSSHE"/>
+<tech  id="407" name="AVAIL-SSSHG"/>
+<tech  id="408" name="AVAIL-SSSHN"/>
+<tech  id="409" name="AVAIL-SSSHR"/>
+<tech  id="410" name="AVAIL-SSSHW"/>
+<tech  id="411" name="AVAIL-STRNE"/>
+<tech  id="412" name="AVAIL-STRNG"/>
+<tech  id="413" name="AVAIL-STRNN"/>
+<tech  id="414" name="AVAIL-STRNR"/>
+<tech  id="415" name="AVAIL-STRNW"/>
+<tech  id="416" name="Adv Frigate"/>
+<tech  id="417" name="Adv Frigate"/>
+<tech  id="418" name="Adv Frigate"/>
+<tech  id="419" name="Adv Frigate"/>
+<tech  id="420" name="Adv Frigate"/>
+<tech  id="421" name="Adv Cruiser"/>
+<tech  id="422" name="Adv Cruiser"/>
+<tech  id="423" name="Adv Cruiser"/>
+<tech  id="424" name="Adv Cruiser"/>
+<tech  id="425" name="Adv Cruiser"/>
+<tech  id="426" name="Hvy Destroyer"/>
+<tech  id="427" name="Hvy Destroyer"/>
+<tech  id="428" name="Hvy Destroyer"/>
+<tech  id="429" name="Hvy Destroyer"/>
+<tech  id="430" name="Hvy Destroyer"/>
+<tech  id="431" name="Hvy A-A Destroyer"/>
+<tech  id="432" name="Hvy A-A Destroyer"/>
+<tech  id="433" name="Hvy A-A Destroyer"/>
+<tech  id="434" name="Hvy A-A Destroyer"/>
+<tech  id="435" name="Hvy A-A Destroyer"/>
+<tech  id="436" name="OPEN-TECH-AGE2D"/>
+<tech  id="437" name="OPEN-TECH-AGE2E"/>
+<tech  id="438" name="OPEN-TECH-AGE2F"/>
+<tech  id="439" name="OPEN-TECH-AGE2F"/>
+<tech  id="440" name="OPEN-TECH-AGE2F"/>
+<tech  id="441" name="Frigate"/>
+<tech  id="442" name="Frigate"/>
+<tech  id="443" name="Frigate"/>
+<tech  id="444" name="Frigate"/>
+<tech  id="445" name="Frigate"/>
+<tech  id="446" name="AVAIL-OCSPE"/>
+<tech  id="447" name="Adv Anti-Air Turret"/>
+<tech  id="448" name="UPGRADE-DEFENSEB2"/>
+<tech  id="449" name="UPGRADE-DEFENSEB2"/>
+<tech  id="450" name="UPGRADE-DEFENSEB2"/>
+<tech  id="451" name="AVAIL-OMEDE"/>
+<tech  id="452" name="AVAIL-OMEDG"/>
+<tech  id="453" name="AVAIL-OMEDN"/>
+<tech  id="454" name="AVAIL-OMEDR"/>
+<tech  id="455" name="AVAIL-OMEDW"/>
+<tech  id="456" name="AVAIL-GBLCE"/>
+<tech  id="457" name="AVAIL-GBLCG"/>
+<tech  id="458" name="AVAIL-GBLCN"/>
+<tech  id="459" name="AVAIL-GBLCR"/>
+<tech  id="460" name="AVAIL-GBLCW"/>
+<tech  id="461" name="AVAIL-GBNTE"/>
+<tech  id="462" name="AVAIL-GBNTG"/>
+<tech  id="463" name="AVAIL-GBNTN"/>
+<tech  id="464" name="AVAIL-GBNTR"/>
+<tech  id="465" name="AVAIL-GBNTW"/>
+<tech  id="466" name="AVAIL-GUNIE"/>
+<tech  id="467" name="AVAIL-GUNIG1"/>
+<tech  id="468" name="AVAIL-GUNIG2"/>
+<tech  id="469" name="AVAIL-GUNIN"/>
+<tech  id="470" name="AVAIL-GUNIR"/>
+<tech  id="471" name="AVAIL-GUNIW"/>
+<tech  id="472" name="Dark Trooper 2"/>
+<tech  id="473" name="UPGRADE-UNIT-GEUNE"/>
+<tech  id="474" name="Hvy Fambaa Shld Gen"/>
+<tech  id="475" name="Elite Royal Crusader"/>
+<tech  id="476" name="Armored Airspeeder"/>
+<tech  id="477" name="Adv Berserker"/>
+<tech  id="478" name="AVAIL-DEFENSEA1"/>
+<tech  id="479" name="AVAIL-DEFENSEB1"/>
+<tech  id="480" name="Medium Turret"/>
+<tech  id="481" name="Advanced Turret"/>
+<tech  id="482" name="AVAIL-BARRIER1"/>
+<tech  id="483" name="Hvy Wall"/>
+<tech  id="484" name="Shield Wall"/>
+<tech  id="485" name="UPGRADE-BARRIER3"/>
+<tech  id="486" name="AVAIL-WORKER"/>
+<tech  id="487" name="MADE-BLDG-UDWELLING"/>
+<tech  id="488" name="MADE-BLDG-UDWELLING"/>
+<tech  id="489" name="MADE-BLDG-UDWELLING"/>
+<tech  id="490" name="MADE-BLDG-UDWELLING"/>
+<tech  id="491" name="MADE-BLDG-UDWELLING"/>
+<tech  id="492" name="MADE-BLDG-UDWELLING"/>
+<tech  id="493" name="AVAIL-UDWELLING"/>
+<tech  id="494" name="AVAIL-UDWELLING"/>
+<tech  id="495" name="AVAIL-UDWELLING"/>
+<tech  id="496" name="AVAIL-UDWELLING"/>
+<tech  id="497" name="AVAIL-UDWELLING"/>
+<tech  id="498" name="AVAIL-UDWELLING"/>
+<tech  id="499" name="AVAIL-UDWELLING"/>
+<tech  id="500" name="Jedi/Sith Meditation"/>
+<tech  id="501" name="Bacta Tanks"/>
+<tech  id="502" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="503" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="504" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="505" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="506" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="507" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="508" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="509" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="510" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="511" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="512" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="513" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="514" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="515" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="516" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="517" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="518" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="519" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="520" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="521" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="522" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="523" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="524" name="TECH-CCT-4-BACTATNK"/>
+<tech  id="525" name="AVAIL-TPRBE"/>
+<tech  id="526" name="AVAIL-AATRE"/>
+<tech  id="527" name="AVAIL-AATRF"/>
+<tech  id="528" name="AVAIL-AATRG"/>
+<tech  id="529" name="AVAIL-AATRN"/>
+<tech  id="530" name="AVAIL-AATRR"/>
+<tech  id="531" name="AVAIL-AATRW"/>
+<tech  id="532" name="OPEN-TECH-AGE2C"/>
+<tech  id="533" name="OPEN-TECH-AGE2C"/>
+<tech  id="534" name="OPEN-TECH-AGE2C"/>
+<tech  id="535" name="Grenadier Training"/>
+<tech  id="536" name="TECH-CIV6-UPG3"/>
+</techs>
 
 <pcolors>
-- <!--  player colors. Note that the ref attribute is reverse-order.   --> 
-  <color id="0" name="Blue" color="FF0000" /> 
-  <color id="1" name="Red" color="0000FF" /> 
-  <color id="2" name="Green" color="00FF00" /> 
-  <color id="3" name="Yellow" color="00FFFF" /> 
-  <color id="4" name="Cyan" color="FFFF00" /> 
-  <color id="5" name="Purple" color="FF00FF" /> 
-  <color id="6" name="Grey" color="B9B9B9" /> 
-  <color id="7" name="Orange" color="0182FF" /> 
+<!-- Player colors. Note that the ref attribute is reverse-order. -->
+<color id="0" name="Blue" color="FF3300" />
+<color id="1" name="Red" color="0000FF" />
+<color id="2" name="Green" color="00FF00" />
+<color id="3" name="Yellow" color="00FFFF" />
+<color id="4" name="Cyan" color="FFFF00" />
+<color id="5" name="Purple" color="FF00FF" />
+<color id="6" name="White" color="FFFFFF" />
+<color id="7" name="Orange" color="0077FF" />
+<color id="8" name="Dark Green" color="004400" />
 </pcolors>
 
-<terrains>
-<terrain  id="0" name="GRASS1" color="00a900"/>
-<terrain  id="1" name="WATER1" color="b65d30"/>
-<terrain  id="2" name="SHORE" color="8ac9f8"/>
-<terrain  id="3" name="DIRT3" color="73a9bf"/>
-<terrain  id="4" name="WATERSWAMP" color="4b7374"/>
-<terrain  id="5" name="LEAVES" color="00a900"/>
-<terrain  id="6" name="DIRT1" color="5caaf3"/>
-<terrain  id="7" name="FARM" color="578b8a"/>
-<terrain  id="8" name="FARMDEAD" color="578b8a"/>
-<terrain  id="9" name="GRASS3" color="00a900"/>
-<terrain  id="10" name="TIMBERD" color="397425"/>
-<terrain  id="11" name="DIRT2" color="5caaf3"/>
-<terrain  id="12" name="GRASS2" color="00a900"/>
-<terrain  id="13" name="TIMBERE" color="397425"/>
-<terrain  id="14" name="SAND" color="8ac9f8"/>
-<terrain  id="15" name="WATEROLD" color="ffd2ff"/>
-<terrain  id="16" name="GRASSOLD" color="434343"/>
-<terrain  id="17" name="TIMBERB" color="397425"/>
-<terrain  id="18" name="TIMBERA" color="397425"/>
-<terrain  id="19" name="TIMBERF" color="397425"/>
-<terrain  id="20" name="TIMBERC" color="397425"/>
-<terrain  id="21" name="TIMBERG" color="397425"/>
-<terrain  id="22" name="WATER2" color="a14a00"/>
-<terrain  id="23" name="WATER3" color="873500"/>
-<terrain  id="24" name="PATH1" color="5caaf3"/>
-<terrain  id="25" name="PATH2" color="5caaf3"/>
-<terrain  id="26" name="ICE1" color="7d7354"/>
-<terrain  id="27" name="FOUNDATION" color="73a9bf"/>
-<terrain  id="28" name="WATERIMPASSABLE" color="b65d30"/>
-<terrain  id="29" name="FARMBUILD1" color="578b8a"/>
-<terrain  id="30" name="FARMBUILD2" color="578b8a"/>
-<terrain  id="31" name="FARMBUILD3" color="578b8a"/>
-<terrain  id="32" name="SNOW1" color="00a900"/>
-<terrain  id="33" name="SNOW2" color="00a900"/>
-<terrain  id="34" name="SNOW3" color="00a900"/>
-<terrain  id="35" name="ICE2" color="8ac9f8"/>
-<terrain  id="36" name="FOUNDATIONSNOW" color="00a900"/>
-<terrain  id="37" name="SHOREICE" color="f0c098"/>
-<terrain  id="38" name="PATH3" color="5caaf3"/>
-<terrain  id="39" name="PATH4" color="73a9bf"/>
-<terrain  id="40" name="UNBUILDABLE" color="5caaf3"/>
-<terrain  id="41" name="SNOW-GRASS" color="00a900"/>
-<terrain  id="42" name="ROCK1" color="7d7354"/>
-<terrain  id="43" name="METAL3" color="73a9bf"/>
-<terrain  id="44" name="ROCK2" color="7d7354"/>
-<terrain  id="45" name="SAND-ROCK" color="8ac9f8"/>
-<terrain  id="46" name="SAND2" color="8ac9f8"/>
-<terrain  id="47" name="SNOW-DIRT" color="00a900"/>
-<terrain  id="48" name="FARMG" color="578b8a"/>
-<terrain  id="49" name="METAL CARB" color="ffce97"/>
-<terrain  id="50" name="ROCK CARB" color="ffce97"/>
-</terrains>
-
-<civ id="0" name="Gaia">
+<units>
 <protounit id="2" name="Fambaa Shield Generator" />
 <protounit id="3" name="Fambaa Shield Generator" />
 <protounit id="4" name="Royal Crusader" />
@@ -1301,555 +1762,7 @@
 <protounit id="1456" name="UNIT-LPANN_D" />
 <protounit id="1457" name="UNIT-LMARE_D" />
 <protounit id="1458" name="Gravity Control Generator" />
-</civ>
-<civ id="1" name="Galactic Empire" />
-<civ id="2" name="Gungans" />
-<civ id="3" name="Rebel Alliance" />
-<civ id="4" name="Royal Naboo" />
-<civ id="5" name="Trade Federation" />
-<civ id="6" name="Wookies" />
-<civ id="7" name="Republic" />
-<civ id="8" name="Confederacy" />
-
-<techs>
-<tech  id="0" name="TECH-AGE1"/>
-<tech  id="1" name="Tech Level 2"/>
-<tech  id="2" name="Tech Level 3"/>
-<tech  id="3" name="Tech Level 4"/>
-<tech  id="4" name="TECH-POSTAGE4"/>
-<tech  id="5" name="AVAIL-TANIE"/>
-<tech  id="6" name="OPEN-TECH-AGE2"/>
-<tech  id="7" name="OPEN-TECH-AGE3"/>
-<tech  id="8" name="OPEN-TECH-AGE4"/>
-<tech  id="9" name="OPEN-TECH-AGE4"/>
-<tech  id="10" name="MADE-BLDG-BARRIER"/>
-<tech  id="11" name="MADE-BLDG-DEFENSEA"/>
-<tech  id="12" name="MADE-BLDG-DEFENSEB"/>
-<tech  id="13" name="MADE-BLDG-DROPCHOW"/>
-<tech  id="14" name="MADE-BLDG-DROPMIN"/>
-<tech  id="15" name="MADE-BLDG-DROPTIMBER"/>
-<tech  id="16" name="MADE-BLDG-DWELLING"/>
-<tech  id="17" name="MADE-BLDG-ENTRY"/>
-<tech  id="18" name="MADE-BLDG-FENCE"/>
-<tech  id="19" name="MADE-BLDG-FORTRESS"/>
-<tech  id="20" name="MADE-BLDG-GARDEN"/>
-<tech  id="21" name="MADE-BLDG-LOOKOUT"/>
-<tech  id="22" name="MADE-BLDG-MAIN"/>
-<tech  id="23" name="MADE-BLDG-MARVEL"/>
-<tech  id="24" name="MADE-BLDG-TECHA"/>
-<tech  id="25" name="MADE-BLDG-TECHB"/>
-<tech  id="26" name="MADE-BLDG-TRADEPLACE"/>
-<tech  id="27" name="MADE-BLDG-TRAINBOAT"/>
-<tech  id="28" name="MADE-BLDG-TRAINFOOT"/>
-<tech  id="29" name="MADE-BLDG-TRAINHOLY"/>
-<tech  id="30" name="MADE-BLDG-TRAINMOUNT"/>
-<tech  id="31" name="MADE-BLDG-TRAINRANGE"/>
-<tech  id="32" name="MADE-BLDG-TRAINSIEGE"/>
-<tech  id="33" name="Basic Training"/>
-<tech  id="34" name="AVAIL-TANIG"/>
-<tech  id="35" name="AVAIL-TANIN"/>
-<tech  id="36" name="AVAIL-TANIR"/>
-<tech  id="37" name="AVAIL-TANIW"/>
-<tech  id="38" name="AVAIL-TGREE"/>
-<tech  id="39" name="AVAIL-TGREG"/>
-<tech  id="40" name="Hvy Mech Destroyer"/>
-<tech  id="41" name="UPGRADE-UNIT-MH2TF"/>
-<tech  id="42" name="Hvy Strike Mech"/>
-<tech  id="43" name="Trooper"/>
-<tech  id="44" name="Hvy Trooper"/>
-<tech  id="45" name="Hvy A-Air Trooper"/>
-<tech  id="46" name="UPGRADE-UNIT-THMSF"/>
-<tech  id="47" name="AVAIL-TGREN"/>
-<tech  id="48" name="AVAIL-TGRER"/>
-<tech  id="49" name="Hvy A-A Destroyer"/>
-<tech  id="50" name="Hvy Destroyer"/>
-<tech  id="51" name="Adv Cruiser"/>
-<tech  id="52" name="Frigate"/>
-<tech  id="53" name="Adv Frigate"/>
-<tech  id="54" name="AVAIL-TGREW"/>
-<tech  id="55" name="Hvy Mnted Trooper"/>
-<tech  id="56" name="Hvy A-Air Mobile"/>
-<tech  id="57" name="Hvy Artillery"/>
-<tech  id="58" name="UPGRADE-UNIT-HARTF"/>
-<tech  id="59" name="Hvy Pummel"/>
-<tech  id="60" name="UPGRADE-UNIT-HHRMF"/>
-<tech  id="61" name="Holonet Tranceiver"/>
-<tech  id="62" name="Bothan SpyNet"/>
-<tech  id="63" name="Elevation Tracking"/>
-<tech  id="64" name="Light Plating"/>
-<tech  id="65" name="Basic Armor"/>
-<tech  id="66" name="Primary Focus Coils"/>
-<tech  id="67" name="Hvy Armor"/>
-<tech  id="68" name="Hvy Plating"/>
-<tech  id="69" name="Targeting Sensor"/>
-<tech  id="70" name="Enlarged Bomb Hold"/>
-<tech  id="71" name="Flight School"/>
-<tech  id="72" name="Efficient Manufacturing"/>
-<tech  id="73" name="Shield Modifications"/>
-<tech  id="74" name="Cooling Sleeves"/>
-<tech  id="75" name="External Sensor Pod"/>
-<tech  id="76" name="Advanced Flight School"/>
-<tech  id="77" name="Armored Platework"/>
-<tech  id="78" name="Advanced Engines"/>
-<tech  id="79" name="Light Armor"/>
-<tech  id="80" name="Medium Plating"/>
-<tech  id="81" name="Adv Power Pack"/>
-<tech  id="82" name="Stimulants"/>
-<tech  id="83" name="Genetics"/>
-<tech  id="84" name="AVAIL-TRECF"/>
-<tech  id="85" name="AVAIL-TRECE"/>
-<tech  id="86" name="Adv Mnted Trooper"/>
-<tech  id="87" name="AVAIL-TMISF"/>
-<tech  id="88" name="AVAIL-TANIF"/>
-<tech  id="89" name="AVAIL-TGREF"/>
-<tech  id="90" name="Repeater Trooper"/>
-<tech  id="91" name="AVAIL-JFSNF"/>
-<tech  id="92" name="UPGRADE-UNIT-JPADF"/>
-<tech  id="93" name="Sith Knight"/>
-<tech  id="94" name="Sith Master"/>
-<tech  id="95" name="AVAIL-MBIKF"/>
-<tech  id="96" name="AVAIL-M1TRF"/>
-<tech  id="97" name="AVAIL-M2TRF"/>
-<tech  id="98" name="AVAIL-M3TRF"/>
-<tech  id="99" name="Hvy Assault Mech"/>
-<tech  id="100" name="UPGRADE-UNIT-MH3TF"/>
-<tech  id="101" name="AVAIL-HRAMF"/>
-<tech  id="102" name="AVAIL-HLATF"/>
-<tech  id="103" name="AVAIL-HMMLF"/>
-<tech  id="104" name="AVAIL-AFGTF"/>
-<tech  id="105" name="MADE-BLDG-AIRBASE"/>
-<tech  id="106" name="AVAIL-ABOMF"/>
-<tech  id="107" name="Enh Bomber"/>
-<tech  id="108" name="Adv Bomber"/>
-<tech  id="109" name="Fast Fighter"/>
-<tech  id="110" name="Adv Fighter"/>
-<tech  id="111" name="AVAIL-GUNIF"/>
-<tech  id="112" name="AVAIL-GBLCF"/>
-<tech  id="113" name="Hvy Dest Droid"/>
-<tech  id="114" name="AVAIL-TMISE"/>
-<tech  id="115" name="AVAIL-STRNF"/>
-<tech  id="116" name="AVAIL-STRNF"/>
-<tech  id="117" name="AVAIL-SLSTF"/>
-<tech  id="118" name="AVAIL-SLASF"/>
-<tech  id="119" name="AVAIL-SMISF"/>
-<tech  id="120" name="AVAIL-SSSHF"/>
-<tech  id="121" name="AVAIL-SSSHF"/>
-<tech  id="122" name="AVAIL-OCSPF"/>
-<tech  id="123" name="AVAIL-OMEDF"/>
-<tech  id="124" name="AVAIL-TMISG"/>
-<tech  id="125" name="AVAIL-GBNTF"/>
-<tech  id="126" name="Sensor Beacon"/>
-<tech  id="127" name="Cloning"/>
-<tech  id="128" name="Upgraded Motivator"/>
-<tech  id="129" name="Optimized Motivator"/>
-<tech  id="130" name="Sensor Array"/>
-<tech  id="131" name="TECH-CCT-3-SENSARRY"/>
-<tech  id="132" name="Fusion Extractor"/>
-<tech  id="133" name="Self Regeneration"/>
-<tech  id="134" name="Irrigation"/>
-<tech  id="135" name="Harvesting Program"/>
-<tech  id="136" name="Adv Harvesting Program"/>
-<tech  id="137" name="Battle Armor"/>
-<tech  id="138" name="Taxation"/>
-<tech  id="139" name="Attack Programming"/>
-<tech  id="140" name="AVAIL-TMISN"/>
-<tech  id="141" name="Presidium"/>
-<tech  id="142" name="Shielding"/>
-<tech  id="143" name="Berserker Jet Packs"/>
-<tech  id="144" name="Strengthened Frame"/>
-<tech  id="145" name="Creature Training"/>
-<tech  id="146" name="Reinforced Frame"/>
-<tech  id="147" name="Mechanics"/>
-<tech  id="148" name="Forest Vision"/>
-<tech  id="149" name="Nova Beamdrill Mining"/>
-<tech  id="150" name="Hvy Nova Beamdrill"/>
-<tech  id="151" name="Jedi/Sith Agility"/>
-<tech  id="152" name="Jedi/Sith Concentration"/>
-<tech  id="153" name="Jedi/Sith Stamina"/>
-<tech  id="154" name="Jedi/Sith Purge"/>
-<tech  id="155" name="Faith in the Force"/>
-<tech  id="156" name="Force Influence"/>
-<tech  id="157" name="Force Strong"/>
-<tech  id="158" name="Jedi/Sith Perception"/>
-<tech  id="159" name="Jedi/Sith Mind Trick"/>
-<tech  id="160" name="Handheld CarbonExtr"/>
-<tech  id="161" name="Enhanced CarbonExtr"/>
-<tech  id="162" name="Hvy Duty CarbonExtr"/>
-<tech  id="163" name="Upgraded Generator"/>
-<tech  id="164" name="Walker Research"/>
-<tech  id="165" name="TECH-MCH-3E-TRANSPORT"/>
-<tech  id="166" name="Advanced Generator"/>
-<tech  id="167" name="Gungan Creature Armor"/>
-<tech  id="168" name="Advanced Redesign"/>
-<tech  id="169" name="Wookiee Ingenuity"/>
-<tech  id="170" name="Technicians"/>
-<tech  id="171" name="Ore Beamdrill Mining"/>
-<tech  id="172" name="Hvy Ore Beamdrill"/>
-<tech  id="173" name="Durasteel Beams"/>
-<tech  id="174" name="Ion Accu-Accelerator"/>
-<tech  id="175" name="Power Calibrator"/>
-<tech  id="176" name="Rotation Bearings"/>
-<tech  id="177" name="Tracking Computers"/>
-<tech  id="178" name="Homing Sensors"/>
-<tech  id="179" name="Hvy Weapons Engrs"/>
-<tech  id="180" name="Permacite Plating"/>
-<tech  id="181" name="Bacta Tanks"/>
-<tech  id="182" name="TECH-RCT-4-SHLDPROJ"/>
-<tech  id="183" name="Redesigned Specs"/>
-<tech  id="184" name="Advanced Propulsion"/>
-<tech  id="185" name="Redoubled Efforts"/>
-<tech  id="186" name="Adv Scanning Capability"/>
-<tech  id="187" name="Faster Growth Chambers"/>
-<tech  id="188" name="Hutt Endorsement"/>
-<tech  id="189" name="Neimoidian Endorsement"/>
-<tech  id="190" name="Galactic Banking"/>
-<tech  id="191" name="AVAIL-TMISR"/>
-<tech  id="192" name="Insider Trading"/>
-<tech  id="193" name="Galactic Trade Comm"/>
-<tech  id="194" name="Altered Bargains"/>
-<tech  id="195" name="Market Control"/>
-<tech  id="196" name="Droid Assistants"/>
-<tech  id="197" name="MacroBinoculars"/>
-<tech  id="198" name="Lighter Armor"/>
-<tech  id="199" name="Portable Scanners"/>
-<tech  id="200" name="TECH-TCT-3-PORTSCAN"/>
-<tech  id="201" name="FarSeeIn Binoculars"/>
-<tech  id="202" name="Explosive Yields Incrd"/>
-<tech  id="203" name="Integrated Rangefinder"/>
-<tech  id="204" name="Tougher Armor"/>
-<tech  id="205" name="Dexterity"/>
-<tech  id="206" name="Automated Processes"/>
-<tech  id="207" name="MADE-BLDG-DROPILLUM"/>
-<tech  id="208" name="AVAIL-TMISW"/>
-<tech  id="209" name="OPEN-TECH-AGE2B"/>
-<tech  id="210" name="AVAIL-JFSNE"/>
-<tech  id="211" name="AVAIL-JFSNG"/>
-<tech  id="212" name="AVAIL-JFSNN"/>
-<tech  id="213" name="AVAIL-JFSNR"/>
-<tech  id="214" name="AVAIL-JFSNW"/>
-<tech  id="215" name="MADE-BLDG-DROPANIM"/>
-<tech  id="216" name="MADE-BLDG-SHLDGEN"/>
-<tech  id="217" name="UPGRADE-UNIT-JPADE"/>
-<tech  id="218" name="UPGRADE-UNIT-JPADG"/>
-<tech  id="219" name="UPGRADE-UNIT-JPADN"/>
-<tech  id="220" name="UPGRADE-UNIT-JPADR"/>
-<tech  id="221" name="UPGRADE-UNIT-JPADW"/>
-<tech  id="222" name="Sith Knight"/>
-<tech  id="223" name="Jedi Knight"/>
-<tech  id="224" name="Jedi Knight"/>
-<tech  id="225" name="Jedi Knight"/>
-<tech  id="226" name="Jedi Knight"/>
-<tech  id="227" name="Sith Master"/>
-<tech  id="228" name="Jedi Master"/>
-<tech  id="229" name="Jedi Master"/>
-<tech  id="230" name="Jedi Master"/>
-<tech  id="231" name="Jedi Master"/>
-<tech  id="232" name="AVAIL-TRECG"/>
-<tech  id="233" name="AVAIL-TRECN"/>
-<tech  id="234" name="AVAIL-TRECR"/>
-<tech  id="235" name="AVAIL-TRECW"/>
-<tech  id="236" name="Adv Mnted Trooper"/>
-<tech  id="237" name="Adv Mnted Trooper"/>
-<tech  id="238" name="Adv Mnted Trooper"/>
-<tech  id="239" name="Adv Mnted Trooper"/>
-<tech  id="240" name="Adv Mnted Trooper"/>
-<tech  id="241" name="Hvy Mnted Trooper"/>
-<tech  id="242" name="Hvy Mnted Trooper"/>
-<tech  id="243" name="Hvy Mnted Trooper"/>
-<tech  id="244" name="Hvy Mnted Trooper"/>
-<tech  id="245" name="Hvy Mnted Trooper"/>
-<tech  id="246" name="Hvy A-Air Trooper"/>
-<tech  id="247" name="Hvy A-Air Trooper"/>
-<tech  id="248" name="Hvy A-Air Trooper"/>
-<tech  id="249" name="Hvy A-Air Trooper"/>
-<tech  id="250" name="Hvy A-Air Trooper"/>
-<tech  id="251" name="Hvy Trooper"/>
-<tech  id="252" name="Hvy Trooper"/>
-<tech  id="253" name="Hvy Trooper"/>
-<tech  id="254" name="Hvy Trooper"/>
-<tech  id="255" name="Hvy Trooper"/>
-<tech  id="256" name="Repeater Trooper"/>
-<tech  id="257" name="Repeater Trooper"/>
-<tech  id="258" name="Repeater Trooper"/>
-<tech  id="259" name="Repeater Trooper"/>
-<tech  id="260" name="Repeater Trooper"/>
-<tech  id="261" name="Trooper"/>
-<tech  id="262" name="Trooper"/>
-<tech  id="263" name="Trooper"/>
-<tech  id="264" name="Trooper"/>
-<tech  id="265" name="Trooper"/>
-<tech  id="266" name="AVAIL-M1TRE"/>
-<tech  id="267" name="AVAIL-M1TRG"/>
-<tech  id="268" name="AVAIL-M1TRN"/>
-<tech  id="269" name="AVAIL-M1TRR"/>
-<tech  id="270" name="AVAIL-M1TRW"/>
-<tech  id="271" name="AVAIL-M2TRE"/>
-<tech  id="272" name="AVAIL-M2TRG"/>
-<tech  id="273" name="AVAIL-M2TRN"/>
-<tech  id="274" name="AVAIL-M2TRR"/>
-<tech  id="275" name="AVAIL-M2TRW"/>
-<tech  id="276" name="AVAIL-M3TRE"/>
-<tech  id="277" name="AVAIL-M3TRG"/>
-<tech  id="278" name="AVAIL-M3TRN"/>
-<tech  id="279" name="AVAIL-M3TRR"/>
-<tech  id="280" name="AVAIL-M3TRW"/>
-<tech  id="281" name="AVAIL-MBIKE"/>
-<tech  id="282" name="AVAIL-MBIKG"/>
-<tech  id="283" name="AVAIL-MBIKN"/>
-<tech  id="284" name="AVAIL-MBIKR"/>
-<tech  id="285" name="AVAIL-MBIKW"/>
-<tech  id="286" name="AVAIL-MBIKW"/>
-<tech  id="287" name="AVAIL-MBIKW"/>
-<tech  id="288" name="AVAIL-MBIKW"/>
-<tech  id="289" name="AVAIL-MBIKW"/>
-<tech  id="290" name="AVAIL-MBIKW"/>
-<tech  id="291" name="AVAIL-MBIKW"/>
-<tech  id="292" name="AVAIL-MBIKW"/>
-<tech  id="293" name="AVAIL-MBIKW"/>
-<tech  id="294" name="AVAIL-MBIKW"/>
-<tech  id="295" name="AVAIL-MBIKW"/>
-<tech  id="296" name="AVAIL-MBIKW"/>
-<tech  id="297" name="AVAIL-MBIKW"/>
-<tech  id="298" name="AVAIL-MBIKW"/>
-<tech  id="299" name="AVAIL-MBIKW"/>
-<tech  id="300" name="AVAIL-MBIKW"/>
-<tech  id="301" name="Hvy Strike Mech"/>
-<tech  id="302" name="Hvy Strike Mech"/>
-<tech  id="303" name="Hvy Strike Mech"/>
-<tech  id="304" name="Hvy Strike Mech"/>
-<tech  id="305" name="Hvy Strike Mech"/>
-<tech  id="306" name="Hvy Mech Destroyer"/>
-<tech  id="307" name="Hvy Mech Destroyer"/>
-<tech  id="308" name="Hvy Mech Destroyer"/>
-<tech  id="309" name="Hvy Mech Destroyer"/>
-<tech  id="310" name="Hvy Mech Destroyer"/>
-<tech  id="311" name="Hvy Assault Mech"/>
-<tech  id="312" name="Hvy Assault Mech"/>
-<tech  id="313" name="Hvy Assault Mech"/>
-<tech  id="314" name="Hvy Assault Mech"/>
-<tech  id="315" name="Hvy Assault Mech"/>
-<tech  id="316" name="AVAIL-HLATE"/>
-<tech  id="317" name="AVAIL-HLATG"/>
-<tech  id="318" name="AVAIL-HLATN"/>
-<tech  id="319" name="AVAIL-HLATR"/>
-<tech  id="320" name="AVAIL-HLATW"/>
-<tech  id="321" name="AVAIL-HMMLE"/>
-<tech  id="322" name="AVAIL-HMMLG"/>
-<tech  id="323" name="AVAIL-HMMLN"/>
-<tech  id="324" name="AVAIL-HMMLR"/>
-<tech  id="325" name="AVAIL-HMMLW"/>
-<tech  id="326" name="AVAIL-HRAME"/>
-<tech  id="327" name="AVAIL-HRAMG"/>
-<tech  id="328" name="AVAIL-HRAMN"/>
-<tech  id="329" name="AVAIL-HRAMR"/>
-<tech  id="330" name="AVAIL-HRAMW"/>
-<tech  id="331" name="Hvy Artillery"/>
-<tech  id="332" name="Hvy Artillery"/>
-<tech  id="333" name="Hvy Artillery"/>
-<tech  id="334" name="Hvy Artillery"/>
-<tech  id="335" name="Hvy Artillery"/>
-<tech  id="336" name="UPGRADE-UNIT-HARTW"/>
-<tech  id="337" name="UPGRADE-UNIT-HARTW"/>
-<tech  id="338" name="UPGRADE-UNIT-HARTW"/>
-<tech  id="339" name="UPGRADE-UNIT-HARTW"/>
-<tech  id="340" name="UPGRADE-UNIT-HARTW"/>
-<tech  id="341" name="Hvy A-Air Mobile"/>
-<tech  id="342" name="Hvy A-Air Mobile"/>
-<tech  id="343" name="Hvy A-Air Mobile"/>
-<tech  id="344" name="Hvy A-Air Mobile"/>
-<tech  id="345" name="Hvy A-Air Mobile"/>
-<tech  id="346" name="Hvy Pummel"/>
-<tech  id="347" name="Hvy Pummel"/>
-<tech  id="348" name="Hvy Pummel"/>
-<tech  id="349" name="Hvy Pummel"/>
-<tech  id="350" name="Hvy Pummel"/>
-<tech  id="351" name="UPGRADE-UNIT-HHRMW"/>
-<tech  id="352" name="UPGRADE-UNIT-HHRMW"/>
-<tech  id="353" name="UPGRADE-UNIT-HHRMW"/>
-<tech  id="354" name="UPGRADE-UNIT-HHRMW"/>
-<tech  id="355" name="UPGRADE-UNIT-HHRMW"/>
-<tech  id="356" name="AVAIL-ABOME"/>
-<tech  id="357" name="AVAIL-ABOMG"/>
-<tech  id="358" name="AVAIL-ABOMN"/>
-<tech  id="359" name="AVAIL-ABOMR"/>
-<tech  id="360" name="AVAIL-ABOMW"/>
-<tech  id="361" name="AVAIL-AFGTE"/>
-<tech  id="362" name="AVAIL-AFGTG"/>
-<tech  id="363" name="AVAIL-AFGTN"/>
-<tech  id="364" name="AVAIL-AFGTR"/>
-<tech  id="365" name="AVAIL-AFGTW"/>
-<tech  id="366" name="Adv Bomber"/>
-<tech  id="367" name="Adv Bomber"/>
-<tech  id="368" name="Adv Bomber"/>
-<tech  id="369" name="Adv Bomber"/>
-<tech  id="370" name="Adv Bomber"/>
-<tech  id="371" name="Adv Fighter"/>
-<tech  id="372" name="Adv Fighter"/>
-<tech  id="373" name="Adv Fighter"/>
-<tech  id="374" name="Adv Fighter"/>
-<tech  id="375" name="Adv Fighter"/>
-<tech  id="376" name="Enh Bomber"/>
-<tech  id="377" name="Enh Bomber"/>
-<tech  id="378" name="Enh Bomber"/>
-<tech  id="379" name="Enh Bomber"/>
-<tech  id="380" name="Enh Bomber"/>
-<tech  id="381" name="Fast Fighter"/>
-<tech  id="382" name="Fast Fighter"/>
-<tech  id="383" name="Fast Fighter"/>
-<tech  id="384" name="Fast Fighter"/>
-<tech  id="385" name="Fast Fighter"/>
-<tech  id="386" name="UPGRADE-UNIT-AHFTW"/>
-<tech  id="387" name="UPGRADE-UNIT-AHFTW"/>
-<tech  id="388" name="UPGRADE-UNIT-AHFTW"/>
-<tech  id="389" name="UPGRADE-UNIT-AHFTW"/>
-<tech  id="390" name="UPGRADE-UNIT-AHFTW"/>
-<tech  id="391" name="AVAIL-SLASE"/>
-<tech  id="392" name="AVAIL-SLASG"/>
-<tech  id="393" name="AVAIL-SLASN"/>
-<tech  id="394" name="AVAIL-SLASR"/>
-<tech  id="395" name="AVAIL-SLASW"/>
-<tech  id="396" name="AVAIL-SLSTE"/>
-<tech  id="397" name="AVAIL-SLSTG"/>
-<tech  id="398" name="AVAIL-SLSTN"/>
-<tech  id="399" name="AVAIL-SLSTR"/>
-<tech  id="400" name="AVAIL-SLSTW"/>
-<tech  id="401" name="AVAIL-SMISE"/>
-<tech  id="402" name="AVAIL-SMISG"/>
-<tech  id="403" name="AVAIL-SMISN"/>
-<tech  id="404" name="AVAIL-SMISR"/>
-<tech  id="405" name="AVAIL-SMISW"/>
-<tech  id="406" name="AVAIL-SSSHE"/>
-<tech  id="407" name="AVAIL-SSSHG"/>
-<tech  id="408" name="AVAIL-SSSHN"/>
-<tech  id="409" name="AVAIL-SSSHR"/>
-<tech  id="410" name="AVAIL-SSSHW"/>
-<tech  id="411" name="AVAIL-STRNE"/>
-<tech  id="412" name="AVAIL-STRNG"/>
-<tech  id="413" name="AVAIL-STRNN"/>
-<tech  id="414" name="AVAIL-STRNR"/>
-<tech  id="415" name="AVAIL-STRNW"/>
-<tech  id="416" name="Adv Frigate"/>
-<tech  id="417" name="Adv Frigate"/>
-<tech  id="418" name="Adv Frigate"/>
-<tech  id="419" name="Adv Frigate"/>
-<tech  id="420" name="Adv Frigate"/>
-<tech  id="421" name="Adv Cruiser"/>
-<tech  id="422" name="Adv Cruiser"/>
-<tech  id="423" name="Adv Cruiser"/>
-<tech  id="424" name="Adv Cruiser"/>
-<tech  id="425" name="Adv Cruiser"/>
-<tech  id="426" name="Hvy Destroyer"/>
-<tech  id="427" name="Hvy Destroyer"/>
-<tech  id="428" name="Hvy Destroyer"/>
-<tech  id="429" name="Hvy Destroyer"/>
-<tech  id="430" name="Hvy Destroyer"/>
-<tech  id="431" name="Hvy A-A Destroyer"/>
-<tech  id="432" name="Hvy A-A Destroyer"/>
-<tech  id="433" name="Hvy A-A Destroyer"/>
-<tech  id="434" name="Hvy A-A Destroyer"/>
-<tech  id="435" name="Hvy A-A Destroyer"/>
-<tech  id="436" name="OPEN-TECH-AGE2D"/>
-<tech  id="437" name="OPEN-TECH-AGE2E"/>
-<tech  id="438" name="OPEN-TECH-AGE2F"/>
-<tech  id="439" name="OPEN-TECH-AGE2F"/>
-<tech  id="440" name="OPEN-TECH-AGE2F"/>
-<tech  id="441" name="Frigate"/>
-<tech  id="442" name="Frigate"/>
-<tech  id="443" name="Frigate"/>
-<tech  id="444" name="Frigate"/>
-<tech  id="445" name="Frigate"/>
-<tech  id="446" name="AVAIL-OCSPE"/>
-<tech  id="447" name="Adv Anti-Air Turret"/>
-<tech  id="448" name="UPGRADE-DEFENSEB2"/>
-<tech  id="449" name="UPGRADE-DEFENSEB2"/>
-<tech  id="450" name="UPGRADE-DEFENSEB2"/>
-<tech  id="451" name="AVAIL-OMEDE"/>
-<tech  id="452" name="AVAIL-OMEDG"/>
-<tech  id="453" name="AVAIL-OMEDN"/>
-<tech  id="454" name="AVAIL-OMEDR"/>
-<tech  id="455" name="AVAIL-OMEDW"/>
-<tech  id="456" name="AVAIL-GBLCE"/>
-<tech  id="457" name="AVAIL-GBLCG"/>
-<tech  id="458" name="AVAIL-GBLCN"/>
-<tech  id="459" name="AVAIL-GBLCR"/>
-<tech  id="460" name="AVAIL-GBLCW"/>
-<tech  id="461" name="AVAIL-GBNTE"/>
-<tech  id="462" name="AVAIL-GBNTG"/>
-<tech  id="463" name="AVAIL-GBNTN"/>
-<tech  id="464" name="AVAIL-GBNTR"/>
-<tech  id="465" name="AVAIL-GBNTW"/>
-<tech  id="466" name="AVAIL-GUNIE"/>
-<tech  id="467" name="AVAIL-GUNIG1"/>
-<tech  id="468" name="AVAIL-GUNIG2"/>
-<tech  id="469" name="AVAIL-GUNIN"/>
-<tech  id="470" name="AVAIL-GUNIR"/>
-<tech  id="471" name="AVAIL-GUNIW"/>
-<tech  id="472" name="Dark Trooper 2"/>
-<tech  id="473" name="UPGRADE-UNIT-GEUNE"/>
-<tech  id="474" name="Hvy Fambaa Shld Gen"/>
-<tech  id="475" name="Elite Royal Crusader"/>
-<tech  id="476" name="Armored Airspeeder"/>
-<tech  id="477" name="Adv Berserker"/>
-<tech  id="478" name="AVAIL-DEFENSEA1"/>
-<tech  id="479" name="AVAIL-DEFENSEB1"/>
-<tech  id="480" name="Medium Turret"/>
-<tech  id="481" name="Advanced Turret"/>
-<tech  id="482" name="AVAIL-BARRIER1"/>
-<tech  id="483" name="Hvy Wall"/>
-<tech  id="484" name="Shield Wall"/>
-<tech  id="485" name="UPGRADE-BARRIER3"/>
-<tech  id="486" name="AVAIL-WORKER"/>
-<tech  id="487" name="MADE-BLDG-UDWELLING"/>
-<tech  id="488" name="MADE-BLDG-UDWELLING"/>
-<tech  id="489" name="MADE-BLDG-UDWELLING"/>
-<tech  id="490" name="MADE-BLDG-UDWELLING"/>
-<tech  id="491" name="MADE-BLDG-UDWELLING"/>
-<tech  id="492" name="MADE-BLDG-UDWELLING"/>
-<tech  id="493" name="AVAIL-UDWELLING"/>
-<tech  id="494" name="AVAIL-UDWELLING"/>
-<tech  id="495" name="AVAIL-UDWELLING"/>
-<tech  id="496" name="AVAIL-UDWELLING"/>
-<tech  id="497" name="AVAIL-UDWELLING"/>
-<tech  id="498" name="AVAIL-UDWELLING"/>
-<tech  id="499" name="AVAIL-UDWELLING"/>
-<tech  id="500" name="Jedi/Sith Meditation"/>
-<tech  id="501" name="Bacta Tanks"/>
-<tech  id="502" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="503" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="504" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="505" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="506" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="507" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="508" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="509" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="510" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="511" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="512" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="513" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="514" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="515" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="516" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="517" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="518" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="519" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="520" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="521" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="522" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="523" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="524" name="TECH-CCT-4-BACTATNK"/>
-<tech  id="525" name="AVAIL-TPRBE"/>
-<tech  id="526" name="AVAIL-AATRE"/>
-<tech  id="527" name="AVAIL-AATRF"/>
-<tech  id="528" name="AVAIL-AATRG"/>
-<tech  id="529" name="AVAIL-AATRN"/>
-<tech  id="530" name="AVAIL-AATRR"/>
-<tech  id="531" name="AVAIL-AATRW"/>
-<tech  id="532" name="OPEN-TECH-AGE2C"/>
-<tech  id="533" name="OPEN-TECH-AGE2C"/>
-<tech  id="534" name="OPEN-TECH-AGE2C"/>
-<tech  id="535" name="Grenadier Training"/>
-<tech  id="536" name="TECH-CIV6-UPG3"/>
-</techs>
+</units>
 
 <resources>
 <simple id="0" name="Food" />
@@ -1873,5 +1786,108 @@
 <simple id="203" name="Misc Counter 4" />
 <simple id="204" name="Misc Counter 5" />
 </resources>
+
+<aitypes>
+<simple id="9" name="Desert" />
+<simple id="10" name="Watermass" />
+<simple id="11" name="Sea" />
+<simple id="12" name="Forest" />
+<simple id="13" name="Shoreline" />
+<simple id="14" name="Landmass" />
+<simple id="16" name="Nova Lake" />
+<simple id="17" name="Fortress" />
+<simple id="18" name="Nova Assault" />
+<simple id="19" name="Precipice" />
+<simple id="20" name="Islands" />
+<simple id="21" name="Space Satellites" />
+<simple id="22" name="Large Sea" />
+<simple id="23" name="Asteroids" />
+<simple id="24" name="Forced Deployment" />
+<simple id="25" name="Rivers" />
+<simple id="26" name="Team Islands" />
+<simple id="27" name="Team Space Satellites" />
+<simple id="29" name="Tundra" />
+<simple id="30" name="Flats" />
+<simple id="31" name="Savannah" />
+<simple id="32" name="Swamp" />
+<simple id="33" name="Arena" />
+<simple id="35" name="Motherlode" />
+<simple id="36" name="Ice Lake" />
+<simple id="37" name="Raiders" />
+</aitypes>
+
+<terrains>
+<terrain id="0" color="00a900" name="GRASS1" />
+<terrain id="1" color="b65d30" name="WATER1" />
+<terrain id="2" color="8ac9f8" name="SHORE" />
+<terrain id="3" color="73a9bf" name="DIRT3" />
+<terrain id="4" color="4b7374" name="WATERSWAMP" />
+<terrain id="5" color="00a900" name="LEAVES" />
+<terrain id="6" color="5caaf3" name="DIRT1" />
+<terrain id="7" color="578b8a" name="FARM" />
+<terrain id="8" color="578b8a" name="FARMDEAD" />
+<terrain id="9" color="00a900" name="GRASS3" />
+<terrain id="10" color="397425" name="TIMBERD" />
+<terrain id="11" color="5caaf3" name="DIRT2" />
+<terrain id="12" color="00a900" name="GRASS2" />
+<terrain id="13" color="397425" name="TIMBERE" />
+<terrain id="14" color="8ac9f8" name="SAND" />
+<terrain id="15" color="ffd2ff" name="WATEROLD" />
+<terrain id="16" color="434343" name="GRASSOLD" />
+<terrain id="17" color="397425" name="TIMBERB" />
+<terrain id="18" color="397425" name="TIMBERA" />
+<terrain id="19" color="397425" name="TIMBERF" />
+<terrain id="20" color="397425" name="TIMBERC" />
+<terrain id="21" color="397425" name="TIMBERG" />
+<terrain id="22" color="a14a00" name="WATER2" />
+<terrain id="23" color="873500" name="WATER3" />
+<terrain id="24" color="5caaf3" name="PATH1" />
+<terrain id="25" color="5caaf3" name="PATH2" />
+<terrain id="26" color="7d7354" name="ICE1" />
+<terrain id="27" color="73a9bf" name="FOUNDATION" />
+<terrain id="28" color="b65d30" name="WATERIMPASSABLE" />
+<terrain id="29" color="578b8a" name="FARMBUILD1" />
+<terrain id="30" color="578b8a" name="FARMBUILD2" />
+<terrain id="31" color="578b8a" name="FARMBUILD3" />
+<terrain id="32" color="00a900" name="SNOW1" />
+<terrain id="33" color="00a900" name="SNOW2" />
+<terrain id="34" color="00a900" name="SNOW3" />
+<terrain id="35" color="8ac9f8" name="ICE2" />
+<terrain id="36" color="00a900" name="FOUNDATIONSNOW" />
+<terrain id="37" color="f0c098" name="SHOREICE" />
+<terrain id="38" color="5caaf3" name="PATH3" />
+<terrain id="39" color="73a9bf" name="PATH4" />
+<terrain id="40" color="5caaf3" name="UNBUILDABLE" />
+<terrain id="41" color="00a900" name="SNOW-GRASS" />
+<terrain id="42" color="7d7354" name="ROCK1" />
+<terrain id="43" color="73a9bf" name="METAL3" />
+<terrain id="44" color="7d7354" name="ROCK2" />
+<terrain id="45" color="8ac9f8" name="SAND-ROCK" />
+<terrain id="46" color="8ac9f8" name="SAND2" />
+<terrain id="47" color="00a900" name="SNOW-DIRT" />
+<terrain id="48" color="578b8a" name="FARMG" />
+<terrain id="49" color="ffce97" name="METAL CARB" />
+<terrain id="50" color="ffce97" name="ROCK CARB" />
+</terrains>
+
+<!-- The following are custom unit groups. They have no effect on the saved scenario,
+     just the editor itself. Feel free to add some more if you like. Also, make sure
+     this is after the specifications of the units themselves. -->
+<unitgroups>
+<group name="Test"
+	units="4,5" />
+</unitgroups>
+
+<civs>
+<civ id="0" name="Gaia" />
+<civ id="1" name="Galactic Empire" />
+<civ id="2" name="Gungans" />
+<civ id="3" name="Rebel Alliance" />
+<civ id="4" name="Royal Naboo" />
+<civ id="5" name="Trade Federation" />
+<civ id="6" name="Wookies" />
+<civ id="7" name="Republic" />
+<civ id="8" name="Confederacy" />
+</civs>
 
 </geniedata>

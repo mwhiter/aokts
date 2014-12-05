@@ -577,24 +577,15 @@ WS - Work Speed
 
 <pcolors>
 <!-- Player colors. Note that the ref attribute is reverse-order. -->
-<color id="0" name="Blue"
-	color="FF3300" />
-<color id="1" name="Red"
-	color="0000FF" />
-<color id="2" name="Green"
-	color="00FF00" />
-<color id="3" name="Yellow"
-	color="00FFFF" />
-<color id="4" name="Cyan"
-	color="FFFF00" />
-<color id="5" name="Purple"
-	color="FF00FF" />
-<color id="6" name="White"
-	color="FFFFFF" />
-<color id="7" name="Orange"
-	color="0077FF" />
-<color id="8" name="Dark Green"
-	color="004400" />
+<color id="0" name="Blue" color="FF3300" />
+<color id="1" name="Red" color="0000FF" />
+<color id="2" name="Green" color="00FF00" />
+<color id="3" name="Yellow" color="00FFFF" />
+<color id="4" name="Cyan" color="FFFF00" />
+<color id="5" name="Purple" color="FF00FF" />
+<color id="6" name="White" color="FFFFFF" />
+<color id="7" name="Orange" color="0077FF" />
+<color id="8" name="Dark Green" color="004400" />
 </pcolors>
 
 <units>
@@ -1498,7 +1489,6 @@ WS - Work Speed
 <protounit id="897" name="Camel 2" />
 <protounit id="898" name="Camel 2, D" />
 <protounit id="899" name="Arch of Constantine" />
-
 <protounit id="904" name="Wooden Bridge A Top" />
 <protounit id="905" name="Wooden Bridge A Middle" />
 <protounit id="906" name="Wooden Bridge A Bottom" />

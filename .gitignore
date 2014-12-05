@@ -1,5 +1,7 @@
 *.obj
 Release
+Debug
+SWGB Release
 *.log
 *.ncb
 *.pdb
@@ -7,3 +9,7 @@ Release
 *.exe
 *.user
 *.aps
+*.suo
+aokts.vcxproj
+aokts.vcxproj.filters
+UpgradeLog.XML

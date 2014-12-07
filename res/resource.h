@@ -10,7 +10,7 @@
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0 Alpha 6"
+#define VER_STRING "1.2.0 Alpha 8"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -44,9 +44,9 @@
 #define IDD_TERRAIN			115
 #define IDD_UNITS			116
 #define IDD_TRIGGERS		117
+#define IDD_COMPATIBILITY   118
 #define IDD_EFFECT			119
 #define IDD_COND			120
-#define IDD_COMPATIBILITY   121
 
 /* Bitmaps */
 #define IDB_GOOD			200
@@ -231,11 +231,12 @@
 #define IDC_T_DEST              1222
 #define IDC_T_MOVE              1223
 #define IDC_T_DELETE            1224
-#define IDC_T_HIDENAMES         1225
-#define IDC_T_TOAOFE            1226
-#define IDC_T_TO1C              1227
-#define IDC_T_TOUP              1228
-#define IDC_T_TOHD              1229
+#define IDC_T_DUPRANGE          1225
+#define IDC_T_HIDENAMES         1226
+#define IDC_T_TOAOFE            1227
+#define IDC_T_TO1C              1228
+#define IDC_T_TOUP              1229
+#define IDC_T_TOHD              1230
 
 /* Condition Controls */
 #define IDC_C_TYPE				1900
@@ -260,6 +261,7 @@
 #define IDC_C_USEL1             1917
 #define IDC_C_USEL2             1918
 #define IDC_C_AREA_ALL          1919
+#define IDC_C_CLEAR  	    	1920
 
 /* Effect Controls */
 #define IDC_E_TYPE				1800
@@ -293,6 +295,9 @@
 #define IDC_E_OPENSEL			1827
 #define IDC_E_OPENSEL2			1828
 #define IDC_E_AREA_ALL			1829
+#define IDC_E_TRIGID   			1830
+#define IDC_E_UCNSTID	    	1831
+#define IDC_E_CLEAR  	    	1832
 
 /* Unit Selection Controls */
 #define IDC_US_UNITS			1700

@@ -146,6 +146,14 @@ class Scenario
 	int write_data(const char *path);
 
 public:
+	const PerVersion *perversion;	//yes, I know that's a word. :-P
+
+	static const PerVersion pv1_18;
+	static const PerVersion pv1_21;
+	static const PerVersion pv1_22;
+	static const PerVersion pv1_23;
+	static const PerVersion pv1_30;
+
 	Scenario();
 	~Scenario();
 	static char StandardAI[];

@@ -12,20 +12,11 @@
 #include "settings.h"
 #include <stdio.h>
 
-/* Game-dependent settings */
-#if (GAME == 2)
+const char *regkey_swgb = "SOFTWARE\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0";
+const char *regval_swgb = "Install Path";
 
-const char *regkey =
-"SOFTWARE\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0";
-const char *regval = "Install Path";
-
-#elif (GAME == 1)
-
-const char *regkey =
-"SOFTWARE\\Microsoft\\Microsoft Games\\Age of Empires\\2.0";
-const char *regval = "InstallationDirectory";
-
-#endif
+const char *regkey_aok = "SOFTWARE\\Microsoft\\Microsoft Games\\Age of Empires\\2.0";
+const char *regval_aok = "InstallationDirectory";
 
 Setts::Setts()
 :	recent_used(0)
@@ -40,24 +31,22 @@ Setts::~Setts()
 bool Setts::load()
 {
 	LONG result;
-	HKEY key;
+	//HKEY key;
 	DWORD size = sizeof(BasePath);
 	char buffer[_MAX_PATH];
 
 	GetCurrentDirectory(_MAX_PATH, path);
 	strcat(path, "\\aokts.ini");
 
-	result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, regkey, 0, KEY_READ, &key);
+	/* result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, regkey, 0, KEY_READ, &key);
 	if (result == ERROR_SUCCESS)
 	{
 		result = RegQueryValueEx(key, regval, NULL, NULL, (BYTE*)BasePath, &size);
 		RegCloseKey(key);
-#if (GAME == 1)
-		strcat(BasePath, "\\");
-#elif (GAME == 2)
-		strcat(BasePath, "\\Game\\");
-#endif
-	}
+		strcat(BasePath, "\\"); // aok
+		//strcat(BasePath, "\\Game\\"); //swgb
+	} */
+    result = ERROR_SUCCESS;
 
 	/* [Decompressed] */
 	GetCurrentDirectory(_MAX_PATH, TempPath);

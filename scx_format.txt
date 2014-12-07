@@ -95,7 +95,7 @@ Length | MinVer | Description
 ---------------------------------------------------------------------
 c4     |        | Version (ASCII): 1.10, 1.18, 1.21
 u32    |        | Length of header (excluding version and self)
-                  Gseless for now; it was only useful in very early
+                  Useless for now; it was only useful in very early
                   pre-alpha scenarios so as to skip the instructions and
                   deflate the scenario.
 s32    |        | Unknown cosntant = 2

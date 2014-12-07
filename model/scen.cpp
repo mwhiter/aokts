@@ -27,6 +27,44 @@ using std::vector;
 /* some options */
 #define BMP_READ_HACK
 
+/* See scen_const.h
+struct PerVersion
+{
+	int messages_count;
+	bool mstrings;
+	int max_disables1; // max disable tech and unit
+	int max_disables2; // max disable buildings
+}; */
+
+/* PerVersions */
+const PerVersion Scenario::pv1_18 =
+{
+	5,
+	true,
+	30, 20
+};
+
+const PerVersion Scenario::pv1_22 =
+{
+	6,
+	true,
+	30, 20
+};
+
+const PerVersion Scenario::pv1_23 =
+{
+	6,
+	true,
+	30, 20
+};
+
+const PerVersion Scenario::pv1_30 =
+{
+	6,
+	true,
+	60, 60
+};
+
 /* The Scenario */
 
 #define SMSG	" For stability\'s sake, I must discontinue reading the scenario." \
@@ -39,15 +77,6 @@ const char e_mem[]	= "I ran out of memory. This probably means "\
 const char e_zver[]	= "Your version of zlib1.dll is incompatible. I need at least %s. ";
 const char e_digit[]	= "Oops, my programmer (David Tombs) made an error.\nProblem: %s" SMSG;
 const char e_bitmap[]	= "Sorry, the bitmap data in this scenario appears incomplete." SMSG;
-
-/* Game-specific settings */
-#if (GAME == 1)
-#define PLAYER_POP_UNREAD_COUNT 6
-
-#elif (GAME == 2)
-#define PLAYER_POP_UNREAD_COUNT 5
-
-#endif
 
 inline int myround(float n)
 {
@@ -78,6 +107,9 @@ void Scenario::reset()
 
 	/* "Blank" scenario */
 	strcpy(header.version, "1.21");
+
+	perversion = &pv1_22; // no disables dialog doesn't crash
+
 	next_uid = 0;
 	version2 = 1.22F;
 	memset(origname, 0, sizeof(origname));
@@ -474,7 +506,7 @@ void Scenario::_header::reset()
 
 void Scenario::read_data(const char *path)	//decompressed data
 {
-	int i, messages_count = 6;
+	int i;
 	Player *p;
 
 	printf("Read decompressed data file %s...\n", path);
@@ -485,21 +517,31 @@ void Scenario::read_data(const char *path)	//decompressed data
 	readbin(dc2in.get(), &next_uid);
 	readbin(dc2in.get(), &version2);
 
+	if (setts.intense)
+		printf("Debug 1.\n");
+
 	switch (myround(version2 * 100))
 	{
 	case 118:
+	case 119:
+	case 120:
+	case 121:
+		perversion = &pv1_18;
 		ver2 = SV2_AOE2;
 		break;
 
 	case 122:
+		perversion = &pv1_22;
 		ver2 = SV2_AOE2TC;
 		break;
 
 	case 123:
+		perversion = &pv1_23;
 		ver2 = SV2_AOE2TF;
 		break;
 
 	case 130:
+		perversion = &pv1_30;
 		ver2 = SV2_SWGB;
 		break;
 
@@ -520,6 +562,9 @@ void Scenario::read_data(const char *path)	//decompressed data
 	FEP(p)
 		p->read_data1(dc2in.get());
 
+	if (setts.intense)
+		printf("Debug 2.\n");
+
 	readbin(dc2in.get(), &unknown);
 	readunk(dc2in.get(), (char)0, "post-PlayerData1 char");
 	readunk(dc2in.get(), -1.0F, "unknown3");
@@ -527,12 +572,10 @@ void Scenario::read_data(const char *path)	//decompressed data
 	readcs<unsigned short>(dc2in.get(), origname, sizeof(origname));
 
 	/* Messages & Cinematics */
-	if (ver2 == SV2_AOE2)
-		messages_count--;
+	if (perversion->mstrings)
+		fread(mstrings, sizeof(long), perversion->messages_count, dc2in.get());
 
-	fread(mstrings, sizeof(long), messages_count, dc2in.get());
-
-	for (i = 0; i < messages_count; i++)
+	for (i = 0; i < perversion->messages_count; i++)
 		messages[i].read(dc2in.get(), sizeof(short));
 
 	for (i = 0; i < NUM_CINEM; i++)
@@ -548,6 +591,9 @@ void Scenario::read_data(const char *path)	//decompressed data
 		bitmap.read(dc2in.get());
 
 	/* Player Data 2 */
+
+	if (setts.intense)
+		printf("Debug 3.\n");
 
 	for (i = 0; i < NUM_UNK; i++)
 		unk[i].read(dc2in.get(), sizeof(short));
@@ -592,15 +638,18 @@ void Scenario::read_data(const char *path)	//decompressed data
 	FEP(p)
 		p->read_ndis_techs(dc2in.get());
 	FEP(p)
-		p->read_dis_techs(dc2in.get());
+		p->read_dis_techs(dc2in.get(), *perversion);
 	FEP(p)
 		p->read_ndis_units(dc2in.get());
 	FEP(p)
-		p->read_dis_units(dc2in.get());
+		p->read_dis_units(dc2in.get(), *perversion);
 	FEP(p)
 		p->read_ndis_bldgs(dc2in.get());
 	FEP(p)
-		p->read_dis_bldgs(dc2in.get());
+		p->read_dis_bldgs(dc2in.get(), *perversion);
+
+	if (setts.intense)
+		printf("Debug 4.\n");
 
 	readunk<long>(dc2in.get(), 0, "Disables unused 1", true);
 	readunk<long>(dc2in.get(), 0, "Disables unused 2", true);
@@ -641,14 +690,22 @@ void Scenario::read_data(const char *path)	//decompressed data
 			);
 	}
 
+	if (setts.intense)
+		printf("Debug 5.\n");
 	/* Triggers */
 
 	readunk<double>(dc2in.get(), 1.6, "Trigger system version");
 	readbin(dc2in.get(), &objstate);
 
+	if (setts.intense)
+		printf("Debug 9.\n");
+	/* Triggers */
+
 	unsigned long n_trigs = readval<unsigned long>(dc2in.get());
 	triggers.resize(n_trigs);
 
+	if (setts.intense)
+		printf("Debug 10.\n");
 	if (n_trigs)
 	{
 		Trigger *t = &(*triggers.begin());
@@ -676,14 +733,23 @@ void Scenario::read_data(const char *path)	//decompressed data
 			throw bad_data_error("Trigger order list corrupted. Possibly out of sync.");
 	}
 
-	/* Included Files */
-	readbin(dc2in.get(), &unk3);
-	readbin(dc2in.get(), &unk4);
+    if (ver2 == SV2_AOE2) {
+        // this code is from aokts-0.3.6, which could open aok files
+	    /* Included Files */
+	    fread(&unk3, sizeof(long), 2, dc2in.get());	//unk3, unk4
 
-	if (unk4 == 1)
-	{
-		printf("unk4 hack around %x\n", ftell(dc2in.get()));
-		SKIP(dc2in.get(), 396);
+	    if (unk3 == 1 && unk4 == 1)
+		    fseek(dc2in.get(), 396, SEEK_CUR);
+	} else {
+	    /* Included Files */
+	    readbin(dc2in.get(), &unk3);
+	    readbin(dc2in.get(), &unk4); // aok files sometimes fail here
+
+	    if (unk4 == 1)
+	    {
+		    printf("unk4 hack around %x\n", ftell(dc2in.get()));
+		    SKIP(dc2in.get(), 396);
+	    }
 	}
 
 	if (unk3 == 1)
@@ -731,13 +797,16 @@ int Scenario::write_data(const char *path)
 	switch (ver2)
 	{
 		case SV2_AOE2:
-			version2 = 1.18F;
+			version2 = 1.20F;
 			break;
 		case SV2_AOE2TC:
 			version2 = 1.22F;
 			break;
 		case SV2_AOE2TF:
 			version2 = 1.23F;
+			break;
+		case SV2_SWGB:
+			version2 = 1.30F;
 			break;
 		default:
 			version2 = 0.00F;
@@ -748,8 +817,11 @@ int Scenario::write_data(const char *path)
 	FEP(p)
 		p->write_header_name(dcout);
 
-	FEP(p)
-		p->write_header_stable(dcout);
+	if (ver1 >= SV1_AOE2)
+	{
+	    FEP(p)
+		    p->write_header_stable(dcout);
+	}
 
 	FEP(p)
 		p->write_data1(dcout);
@@ -761,12 +833,10 @@ int Scenario::write_data(const char *path)
 	writecs<unsigned short>(dcout, origname, false);
 
 	/* Messages & Cinematics */
-	if (ver2 == SV2_AOE2)
-		messages_count--;
+	if (perversion->mstrings)
+		fwrite(mstrings, sizeof(long), perversion->messages_count, dcout);
 
-	fwrite(mstrings, sizeof(long), messages_count, dcout);
-
-	for (i = 0; i < messages_count; i++)
+	for (i = 0; i < perversion->messages_count; i++)
 		messages[i].write(dcout, sizeof(short));
 
 	for (i = 0; i < NUM_CINEM; i++)
@@ -839,15 +909,16 @@ int Scenario::write_data(const char *path)
 	FEP(p)
 		fwrite(&p->ndis_t, sizeof(long), 1, dcout);
 	FEP(p)
-		fwrite(&p->dis_tech, sizeof(long), MAX_DIS_TECH, dcout);
+		fwrite(&p->dis_tech, sizeof(long), perversion->max_disables1, dcout);
 	FEP(p)
 		fwrite(&p->ndis_u, sizeof(long), 1, dcout);
 	FEP(p)
-		fwrite(&p->dis_unit, sizeof(long), MAX_DIS_UNIT, dcout);
+		fwrite(&p->dis_unit, sizeof(long), perversion->max_disables1, dcout);
 	FEP(p)
 		fwrite(&p->ndis_b, sizeof(long), 1, dcout);
 	FEP(p)
-		fwrite(&p->dis_bldg, sizeof(long), MAX_DIS_BLDG, dcout);
+		fwrite(&p->dis_bldg, sizeof(long), perversion->max_disables2, dcout);
+
 	NULLS(dcout, 0x8);
 	fwrite(&all_techs, sizeof(long), 1, dcout);
 	FEP(p)
@@ -874,7 +945,11 @@ int Scenario::write_data(const char *path)
 		resources[3] = (float)players[i].resources[3];
 		resources[4] = (float)players[i].resources[4];
 		resources[5] = 0.0F;
-		fwrite(resources, sizeof(float), PLAYER_POP_UNREAD_COUNT, dcout);
+		if (ver1 == SV1_SWGB) {
+		    fwrite(resources, sizeof(float), 5, dcout);
+		} else {
+		    fwrite(resources, sizeof(float), 6, dcout);
+		}
 
 		if (ver1 >= SV1_AOE2TC)
 			fwrite(&players[i].pop, 4, 1, dcout);
@@ -901,21 +976,24 @@ int Scenario::write_data(const char *path)
 	fwrite(&trigver, 8, 1, dcout); //trigger system version
 	writebin(dcout, &objstate); //objectives state
 
-	Trigger *t_parse = &(*triggers.begin());
-	num = triggers.size();
-	fwrite(&num, sizeof(long), 1, dcout);
-
-	i = num;
-	while (i--)
+	if (triggers.size() > 0)
 	{
-		t_parse->write(dcout);
-		t_parse++;
-	}
+	    Trigger *t_parse = &(*triggers.begin());
+	    num = triggers.size();
+	    fwrite(&num, sizeof(long), 1, dcout);
 
-	// Write out t_order vector
-	if (num > 0)  // ugly: have to do this check because we call front()
-	{
-		fwrite(&t_order.front(), sizeof(long), num, dcout);
+	    i = num;
+	    while (i--)
+	    {
+		    t_parse->write(dcout);
+		    t_parse++;
+	    }
+
+	    // Write out t_order vector
+	    if (num > 0)  // ugly: have to do this check because we call front()
+	    {
+		    fwrite(&t_order.front(), sizeof(long), num, dcout);
+	    }
 	}
 
 	/* Included Files */

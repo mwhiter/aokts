@@ -109,9 +109,6 @@ void Effect::read(FILE *in)
 
 	if (num_sel > 0)
 		readbin(in, uids, num_sel);
-
-	if (type > MAX_EFFECT)
-		printf("WARNING: Unknown effect %d.\n", type);
 }
 
 void Effect::write(FILE *out)
@@ -544,9 +541,6 @@ void Effect::fromGenie(const Genie_Effect& genie)
 	if (genie.check != EFFECT)
 		throw bad_data_error("Effect has incorrect check value.");
 
-	if (genie.type >= NUM_EFFECTS) // MAX_EFFECTS = NUM_EFFECTS - 1
-		printf("WARNING: Unknown effect %d.\n", genie.type);
-
 	type = genie.type;
 	ttype = static_cast<TType>(genie.check);
 	ai_goal = genie.ai_goal;
@@ -632,10 +626,10 @@ const char *Effect::types[] =
 	"Change Object HP",
 	"Change Object Attack",
 	"Stop Unit",
-	"Ch UP Speed - HD Attack-Move",
-	"Ch UP Range - HD Armor",
-	"Ch UP Armor1 - HD Range",
-	"Ch UP Armor2 - HD Speed",
+	"Change UP Speed - HD Attack-Move",
+	"Change UP Range - HD Armor",
+	"Change UP Armor1 - HD Range",
+	"Change UP Armor2 - HD Speed",
 	"Enable Unit",
 	"Disable Unit",
 	"Flash Objects"

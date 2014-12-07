@@ -19,13 +19,8 @@ enum ScenVersion1
 	SV1_AOE1		= 10,
 	SV1_AOE2		= 18,
 	SV1_AOE2TC		= 21,
-	SV1_SWGB        = 22
+	SV1_SWGB        = 22 // or should it be 21?
 };
-
-/**
- * This is not saved in the scenario, but is used internally by AOKTS to
- * encapsulate differences in versions of the scenario format.
- */
 
 enum ScenVersion2
 {
@@ -33,6 +28,17 @@ enum ScenVersion2
 	SV2_AOE2TC		= 22,
 	SV2_AOE2TF		= 23,// The Forgotten
 	SV2_SWGB		= 24 // SWGB ? 
+};
+
+/**
+ * This is not saved in the scenario, but is used internally by AOKTS to
+ * encapsulate differences in versions of the scenario format.
+ */
+struct PerVersion
+{
+	int messages_count;
+	bool mstrings;
+	int max_disables1, max_disables2;
 };
 
 /* Internal Constants */

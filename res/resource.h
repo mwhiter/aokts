@@ -46,6 +46,7 @@
 #define IDD_TRIGGERS		117
 #define IDD_EFFECT			119
 #define IDD_COND			120
+#define IDD_COMPATIBILITY   121
 
 /* Bitmaps */
 #define IDB_GOOD			200

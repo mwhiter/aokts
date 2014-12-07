@@ -11,10 +11,13 @@
 #include "LinkListBox.h"
 #include "utilunit.h"
 #include "utilui.h"
+#include "../model/scen.h"
 
 /* Disabled */
 
 #define NUM_TYPES 3
+
+extern class Scenario scen;
 
 enum DTypes
 { DIS_bldg, DIS_unit, DIS_tech };
@@ -204,25 +207,25 @@ void SaveDisables(HWND dialog)
 
 	switch (propdata.sel0)
 	{
+	case DIS_bldg:
+		if (count > scen.perversion->max_disables2)
+			count = scen.perversion->max_disables2;
+		propdata.p->ndis_b = count;
+		array = propdata.p->dis_bldg;
+		break;
+
 	case DIS_tech:
-		if (count > MAX_DIS_TECH)
-			count = MAX_DIS_TECH;
+		if (count > scen.perversion->max_disables1)
+			count = scen.perversion->max_disables1;
 		propdata.p->ndis_t = count;
 		array = propdata.p->dis_tech;
 		break;
-		
+
 	case DIS_unit:
-		if (count > MAX_DIS_UNIT)
-			count = MAX_DIS_UNIT;
+		if (count > scen.perversion->max_disables1)
+			count = scen.perversion->max_disables1;
 		propdata.p->ndis_u = count;
 		array = propdata.p->dis_unit;
-		break;
-
-	case DIS_bldg:
-		if (count > MAX_DIS_TECH)
-			count = MAX_DIS_BLDG;
-		propdata.p->ndis_b = count;
-		array = propdata.p->dis_bldg;
 		break;
 
 	default:

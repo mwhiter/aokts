@@ -23,10 +23,6 @@
 
 	----------------------------------------------------------------------------
 
-	This source will compile to both AOKTS and SWGBTS depending the the
-	definition of the preprocessor macro GAME (aok=1 or swgb=2). Default
-	is aok.
-
 	aokts.cpp -- Defines the core functions of AOKTS
 
 	VIEW/CONTROLLER
@@ -91,7 +87,8 @@ DLGPROC procs[NUM_PAGES] =
 	&DisDlgProc,
 	&MapDlgProc,
 	&UnitDlgProc,
-	&TrigDlgProc
+	&TrigDlgProc,
+	&CompatDlgProc
 };
 
 /* Strings */
@@ -105,10 +102,9 @@ const char welcome[] =
 const char extOpen[] =
 "AOEII Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0SWGB Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
-"AOK Scenarios (*.scn)\0*.scn\0TC/SWGB Scenarios (*.scx)\0*.scx\0TF Scenarios (*.scx2)\0*.scx2\0CC Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
-//const char datapath[] = "data_aok.xml";
-const char datapath[] = "data_swgb.xml";
-//const char datapath[] = "data_test.xml";
+"AoK Scenarios (*.scn)\0*.scn\0AoC Scenarios (*.scx)\0*.scx\0SWGB Scenarios (*.scx)\0*.scx\0AoHD Scenarios (*.scx)\0*.scx\0AoF Scenarios (*.scx2)\0*.scx2\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
+const char datapath[] = "data_aok.xml";
+//const char datapath[] = "data_swgb.xml";
 
 /** Functions **/
 
@@ -496,7 +492,10 @@ int CALLBACK PropSheetProc(HWND sheet, UINT msgid, LPARAM lParam)
 			/* Add Menu. */
 			propdata.menu = LoadMenu(aokts, (LPCSTR)IDM_MAIN);
 			SetMenu(sheet, propdata.menu);
-			SetSaveState(sheet, MF_GRAYED);
+			//SetSaveState(sheet, MF_GRAYED);
+	        scen.reset();
+	        SendMessage(PropSheet_GetCurrentPageHwnd(sheet), AOKTS_Loading, 0, 0);
+	        MapView_Reset(propdata.mapview, true);
 
 			/* Enable appropriate recent file items. */
 			UpdateRecentMenu(propdata.menu);

@@ -16,24 +16,6 @@
 
 /* Players */
 
-#if (GAME == 1)
-
-const wchar_t * FOOD_STRING = L"Food:";
-const wchar_t * WOOD_STRING = L"Wood:";
-const wchar_t * GOLD_STRING = L"Gold:";
-const wchar_t * STONE_STRING= L"Stone:";
-const wchar_t * OREX_STRING = L"Ore X:";
-
-#elif (GAME == 2)
-
-const wchar_t * FOOD_STRING = L"Food:";
-const wchar_t * WOOD_STRING = L"Carbon:";
-const wchar_t * GOLD_STRING = L"Nova:";
-const wchar_t * STONE_STRING= L"Ore:";
-const wchar_t * OREX_STRING = L"Ore X:";
-
-#endif
-
 //these convert from enum Diplomacy to Win32 Checkbox states and vice-versa
 WPARAM d_to_b[4] = { BST_CHECKED, BST_INDETERMINATE, BST_UNCHECKED, BST_UNCHECKED };
 enum Diplomacy b_to_d[3] = { DIP_enemy, DIP_ally, DIP_neutral };
@@ -276,11 +258,19 @@ BOOL Players_Init(HWND dialog)
 	Combo_PairFill(GetDlgItem(dialog, IDC_P_AGE), NUM_AGES, ages);
 
 	/* Set resource names per game */
-	Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_FOOD), FOOD_STRING);
-	Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_WOOD), WOOD_STRING);
-	Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_GOLD), GOLD_STRING);
-	Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_STONE), STONE_STRING);
-	Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_OREX), OREX_STRING);
+	if (scen.ver1 == SV1_SWGB) {
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_FOOD), L"Food:");
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_WOOD), L"Carbon:");
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_GOLD), L"Nova:");
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_STONE), L"Ore:");
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_OREX), L"Ore X:");
+	} else {
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_FOOD), L"Food:");
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_WOOD), L"Wood:");
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_GOLD), L"Gold:");
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_STONE), L"Stone:");
+	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_OREX), L"Ore X:");
+	}
 
 	SendDlgItemMessage(dialog, IDC_P_X, EM_SETLIMITTEXT, 5, 0);
 	SendDlgItemMessage(dialog, IDC_P_Y, EM_SETLIMITTEXT, 5, 0);

@@ -167,9 +167,10 @@ void Player::read_ndis_techs(FILE * in)
 	readbin(in, &ndis_t);
 }
 
-void Player::read_dis_techs(FILE * in)
+void Player::read_dis_techs(FILE * in, const PerVersion& pv)
 {
-	readbin(in, dis_tech, MAX_DIS_TECH);
+	//readbin(in, dis_tech, MAX_DIS_TECH);
+	readbin(in, dis_tech, pv.max_disables1);
 }
 
 void Player::read_ndis_units(FILE * in)
@@ -177,9 +178,10 @@ void Player::read_ndis_units(FILE * in)
 	readbin(in, &ndis_u);
 }
 
-void Player::read_dis_units(FILE * in)
+void Player::read_dis_units(FILE * in, const PerVersion& pv)
 {
-	readbin(in, dis_unit, MAX_DIS_UNIT);
+	//readbin(in, dis_unit, MAX_DIS_UNIT);
+	readbin(in, dis_unit, pv.max_disables1);
 }
 
 void Player::read_ndis_bldgs(FILE * in)
@@ -187,9 +189,10 @@ void Player::read_ndis_bldgs(FILE * in)
 	readbin(in, &ndis_b);
 }
 
-void Player::read_dis_bldgs(FILE * in)
+void Player::read_dis_bldgs(FILE * in, const PerVersion& pv)
 {
-	readbin(in, dis_bldg, MAX_DIS_BLDG);
+	//readbin(in, dis_bldg, MAX_DIS_BLDG);
+	readbin(in, dis_bldg, pv.max_disables2);
 }
 
 /*void Player::read_dis_bldgsx(FILE * in)
@@ -221,13 +224,15 @@ void Player::read_data4(FILE * in, ScenVersion1 version)
 	readunk(in, static_cast<float>(resources[0]), "gold float");
 	readunk(in, static_cast<float>(resources[3]), "stone float");
 	readunk(in, static_cast<float>(resources[4]), "orex float");
-#if (GAME == 1)
-	// unforunately it's the game, and not the scenario version
-	readunk(in, static_cast<float>(resources[5]), "?? res float");
-#endif
+    if (version != SV1_SWGB) {
+	    // unforunately it's the game, and not the scenario version
+	    // above check does not work (at least for SWGB -- not CC
+	    // (need to determine game with open dialog file type select)
+	    readunk(in, static_cast<float>(resources[5]), "?? res float");
 
-	if (version >= SV1_AOE2TC)
-		readbin(in, &pop);
+	    if (version >= SV1_AOE2TC)
+		    readbin(in, &pop);
+	}
 }
 
 void Player::read_units(FILE *in)

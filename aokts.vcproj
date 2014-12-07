@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="aokts"
+	Name="ts"
 	ProjectGUID="{B4687417-6502-425D-BBC8-20BE15A95C72}"
 	RootNamespace="aokts"
 	Keyword="Win32Proj"
@@ -142,162 +142,6 @@
 				AdditionalDependencies="zlib1.lib comctl32.lib libexpatw.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Expat 2.1.0\Bin&quot;;&quot;C:\Users\shane\Downloads\zlib-1.2.3-lib\lib&quot;;&quot;$(ProjectDir)deps\lib&quot;"
-				IgnoreAllDefaultLibraries="false"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="SWGB Debug|Win32"
-			OutputDirectory=".\"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="0"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir)deps\include"
-				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=2;_AFXDLL"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				DebugInformationFormat="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1d.lib comctl32.lib libexpatw.lib"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(ProjectDir)deps\lib"
-				IgnoreAllDefaultLibraries="false"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="SWGB Release|Win32"
-			OutputDirectory=".\"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			CharacterSet="0"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Users\shane\Downloads\zlib-1.2.3-lib\include&quot;;&quot;C:\Program Files (x86)\Expat 2.1.0\Source\lib&quot;;&quot;$(ProjectDir)deps\include&quot;"
-				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=2;_AFXDLL"
-				RuntimeLibrary="2"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1.lib comctl32.lib libexpatw.lib"
-				OutputFile="$(OutDir)\swgbts.exe"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(ProjectDir)deps\lib"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -537,6 +381,10 @@
 			</File>
 			<File
 				RelativePath=".\view\cbit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\view\compatedit.cpp"
 				>
 			</File>
 			<File

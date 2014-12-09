@@ -204,6 +204,7 @@
 #define IDC_U_MAKEGA 		    1528
 #define IDC_U_RANDOMIZE_ROT     1529
 #define IDC_U_DEL_TYPE		    1530
+#define IDC_U_ROTATE_VAL  	    1531
 
 /* Trigger Controls */
 #define IDC_T_TREE				1200

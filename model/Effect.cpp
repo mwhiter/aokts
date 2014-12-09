@@ -475,7 +475,9 @@ bool Effect::check() const
 		return (num_sel >= 0 && location.x >= 0 && location.y >= 0);
 
 	case EFFECT_DisplayInstructions:
-		return (panel >= 0 && disp_time >= 0
+	    // panel == -1 is acceptable because Azzzru's scripts omit panel
+	    // to shorten SCX file and scenario still works fine.
+		return (panel >= -1 && disp_time >= 0
 			&& (*text.c_str() || textid));	//AOK missing text
 
 	case EFFECT_ClearInstructions:
@@ -557,6 +559,10 @@ void Effect::fromGenie(const Genie_Effect& genie)
 	soundid = genie.soundid;
 	disp_time = genie.display_time;
 	trig_index = genie.trigger_index;
+	//if (trig_index == (unsigned)-4 || trig_index == (unsigned)-5 || trig_index == (unsigned)-11) {
+	//if (trig_index > 1000) {
+	//    trig_index = (unsigned)-1;
+	//}
 	location = genie.location;
 	area = genie.area;
 	group = genie.unit_group;

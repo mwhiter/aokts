@@ -128,16 +128,16 @@ void SaveCond(HWND dialog, EditCondition *data)
 	int newtype = SendDlgItemMessage(dialog, IDC_C_TYPE, CB_GETCURSEL, 0, 0);
 	if (newtype != CB_ERR)
 	{
-		c->type = newtype;	
+		c->type = newtype;
 		c->pUnit = (UnitLink*)LCombo_GetSelPtr(dialog, IDC_C_UCNST);
 		c->player = SendDlgItemMessage(dialog, IDC_C_PLAYER, CB_GETCURSEL, 0, 0);
 		c->object = GetDlgItemInt(dialog, IDC_C_UIDOBJ, NULL, TRUE);
 		c->u_loc = GetDlgItemInt(dialog, IDC_C_UIDLOC, NULL, TRUE);
 		c->group = SendDlgItemMessage(dialog, IDC_C_GROUP, CB_GETCURSEL, 0, 0);
-		c->area.left = GetDlgItemInt(dialog, IDC_C_AREAX1, NULL, FALSE);
-		c->area.bottom = GetDlgItemInt(dialog, IDC_C_AREAY1, NULL, FALSE);
-		c->area.right = GetDlgItemInt(dialog, IDC_C_AREAX2, NULL, FALSE);
-		c->area.top = GetDlgItemInt(dialog, IDC_C_AREAY2, NULL, FALSE);
+		c->area.left = GetDlgItemInt(dialog, IDC_C_AREAX1, NULL, TRUE);
+		c->area.bottom = GetDlgItemInt(dialog, IDC_C_AREAY1, NULL, TRUE);
+		c->area.right = GetDlgItemInt(dialog, IDC_C_AREAX2, NULL, TRUE);
+		c->area.top = GetDlgItemInt(dialog, IDC_C_AREAY2, NULL, TRUE);
 		c->timer = GetDlgItemInt(dialog, IDC_C_TIMER, NULL, TRUE);
 		c->ai_signal = GetDlgItemInt(dialog, IDC_C_AISIG, NULL, TRUE);
 		c->reserved = GetDlgItemInt(dialog, IDC_C_RESERVED, NULL, TRUE);
@@ -152,7 +152,7 @@ void SaveCond(HWND dialog, EditCondition *data)
 
 void C_HandleSetFocus(HWND dialog, WORD id)
 {
-	EditEC * data = 
+	EditEC * data =
 		static_cast<EditEC*>(GetDialogUserData_ptr(dialog));
 
 	switch (id)
@@ -173,7 +173,7 @@ void C_HandleSetFocus(HWND dialog, WORD id)
 
 void C_HandleKillFocus(HWND dialog, WORD)
 {
-	EditEC * data = 
+	EditEC * data =
 		static_cast<EditEC*>(GetDialogUserData_ptr(dialog));
 
 	if (data->mapview)
@@ -196,9 +196,11 @@ void C_HandleChangeType(HWND dialog, EditCondition *data)
 		data->c = Condition();
 	}
 */
+    // Assume the user wants to change to similar condition. Otherwise
+    // would make new
 	int newtype = SendDlgItemMessage(dialog, IDC_C_TYPE, CB_GETCURSEL, 0, 0);
-	if (data->c.type != newtype)
-		data->c = Condition();
+	//if (data->c.type != newtype)
+	//	data->c = Condition();
 	data->c.type = newtype;
 	ConditionControls(dialog, newtype);
 	LoadCond(dialog, data);
@@ -224,57 +226,83 @@ void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 				SetDlgItemInt(dialog, IDC_C_AREAY2, -1, TRUE);
 			}
 			break;
-		}
-	}
-	if (id == IDOK)
-	{
-		bool valid;
-		int ret = IDOK;
-		
-		SaveCond(dialog, data);	//update type
-		valid = data->c.check();
+		case IDC_C_CLEAR:
+		    {
+			    data->c = Condition();
+			    LoadCond(dialog, data);
+			}
+			break;
+	    case IDOK:
+	        {
+		        bool valid;
+		        int ret = IDOK;
 
-		if (!valid)
-			ret = MessageBox(dialog, warnInvalidC, "Condition Editor", MB_OKCANCEL);
+		        SaveCond(dialog, data);	//update type
+		        valid = data->c.check();
 
-		if (ret == IDOK)
-		{
-			SendMessage(data->parent, EC_Closing,
-				MAKELONG(1, valid), reinterpret_cast<LPARAM>(data));
-			DestroyWindow(dialog);
+		        if (!valid)
+			        ret = MessageBox(dialog, warnInvalidC, "Condition Editor", MB_OKCANCEL);
+
+		        if (ret == IDOK)
+		        {
+			        SendMessage(data->parent, EC_Closing,
+				        MAKELONG(1, valid), reinterpret_cast<LPARAM>(data));
+			        DestroyWindow(dialog);
+		        }
+	        }
+	        break;
+
+	    case IDCANCEL:
+	        {
+		        SendMessage(data->parent, EC_Closing,
+			        0, reinterpret_cast<LPARAM>(data));
+		        DestroyWindow(dialog);
+	        }
+	        break;
+
+	    case IDC_C_USEL1:
+	        {
+		        if (SingleUnitSelDialogBox(dialog, data->players,
+			        data->c.object, data->c.object != -1))
+		        {
+			        SetDlgItemInt(dialog, IDC_C_UIDOBJ, data->c.object, FALSE);
+		        }
+	        }
+		    break;
+
+	    case IDC_C_USEL2:
+	        {
+		        if (SingleUnitSelDialogBox(dialog, data->players,
+			        data->c.u_loc, data->c.u_loc != -1))
+		        {
+			        SetDlgItemInt(dialog, IDC_C_UIDLOC, data->c.u_loc, FALSE);
+		        }
+	        }
+		    break;
+
 		}
-	}
-	else if (id == IDCANCEL)
-	{
-		SendMessage(data->parent, EC_Closing,
-			0, reinterpret_cast<LPARAM>(data));
-		DestroyWindow(dialog);
-	}
-	else if (id == IDC_C_TYPE && code == CBN_SELCHANGE)
-	{
-		C_HandleChangeType(dialog, data);
-	}
-	else if (id == IDC_C_USEL1)
-	{
-		if (SingleUnitSelDialogBox(dialog, data->players,
-			data->c.object, data->c.object != -1))
-		{
-			SetDlgItemInt(dialog, IDC_C_UIDOBJ, data->c.object, FALSE);
-		}
-	}
-	else if (id == IDC_C_USEL2)
-	{
-		if (SingleUnitSelDialogBox(dialog, data->players,
-			data->c.u_loc, data->c.u_loc != -1))
-		{
-			SetDlgItemInt(dialog, IDC_C_UIDLOC, data->c.u_loc, FALSE);
-		}
-	}
-	else if (code == EN_SETFOCUS)
+		break;
+
+    case CBN_SELCHANGE:
+	    switch (id)
+	    {
+	    case IDC_C_TYPE:
+	        {
+		        C_HandleChangeType(dialog, data);
+	        }
+		    break;
+	    }
+		break;
+
+	case EN_SETFOCUS:
 		C_HandleSetFocus(dialog, id);
+		break;
 
-	else if (code == EN_KILLFOCUS)
+	case EN_KILLFOCUS:
 		C_HandleKillFocus(dialog, id);
+		break;
+
+	}
 }
 
 const char errorNoDataC[] =

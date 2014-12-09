@@ -97,6 +97,9 @@ const char etable1_10C[NUM_EFFECTS][EFFECT_CONTROLS] = // Using 0 instead of -1 
 	{ 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0 }		// Stop Unit
 };
 
+// ../res/resource.h
+// go to IDC_E_START
+
 // AoC v1.4RC
 const char etable1_14RC[NUM_EFFECTS][EFFECT_CONTROLS] = // Using 0 instead of -1 to waste less space
 {	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22
@@ -261,12 +264,26 @@ void LoadEffect(HWND dialog, EditEffect *data)
 	LCombo_Select(dialog, IDC_E_RESEARCH, e->pTech);
 	SetDlgItemInt(dialog, IDC_E_AMOUNT, e->amount, TRUE);
 	LCombo_SelById(dialog, IDC_E_RESTYPE, e->res_type);
+	SetDlgItemInt(dialog, IDC_E_TRIGID, e->trig_index, TRUE);
+	if (e->pUnit) {
+	    SetDlgItemInt(dialog, IDC_E_UCNSTID, e->pUnit->id(), TRUE);
+	} else {
+	    SetDlgItemInt(dialog, IDC_E_UCNSTID, -1, TRUE);
+	}
 }
 
 void SaveEffect(HWND dialog, EditEffect *data)
 {
 	Effect *e = &data->e;
 
+    // CB_ERR is returned from no selection. this shows that CB_ERR == -1.
+	//MessageBox(dialog, std::string("CB_ERR").append(toString<int>(CB_ERR)).c_str(), "Effect Editor", MB_OKCANCEL);
+	// that means that when an item is not selected in a combobox,
+	// CB_GETCURSEL saves -1. I think that this is the default value for
+	// unused fields in AoK.  However, what about Azzzru's panel having no
+	// value? That is different as what he does shortens the SCX file.
+	// How does AoKTS load his scenarios then? This means that a -1
+	// value for panel should not give error to aokts.
 	int newtype = SendDlgItemMessage(dialog, IDC_E_TYPE, CB_GETCURSEL, 0, 0);
 	if (newtype != CB_ERR)
 	{
@@ -440,83 +457,96 @@ const char warnWeirdResource[] =
 void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 {
 	/* Most of them use this */
-	class EditEffect *data;
+	class EditEffect *data = (EditEffect*)GetWindowLongPtr(dialog, DWLP_USER);
 
 	switch (code)
 	{
-		case BN_CLICKED:
-		    switch (id)
-		    {
-		    case IDC_E_AREA_ALL:
-			    {
-				    SetDlgItemInt(dialog, IDC_E_AREAX1, -1, TRUE);
-				    SetDlgItemInt(dialog, IDC_E_AREAY1, -1, TRUE);
-				    SetDlgItemInt(dialog, IDC_E_AREAX2, -1, TRUE);
-				    SetDlgItemInt(dialog, IDC_E_AREAY2, -1, TRUE);
-			    }
-			    break;
-		    }
-		case CBN_SELCHANGE:
-			data = (EditEffect*)GetWindowLongPtr(dialog, DWLP_USER);
-			switch (id)
+	case BN_CLICKED:
+		switch (id)
+		{
+		case IDC_E_AREA_ALL:
 			{
-				case IDOK:
-					{
-						bool valid;
-						int ret = IDOK;
-
-						SaveEffect(dialog, data);
-						valid = data->e.check();
-
-						if (!valid)
-							ret = MessageBox(dialog, warnInvalidE, "Effect Editor", MB_OKCANCEL);
-
-						if (ret == IDOK)
-						{
-							SendMessage(data->parent, EC_Closing,
-								MAKELONG(1, valid), reinterpret_cast<LPARAM>(data));
-							DestroyWindow(dialog);
-						}
-					}
-					break;
-
-				case IDCANCEL:
-					SendMessage(data->parent, EC_Closing,
-						0, reinterpret_cast<LPARAM>(data));
-					DestroyWindow(dialog);
-					break;
-
-				case IDC_E_TYPE:
-					E_HandleChangeType(dialog, data);
-					break;
-
-				case IDC_E_RESTYPE:
-					if (SendMessage(control, CB_GETCURSEL, 0, 0) >= NUM_STYPES &&
-						setts.warnbits & WARN_WEIRDRESOURCE)
-						MessageBox(dialog, warnWeirdResource, "Warning", MB_ICONWARNING);
-					break;
-
-				case IDC_E_OPENSEL:
-					OnOpenSel(dialog, data);
-					break;
-
-				case IDC_E_OPENSEL2:
-					if (SingleUnitSelDialogBox(dialog, data->players,
-						data->e.uid_loc, (data->e.uid_loc != -1)))
-					{
-						SetDlgItemInt(dialog, IDC_E_LOCUID, data->e.uid_loc, FALSE);
-					}
-					break;
+				SetDlgItemInt(dialog, IDC_E_AREAX1, -1, TRUE);
+				SetDlgItemInt(dialog, IDC_E_AREAY1, -1, TRUE);
+				SetDlgItemInt(dialog, IDC_E_AREAX2, -1, TRUE);
+				SetDlgItemInt(dialog, IDC_E_AREAY2, -1, TRUE);
 			}
 			break;
 
-		case EN_SETFOCUS:
-			E_HandleSetFocus(dialog, id);
+		case IDC_E_CLEAR:
+			{
+			    data->e = Effect();
+			    LoadEffect(dialog, data);
+			}
 			break;
 
-		case EN_KILLFOCUS:
-			E_HandleKillFocus(dialog, id);
+		case IDOK:
+			{
+				bool valid;
+				int ret = IDOK;
+
+				SaveEffect(dialog, data);
+				valid = data->e.check();
+
+				if (!valid)
+					ret = MessageBox(dialog, warnInvalidE, "Effect Editor", MB_OKCANCEL);
+
+				if (ret == IDOK)
+				{
+					SendMessage(data->parent, EC_Closing,
+						MAKELONG(1, valid), reinterpret_cast<LPARAM>(data));
+					DestroyWindow(dialog);
+				}
+			}
 			break;
+
+		case IDCANCEL:
+			SendMessage(data->parent, EC_Closing,
+				0, reinterpret_cast<LPARAM>(data));
+			DestroyWindow(dialog);
+			break;
+
+		case IDC_E_OPENSEL:
+			OnOpenSel(dialog, data);
+			break;
+
+		case IDC_E_OPENSEL2:
+			if (SingleUnitSelDialogBox(dialog, data->players,
+				data->e.uid_loc, (data->e.uid_loc != -1)))
+			{
+				SetDlgItemInt(dialog, IDC_E_LOCUID, data->e.uid_loc, FALSE);
+			}
+			break;
+
+		}
+		break;
+
+	case CBN_SELCHANGE:
+		switch (id)
+		{
+			case IDC_E_TYPE:
+				E_HandleChangeType(dialog, data);
+				break;
+
+			case IDC_E_RESTYPE:
+				if (SendMessage(control, CB_GETCURSEL, 0, 0) >= NUM_STYPES &&
+					setts.warnbits & WARN_WEIRDRESOURCE)
+					MessageBox(dialog, warnWeirdResource, "Warning", MB_ICONWARNING);
+				break;
+
+			case IDC_E_TRIG:
+				SetDlgItemInt(dialog, IDC_E_TRIGID, data->e.trig_index, TRUE);
+				break;
+		}
+		break;
+
+	case EN_SETFOCUS:
+		E_HandleSetFocus(dialog, id);
+		break;
+
+	case EN_KILLFOCUS:
+		E_HandleKillFocus(dialog, id);
+		break;
 	}
 }
 

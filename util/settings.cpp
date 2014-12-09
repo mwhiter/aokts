@@ -36,7 +36,7 @@ bool Setts::load()
 	char buffer[_MAX_PATH];
 
 	GetCurrentDirectory(_MAX_PATH, path);
-	strcat(path, "\\aokts.ini");
+	strcat(path, "\\ts.ini");
 
 	/* result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, regkey, 0, KEY_READ, &key);
 	if (result == ERROR_SUCCESS)
@@ -61,7 +61,7 @@ bool Setts::load()
 		warnbits |= WARN_WEIRDRESOURCE;
 
 	/* [Log] */
-	GetPrivateProfileString("Log", "Name", "aokts.log", logname, sizeof(logname), path);
+	GetPrivateProfileString("Log", "Name", "ts.log", logname, sizeof(logname), path);
 	intense = GetPrivateProfileInt("Log", "Intense", 0, path) != 0;
 
 	/* [Minimap] */

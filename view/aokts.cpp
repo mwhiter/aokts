@@ -234,7 +234,7 @@ void FileSave(HWND sheet, bool as, bool write)
 	//save the scenario
 	try
 	{
-		error = scen.save(setts.ScenPath, setts.TempPath, write, conv);
+ 		error = scen.save(setts.ScenPath, setts.TempPath, write, conv);
 		SetCursor(previous);
 	}
 	catch (std::exception &ex)

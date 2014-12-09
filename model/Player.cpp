@@ -8,6 +8,7 @@
 
 #include "../util/utilio.h"
 #include <algorithm>
+#include <functional>
 
 using std::vector;
 
@@ -88,6 +89,30 @@ vector<Unit>::size_type Player::find_unit(UID uid) const
 
 	// This will work for end() as well
 	return (iter - units.begin());
+}
+
+// functor to check if a unit is a type
+class unit_is_type : public std::unary_function<const Unit, bool>
+{
+public:
+	unit_is_type(const UCNST type) : _type(type)
+	{}
+
+	// I'm a little confused that you can use a reference here, since we tell
+	// others we take "const Unit", but it works. Shrug.
+	bool operator()(const Unit& u) const
+	{
+		return u.getType()->id() == _type;
+	}
+
+private:
+	UCNST _type;
+};
+
+void Player::erase_unit_type(UCNST type)
+{
+    unit_is_type typecheck(type);
+	units.erase(remove_if(units.begin(), units.end(), typecheck), units.end());
 }
 
 void Player::erase_unit(vector<Unit>::size_type index)

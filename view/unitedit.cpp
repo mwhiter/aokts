@@ -348,6 +348,11 @@ void Units_HandleRenumber(HWND dialog)
     scen.compress_unit_ids();
 }
 
+void Units_HandleDeleteAllType(HWND dialog)
+{
+    propdata.p->erase_unit_type((static_cast<const UnitLink *>( LinkListBox_Get(GetDlgItem(dialog, IDC_U_UNIT), c_index)))->id());
+}
+
 void Units_HandleAdd(HWND dialog)
 {
 	UID new_uid = GetDlgItemInt(dialog, IDC_U_ID, NULL, TRUE);
@@ -417,49 +422,64 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			Units_Reset(dialog);
 			break;
 
+		case IDC_U_DEL_TYPE:		//BN_CLICKED
+			Units_HandleDeleteAllType(dialog);
+			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+			break;
+
 		case IDC_U_MAKEP1:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 0);
 			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_MAKEP2:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 1);
 			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_MAKEP3:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 2);
 			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_MAKEP4:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 3);
 			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_MAKEP5:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 4);
 			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_MAKEP6:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 5);
 			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_MAKEP7:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 6);
 			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_MAKEP8:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 7);
 			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_MAKEGA:		//BN_CLICKED
 			Units_HandleChangeOwnership(dialog, 8);
 			Units_Reset(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_RANDOMIZE_ROT:

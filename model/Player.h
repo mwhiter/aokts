@@ -44,6 +44,7 @@ public:
 	 * not found.
 	 */
 	std::vector<Unit>::size_type find_unit(UID uid) const;
+	void erase_unit_type(UCNST type);
 	void erase_unit(std::vector<Unit>::size_type);
 
 	bool read_aifile(FILE *in);	//returns false if out-of-memory

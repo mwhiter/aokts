@@ -806,7 +806,6 @@ void SaveTrigger(HWND dialog, Trigger *t)
 	}
 }
 
-
 /*
 	Triggers_EditMenu: Enables/Disables items on the Edit Menu.
 
@@ -1523,7 +1522,16 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_T_MOVE:
 			scen.move_triggers(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_DEST, NULL, FALSE));
-			//scen.clean_triggers();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case IDC_T_DELETE:
+			scen.delete_triggers(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE));
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case IDC_T_DUPRANGE:
+			scen.duplicate_triggers(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_DEST, NULL, FALSE));
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
@@ -1535,26 +1543,6 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_T_HIDENAMES:
 			scen.remove_trigger_names();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_TOUP:
-			scen.hd_to_up();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_TOHD:
-			scen.up_to_hd();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_TOAOFE:
-			scen.up_to_aofe();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_TO1C:
-			scen.up_to_10c();
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 

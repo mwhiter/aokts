@@ -1057,20 +1057,22 @@ void Scenario::clean_triggers()
 				--(*j);
 		}
 
-		//adjust effect's trigger indexes accordingly (UGH!)
-		Trigger *t_parse = &(*triggers.begin());
-		for (size_t j = 0; j != triggers.size(); ++j)
-		{
-			for (vector<Effect>::iterator i = t_parse->effects.begin();
-				i != t_parse->effects.end(); ++i)
-			{
-				if (i->trig_index > t_index)
-					i->trig_index--;
-				else if (i->trig_index == t_index)
-					i->trig_index = (unsigned)-1; // TODO: hack cast
-			}
+		if (triggers.size() > 0) { // need this because may have just deleted (see above) the last trigger
+		    //adjust effect's trigger indexes accordingly (UGH!)
+		    Trigger *t_parse = &(*triggers.begin());
+		    for (size_t j = 0; j != triggers.size(); ++j)
+		    {
+			    for (vector<Effect>::iterator i = t_parse->effects.begin();
+				    i != t_parse->effects.end(); ++i)
+			    {
+				    if (i->trig_index > t_index)
+					    i->trig_index--;
+				    else if (i->trig_index == t_index)
+					    i->trig_index = (unsigned)-1; // TODO: hack cast
+			    }
 
-			t_parse++;
+			    t_parse++;
+		    }
 		}
 	}
 }
@@ -1234,6 +1236,56 @@ AOKTS_ERROR Scenario::move_triggers(size_t start, size_t end, size_t to) {
             size_t range = end - start;
             size_t toend = to + range;
             if (triggers.at(i).display_order >= (long)start && triggers.at(i).display_order <= (long)end) {
+                triggers.at(i).display_order += displacement;
+            } else {
+                if (displacement > 0 && triggers.at(i).display_order > (long)end && triggers.at(i).display_order <= (long)toend) {
+                    triggers.at(i).display_order -= (range + 1);
+                } else if (displacement < 0 && triggers.at(i).display_order >= (long)to && triggers.at(i).display_order < (long)start) {
+                    triggers.at(i).display_order += (range + 1);
+                }
+            }
+            //t_order[(size_t)triggers.at(i).display_order] = i;
+        }
+
+        for (size_t i = 0; i < num; i++) {
+            if (triggers.at(i).display_order >= 0 && triggers.at(i).display_order < (long)triggers.size())
+                t_order[triggers.at(i).display_order] = i;
+        }
+        //clean_triggers();
+    }
+
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::delete_triggers(size_t start, size_t end) {
+	size_t num = triggers.size();
+	// don't need to do this as start is unsigned: start >= 0
+	if (num > 0 && end >= start && end < num) {
+        for (size_t i = start; i <= end; i++) {
+	        vector<unsigned long>::iterator iter =
+		        std::find(t_order.begin(), t_order.end(), i);
+
+	        if (iter != t_order.end()) // Is this check necessary?
+		        t_order.erase(iter);
+		}
+		//update_display_order(); // need this because some trigger ids are now missing and will crash sync.
+		//how to do this? only way I know how is to save and reload
+		//scenario
+		//clean_triggers(); // not this one
+    }
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::duplicate_triggers(size_t start, size_t end, size_t to) {
+	size_t num = triggers.size();
+	// don't need to do this as start is unsigned: start >= 0
+	if (num > 0 && end >= start && to < num && end < num) {
+        for (size_t i = 0; i < num; i++) {
+            long displacement = to - start;
+            size_t range = end - start;
+            size_t toend = to + range;
+            if (triggers.at(i).display_order >= (long)start && triggers.at(i).display_order <= (long)end) {
+                // copy it to its spot
                 triggers.at(i).display_order += displacement;
             } else {
                 if (displacement > 0 && triggers.at(i).display_order > (long)end && triggers.at(i).display_order <= (long)toend) {
@@ -1704,7 +1756,8 @@ AOKTS_ERROR Scenario::compress_unit_ids()
 	        }
 	        // update garrisons
 	        for (std::vector<std::pair<int, int>>::iterator unitt = unittrans.begin(); unitt != unittrans.end(); ++unitt) {
-	            if (unit->garrison == unitt->first) {
+	            // != 0 check is for AoK. default was 0 not -1.
+	            if (unit->garrison != 0 && unit->garrison == unitt->first) {
 	                unit->garrison = unitt->second;
 	                break;
 	            }
@@ -1821,6 +1874,7 @@ AOKTS_ERROR Scenario::randomize_unit_frames(const unsigned int cnst)
 {
     switch (cnst)
     {
+    case 349: // Forest, Oak
     case 351: // Forest, Palm
         vector<Unit>::iterator end = players[8].units.end();
         LONG numunits = players[8].units.size();

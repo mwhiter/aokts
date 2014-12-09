@@ -32,7 +32,7 @@ typedef struct _iobuf FILE;	//makes including <stdio.h> unnecessary
 
 #define PLAYER1_INDEX	0	//index of Player 1 (may change)
 #define MAX_MAPSIZE	480
-#define MAX_MAPSIZE_OLD	256
+#define MAX_MAPSIZE_OLD	255
 
 #define UNREAD(n)
 
@@ -285,6 +285,8 @@ public:
     AOKTS_ERROR map_duplicate_elevation(const RECT &from, const POINT &to);
 
     AOKTS_ERROR move_triggers(size_t start, size_t end, size_t to);
+    AOKTS_ERROR delete_triggers(size_t start, size_t end);
+    AOKTS_ERROR duplicate_triggers(size_t start, size_t end, size_t to);
     AOKTS_ERROR sync_triggers();
 
 	int getPlayerCount();

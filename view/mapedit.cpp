@@ -38,7 +38,7 @@ const char *szMapStatus =
 #define NUM_SIZES 8
 const char *sizes[NUM_SIZES] =
 {
-	"Tiny (120)", "Small (144)", "Medium (168)", "Normal (200)", "Large (220)", "Giant (240)", "Max (256)", "Ludks (480)"
+	"Tiny (120)", "Small (144)", "Medium (168)", "Normal (200)", "Large (220)", "Giant (240)", "Max (255)", "Ludks (480)"
 };
 
 #define NUM_ELEVS 7
@@ -716,6 +716,7 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 			break;
 
 		case IDC_TR_NORMALIZE_ELEV:
+		    Map_SaveTile(dialog);
 			Map_HandleNormalizeElevation(dialog);
 			break;
 		}

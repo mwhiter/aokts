@@ -1262,6 +1262,7 @@ void TrigTree_HandleSelChanged(NMTREEVIEW *treehdr, HWND dialog)
 
 	if (treehdr->itemNew.hItem)	//new selection
 	{
+	    ENABLE_WND(IDC_T_DESELECT, true);
 		ENABLE_WND(IDC_T_NEFFECT, true);
 		ENABLE_WND(IDC_T_NCOND, true);
 		ENABLE_WND(IDC_T_DUPP, true);
@@ -1272,6 +1273,7 @@ void TrigTree_HandleSelChanged(NMTREEVIEW *treehdr, HWND dialog)
 	}
 	else	//no new selection
 	{
+	    ENABLE_WND(IDC_T_DESELECT, false);
 		ENABLE_WND(IDC_T_NEFFECT, false);
 		ENABLE_WND(IDC_T_NCOND, false);
 		ENABLE_WND(IDC_T_DUPP, false);
@@ -1526,29 +1528,45 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			break;
 
 		case IDC_T_DELETE:
+		    TreeView_SelectItem(treeview, NULL); // to prevent
 			scen.delete_triggers(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE));
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
 		case IDC_T_DUPRANGE:
+		    TreeView_SelectItem(treeview, NULL); // to prevent
 			scen.duplicate_triggers(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_DEST, NULL, FALSE));
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
 		case IDC_T_SYNC:
+		    TreeView_SelectItem(treeview, NULL); // to prevent
 			scen.sync_triggers();
 			//scen.clean_triggers();
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
 		case IDC_T_HIDENAMES:
+		    //SendMessage(treeview, CB_SETCURSEL, -1, 0);
+		    TreeView_SelectItem(treeview, NULL); // to prevent
 			scen.remove_trigger_names();
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
 		case IDC_T_HIDEDESC:
+		    TreeView_SelectItem(treeview, NULL);
 			scen.remove_trigger_descriptions();
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case IDC_T_SWAPNAMESDESC:
+		    TreeView_SelectItem(treeview, NULL);
+			scen.swap_trigger_names_descriptions();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case IDC_T_DESELECT:
+		    TreeView_SelectItem(treeview, NULL); // to prevent
 			break;
 
 		case IDC_T_ADD:

@@ -1577,6 +1577,32 @@ AOKTS_ERROR Scenario::remove_trigger_descriptions()
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::swap_trigger_names_descriptions()
+{
+	long num = triggers.size();
+	if (num > 0) {
+	    Trigger *trig = &(*triggers.begin());
+
+        // triggers
+	    long i = num;
+	    while (i--)
+	    {
+	        char buffer[128];
+		    char *cstr = trig->description.unlock(128);
+	        strncpy ( buffer, cstr, 128 );
+	        buffer[128] = '\0';
+	        strncpy ( cstr, trig->name, 128 );
+	        cstr[128] = '\0';
+		    trig->description.lock();
+	        strncpy ( trig->name, buffer, 128 );
+	        trig->name[128] = '\0';
+		    trig++;
+	    }
+	}
+
+	return ERR_none;
+}
+
 bool up_to_aofe_test(const Effect & e)
 {
      return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33;

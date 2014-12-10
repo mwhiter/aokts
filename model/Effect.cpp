@@ -306,6 +306,23 @@ std::string Effect::getNameTip() const
         convert << " at (" << location.x << ", " << location.y << ")";
         stype.append(convert.str());
         break;
+    case 12: // Task object
+        convert << "task ";
+        if (s_player == 0) {
+            convert << "Gaia";
+        } else {
+            convert << "p" << s_player;
+        }
+        if (pUnit && pUnit->id()) {
+            std::wstring unitname(pUnit->name());
+            std::string un(unitname.begin(), unitname.end());
+            convert << " " << un;
+        } else {
+            convert << " unit";
+        }
+        convert << " to (" << location.x << ", " << location.y << ")";
+        stype.append(convert.str());
+        break;
     case 18: // Change Ownership
         stype.append(types_short[type]);
         stype.append(" ");

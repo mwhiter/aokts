@@ -105,6 +105,8 @@ char *SString::unlock(int want)
 			strncpy(newbuff, data, len);
 			newbuff[len] = '\0';
 			delete [] data;
+		} else {
+			newbuff[0] = '\0';
 		}
 
 		data = newbuff;

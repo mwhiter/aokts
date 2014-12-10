@@ -194,6 +194,7 @@ void Units_Reset(HWND dialog)
 	ENABLE_WND(IDC_U_MAKEP7, false);
 	ENABLE_WND(IDC_U_MAKEP8, false);
 	ENABLE_WND(IDC_U_MAKEGA, false);
+	ENABLE_WND(IDC_U_DESELECT, false);
 	Units_Load(dialog);
 }
 
@@ -241,6 +242,7 @@ void Units_HandleDelete(HWND dialog)
 		ENABLE_WND(IDC_U_MAKEP7, false);
 		ENABLE_WND(IDC_U_MAKEP8, false);
 		ENABLE_WND(IDC_U_MAKEGA, false);
+		ENABLE_WND(IDC_U_DESELECT, false);
 		u_index = SIZE_MAX;
 	}
 }
@@ -293,6 +295,7 @@ void Units_HandleChangeOwnership(HWND dialog, unsigned int player)
 		ENABLE_WND(IDC_U_MAKEP7, false);
 		ENABLE_WND(IDC_U_MAKEP8, false);
 		ENABLE_WND(IDC_U_MAKEGA, false);
+		ENABLE_WND(IDC_U_DESELECT, false);
 		u_index = SIZE_MAX;
 	}
 }
@@ -333,6 +336,7 @@ void Units_HandleSelChange(HWND dialog, HWND listbox)
 		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP7), TRUE);
 		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEP8), TRUE);
 		EnableWindow(GetDlgItem(dialog, IDC_U_MAKEGA), TRUE);
+		EnableWindow(GetDlgItem(dialog, IDC_U_DESELECT), TRUE);
 		EnableMenuItem(propdata.menu, ID_EDIT_DELETE, MF_ENABLED);
 	}
 
@@ -394,6 +398,7 @@ void Units_HandleAdd(HWND dialog)
 	ENABLE_WND(IDC_U_MAKEP7, true);
 	ENABLE_WND(IDC_U_MAKEP8, true);
 	ENABLE_WND(IDC_U_MAKEGA, true);
+	ENABLE_WND(IDC_U_DESELECT, true);
 }
 
 void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
@@ -423,7 +428,26 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		    SetDlgItemFloat(dialog, IDC_U_ROTATE_VAL, (float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI);
 			break;
 
+		case IDC_U_DESELECT:		//BN_CLICKED
+		    SendDlgItemMessage(dialog, IDC_U_SELU, LB_SETCURSEL, -1, 0);
+		    u_index = SIZE_MAX;
+		    SetDlgItemInt(dialog, IDC_U_ID, scen.next_uid, TRUE);
+	        ENABLE_WND(IDC_U_DEL, false);
+	        ENABLE_WND(IDC_U_MAKEP1, false);
+	        ENABLE_WND(IDC_U_MAKEP2, false);
+	        ENABLE_WND(IDC_U_MAKEP3, false);
+	        ENABLE_WND(IDC_U_MAKEP4, false);
+	        ENABLE_WND(IDC_U_MAKEP5, false);
+	        ENABLE_WND(IDC_U_MAKEP6, false);
+	        ENABLE_WND(IDC_U_MAKEP7, false);
+	        ENABLE_WND(IDC_U_MAKEP8, false);
+	        ENABLE_WND(IDC_U_MAKEGA, false);
+	        ENABLE_WND(IDC_U_DESELECT, false);
+			break;
+
 		case IDC_U_ADD:		//BN_CLICKED
+		    SendDlgItemMessage(dialog, IDC_U_SELU, LB_SETCURSEL, -1, 0);
+		    //SendMessage(control, CB_SETCURSEL, -1, 0);
 			Units_HandleAdd(dialog);
 			break;
 

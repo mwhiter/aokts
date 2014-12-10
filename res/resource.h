@@ -205,6 +205,7 @@
 #define IDC_U_RANDOMIZE_ROT     1529
 #define IDC_U_DEL_TYPE		    1530
 #define IDC_U_ROTATE_VAL  	    1531
+#define IDC_U_DESELECT  	    1532
 
 /* Trigger Controls */
 #define IDC_T_TREE				1200
@@ -236,6 +237,8 @@
 #define IDC_T_HIDENAMES         1226
 #define IDC_T_HIDEDESC          1227
 #define IDC_T_SWAPNAMESDESC     1228
+#define IDC_T_DESELECT			1229
+#define IDC_T_EXPANDALL         1230
 
 /* Compatibility Controls */
 #define IDC_P_TOAOFE            1200

@@ -1546,6 +1546,11 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
+		case IDC_T_HIDEDESC:
+			scen.remove_trigger_descriptions();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
 		case IDC_T_ADD:
 			SAFETY();
 			TrigTree_AddNew(treeview);

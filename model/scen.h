@@ -255,6 +255,7 @@ public:
 	int map_size(const RECT &source, MapCopyCache *&mcc);
 
 	AOKTS_ERROR remove_trigger_names();
+	AOKTS_ERROR remove_trigger_descriptions();
 	AOKTS_ERROR up_to_hd();
 	AOKTS_ERROR up_to_aofe();
 	AOKTS_ERROR up_to_10c();

@@ -1550,6 +1550,23 @@ AOKTS_ERROR Scenario::remove_trigger_names()
 	    while (i--)
 	    {
 	        strcpy(trig->name, "");
+		    trig++;
+	    }
+	}
+
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::remove_trigger_descriptions()
+{
+	long num = triggers.size();
+	if (num > 0) {
+	    Trigger *trig = &(*triggers.begin());
+
+        // triggers
+	    long i = num;
+	    while (i--)
+	    {
 		    char *cstr = trig->description.unlock(1);
 	        strcpy(cstr, "");
 		    trig->description.lock();

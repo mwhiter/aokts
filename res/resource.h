@@ -206,6 +206,8 @@
 #define IDC_U_DEL_TYPE		    1530
 #define IDC_U_ROTATE_VAL  	    1531
 #define IDC_U_DESELECT  	    1532
+#define IDC_U_DESELECT_ADD      1533
+#define IDC_U_RESORT            1534
 
 /* Trigger Controls */
 #define IDC_T_TREE				1200

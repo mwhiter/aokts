@@ -24,6 +24,7 @@ enum ScenVersion1
 
 enum ScenVersion2
 {
+	SV2_AOE1		= 15,
 	SV2_AOE2		= 18,
 	SV2_AOE2TC		= 22,
 	SV2_AOE2TF		= 23,// The Forgotten
@@ -38,7 +39,12 @@ struct PerVersion
 {
 	int messages_count;
 	bool mstrings;
-	int max_disables1, max_disables2;
+	int max_disables1; // max disable tech and unit
+	int max_disables2; // max disable buildings
+	int max_unit; // max unit types
+	int max_research; // max research
+	int max_tech; // max tech
+	int max_terrains; // max tech
 };
 
 /* Internal Constants */

@@ -100,7 +100,9 @@ bool Units_Load(HWND dialog)
 	SetDlgItemFloat(dialog, IDC_U_X, u->x);
 	SetDlgItemFloat(dialog, IDC_U_Y, u->y);
 	SetDlgItemFloat(dialog, IDC_U_Z, u->z);
-	SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_SETCURSEL, (int)(u->rotate / PI * 4), 0);
+	SetDlgItemFloat(dialog, IDC_U_ROTATE_VAL, u->rotate);
+	// add a little bit (0.1) to make sure we get the right item
+	SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_SETCURSEL, (int)((u->rotate + 0.1) / PI * 4), 0);
 	SetDlgItemInt(dialog, IDC_U_FRAME, u->frame, TRUE);
 	SetDlgItemInt(dialog, IDC_U_GARRISON, u->garrison, TRUE);
 	SetDlgItemInt(dialog, IDC_U_ID, u->ident, TRUE);
@@ -124,7 +126,8 @@ void Units_Save(HWND dialog)
 		u.z =		GetDlgItemFloat(dialog, IDC_U_Z);
 		if (ucnst_sel) // will be NULL if user changed group
 			u.setType(static_cast<const UnitLink *>(ucnst_sel));
-		u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
+		//u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
+		u.rotate = GetDlgItemFloat(dialog, IDC_U_ROTATE_VAL);
 		u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, TRUE);
 		u.garrison = GetDlgItemInt(dialog, IDC_U_GARRISON, NULL, TRUE);
 		u.ident = GetDlgItemInt(dialog, IDC_U_ID, NULL, TRUE);
@@ -297,12 +300,13 @@ void Units_HandleChangeOwnership(HWND dialog, unsigned int player)
 void Units_HandleRandomizeRotation(HWND dialog)
 {
     //std::ostringstream convert;
-    unsigned int cnst = (static_cast<const UnitLink *>(LinkListBox_Get(GetDlgItem(dialog, IDC_U_UNIT), c_index)))->id();
+    //unsigned int cnst = (static_cast<const UnitLink *>(LinkListBox_Get(GetDlgItem(dialog, IDC_U_UNIT), c_index)))->id();
     //printf("randomize unit frames \"%d\"\n", 0);
     //convert << cnst;
     //const std::string tmp = convert.str();
     //MessageBox(dialog, tmp.c_str(), szTitle, MB_ICONERROR);
-    scen.randomize_unit_frames(cnst);
+    //scen.randomize_unit_frames(cnst);
+    scen.randomize_unit_frames();
   	Units_Load(dialog);
 }
 
@@ -368,7 +372,8 @@ void Units_HandleAdd(HWND dialog)
 	u.x =		GetDlgItemFloat(dialog, IDC_U_X);
 	u.y =		GetDlgItemFloat(dialog, IDC_U_Y);
 	u.z =		GetDlgItemFloat(dialog, IDC_U_Z);
-	u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
+	//u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
+	u.rotate = GetDlgItemFloat(dialog, IDC_U_ROTATE_VAL);
 	u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, TRUE);
 	u.garrison = GetDlgItemInt(dialog, IDC_U_GARRISON, NULL, TRUE);
 	u.setType(static_cast<const UnitLink *>(
@@ -411,6 +416,10 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 
 		case IDC_U_TYPE:	//CBN_SELCHANGE
 			Units_HandleTypeChange(dialog, control);
+			break;
+
+		case IDC_U_ROTATE:	//CBN_SELCHANGE
+		    SetDlgItemFloat(dialog, IDC_U_ROTATE_VAL, (float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI);
 			break;
 
 		case IDC_U_ADD:		//BN_CLICKED

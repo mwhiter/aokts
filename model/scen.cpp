@@ -23,6 +23,7 @@
 #include <iterator>
 
 using std::vector;
+using std::pair;
 
 /* some options */
 #define BMP_READ_HACK
@@ -34,35 +35,71 @@ struct PerVersion
 	bool mstrings;
 	int max_disables1; // max disable tech and unit
 	int max_disables2; // max disable buildings
+	int max_unit; // max unit types
+	int max_research; // max research
+	int max_tech; // max tech
+	int max_terrains; // max tech
 }; */
 
 /* PerVersions */
+// AOE
+const PerVersion Scenario::pv1_15 =
+{
+	5,
+	true,
+	30, 20,
+	374,
+	118,
+	140,
+	32
+};
+
+// AOK
 const PerVersion Scenario::pv1_18 =
 {
 	5,
 	true,
-	30, 20
+	30, 20,
+	750,
+	426,
+	438,
+	32
 };
 
+// AOC
 const PerVersion Scenario::pv1_22 =
 {
 	6,
 	true,
-	30, 20
+	30, 20,
+	866,
+	460,
+	514,
+	42
 };
 
+// AOHD
 const PerVersion Scenario::pv1_23 =
 {
 	6,
 	true,
-	30, 20
+	30, 20,
+	865,
+	459,
+	513,
+	41
 };
 
+// SWGB
 const PerVersion Scenario::pv1_30 =
 {
 	6,
 	true,
-	60, 60
+	60, 60,
+	866, // install SWGB and use AGE to find the these values
+	460,
+	514,
+	42
 };
 
 /* The Scenario */
@@ -275,13 +312,11 @@ void Scenario::open(const char *path, const char *dpath)
 	{
 		ver1 = SV1_AOE2TC;
 	}
-#ifdef _DEBUG	//testing AOE1 support in debug mode
 	else if (header.version[2] == '1' &&
 		(header.version[3] == '0' || header.version[3] == '1')) // 1.10 or 1.11
 	{
-		ver = SV1_AOE1;
+		ver1 = SV1_AOE1;
 	}
-#endif
 	else
 	{
 		printf("Unrecognized scenario version: %s.\n", header.version);
@@ -522,6 +557,10 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	switch (myround(version2 * 100))
 	{
+	case 115:
+		perversion = &pv1_15;
+		ver2 = SV2_AOE1;
+		break;
 	case 118:
 	case 119:
 	case 120:
@@ -1867,6 +1906,50 @@ AOKTS_ERROR Scenario::map_duplicate_terrain(const RECT &from, const POINT &to)
 
 	map.duplicateTerrain(truefrom, to);
 
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::randomize_unit_frames()
+{
+    // compiler will set first array element to the value you've
+    // provided (0) and all others will be set to zero because it is a
+    // default value for omitted array elements.
+    // can't do this. need to use compiler constants for sizes. also {0}
+    // doesn't work in vc++ 2005
+    //unsigned char lookup[perversion->max_unit][2] = {0};
+    //map<unsigned char, unsigned char> lookup;
+    vector< pair<short,float>> lookup(perversion->max_unit, std::make_pair(0,0.0F));
+
+    size_t cunitid;
+    Unit * cunit;
+    // each player
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+        // units
+        vector<Unit>::iterator end = players[i].units.end();
+        LONG numunits = players[i].units.size();
+	    for (int j = 0; j < numunits; j++) {
+	        cunitid = players[i].units.at(j).getType()->id();
+	        cunit = &players[i].units.at(j);
+	        if (cunit->frame > lookup.at(cunitid).first) {
+	            lookup.at(cunitid).first = cunit->frame;
+	        }
+	        if (cunit->rotate > lookup.at(cunitid).second) {
+	            lookup.at(cunitid).second = cunit->rotate;
+	        }
+	    }
+	}
+    // each player
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+        // units
+        vector<Unit>::iterator end = players[i].units.end();
+        LONG numunits = players[i].units.size();
+	    for (int j = 0; j < numunits; j++) {
+	        cunitid = players[i].units.at(j).getType()->id();
+	        cunit = &players[i].units.at(j);
+            cunit->frame = (short)(rand() % (lookup.at(cunitid).first + 1));
+            cunit->rotate = (float)(rand() % (int)(lookup.at(cunitid).second / (float)PI * 4 + 1)) / 4 * (float)PI;
+	    }
+	}
 	return ERR_none;
 }
 

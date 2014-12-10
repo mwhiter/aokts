@@ -45,8 +45,8 @@ IDI_LOGO                ICON                    "aokts.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,9
- PRODUCTVERSION 1,2,0,9
+ FILEVERSION 1,2,0,10
+ PRODUCTVERSION 1,2,0,10
  FILEFLAGSMASK 0x1L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -63,7 +63,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Created by David Tombs (DiGiT)"
             VALUE "FileDescription", "TS executable"
-            VALUE "FileVersion", "1.2.0 Alpha 9"
+            VALUE "FileVersion", "1.2.0 Alpha 10"
             VALUE "InternalName", "ts"
             VALUE "LegalCopyright", "Copyright (c) David Tombs 2010. See readme.txt."
             VALUE "LegalTrademarks", "Age of Empires II is a legal trademark of Microsoft Corporation."
@@ -164,7 +164,7 @@ BEGIN
     LTEXT           "Trigger Studio\nby David Tombs (DiGiT)",IDC_STATIC,48,8,96,16
     LTEXT           "Updated by:\nBlankname and E/X mantis",IDC_STATIC,48,28,96,16
     LTEXT           "Version:",IDC_STATIC,144,8,48,8
-    LTEXT           "1.2.0 Alpha 9",IDC_STATIC,144,16,48,8
+    LTEXT           "1.2.0 Alpha 10",IDC_STATIC,144,16,48,8
     DEFPUSHBUTTON   "OK",IDOK,144,30,48,14
 END
 
@@ -405,7 +405,7 @@ BEGIN
     LISTBOX         IDC_D_SEL,232,7,119,291,LBS_SORT | WS_VSCROLL | WS_TABSTOP
 END
 
-IDD_TRIGGERS DIALOGEX 0, 0, 356, 302
+IDD_TRIGGERS DIALOGEX 0, 0, 356, 321
 STYLE DS_SETFONT | WS_CHILD | WS_CAPTION
 CAPTION "Triggers"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
@@ -414,7 +414,7 @@ BEGIN
     CONTROL         "Show ID",IDC_T_SHOWFIREORDER,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,88,2,48,13
     CONTROL         "Show Display Order",IDC_T_SHOWDISPLAYORDER,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,5,2,79,13
     PUSHBUTTON      "Sync ID to DO",IDC_T_SYNC,136,2,68,13
-    CONTROL         "Tree1",IDC_T_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_LINESATROOT | TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,3,16,204,283,WS_EX_CLIENTEDGE
+    CONTROL         "Tree1",IDC_T_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_LINESATROOT | TVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,3,16,204,302,WS_EX_CLIENTEDGE
     LTEXT           "Description:",IDC_STATIC,211,4,38,8
     LTEXT           "Objective Order",IDC_STATIC,265,4,56,8
     EDITTEXT        IDC_T_ORDER,321,2,32,13,ES_AUTOHSCROLL | ES_NUMBER
@@ -428,7 +428,7 @@ BEGIN
     PUSHBUTTON      "Edit...",IDC_T_EDIT,211,127,70,17,WS_DISABLED
     PUSHBUTTON      "New Effect",IDC_T_NEFFECT,284,146,70,17,WS_DISABLED
     PUSHBUTTON      "Duplicate for all players",IDC_T_DUPP,211,165,142,18,WS_DISABLED
-    GROUPBOX        "Operations (use display order)",IDC_STATIC,211,187,141,82
+    GROUPBOX        "Operations (use display order)",IDC_STATIC,211,187,141,83
     LTEXT           "Range:",IDC_STATIC,217,203,26,11
     EDITTEXT        IDC_T_START,262,202,40,12,ES_NUMBER
     EDITTEXT        IDC_T_END,308,202,40,12,ES_NUMBER
@@ -437,9 +437,10 @@ BEGIN
     PUSHBUTTON      "Move",IDC_T_MOVE,216,234,63,15
     PUSHBUTTON      "Delete",IDC_T_DELETE,286,234,63,15
     PUSHBUTTON      "Duplicate",IDC_T_DUPRANGE,216,251,63,15,WS_DISABLED
-    GROUPBOX        "All Triggers",IDC_STATIC,211,270,141,29
-    PUSHBUTTON      "Clear Names",IDC_T_HIDENAMES,216,281,65,15
-    PUSHBUTTON      "Clear Descriptions",IDC_T_HIDEDESC,284,281,64,15
+    GROUPBOX        "All Triggers",IDC_STATIC,211,273,141,45
+    PUSHBUTTON      "Clear Names",IDC_T_HIDENAMES,216,283,65,15
+    PUSHBUTTON      "Clear Descriptions",IDC_T_HIDEDESC,284,283,64,15
+    PUSHBUTTON      "Swap",IDC_T_SWAPNAMESDESC,216,300,65,15
     EDITTEXT        IDC_T_NAME,210,48,143,12
     CONTROL         "Flash Objectives at start",IDC_T_OBJSTATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,211,78,144,11
     LTEXT           "ID:",IDC_STATIC,211,94,20,8
@@ -683,6 +684,7 @@ BEGIN
     BEGIN
         VERTGUIDE, 281
         VERTGUIDE, 284
+        BOTTOMMARGIN, 302
     END
 
     IDD_COND, DIALOG

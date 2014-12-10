@@ -10,7 +10,7 @@
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0 Alpha 9"
+#define VER_STRING "1.2.0 Alpha 10"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -235,6 +235,7 @@
 #define IDC_T_DUPRANGE          1225
 #define IDC_T_HIDENAMES         1226
 #define IDC_T_HIDEDESC          1227
+#define IDC_T_SWAPNAMESDESC     1228
 
 /* Compatibility Controls */
 #define IDC_P_TOAOFE            1200

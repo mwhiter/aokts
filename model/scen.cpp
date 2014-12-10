@@ -9,6 +9,7 @@
 #include "scen.h"
 
 #include "../util/zlibfile.h"
+#include "../view/utilui.h"
 #include "../util/utilio.h"
 #include "../util/settings.h"
 #include "../util/Buffer.h"
@@ -35,7 +36,7 @@ struct PerVersion
 	bool mstrings;
 	int max_disables1; // max disable tech and unit
 	int max_disables2; // max disable buildings
-	int max_unit; // max unit types
+	UCNST max_unit; // max unit types
 	int max_research; // max research
 	int max_tech; // max tech
 	int max_terrains; // max tech
@@ -1909,7 +1910,7 @@ AOKTS_ERROR Scenario::map_duplicate_terrain(const RECT &from, const POINT &to)
 	return ERR_none;
 }
 
-AOKTS_ERROR Scenario::randomize_unit_frames()
+AOKTS_ERROR Scenario::randomize_unit_frames(HWND dialog)
 {
     // compiler will set first array element to the value you've
     // provided (0) and all others will be set to zero because it is a
@@ -1920,21 +1921,22 @@ AOKTS_ERROR Scenario::randomize_unit_frames()
     //map<unsigned char, unsigned char> lookup;
     vector< pair<short,float>> lookup(perversion->max_unit, std::make_pair(0,0.0F));
 
-    size_t cunitid;
-    Unit * cunit;
+    UCNST cunitid;
     // each player
 	for (int i = 0; i < NUM_PLAYERS; i++) {
         // units
         vector<Unit>::iterator end = players[i].units.end();
-        LONG numunits = players[i].units.size();
-	    for (int j = 0; j < numunits; j++) {
-	        cunitid = players[i].units.at(j).getType()->id();
-	        cunit = &players[i].units.at(j);
-	        if (cunit->frame > lookup.at(cunitid).first) {
-	            lookup.at(cunitid).first = cunit->frame;
-	        }
-	        if (cunit->rotate > lookup.at(cunitid).second) {
-	            lookup.at(cunitid).second = cunit->rotate;
+        for (vector<Unit>::iterator iter = players[i].units.begin(); iter != end; ++iter) {
+	        cunitid = iter->getType()->id();
+	        if (cunitid >= 0 && cunitid < perversion->max_unit){
+	            if (iter->frame > lookup.at(cunitid).first) {
+	                lookup.at(cunitid).first = iter->frame;
+	            }
+	            if (iter->rotate > lookup.at(cunitid).second) {
+	                lookup.at(cunitid).second = iter->rotate;
+	            }
+	        } else {
+	            //MessageBox(dialog, toString<int>(cunitid).c_str(), "", MB_ICONERROR);
 	        }
 	    }
 	}
@@ -1942,12 +1944,12 @@ AOKTS_ERROR Scenario::randomize_unit_frames()
 	for (int i = 0; i < NUM_PLAYERS; i++) {
         // units
         vector<Unit>::iterator end = players[i].units.end();
-        LONG numunits = players[i].units.size();
-	    for (int j = 0; j < numunits; j++) {
-	        cunitid = players[i].units.at(j).getType()->id();
-	        cunit = &players[i].units.at(j);
-            cunit->frame = (short)(rand() % (lookup.at(cunitid).first + 1));
-            cunit->rotate = (float)(rand() % (int)(lookup.at(cunitid).second / (float)PI * 4 + 1)) / 4 * (float)PI;
+	    for (vector<Unit>::iterator iter = players[i].units.begin(); iter != end; ++iter) {
+	        cunitid = iter->getType()->id();
+	        if (cunitid >= 0 && cunitid < perversion->max_unit){
+                iter->frame = (short)(rand() % (lookup.at(cunitid).first + 1));
+                iter->rotate = (float)(rand() % (int)(lookup.at(cunitid).second / (float)PI * 4 + 1)) / 4 * (float)PI;
+            }
 	    }
 	}
 	return ERR_none;

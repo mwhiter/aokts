@@ -306,7 +306,8 @@ void Units_HandleRandomizeRotation(HWND dialog)
     //const std::string tmp = convert.str();
     //MessageBox(dialog, tmp.c_str(), szTitle, MB_ICONERROR);
     //scen.randomize_unit_frames(cnst);
-    scen.randomize_unit_frames();
+	//MessageBox(dialog, toString<int>(scen.perversion->max_unit).c_str(), "", MB_ICONERROR);
+    scen.randomize_unit_frames(dialog);
   	Units_Load(dialog);
 }
 

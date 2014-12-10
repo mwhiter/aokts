@@ -41,7 +41,7 @@ struct PerVersion
 	bool mstrings;
 	int max_disables1; // max disable tech and unit
 	int max_disables2; // max disable buildings
-	int max_unit; // max unit types
+	UCNST max_unit; // max unit types
 	int max_research; // max research
 	int max_tech; // max tech
 	int max_terrains; // max tech

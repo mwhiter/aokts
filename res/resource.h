@@ -234,10 +234,13 @@
 #define IDC_T_DELETE            1224
 #define IDC_T_DUPRANGE          1225
 #define IDC_T_HIDENAMES         1226
-#define IDC_T_TOAOFE            1227
-#define IDC_T_TO1C              1228
-#define IDC_T_TOUP              1229
-#define IDC_T_TOHD              1230
+#define IDC_T_HIDEDESC          1227
+
+/* Compatibility Controls */
+#define IDC_P_TOAOFE            1200
+#define IDC_P_TO1C              1201
+#define IDC_P_TOUP              1202
+#define IDC_P_TOHD              1203
 
 /* Condition Controls */
 #define IDC_C_TYPE				1900

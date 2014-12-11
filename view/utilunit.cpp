@@ -118,7 +118,7 @@ int UnitList_Append(HWND listbox, const Unit * unit, size_t u_index)
 
 	wchar_t string[UNITSTR_MAX];
 	print_name(string, UNITSTR_MAX, *unit);
-	
+
 	index = List_AddStringW(listbox, string);
 	SendMessage(listbox, LB_SETITEMDATA, index, u_index);
 

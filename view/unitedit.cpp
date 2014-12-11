@@ -370,14 +370,11 @@ void Units_HandleAdd(HWND dialog)
 	if (scen.next_uid == new_uid) {
 		scen.next_uid++;
 	}
-	SetDlgItemInt(dialog, IDC_U_ID, scen.next_uid, TRUE);
-	SetDlgItemInt(dialog, IDC_U_NEXT_AVAIL, scen.next_uid, TRUE);
 	HWND listbox = GetDlgItem(dialog, IDC_U_SELU);
 
 	u.x =		GetDlgItemFloat(dialog, IDC_U_X);
 	u.y =		GetDlgItemFloat(dialog, IDC_U_Y);
 	u.z =		GetDlgItemFloat(dialog, IDC_U_Z);
-	//u.rotate =	(float)SendDlgItemMessage(dialog, IDC_U_ROTATE, CB_GETCURSEL, 0, 0) / 4 * (float)PI;
 	u.rotate = GetDlgItemFloat(dialog, IDC_U_ROTATE_VAL);
 	u.frame = (short)GetDlgItemInt(dialog, IDC_U_FRAME, NULL, TRUE);
 	u.garrison = GetDlgItemInt(dialog, IDC_U_GARRISON, NULL, TRUE);
@@ -399,6 +396,7 @@ void Units_HandleAdd(HWND dialog)
 	ENABLE_WND(IDC_U_MAKEP8, true);
 	ENABLE_WND(IDC_U_MAKEGA, true);
 	ENABLE_WND(IDC_U_DESELECT, true);
+	SetDlgItemInt(dialog, IDC_U_NEXT_AVAIL, scen.next_uid, TRUE);
 }
 
 void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
@@ -445,9 +443,14 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 	        ENABLE_WND(IDC_U_DESELECT, false);
 			break;
 
-		case IDC_U_ADD:		//BN_CLICKED
+		case IDC_U_DESELECT_ADD:		//BN_CLICKED
 		    SendDlgItemMessage(dialog, IDC_U_SELU, LB_SETCURSEL, -1, 0);
-		    //SendMessage(control, CB_SETCURSEL, -1, 0);
+		    u_index = SIZE_MAX;
+		    SetDlgItemInt(dialog, IDC_U_ID, scen.next_uid, TRUE);
+			Units_HandleAdd(dialog);
+			break;
+
+		case IDC_U_ADD:		//BN_CLICKED
 			Units_HandleAdd(dialog);
 			break;
 
@@ -530,6 +533,7 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			UnitList_ChangeType(dialog, control);
 			break;
 
+		case IDC_U_RESORT:
 		case IDC_U_SORT:
 			Units_Reset(dialog);
 			break;

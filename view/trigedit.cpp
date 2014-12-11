@@ -1565,6 +1565,22 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
+		case IDC_T_EXPANDALL:
+		    // Reset first
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+
+	        HTREEITEM item;
+	        item = TreeView_GetNextItem(treeview, NULL, TVGN_ROOT);
+	        while (item) {
+		        SendMessage(treeview, TVM_EXPAND, TVE_EXPAND, (LPARAM)item);
+	            item = TreeView_GetNextItem(treeview, item, TVGN_NEXT);
+	        }
+	        // find way to go to top of tree
+	        // maybe use 'find'. use find to search for trigger
+	        //item = TreeView_GetNextItem(treeview, NULL, TVGN_ROOT);
+		    //SendMessage(treeview, CB_SETCURSEL, 0, 0);
+			break;
+
 		case IDC_T_DESELECT:
 		    TreeView_SelectItem(treeview, NULL); // to prevent
 			break;

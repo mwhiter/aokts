@@ -1989,7 +1989,8 @@ AOKTS_ERROR Scenario::randomize_unit_frames(HWND dialog)
         vector<Unit>::iterator end = players[i].units.end();
 	    for (vector<Unit>::iterator iter = players[i].units.begin(); iter != end; ++iter) {
 	        cunitid = iter->getType()->id();
-	        if (cunitid >= 0 && cunitid < perversion->max_unit){
+	        // 264 - 272 are cliffs (avoid) when game is aoe2
+	        if (cunitid >= 0 && cunitid < perversion->max_unit && !((ver1 == SV1_AOE2 || ver1 == SV1_AOE2TC) && cunitid >= 264 && cunitid <= 272)){
                 iter->frame = (short)(rand() % (lookup.at(cunitid).first + 1));
                 iter->rotate = (float)(rand() % (int)(lookup.at(cunitid).second / (float)PI * 4 + 1)) / 4 * (float)PI;
             }

@@ -1899,60 +1899,6 @@ AOKTS_ERROR Scenario::compress_unit_ids()
 	return ERR_none;
 }
 
-AOKTS_ERROR Scenario::map_duplicate_elevation(const RECT &from, const POINT &to)
-{
-	LONG dx, dy, w, h, truew, trueh;
-
-	dx = to.x - from.left;
-	dy = to.y - from.bottom;
-	w = from.right - from.left;
-	h = from.top - from.bottom;
-    // +1 because right - left == 0 represents 1 tile
-	truew = w + 1;
-	trueh = h + 1;
-	RECT truefrom;
-	truefrom.left = from.left;
-	truefrom.bottom = from.bottom;
-	truefrom.right = from.left + truew;
-	truefrom.top = from.bottom + trueh;
-	RECT trueto;
-	trueto.left = to.x;
-	trueto.right = to.x + truew;
-	trueto.bottom = to.y;
-	trueto.top = to.y + trueh;
-
-	map.duplicateElevation(truefrom, to);
-
-	return ERR_none;
-}
-
-AOKTS_ERROR Scenario::map_duplicate_terrain(const RECT &from, const POINT &to)
-{
-	LONG dx, dy, w, h, truew, trueh;
-
-	dx = to.x - from.left;
-	dy = to.y - from.bottom;
-	w = from.right - from.left;
-	h = from.top - from.bottom;
-    // +1 because right - left == 0 represents 1 tile
-	truew = w + 1;
-	trueh = h + 1;
-	RECT truefrom;
-	truefrom.left = from.left;
-	truefrom.bottom = from.bottom;
-	truefrom.right = from.left + truew;
-	truefrom.top = from.bottom + trueh;
-	RECT trueto;
-	trueto.left = to.x;
-	trueto.right = to.x + truew;
-	trueto.bottom = to.y;
-	trueto.top = to.y + trueh;
-
-	map.duplicateTerrain(truefrom, to);
-
-	return ERR_none;
-}
-
 AOKTS_ERROR Scenario::randomize_unit_frames(HWND dialog)
 {
     // compiler will set first array element to the value you've
@@ -2033,7 +1979,7 @@ AOKTS_ERROR Scenario::randomize_unit_frames(const unsigned int cnst)
 	return ERR_none;
 }
 
-AOKTS_ERROR Scenario::map_duplicate_units(const RECT &from, const POINT &to)
+AOKTS_ERROR Scenario::map_duplicate(const RECT &from, const POINT &to, OpFlags::Value flags)
 {
 	LONG dx, dy, w, h, truew, trueh;
 
@@ -2055,114 +2001,73 @@ AOKTS_ERROR Scenario::map_duplicate_units(const RECT &from, const POINT &to)
 	trueto.bottom = to.y;
 	trueto.top = to.y + trueh;
 
-    // each player
-	for (int i = 0; i < NUM_PLAYERS; i++) {
-        // units
-        vector<Unit>::iterator end = players[i].units.end();
-        LONG numunits = players[i].units.size();
-	    for (int j = 0; j < numunits; j++) {
-            if (ISINRECT(truefrom, players[i].units.at(j).x, players[i].units.at(j).y)) {
-	            Unit spec(players[i].units.at(j));
-	            spec.ident = scen.next_uid++;
-		        spec.x += dx;
-		        spec.y += dy;
-		        //players[i].units.reserve(players[i].units.size() + 1);
-		        players[i].units.push_back(spec);
-                //players[i].add_unit(uspec);
-		    }
+    if (flags & OpFlags::UNITS){
+        // each player
+	    for (int i = 0; i < NUM_PLAYERS; i++) {
+            // units
+            vector<Unit>::iterator end = players[i].units.end();
+            LONG numunits = players[i].units.size();
+	        for (int j = 0; j < numunits; j++) {
+                if (ISINRECT(truefrom, players[i].units.at(j).x, players[i].units.at(j).y)) {
+	                Unit spec(players[i].units.at(j));
+	                spec.ident = scen.next_uid++;
+		            spec.x += dx;
+		            spec.y += dy;
+		            players[i].units.push_back(spec);
+		        }
+	        }
 	    }
-	    // using iterator like this doesn't work
-	    //for (vector<Unit>::iterator iter = players[i].units.begin(); iter != end; ++iter) {
-        //    if (ISINRECT(truefrom, iter->x, iter->y)) {
-        //        numnewu++;
-	    //        Unit spec(*iter);
-	    //        spec.ident = scen.next_uid++;
-		//        spec.x += dx;
-		//        spec.y += dy;
-		//        //players[i].units.reserve(players[i].units.size() + 1);
-		//        players[i].units.push_back(spec);
-        //        //players[i].add_unit(uspec);
-		//    }
-	    //}
 	}
 
-	return ERR_none;
-}
+	dx = to.x - truefrom.left;
+	dy = to.y - truefrom.bottom;
 
-AOKTS_ERROR Scenario::map_duplicate_triggers(const RECT &from, const POINT &to)
-{
-	LONG dx, dy, w, h, truew, trueh;
+    LONG cw = truefrom.right - truefrom.left;
+    LONG ch = truefrom.top - truefrom.bottom;
 
-	dx = to.x - from.left;
-	dy = to.y - from.bottom;
-	w = from.right - from.left;
-	h = from.top - from.bottom;
-    // +1 because right - left == 0 represents 1 tile
-	truew = w + 1;
-	trueh = h + 1;
-	RECT truefrom;
-	truefrom.left = from.left;
-	truefrom.bottom = from.bottom;
-	truefrom.right = from.left + truew;
-	truefrom.top = from.bottom + trueh;
-	RECT trueto;
-	trueto.left = to.x;
-	trueto.right = to.x + truew;
-	trueto.bottom = to.y;
-	trueto.top = to.y + trueh;
+	RECT torect;
+	torect.left = to.x;
+	torect.right = to.x + cw;
+	torect.bottom = to.y;
+	torect.top = to.y + ch;
 
-	map.swapArea(truefrom, to);
+    if ((flags & OpFlags::TERRAIN) || (flags & OpFlags::ELEVATION)){
+        Map::Terrain blank;
+	    blank.cnst=0;
+	    blank.elev=0;
 
-	Trigger *trig = &(*triggers.begin());
-	long num = triggers.size();
+	    /* perform some validation on input */
+	    if (!(truefrom.bottom < 0 || static_cast<unsigned>(truefrom.top) > map.y ||
+		    truefrom.left < 0 || static_cast<unsigned>(truefrom.right) > map.x ||
+	        torect.bottom < 0 || static_cast<unsigned>(torect.top) > map.y ||
+		    torect.left < 0 || static_cast<unsigned>(torect.right) > map.x)) {
 
-    // triggers
-	long i = num;
-	while (i--)
-	{
-	    // effects
-	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
-		    if (ISINRECT(truefrom, iter->location.x, iter->location.y)) {
-		        iter->location.x += dx;
-		        iter->location.y += dy;
-		    } else if (ISINRECT(trueto, iter->location.x, iter->location.y)) {
-		        iter->location.x -= dx;
-		        iter->location.y -= dy;
-		    }
-		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
-		        iter->area.right += dx;
-		        iter->area.top += dy;
-		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
-		        iter->area.right -= dx;
-		        iter->area.top -= dy;
-		    }
-		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
-		        iter->area.left += dx;
-		        iter->area.bottom += dy;
-		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
-		        iter->area.left -= dx;
-		        iter->area.bottom -= dy;
-		    }
-		}
-	    // conditions
-	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
-		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
-		        iter->area.right += dx;
-		        iter->area.top += dy;
-		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
-		        iter->area.right -= dx;
-		        iter->area.top -= dy;
-		    }
-		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
-		        iter->area.left += dx;
-		        iter->area.bottom += dy;
-		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
-		        iter->area.left -= dx;
-		        iter->area.bottom -= dy;
-		    }
-		}
-		trig++;
+            // temporarily store the area to move before copying
+            vector<vector<Map::Terrain>> frombuffer(cw, vector<Map::Terrain>(ch));
+	        for (LONG i = 0; i < cw; i++) {
+		        for (LONG j = 0; j < ch; j++) {
+		            frombuffer[i][j] = map.terrain[truefrom.left + i][truefrom.bottom + j];
+		        }
+	        }
+
+            if (flags & OpFlags::TERRAIN){
+	            for (LONG i = 0; i < cw; i++) {
+		            for (LONG j = 0; j < ch; j++) {
+		                map.terrain[torect.left + i][torect.bottom + j].cnst = frombuffer[i][j].cnst;
+		            }
+	            }
+	        }
+
+            if (flags & OpFlags::ELEVATION){
+	            for (LONG i = 0; i < cw; i++) {
+		            for (LONG j = 0; j < ch; j++) {
+		                map.terrain[torect.left + i][torect.bottom + j].elev = frombuffer[i][j].elev;
+		            }
+	            }
+	        }
+	    }
 	}
+
 
 	return ERR_none;
 }
@@ -2183,11 +2088,6 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to, OpFlags::Value
 	truefrom.bottom = from.bottom;
 	truefrom.right = from.left + truew;
 	truefrom.top = from.bottom + trueh;
-	//RECT falseto;
-	//falseto.left = to.x;
-	//falseto.right = to.x + w;
-	//falseto.bottom = to.y;
-	//falseto.top = to.y + h;
 	RECT trueto;
 	trueto.left = to.x;
 	trueto.right = to.x + truew;
@@ -2195,7 +2095,80 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to, OpFlags::Value
 	trueto.top = to.y + trueh;
 
     if ((flags & OpFlags::TERRAIN) || (flags & OpFlags::ELEVATION)){
-	    map.swapArea(truefrom, to, flags);
+        Map::Terrain blank;
+	    blank.cnst=0;
+	    blank.elev=0;
+
+	    LONG dx = 0, dy = 0;
+	    dx = to.x - truefrom.left;
+	    dy = to.y - truefrom.bottom;
+
+        LONG cw = truefrom.right - truefrom.left;
+        LONG ch = truefrom.top - truefrom.bottom;
+
+	    RECT torect;
+	    torect.left = to.x;
+	    torect.right = to.x + cw;
+	    torect.bottom = to.y;
+	    torect.top = to.y + ch;
+
+	    //xstep = dx/abs(dx);
+	    //ystep = dy/abs(dy);
+
+	    /* perform some validation on input */
+	    if (!(truefrom.bottom < 0 || static_cast<unsigned>(truefrom.top) > map.y ||
+		    truefrom.left < 0 || static_cast<unsigned>(truefrom.right) > map.x ||
+	        torect.bottom < 0 || static_cast<unsigned>(torect.top) > map.y ||
+		    torect.left < 0 || static_cast<unsigned>(torect.right) > map.x)) {
+
+            // temporarily store the area to move before overwriting
+            vector<vector<Map::Terrain>> frombuffer(cw, vector<Map::Terrain>(ch));
+	        for (LONG i = 0; i < cw; i++) {
+		        for (LONG j = 0; j < ch; j++) {
+		            frombuffer[i][j] = map.terrain[truefrom.left + i][truefrom.bottom + j];
+		        }
+	        }
+
+            // temporarily store the destination terrain before overwriting
+            vector<vector<Map::Terrain>> destbuffer(cw, vector<Map::Terrain>(ch));
+	        for (LONG i = 0; i < cw; i++) {
+		        for (LONG j = 0; j < ch; j++) {
+		            destbuffer[i][j] = map.terrain[torect.left + i][torect.bottom + j];
+		        }
+	        }
+
+            if (flags & OpFlags::TERRAIN){
+                // swap
+	            for (LONG i = 0; i < cw; i++) {
+		            for (LONG j = 0; j < ch; j++) {
+		                map.terrain[truefrom.left + i][truefrom.bottom + j].cnst = destbuffer[i][j].cnst;
+		            }
+	            }
+
+	            // gets priority
+	            for (LONG i = 0; i < cw; i++) {
+		            for (LONG j = 0; j < ch; j++) {
+		                map.terrain[torect.left + i][torect.bottom + j].cnst = frombuffer[i][j].cnst;
+		            }
+	            }
+	        }
+
+            if (flags & OpFlags::ELEVATION){
+                // swap
+	            for (LONG i = 0; i < cw; i++) {
+		            for (LONG j = 0; j < ch; j++) {
+		                map.terrain[truefrom.left + i][truefrom.bottom + j].elev = destbuffer[i][j].elev;
+		            }
+	            }
+
+	            // gets priority
+	            for (LONG i = 0; i < cw; i++) {
+		            for (LONG j = 0; j < ch; j++) {
+		                map.terrain[torect.left + i][torect.bottom + j].elev = frombuffer[i][j].elev;
+		            }
+	            }
+	        }
+	    }
     }
 
     // each player
@@ -2414,254 +2387,5 @@ bool Map::writeArea(Buffer &b, const RECT &area)
 
 bool Map::scaleArea(const RECT &area, const float scale)
 {
-	//Terrain blank;
-	//blank.cnst=0;
-	//blank.elev=0;
 
-	//LONG dx = 0, dy = 0;
-	//dx = target.x - area.left;
-	//dy = target.y - area.bottom;
-
-    //LONG cw = area.right - area.left;
-    //LONG ch = area.top - area.bottom;
-
-	//RECT torect;
-	//torect.left = target.x;
-	//torect.right = target.x + cw;
-	//torect.bottom = target.y;
-	//torect.top = target.y + ch;
-
-	////xstep = dx/abs(dx);
-	////ystep = dy/abs(dy);
-
-	///* perform some validation on input */
-	//if (area.bottom < 0 || static_cast<unsigned>(area.top) > y ||
-	//	area.left < 0 || static_cast<unsigned>(area.right) > x ||
-	//    torect.bottom < 0 || static_cast<unsigned>(torect.top) > y ||
-	//	torect.left < 0 || static_cast<unsigned>(torect.right) > x)
-	//	return false;
-
-    //// temporarily store the area to move before overwriting
-    //vector<vector<Terrain>> frombuffer(cw, vector<Terrain>(ch));
-	//for (LONG i = 0; i < cw; i++) {
-	//	for (LONG j = 0; j < ch; j++) {
-	//	    frombuffer[i][j] = terrain[area.left + i][area.bottom + j];
-	//	}
-	//}
-
-    //// temporarily store the destination terrain before overwriting
-    //vector<vector<Terrain>> destbuffer(cw, vector<Terrain>(ch));
-	//for (LONG i = 0; i < cw; i++) {
-	//	for (LONG j = 0; j < ch; j++) {
-	//	    destbuffer[i][j] = terrain[torect.left + i][torect.bottom + j];
-	//	}
-	//}
-
-    ///* erase */
-    ///*
-	//for (LONG i = 0; i < cw; i++) {
-	//	for (LONG j = 0; j < ch; j++) {
-	//	    terrain[area.left + i][area.bottom + j] = blank;
-    //        terrain[area.left + i][area.bottom + j].elev = destbuffer[i][j].elev;
-	//	}
-	//}
-    //*/
-
-    //// swap
-	//for (LONG i = 0; i < cw; i++) {
-	//	for (LONG j = 0; j < ch; j++) {
-	//	    terrain[area.left + i][area.bottom + j] = destbuffer[i][j];
-	//	}
-	//}
-
-	//// gets priority
-	//for (LONG i = 0; i < cw; i++) {
-	//	for (LONG j = 0; j < ch; j++) {
-	//	    terrain[torect.left + i][torect.bottom + j] = frombuffer[i][j];
-	//	}
-	//}
-
-	return true;
-}
-
-bool Map::swapArea(const RECT &area, const POINT &target, OpFlags::Value flags)
-{
-	Terrain blank;
-	blank.cnst=0;
-	blank.elev=0;
-
-	LONG dx = 0, dy = 0;
-	dx = target.x - area.left;
-	dy = target.y - area.bottom;
-
-    LONG cw = area.right - area.left;
-    LONG ch = area.top - area.bottom;
-
-	RECT torect;
-	torect.left = target.x;
-	torect.right = target.x + cw;
-	torect.bottom = target.y;
-	torect.top = target.y + ch;
-
-	//xstep = dx/abs(dx);
-	//ystep = dy/abs(dy);
-
-	/* perform some validation on input */
-	if (area.bottom < 0 || static_cast<unsigned>(area.top) > y ||
-		area.left < 0 || static_cast<unsigned>(area.right) > x ||
-	    torect.bottom < 0 || static_cast<unsigned>(torect.top) > y ||
-		torect.left < 0 || static_cast<unsigned>(torect.right) > x)
-		return false;
-
-    // temporarily store the area to move before overwriting
-    vector<vector<Terrain>> frombuffer(cw, vector<Terrain>(ch));
-	for (LONG i = 0; i < cw; i++) {
-		for (LONG j = 0; j < ch; j++) {
-		    frombuffer[i][j] = terrain[area.left + i][area.bottom + j];
-		}
-	}
-
-    // temporarily store the destination terrain before overwriting
-    vector<vector<Terrain>> destbuffer(cw, vector<Terrain>(ch));
-	for (LONG i = 0; i < cw; i++) {
-		for (LONG j = 0; j < ch; j++) {
-		    destbuffer[i][j] = terrain[torect.left + i][torect.bottom + j];
-		}
-	}
-
-    /* erase */
-    /*
-	for (LONG i = 0; i < cw; i++) {
-		for (LONG j = 0; j < ch; j++) {
-		    terrain[area.left + i][area.bottom + j] = blank;
-            terrain[area.left + i][area.bottom + j].elev = destbuffer[i][j].elev;
-		}
-	}
-    */
-
-    if (flags & OpFlags::TERRAIN){
-        // swap
-	    for (LONG i = 0; i < cw; i++) {
-		    for (LONG j = 0; j < ch; j++) {
-		        terrain[area.left + i][area.bottom + j].cnst = destbuffer[i][j].cnst;
-		    }
-	    }
-
-	    // gets priority
-	    for (LONG i = 0; i < cw; i++) {
-		    for (LONG j = 0; j < ch; j++) {
-		        terrain[torect.left + i][torect.bottom + j].cnst = frombuffer[i][j].cnst;
-		    }
-	    }
-	}
-
-    if (flags & OpFlags::ELEVATION){
-        // swap
-	    for (LONG i = 0; i < cw; i++) {
-		    for (LONG j = 0; j < ch; j++) {
-		        terrain[area.left + i][area.bottom + j].elev = destbuffer[i][j].elev;
-		    }
-	    }
-
-	    // gets priority
-	    for (LONG i = 0; i < cw; i++) {
-		    for (LONG j = 0; j < ch; j++) {
-		        terrain[torect.left + i][torect.bottom + j].elev = frombuffer[i][j].elev;
-		    }
-	    }
-	}
-
-	return true;
-}
-
-bool Map::duplicateTerrain(const RECT &area, const POINT &target)
-{
-	Terrain blank;
-	blank.cnst=0;
-	blank.elev=0;
-
-	LONG dx = 0, dy = 0;
-	dx = target.x - area.left;
-	dy = target.y - area.bottom;
-
-    LONG cw = area.right - area.left;
-    LONG ch = area.top - area.bottom;
-
-	RECT torect;
-	torect.left = target.x;
-	torect.right = target.x + cw;
-	torect.bottom = target.y;
-	torect.top = target.y + ch;
-
-	//xstep = dx/abs(dx);
-	//ystep = dy/abs(dy);
-
-	/* perform some validation on input */
-	if (area.bottom < 0 || static_cast<unsigned>(area.top) > y ||
-		area.left < 0 || static_cast<unsigned>(area.right) > x ||
-	    torect.bottom < 0 || static_cast<unsigned>(torect.top) > y ||
-		torect.left < 0 || static_cast<unsigned>(torect.right) > x)
-		return false;
-
-    // temporarily store the area to move before copying
-    vector<vector<Terrain>> frombuffer(cw, vector<Terrain>(ch));
-	for (LONG i = 0; i < cw; i++) {
-		for (LONG j = 0; j < ch; j++) {
-		    frombuffer[i][j] = terrain[area.left + i][area.bottom + j];
-		}
-	}
-
-	for (LONG i = 0; i < cw; i++) {
-		for (LONG j = 0; j < ch; j++) {
-		    terrain[torect.left + i][torect.bottom + j].cnst = frombuffer[i][j].cnst;
-		}
-	}
-
-	return true;
-}
-
-bool Map::duplicateElevation(const RECT &area, const POINT &target)
-{
-	Terrain blank;
-	blank.cnst=0;
-	blank.elev=0;
-
-	LONG dx = 0, dy = 0;
-	dx = target.x - area.left;
-	dy = target.y - area.bottom;
-
-    LONG cw = area.right - area.left;
-    LONG ch = area.top - area.bottom;
-
-	RECT torect;
-	torect.left = target.x;
-	torect.right = target.x + cw;
-	torect.bottom = target.y;
-	torect.top = target.y + ch;
-
-	//xstep = dx/abs(dx);
-	//ystep = dy/abs(dy);
-
-	/* perform some validation on input */
-	if (area.bottom < 0 || static_cast<unsigned>(area.top) > y ||
-		area.left < 0 || static_cast<unsigned>(area.right) > x ||
-	    torect.bottom < 0 || static_cast<unsigned>(torect.top) > y ||
-		torect.left < 0 || static_cast<unsigned>(torect.right) > x)
-		return false;
-
-    // temporarily store the area to move before copying
-    vector<vector<Terrain>> frombuffer(cw, vector<Terrain>(ch));
-	for (LONG i = 0; i < cw; i++) {
-		for (LONG j = 0; j < ch; j++) {
-		    frombuffer[i][j] = terrain[area.left + i][area.bottom + j];
-		}
-	}
-
-	for (LONG i = 0; i < cw; i++) {
-		for (LONG j = 0; j < ch; j++) {
-		    terrain[torect.left + i][torect.bottom + j].elev = frombuffer[i][j].elev;
-		}
-	}
-
-	return true;
 }

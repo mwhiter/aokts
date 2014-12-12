@@ -353,7 +353,7 @@ void Map_HandleMapMove(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
-void Map_HandleMapDuplicateElevation(HWND dialog)
+void Map_HandleMapDuplicate(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 {
 	bool disp = false;
 	RECT source;
@@ -388,48 +388,7 @@ void Map_HandleMapDuplicateElevation(HWND dialog)
 	if (disp) {
 		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
 	} else {
-	    scen.map_duplicate_elevation(source, target);
-	}
-
-	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
-}
-
-void Map_HandleMapDuplicateTerrain(HWND dialog)
-{
-	bool disp = false;
-	RECT source;
-	POINT target;
-	long temp;
-
-	/* Get the source rect */
-	source.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
-	source.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
-	source.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
-	source.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
-
-	/* Get the target point */
-	target.x = GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE);
-	target.y = GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE);
-
-	/* We need to make sure it's a sane rectangle. */
-	if (source.left > source.right)
-	{
-		temp = source.left;
-		source.left = source.right;
-		source.right = temp;
-		disp = true;
-	}
-	if (source.bottom > source.top)
-	{
-		temp = source.top;
-		source.top = source.bottom;
-		source.bottom = temp;
-		disp = true;
-	}
-	if (disp) {
-		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
-	} else {
-	    scen.map_duplicate_terrain(source, target);
+	    scen.map_duplicate(source, target, flags);
 	}
 
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
@@ -503,47 +462,6 @@ void Map_HandleNormalizeElevation(HWND dialog)
         }
         tier++;
     }
-
-	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
-}
-
-void Map_HandleMapDuplicateUnits(HWND dialog)
-{
-	bool disp = false;
-	RECT source;
-	POINT target;
-	long temp;
-
-	/* Get the source rect */
-	source.left   = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
-	source.bottom    = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
-	source.right  = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
-	source.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
-
-	/* Get the target point */
-	target.x = GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE);
-	target.y = GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE);
-
-	/* We need to make sure it's a sane rectangle. */
-	if (source.left > source.right)
-	{
-		temp = source.left;
-		source.left = source.right;
-		source.right = temp;
-		disp = true;
-	}
-	if (source.bottom > source.top)
-	{
-		temp = source.top;
-		source.top = source.bottom;
-		source.bottom = temp;
-		disp = true;
-	}
-	if (disp) {
-		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
-	} else {
-	    scen.map_duplicate_units(source, target);
-	}
 
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
@@ -664,15 +582,15 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 			break;
 
 		case IDC_TR_MDUPE:
-			Map_HandleMapDuplicateElevation(dialog);
+			Map_HandleMapDuplicate(dialog, OpFlags::ELEVATION);
 			break;
 
 		case IDC_TR_MDUPT:
-			Map_HandleMapDuplicateTerrain(dialog);
+			Map_HandleMapDuplicate(dialog, OpFlags::TERRAIN);
 			break;
 
 		case IDC_TR_MDUPU:
-			Map_HandleMapDuplicateUnits(dialog);
+			Map_HandleMapDuplicate(dialog, OpFlags::UNITS);
 			break;
 
 		case IDC_TR_SCALE:

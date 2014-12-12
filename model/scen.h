@@ -93,11 +93,7 @@ public:
 		returns: true if successful
 	*/
 	bool writeArea(Buffer &b, const RECT &area);
-	/*   swapArea: swaps an area with the one at the target */
-    bool swapArea(const RECT &area, const POINT &target, OpFlags::Value flags=OpFlags::ALL);
     bool scaleArea(const RECT &area, const float scale);
-    bool duplicateTerrain(const RECT &area, const POINT &target);
-    bool duplicateElevation(const RECT &area, const POINT &target);
 };
 
 #pragma pack(4)
@@ -294,10 +290,7 @@ public:
     AOKTS_ERROR map_scale(const RECT &area, const float scale);
     AOKTS_ERROR randomize_unit_frames(HWND dialog);
     AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);
-    AOKTS_ERROR map_duplicate_triggers(const RECT &from, const POINT &to);
-    AOKTS_ERROR map_duplicate_terrain(const RECT &from, const POINT &to);
-    AOKTS_ERROR map_duplicate_units(const RECT &from, const POINT &to);
-    AOKTS_ERROR map_duplicate_elevation(const RECT &from, const POINT &to);
+    AOKTS_ERROR map_duplicate(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
 
     AOKTS_ERROR move_triggers(size_t start, size_t end, size_t to);
     AOKTS_ERROR delete_triggers(size_t start, size_t end);

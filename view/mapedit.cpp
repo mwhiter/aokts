@@ -173,21 +173,6 @@ void Map_HandleMapClick(HWND dialog, short x, short y)
 		ctrlx = IDC_TR_TX;
 		ctrly = IDC_TR_TY;
 		break;
-	case CLICK_MCSet1:
-		ctrlx = IDC_TR_MCX1;
-		ctrly = IDC_TR_MCY1;
-		click_state = CLICK_Default;
-		break;
-	case CLICK_MCSet2:
-		ctrlx = IDC_TR_MCX2;
-		ctrly = IDC_TR_MCY2;
-		click_state = CLICK_Default;
-		break;
-	case CLICK_MCSetT:
-		ctrlx = IDC_TR_MCXT;
-		ctrly = IDC_TR_MCYT;
-		click_state = CLICK_Default;
-		break;
 	case CLICK_MMSet1:
 		ctrlx = IDC_TR_MMX1;
 		ctrly = IDC_TR_MMY1;
@@ -230,10 +215,10 @@ void Map_HandleMapCopy(HWND dialog)
 	}
 
 	/* Get the source rect */
-	source.left = GetDlgItemInt(dialog, IDC_TR_MCX1, NULL, FALSE);
-	source.bottom = GetDlgItemInt(dialog, IDC_TR_MCY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
-	source.right = GetDlgItemInt(dialog, IDC_TR_MCX2, NULL, FALSE);
-	source.top = GetDlgItemInt(dialog, IDC_TR_MCY2, NULL, FALSE);
+	source.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+	source.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	source.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+	source.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
 
 	/* We need to make sure it's a sane rectangle. */
 	if (source.left > source.right)
@@ -293,8 +278,8 @@ void Map_HandleMapPaste(HWND dialog)
 	void *cbData;
 	size_t size;
 
-	target.x = GetDlgItemInt(dialog, IDC_TR_MCXT, NULL, FALSE);
-	target.y = GetDlgItemInt(dialog, IDC_TR_MCYT, NULL, FALSE);
+	target.x = GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE);
+	target.y = GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE);
 
 	/*	Check whether map copy data is actually available. (Should be if we've
 		gotten this far.
@@ -327,7 +312,7 @@ void Map_HandleMapPaste(HWND dialog)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
-void Map_HandleMapMove(HWND dialog)
+void Map_HandleMapMove(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 {
 	bool disp = false;
 	RECT source;
@@ -362,7 +347,7 @@ void Map_HandleMapMove(HWND dialog)
 	if (disp) {
 		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
 	} else {
-	    scen.map_move(source, target);
+	    scen.map_move(source, target, flags);
 	}
 
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
@@ -583,23 +568,6 @@ void Map_HandleKillFocus(HWND dialog, WORD id)
 
 	switch (id)
 	{
-	case IDC_TR_MCX1:
-	case IDC_TR_MCY1:
-	case IDC_TR_MCX2:
-	case IDC_TR_MCY2:
-	case IDC_TR_MCXT:
-	case IDC_TR_MCYT:
-		SendMessage(propdata.mapview, MAP_UnhighlightPoint, MAP_UNHIGHLIGHT_ALL, 0);
-		SendMessage(propdata.mapview, MAP_HighlightPoint,
-			GetDlgItemInt(dialog, IDC_TR_MCX1, NULL, FALSE),
-			GetDlgItemInt(dialog, IDC_TR_MCY1, NULL, FALSE));
-		SendMessage(propdata.mapview, MAP_HighlightPoint,
-			GetDlgItemInt(dialog, IDC_TR_MCX2, NULL, FALSE),
-			GetDlgItemInt(dialog, IDC_TR_MCY2, NULL, FALSE));
-		SendMessage(propdata.mapview, MAP_HighlightPoint,
-			GetDlgItemInt(dialog, IDC_TR_MCXT, NULL, FALSE),
-			GetDlgItemInt(dialog, IDC_TR_MCYT, NULL, FALSE));
-		break;
 	case IDC_TR_MMX1:
 	case IDC_TR_MMY1:
 	case IDC_TR_MMX2:
@@ -655,18 +623,6 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 	case BN_CLICKED:
 		switch (id)
 		{
-		case IDC_TR_MCSET1:
-			click_state = CLICK_MCSet1;
-			break;
-
-		case IDC_TR_MCSET2:
-			click_state = CLICK_MCSet2;
-			break;
-
-		case IDC_TR_MCSETT:
-			click_state = CLICK_MCSetT;
-			break;
-
 		case IDC_TR_MMSET1:
 			click_state = CLICK_MMSet1;
 			break;
@@ -688,7 +644,23 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 			break;
 
 		case IDC_TR_MMMOVE:
-			Map_HandleMapMove(dialog);
+			Map_HandleMapMove(dialog, OpFlags::ALL);
+			break;
+
+		case IDC_TR_MOVE_TERRAIN:
+			Map_HandleMapMove(dialog, OpFlags::TERRAIN);
+			break;
+
+		case IDC_TR_MOVE_UNITS:
+			Map_HandleMapMove(dialog, OpFlags::UNITS);
+			break;
+
+		case IDC_TR_MOVE_ELEVATION:
+			Map_HandleMapMove(dialog, OpFlags::ELEVATION);
+			break;
+
+		case IDC_TR_MOVE_TRIGGERS:
+			Map_HandleMapMove(dialog, OpFlags::TRIGGERS);
 			break;
 
 		case IDC_TR_MDUPE:

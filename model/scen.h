@@ -44,6 +44,16 @@ struct AOKFile
 	SString data;
 };
 
+struct OpFlags {
+    enum Value{
+        TERRAIN                        = 0x01,
+        UNITS                          = 0x02,
+        ELEVATION                      = 0x04,
+        TRIGGERS                       = 0x08,
+        ALL                            = 0x01 | 0x02 | 0x04 | 0x08
+    };
+};
+
 /* Map */
 
 #pragma pack(push, 1)	//set packing alignment to work with terrain array
@@ -84,7 +94,7 @@ public:
 	*/
 	bool writeArea(Buffer &b, const RECT &area);
 	/*   swapArea: swaps an area with the one at the target */
-    bool swapArea(const RECT &area, const POINT &target);
+    bool swapArea(const RECT &area, const POINT &target, OpFlags::Value flags=OpFlags::ALL);
     bool scaleArea(const RECT &area, const float scale);
     bool duplicateTerrain(const RECT &area, const POINT &target);
     bool duplicateElevation(const RECT &area, const POINT &target);
@@ -280,10 +290,11 @@ public:
 
     AOKTS_ERROR compress_unit_ids();
 	/*  map_move: moves the units, terrain and triggers in that terrain */
-    AOKTS_ERROR map_move(const RECT &from, const POINT &to);
+    AOKTS_ERROR map_move(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_scale(const RECT &area, const float scale);
     AOKTS_ERROR randomize_unit_frames(HWND dialog);
     AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);
+    AOKTS_ERROR map_duplicate_triggers(const RECT &from, const POINT &to);
     AOKTS_ERROR map_duplicate_terrain(const RECT &from, const POINT &to);
     AOKTS_ERROR map_duplicate_units(const RECT &from, const POINT &to);
     AOKTS_ERROR map_duplicate_elevation(const RECT &from, const POINT &to);

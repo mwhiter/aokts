@@ -157,6 +157,8 @@ std::string Effect::getNameTip() const
         stype.append(convert.str());
         break;
     case 5: // Tribute
+        // what is the significance of losing 2147483647
+        // i guess it resets?
         if (amount == 1410065407) {
             // reset to 0
             convert << "Reset ";
@@ -320,6 +322,7 @@ std::string Effect::getNameTip() const
         } else {
             convert << " unit";
         }
+        convert << " from area (" << area.left << "," << area.top << ") - (" << area.right << ", " << area.bottom << ")";
         convert << " to (" << location.x << ", " << location.y << ")";
         stype.append(convert.str());
         break;
@@ -350,37 +353,41 @@ std::string Effect::getNameTip() const
         {
             std::string sunit("");
             bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
+            if (s_player > 0) {
+                convert << "p" << s_player << "'s ";
+            }
 	        if (num_sel > 0) {
 	            if (num_sel == 1) {
-                    convert << "unit";
+                    convert << "unit ";
                 } else {
-                    convert << "units";
+                    convert << "units ";
                 }
 	            for (int i = 0; i < num_sel; i++) {
-                    convert << " " << uids[i];
+                    convert << uids[i] << " ";
 	            }
 	            if (unit_set_selected) {
 	                convert << " and ";
 	            }
-		    }
-            if (s_player > 0) {
-                convert << "p" << s_player << "'s ";
             }
-            if (pUnit && pUnit->id()) {
+            if (unit_set_selected) {
                 std::wstring unitname(pUnit->name());
                 std::string un(unitname.begin(), unitname.end());
                 if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-                    convert << un << "s";
+                    convert << un << "s ";
                 } else {
-                    convert << un;
+                    convert << un << " ";
                 }
+            } else {
+	            if (num_sel <= 0) {
+                    convert << "units ";
+	            }
             }
             if (unit_set_selected) {
                 if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
                     if (area.left == area.right && area.top == area.bottom) {
-                        convert << " at (" << area.left << "," << area.top << ")";
+                        convert << "at (" << area.left << "," << area.top << ")";
                     } else {
-                        convert << " from area (" << area.left << "," << area.top << ") - (" << area.right << ", " << area.bottom << ")";
+                        convert << "from area (" << area.left << "," << area.top << ") - (" << area.right << ", " << area.bottom << ")";
                     }
                 }
             }

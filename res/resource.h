@@ -109,6 +109,8 @@
 #define IDC_P_LBL_GOLD      1162
 #define IDC_P_LBL_STONE     1163
 #define IDC_P_LBL_OREX      1164
+#define IDC_P_SCRIPT        1165
+#define IDC_P_CLEARAI       1166
 
 /* Global Victory Controls */
 #define IDC_V_SSTD				1300

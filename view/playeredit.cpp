@@ -73,6 +73,7 @@ void LoadPlayer(HWND dialog)
 	SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
 	SetDlgItemText(dialog, IDC_P_AI, p->ai);
 	EnableWindow(GetDlgItem(dialog, IDC_P_AI), p->aimode != AI_standard);
+	SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
 }
 
 void SavePlayer(HWND dialog)
@@ -92,12 +93,12 @@ void SavePlayer(HWND dialog)
 	p->camera[0] = GetDlgItemFloat(dialog, IDC_P_X);
 	p->camera[1] = GetDlgItemFloat(dialog, IDC_P_Y);
 	p->color = LCombo_GetSelId(dialog, IDC_P_COLOR);
-	p->avictory = (::SendDlgItemMessage(dialog, IDC_P_AV, BM_GETCHECK, 0, 0) != 0);
+	p->avictory = (SendDlgItemMessage(dialog, IDC_P_AV, BM_GETCHECK, 0, 0) != 0);
 	p->diplomacy[propdata.sel0] = b_to_d[SendDlgItemMessage(dialog, IDC_P_DSTATE, BM_GETCHECK, 0, 0)];
 	p->age = SendDlgItemMessage(dialog, IDC_P_AGE, CB_GETCURSEL, 0, 0);
 	p->u1 = toshort(GetDlgItemInt(dialog, IDC_P_US0, NULL, FALSE));
 	p->u2 = toshort(GetDlgItemInt(dialog, IDC_P_US1, NULL, FALSE));
-	
+
 	p->aimode = (SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_GETCHECK, 0, 0) != 0);
 	if (p->aimode != AI_standard)
 	{
@@ -107,6 +108,7 @@ void SavePlayer(HWND dialog)
 	}
 	else
 		strcpy(p->ai, scen.StandardAI);
+	GetWindowText(GetDlgItem(dialog, IDC_P_SCRIPT), p->aifile);
 }
 
 const char errorImpExpFail[] =
@@ -174,6 +176,8 @@ void Players_ManageAI(HWND dialog, bool import)
 
 void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 {
+	Player *p = propdata.p;
+
 	switch (code)
 	{
 	case BN_CLICKED:
@@ -203,6 +207,23 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			Players_ManageAI(dialog, true);
 			//we don't need a full LoadPlayer() for this
 			SetDlgItemText(dialog, IDC_P_AI, propdata.p->ai);
+			break;
+
+		case IDC_P_CLEARAI:
+		    {
+		        char *cstr = p->aifile.unlock(1);
+	            strcpy(cstr, "");
+		        p->aifile.lock();
+		        SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
+
+                p->aimode = AI_standard;
+
+	            SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
+	            EnableWindow(GetDlgItem(dialog, IDC_P_AI), p->aimode != AI_standard);
+
+	            strcpy(p->ai, scen.StandardAI);
+	            SetDlgItemText(dialog, IDC_P_AI, scen.StandardAI);
+		    }
 			break;
 
 		case IDC_P_SPDIP:

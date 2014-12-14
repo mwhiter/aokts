@@ -10,9 +10,9 @@ editor. It is written in C++ using the standard Win32 API.
 You can:
 
 * Decompress a scenario for editing with a hex editor.
-* Convert scenarios between different versions of the game to make, for example, an SCX file i to an SCN.
+* Convert scenarios between different versions of the game.
 * Manipulate unit type, rotation, position, elevation, garrison, ID number etc. to enable scenario tricks such as controlling another player's units, invincible units, invisible units, putting fire on the map, unlocking beta version units to name a few.
-* Allow negative (silent) tributes and damages (for buffing units).
+* Allow negative (silent) tributes and negative damages (for buffing units).
 * Export/View and edit AI files included in a scenario.
 * Copy, Cut, Paste and Rearrange groups of triggers.
 * Copy, Cut, Paste, Move and Duplicate map units, terrain, elevation and/or triggers.

@@ -275,6 +275,7 @@ bool Scenario::isScx2() //The Forgotten
 }
 
 char Scenario::StandardAI[] = "RandomGame";
+char Scenario::StandardAI2[] = "Promisory";
 
 /* Open a scenario, read header, and read compressed data */
 

@@ -164,6 +164,7 @@ public:
 	Scenario();
 	~Scenario();
 	static char StandardAI[];
+	static char StandardAI2[];
 
 	char msg[_MAX_FNAME + 100];	//contains any error message reported by a function.
 

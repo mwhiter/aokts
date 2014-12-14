@@ -111,6 +111,9 @@
 #define IDC_P_LBL_OREX      1164
 #define IDC_P_SCRIPT        1165
 #define IDC_P_CLEARAI       1166
+#define IDC_P_RANDOMGAME    1167
+#define IDC_P_PROMISORY     1168
+#define IDC_P_AIMODE_VAL    1169
 
 /* Global Victory Controls */
 #define IDC_V_SSTD				1300

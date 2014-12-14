@@ -72,8 +72,9 @@ void LoadPlayer(HWND dialog)
 	/* AI is special */
 	SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
 	SetDlgItemText(dialog, IDC_P_AI, p->ai);
-	EnableWindow(GetDlgItem(dialog, IDC_P_AI), p->aimode != AI_standard);
+	//EnableWindow(GetDlgItem(dialog, IDC_P_AI), p->aimode != AI_standard);
 	SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
+	SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
 }
 
 void SavePlayer(HWND dialog)
@@ -106,8 +107,8 @@ void SavePlayer(HWND dialog)
 		if (*p->ai)
 			p->aimode = AI_custom;
 	}
-	else
-		strcpy(p->ai, scen.StandardAI);
+	//else
+	//	strcpy(p->ai, scen.StandardAI);
 	GetWindowText(GetDlgItem(dialog, IDC_P_SCRIPT), p->aifile);
 }
 
@@ -207,6 +208,11 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			Players_ManageAI(dialog, true);
 			//we don't need a full LoadPlayer() for this
 			SetDlgItemText(dialog, IDC_P_AI, propdata.p->ai);
+			SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
+		    if (*p->ai)
+			    p->aimode = AI_custom;
+			SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode, 0);
+			SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
 			break;
 
 		case IDC_P_CLEARAI:
@@ -216,13 +222,47 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		        p->aifile.lock();
 		        SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
 
+                p->aimode = AI_none;
+
+	            SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
+			    SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
+
+	            strcpy(p->ai, "");
+	            SetDlgItemText(dialog, IDC_P_AI, p->ai);
+		    }
+			break;
+
+		case IDC_P_RANDOMGAME:
+		    {
+		        char *cstr = p->aifile.unlock(1);
+	            strcpy(cstr, "");
+		        p->aifile.lock();
+		        SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
+
                 p->aimode = AI_standard;
 
 	            SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
-	            EnableWindow(GetDlgItem(dialog, IDC_P_AI), p->aimode != AI_standard);
+			    SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
 
 	            strcpy(p->ai, scen.StandardAI);
-	            SetDlgItemText(dialog, IDC_P_AI, scen.StandardAI);
+	            SetDlgItemText(dialog, IDC_P_AI, p->ai);
+		    }
+			break;
+
+		case IDC_P_PROMISORY:
+		    {
+		        char *cstr = p->aifile.unlock(1);
+	            strcpy(cstr, "");
+		        p->aifile.lock();
+		        SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
+
+                p->aimode = AI_standard;
+
+	            SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
+			    SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
+
+	            strcpy(p->ai, scen.StandardAI2);
+	            SetDlgItemText(dialog, IDC_P_AI, p->ai);
 		    }
 			break;
 

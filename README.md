@@ -1,20 +1,22 @@
-AOK Trigger Studio
+Trigger Studio
 ------------------
 
-**AOK Trigger Studio** is an open-source
-utility for Age of Empires II Scenario Designers that serves as a
-supplement to the standard AOK editor. It allows a designer to do things
-that just aren't possible and are just very time consuming with the
-standard editor. It is written in C++ using the standard Win32 API.
+**Trigger Studio**, otherwise known as AOK Trigger Studio or AOKTS, is
+an open-source utility for Age of Empires II Scenario Designers that
+serves as a supplement to the in-game editor. It equips designers to do
+things that aren't possible or are very time consuming with the standard
+editor. It is written in C++ using the standard Win32 API.
 
-What AOKTS Can Do:
+You can:
 
-* Decompress a scenario into a format readable by geeks.
-* Place units anywhere on a map, including on the same tile as another unit.
-* Place Beta units just like any other unit.
-* Allow negative tributes and damages.
-* Export AI files included in a scenario.
-* Copy, Cut, and Paste triggers.
+* Decompress a scenario for editing with a hex editor.
+* Convert scenarios between different versions of the game to make, for example, an SCX file i to an SCN.
+* Manipulate unit type, rotation, position, elevation, garrison, ID number etc. to enable scenario tricks such as controlling another player's units, invincible units, invisible units, putting fire on the map, unlocking beta version units to name a few.
+* Allow negative (silent) tributes and damages (for buffing units).
+* Export/View and edit AI files included in a scenario.
+* Copy, Cut, Paste and Rearrange groups of triggers.
+* Copy, Cut, Paste, Move and Duplicate map units, terrain, elevation and/or triggers.
+* Map displays all units, terrains, elevation and triggers and can zoom and save as a bitmap file.
 * Group units with custom lists, other than the 4 standard AOK groups.
 * Create a scenario from scratch.
 * And much, much more...
@@ -46,12 +48,20 @@ DIGIT thanks the following people: Berserker Jerker, zyxomma, geebert,
 scenario_t_c, and iberico! Geebert gets extra credit for his great
 reports when I release a new version!
 
-### Since 2013 ###
-JustTesting1234 aka. BlankName and myself (Shane Mulligan) (steam name
-E/X mantis) were working on separate versions then found each other
-towards the end of the year and have shared all our code!
-I would like to thank the following people for providing outstanding
-feedback! Gallas_HU (voobly), [MMCrew]jizzy, Rewaider and Lord Basse.
+### Version 1.0.2 by danielpereira ###
+* Area value for Change Object Name, Patrol effects and for Own Fewer
+* objects condition working.
+* New effects show proper names, and can be viewed and edited properly
+* Reverse conditions working (Just change the value of "Reverse" in conditions from -1 to -256)
+
+### Version 1.1 by JustTesting1234 ###
+* Fixed trigger names extra characters on copy-paste.
+* Fixed list of disables (aof only).
+* LudiKRIS (480x480) map size support added (aof only).
+* Added Lock Teams checkbox (aof only).
+
+### Version 1.2 by E/X mantis ###
+I would like to thank the following people! Gallas_HU (voobly), [MMCrew]jizzy, Rewaider and Lord Basse.
 
 TODO and Pressing Bugs
 ----------------------

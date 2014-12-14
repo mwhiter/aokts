@@ -66,6 +66,7 @@ public:
 	//[Log]
 	char logname[12];
 	bool intense;
+	bool editall;
 
 	//[Minimap]
 	char zoom;

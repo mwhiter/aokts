@@ -205,7 +205,7 @@ void Units_HandleDelete(HWND dialog)
 
 	if (u_index == SIZE_MAX)
 	{
-		MessageBox(dialog, warningNoSelChangeOwnership, szTitle, MB_ICONWARNING);
+		MessageBox(dialog, warningNoSelDelete, szTitle, MB_ICONWARNING);
 		return;
 	}
 
@@ -444,10 +444,15 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			break;
 
 		case IDC_U_DESELECT_ADD:		//BN_CLICKED
-		    SendDlgItemMessage(dialog, IDC_U_SELU, LB_SETCURSEL, -1, 0);
-		    u_index = SIZE_MAX;
-		    SetDlgItemInt(dialog, IDC_U_ID, scen.next_uid, TRUE);
-			Units_HandleAdd(dialog);
+		    {
+		        long tmp;
+		        SendDlgItemMessage(dialog, IDC_U_SELU, LB_SETCURSEL, -1, 0);
+		        u_index = SIZE_MAX;
+		        tmp = scen.next_uid;
+		        SetDlgItemInt(dialog, IDC_U_ID, tmp, TRUE);
+			    Units_HandleAdd(dialog);
+			    u_index = tmp;
+			}
 			break;
 
 		case IDC_U_ADD:		//BN_CLICKED

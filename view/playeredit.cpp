@@ -34,8 +34,9 @@ void LoadPlayer(HWND dialog)
 	int count = sizeof(gaia_disables) / sizeof(int);
 	bool is_gaia = (propdata.pindex == GAIA_INDEX);
 
-	for (int i = 0; i < count; i++)
-		ENABLE_WND(gaia_disables[i], !is_gaia);
+    if (!setts.editall)
+	    for (int i = 0; i < count; i++)
+		    ENABLE_WND(gaia_disables[i], !is_gaia);
 
 	if (propdata.pindex == PLAYER1_INDEX)
 		ENABLE_WND(IDC_P_ACTIVE, false);

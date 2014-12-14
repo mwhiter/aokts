@@ -98,7 +98,7 @@ void ConditionControls(HWND dialog, int type)
 	}
 
 	for (i = IDC_C_START; i <= IDC_C_END; i++)
-		ENABLE_WND(i, false);
+		ENABLE_WND(i, false || setts.editall);
 	ENABLE_WND(IDC_C_USEL1, false);
 	ENABLE_WND(IDC_C_USEL2, false);
 

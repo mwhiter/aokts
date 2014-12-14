@@ -60,6 +60,8 @@ bool Setts::load()
 	if (GetPrivateProfileInt("Warnings", "WeirdResource", 1, path) != 0)
 		warnbits |= WARN_WEIRDRESOURCE;
 
+	editall = GetPrivateProfileInt("Advanced", "EditAll", 0, path) != 0;
+
 	/* [Log] */
 	GetPrivateProfileString("Log", "Name", "ts.log", logname, sizeof(logname), path);
 	intense = GetPrivateProfileInt("Log", "Intense", 0, path) != 0;

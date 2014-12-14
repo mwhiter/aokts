@@ -512,10 +512,12 @@ void ConditionItemData::GetName(char *buffer)
 	Trigger *t = GetTrigger();
 	assert(t);
 
+	const char * reverse = ((t->conds[index].reserved == -256)?"NOT ":"");
+
 	if (index == 0) {
-	    sprintf(buffer, "If %s", t->conds[index].getNameTip().c_str());
+	    sprintf(buffer, "If %s%s", reverse, t->conds[index].getNameTip().c_str());
 	} else {
-	    sprintf(buffer, "and %s", t->conds[index].getNameTip().c_str());
+	    sprintf(buffer, "and %s%s", reverse, t->conds[index].getNameTip().c_str());
 	}
 }
 

@@ -151,6 +151,13 @@ void LoadCond(HWND dialog, EditCondition *data)
 	SetDlgItemInt(dialog, IDC_C_RESERVED, c->reserved, TRUE);
 	SetDlgItemInt(dialog, IDC_C_AMOUNT, c->amount, TRUE);
 	LCombo_SelById(dialog, IDC_C_RESTYPE, c->res_type);
+	if (c->reserved == -1) {
+	    SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
+	} else if (c->reserved == -256) {
+	    SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Unreverse Condition"));
+	} else {
+	    SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reset Value"));
+	}
 }
 
 void SaveCond(HWND dialog, EditCondition *data)
@@ -250,6 +257,15 @@ void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 	case BN_CLICKED:
 		switch (id)
 		{
+		case IDC_C_REVERSE:
+	        if (GetDlgItemInt(dialog, IDC_C_RESERVED, NULL, TRUE) == -1) {
+	            SetDlgItemInt(dialog, IDC_C_RESERVED, -256, TRUE);
+	            SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Unreverse Condition"));
+	        } else {
+	            SetDlgItemInt(dialog, IDC_C_RESERVED, -1, TRUE);
+	            SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
+	        }
+	        break;
 		case IDC_C_AREA_ALL:
 			{
 				SetDlgItemInt(dialog, IDC_C_AREAX1, -1, TRUE);

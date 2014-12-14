@@ -237,7 +237,7 @@ std::string Effect::getNameTip() const
             convert << " to 0";
         }
         if (amount >= 0 && t_player > 0) {
-            convert << " (sends tribute alert)";
+            convert << " (displays tribute alert)";
         }
         stype.append(convert.str());
         break;

@@ -102,7 +102,8 @@ void SavePlayer(HWND dialog)
 	p->u1 = toshort(GetDlgItemInt(dialog, IDC_P_US0, NULL, FALSE));
 	p->u2 = toshort(GetDlgItemInt(dialog, IDC_P_US1, NULL, FALSE));
 
-	p->aimode = (SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_GETCHECK, 0, 0) != 0);
+    // only change this when clicking on checkbox
+	//p->aimode = (SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_GETCHECK, 0, 0) != 0);
 	if (p->aimode != AI_standard)
 	{
 		GetDlgItemText(dialog, IDC_P_AI, p->ai, _MAX_FNAME);
@@ -275,8 +276,13 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			break;
 
 		case IDC_P_AIMODE:
-			EnableWindow(GetDlgItem(dialog, IDC_P_AI),
-				SendMessage(control, BM_GETCHECK, 0, 0) == BST_UNCHECKED);
+			//EnableWindow(GetDlgItem(dialog, IDC_P_AI), SendMessage(control, BM_GETCHECK, 0, 0) == BST_UNCHECKED);
+			if (SendMessage(control, BM_GETCHECK, 0, 0) == BST_CHECKED) {
+			    p->aimode = AI_standard;
+			} else {
+			    p->aimode = AI_custom;
+			}
+			SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
 			break;
 
 		case ID_EDIT_COPY:

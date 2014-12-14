@@ -475,7 +475,7 @@ bool Effect::check() const
 		return true;
 	case EFFECT_FreezeUnit:
 	case EFFECT_StopUnit:
-		return (num_sel >= 0 || area.left >= 0 || utype >= 0);	//AOK missing this
+		return (num_sel >= 0 || utype >= 0);	//AOK missing this
 
 	case EFFECT_DeclareVictory:
 		return (s_player >= 0);
@@ -506,8 +506,6 @@ bool Effect::check() const
 
 	case EFFECT_ClearInstructions:
 		return (panel >= 0);
-
-	//EFFECT_FreezeUnit above
 
 	case EFFECT_UseAdvancedButtons:
 		return true;	//no properties to set

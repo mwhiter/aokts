@@ -254,7 +254,7 @@
 #define IDC_C_PLAYER			1906
 #define IDC_C_RESEARCH			1907
 #define IDC_C_TIMER				1908
-#define IDC_C_RESERVED				1909
+#define IDC_C_RESERVED			1909
 #define IDC_C_AREAX1			1910
 #define IDC_C_AREAY1			1911
 #define IDC_C_AREAX2			1912
@@ -267,6 +267,7 @@
 #define IDC_C_USEL2             1918
 #define IDC_C_AREA_ALL          1919
 #define IDC_C_CLEAR  	    	1920
+#define IDC_C_REVERSE	    	1921
 
 /* Effect Controls */
 #define IDC_E_TYPE				1800

@@ -24,7 +24,7 @@ void EditCondition::update(Trigger *t)
 }
 
 // AoC v1.0c
-const char ctable1[NUM_CONDS][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
+const char ctable1_10C[NUM_CONDS][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
 {	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
@@ -52,6 +52,38 @@ const char ctable1[NUM_CONDS][COND_CONTROLS] = // Using 0 instead of -1 to waste
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // UnitsQueuedPastPopCap  (works in AOK)
 };
 
+// ../res/resource.h
+// go to IDC_C_START
+
+// AoC v1.4RC
+const char ctable1_14RC[NUM_CONDS][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
+{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// None
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
+	{ 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Bring Object to Object
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 1, 0, 0, 0, 0, 2, 2, 0 },	// Own Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 1, 0, 0, 0, 0, 2, 2, 0 },	// Own Fewer Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },	// Objects in Area
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Destroy Object
+	{ 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Capture Object
+	{ 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Accumulate Attribute
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Research Technology
+	{ 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 },	// Timer
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Object Selected
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },	// AI Signal
+	{ 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Player Defeated
+	{ 0, 0, 1, 2, 2, 0, 0, 0, 1, 0, 0, 0, 0, 2, 2, 0 },	// Object Has Target
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Object Visible
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
+	{ 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 }, // Difficulty Level
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 }, // OwnFewerFoundations    (SWGB only)
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 }, // SelectedObjectsInArea  (SWGB only)
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 }, // PoweredObjectsInArea   (SWGB only)
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 }  // UnitsQueuedPastPopCap  (works in AOK)
+};
+
 void ConditionControls(HWND dialog, int type)
 {
 	int i;
@@ -70,7 +102,7 @@ void ConditionControls(HWND dialog, int type)
 	ENABLE_WND(IDC_C_USEL1, false);
 	ENABLE_WND(IDC_C_USEL2, false);
 
-	const char *table = ctable1[type];
+	const char *table = ctable1_14RC[type];
 
 	for (i = 0; i < COND_CONTROLS; i++)
 	{

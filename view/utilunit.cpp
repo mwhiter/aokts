@@ -226,7 +226,7 @@ void Init(HWND dialog, UnitEdit * ue)
 	/* Initialize controls. */
 	HWND control = GetDlgItem(dialog, IDC_US_SORT);
 	SendMessage(control, CB_ADDSTRING, 0, (LPARAM)sorts[0]);
-//	SendMessage(control, CB_ADDSTRING, 0, (LPARAM)sorts[1]);
+  	SendMessage(control, CB_ADDSTRING, 0, (LPARAM)sorts[1]);
 	SendMessage(control, CB_SETCURSEL, 0, 0);
 	Combo_Fill(dialog, IDC_US_PLAYER, Player::names, NUM_PLAYERS);
 
@@ -259,72 +259,94 @@ void Init(HWND dialog, UnitEdit * ue)
 
 void HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 {
+	int player;
+	HWND unitbox;
+
+	/* Init */
+	player = SendMessage(GetDlgItem(dialog, IDC_US_PLAYER), CB_GETCURSEL, 0, 0);
+	unitbox = GetDlgItem(dialog, IDC_US_UNITS);
+
 	// Get this here since most commands use it.
 	// reinterpret_cast: see SetWindowLongPtr in Init()
 	UnitEdit * ue =
 		reinterpret_cast<UnitEdit*>(GetWindowLongPtr(dialog, DWLP_USER));
 
-	if (id == IDOK && code == BN_CLICKED)
-	{
-		HWND listbox = GetDlgItem(dialog, IDC_US_UNITS);
-		int buffer[MAX_UNITSEL];
-		int index;
-		bool multi;	//is this IDD_UNITSEL2 or just IDD_UNITSEL1?
-		multi = (GetWindowLongPtr(listbox, GWL_STYLE) & LBS_MULTIPLESEL) != 0;
+    switch (code) {
+    case BN_CLICKED:
+        switch (id) {
+        case IDOK:
+            {
+		        HWND listbox = GetDlgItem(dialog, IDC_US_UNITS);
+		        int buffer[MAX_UNITSEL];
+		        int index;
+		        bool multi;	//is this IDD_UNITSEL2 or just IDD_UNITSEL1?
+		        multi = (GetWindowLongPtr(listbox, GWL_STYLE) & LBS_MULTIPLESEL) != 0;
 
-		if (multi)
-		{
-			ue->count = (short)SendMessage(listbox, LB_GETSELCOUNT, 0, 0);
-			SendMessage(listbox, LB_GETSELITEMS, MAX_UNITSEL, (LPARAM)&buffer);
+		        if (multi)
+		        {
+			        ue->count = (short)SendMessage(listbox, LB_GETSELCOUNT, 0, 0);
+			        SendMessage(listbox, LB_GETSELITEMS, MAX_UNITSEL, (LPARAM)&buffer);
+		        }
+		        else
+		        {
+			        *buffer = SendMessage(listbox, LB_GETCURSEL, 0, 0);
+			        ue->count = (*buffer != LB_ERR);	//boolean magic!
+		        }
+
+		        /* Update the uids. We don't have to worry about clearing the
+		           unused ones because only the used ones are written to the scen. */
+		        for (int i = 0; i < ue->count; i++)
+		        {
+			        index = SendMessage(listbox, LB_GETITEMDATA, buffer[i], 0);
+			        ue->ids[i] = ue->players[ue->player].units[index].ident;
+		        }
+
+		        ue->player = (char)SendDlgItemMessage(dialog, IDC_US_PLAYER, CB_GETCURSEL, 0, 0);
+
+		        P_StdToEC(ue->player);
+
+		        EndDialog(dialog, 1);
+		    }
+		    break;
+		case IDCANCEL:
+		    P_StdToEC(ue->player);
+		    EndDialog(dialog, 0);
+		    break;
 		}
-		else
-		{
-			*buffer = SendMessage(listbox, LB_GETCURSEL, 0, 0);
-			ue->count = (*buffer != LB_ERR);	//boolean magic!
-		}
+		break;
+    case CBN_SELCHANGE:
+        switch (id) {
+        case IDC_US_PLAYER:
+	        {
+		        int code = IDYES;
 
-		/* Update the uids. We don't have to worry about clearing the
-		   unused ones because only the used ones are written to the scen. */
-		for (int i = 0; i < ue->count; i++)
-		{
-			index = SendMessage(listbox, LB_GETITEMDATA, buffer[i], 0);
-			ue->ids[i] = ue->players[ue->player].units[index].ident;
-		}
+		        /* Warn user if there are currently items selected */
+		        if (SendMessage(unitbox, LB_GETSELCOUNT, 0, 0) > 0)
+			        code = MessageBoxW(dialog, warningSelchange,
+								        L"Player Change", MB_ICONWARNING | MB_YESNO);
 
-		ue->player = (char)SendDlgItemMessage(dialog, IDC_US_PLAYER, CB_GETCURSEL, 0, 0);
+		        /* Take appropriate action */
+		        if (code == IDYES)
+		        {
+			        ue->player = player;
 
-		P_StdToEC(ue->player);
-
-		EndDialog(dialog, 1);
-	}
-	else if (id == IDCANCEL && code == BN_CLICKED)
-	{
-		P_StdToEC(ue->player);
-		EndDialog(dialog, 0);
-	}
-	else if (id == IDC_US_PLAYER && code == CBN_SELCHANGE)
-	{
-		int player, code = IDYES;
-		HWND unitbox;
-
-		/* Init */
-		player = SendMessage(control, CB_GETCURSEL, 0, 0);
-		unitbox = GetDlgItem(dialog, IDC_US_UNITS);
-
-		/* Warn user if there are currently items selected */
-		if (SendMessage(unitbox, LB_GETSELCOUNT, 0, 0) > 0)
-			code = MessageBoxW(dialog, warningSelchange,
-								L"Player Change", MB_ICONWARNING | MB_YESNO);
-
-		/* Take appropriate action */
-		if (code == IDYES)
-		{
-			ue->player = player;
-			UnitList_FillSelected(unitbox,
-				ue->players[player].units, NULL, 0, SORT_ID);
-		}
-		else
-			SendMessage(control, CB_SETCURSEL, ue->player, 0);
+	                enum Sorts sort = (enum Sorts)SendDlgItemMessage(dialog, IDC_US_SORT, CB_GETCURSEL, 0, 0);
+		            UnitList_FillSelected(unitbox,
+				            ue->players[player].units, NULL, 0, sort);
+		        }
+		        else
+			        SendMessage(control, CB_SETCURSEL, ue->player, 0);
+	        }
+            break;
+        case IDC_US_SORT:
+            {
+	            enum Sorts sort = (enum Sorts)SendDlgItemMessage(dialog, IDC_US_SORT, CB_GETCURSEL, 0, 0);
+			    UnitList_FillSelected(unitbox,
+				        ue->players[player].units, NULL, 0, sort);
+            }
+            break;
+        }
+        break;
 	}
 }
 

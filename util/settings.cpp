@@ -61,6 +61,8 @@ bool Setts::load()
 		warnbits |= WARN_WEIRDRESOURCE;
 
 	editall = GetPrivateProfileInt("Advanced", "EditAll", 0, path) != 0;
+	drawconds = GetPrivateProfileInt("Advanced", "DrawConds", 0, path) != 0;
+	draweffects = GetPrivateProfileInt("Advanced", "DrawEffects", 0, path) != 0;
 
 	/* [Log] */
 	GetPrivateProfileString("Log", "Name", "ts.log", logname, sizeof(logname), path);

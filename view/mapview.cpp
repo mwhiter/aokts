@@ -24,6 +24,8 @@ std::vector<std::vector<HBRUSH>> tBrushes;
 HBRUSH *pBrushes;
 HBRUSH bWhite;
 
+AOKPT trigfocus; // only display triggers that enclose this point
+
 /*
 	The mapview window actually draws the map to a bitmap in memory
 	and then blits the bitmap to the client area when needed. This
@@ -49,7 +51,6 @@ struct MapViewData
     int diamondorsquare;
 	HWND statusbar;
 	Highlight *highlights;	//LL of the highlighted points
-	RECT triggerarea;
 } data;
 
 BOOL SaveToFile(HBITMAP hBitmap3, LPCTSTR lpszFileName)
@@ -261,59 +262,65 @@ void PaintUnits(HDC dc)
 	}
 }
 
-void PaintTriggerArea(HDC dc)
-{
-	using std::vector;
-
-	int rx1, ry1;
-	int rx2, ry2;
-	int half = max(data.scen->map.x, data.scen->map.y) / 2;
-	RECT area;
-
-	if (data.triggerarea.left >=0 && data.triggerarea.right >= data.triggerarea.left) {
-		rotate(data.scen->map.x/2, data.scen->map.y/2, (int)data.triggerarea.left, (int)data.triggerarea.right, rx1, ry1);
-		rotate(data.scen->map.x/2, data.scen->map.y/2, (int)data.triggerarea.top, (int)data.triggerarea.bottom, rx2, ry2);
-		area.left = rx1 - setts.zoom / 2;
-		area.right = rx2 + setts.zoom / 2;
-		area.bottom = ry1 - setts.zoom / 2;
-		area.top = ry2 + setts.zoom / 2;
-		FrameRect(dc, &area, CreateSolidBrush(0xFFFFFF));
-	}
-}
-
 void PaintTriggers(HDC dc)
 {
 	using std::vector;
 
-	int rx1, ry1;
-	int rx2, ry2;
+	int rx, ry;
 	int half = max(data.scen->map.x, data.scen->map.y) / 2;
 	RECT area;
 
     // each triggers
+    // (left, bottom) - (right, top)
 	for (vector<Trigger>::iterator trig = scen.triggers.begin(); trig != scen.triggers.end(); ++trig) {
 	    // each effect
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
 	        if (iter->area.left >=0 && iter->area.right >= iter->area.left) {
-			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.right, rx1, ry1);
-			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.top, (int)iter->area.bottom, rx2, ry2);
-			    area.left = rx1 - setts.zoom / 2;
-			    area.right = rx2 + setts.zoom / 2;
-			    area.bottom = ry1 - setts.zoom / 2;
-			    area.top = ry2 + setts.zoom / 2;
-			    //FrameRect(dc, &area, pBrushes[scen.players[0].color]);
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
+			    area.left = rx + setts.zoom / 4;
+			    area.bottom = ry + 3 * setts.zoom / 4;
+			    area.top = ry + setts.zoom / 4;
+			    area.right = rx + 3 * setts.zoom / 4;
+			    if (setts.draweffects) {
+			        FrameRect(dc, &area, pBrushes[scen.players[0].color]);
+			    }
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
+			    area.left = rx + setts.zoom / 4;
+			    area.bottom = ry + 3 * setts.zoom / 4;
+			    area.top = ry + setts.zoom / 4;
+			    area.right = rx + 3 * setts.zoom / 4;
+			    if (setts.draweffects) {
+			        FrameRect(dc, &area, pBrushes[scen.players[1].color]);
+			    }
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->location.x, (int)iter->location.y, rx, ry);
+			    area.left = rx + setts.zoom / 6;
+			    area.bottom = ry + 5 * setts.zoom / 6;
+			    area.top = ry + setts.zoom / 6;
+			    area.right = rx + 5 * setts.zoom / 6;
+			    if (setts.draweffects) {
+			        FrameRect(dc, &area, pBrushes[scen.players[2].color]);
+			    }
 	        }
 	    }
 	    // conditions
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
 	        if (iter->area.left >=0 && iter->area.right >= iter->area.left) {
-			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.right, rx1, ry1);
-			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.top, (int)iter->area.bottom, rx2, ry2);
-			    area.left = rx1 - setts.zoom / 2;
-			    area.right = rx2 + setts.zoom / 2;
-			    area.bottom = ry1 - setts.zoom / 2;
-			    area.top = ry2 + setts.zoom / 2;
-			    FrameRect(dc, &area, pBrushes[scen.players[1].color]);
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
+			    area.left = rx + setts.zoom / 8;
+			    area.bottom = ry + 7 * setts.zoom / 8;
+			    area.top = ry + setts.zoom / 8;
+			    area.right = rx + 7 * setts.zoom / 8;
+			    if (setts.draweffects) {
+			        FrameRect(dc, &area, pBrushes[scen.players[3].color]);
+			    }
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
+			    area.left = rx + setts.zoom / 8;
+			    area.bottom = ry + 7 * setts.zoom / 8;
+			    area.top = ry + setts.zoom / 8;
+			    area.right = rx + 7 * setts.zoom / 8;
+			    if (setts.draweffects) {
+			        FrameRect(dc, &area, pBrushes[scen.players[4].color]);
+			    }
 	        }
         }
 	}
@@ -351,8 +358,7 @@ void PaintMap(HDC dcdest)
 	}
 
 	PaintUnits(data.copydc);
-	//PaintTriggers(data.copydc);
-	//PaintTriggerArea(data.copydc);
+	PaintTriggers(data.copydc);
 }
 
 POINT CalculateMinSize(HWND mapview)
@@ -568,10 +574,6 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	data.diamondorsquare = -1;
 	data.statusbar = NULL;
 	data.highlights = NULL;
-	//data.triggerarea.left = 2;
-	//data.triggerarea.right = 4;
-	//data.triggerarea.top = 2;
-	//data.triggerarea.bottom = 4;
 
 	tBrushes.reserve(esdata.getCount(ESD_terrains));
 

@@ -67,6 +67,8 @@ public:
 	char logname[12];
 	bool intense;
 	bool editall;
+	bool drawconds;
+	bool draweffects;
 
 	//[Minimap]
 	char zoom;

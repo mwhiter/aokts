@@ -49,12 +49,12 @@ enum TType
 
 struct AOKRECT
 {
-	long top;
-	long right;
 	long bottom;
 	long left;
+	long top;
+	long right;
 
-	AOKRECT(long top = -1, long right = -1, long bottom = -1, long left = -1);
+	AOKRECT(long bottom = -1, long left = -1, long top = -1, long right = -1);
 };
 
 /*	AOK points are y,x apparently (or at least the way

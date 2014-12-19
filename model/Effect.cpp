@@ -286,7 +286,7 @@ std::string Effect::getNameTip() const
             if (area.left == area.right && area.top == area.bottom) {
                 convert << " at (" << area.left << "," << area.top << ")";
             } else {
-                convert << " from area (" << area.left << ", " << area.top << ") - (" << area.right << ", " << area.bottom << ")";
+                convert << " from area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
             }
         }
         stype.append(convert.str());
@@ -322,7 +322,7 @@ std::string Effect::getNameTip() const
         } else {
             convert << " unit";
         }
-        convert << " from area (" << area.left << "," << area.top << ") - (" << area.right << ", " << area.bottom << ")";
+        convert << " from area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
         convert << " to (" << location.x << ", " << location.y << ")";
         stype.append(convert.str());
         break;
@@ -387,7 +387,7 @@ std::string Effect::getNameTip() const
                     if (area.left == area.right && area.top == area.bottom) {
                         convert << "at (" << area.left << "," << area.top << ")";
                     } else {
-                        convert << "from area (" << area.left << "," << area.top << ") - (" << area.right << ", " << area.bottom << ")";
+                        convert << "from area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
                     }
                 }
             }

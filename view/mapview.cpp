@@ -837,16 +837,12 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		    setts.drawplayer[6] = !setts.drawplayer[6];
 		    Refresh(window, FALSE);
 		    break;
-		case 0x39: // 8 key
+		case 0x38: // 8 key
 		    setts.drawplayer[7] = !setts.drawplayer[7];
 		    Refresh(window, FALSE);
 		    break;
 		case 0x47: // G key
 		    setts.drawplayer[8] = !setts.drawplayer[8];
-		    Refresh(window, FALSE);
-		    break;
-		case 0x38: // 7 key
-		    setts.drawplayer[7] = !setts.drawplayer[7];
 		    Refresh(window, FALSE);
 		    break;
 		case 0x53: // S key

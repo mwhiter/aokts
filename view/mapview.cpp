@@ -278,28 +278,27 @@ void PaintTriggers(HDC dc)
 	    // each effect
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
 	        if (iter->area.left >=0 && iter->area.right >= iter->area.left) {
-			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
-			    area.left = rx + setts.zoom / 4;
-			    area.bottom = ry + 3 * setts.zoom / 4;
-			    area.top = ry + setts.zoom / 4;
-			    area.right = rx + 3 * setts.zoom / 4;
 			    if (setts.draweffects) {
+			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
+			        area.left = rx + setts.zoom / 4;
+			        area.bottom = ry + 3 * setts.zoom / 4;
+			        area.top = ry + setts.zoom / 4;
+			        area.right = rx + 3 * setts.zoom / 4;
 			        FrameRect(dc, &area, pBrushes[scen.players[0].color]);
-			    }
-			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
-			    area.left = rx + setts.zoom / 4;
-			    area.bottom = ry + 3 * setts.zoom / 4;
-			    area.top = ry + setts.zoom / 4;
-			    area.right = rx + 3 * setts.zoom / 4;
-			    if (setts.draweffects) {
+			        MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
+			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
+			        area.left = rx + setts.zoom / 4;
+			        area.bottom = ry + 3 * setts.zoom / 4;
+			        area.top = ry + setts.zoom / 4;
+			        area.right = rx + 3 * setts.zoom / 4;
 			        FrameRect(dc, &area, pBrushes[scen.players[1].color]);
-			    }
-			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->location.x, (int)iter->location.y, rx, ry);
-			    area.left = rx + setts.zoom / 6;
-			    area.bottom = ry + 5 * setts.zoom / 6;
-			    area.top = ry + setts.zoom / 6;
-			    area.right = rx + 5 * setts.zoom / 6;
-			    if (setts.draweffects) {
+			        LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			        StrokeAndFillPath(dc);
+			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->location.x, (int)iter->location.y, rx, ry);
+			        area.left = rx + setts.zoom / 6;
+			        area.bottom = ry + 5 * setts.zoom / 6;
+			        area.top = ry + setts.zoom / 6;
+			        area.right = rx + 5 * setts.zoom / 6;
 			        FrameRect(dc, &area, pBrushes[scen.players[2].color]);
 			    }
 	        }
@@ -307,21 +306,22 @@ void PaintTriggers(HDC dc)
 	    // conditions
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
 	        if (iter->area.left >=0 && iter->area.right >= iter->area.left) {
-			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
-			    area.left = rx + setts.zoom / 8;
-			    area.bottom = ry + 7 * setts.zoom / 8;
-			    area.top = ry + setts.zoom / 8;
-			    area.right = rx + 7 * setts.zoom / 8;
 			    if (setts.drawconds) {
+			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
+			        area.left = rx + setts.zoom / 8;
+			        area.bottom = ry + 7 * setts.zoom / 8;
+			        area.top = ry + setts.zoom / 8;
+			        area.right = rx + 7 * setts.zoom / 8;
 			        FrameRect(dc, &area, pBrushes[scen.players[3].color]);
-			    }
-			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
-			    area.left = rx + setts.zoom / 8;
-			    area.bottom = ry + 7 * setts.zoom / 8;
-			    area.top = ry + setts.zoom / 8;
-			    area.right = rx + 7 * setts.zoom / 8;
-			    if (setts.drawconds) {
+			        MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
+			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
+			        area.left = rx + setts.zoom / 8;
+			        area.bottom = ry + 7 * setts.zoom / 8;
+			        area.top = ry + setts.zoom / 8;
+			        area.right = rx + 7 * setts.zoom / 8;
 			        FrameRect(dc, &area, pBrushes[scen.players[4].color]);
+			        LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			        StrokeAndFillPath(dc);
 			    }
 	        }
         }

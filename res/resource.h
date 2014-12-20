@@ -177,6 +177,7 @@
 #define IDC_TR_SWAP_UNITS           1436
 #define IDC_TR_SWAP_ELEVATION       1437
 #define IDC_TR_SWAP_TRIGGERS        1438
+#define IDC_TR_MDUPTR               1439
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

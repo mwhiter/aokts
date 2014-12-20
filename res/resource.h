@@ -172,6 +172,11 @@
 #define IDC_TR_MOVE_UNITS           1431
 #define IDC_TR_MOVE_ELEVATION       1432
 #define IDC_TR_MOVE_TRIGGERS        1433
+#define IDC_TR_MMSWAP               1434
+#define IDC_TR_SWAP_TERRAIN         1435
+#define IDC_TR_SWAP_UNITS           1436
+#define IDC_TR_SWAP_ELEVATION       1437
+#define IDC_TR_SWAP_TRIGGERS        1438
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

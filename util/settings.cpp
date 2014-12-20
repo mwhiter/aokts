@@ -61,8 +61,17 @@ bool Setts::load()
 		warnbits |= WARN_WEIRDRESOURCE;
 
 	editall = GetPrivateProfileInt("Advanced", "EditAll", 0, path) != 0;
-	drawconds = GetPrivateProfileInt("Advanced", "DrawConds", 0, path) != 0;
-	draweffects = GetPrivateProfileInt("Advanced", "DrawEffects", 0, path) != 0;
+	drawconds = GetPrivateProfileInt("Advanced", "DrawConds", 1, path) != 0;
+	draweffects = GetPrivateProfileInt("Advanced", "DrawEffects", 1, path) != 0;
+	drawplayer[0] = GetPrivateProfileInt("Advanced", "DrawPlayer1", 1, path) != 0;
+	drawplayer[1] = GetPrivateProfileInt("Advanced", "DrawPlayer2", 1, path) != 0;
+	drawplayer[2] = GetPrivateProfileInt("Advanced", "DrawPlayer3", 1, path) != 0;
+	drawplayer[3] = GetPrivateProfileInt("Advanced", "DrawPlayer4", 1, path) != 0;
+	drawplayer[4] = GetPrivateProfileInt("Advanced", "DrawPlayer5", 1, path) != 0;
+	drawplayer[5] = GetPrivateProfileInt("Advanced", "DrawPlayer6", 1, path) != 0;
+	drawplayer[6] = GetPrivateProfileInt("Advanced", "DrawPlayer7", 1, path) != 0;
+	drawplayer[7] = GetPrivateProfileInt("Advanced", "DrawPlayer8", 1, path) != 0;
+	drawplayer[8] = GetPrivateProfileInt("Advanced", "DrawGaia", 1, path) != 0;
 
 	/* [Log] */
 	GetPrivateProfileString("Log", "Name", "ts.log", logname, sizeof(logname), path);

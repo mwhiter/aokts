@@ -1,7 +1,7 @@
 /**
 	AOK Trigger Studio (See aokts.cpp for legal conditions.)
 	WINDOWS VERSION
-	imedit.cpp -- Defines functions for Info/Messages editor.
+	compatedit.cpp -- Defines functions for Compatibility page.
 
 	VIEW/CONTROLLER
 **/

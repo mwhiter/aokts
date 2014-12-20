@@ -222,19 +222,21 @@ void PaintUnits(HDC dc)
 	int half = max(data.scen->map.x, data.scen->map.y) / 2;
 	RECT area;
 
-	for (int i = 0; i < 9; i++)	//skip GAIA for now
+	for (int i = 0; i < 9; i++)
 	{
-		Player& p = data.scen->players[i];
+	    if (setts.drawplayer[i]) {
+		    Player& p = data.scen->players[i];
 
-		for (vector<Unit>::const_iterator iter = p.units.begin();
-			iter != p.units.end(); ++iter)
-		{
-			rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->x, (int)iter->y, rx, ry);
-			area.left = rx;
-			area.right = rx + setts.zoom;
-			area.top = ry;
-			area.bottom = ry + setts.zoom;
-			FrameRect(dc, &area, pBrushes[p.color]);
+		    for (vector<Unit>::const_iterator iter = p.units.begin();
+			    iter != p.units.end(); ++iter)
+		    {
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->x, (int)iter->y, rx, ry);
+			    area.left = rx;
+			    area.right = rx + setts.zoom;
+			    area.top = ry;
+			    area.bottom = ry + setts.zoom;
+			    FrameRect(dc, &area, pBrushes[p.color]);
+		    }
 		}
 	}
 
@@ -310,7 +312,7 @@ void PaintTriggers(HDC dc)
 			    area.bottom = ry + 7 * setts.zoom / 8;
 			    area.top = ry + setts.zoom / 8;
 			    area.right = rx + 7 * setts.zoom / 8;
-			    if (setts.draweffects) {
+			    if (setts.drawconds) {
 			        FrameRect(dc, &area, pBrushes[scen.players[3].color]);
 			    }
 			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
@@ -318,7 +320,7 @@ void PaintTriggers(HDC dc)
 			    area.bottom = ry + 7 * setts.zoom / 8;
 			    area.top = ry + setts.zoom / 8;
 			    area.right = rx + 7 * setts.zoom / 8;
-			    if (setts.draweffects) {
+			    if (setts.drawconds) {
 			        FrameRect(dc, &area, pBrushes[scen.players[4].color]);
 			    }
 	        }
@@ -798,12 +800,53 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		OnWM_LBUTTONUP(window, LOWORD(lParam), HIWORD(lParam));
 		break;
 
+	// Virtual-key codes
 	case WM_KEYDOWN:
 	{
 		switch (wParam)
 		{
 		case VK_SPACE:
             data.diamondorsquare = !data.diamondorsquare;
+		    Refresh(window, FALSE);
+		    break;
+		case 0x31: // 1 key
+		    setts.drawplayer[0] = !setts.drawplayer[0];
+		    Refresh(window, FALSE);
+		    break;
+		case 0x32: // 2 key
+		    setts.drawplayer[1] = !setts.drawplayer[1];
+		    Refresh(window, FALSE);
+		    break;
+		case 0x33: // 3 key
+		    setts.drawplayer[2] = !setts.drawplayer[2];
+		    Refresh(window, FALSE);
+		    break;
+		case 0x34: // 4 key
+		    setts.drawplayer[3] = !setts.drawplayer[3];
+		    Refresh(window, FALSE);
+		    break;
+		case 0x35: // 5 key
+		    setts.drawplayer[4] = !setts.drawplayer[4];
+		    Refresh(window, FALSE);
+		    break;
+		case 0x36: // 6 key
+		    setts.drawplayer[5] = !setts.drawplayer[5];
+		    Refresh(window, FALSE);
+		    break;
+		case 0x37: // 7 key
+		    setts.drawplayer[6] = !setts.drawplayer[6];
+		    Refresh(window, FALSE);
+		    break;
+		case 0x39: // 8 key
+		    setts.drawplayer[7] = !setts.drawplayer[7];
+		    Refresh(window, FALSE);
+		    break;
+		case 0x47: // G key
+		    setts.drawplayer[8] = !setts.drawplayer[8];
+		    Refresh(window, FALSE);
+		    break;
+		case 0x38: // 7 key
+		    setts.drawplayer[7] = !setts.drawplayer[7];
 		    Refresh(window, FALSE);
 		    break;
 		case 0x53: // S key
@@ -813,6 +856,14 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		    Refresh(window, TRUE);
 		    break;
 		case 0x52: // R key
+		    Refresh(window, FALSE);
+		    break;
+		case 0x45: // E key
+		    setts.draweffects = !setts.draweffects;
+		    Refresh(window, FALSE);
+		    break;
+		case 0x43: // C key
+		    setts.drawconds = !setts.drawconds;
 		    Refresh(window, FALSE);
 		    break;
 		case VK_OEM_PLUS:

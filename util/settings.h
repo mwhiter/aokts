@@ -69,6 +69,7 @@ public:
 	bool editall;
 	bool drawconds;
 	bool draweffects;
+	char drawplayer[9];
 
 	//[Minimap]
 	char zoom;

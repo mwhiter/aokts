@@ -1532,6 +1532,46 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			TreeView_EditLabel(treeview, TreeView_GetSelection(treeview));
 			break;
 
+		case ID_TRIGGERS_SORT_CONDS_EFFECTS:
+		    scen.sort_conds_effects();
+		    TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case ID_TRIGGERS_HIDENAMES:
+		    //SendMessage(treeview, CB_SETCURSEL, -1, 0);
+		    TreeView_SelectItem(treeview, NULL); // to prevent
+			scen.remove_trigger_names();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case ID_TRIGGERS_HIDE_DESCRIPTIONS:
+		    TreeView_SelectItem(treeview, NULL);
+			scen.remove_trigger_descriptions();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case ID_TRIGGERS_SWAP_NAMES_DESCRIPTIONS:
+		    TreeView_SelectItem(treeview, NULL);
+			scen.swap_trigger_names_descriptions();
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
+		case ID_TRIGGERS_EXPAND_ALL:
+		    // Reset first
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+
+	        HTREEITEM item;
+	        item = TreeView_GetNextItem(treeview, NULL, TVGN_ROOT);
+	        while (item) {
+		        SendMessage(treeview, TVM_EXPAND, TVE_EXPAND, (LPARAM)item);
+	            item = TreeView_GetNextItem(treeview, item, TVGN_NEXT);
+	        }
+	        // find way to go to top of tree
+	        // maybe use 'find'. use find to search for trigger
+	        //item = TreeView_GetNextItem(treeview, NULL, TVGN_ROOT);
+		    //SendMessage(treeview, CB_SETCURSEL, 0, 0);
+			break;
+
 		case IDC_T_MOVE:
 			scen.move_triggers(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_DEST, NULL, FALSE));
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
@@ -1549,46 +1589,16 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
+        case IDC_T_ADD_ACTIVATION:
+            scen.add_activation(GetDlgItemInt(dialog, IDC_T_START, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_END, NULL, FALSE), GetDlgItemInt(dialog, IDC_T_DEST, NULL, FALSE));
+			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+			break;
+
 		case IDC_T_SYNC:
 		    TreeView_SelectItem(treeview, NULL); // to prevent
 			scen.sync_triggers();
 			//scen.clean_triggers();
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_HIDENAMES:
-		    //SendMessage(treeview, CB_SETCURSEL, -1, 0);
-		    TreeView_SelectItem(treeview, NULL); // to prevent
-			scen.remove_trigger_names();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_HIDEDESC:
-		    TreeView_SelectItem(treeview, NULL);
-			scen.remove_trigger_descriptions();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_SWAPNAMESDESC:
-		    TreeView_SelectItem(treeview, NULL);
-			scen.swap_trigger_names_descriptions();
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-			break;
-
-		case IDC_T_EXPANDALL:
-		    // Reset first
-			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
-
-	        HTREEITEM item;
-	        item = TreeView_GetNextItem(treeview, NULL, TVGN_ROOT);
-	        while (item) {
-		        SendMessage(treeview, TVM_EXPAND, TVE_EXPAND, (LPARAM)item);
-	            item = TreeView_GetNextItem(treeview, item, TVGN_NEXT);
-	        }
-	        // find way to go to top of tree
-	        // maybe use 'find'. use find to search for trigger
-	        //item = TreeView_GetNextItem(treeview, NULL, TVGN_ROOT);
-		    //SendMessage(treeview, CB_SETCURSEL, 0, 0);
 			break;
 
 		case IDC_T_DESELECT:

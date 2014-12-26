@@ -1268,6 +1268,20 @@ int Scenario::map_size(const RECT &source, MapCopyCache *&mcc)
 	return ret;
 }
 
+AOKTS_ERROR Scenario::add_activation(size_t start, size_t end, size_t to) {
+
+    Trigger *d_trig = &triggers.at(to);
+    Effect e = Effect();
+
+    for (size_t i = start; i <= end; i++) {
+        e.trig_index = i;
+        e.type = 8;
+        d_trig->effects.push_back(e);
+    }
+
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::move_triggers(size_t start, size_t end, size_t to) {
 	size_t num = triggers.size();
 	// don't need to do this as start is unsigned: start >= 0
@@ -2159,6 +2173,22 @@ AOKTS_ERROR Scenario::map_delete(const RECT &from, const POINT &to, OpFlags::Val
 		trig++;
 	}
 
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::sort_conds_effects()
+{
+	Trigger *trig = &(*triggers.begin());
+	long num = triggers.size();
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+		trig->sort_effects();
+		trig->sort_conditions();
+		trig++;
+	}
 	return ERR_none;
 }
 

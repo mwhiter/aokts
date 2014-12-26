@@ -27,6 +27,9 @@ public:
 	Trigger(const Trigger &t);
 	Trigger(Buffer&);
 
+	void sort_conditions();
+	void sort_effects();
+
 	const static size_t MAX_TRIGNAME = 128;
 
 	long display_order;

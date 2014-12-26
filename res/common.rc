@@ -45,8 +45,8 @@ IDI_LOGO                ICON                    "aokts.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,14
- PRODUCTVERSION 1,2,0,14
+ FILEVERSION 1,2,0,15
+ PRODUCTVERSION 1,2,0,15
  FILEFLAGSMASK 0x1L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -63,13 +63,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Created by David Tombs (DiGiT)"
             VALUE "FileDescription", "TS executable"
-            VALUE "FileVersion", "1.2.0 Alpha 14"
+            VALUE "FileVersion", "1.2.0 Alpha 15"
             VALUE "InternalName", "ts"
             VALUE "LegalCopyright", "Copyright (c) David Tombs 2010. See readme.txt."
             VALUE "LegalTrademarks", "Age of Empires II is a legal trademark of Microsoft Corporation."
             VALUE "OriginalFilename", "ts.exe"
             VALUE "ProductName", "Trigger Studio"
-            VALUE "ProductVersion", "1.2.0 Alpha 14"
+            VALUE "ProductVersion", "1.2.0 Alpha 15"
         END
     END
     BLOCK "VarFileInfo"
@@ -93,7 +93,7 @@ BEGIN
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
         MENUITEM "&Save \tCtrl+S",              ID_FILE_SAVE
         MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
-		MENUITEM "Save As (hex)...",	        ID_FILE_SAVE_AS2
+        MENUITEM "Save As (hex)...",            ID_FILE_SAVE_AS2
         MENUITEM "&Close",                      ID_FILE_CLOSE
         MENUITEM SEPARATOR
         MENUITEM "&1",                          ID_FILE_RECENT1, GRAYED
@@ -116,6 +116,14 @@ BEGIN
         MENUITEM "&Map Viewer",                 ID_VIEW_MAP, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&Statistics...",              ID_VIEW_STATISTICS
+    END
+    POPUP "&Triggers"
+    BEGIN
+        MENUITEM "Expand all",                  ID_TRIGGERS_EXPAND_ALL
+        MENUITEM "Clear names",                 ID_TRIGGERS_HIDENAMES
+        MENUITEM "Clear descriptions",          ID_TRIGGERS_HIDE_DESCRIPTIONS
+        MENUITEM "Sort conditions and effects", ID_TRIGGERS_SORT_CONDS_EFFECTS
+        MENUITEM "Swap names and descriptions", ID_TRIGGERS_SWAP_NAMES_DESCRIPTIONS
     END
     POPUP "&Tools"
     BEGIN
@@ -165,7 +173,7 @@ BEGIN
     LTEXT           "Trigger Studio\nby David Tombs (DiGiT)",IDC_STATIC,48,8,96,16
     LTEXT           "Updated by:\nBlankname and E/X mantis",IDC_STATIC,48,28,96,16
     LTEXT           "Version:",IDC_STATIC,144,8,48,8
-    LTEXT           "1.2.0 Alpha 14",IDC_STATIC,144,16,48,8
+    LTEXT           "1.2.0 Alpha 15",IDC_STATIC,144,16,48,8
     DEFPUSHBUTTON   "OK",IDOK,144,30,48,14
 END
 
@@ -440,20 +448,17 @@ BEGIN
     PUSHBUTTON      "Go to Trigger",IDC_T_GOTO,211,146,70,17,WS_DISABLED
     PUSHBUTTON      "New Effect",IDC_T_NEFFECT,284,146,70,17,WS_DISABLED
     PUSHBUTTON      "Duplicate for all players",IDC_T_DUPP,211,165,142,18,WS_DISABLED
-    GROUPBOX        "Operations (use display order)",IDC_STATIC,211,187,141,83
-    LTEXT           "Range:",IDC_STATIC,217,203,26,11
-    EDITTEXT        IDC_T_START,262,202,40,12,ES_NUMBER
-    EDITTEXT        IDC_T_END,308,202,40,12,ES_NUMBER
-    LTEXT           "Destination:",IDC_STATIC,217,218,41,10
-    EDITTEXT        IDC_T_DEST,308,218,40,12,ES_NUMBER
+    GROUPBOX        "Trig D-Order Operations",IDC_STATIC,211,224,141,45
+    LTEXT           "Range:",IDC_STATIC,217,195,26,11
+    EDITTEXT        IDC_T_START,262,194,40,12,ES_NUMBER
+    EDITTEXT        IDC_T_END,308,194,40,12,ES_NUMBER
+    LTEXT           "Destination:",IDC_STATIC,217,210,41,10
+    EDITTEXT        IDC_T_DEST,308,210,40,12,ES_NUMBER
     PUSHBUTTON      "Move",IDC_T_MOVE,216,234,63,15
-    PUSHBUTTON      "Delete",IDC_T_DELETE,286,234,63,15
-    PUSHBUTTON      "Duplicate",IDC_T_DUPRANGE,216,251,63,15,WS_DISABLED
-    GROUPBOX        "All Triggers",IDC_STATIC,211,273,141,45
-    PUSHBUTTON      "Clear Names",IDC_T_HIDENAMES,216,283,65,15
-    PUSHBUTTON      "Clear Descriptions",IDC_T_HIDEDESC,284,283,64,15
-    PUSHBUTTON      "Swap N + D",IDC_T_SWAPNAMESDESC,216,300,65,15
-    PUSHBUTTON      "Expand",IDC_T_EXPANDALL,284,300,64,15
+    PUSHBUTTON      "Duplicate",IDC_T_DUPRANGE,284,234,63,15,WS_DISABLED
+    GROUPBOX        "Trig ID Operations",IDC_STATIC,211,273,141,45
+    PUSHBUTTON      "Add Activation",IDC_T_ADD_ACTIVATION,216,283,65,15
+    PUSHBUTTON      "Delete",IDC_T_DELETE,284,283,64,15
     EDITTEXT        IDC_T_NAME,210,48,143,12
     CONTROL         "Flash Objectives at start",IDC_T_OBJSTATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,211,78,144,11
     LTEXT           "ID:",IDC_STATIC,211,94,20,8

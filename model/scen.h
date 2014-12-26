@@ -287,6 +287,7 @@ public:
 
     AOKTS_ERROR compress_unit_ids();
 	/*  map_move: moves the units, terrain and triggers in that terrain */
+    AOKTS_ERROR sort_conds_effects();
     AOKTS_ERROR map_delete(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_move(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_swap(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
@@ -295,6 +296,7 @@ public:
     AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);
     AOKTS_ERROR map_duplicate(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
 
+    AOKTS_ERROR add_activation(size_t start, size_t end, size_t to);
     AOKTS_ERROR move_triggers(size_t start, size_t end, size_t to);
     AOKTS_ERROR delete_triggers(size_t start, size_t end);
     AOKTS_ERROR duplicate_triggers(size_t start, size_t end, size_t to);

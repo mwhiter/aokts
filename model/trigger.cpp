@@ -11,6 +11,8 @@
 #include <vector>
 #include <algorithm>
 
+using std::vector;
+
 /* Triggers, Conditions, and Effects */
 
 #undef PLAYER1_INDEX
@@ -81,6 +83,50 @@ Trigger::Trigger(Buffer& buffer)
 std::string Trigger::getNameTip()
 {
 	return std::string(name).c_str();
+}
+
+bool compare_effect_nametip(const Effect& first,
+				  const Effect& second)
+{
+    //make change ownership act like it is prefixed with create (so that
+    //create comes first
+
+    std::string s = std::string(first.getNameTip());
+    std::string t = std::string(second.getNameTip());
+
+    if (first.type == 18) {
+        s.insert (0, "create");
+    }
+
+    if (second.type == 18) {
+        t.insert (0, "create");
+    }
+
+	// Windows doesn't support POSIX strcasecmp().
+	int sort = _stricmp(s.c_str(),
+		t.c_str());
+
+	return (sort < 0);
+}
+
+bool compare_condition_nametip(const Condition& first,
+				  const Condition& second)
+{
+	// Windows doesn't support POSIX strcasecmp().
+	int sort = _stricmp(first.getNameTip().c_str(),
+		second.getNameTip().c_str());
+
+	return (sort < 0);
+}
+
+void Trigger::sort_conditions()
+{
+    std::sort(this->conds.begin(), this->conds.end(), compare_condition_nametip);
+}
+
+void Trigger::sort_effects()
+{
+    std::sort(this->effects.begin(), this->effects.end(), compare_effect_nametip);
 }
 
 void Trigger::read(FILE *in)

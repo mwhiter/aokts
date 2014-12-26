@@ -10,7 +10,7 @@
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0 Alpha 14"
+#define VER_STRING "1.2.0 Alpha 15"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -245,11 +245,8 @@
 #define IDC_T_MOVE              1223
 #define IDC_T_DELETE            1224
 #define IDC_T_DUPRANGE          1225
-#define IDC_T_HIDENAMES         1226
-#define IDC_T_HIDEDESC          1227
-#define IDC_T_SWAPNAMESDESC     1228
-#define IDC_T_DESELECT			1229
-#define IDC_T_EXPANDALL         1230
+#define IDC_T_DESELECT			1226
+#define IDC_T_ADD_ACTIVATION    1227
 
 /* Compatibility Controls */
 #define IDC_P_TOAOFE            1200
@@ -381,3 +378,8 @@
 #define ID_HELP					0xE146
 #define ID_TOOLS_COMPRESS		0xE150
 #define ID_TOOLS_DECOMPRESS		0xE151
+#define ID_TRIGGERS_SORT_CONDS_EFFECTS      0xE152
+#define ID_TRIGGERS_HIDENAMES               0xE153
+#define ID_TRIGGERS_HIDE_DESCRIPTIONS       0xE154
+#define ID_TRIGGERS_SWAP_NAMES_DESCRIPTIONS 0xE155
+#define ID_TRIGGERS_EXPAND_ALL              0xE156

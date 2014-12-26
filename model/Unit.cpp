@@ -10,7 +10,7 @@
 
 Unit::Unit(UID id)
 :	x(0), y(0), z(1), ident(id), cnst(0),
-	state(0), rotate(0), frame(0), garrison(-1),
+	state(2), rotate(0), frame(0), garrison(-1),
 	pType(NULL)
 {}
 

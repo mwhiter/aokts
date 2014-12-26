@@ -287,7 +287,9 @@ public:
 
     AOKTS_ERROR compress_unit_ids();
 	/*  map_move: moves the units, terrain and triggers in that terrain */
+    AOKTS_ERROR map_delete(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_move(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
+    AOKTS_ERROR map_swap(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_scale(const RECT &area, const float scale);
     AOKTS_ERROR randomize_unit_frames(HWND dialog);
     AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);

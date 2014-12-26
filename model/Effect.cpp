@@ -8,6 +8,8 @@
 #include "../util/Buffer.h"
 #include "../util/helper.h"
 
+using std::vector;
+
 extern class Scenario scen;
 
 #pragma pack(push, 4)
@@ -63,6 +65,13 @@ Effect::Effect()
 	memset(uids, -1, sizeof(uids));
 }
 
+//Effect::Effect( const Effect& other ) {
+//}
+//
+//Effect::~Effect()
+//{
+//}
+
 Effect::Effect(Buffer &b)
 :	ECBase(EFFECT)
 {
@@ -109,6 +118,10 @@ void Effect::read(FILE *in)
 
 	if (num_sel > 0)
 		readbin(in, uids, num_sel);
+    //
+	//if (trig_index > 1000) {
+	//    trig_index = -1;
+	//}
 }
 
 void Effect::write(FILE *out)
@@ -133,9 +146,13 @@ std::string Effect::getNameTip() const
     std::ostringstream convert;
     switch (type) {
     case 2: // Research
-        if (s_player == 0) {
+        switch (s_player) {
+        case -1:
+            break;
+        case 0:
             convert << "Gaia";
-        } else {
+            break;
+        default:
             convert << "p" << s_player;
         }
         convert << " gets ";
@@ -147,11 +164,15 @@ std::string Effect::getNameTip() const
         stype.append(convert.str());
         break;
     case 3: // Send chat
-        convert << "tell ";
-        if (s_player == 0) {
-            convert << "Gaia";
-        } else {
-            convert << "p" << s_player;
+        switch (s_player) {
+        case -1:
+            convert << "say Gaia";
+            break;
+        case 0:
+            convert << "tell Gaia";
+            break;
+        default:
+            convert << "tell p" << s_player;
         }
         convert << " \"" << text.c_str() << "\"";
         stype.append(convert.str());
@@ -161,7 +182,7 @@ std::string Effect::getNameTip() const
         // i guess it resets?
         if (amount == 1410065407) {
             // reset to 0
-            convert << "Reset ";
+            convert << "reset ";
             if (s_player == 0) {
                 convert << "Gaia" << "'s ";
             } else {
@@ -226,7 +247,7 @@ std::string Effect::getNameTip() const
 		            if (i == res_type) {
                         std::wstring resname(list->name());
                         convert << std::string( resname.begin(), resname.end());
-                        convert << "(res_type " << res_type << ")";
+                        convert << " (Res " << res_type << ")";
 		                break;
 		            }
 	            }
@@ -243,8 +264,15 @@ std::string Effect::getNameTip() const
         break;
     case 8: // Activate
     case 9: // Deactivate trigger
-        stype.append(types_short[type]);
-        stype.append(" ");
+        //stype.append(types_short[type]);
+        switch (type) {
+        case 8:
+            stype.append("activate ");
+            break;
+        case 9:
+            stype.append("deactivate ");
+            break;
+        }
         if (trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
             stype.append(scen.triggers.at(trig_index).name).append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
             //convert << trig_index;
@@ -253,7 +281,7 @@ std::string Effect::getNameTip() const
         break;
     case 16: // Change view
         if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
-            convert << "Change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
+            convert << "change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
         } else {
             convert << "INVALID";
         }
@@ -262,14 +290,18 @@ std::string Effect::getNameTip() const
     case 14: // Kill Object
     case 15: // Remove
         if (type == 14 ) {
-            convert << "kill ";
+            convert << "kill";
         } else {
-            convert << "remove ";
+            convert << "remove";
         }
-        if (s_player == 0) {
-            convert << "Gaia";
-        } else {
-            convert << "p" << s_player << "'s";
+        switch (s_player) {
+        case -1:
+            break;
+        case 0:
+            convert << " Gaia";
+            break;
+        default:
+            convert << " p" << s_player;
         }
         if (pUnit && pUnit->id()) {
             std::wstring unitname(pUnit->name());
@@ -292,11 +324,15 @@ std::string Effect::getNameTip() const
         stype.append(convert.str());
         break;
     case 11: // Create object
-        convert << "create ";
-        if (s_player == 0) {
-            convert << "Gaia";
-        } else {
-            convert << "p" << s_player;
+        convert << "create";
+        switch (s_player) {
+        case -1:
+            break;
+        case 0:
+            convert << " Gaia";
+            break;
+        default:
+            convert << " p" << s_player;
         }
         if (pUnit && pUnit->id()) {
             std::wstring unitname(pUnit->name());
@@ -308,24 +344,6 @@ std::string Effect::getNameTip() const
         convert << " at (" << location.x << ", " << location.y << ")";
         stype.append(convert.str());
         break;
-    case 12: // Task object
-        convert << "task ";
-        if (s_player == 0) {
-            convert << "Gaia";
-        } else {
-            convert << "p" << s_player;
-        }
-        if (pUnit && pUnit->id()) {
-            std::wstring unitname(pUnit->name());
-            std::string un(unitname.begin(), unitname.end());
-            convert << " " << un;
-        } else {
-            convert << " unit";
-        }
-        convert << " from area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-        convert << " to (" << location.x << ", " << location.y << ")";
-        stype.append(convert.str());
-        break;
     case 18: // Change Ownership
         stype.append(types_short[type]);
         stype.append(" ");
@@ -334,6 +352,72 @@ std::string Effect::getNameTip() const
             stype.append(std::string( unitname.begin(), unitname.end()));
         }
         break;
+    case 19: // Patrol object
+    case 12: // Task object
+        if (type == 19 ) {
+            // keep in mind multiple units can possess the same id, but
+            // it only operates on the last farm with that id.
+            //
+            // s_player may not be selected. Therefore, go through all
+            // the units in scenario.
+            //
+            // A gaia farm could be made infinite.
+            //Player * p = scen.players + s_player;
+            //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
+            //}
+
+            unsigned int farms_sel = 0;
+	        for (int i = 0; i < num_sel; i++) {
+	            if (uids[i] == 50)
+	                farms_sel++;
+	        }
+            if (farms_sel > 0) {
+	            if (farms_sel == 1) {
+                    convert << "make farm ";
+                } else {
+                    convert << "make farms ";
+                }
+	            for (int i = 0; i < num_sel; i++) {
+	                if (uids[i] == 50)
+                        convert << uids[i] << " ";
+	            }
+	            convert << "infinite";
+	            break;
+            } else {
+                convert << "patrol";
+            }
+        } else {
+            convert << "task";
+        }
+        switch (s_player) {
+        case -1:
+            break;
+        case 0:
+            convert << " Gaia";
+            break;
+        default:
+            convert << " p" << s_player;
+        }
+        if (pUnit && pUnit->id()) {
+            std::wstring unitname(pUnit->name());
+            std::string un(unitname.begin(), unitname.end());
+            convert << " " << un;
+        } else {
+            convert << " unit";
+        }
+	    for (int i = 0; i < num_sel; i++) {
+            convert << " " << uids[i];
+	    }
+        if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
+            if (area.left == area.right && area.top == area.bottom) {
+                convert << " at (" << area.left << "," << area.top << ")";
+            } else {
+                convert << " in (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+            }
+        }
+        convert << " to (" << location.x << ", " << location.y << ")";
+        stype.append(convert.str());
+        break;
     case 13: // Declare victory
         stype.append(types_short[type]);
         stype.append(" ");
@@ -341,12 +425,12 @@ std::string Effect::getNameTip() const
         stype.append(convert.str());
         break;
     case 20: // Instructions
-        convert << "Instruct players \"" << text.c_str() << "\"";
+        convert << "instruct players \"" << text.c_str() << "\"";
         stype.append(convert.str());
         break;
     case 26: // Rename
-        stype.append(types_short[type]);
-        stype.append(" ");
+        //stype.append(types_short[type]);
+        stype.append("rename ");
         stype.append(text.c_str());
         break;
     case 24: // Damage
@@ -391,16 +475,19 @@ std::string Effect::getNameTip() const
                     }
                 }
             }
+
+            // The above is setting up for the below
+
             sunit.append(convert.str());
             convert.str("");
             convert.clear();
             if (amount == -2147483647) {
-                convert << "Make " << sunit << " invincible";
+                convert << "make " << sunit << " invincible";
             } else {
                 if (amount < 0) {
-                    convert << "Buff " << sunit << " with " << -amount << " HP";
+                    convert << "buff " << sunit << " with " << -amount << " HP";
                 } else {
-                    convert << "Damage " << sunit << " by " << amount << " HP";
+                    convert << "damage " << sunit << " by " << amount << " HP";
                 }
             }
             stype.append(convert.str());
@@ -412,7 +499,7 @@ std::string Effect::getNameTip() const
     case 31: // UP Range
     case 32: // UP Armor1
     case 33: // UP Armor2
-        convert << "Change ";
+        convert << "change ";
         convert << types_short[type];
         convert << " by ";
         convert << amount;

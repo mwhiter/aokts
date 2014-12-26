@@ -69,7 +69,7 @@ inline void writeXml(FILE * out, const char * tag, const AOKRECT& rect)
 inline void writeXml(FILE * out, const char * tag, const AOKPT& pt)
 {
 	if (pt.x != -1) // just assume the rest is
-		fprintf(out, "\t\t<%s>%d,%d</%s>\n", tag, pt.y, pt.x, tag);
+		fprintf(out, "\t\t<%s>%d,%d</%s>\n", tag, pt.x, pt.y, tag);
 }
 
 

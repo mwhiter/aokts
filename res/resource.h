@@ -10,7 +10,7 @@
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0 Alpha 13"
+#define VER_STRING "1.2.0 Alpha 14"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -178,6 +178,8 @@
 #define IDC_TR_SWAP_ELEVATION       1437
 #define IDC_TR_SWAP_TRIGGERS        1438
 #define IDC_TR_MDUPTR               1439
+#define IDC_TR_RMUNITS              1440
+#define IDC_TR_RMTRIGS              1441
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

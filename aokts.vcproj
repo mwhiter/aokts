@@ -20,6 +20,7 @@
 			OutputDirectory=".\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
+			UseOfMFC="2"
 			CharacterSet="0"
 			>
 			<Tool
@@ -41,12 +42,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(ProjectDir)deps\include"
-				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE"
+				PreprocessorDefinitions="_WIN32_WINNT=0x0500;_WIN32_IE=0x500;_CRT_SECURE_NO_DEPRECATE;GAME=1;_AFXDLL"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -60,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="zlib1d.lib comctl32.lib libexpatw.lib"
+				AdditionalDependencies="zlib1.lib comctl32.lib libexpatw.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(ProjectDir)deps\lib"
 				IgnoreAllDefaultLibraries="false"
@@ -429,6 +430,10 @@
 			</File>
 			<File
 				RelativePath=".\view\mapedit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\mapinspect.cpp"
 				>
 			</File>
 			<File

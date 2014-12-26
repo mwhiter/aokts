@@ -22,7 +22,7 @@
 /* Brushes (created with window) */
 std::vector<std::vector<HBRUSH>> tBrushes;
 HBRUSH *pBrushes;
-HBRUSH bWhite;
+HBRUSH bWhite, bGrey, bDarkGrey, bBlack;
 
 AOKPT trigfocus; // only display triggers that enclose this point
 
@@ -31,6 +31,16 @@ AOKPT trigfocus; // only display triggers that enclose this point
 	and then blits the bitmap to the client area when needed. This
 	saves processing when resizing and scrolling the window.
 */
+
+struct FloatPoint
+{
+	float y, x;
+
+	FloatPoint(float yy = -1, float xx = -1)
+		: y(yy), x(xx)
+	{
+	}
+};
 
 struct Highlight
 {
@@ -51,6 +61,9 @@ struct MapViewData
     int diamondorsquare;
 	HWND statusbar;
 	Highlight *highlights;	//LL of the highlighted points
+    int currenttrigger;
+    int currenteffect;
+    int currentcondition;
 } data;
 
 BOOL SaveToFile(HBITMAP hBitmap3, LPCTSTR lpszFileName)
@@ -146,7 +159,7 @@ const double root2 = sqrt(2.0);
 
 /* rotates points 45deg to make a diamond from a square */
 
-void rotate(int originx, int originy, int xi, int yi, int &xo, int &yo)
+void rotate(int originx, int originy, int xi, int yi, unsigned int &xo, unsigned int &yo)
 {
     if (data.diamondorsquare) {
         xo = xi * setts.zoom;
@@ -218,7 +231,7 @@ void PaintUnits(HDC dc)
 {
 	using std::vector;
 
-	int rx, ry;
+	unsigned int rx, ry;
 	int half = max(data.scen->map.x, data.scen->map.y) / 2;
 	RECT area;
 
@@ -264,75 +277,227 @@ void PaintUnits(HDC dc)
 	}
 }
 
+void PaintSelectedTrigger(HDC dc)
+{
+	using std::vector;
+
+	unsigned rx, ry;
+	int half = max(data.scen->map.x, data.scen->map.y) / 2;
+	RECT area;
+
+    // (left, bottom) - (right, top)
+    if (data.currenttrigger >= 0 && data.currenttrigger < (long)scen.triggers.size()) {
+	    Trigger * trig = &scen.triggers.at(data.currenttrigger);
+	    Effect * effe = &trig->effects.at(data.currenteffect);
+	    if (effe->area.left >=0 && effe->area.right >= effe->area.left) {
+			if (effe->area.left = effe->area.right && effe->area.top == effe->area.bottom) {
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)effe->area.left, (int)effe->area.top, rx, ry);
+			    area.left = rx + setts.zoom / 4;
+			    area.bottom = ry + 3 * setts.zoom / 4;
+			    area.top = ry + setts.zoom / 4;
+			    area.right = rx + 3 * setts.zoom / 4;
+			    FrameRect(dc, &area, pBrushes[scen.players[2].color]);
+			} else {
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)effe->area.left, (int)effe->area.top, rx, ry);
+			    area.left = rx + setts.zoom / 4;
+			    area.bottom = ry + 3 * setts.zoom / 4;
+			    area.top = ry + setts.zoom / 4;
+			    area.right = rx + 3 * setts.zoom / 4;
+			    FrameRect(dc, &area, pBrushes[scen.players[0].color]);
+			    MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)effe->area.right, (int)effe->area.bottom, rx, ry);
+			    area.left = rx + setts.zoom / 4;
+			    area.bottom = ry + 3 * setts.zoom / 4;
+			    area.top = ry + setts.zoom / 4;
+			    area.right = rx + 3 * setts.zoom / 4;
+			    FrameRect(dc, &area, pBrushes[scen.players[1].color]);
+			    LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			    StrokeAndFillPath(dc);
+			}
+			rotate(data.scen->map.x/2, data.scen->map.y/2, (int)effe->location.x, (int)effe->location.y, rx, ry);
+			area.left = rx + setts.zoom / 6;
+			area.bottom = ry + 5 * setts.zoom / 6;
+			area.top = ry + setts.zoom / 6;
+			area.right = rx + 5 * setts.zoom / 6;
+			FrameRect(dc, &area, pBrushes[scen.players[3].color]);
+	    }
+	    Condition * cond = &trig->conds.at(data.currenteffect);
+	    if (cond->area.left >=0 && cond->area.right >= cond->area.left) {
+			if (cond->area.left = cond->area.right && cond->area.top == cond->area.bottom) {
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)cond->area.left, (int)cond->area.top, rx, ry);
+			    area.left = rx + setts.zoom / 4;
+			    area.bottom = ry + 3 * setts.zoom / 4;
+			    area.top = ry + setts.zoom / 4;
+			    area.right = rx + 3 * setts.zoom / 4;
+			    FrameRect(dc, &area, pBrushes[scen.players[6].color]);
+			} else {
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)cond->area.left, (int)cond->area.top, rx, ry);
+			    area.left = rx + setts.zoom / 8;
+			    area.bottom = ry + 7 * setts.zoom / 8;
+			    area.top = ry + setts.zoom / 8;
+			    area.right = rx + 7 * setts.zoom / 8;
+			    FrameRect(dc, &area, pBrushes[scen.players[4].color]);
+			    MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
+			    rotate(data.scen->map.x/2, data.scen->map.y/2, (int)cond->area.right, (int)cond->area.bottom, rx, ry);
+			    area.left = rx + setts.zoom / 8;
+			    area.bottom = ry + 7 * setts.zoom / 8;
+			    area.top = ry + setts.zoom / 8;
+			    area.right = rx + 7 * setts.zoom / 8;
+			    FrameRect(dc, &area, pBrushes[scen.players[5].color]);
+			    LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			    StrokeAndFillPath(dc);
+			}
+	    }
+	}
+}
+
+// use the inline function instead of the preprocessor macro
+#define CHOOSE_PEN(); \
+	if(iter->area.right < iter->area.left || iter->area.bottom > iter->area.top) { \
+        SelectObject (dc, red_pen); \
+	} else { \
+        SelectObject (dc, grey_pen); \
+    }
+
+inline void choose_pen(HDC dc, AOKRECT &area, HPEN &grey_pen, HPEN &red_pen)
+{
+	if(area.right < area.left || area.bottom > area.top) {
+        SelectObject (dc, red_pen);
+	} else {
+        SelectObject (dc, grey_pen);
+    }
+}
+
 void PaintTriggers(HDC dc)
 {
 	using std::vector;
 
-	int rx, ry;
+	unsigned int rx, ry;
 	int half = max(data.scen->map.x, data.scen->map.y) / 2;
 	RECT area;
+	FloatPoint midpoint;
+
+    LOGBRUSH     lb;
+    HPEN grey_pen;
+    HPEN red_pen;
+
+    lb.lbStyle = BS_SOLID ;
+    lb.lbColor = RGB (70, 0, 0) ;
+    lb.lbHatch = 0 ;
+    grey_pen = ExtCreatePen (PS_DOT | PS_COSMETIC, 1, &lb, 0, NULL);
+
+    lb.lbStyle = BS_SOLID ;
+    lb.lbColor = RGB (255, 0, 0) ;
+    lb.lbHatch = 0 ;
+    red_pen = ExtCreatePen (PS_DOT | PS_COSMETIC, 1, &lb, 0, NULL);
 
     // each triggers
     // (left, bottom) - (right, top)
 	for (vector<Trigger>::iterator trig = scen.triggers.begin(); trig != scen.triggers.end(); ++trig) {
-	    // each effect
+	    // effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
-	        if (iter->area.left >=0 && iter->area.right >= iter->area.left) {
-			    if (setts.draweffects) {
-			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
-			        area.left = rx + setts.zoom / 4;
-			        area.bottom = ry + 3 * setts.zoom / 4;
-			        area.top = ry + setts.zoom / 4;
-			        area.right = rx + 3 * setts.zoom / 4;
-			        FrameRect(dc, &area, pBrushes[scen.players[0].color]);
-			        MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
-			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
-			        area.left = rx + setts.zoom / 4;
-			        area.bottom = ry + 3 * setts.zoom / 4;
-			        area.top = ry + setts.zoom / 4;
-			        area.right = rx + 3 * setts.zoom / 4;
-			        FrameRect(dc, &area, pBrushes[scen.players[1].color]);
-			        LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
-			        StrokeAndFillPath(dc);
+			if (setts.draweffects) {
+	            if (iter->area.left >=0 && iter->area.right >= 0 && iter->area.bottom >=0 && iter->area.top >= 0) {
+			        if (iter->area.left == iter->area.right && iter->area.top == iter->area.bottom) {
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.bottom, rx, ry);
+			            area.left = rx + setts.zoom / 4;
+			            area.bottom = ry + 3 * setts.zoom / 4;
+			            area.top = ry + setts.zoom / 4;
+			            area.right = rx + 3 * setts.zoom / 4;
+			            FrameRect(dc, &area, pBrushes[scen.players[2].color]);
+			        } else {
+			            choose_pen(dc, iter->area, grey_pen, red_pen);
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
+			            MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
+			            LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			            StrokeAndFillPath(dc);
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.bottom, rx, ry);
+                        midpoint.x = rx + setts.zoom / 2;
+                        midpoint.y = ry + setts.zoom / 2;
+			            area.left = rx + setts.zoom / 4;
+			            area.bottom = ry + 3 * setts.zoom / 4;
+			            area.top = ry + setts.zoom / 4;
+			            area.right = rx + 3 * setts.zoom / 4;
+			            FrameRect(dc, &area, pBrushes[scen.players[0].color]);
+			            MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.top, rx, ry);
+                        midpoint.x += rx + setts.zoom / 2;
+                        midpoint.y += ry + setts.zoom / 2;
+                        midpoint.x /= 2;
+                        midpoint.y /= 2;
+			            area.left = rx + setts.zoom / 4;
+			            area.bottom = ry + 3 * setts.zoom / 4;
+			            area.top = ry + setts.zoom / 4;
+			            area.right = rx + 3 * setts.zoom / 4;
+			            LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			            StrokeAndFillPath(dc);
+			            FrameRect(dc, &area, pBrushes[scen.players[1].color]);
+			            SetPixel(dc, midpoint.x, midpoint.y, RGB(255,255,255));
+			        }
+			    }
+	            if (iter->location.x >=0 && iter->location.y >=0) {
 			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->location.x, (int)iter->location.y, rx, ry);
 			        area.left = rx + setts.zoom / 6;
 			        area.bottom = ry + 5 * setts.zoom / 6;
 			        area.top = ry + setts.zoom / 6;
 			        area.right = rx + 5 * setts.zoom / 6;
-			        FrameRect(dc, &area, pBrushes[scen.players[2].color]);
+			        FrameRect(dc, &area, pBrushes[scen.players[3].color]);
 			    }
 	        }
 	    }
 	    // conditions
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
-	        if (iter->area.left >=0 && iter->area.right >= iter->area.left) {
+	        if (iter->area.left >=0 && iter->area.right >= 0 && iter->area.bottom >=0 && iter->area.top >= 0) {
 			    if (setts.drawconds) {
-			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
-			        area.left = rx + setts.zoom / 8;
-			        area.bottom = ry + 7 * setts.zoom / 8;
-			        area.top = ry + setts.zoom / 8;
-			        area.right = rx + 7 * setts.zoom / 8;
-			        FrameRect(dc, &area, pBrushes[scen.players[3].color]);
-			        MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
-			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
-			        area.left = rx + setts.zoom / 8;
-			        area.bottom = ry + 7 * setts.zoom / 8;
-			        area.top = ry + setts.zoom / 8;
-			        area.right = rx + 7 * setts.zoom / 8;
-			        FrameRect(dc, &area, pBrushes[scen.players[4].color]);
-			        LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
-			        StrokeAndFillPath(dc);
+			        if (iter->area.left == iter->area.right && iter->area.top == iter->area.bottom) {
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.bottom, rx, ry);
+			            area.left = rx + setts.zoom / 8;
+			            area.bottom = ry + 7 * setts.zoom / 8;
+			            area.top = ry + setts.zoom / 8;
+			            area.right = rx + 7 * setts.zoom / 8;
+			            FrameRect(dc, &area, pBrushes[scen.players[6].color]);
+			        } else {
+			            choose_pen(dc, iter->area, grey_pen, red_pen);
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
+			            MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
+			            LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			            StrokeAndFillPath(dc);
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.bottom, rx, ry);
+                        midpoint.x = rx + setts.zoom / 2;
+                        midpoint.y = ry + setts.zoom / 2;
+			            area.left = rx + setts.zoom / 8;
+			            area.bottom = ry + 7 * setts.zoom / 8;
+			            area.top = ry + setts.zoom / 8;
+			            area.right = rx + 7 * setts.zoom / 8;
+			            FrameRect(dc, &area, pBrushes[scen.players[4].color]);
+			            MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.top, rx, ry);
+                        midpoint.x += rx + setts.zoom / 2;
+                        midpoint.y += ry + setts.zoom / 2;
+                        midpoint.x /= 2;
+                        midpoint.y /= 2;
+			            area.left = rx + setts.zoom / 8;
+			            area.bottom = ry + 7 * setts.zoom / 8;
+			            area.top = ry + setts.zoom / 8;
+			            area.right = rx + 7 * setts.zoom / 8;
+			            LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			            StrokeAndFillPath(dc);
+			            SetPixel(dc, midpoint.x, midpoint.y, RGB(255,255,255));
+			            FrameRect(dc, &area, pBrushes[scen.players[5].color]);
+			        }
 			    }
 	        }
-        }
+	    }
 	}
 }
 
 void PaintMap(HDC dcdest)
 {
 	int half,full;
-	unsigned y, x;
-	int ry, rx;	//rotated
+	unsigned int y, x;
+	unsigned int ry, rx;	//rotated
 	Map::Terrain *parse;
 	RECT area;
 
@@ -458,6 +623,33 @@ void HandlePaint(HWND window)
 		/* Cleanup */
 		EndPaint(window, &ps);
 	}
+}
+
+void SelectTrigger(HWND window, long trig_index)
+{
+    data.currenttrigger = trig_index;
+    data.currentcondition = -1;
+    data.currenteffect = -1;
+
+	Refresh(window, FALSE);
+}
+
+void SelectCondition(HWND window, long trig_index, long condition_index)
+{
+    data.currenttrigger = trig_index;
+    data.currentcondition = condition_index;
+    data.currenteffect = -1;
+
+	Refresh(window, FALSE);
+}
+
+void SelectEffect(HWND window, long trig_index, long effect_index)
+{
+    data.currenttrigger = trig_index;
+    data.currenteffect = effect_index;
+    data.currentcondition = -1;
+
+	Refresh(window, FALSE);
 }
 
 void UnhighlightPoint(HWND window, Highlight *h)
@@ -608,6 +800,10 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	}
 
 	bWhite = CreateSolidBrush(0xFFFFFF);
+	//bWhite = CreateSolidBrush(RGB(250, 25, 5));
+	bGrey = CreateSolidBrush(0x999999);
+	bDarkGrey = CreateSolidBrush(0x333333);
+	bBlack = CreateSolidBrush(0x000000);
 	data.statusbar = makestatus(window);
 
 	dc = GetWindowDC(window);
@@ -789,6 +985,9 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		for (i = 0; i < esdata.getCount(ESD_colors); i++)
 			DeleteObject(pBrushes[i]);
 		delete [] pBrushes;
+		DeleteObject(bWhite);
+		DeleteObject(bGrey);
+		DeleteObject(bDarkGrey);
 		DeleteDC(data.copydc);
 		break;
 

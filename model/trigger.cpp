@@ -17,6 +17,7 @@
 #define PLAYER1_INDEX 1
 
 Trigger::Trigger()
+//:	state(1), loop(0), u1(0), u2(0), obj(0), obj_order(0), display_order(-1), obj_str_id(0)
 :	state(1), loop(0), u1(0), obj(0), obj_order(0), display_order(-1), obj_str_id(0)
 {
 	memset(name, 0, sizeof(name));
@@ -89,9 +90,17 @@ void Trigger::read(FILE *in)
 	long n_effects, n_conds;
 
 	// TODO: read in as struct
-	readbin(in, &state);
-	readbin(in, &loop);
-	readbin(in, &u1);
+	readbin(in, &state); // enabled/disabled
+	readbin(in, &loop);  // looping
+	readbin(in, &u1);    // unknown. trim trigger?
+	//readbin(in, &u2);    // unknown. trim trigger?
+	if (setts.intense) {
+	    show_binrep(u1);
+	    //swapByteOrder(u1);
+	    //swapByteOrder(u2);
+	    printf("trigger unknown: %u\n", u1);
+	    //printf("trigger unknown: %u\n", u2);
+	}
 	readbin(in, &obj);
 	readbin(in, &obj_order);
 	readbin(in, &obj_str_id);
@@ -110,12 +119,14 @@ void Trigger::read(FILE *in)
 	{
 		// construct them all so we can directly call read()
 		vector<Effect> effects(n_effects);
+		//effects.resize(n_effects);
 
 		for (int i = 0; i < n_effects; i++)
 		{
 			try
 			{
 				effects[i].read(in);
+				//this->effects[i].read(in);
 			}
 			catch (std::exception &)
 			{
@@ -127,10 +138,14 @@ void Trigger::read(FILE *in)
 		while (n_effects--)
 		{
 			long order = readval<long>(in);
+	        printf("effect order: %d", order);
+	        //show_binrep(order);
 			// I keep the effects in the proper order in memory, unlike AOK.
 			this->effects.push_back(effects[order]);
 		}
 	}
+
+	//if (u1 != 76548) {
 
 	//read conditions
 	readbin(in, &n_conds);
@@ -163,6 +178,7 @@ void Trigger::read(FILE *in)
 			conds.push_back(conditions[order]);
 		}
 	}
+	//}
 }
 
 void Trigger::write(FILE *out)
@@ -286,7 +302,7 @@ public:
 	{
 		e.accept(_tv);
 	}
-	
+
 private:
 	TriggerVisitor& _tv;
 };
@@ -301,59 +317,3 @@ void Trigger::accept(TriggerVisitor& tv)
 
 	tv.visitEnd(*this);
 }
-
-const char *Condition::types[] =
-{
-	"Undefined",
-	"Bring Object to Area",
-	"Bring Object to Object",
-	"Own Objects",
-	"Own Fewer Objects",
-	"Objects in Area",
-	"Destroy Object",
-	"Capture Object",
-	"Accumulate Attribute",
-	"Research Technology",
-	"Timer",
-	"Object Selected",
-	"AI Signal",
-	"Player Defeated",
-	"Object Has Target",
-	"Object Visible",
-	"Object Not Visible",
-	"Researching Technology",
-	"Units Garrisoned",
-	"Difficulty Level",
-	"Own Fewer Foundations",
-	"Selected Objects in Area",
-	"Powered Objects in Area",
-	"Units Queued Past Pop Cap"
-};
-
-const char *Condition::types_short[] =
-{
-	"Undefined",
-	"Arrived",
-	"At Object",
-	"Own",
-	"Own Fewer",
-	"In Area",
-	"Destroyed",
-	"Captured",
-	"Accumulated",
-	"Researched",
-	"Time",
-	"Selected",
-	"AI Signal",
-	"Defeated",
-	"Targetting",
-	"Visible",
-	"Not Visible",
-	"Researching",
-	"Garrisoned",
-	"Difficulty",
-	"Fewer Foundations",
-	"Selected in Area",
-	"Powered in Area",
-	"Queued Past Pop Cap"
-};

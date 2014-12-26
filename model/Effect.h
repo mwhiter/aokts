@@ -59,6 +59,8 @@ class Effect : public ECBase
 {
 public:
 	Effect();
+//	~Effect();
+//    Effect( const Effect& other );
 	Effect(Buffer&); // reads back data written by tobuffer()
 
 	// rule of three: default copy constructor, destructor, assignment fine

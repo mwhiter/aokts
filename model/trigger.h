@@ -33,6 +33,7 @@ public:
 	long state;
 	char loop;
 	long u1;
+	//unsigned short u2;
 	char obj;
 	long obj_order;
 	long obj_str_id;

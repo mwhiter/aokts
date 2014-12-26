@@ -312,6 +312,47 @@ void Map_HandleMapPaste(HWND dialog)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
+void Map_HandleMapDelete(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
+{
+	bool disp = false;
+	RECT source;
+	POINT target;
+	long temp;
+
+	/* Get the source rect */
+	source.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+	source.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	source.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+	source.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
+
+	/* Get the target point */
+	target.x = GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE);
+	target.y = GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE);
+
+	/* We need to make sure it's a sane rectangle. */
+	if (source.left > source.right)
+	{
+		temp = source.left;
+		source.left = source.right;
+		source.right = temp;
+		disp = true;
+	}
+	if (source.bottom > source.top)
+	{
+		temp = source.top;
+		source.top = source.bottom;
+		source.bottom = temp;
+		disp = true;
+	}
+	if (disp) {
+		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
+	} else {
+	    scen.map_delete(source, target, flags);
+	}
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
 void Map_HandleMapMove(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 {
 	bool disp = false;
@@ -348,6 +389,47 @@ void Map_HandleMapMove(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
 	} else {
 	    scen.map_move(source, target, flags);
+	}
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
+void Map_HandleMapSwap(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
+{
+	bool disp = false;
+	RECT source;
+	POINT target;
+	long temp;
+
+	/* Get the source rect */
+	source.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+	source.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	source.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+	source.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
+
+	/* Get the target point */
+	target.x = GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE);
+	target.y = GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE);
+
+	/* We need to make sure it's a sane rectangle. */
+	if (source.left > source.right)
+	{
+		temp = source.left;
+		source.left = source.right;
+		source.right = temp;
+		disp = true;
+	}
+	if (source.bottom > source.top)
+	{
+		temp = source.top;
+		source.top = source.bottom;
+		source.bottom = temp;
+		disp = true;
+	}
+	if (disp) {
+		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
+	} else {
+	    scen.map_swap(source, target, flags);
 	}
 
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
@@ -561,6 +643,14 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 			Map_HandleMapPaste(dialog);
 			break;
 
+		case IDC_TR_RMUNITS:
+			Map_HandleMapDelete(dialog, OpFlags::UNITS);
+			break;
+
+		case IDC_TR_RMTRIGS:
+			Map_HandleMapDelete(dialog, OpFlags::TRIGGERS);
+			break;
+
 		case IDC_TR_MMMOVE:
 			Map_HandleMapMove(dialog, OpFlags::ALL);
 			break;
@@ -579,6 +669,26 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_TR_MOVE_TRIGGERS:
 			Map_HandleMapMove(dialog, OpFlags::TRIGGERS);
+			break;
+
+		case IDC_TR_MMSWAP:
+			Map_HandleMapSwap(dialog, OpFlags::ALL);
+			break;
+
+		case IDC_TR_SWAP_TERRAIN:
+			Map_HandleMapSwap(dialog, OpFlags::TERRAIN);
+			break;
+
+		case IDC_TR_SWAP_UNITS:
+			Map_HandleMapSwap(dialog, OpFlags::UNITS);
+			break;
+
+		case IDC_TR_SWAP_ELEVATION:
+			Map_HandleMapSwap(dialog, OpFlags::ELEVATION);
+			break;
+
+		case IDC_TR_SWAP_TRIGGERS:
+			Map_HandleMapSwap(dialog, OpFlags::TRIGGERS);
 			break;
 
 		case IDC_TR_MDUPE:

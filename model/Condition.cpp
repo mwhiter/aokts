@@ -131,6 +131,10 @@ std::string Condition::getNameTip() const
             stype.append(convert.str());
         }
         break;
+    case 15: // object visible
+        convert << "unit " << object << " is visible";
+        stype.append(convert.str());
+        break;
     case 6: // Destroy object
         convert << "unit " << object << " is destroyed";
         stype.append(convert.str());
@@ -257,6 +261,27 @@ std::string Condition::getNameTip() const
             convert << "unit " << object << " has " << amount << " units garrisoned";
         } else {
             convert << "unit " << object << " has one unit garrisoned";
+        }
+        stype.append(convert.str());
+        break;
+    case 19: // Difficulty
+        convert << "difficulty ";
+        switch (amount) {
+        case 0:
+            convert << "harder";
+            break;
+        case 1:
+            convert << "hard";
+            break;
+        case 2:
+            convert << "moderate";
+            break;
+        case 3:
+            convert << "standard";
+            break;
+        case 4:
+            convert << "easiest";
+            break;
         }
         stype.append(convert.str());
         break;
@@ -428,3 +453,59 @@ Genie_Condition Condition::toGenie() const
 
 	return ret;
 }
+
+const char *Condition::types[] =
+{
+	"Undefined",
+	"Bring Object to Area",
+	"Bring Object to Object",
+	"Own Objects",
+	"Own Fewer Objects",
+	"Objects in Area",
+	"Destroy Object",
+	"Capture Object",
+	"Accumulate Attribute",
+	"Research Technology",
+	"Timer",
+	"Object Selected",
+	"AI Signal",
+	"Player Defeated",
+	"Object Has Target",
+	"Object Visible",
+	"Object Not Visible",
+	"Researching Technology",
+	"Units Garrisoned",
+	"Difficulty Level",
+	"Own Fewer Foundations",
+	"Selected Objects in Area",
+	"Powered Objects in Area",
+	"Units Queued Past Pop Cap"
+};
+
+const char *Condition::types_short[] =
+{
+	"Undefined",
+	"Arrived",
+	"At Object",
+	"Own",
+	"Own Fewer",
+	"In Area",
+	"Destroyed",
+	"Captured",
+	"Accumulated",
+	"Researched",
+	"Time",
+	"Selected",
+	"AI Signal",
+	"Defeated",
+	"Targetting",
+	"Visible",
+	"Not Visible",
+	"Researching",
+	"Garrisoned",
+	"Difficulty",
+	"Fewer Foundations",
+	"Selected in Area",
+	"Powered in Area",
+	"Queued Past Pop Cap"
+};

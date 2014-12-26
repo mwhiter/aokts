@@ -1469,6 +1469,14 @@ void TrigTree_HandleKeyDown(HWND dialog, NMTVKEYDOWN * keydown)
 		TrigTree_HandleEdit(GetDlgItem(dialog, IDC_T_TREE), dialog);
 }
 
+void PaintCurrent() {
+	//SAFECHECK();
+	//if (GetFocus() == treeview) {
+	//	LPARAM data = GetItemParam(treeview, NULL);
+	//	Trig_ToClipboard(dialog, c_trig, (class ItemData*)data);
+	//}
+}
+
 /**
  * Handles a WM_COMMAND message sent to the dialog.
  */
@@ -1614,6 +1622,8 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 		EnableMenuItem(propdata.menu, ID_EDIT_CUT, MF_ENABLED);
 		if (IsClipboardFormatAvailable(CF_TEXT))
 			EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_ENABLED);
+
+        PaintCurrent();
 		break;
 
 	case EN_KILLFOCUS:

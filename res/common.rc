@@ -45,8 +45,8 @@ IDI_LOGO                ICON                    "aokts.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,13
- PRODUCTVERSION 1,2,0,13
+ FILEVERSION 1,2,0,14
+ PRODUCTVERSION 1,2,0,14
  FILEFLAGSMASK 0x1L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -63,13 +63,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Created by David Tombs (DiGiT)"
             VALUE "FileDescription", "TS executable"
-            VALUE "FileVersion", "1.2.0 Alpha 13"
+            VALUE "FileVersion", "1.2.0 Alpha 14"
             VALUE "InternalName", "ts"
             VALUE "LegalCopyright", "Copyright (c) David Tombs 2010. See readme.txt."
             VALUE "LegalTrademarks", "Age of Empires II is a legal trademark of Microsoft Corporation."
             VALUE "OriginalFilename", "ts.exe"
             VALUE "ProductName", "Trigger Studio"
-            VALUE "ProductVersion", "1.2.0 Alpha 13"
+            VALUE "ProductVersion", "1.2.0 Alpha 14"
         END
     END
     BLOCK "VarFileInfo"
@@ -93,6 +93,7 @@ BEGIN
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
         MENUITEM "&Save \tCtrl+S",              ID_FILE_SAVE
         MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+		MENUITEM "Save As (hex)...",	        ID_FILE_SAVE_AS2
         MENUITEM "&Close",                      ID_FILE_CLOSE
         MENUITEM SEPARATOR
         MENUITEM "&1",                          ID_FILE_RECENT1, GRAYED
@@ -164,7 +165,7 @@ BEGIN
     LTEXT           "Trigger Studio\nby David Tombs (DiGiT)",IDC_STATIC,48,8,96,16
     LTEXT           "Updated by:\nBlankname and E/X mantis",IDC_STATIC,48,28,96,16
     LTEXT           "Version:",IDC_STATIC,144,8,48,8
-    LTEXT           "1.2.0 Alpha 13",IDC_STATIC,144,16,48,8
+    LTEXT           "1.2.0 Alpha 14",IDC_STATIC,144,16,48,8
     DEFPUSHBUTTON   "OK",IDOK,144,30,48,14
 END
 
@@ -283,57 +284,66 @@ BEGIN
     CONTROL         "All Custom Cond. Required",1305,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,36,150,100,10
 END
 
-IDD_TERRAIN DIALOGEX 0, 0, 356, 302
+IDD_TERRAIN DIALOGEX 0, 0, 356, 321
 STYLE DS_SETFONT | WS_POPUP | WS_CAPTION
 CAPTION "Map"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Map (width must equal height)",IDC_STATIC,9,10,165,70
-    LTEXT           "Size:",IDC_STATIC,16,25,16,8
-    LTEXT           "W",IDC_STATIC,37,25,8,8
-    COMBOBOX        IDC_TR_SIZE,48,23,51,87,CBS_DROPDOWN | WS_TABSTOP
-    LTEXT           "H",IDC_STATIC,103,25,8,8
-    COMBOBOX        IDC_TR_SIZE2,114,23,51,87,CBS_DROPDOWN | WS_TABSTOP
-    LTEXT           "AI Type:",IDC_STATIC,17,42,28,8
-    COMBOBOX        IDC_TR_AITYPE,48,40,118,72,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Run After Shrinking:",IDC_STATIC,17,60,68,10
-    PUSHBUTTON      "Force Trigger Bounds",IDC_TR_FIXTRIGGEROUTLIERS,85,57,81,14
-    GROUPBOX        "Selected Tile",IDC_STATIC,10,86,165,112
-    LTEXT           "X:",IDC_STATIC,26,102,8,8
-    EDITTEXT        IDC_TR_TX,35,100,24,12,ES_NUMBER
-    LTEXT           "Y:",IDC_STATIC,26,117,8,8
-    EDITTEXT        IDC_TR_TY,35,115,24,12,ES_NUMBER
-    LTEXT           "Elev:",IDC_STATIC,16,133,17,8
-    COMBOBOX        IDC_TR_ELEV,34,131,37,87,CBS_DROPDOWN | CBS_UPPERCASE | WS_TABSTOP
-    LTEXT           "Normal range 0-6 ",IDC_STATIC,16,146,60,8
-    PUSHBUTTON      "Save Tile",IDC_TR_SAVETILE,16,157,55,15
-    PUSHBUTTON      "Normalize",IDC_TR_NORMALIZE_ELEV,16,174,55,15
-    LISTBOX         IDC_TR_ID,80,100,85,89,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Copy",IDC_TR_MCCOPY,266,206,73,14
-    PUSHBUTTON      "Paste",IDC_TR_MCPASTE,266,222,73,14,WS_DISABLED
-    GROUPBOX        "Area Operations (maintains triggers)",IDC_STATIC,222,10,126,249
-    LTEXT           "From (X,Y):",IDC_STATIC,228,26,36,10
-    EDITTEXT        IDC_TR_MMX1,266,25,18,12,ES_NUMBER
-    EDITTEXT        IDC_TR_MMY1,287,25,18,12,ES_NUMBER
-    PUSHBUTTON      "Set...",IDC_TR_MMSET1,310,25,29,12
-    EDITTEXT        IDC_TR_MMX2,266,39,18,12,ES_NUMBER
-    EDITTEXT        IDC_TR_MMY2,287,39,18,12,ES_NUMBER
-    PUSHBUTTON      "Set...",IDC_TR_MMSET2,310,39,29,12
-    LTEXT           "To (X,Y):",IDC_STATIC,235,53,29,10
-    EDITTEXT        IDC_TR_MMXT,266,53,18,12,ES_NUMBER
-    EDITTEXT        IDC_TR_MMYT,287,53,18,12,ES_NUMBER
-    PUSHBUTTON      "Set...",IDC_TR_MMSETT,310,53,29,12
-    PUSHBUTTON      "Move",IDC_TR_MMMOVE,266,71,73,15
-    PUSHBUTTON      "Move Terrain",IDC_TR_MOVE_TERRAIN,266,88,73,15
-    PUSHBUTTON      "Move Units",IDC_TR_MOVE_UNITS,266,105,73,15
-    PUSHBUTTON      "Move Elevation",IDC_TR_MOVE_ELEVATION,266,122,73,15
-    PUSHBUTTON      "Move Triggers",IDC_TR_MOVE_TRIGGERS,266,139,73,15
-    PUSHBUTTON      "Duplicate Terrain",IDC_TR_MDUPT,266,156,73,15
-    PUSHBUTTON      "Duplicate Units",IDC_TR_MDUPU,266,173,73,15
-    PUSHBUTTON      "Duplicate Elevation",IDC_TR_MDUPE,266,189,73,15
-    LTEXT           "Factor:",IDC_STATIC,230,241,27,8
-    EDITTEXT        IDC_TR_FACTOR,257,239,20,12,WS_DISABLED
-    PUSHBUTTON      "Scale",IDC_TR_SCALE,294,238,45,15,WS_DISABLED
+    GROUPBOX        "Map (width must equal height)",IDC_STATIC,9,2,165,68
+    LTEXT           "Size:",IDC_STATIC,16,17,16,8
+    LTEXT           "W",IDC_STATIC,37,17,8,8
+    COMBOBOX        IDC_TR_SIZE,48,15,51,87,CBS_DROPDOWN | WS_TABSTOP
+    LTEXT           "H",IDC_STATIC,103,17,8,8
+    COMBOBOX        IDC_TR_SIZE2,114,15,51,87,CBS_DROPDOWN | WS_TABSTOP
+    LTEXT           "AI Type:",IDC_STATIC,17,34,28,8
+    COMBOBOX        IDC_TR_AITYPE,48,32,118,72,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Run After Shrinking:",IDC_STATIC,17,52,68,10
+    PUSHBUTTON      "Force Trigger Bounds",IDC_TR_FIXTRIGGEROUTLIERS,85,49,81,14
+    GROUPBOX        "Selected Tile",IDC_STATIC,10,76,165,112
+    LTEXT           "X:",IDC_STATIC,26,92,8,8
+    EDITTEXT        IDC_TR_TX,35,90,24,12,ES_NUMBER
+    LTEXT           "Y:",IDC_STATIC,26,107,8,8
+    EDITTEXT        IDC_TR_TY,35,105,24,12,ES_NUMBER
+    LTEXT           "Elev:",IDC_STATIC,16,123,17,8
+    COMBOBOX        IDC_TR_ELEV,34,121,37,87,CBS_DROPDOWN | CBS_UPPERCASE | WS_TABSTOP
+    LTEXT           "Normal range 0-6 ",IDC_STATIC,16,136,60,8
+    PUSHBUTTON      "Save Tile",IDC_TR_SAVETILE,16,147,55,15
+    PUSHBUTTON      "Normalize",IDC_TR_NORMALIZE_ELEV,16,164,55,15
+    LISTBOX         IDC_TR_ID,80,90,85,89,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Operations",IDC_STATIC,219,2,126,318
+    RTEXT           "From (L,B):",IDC_STATIC,222,16,40,10
+    EDITTEXT        IDC_TR_MMX1,266,15,18,12,ES_NUMBER
+    EDITTEXT        IDC_TR_MMY1,287,15,18,12,ES_NUMBER
+    PUSHBUTTON      "Set...",IDC_TR_MMSET1,310,15,29,12
+    RTEXT           "(R,T):",IDC_STATIC,222,30,40,10
+    EDITTEXT        IDC_TR_MMX2,266,29,18,12,ES_NUMBER
+    EDITTEXT        IDC_TR_MMY2,287,29,18,12,ES_NUMBER
+    PUSHBUTTON      "Set...",IDC_TR_MMSET2,310,29,29,12
+    RTEXT           "To (X,Y):",IDC_STATIC,222,44,40,10
+    EDITTEXT        IDC_TR_MMXT,266,43,18,12,ES_NUMBER
+    EDITTEXT        IDC_TR_MMYT,287,43,18,12,ES_NUMBER
+    PUSHBUTTON      "Set...",IDC_TR_MMSETT,310,43,29,12
+    PUSHBUTTON      "Copy",IDC_TR_MCCOPY,223,61,56,15
+    PUSHBUTTON      "Paste",IDC_TR_MCPASTE,223,78,56,15,WS_DISABLED
+    PUSHBUTTON      "Rm Units",IDC_TR_RMUNITS,223,95,56,15
+    PUSHBUTTON      "Rm Trigs",IDC_TR_RMTRIGS,223,112,56,15,WS_DISABLED
+    PUSHBUTTON      "Move",IDC_TR_MMMOVE,283,61,56,15
+    PUSHBUTTON      "Mv Terrn",IDC_TR_MOVE_TERRAIN,283,78,56,15
+    PUSHBUTTON      "Mv Units",IDC_TR_MOVE_UNITS,283,95,56,15
+    PUSHBUTTON      "Mv Elevs",IDC_TR_MOVE_ELEVATION,283,112,56,15
+    PUSHBUTTON      "Mv Trigs",IDC_TR_MOVE_TRIGGERS,283,129,56,15
+    PUSHBUTTON      "Swap",IDC_TR_MMSWAP,283,146,56,15
+    PUSHBUTTON      "Swp Terrn",IDC_TR_SWAP_TERRAIN,283,163,56,15
+    PUSHBUTTON      "Swp Units",IDC_TR_SWAP_UNITS,283,179,56,15
+    PUSHBUTTON      "Swp Elevs",IDC_TR_SWAP_ELEVATION,283,196,56,15
+    PUSHBUTTON      "Swp Trigs",IDC_TR_SWAP_TRIGGERS,283,213,56,15
+    PUSHBUTTON      "Dup Terrn",IDC_TR_MDUPT,283,230,56,15
+    PUSHBUTTON      "Dup Units",IDC_TR_MDUPU,283,248,56,15
+    PUSHBUTTON      "Dup Elevs",IDC_TR_MDUPE,283,264,56,15
+    PUSHBUTTON      "Dup Trigs",IDC_TR_MDUPTR,283,281,56,15,WS_DISABLED
+    RTEXT           "Factor:",IDC_STATIC,222,301,40,8
+    EDITTEXT        IDC_TR_FACTOR,266,299,20,12,WS_DISABLED
+    PUSHBUTTON      "Scale",IDC_TR_SCALE,294,298,45,15,WS_DISABLED
 END
 
 IDD_UNITS DIALOGEX 0, 0, 356, 302
@@ -694,6 +704,14 @@ BEGIN
     IDD_PLAYERS, DIALOG
     BEGIN
         VERTGUIDE, 126
+    END
+
+    IDD_TERRAIN, DIALOG
+    BEGIN
+        VERTGUIDE, 219
+        VERTGUIDE, 222
+        VERTGUIDE, 262
+        VERTGUIDE, 266
     END
 
     IDD_TRIGGERS, DIALOG

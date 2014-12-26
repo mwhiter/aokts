@@ -2073,7 +2073,244 @@ AOKTS_ERROR Scenario::map_duplicate(const RECT &from, const POINT &to, OpFlags::
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::map_delete(const RECT &from, const POINT &to, OpFlags::Value flags)
+{
+	LONG dx, dy, w, h, truew, trueh;
+
+	dx = to.x - from.left;
+	dy = to.y - from.bottom;
+	w = from.right - from.left;
+	h = from.top - from.bottom;
+    // +1 because right - left == 0 represents 1 tile
+	truew = w + 1;
+	trueh = h + 1;
+	RECT truefrom;
+	truefrom.left = from.left;
+	truefrom.bottom = from.bottom;
+	truefrom.right = from.left + truew;
+	truefrom.top = from.bottom + trueh;
+	RECT trueto;
+	trueto.left = to.x;
+	trueto.right = to.x + truew;
+	trueto.bottom = to.y;
+	trueto.top = to.y + trueh;
+
+    // each player
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+        if (flags & OpFlags::UNITS){
+            players[i].erase_unit_area(truefrom);
+	    }
+	}
+
+	return ERR_none;
+
+
+    if (!(flags & OpFlags::TRIGGERS))
+	    return ERR_none;
+
+	Trigger *trig = &(*triggers.begin());
+	long num = triggers.size();
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+		    if (ISINRECT(truefrom, iter->location.x, iter->location.y)) {
+		        iter->location.x += dx;
+		        iter->location.y += dy;
+		    } else if (ISINRECT(trueto, iter->location.x, iter->location.y)) {
+		        iter->location.x -= dx;
+		        iter->location.y -= dy;
+		    }
+		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		        iter->area.right += dx;
+		        iter->area.top += dy;
+		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
+		        iter->area.right -= dx;
+		        iter->area.top -= dy;
+		    }
+		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		        iter->area.left += dx;
+		        iter->area.bottom += dy;
+		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
+		        iter->area.left -= dx;
+		        iter->area.bottom -= dy;
+		    }
+		}
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		        iter->area.right += dx;
+		        iter->area.top += dy;
+		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
+		        iter->area.right -= dx;
+		        iter->area.top -= dy;
+		    }
+		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		        iter->area.left += dx;
+		        iter->area.bottom += dy;
+		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
+		        iter->area.left -= dx;
+		        iter->area.bottom -= dy;
+		    }
+		}
+		trig++;
+	}
+
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to, OpFlags::Value flags)
+{
+	LONG dx, dy, w, h, truew, trueh;
+
+	dx = to.x - from.left;
+	dy = to.y - from.bottom;
+	w = from.right - from.left;
+	h = from.top - from.bottom;
+    // +1 because right - left == 0 represents 1 tile
+	truew = w + 1;
+	trueh = h + 1;
+	RECT truefrom;
+	truefrom.left = from.left;
+	truefrom.bottom = from.bottom;
+	truefrom.right = from.left + truew;
+	truefrom.top = from.bottom + trueh;
+	RECT trueto;
+	trueto.left = to.x;
+	trueto.right = to.x + truew;
+	trueto.bottom = to.y;
+	trueto.top = to.y + trueh;
+
+    if ((flags & OpFlags::TERRAIN) || (flags & OpFlags::ELEVATION)){
+        Map::Terrain blank;
+	    blank.cnst=0;
+	    blank.elev=0;
+
+	    LONG dx = 0, dy = 0;
+	    dx = to.x - truefrom.left;
+	    dy = to.y - truefrom.bottom;
+
+        LONG cw = truefrom.right - truefrom.left;
+        LONG ch = truefrom.top - truefrom.bottom;
+
+	    RECT torect;
+	    torect.left = to.x;
+	    torect.right = to.x + cw;
+	    torect.bottom = to.y;
+	    torect.top = to.y + ch;
+
+	    //xstep = dx/abs(dx);
+	    //ystep = dy/abs(dy);
+
+	    /* perform some validation on input */
+	    if (!(truefrom.bottom < 0 || static_cast<unsigned>(truefrom.top) > map.y ||
+		    truefrom.left < 0 || static_cast<unsigned>(truefrom.right) > map.x ||
+	        torect.bottom < 0 || static_cast<unsigned>(torect.top) > map.y ||
+		    torect.left < 0 || static_cast<unsigned>(torect.right) > map.x)) {
+
+            // temporarily store the area to move before overwriting
+            vector<vector<Map::Terrain>> frombuffer(cw, vector<Map::Terrain>(ch));
+	        for (LONG i = 0; i < cw; i++) {
+		        for (LONG j = 0; j < ch; j++) {
+		            frombuffer[i][j] = map.terrain[truefrom.left + i][truefrom.bottom + j];
+		        }
+	        }
+
+            // temporarily store the destination terrain before overwriting
+            vector<vector<Map::Terrain>> destbuffer(cw, vector<Map::Terrain>(ch));
+	        for (LONG i = 0; i < cw; i++) {
+		        for (LONG j = 0; j < ch; j++) {
+		            destbuffer[i][j] = map.terrain[torect.left + i][torect.bottom + j];
+		        }
+	        }
+
+            if (flags & OpFlags::TERRAIN){
+	            // gets priority
+	            for (LONG i = 0; i < cw; i++) {
+		            for (LONG j = 0; j < ch; j++) {
+		                map.terrain[torect.left + i][torect.bottom + j].cnst = frombuffer[i][j].cnst;
+		            }
+	            }
+	        }
+
+            if (flags & OpFlags::ELEVATION){
+	            // gets priority
+	            for (LONG i = 0; i < cw; i++) {
+		            for (LONG j = 0; j < ch; j++) {
+		                map.terrain[torect.left + i][torect.bottom + j].elev = frombuffer[i][j].elev;
+		            }
+	            }
+	        }
+	    }
+    }
+
+    // each player
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+        if (flags & OpFlags::TERRAIN){
+            // camera
+            if (ISINRECT(truefrom, players[i].camera[0], players[i].camera[0])) {
+                players[i].camera[0] += dx;
+                players[i].camera[1] += dy;
+            }
+        }
+
+        if (flags & OpFlags::UNITS){
+            // units
+	        for (vector<Unit>::iterator iter = players[i].units.begin(); iter != players[i].units.end(); ++iter) {
+                if (ISINRECT(truefrom, iter->x, iter->y)) {
+		            iter->x += dx;
+		            iter->y += dy;
+		        }
+	        }
+	    }
+	}
+
+    if (!(flags & OpFlags::TRIGGERS))
+	    return ERR_none;
+
+	Trigger *trig = &(*triggers.begin());
+	long num = triggers.size();
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+		    if (ISINRECT(truefrom, iter->location.x, iter->location.y)) {
+		        iter->location.x += dx;
+		        iter->location.y += dy;
+		    }
+		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		        iter->area.right += dx;
+		        iter->area.top += dy;
+		    }
+		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		        iter->area.left += dx;
+		        iter->area.bottom += dy;
+		    }
+		}
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		        iter->area.right += dx;
+		        iter->area.top += dy;
+		    }
+		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		        iter->area.left += dx;
+		        iter->area.bottom += dy;
+		    }
+		}
+		trig++;
+	}
+
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::map_swap(const RECT &from, const POINT &to, OpFlags::Value flags)
 {
 	LONG dx, dy, w, h, truew, trueh;
 
@@ -2389,4 +2626,5 @@ bool Map::writeArea(Buffer &b, const RECT &area)
 bool Map::scaleArea(const RECT &area, const float scale)
 {
 
+    return true;
 }

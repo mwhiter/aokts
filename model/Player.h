@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <vector>
 
+#include <windows.h>	//for bitmaps, POINT, and RECT
 
 #pragma pack(push, 1)
 
@@ -44,6 +45,7 @@ public:
 	 * not found.
 	 */
 	std::vector<Unit>::size_type find_unit(UID uid) const;
+	void erase_unit_area(RECT area);
 	void erase_unit_type(UCNST type);
 	void erase_unit(std::vector<Unit>::size_type);
 

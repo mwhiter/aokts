@@ -115,6 +115,33 @@ void Player::erase_unit_type(UCNST type)
 	units.erase(remove_if(units.begin(), units.end(), typecheck), units.end());
 }
 
+#define ISINRECT(r, x, y) \
+	(x >= r.left && x <= r.right && y >= r.bottom && y <= r.top)
+
+// functor to check if a unit is in an area
+class unit_in_area : public std::unary_function<const Unit, bool>
+{
+public:
+	unit_in_area(const RECT area) : _area(area)
+	{}
+
+	// I'm a little confused that you can use a reference here, since we tell
+	// others we take "const Unit", but it works. Shrug.
+	bool operator()(const Unit& u) const
+	{
+		return ISINRECT(_area, u.x, u.y);
+	}
+
+private:
+	RECT _area;
+};
+
+void Player::erase_unit_area(RECT area)
+{
+    unit_in_area typecheck(area);
+	units.erase(remove_if(units.begin(), units.end(), typecheck), units.end());
+}
+
 void Player::erase_unit(vector<Unit>::size_type index)
 {
 	units.erase(units.begin() + index);

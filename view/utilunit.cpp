@@ -33,7 +33,7 @@ bool print_name(wchar_t * buffer, size_t size, const Unit& u)
 }
 
 const wchar_t * warningSelchange =
-L"This operation will clear the current selection. Continue?";
+L"Changing player. Clear all currently selected items?";
 
 /** Sorting **/
 

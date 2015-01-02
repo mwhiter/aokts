@@ -61,8 +61,10 @@ bool Setts::load()
 		warnbits |= WARN_WEIRDRESOURCE;
 
 	editall = GetPrivateProfileInt("Advanced", "EditAll", 0, path) != 0;
+	nowarnings = GetPrivateProfileInt("Advanced", "NoWarnings", 1, path) != 0;
 	drawconds = GetPrivateProfileInt("Advanced", "DrawConds", 1, path) != 0;
 	draweffects = GetPrivateProfileInt("Advanced", "DrawEffects", 1, path) != 0;
+	drawlocations = GetPrivateProfileInt("Advanced", "DrawLocations", 1, path) != 0;
 	drawplayer[0] = GetPrivateProfileInt("Advanced", "DrawPlayer1", 1, path) != 0;
 	drawplayer[1] = GetPrivateProfileInt("Advanced", "DrawPlayer2", 1, path) != 0;
 	drawplayer[2] = GetPrivateProfileInt("Advanced", "DrawPlayer3", 1, path) != 0;

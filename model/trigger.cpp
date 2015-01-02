@@ -94,6 +94,25 @@ bool compare_effect_nametip(const Effect& first,
     std::string s = std::string(first.getNameTip());
     std::string t = std::string(second.getNameTip());
 
+    // kill must come after create (hawk explosions)
+    if (first.type == 14) {
+        s.insert (0, "create");
+    }
+
+    if (second.type == 14) {
+        t.insert (0, "create");
+    }
+
+    // remove must come before create (clear way for spawn)
+    if (first.type == 15) {
+        s.insert (0, "creat ");
+    }
+
+    if (second.type == 15) {
+        t.insert (0, "creat ");
+    }
+
+    // change ownership must come after create (non-convertible gaia)
     if (first.type == 18) {
         s.insert (0, "create");
     }

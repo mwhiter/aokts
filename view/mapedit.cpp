@@ -14,6 +14,7 @@
 #include "LinkListBox.h"
 #include "mapview.h"
 #include "utilui.h"
+#include <windows.h>
 
 /*
   propdata.sel0 = Current tile x
@@ -89,6 +90,7 @@ void LoadMap(HWND dialog, bool all)
 		SetDlgItemInt(dialog, IDC_TR_SIZE2, scen.map.y, FALSE);
 
 	SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
+	SetDlgItemInt(dialog, IDC_TR_CONST, tn->cnst, TRUE);
 
 	ait = esdata.aitypes.getByIdSafe(scen.map.aitype);
 
@@ -177,16 +179,19 @@ void Map_HandleMapClick(HWND dialog, short x, short y)
 		ctrlx = IDC_TR_MMX1;
 		ctrly = IDC_TR_MMY1;
 		click_state = CLICK_Default;
+		Map_UpdatePos(dialog, IDC_TR_MMX1, IDC_TR_MMY1);
 		break;
 	case CLICK_MMSet2:
 		ctrlx = IDC_TR_MMX2;
 		ctrly = IDC_TR_MMY2;
 		click_state = CLICK_Default;
+		Map_UpdatePos(dialog, IDC_TR_MMX2, IDC_TR_MMY2);
 		break;
 	case CLICK_MMSetT:
 		ctrlx = IDC_TR_MMXT;
 		ctrly = IDC_TR_MMYT;
 		click_state = CLICK_Default;
+		Map_UpdatePos(dialog, IDC_TR_MMXT, IDC_TR_MMYT);
 		break;
 	default:
 		return;
@@ -196,6 +201,7 @@ void Map_HandleMapClick(HWND dialog, short x, short y)
 	SetDlgItemInt(dialog, ctrly, y, FALSE);
 	Map::Terrain *tn = &scen.map.terrain[propdata.sel0][propdata.sel1];
 	SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
+	SetDlgItemInt(dialog, IDC_TR_CONST, tn->cnst, TRUE);
 }
 
 void Map_HandleMapCopy(HWND dialog)
@@ -348,6 +354,48 @@ void Map_HandleMapDelete(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
 	} else {
 	    scen.map_delete(source, target, flags);
+	}
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
+void Map_HandleMapRepeat(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
+{
+	bool disp = false;
+	RECT target;
+	POINT source;
+	long temp;
+
+	/* Get the target rect */
+	target.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+	target.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	target.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+	target.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
+
+	/* Get the source point */
+	source.x = GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE);
+	source.y = GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE);
+
+	/* We need to make sure it's a sane rectangle. */
+	if (target.left > target.right)
+	{
+		temp = target.left;
+		target.left = target.right;
+		target.right = temp;
+		disp = true;
+	}
+	if (target.bottom > target.top)
+	{
+		temp = target.top;
+		target.top = target.bottom;
+		target.bottom = temp;
+		disp = true;
+	}
+
+	if (disp) {
+		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
+	} else {
+	    scen.map_repeat(target, source, flags);
 	}
 
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
@@ -560,6 +608,37 @@ void Map_HandleSetFocus(HWND, WORD)
 		EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_ENABLED);
 }
 
+void Map_ShowOperationsCoords(HWND dialog, WORD id)
+{
+    HBRUSH bWhite;
+    bWhite = CreateSolidBrush(0xFFFFFF);
+
+    RECT area;
+    area.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+    area.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);
+    area.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+    area.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
+	SendMessage(propdata.mapview, MAP_UnhighlightPoint, MAP_UNHIGHLIGHT_ALL, 0);
+	SendMessage(propdata.mapview, MAP_HighlightPoint, area.left, area.bottom);
+	SendMessage(propdata.mapview, MAP_HighlightPoint, area.right, area.top);
+	SendMessage(propdata.mapview, MAP_HighlightPoint,
+		GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE),
+		GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE));
+
+	switch (id)
+	{
+	case IDC_TR_MMX1:
+	case IDC_TR_MMY1:
+	case IDC_TR_MMX2:
+	case IDC_TR_MMY2:
+	case IDC_TR_MMXT:
+	case IDC_TR_MMYT:
+	    //FrameRect(scen.data.copydc, &area, bWhite);
+	    //mapdata.opArea.left=-1;
+	    break;
+	}
+}
+
 void Map_HandleKillFocus(HWND dialog, WORD id)
 {
 	EnableMenuItem(propdata.menu, ID_EDIT_COPY, MF_GRAYED);
@@ -590,14 +669,33 @@ void Map_HandleKillFocus(HWND dialog, WORD id)
 
 void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 {
+	Map::Terrain *tn = &scen.map.terrain[propdata.sel0][propdata.sel1];
 	switch (code)
 	{
+	case LBN_SELCHANGE:
+		switch (id)
+		{
+		case IDC_TR_ID:
+	        SetDlgItemInt(dialog, IDC_TR_CONST, SendMessage(GetDlgItem(dialog, IDC_TR_ID), LB_GETCURSEL, 0, 0), TRUE);
+		    //SetWindowText(propdata.statusbar, "Selection changed");
+		    break;
+		}
+		break;
+
 	case EN_CHANGE:
 		switch (id)
 		{
 		case IDC_TR_TX:
 		case IDC_TR_TY:
 			Map_UpdatePos(dialog, IDC_TR_TX, IDC_TR_TY);
+			break;
+		case IDC_TR_MMX1:
+		case IDC_TR_MMY1:
+		case IDC_TR_MMX2:
+		case IDC_TR_MMY2:
+		case IDC_TR_MMXT:
+		case IDC_TR_MMYT:
+			Map_ShowOperationsCoords(dialog, id);
 			break;
 
         //this will cause recursive updating. need a save button
@@ -623,6 +721,16 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 	case BN_CLICKED:
 		switch (id)
 		{
+		case ID_MAP_WATER_CLIFF_INVISIBLE:
+		    scen.water_cliffs_visibility(FALSE);
+		    SetWindowText(propdata.statusbar, "Water cliffs are now invisible");
+		    break;
+
+		case ID_MAP_WATER_CLIFF_VISIBLE:
+		    scen.water_cliffs_visibility(TRUE);
+		    SetWindowText(propdata.statusbar, "Water cliffs are now visible");
+		    break;
+
 		case IDC_TR_MMSET1:
 			click_state = CLICK_MMSet1;
 			break;
@@ -671,6 +779,22 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 			Map_HandleMapMove(dialog, OpFlags::TRIGGERS);
 			break;
 
+		case IDC_TR_REPEAT:
+			Map_HandleMapRepeat(dialog, OpFlags::ALL);
+			break;
+
+		case IDC_TR_REPEAT_UNITS:
+			Map_HandleMapRepeat(dialog, OpFlags::UNITS);
+			break;
+
+		case IDC_TR_REPEAT_TERRAIN:
+			Map_HandleMapRepeat(dialog, OpFlags::TERRAIN);
+			break;
+
+		case IDC_TR_REPEAT_ELEV:
+			Map_HandleMapRepeat(dialog, OpFlags::ELEVATION);
+			break;
+
 		case IDC_TR_MMSWAP:
 			Map_HandleMapSwap(dialog, OpFlags::ALL);
 			break;
@@ -709,15 +833,18 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_TR_FIXTRIGGEROUTLIERS:
 			scen.fix_trigger_outliers();
+		    SetWindowText(propdata.statusbar, "Triggers outside of map have been put within the boundaries");
 			break;
 
 		case IDC_TR_SAVETILE:
 			Map_SaveTile(dialog);
+		    SetWindowText(propdata.statusbar, "Tile saved");
 			break;
 
 		case IDC_TR_NORMALIZE_ELEV:
 		    Map_SaveTile(dialog);
 			Map_HandleNormalizeElevation(dialog);
+		    SetWindowText(propdata.statusbar, "Elevation of tile normalized");
 			break;
 		}
 

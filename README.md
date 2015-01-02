@@ -36,7 +36,7 @@ How to save hex-edited data to a scenario.
 * Open the scenario you want to hex edit in AOKTS.
 * Leave AOKTS open and open scendata.tmp in your preferred hex editor.
 * Make desired changes to scendata.tmp, save, and close the hex editor.
-* Activate AOKTS and select "Save As (hex)" from the Scenario menu.
+* Activate AOKTS and select "Save scendata.tmp to SCX..." from the Scenario menu.
   Specify the file to save. All your changes to scendata.tmp will be
   saved to the scenario. No changes made in AOKTS will be saved.
 

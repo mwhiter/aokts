@@ -88,7 +88,6 @@ DLGPROC procs[NUM_PAGES] =
 	&MapDlgProc,
 	&UnitDlgProc,
 	&TrigDlgProc,
-	&CompatDlgProc,
 	&MapInspectDlgProc
 };
 
@@ -97,7 +96,7 @@ const char * askSaveChanges =
 "Do you want to save your changes?";
 
 
-const char *szTitle = "Trigger Studio Merry Christmas 2014!";
+const char *szTitle = "Trigger Studio";
 const char welcome[] =
 "Welcome to AOKTS! Please open a scenario or make a new one.";
 const char extOpen[] =

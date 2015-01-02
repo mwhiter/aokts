@@ -1,6 +1,6 @@
 /*
 	Unit.cpp: defines Unit class functions
-	
+
 	MODEL
 */
 

@@ -1209,6 +1209,9 @@ public:
 #define ISINRECT(r, x, y) \
 	(x >= r.left && x <= r.right && y >= r.bottom && y <= r.top)
 
+#define ISATPOINT(r, x, y) \
+	(x == r.x && y == r.y)
+
 // functor to check if a unit is in a RECT
 class unit_in_rect : public std::unary_function<const Unit, bool>
 {
@@ -1450,6 +1453,8 @@ AOKTS_ERROR Scenario::map_paste(const POINT &to, Buffer &from)
 	area.top = area.bottom + y;
 
 	map.readArea(from, area);
+	area.right += 1;
+	area.top += 1;
 
 	unit_in_rect in_dest(area);
 	FEP(p)
@@ -1960,13 +1965,42 @@ AOKTS_ERROR Scenario::randomize_unit_frames(HWND dialog)
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::water_cliffs_visibility(const bool visibility)
+{
+    LONG numunits = players[8].units.size();
+    Unit * u;
+    Map::Terrain * t;
+	for (int j = 0; j < numunits; j++) {
+	    // 264 - 272 are cliffs (avoid) when game is aoe2
+	    u = &(players[8].units.at(j));
+	    if (u->getType()->id() >= 264 && players[8].units.at(j).getType()->id() <= 272) {
+            t = &map.terrain[(int)u->x][(int)u->y];
+            switch (t->cnst) {
+            case 1:
+            case 4:
+            case 22:
+            case 23:
+                if (visibility) {
+                    u->rotate = 1;
+                    u->frame = 1;
+                } else {
+                    u->rotate = 0;
+                    u->frame = 0;
+                }
+                break;
+            }
+	    }
+	}
+	return ERR_none;
+}
+
+
 AOKTS_ERROR Scenario::randomize_unit_frames(const unsigned int cnst)
 {
     switch (cnst)
     {
     case 349: // Forest, Oak
     case 351: // Forest, Palm
-        vector<Unit>::iterator end = players[8].units.end();
         LONG numunits = players[8].units.size();
 	    for (int j = 0; j < numunits; j++) {
 	        if (players[8].units.at(j).getType()->id() == cnst) {
@@ -1980,7 +2014,6 @@ AOKTS_ERROR Scenario::randomize_unit_frames(const unsigned int cnst)
         // each player
 	    for (int i = 0; i < NUM_PLAYERS; i++) {
             // units
-            vector<Unit>::iterator end = players[i].units.end();
             LONG numunits = players[i].units.size();
 	        for (int j = 0; j < numunits; j++) {
 	            if (players[i].units.at(j).getType()->id() == cnst) {
@@ -2005,16 +2038,24 @@ AOKTS_ERROR Scenario::map_duplicate(const RECT &from, const POINT &to, OpFlags::
     // +1 because right - left == 0 represents 1 tile
 	truew = w + 1;
 	trueh = h + 1;
+
 	RECT truefrom;
 	truefrom.left = from.left;
 	truefrom.bottom = from.bottom;
 	truefrom.right = from.left + truew;
 	truefrom.top = from.bottom + trueh;
+
 	RECT trueto;
 	trueto.left = to.x;
 	trueto.right = to.x + truew;
 	trueto.bottom = to.y;
 	trueto.top = to.y + trueh;
+
+	RECT areato;
+	areato.left = to.x;
+	areato.right = to.x + w;
+	areato.bottom = to.y;
+	areato.top = to.y + h;
 
     if (flags & OpFlags::UNITS){
         // each player
@@ -2098,16 +2139,24 @@ AOKTS_ERROR Scenario::map_delete(const RECT &from, const POINT &to, OpFlags::Val
     // +1 because right - left == 0 represents 1 tile
 	truew = w + 1;
 	trueh = h + 1;
+
 	RECT truefrom;
 	truefrom.left = from.left;
 	truefrom.bottom = from.bottom;
 	truefrom.right = from.left + truew;
 	truefrom.top = from.bottom + trueh;
+
 	RECT trueto;
 	trueto.left = to.x;
 	trueto.right = to.x + truew;
 	trueto.bottom = to.y;
 	trueto.top = to.y + trueh;
+
+	RECT areato;
+	areato.left = to.x;
+	areato.right = to.x + w;
+	areato.bottom = to.y;
+	areato.top = to.y + h;
 
     // each player
 	for (int i = 0; i < NUM_PLAYERS; i++) {
@@ -2131,41 +2180,41 @@ AOKTS_ERROR Scenario::map_delete(const RECT &from, const POINT &to, OpFlags::Val
 	{
 	    // effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
-		    if (ISINRECT(truefrom, iter->location.x, iter->location.y)) {
+		    if (ISINRECT(from, iter->location.x, iter->location.y)) {
 		        iter->location.x += dx;
 		        iter->location.y += dy;
-		    } else if (ISINRECT(trueto, iter->location.x, iter->location.y)) {
+		    } else if (ISINRECT(areato, iter->location.x, iter->location.y)) {
 		        iter->location.x -= dx;
 		        iter->location.y -= dy;
 		    }
-		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		    if (ISINRECT(from, iter->area.right, iter->area.top)) {
 		        iter->area.right += dx;
 		        iter->area.top += dy;
-		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
+		    } else if (ISINRECT(areato, iter->area.right, iter->area.top)) {
 		        iter->area.right -= dx;
 		        iter->area.top -= dy;
 		    }
-		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		    if (ISINRECT(from, iter->area.left, iter->area.bottom)) {
 		        iter->area.left += dx;
 		        iter->area.bottom += dy;
-		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
+		    } else if (ISINRECT(areato, iter->area.left, iter->area.bottom)) {
 		        iter->area.left -= dx;
 		        iter->area.bottom -= dy;
 		    }
 		}
 	    // conditions
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
-		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		    if (ISINRECT(from, iter->area.right, iter->area.top)) {
 		        iter->area.right += dx;
 		        iter->area.top += dy;
-		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
+		    } else if (ISINRECT(areato, iter->area.right, iter->area.top)) {
 		        iter->area.right -= dx;
 		        iter->area.top -= dy;
 		    }
-		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		    if (ISINRECT(from, iter->area.left, iter->area.bottom)) {
 		        iter->area.left += dx;
 		        iter->area.bottom += dy;
-		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
+		    } else if (ISINRECT(areato, iter->area.left, iter->area.bottom)) {
 		        iter->area.left -= dx;
 		        iter->area.bottom -= dy;
 		    }
@@ -2192,6 +2241,79 @@ AOKTS_ERROR Scenario::sort_conds_effects()
 	return ERR_none;
 }
 
+// Remember the RANDOMIZE flag
+AOKTS_ERROR Scenario::map_repeat(const RECT &target, const POINT &source, OpFlags::Value flags)
+{
+	LONG dx, dy, w, h, truew, trueh;
+
+	dx = target.left - source.x;
+	dy = target.bottom - source.y;
+	w = target.right - target.left;
+	h = target.top - target.bottom;
+    // +1 because right - left == 0 represents 1 tile
+	truew = w + 1;
+	trueh = h + 1;
+	RECT truetarget;
+	truetarget.left = target.left;
+	truetarget.bottom = target.bottom;
+	truetarget.right = target.left + truew;
+	truetarget.top = target.bottom + trueh;
+
+	RECT truesource;
+	truesource.left = source.x;
+	truesource.right = source.x + 1;
+	truesource.bottom = source.y;
+	truesource.top = source.y + 1;
+
+    LONG cw = truetarget.right - truetarget.left;
+    LONG ch = truetarget.top - truetarget.bottom;
+
+	//RECT sourcerect;
+	//sourcerect.left = source.x;
+	//sourcerect.right = source.x + cw;
+	//sourcerect.bottom = source.y;
+	//sourcerect.top = source.y + ch;
+
+    if (flags & OpFlags::UNITS){
+        // each player
+	    for (int i_p = 0; i_p < NUM_PLAYERS; i_p++) {
+            // units
+            vector<Unit>::iterator end = players[i_p].units.end();
+            LONG numunits = players[i_p].units.size();
+	        for (int i_u = 0; i_u < numunits; i_u++) {
+                if (ISINRECT(truesource, players[i_p].units.at(i_u).x, players[i_p].units.at(i_u).y)) {
+	                for (LONG i = 0; i < cw; i++) {
+		                for (LONG j = 0; j < ch; j++) {
+	                        Unit spec(players[i_p].units.at(i_u));
+	                        spec.ident = scen.next_uid++;
+		                    spec.x += dx + i;
+		                    spec.y += dy + j;
+		                    players[i_p].units.push_back(spec);
+		                }
+		            }
+		        }
+	        }
+	    }
+	}
+
+    if (flags & OpFlags::TERRAIN){
+	    for (LONG i = target.left; i <= target.right; i++) {
+		    for (LONG j = target.bottom; j <= target.top; j++) {
+		        map.terrain[i][j].cnst = map.terrain[source.x][source.y].cnst;
+		    }
+		}
+	}
+
+    if (flags & OpFlags::ELEVATION){
+	    for (LONG i = target.left; i <= target.right; i++) {
+		    for (LONG j = target.bottom; j <= target.top; j++) {
+		        map.terrain[i][j].elev = map.terrain[source.x][source.y].elev;
+		    }
+		}
+	}
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to, OpFlags::Value flags)
 {
 	LONG dx, dy, w, h, truew, trueh;
@@ -2203,16 +2325,12 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to, OpFlags::Value
     // +1 because right - left == 0 represents 1 tile
 	truew = w + 1;
 	trueh = h + 1;
-	RECT truefrom;
+
+	RECT truefrom;   // would more appropriately be caled "unit from" as opposed to "trigger from" as triggers are integers
 	truefrom.left = from.left;
 	truefrom.bottom = from.bottom;
 	truefrom.right = from.left + truew;
 	truefrom.top = from.bottom + trueh;
-	RECT trueto;
-	trueto.left = to.x;
-	trueto.right = to.x + truew;
-	trueto.bottom = to.y;
-	trueto.top = to.y + trueh;
 
     if ((flags & OpFlags::TERRAIN) || (flags & OpFlags::ELEVATION)){
         Map::Terrain blank;
@@ -2310,26 +2428,26 @@ AOKTS_ERROR Scenario::map_move(const RECT &from, const POINT &to, OpFlags::Value
 	{
 	    // effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
-		    if (ISINRECT(truefrom, iter->location.x, iter->location.y)) {
+		    if (ISINRECT(from, iter->location.x, iter->location.y)) {
 		        iter->location.x += dx;
 		        iter->location.y += dy;
 		    }
-		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		    if (ISINRECT(from, iter->area.right, iter->area.top)) {
 		        iter->area.right += dx;
 		        iter->area.top += dy;
 		    }
-		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		    if (ISINRECT(from, iter->area.left, iter->area.bottom)) {
 		        iter->area.left += dx;
 		        iter->area.bottom += dy;
 		    }
 		}
 	    // conditions
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
-		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		    if (ISINRECT(from, iter->area.right, iter->area.top)) {
 		        iter->area.right += dx;
 		        iter->area.top += dy;
 		    }
-		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		    if (ISINRECT(from, iter->area.left, iter->area.bottom)) {
 		        iter->area.left += dx;
 		        iter->area.bottom += dy;
 		    }
@@ -2351,16 +2469,24 @@ AOKTS_ERROR Scenario::map_swap(const RECT &from, const POINT &to, OpFlags::Value
     // +1 because right - left == 0 represents 1 tile
 	truew = w + 1;
 	trueh = h + 1;
+
 	RECT truefrom;
 	truefrom.left = from.left;
 	truefrom.bottom = from.bottom;
 	truefrom.right = from.left + truew;
 	truefrom.top = from.bottom + trueh;
+
 	RECT trueto;
 	trueto.left = to.x;
 	trueto.right = to.x + truew;
 	trueto.bottom = to.y;
 	trueto.top = to.y + trueh;
+
+	RECT areato;
+	areato.left = to.x;
+	areato.right = to.x + w;
+	areato.bottom = to.y;
+	areato.top = to.y + h;
 
     if ((flags & OpFlags::TERRAIN) || (flags & OpFlags::ELEVATION)){
         Map::Terrain blank;
@@ -2475,41 +2601,41 @@ AOKTS_ERROR Scenario::map_swap(const RECT &from, const POINT &to, OpFlags::Value
 	{
 	    // effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
-		    if (ISINRECT(truefrom, iter->location.x, iter->location.y)) {
+		    if (ISINRECT(from, iter->location.x, iter->location.y)) {
 		        iter->location.x += dx;
 		        iter->location.y += dy;
-		    } else if (ISINRECT(trueto, iter->location.x, iter->location.y)) {
+		    } else if (ISINRECT(areato, iter->location.x, iter->location.y)) {
 		        iter->location.x -= dx;
 		        iter->location.y -= dy;
 		    }
-		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		    if (ISINRECT(from, iter->area.right, iter->area.top)) {
 		        iter->area.right += dx;
 		        iter->area.top += dy;
-		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
+		    } else if (ISINRECT(areato, iter->area.right, iter->area.top)) {
 		        iter->area.right -= dx;
 		        iter->area.top -= dy;
 		    }
-		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		    if (ISINRECT(from, iter->area.left, iter->area.bottom)) {
 		        iter->area.left += dx;
 		        iter->area.bottom += dy;
-		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
+		    } else if (ISINRECT(areato, iter->area.left, iter->area.bottom)) {
 		        iter->area.left -= dx;
 		        iter->area.bottom -= dy;
 		    }
 		}
 	    // conditions
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
-		    if (ISINRECT(truefrom, iter->area.right, iter->area.top)) {
+		    if (ISINRECT(from, iter->area.right, iter->area.top)) {
 		        iter->area.right += dx;
 		        iter->area.top += dy;
-		    } else if (ISINRECT(trueto, iter->area.right, iter->area.top)) {
+		    } else if (ISINRECT(areato, iter->area.right, iter->area.top)) {
 		        iter->area.right -= dx;
 		        iter->area.top -= dy;
 		    }
-		    if (ISINRECT(truefrom, iter->area.left, iter->area.bottom)) {
+		    if (ISINRECT(from, iter->area.left, iter->area.bottom)) {
 		        iter->area.left += dx;
 		        iter->area.bottom += dy;
-		    } else if (ISINRECT(trueto, iter->area.left, iter->area.bottom)) {
+		    } else if (ISINRECT(areato, iter->area.left, iter->area.bottom)) {
 		        iter->area.left -= dx;
 		        iter->area.bottom -= dy;
 		    }

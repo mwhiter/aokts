@@ -19,6 +19,10 @@
 #include <stdio.h>
 #include <climits>
 
+#define SHIFTED 0x8000 
+
+//extern struct RECT;
+
 /* Brushes (created with window) */
 std::vector<std::vector<HBRUSH>> tBrushes;
 HBRUSH *pBrushes;
@@ -49,6 +53,13 @@ struct Highlight
 	struct Highlight *prev, *next;
 };
 
+struct AreaHighlight
+{
+	RECT area;
+
+	struct AreaHighlight *prev, *next;
+};
+
 struct MapViewData
 {
 	Scenario * scen;
@@ -64,6 +75,7 @@ struct MapViewData
     int currenttrigger;
     int currenteffect;
     int currentcondition;
+    AreaHighlight *areahighlights;
 } data;
 
 BOOL SaveToFile(HBITMAP hBitmap3, LPCTSTR lpszFileName)
@@ -264,6 +276,13 @@ void PaintUnits(HDC dc)
 		parse++;
 	}
 	*/
+}
+
+void PaintHighlights(HDC dc)
+{
+	unsigned int rx, ry;
+
+	RECT area;
 
 	/* Highlighting */
 	for (Highlight *hparse = data.highlights; hparse; hparse = hparse->next)
@@ -275,6 +294,17 @@ void PaintUnits(HDC dc)
 		area.bottom = ry + setts.zoom;
 		FillRect(dc, &area, bWhite);
 	}
+
+	for (AreaHighlight *hparse = data.areahighlights; hparse; hparse = hparse->next)
+	{
+	    rotate(data.scen->map.x/2, data.scen->map.y/2, hparse->area.left/2, hparse->area.top/2, rx, ry);
+	    area.left = rx;
+	    area.top = ry;
+	    rotate(data.scen->map.x/2, data.scen->map.y/2, hparse->area.right/2, hparse->area.bottom/2, rx, ry);
+	    area.right = rx;
+	    area.bottom = ry;
+	    FrameRect(dc, &area, bWhite);
+    }
 }
 
 void PaintSelectedTrigger(HDC dc)
@@ -378,13 +408,20 @@ void PaintTriggers(HDC dc)
 	FloatPoint midpoint;
 
     LOGBRUSH     lb;
-    HPEN grey_pen;
+    HPEN light_grey_pen;
+    HPEN dark_grey_pen;
     HPEN red_pen;
+
+    lb.lbStyle = BS_SOLID ;
+    //lb.lbColor = RGB (255, 185, 0) ;
+    lb.lbColor = RGB (255, 200, 200) ;
+    lb.lbHatch = 0 ;
+    light_grey_pen = ExtCreatePen (PS_DOT | PS_COSMETIC, 1, &lb, 0, NULL);
 
     lb.lbStyle = BS_SOLID ;
     lb.lbColor = RGB (70, 0, 0) ;
     lb.lbHatch = 0 ;
-    grey_pen = ExtCreatePen (PS_DOT | PS_COSMETIC, 1, &lb, 0, NULL);
+    dark_grey_pen = ExtCreatePen (PS_DOT | PS_COSMETIC, 1, &lb, 0, NULL);
 
     lb.lbStyle = BS_SOLID ;
     lb.lbColor = RGB (255, 0, 0) ;
@@ -406,11 +443,18 @@ void PaintTriggers(HDC dc)
 			            area.right = rx + 3 * setts.zoom / 4;
 			            FrameRect(dc, &area, pBrushes[scen.players[2].color]);
 			        } else {
-			            choose_pen(dc, iter->area, grey_pen, red_pen);
+			            choose_pen(dc, iter->area, dark_grey_pen, red_pen);
+			            BeginPath(dc);
 			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
 			            MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
 			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
 			            LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			            EndPath(dc);
+			            //WidenPath(dc);
+			            //SelectClipPath(dc, RGN_AND);
+			            //LPCOLORREF color_array;
+			            //RECT rectRgn;
+			            //GradientFill(dc, rectRgn, color_array);
 			            StrokeAndFillPath(dc);
 			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.bottom, rx, ry);
                         midpoint.x = rx + setts.zoom / 2;
@@ -436,7 +480,24 @@ void PaintTriggers(HDC dc)
 			            SetPixel(dc, midpoint.x, midpoint.y, RGB(255,255,255));
 			        }
 			    }
+			}
+			if (setts.drawlocations) {
 	            if (iter->location.x >=0 && iter->location.y >=0) {
+	                if (iter->area.left >=0 && iter->area.right >= 0 && iter->area.bottom >=0 && iter->area.top >= 0) {
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.bottom, rx, ry);
+                        midpoint.x = rx + setts.zoom / 2;
+                        midpoint.y = ry + setts.zoom / 2;
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.top, rx, ry);
+                        midpoint.x += rx + setts.zoom / 2;
+                        midpoint.y += ry + setts.zoom / 2;
+                        midpoint.x /= 2;
+                        midpoint.y /= 2;
+			            choose_pen(dc, iter->area, light_grey_pen, red_pen);
+			            MoveToEx(dc, (int)midpoint.x, (int)midpoint.y, (LPPOINT) NULL);
+			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->location.x, (int)iter->location.y, rx, ry);
+			            LineTo(dc, rx + setts.zoom / 2, ry + setts.zoom / 2);
+			            StrokeAndFillPath(dc);
+	                }
 			        rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->location.x, (int)iter->location.y, rx, ry);
 			        area.left = rx + setts.zoom / 6;
 			        area.bottom = ry + 5 * setts.zoom / 6;
@@ -444,7 +505,7 @@ void PaintTriggers(HDC dc)
 			        area.right = rx + 5 * setts.zoom / 6;
 			        FrameRect(dc, &area, pBrushes[scen.players[3].color]);
 			    }
-	        }
+			}
 	    }
 	    // conditions
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
@@ -458,7 +519,7 @@ void PaintTriggers(HDC dc)
 			            area.right = rx + 7 * setts.zoom / 8;
 			            FrameRect(dc, &area, pBrushes[scen.players[6].color]);
 			        } else {
-			            choose_pen(dc, iter->area, grey_pen, red_pen);
+			            choose_pen(dc, iter->area, dark_grey_pen, red_pen);
 			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
 			            MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
 			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);
@@ -525,6 +586,7 @@ void PaintMap(HDC dcdest)
 	}
 
 	PaintUnits(data.copydc);
+	PaintHighlights(data.copydc);
 	PaintTriggers(data.copydc);
 }
 
@@ -690,12 +752,40 @@ void UnhighlightPoint(HWND window, int x, int y)
 	}
 	else
 	{
+	    // unhighlight all
+	    // so does that mean (int)MAP_UNHIGHLIGHT_ALL < 0 ?
 		for (parse = data.highlights; parse; parse = next)
 		{
 			next = parse->next;	//need to do this becuase Unhighlight deletes parse
 			UnhighlightPoint(window, parse);
 		}
 	}
+}
+
+void HighlightArea(HWND window, int x)
+{
+//	Highlight *nh;
+//
+//	if (x < 0 || x > SHRT_MAX ||
+//		y < 0 || y > SHRT_MAX)
+//		return;
+//
+//	nh = new Highlight;
+//	if (!nh)
+//		return;
+//
+//	/* Prepend the new link since we don't keep track of the last one. */
+//	nh->prev = NULL;
+//	nh->next = data.highlights;
+//	if (data.highlights)
+//		data.highlights->prev = nh;
+//	data.highlights = nh;
+//
+//	/* Set up new highlight. Short bounds checked above */
+//	nh->x = static_cast<short>(x);
+//	nh->y = static_cast<short>(y);
+//
+//	Refresh(window, FALSE);
 }
 
 void HighlightPoint(HWND window, int x, int y)
@@ -768,6 +858,7 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	data.diamondorsquare = -1;
 	data.statusbar = NULL;
 	data.highlights = NULL;
+	data.areahighlights = NULL;
 
 	tBrushes.reserve(esdata.getCount(ESD_terrains));
 
@@ -1057,20 +1148,58 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		    setts.draweffects = !setts.draweffects;
 		    Refresh(window, FALSE);
 		    break;
+		case 0x4C: // L key
+		    setts.drawlocations = !setts.drawlocations;
+		    Refresh(window, FALSE);
+		    break;
 		case 0x43: // C key
 		    setts.drawconds = !setts.drawconds;
 		    Refresh(window, FALSE);
 		    break;
 		case VK_OEM_PLUS:
-		    if (setts.zoom < 15) {
-		        setts.zoom+=1;
-		        Refresh(window, FALSE);
-		    }
+		    {
+		        int nVirtKey;
+		        nVirtKey = GetKeyState(VK_SHIFT);
+                if (nVirtKey & SHIFTED) {
+		            if (setts.zoom < 15) {
+		                setts.zoom+=1;
+		                Refresh(window, FALSE);
+		            } else {
+		                setts.zoom=15;
+		                Refresh(window, FALSE);
+		            }
+                } else {
+		            if (setts.zoom < 13) {
+		                setts.zoom+=3;
+		                Refresh(window, FALSE);
+		            } else {
+		                setts.zoom=15;
+		                Refresh(window, FALSE);
+		            }
+                }
+            }
 		    break;
 		case VK_OEM_MINUS:
-		    if (setts.zoom > 1) {
-		        setts.zoom-=1;
-		        Refresh(window, FALSE);
+		    {
+		        int nVirtKey;
+		        nVirtKey = GetKeyState(VK_SHIFT);
+                if (nVirtKey & SHIFTED) {
+		            if (setts.zoom > 1) {
+		                setts.zoom-=1;
+		                Refresh(window, FALSE);
+		            } else {
+		                setts.zoom=1;
+		                Refresh(window, FALSE);
+		            }
+                } else {
+		            if (setts.zoom > 3) {
+		                setts.zoom-=3;
+		                Refresh(window, FALSE);
+		            } else {
+		                setts.zoom=1;
+		                Refresh(window, FALSE);
+		            }
+		        }
 		    }
 		    break;
 		}

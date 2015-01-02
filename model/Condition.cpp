@@ -96,14 +96,20 @@ std::string Condition::getNameTip() const
             switch (type) {
             case 3:
             case 5:
-                convert << "at least ";
+                if (amount == 0) {
+                    convert << "any number of";
+                } else {
+                    convert << "at least " << amount;
+                }
                 break;
             case 4:
-                convert << "at most ";
-                break;
+                if (amount == 0) {
+                    convert << "no";
+                } else {
+                    convert << "at most " << amount;
+                }
                 break;
             }
-            convert << amount;
             if (pUnit && pUnit->id()) {
                 std::wstring unitname(pUnit->name());
                 std::string un(unitname.begin(), unitname.end());

@@ -10,7 +10,7 @@
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0 Alpha 15"
+#define VER_STRING "1.2.0 Alpha 18"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -44,10 +44,9 @@
 #define IDD_TERRAIN			115
 #define IDD_UNITS			116
 #define IDD_TRIGGERS		117
-#define IDD_COMPATIBILITY   118
-#define IDD_MAPINSPECT      119
-#define IDD_EFFECT			120
-#define IDD_COND			121
+#define IDD_MAPINSPECT      118
+#define IDD_EFFECT			119
+#define IDD_COND			120
 
 /* Bitmaps */
 #define IDB_GOOD			200
@@ -180,6 +179,11 @@
 #define IDC_TR_MDUPTR               1439
 #define IDC_TR_RMUNITS              1440
 #define IDC_TR_RMTRIGS              1441
+#define IDC_TR_REPEAT               1442
+#define IDC_TR_REPEAT_UNITS         1443
+#define IDC_TR_REPEAT_TERRAIN       1444
+#define IDC_TR_REPEAT_ELEV          1445
+#define IDC_TR_CONST			    1446
 
 /* Units Controls */
 #define IDC_U_SELU			    1500
@@ -215,8 +219,7 @@
 #define IDC_U_DEL_TYPE		    1530
 #define IDC_U_ROTATE_VAL  	    1531
 #define IDC_U_DESELECT  	    1532
-#define IDC_U_DESELECT_ADD      1533
-#define IDC_U_RESORT            1534
+#define IDC_U_RESORT            1533
 
 /* Trigger Controls */
 #define IDC_T_TREE				1200
@@ -383,3 +386,6 @@
 #define ID_TRIGGERS_HIDE_DESCRIPTIONS       0xE154
 #define ID_TRIGGERS_SWAP_NAMES_DESCRIPTIONS 0xE155
 #define ID_TRIGGERS_EXPAND_ALL              0xE156
+#define ID_TRIGGERS_COMPATIBILITY           0xE157
+#define ID_MAP_WATER_CLIFF_INVISIBLE 0xE158
+#define ID_MAP_WATER_CLIFF_VISIBLE   0xE159

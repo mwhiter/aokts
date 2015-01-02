@@ -118,10 +118,11 @@ void Effect::read(FILE *in)
 
 	if (num_sel > 0)
 		readbin(in, uids, num_sel);
-    //
-	//if (trig_index > 1000) {
-	//    trig_index = -1;
-	//}
+
+    // DODGY! should be removed as soon as bug is fixed
+	if ((long)trig_index < 0) {
+	    trig_index = -1;
+	}
 }
 
 void Effect::write(FILE *out)
@@ -140,8 +141,10 @@ std::string Effect::getName() const
 	return (type < NUM_EFFECTS) ? types[type] : "Unknown!";
 }
 
-std::string Effect::getNameTip() const
+std::string Effect::getNameTip(TipFlags::Value flags) const
 {
+    UnitLink *cUnit;
+
     std::string stype = std::string("");
     std::ostringstream convert;
     switch (type) {
@@ -178,7 +181,7 @@ std::string Effect::getNameTip() const
         stype.append(convert.str());
         break;
     case 5: // Tribute
-        // what is the significance of losing 2147483647
+        // what is the significance of losing 2147483647?
         // i guess it resets?
         if (amount == 1410065407) {
             // reset to 0
@@ -274,7 +277,11 @@ std::string Effect::getNameTip() const
             break;
         }
         if (trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
-            stype.append(scen.triggers.at(trig_index).name).append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
+            if (trig_index < scen.triggers.size() && trig_index >= 0) {
+                stype.append(scen.triggers.at(trig_index).name).append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
+            } else {
+                stype.append("<?>");
+            }
             //convert << trig_index;
             //stype.append(convert.str());
         }
@@ -287,12 +294,31 @@ std::string Effect::getNameTip() const
         }
         stype.append(convert.str());
         break;
+    case 6: // Unlock Gate
+    case 7: // Lock Gate
     case 14: // Kill Object
     case 15: // Remove
-        if (type == 14 ) {
+    case 17: // Unload
+    case 22: // Freeze unit
+        switch (type) {
+        case 6:
+            convert << "unlock";
+            break;
+        case 7:
+            convert << "lock";
+            break;
+        case 14:
             convert << "kill";
-        } else {
+            break;
+        case 15:
             convert << "remove";
+            break;
+        case 17:
+            convert << "unload";
+            break;
+        case 22:
+            convert << "freeze";
+            break;
         }
         switch (s_player) {
         case -1:
@@ -314,11 +340,23 @@ std::string Effect::getNameTip() const
         } else {
             convert << " units";
         }
+	    for (int i = 0; i < num_sel; i++) {
+            convert << " " << uids[i];
+	    }
         if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
             if (area.left == area.right && area.top == area.bottom) {
                 convert << " at (" << area.left << "," << area.top << ")";
             } else {
-                convert << " from area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                switch (type) {
+                case 6:
+                case 7:
+                case 22:
+                    convert << " in";
+                    break;
+                default:
+                    convert << " from";
+                }
+                convert << " area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
             }
         }
         stype.append(convert.str());
@@ -430,8 +468,39 @@ std::string Effect::getNameTip() const
         break;
     case 26: // Rename
         //stype.append(types_short[type]);
-        stype.append("rename ");
+        stype.append("rename '");
         stype.append(text.c_str());
+        stype.append("'");
+        switch (s_player) {
+        case -1:
+            break;
+        case 0:
+            convert << " Gaia";
+            break;
+        default:
+            convert << " p" << s_player;
+        }
+        if (pUnit && pUnit->id()) {
+            std::wstring unitname(pUnit->name());
+            std::string un(unitname.begin(), unitname.end());
+            convert << " " << un;
+        } else {
+            convert << " unit";
+        }
+	    for (int i = 0; i < num_sel; i++) {
+            convert << " " << uids[i];
+            //for (int p = 0; p < NUM_PLAYERS; p++) {
+            //    scen.players[p].units.at(
+            //}
+	    }
+        if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
+            if (area.left == area.right && area.top == area.bottom) {
+                convert << " at (" << area.left << "," << area.top << ")";
+            } else {
+                convert << " over area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+            }
+        }
+        stype.append(convert.str());
         break;
     case 24: // Damage
         {
@@ -469,9 +538,9 @@ std::string Effect::getNameTip() const
             if (unit_set_selected) {
                 if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
                     if (area.left == area.right && area.top == area.bottom) {
-                        convert << "at (" << area.left << "," << area.top << ")";
+                        convert << "at (" << area.left << "," << area.top << ") ";
                     } else {
-                        convert << "from area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                        convert << "from area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
                     }
                 }
             }
@@ -482,12 +551,12 @@ std::string Effect::getNameTip() const
             convert.str("");
             convert.clear();
             if (amount == -2147483647) {
-                convert << "make " << sunit << " invincible";
+                convert << "make " << sunit << "invincible";
             } else {
                 if (amount < 0) {
-                    convert << "buff " << sunit << " with " << -amount << " HP";
+                    convert << "buff " << sunit << "with " << -amount << " HP";
                 } else {
-                    convert << "damage " << sunit << " by " << amount << " HP";
+                    convert << "damage " << sunit << "by " << amount << " HP";
                 }
             }
             stype.append(convert.str());
@@ -499,11 +568,60 @@ std::string Effect::getNameTip() const
     case 31: // UP Range
     case 32: // UP Armor1
     case 33: // UP Armor2
-        convert << "change ";
-        convert << types_short[type];
-        convert << " by ";
-        convert << amount;
-        stype.append(convert.str());
+        {
+            std::string sunit("");
+            bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
+            if (s_player > 0) {
+                convert << "p" << s_player << "'s ";
+            }
+	        if (num_sel > 0) {
+	            if (num_sel == 1) {
+                    convert << "unit ";
+                } else {
+                    convert << "units ";
+                }
+	            for (int i = 0; i < num_sel; i++) {
+                    convert << uids[i] << " ";
+	            }
+	            if (unit_set_selected) {
+	                convert << " and ";
+	            }
+            }
+            if (unit_set_selected) {
+                std::wstring unitname(pUnit->name());
+                std::string un(unitname.begin(), unitname.end());
+                if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
+                    convert << un << "s ";
+                } else {
+                    convert << un << " ";
+                }
+            } else {
+	            if (num_sel <= 0) {
+                    convert << "units ";
+	            }
+            }
+            if (unit_set_selected) {
+                if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
+                    if (area.left == area.right && area.top == area.bottom) {
+                        convert << "at (" << area.left << "," << area.top << ")";
+                    } else {
+                        convert << "in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                    }
+                }
+            }
+
+            // The above is setting up for the below
+
+            sunit.append(convert.str());
+            convert.str("");
+            convert.clear();
+            if (amount < 0) {
+                convert << "reduce " << types_short[type] << " of "  << sunit << " by " << -amount << " HP";
+            } else {
+                convert << "increase " << types_short[type] << " of "  << sunit << " by " << amount << " HP";
+            }
+            stype.append(convert.str());
+        }
         break;
     default:
         stype.append((type < NUM_EFFECTS) ? types_short[type] : "Unknown!");
@@ -547,7 +665,7 @@ bool Effect::check() const
 
 	case EFFECT_ActivateTrigger:
 	case EFFECT_DeactivateTrigger:
-		return (trig_index >= 0 && trig_index != (unsigned)-1 && trig_index != (unsigned)-2);
+		return (trig_index >= 0 && trig_index != (unsigned)-1 && trig_index != (unsigned)-2 && trig_index < scen.triggers.size());
 
 	case EFFECT_AIScriptGoal:
 		return (s_player >= 0 && ai_goal >= 0);
@@ -600,8 +718,8 @@ bool Effect::check() const
 	case EFFECT_DamageObject:
 	case EFFECT_ChangeObjectHP:
 	case EFFECT_ChangeObjectAttack:
+		//return (amount != -1);		//amount can be negative, but can't be -1 (or can it? it appears red in scenario editor. It CAN be -1 (in AOHD at least)
 		return true;
-		//return (amount != 0		//amount can be negative
 		//	&& (num_sel >= 0 || area.left >= 0));	//AOK missing this
 	case EFFECT_SnapView: //Equal to UP Change Speed
 		return true;

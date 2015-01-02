@@ -50,6 +50,7 @@ struct OpFlags {
         UNITS                          = 0x02,
         ELEVATION                      = 0x04,
         TRIGGERS                       = 0x08,
+        RANDOMIZE                      = 0x16,
         ALL                            = 0x01 | 0x02 | 0x04 | 0x08
     };
 };
@@ -286,12 +287,14 @@ public:
 	AOKTS_ERROR map_paste(const POINT &to, Buffer &from);
 
     AOKTS_ERROR compress_unit_ids();
-	/*  map_move: moves the units, terrain and triggers in that terrain */
     AOKTS_ERROR sort_conds_effects();
+    AOKTS_ERROR map_repeat(const RECT &target, const POINT &source, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_delete(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
+	/*  map_move: moves the units, terrain and triggers in that terrain */
     AOKTS_ERROR map_move(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_swap(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_scale(const RECT &area, const float scale);
+    AOKTS_ERROR water_cliffs_visibility(const bool visibility);
     AOKTS_ERROR randomize_unit_frames(HWND dialog);
     AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);
     AOKTS_ERROR map_duplicate(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);

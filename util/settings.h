@@ -67,8 +67,10 @@ public:
 	char logname[12];
 	bool intense;
 	bool editall;
+	bool nowarnings;
 	bool drawconds;
 	bool draweffects;
+	bool drawlocations;
 	char drawplayer[9];
 
 	//[Minimap]

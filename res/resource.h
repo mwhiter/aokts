@@ -44,9 +44,10 @@
 #define IDD_TERRAIN			115
 #define IDD_UNITS			116
 #define IDD_TRIGGERS		117
-#define IDD_MAPINSPECT      118
-#define IDD_EFFECT			119
-#define IDD_COND			120
+#define IDD_TRIGTEXT        118
+#define IDD_MAPINSPECT      119
+#define IDD_EFFECT			120
+#define IDD_COND			121
 
 /* Bitmaps */
 #define IDB_GOOD			200
@@ -256,6 +257,9 @@
 #define IDC_P_TO1C              1201
 #define IDC_P_TOUP              1202
 #define IDC_P_TOHD              1203
+
+/* Trigtext View Controls */
+#define IDC_TT_VIEW             1200
 
 /* Condition Controls */
 #define IDC_C_TYPE				1900

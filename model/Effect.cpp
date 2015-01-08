@@ -144,6 +144,7 @@ std::string Effect::getName() const
 std::string Effect::getNameTip(TipFlags::Value flags) const
 {
     UnitLink *cUnit;
+    bool valid_area = !(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1);
 
     std::string stype = std::string("");
     std::ostringstream convert;
@@ -343,7 +344,7 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
 	    for (int i = 0; i < num_sel; i++) {
             convert << " " << uids[i];
 	    }
-        if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
+        if (valid_area) {
             if (area.left == area.right && area.top == area.bottom) {
                 convert << " at (" << area.left << "," << area.top << ")";
             } else {
@@ -383,48 +384,48 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
         stype.append(convert.str());
         break;
     case 18: // Change Ownership
-        stype.append(types_short[type]);
-        stype.append(" ");
-        if (pUnit && pUnit->id()) {
-            std::wstring unitname(pUnit->name());
-            stype.append(std::string( unitname.begin(), unitname.end()));
-        }
-        break;
     case 19: // Patrol object
     case 12: // Task object
-        if (type == 19 ) {
-            // keep in mind multiple units can possess the same id, but
-            // it only operates on the last farm with that id.
-            //
-            // s_player may not be selected. Therefore, go through all
-            // the units in scenario.
-            //
-            // A gaia farm could be made infinite.
-            //Player * p = scen.players + s_player;
-            //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
-            //}
+        switch (type) {
+        case 19:
+            {
+                // keep in mind multiple units can possess the same id, but
+                // it only operates on the last farm with that id.
+                //
+                // s_player may not be selected. Therefore, go through all
+                // the units in scenario.
+                //
+                // A gaia farm could be made infinite.
+                //Player * p = scen.players + s_player;
+                //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
+                //}
 
-            unsigned int farms_sel = 0;
-	        for (int i = 0; i < num_sel; i++) {
-	            if (uids[i] == 50)
-	                farms_sel++;
-	        }
-            if (farms_sel > 0) {
-	            if (farms_sel == 1) {
-                    convert << "make farm ";
-                } else {
-                    convert << "make farms ";
-                }
+                unsigned int farms_sel = 0;
 	            for (int i = 0; i < num_sel; i++) {
 	                if (uids[i] == 50)
-                        convert << uids[i] << " ";
+	                    farms_sel++;
 	            }
-	            convert << "infinite";
-	            break;
-            } else {
-                convert << "patrol";
+                if (farms_sel > 0) {
+	                if (farms_sel == 1) {
+                        convert << "make farm ";
+                    } else {
+                        convert << "make farms ";
+                    }
+	                for (int i = 0; i < num_sel; i++) {
+	                    if (uids[i] == 50)
+                            convert << uids[i] << " ";
+	                }
+	                convert << "infinite";
+	                break;
+                } else {
+                    convert << "patrol";
+                }
             }
-        } else {
+            break;
+        case 18:
+            convert << "convert";
+            break;
+        default:
             convert << "task";
         }
         switch (s_player) {
@@ -441,25 +442,44 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
             std::string un(unitname.begin(), unitname.end());
             convert << " " << un;
         } else {
-            convert << " unit";
+            if (num_sel == 1) {
+                convert << " unit";
+            } else {
+                convert << " units";
+            }
         }
 	    for (int i = 0; i < num_sel; i++) {
             convert << " " << uids[i];
 	    }
-        if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
+        if (valid_area) {
             if (area.left == area.right && area.top == area.bottom) {
                 convert << " at (" << area.left << "," << area.top << ")";
             } else {
                 convert << " in (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
             }
         }
-        convert << " to (" << location.x << ", " << location.y << ")";
+        switch (type) {
+        case 18:
+            convert << " to";
+            switch (t_player) {
+            case -1:
+                break;
+            case 0:
+                convert << " Gaia";
+                break;
+            default:
+                convert << " p" << s_player;
+            }
+            break;
+        default:
+            convert << " to (" << location.x << ", " << location.y << ")";
+        }
         stype.append(convert.str());
         break;
     case 13: // Declare victory
-        stype.append(types_short[type]);
-        stype.append(" ");
+        stype.append("p");
         convert << s_player;
+        stype.append(" victory");
         stype.append(convert.str());
         break;
     case 20: // Instructions
@@ -493,7 +513,7 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
             //    scen.players[p].units.at(
             //}
 	    }
-        if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
+        if (valid_area) {
             if (area.left == area.right && area.top == area.bottom) {
                 convert << " at (" << area.left << "," << area.top << ")";
             } else {
@@ -536,7 +556,7 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
 	            }
             }
             if (unit_set_selected) {
-                if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
+                if (valid_area) {
                     if (area.left == area.right && area.top == area.bottom) {
                         convert << "at (" << area.left << "," << area.top << ") ";
                     } else {
@@ -590,6 +610,7 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
             if (unit_set_selected) {
                 std::wstring unitname(pUnit->name());
                 std::string un(unitname.begin(), unitname.end());
+                replaced(un, ", Unpacked", "");
                 if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
                     convert << un << "s ";
                 } else {
@@ -601,7 +622,7 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
 	            }
             }
             if (unit_set_selected) {
-                if (!(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1)) {
+                if (valid_area) {
                     if (area.left == area.right && area.top == area.bottom) {
                         convert << "at (" << area.left << "," << area.top << ")";
                     } else {
@@ -616,9 +637,9 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
             convert.str("");
             convert.clear();
             if (amount < 0) {
-                convert << "reduce " << types_short[type] << " of "  << sunit << " by " << -amount << " HP";
+                convert << "reduce " << types_short[type] << " of "  << sunit << "by " << -amount << " HP";
             } else {
-                convert << "increase " << types_short[type] << " of "  << sunit << " by " << amount << " HP";
+                convert << "increase " << types_short[type] << " of "  << sunit << "by " << amount << " HP";
             }
             stype.append(convert.str());
         }

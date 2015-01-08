@@ -102,7 +102,7 @@ const char welcome[] =
 const char extOpen[] =
 "AOEII Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0SWGB Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
-"AoK Scenarios (*.scn)\0*.scn\0AoC Scenarios (*.scx)\0*.scx\0SWGB Scenarios (*.scx)\0*.scx\0AoHD Scenarios (*.scx)\0*.scx\0AoF Scenarios (*.scx2)\0*.scx2\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
+"AoK Scenarios (*.scn)\0*.scn\0AoC Scenarios (*.scx)\0*.scx\0AoHD Scenarios (*.scx)\0*.scx\0AoF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
 const char datapath[] = "data_aok.xml";
 //const char datapath[] = "data_swgb.xml";
 
@@ -181,6 +181,7 @@ void FileSave(HWND sheet, bool as, bool write)
 	HCURSOR previous;	//the mouse cursor before/after save operation
 	OPENFILENAME ofn;
 	char titleBuffer[100];
+	char startver;
 	int conv = 0;
 
 	//init
@@ -197,7 +198,20 @@ void FileSave(HWND sheet, bool as, bool write)
 		ofn.hwndOwner = sheet;
 		ofn.lpstrFilter = extSave;
 		ofn.lpstrCustomFilter = NULL;
-		ofn.nFilterIndex = scen.isScx() + scen.isScx2() + 1;
+		if (scen.isAok()) {
+		    startver = 1;
+		} else if (scen.isScx2()) {
+		    if (strstr(setts.ScenPath, ".scx2")) {
+		        startver = 4;
+		    } else {
+		        startver = 3;
+		    }
+		} else if (scen.isScx()) {
+		    startver = 2;
+		} else {
+		    startver = 5;
+		}
+		ofn.nFilterIndex = startver;
 		ofn.lpstrFile = setts.ScenPath;
 		ofn.nMaxFile = _MAX_PATH;
 		ofn.lpstrFileTitle = NULL;
@@ -209,8 +223,12 @@ void FileSave(HWND sheet, bool as, bool write)
 		if (!GetSaveFileName(&ofn))
 			return;
 
-		if (ofn.nFilterIndex != scen.isScx() + scen.isScx2() + 1)
+		if (ofn.nFilterIndex != startver)
 			conv = ofn.nFilterIndex;
+
+        /* because scx2 is same as aohd scx? */
+		if (conv >= 4)
+		    conv--;
 
 		if (!*scen.origname)
 			strcpy(scen.origname, setts.ScenPath + ofn.nFileOffset);

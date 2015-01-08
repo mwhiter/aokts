@@ -254,6 +254,16 @@ void Scenario::AOKBMP::reset()
 	delete [] image;
 }
 
+bool Scenario::isAok() //The Age of Kings
+{
+	bool ret = false;
+
+	if (ver1 == SV1_AOE2)
+		ret = true;
+
+	return ret;
+}
+
 bool Scenario::isScx() //The Conquerors
 {
 	bool ret = false;

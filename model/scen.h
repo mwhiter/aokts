@@ -309,6 +309,7 @@ public:
 
 	bool needsave()	{ return mod_status; }
 
+	bool isAok();
 	bool isScx();
 	bool isScx2();
 };

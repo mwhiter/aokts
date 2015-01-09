@@ -7,6 +7,9 @@ serves as a supplement to the in-game editor. It equips designers to do
 things that aren't possible or are very time consuming with the standard
 editor. It is written in C++ using the standard Win32 API.
 
+Visit AoK Heaven to give feedback!
+[AoK Heaven](http://aok.heavengames.com/blacksmith/showfile.php?fileid=12103&amp;f=&amp;st=40&amp;ci=)
+
 You can:
 
 * Decompress a scenario for editing with a hex editor.

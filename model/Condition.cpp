@@ -66,6 +66,11 @@ std::string Condition::getNameTip() const
     std::string stype = std::string("");
     std::ostringstream convert;
     switch (type) {
+    case 0: // Undefined
+        // Let this act like a separator
+        convert << "                                                                                    ";
+        stype.append(convert.str());
+        break;
     case 1: // Bring object to area
         convert << "unit " << object;
         if (area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1) {

@@ -149,6 +149,11 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
     std::string stype = std::string("");
     std::ostringstream convert;
     switch (type) {
+    case 0: // Undefined
+        // Let this act like a separator
+        convert << "                                                                                    ";
+        stype.append(convert.str());
+        break;
     case 2: // Research
         switch (s_player) {
         case -1:

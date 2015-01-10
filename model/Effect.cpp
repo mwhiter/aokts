@@ -477,9 +477,7 @@ std::string Effect::getNameTip(TipFlags::Value flags) const
         stype.append(convert.str());
         break;
     case 13: // Declare victory
-        stype.append("p");
-        convert << s_player;
-        stype.append(" victory");
+        convert << "p" << s_player << " victory";
         stype.append(convert.str());
         break;
     case 20: // Instructions

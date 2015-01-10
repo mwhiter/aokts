@@ -18,7 +18,7 @@
 
 //Number of property pages (tabs)
 //6 when disabling disables
-#define NUM_PAGES 8
+#define NUM_PAGES 9
 
 /* Global Variables */
 
@@ -78,6 +78,7 @@ INT_PTR CALLBACK DisDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK MapDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK UnitDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK TrigDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK TrigtextDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK CompatDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK MapInspectDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 

@@ -120,7 +120,7 @@ BEGIN
     POPUP "&Map"
     BEGIN
         MENUITEM "Make water cliffs invisible", ID_MAP_WATER_CLIFF_INVISIBLE
-        MENUITEM "Make water cliffs visible (frame=1, rotation=1)",   ID_MAP_WATER_CLIFF_VISIBLE
+        MENUITEM "Make water cliffs visible (frame=1, rotation=1)", ID_MAP_WATER_CLIFF_VISIBLE
     END
     POPUP "&Triggers"
     BEGIN
@@ -489,6 +489,14 @@ STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
 CAPTION "MapInspect"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
+END
+
+IDD_TRIGTEXT DIALOGEX 0, 0, 419, 302
+STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Trigtext"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_TT_VIEW,5,61,408,224,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
 END
 
 IDD_STATS DIALOG  0, 0, 160, 168

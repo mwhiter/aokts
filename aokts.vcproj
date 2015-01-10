@@ -469,6 +469,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\view\trigtextview.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\view\unitedit.cpp"
 				>
 			</File>

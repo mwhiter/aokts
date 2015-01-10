@@ -573,6 +573,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 		perversion = &pv1_15;
 		ver2 = SV2_AOE1;
 		break;
+
 	case 118:
 	case 119:
 	case 120:
@@ -833,7 +834,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 int Scenario::write_data(const char *path)
 {
 	FILE *dcout;
-	int i, messages_count = 6;
+	int i;
 	long num;
 	float f;
 	int num_players = Player::num_players;	//for quick access

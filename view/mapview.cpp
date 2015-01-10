@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <climits>
 
-#define SHIFTED 0x8000
+#define MOD_ON 0x8000
 
 //extern struct RECT;
 
@@ -663,6 +663,20 @@ void Refresh(HWND window, BOOL erase)
 	InvalidateRect(window, NULL, erase);
 }
 
+void HandleToggleAllUnits(HWND window)
+{
+	bool ALLON = true;
+	for (int i = 0; i < 9; i++)
+	{
+	    ALLON = ALLON && setts.drawplayer[i];
+	}
+	for (int i = 0; i < 9; i++)
+	{
+	    setts.drawplayer[i] = !ALLON;
+	}
+	Refresh(window, FALSE);
+}
+
 void HandlePaint(HWND window)
 {
 	HDC dc;
@@ -938,7 +952,7 @@ void OnWM_LBUTTONUP(HWND window, int x, int y)
 		SendMessage(owner, MAP_Click, 0, MAKELPARAM(rx, ry));
 }
 
-void OnWM_SWIPE(HWND window, bool horizontal, short delta, short x, short y)
+void OnWM_SWIPE(HWND window, bool horizontal, bool inverted, short delta, short x, short y)
 {
 	SCROLLINFO si;
 	int newpos;
@@ -952,6 +966,11 @@ void OnWM_SWIPE(HWND window, bool horizontal, short delta, short x, short y)
 	if (!horizontal) {
 	    delta = -delta;
 	}
+
+	if (inverted) {
+	    delta = -delta;
+	}
+
 	newpos = si.nPos - delta;
 
     if (newpos < si.nMin) {
@@ -1191,22 +1210,25 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		    setts.drawconds = !setts.drawconds;
 		    Refresh(window, FALSE);
 		    break;
+		case 0x55: // U key
+		    HandleToggleAllUnits(window);
+		    break;
 		    //OnWM_SWIPE(window, true, 1, 0, 0);
 		case VK_OEM_PLUS:
 		    {
 		        int nVirtKey;
 		        nVirtKey = GetKeyState(VK_SHIFT);
-                if (nVirtKey & SHIFTED) {
-		            if (setts.zoom < 15) {
-		                setts.zoom+=1;
+                if (nVirtKey & MOD_ON) {
+		            if (setts.zoom > 1) {
+		                setts.zoom-=1;
 		                Refresh(window, FALSE);
 		            } else {
-		                setts.zoom=15;
+		                setts.zoom=1;
 		                Refresh(window, FALSE);
 		            }
                 } else {
-		            if (setts.zoom < 13) {
-		                setts.zoom+=3;
+		            if (setts.zoom < 15) {
+		                setts.zoom+=1;
 		                Refresh(window, FALSE);
 		            } else {
 		                setts.zoom=15;
@@ -1219,17 +1241,17 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		    {
 		        int nVirtKey;
 		        nVirtKey = GetKeyState(VK_SHIFT);
-                if (nVirtKey & SHIFTED) {
-		            if (setts.zoom > 1) {
-		                setts.zoom-=1;
+                if (nVirtKey & MOD_ON) {
+		            if (setts.zoom < 15) {
+		                setts.zoom+=1;
 		                Refresh(window, FALSE);
 		            } else {
-		                setts.zoom=1;
+		                setts.zoom=15;
 		                Refresh(window, FALSE);
 		            }
                 } else {
-		            if (setts.zoom > 3) {
-		                setts.zoom-=3;
+		            if (setts.zoom > 1) {
+		                setts.zoom-=1;
 		                Refresh(window, FALSE);
 		            } else {
 		                setts.zoom=1;
@@ -1243,11 +1265,11 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
     case WM_MOUSEWHEEL:
-        OnWM_SWIPE(window, GetKeyState(VK_SHIFT) & SHIFTED, GET_WHEEL_DELTA_WPARAM(wParam), LOWORD(wParam), HIWORD(wParam));
+        OnWM_SWIPE(window, GetKeyState(VK_SHIFT) & MOD_ON, GetKeyState(VK_MENU) & MOD_ON, GET_WHEEL_DELTA_WPARAM(wParam), LOWORD(wParam), HIWORD(wParam));
         break;
 
     case WM_MOUSEHWHEEL:
-        OnWM_SWIPE(window, !(GetKeyState(VK_SHIFT) & SHIFTED), GET_WHEEL_DELTA_WPARAM(wParam), LOWORD(wParam), HIWORD(wParam));
+        OnWM_SWIPE(window, !(GetKeyState(VK_SHIFT) & MOD_ON), GetKeyState(VK_MENU) & MOD_ON, GET_WHEEL_DELTA_WPARAM(wParam), LOWORD(wParam), HIWORD(wParam));
         break;
 
 	case WM_SIZE:

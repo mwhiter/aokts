@@ -6,6 +6,10 @@
 	VIEW/CONTROLLER
 **/
 
+#ifndef WM_MOUSEHWHEEL
+#define WM_MOUSEHWHEEL                  0x020E
+#endif
+
 #include "mapview.h"
 
 #include "../util/settings.h"
@@ -19,7 +23,7 @@
 #include <stdio.h>
 #include <climits>
 
-#define SHIFTED 0x8000 
+#define SHIFTED 0x8000
 
 //extern struct RECT;
 
@@ -934,6 +938,37 @@ void OnWM_LBUTTONUP(HWND window, int x, int y)
 		SendMessage(owner, MAP_Click, 0, MAKELPARAM(rx, ry));
 }
 
+void OnWM_SWIPE(HWND window, bool horizontal, short delta, short x, short y)
+{
+	SCROLLINFO si;
+	int newpos;
+
+	/* get the current scroll info */
+	si.cbSize = sizeof(si);
+	si.fMask = SIF_POS | SIF_RANGE;
+	GetScrollInfo(window, horizontal?SB_HORZ:SB_VERT, &si);
+
+	/* set the new position and update window */
+	if (!horizontal) {
+	    delta = -delta;
+	}
+	newpos = si.nPos - delta;
+
+    if (newpos < si.nMin) {
+		newpos = si.nMin;
+    }
+
+	if (newpos > si.nMax) {
+		newpos = si.nMax;
+	}
+
+	InvalidateRect(window, NULL, FALSE);
+
+	si.nPos = newpos;
+	si.fMask = SIF_POS;
+	SetScrollInfo(window, horizontal?SB_HORZ:SB_VERT, &si, TRUE);
+}
+
 void OnWM_HSCROLL(HWND window, WORD type, WORD pos)
 {
 	SCROLLINFO si;
@@ -1156,6 +1191,7 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		    setts.drawconds = !setts.drawconds;
 		    Refresh(window, FALSE);
 		    break;
+		    //OnWM_SWIPE(window, true, 1, 0, 0);
 		case VK_OEM_PLUS:
 		    {
 		        int nVirtKey;
@@ -1205,6 +1241,14 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	}
+
+    case WM_MOUSEWHEEL:
+        OnWM_SWIPE(window, GetKeyState(VK_SHIFT) & SHIFTED, GET_WHEEL_DELTA_WPARAM(wParam), LOWORD(wParam), HIWORD(wParam));
+        break;
+
+    case WM_MOUSEHWHEEL:
+        OnWM_SWIPE(window, !(GetKeyState(VK_SHIFT) & SHIFTED), GET_WHEEL_DELTA_WPARAM(wParam), LOWORD(wParam), HIWORD(wParam));
+        break;
 
 	case WM_SIZE:
 		UpdateScrollbars(window, LOWORD(lParam), HIWORD(lParam));

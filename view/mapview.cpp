@@ -663,6 +663,14 @@ void Refresh(HWND window, BOOL erase)
 	InvalidateRect(window, NULL, erase);
 }
 
+void HandleToggleTriggers(HWND window)
+{
+    bool ALLON = true;
+    ALLON = setts.drawconds && setts.draweffects && setts.drawlocations;
+    setts.drawconds = setts.draweffects = setts.drawlocations = !ALLON;
+	Refresh(window, FALSE);
+}
+
 void HandleToggleAllUnits(HWND window)
 {
 	bool ALLON = true;
@@ -1209,6 +1217,9 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 0x43: // C key
 		    setts.drawconds = !setts.drawconds;
 		    Refresh(window, FALSE);
+		    break;
+		case 0x54: // T key
+		    HandleToggleTriggers(window);
 		    break;
 		case 0x55: // U key
 		    HandleToggleAllUnits(window);

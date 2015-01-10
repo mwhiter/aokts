@@ -260,6 +260,7 @@
 
 /* Trigtext View Controls */
 #define IDC_TT_VIEW             1200
+#define IDC_TT_EXPORT           1201
 
 /* Condition Controls */
 #define IDC_C_TYPE				1900

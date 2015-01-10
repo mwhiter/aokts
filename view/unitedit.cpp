@@ -377,28 +377,20 @@ void Units_HandleDeleteAllType(HWND dialog)
 	index = SendMessage(selbox, LB_GETCURSEL, 0, 0);
 	SendMessage(selbox, LB_DELETESTRING, index, 0);
 
-	/* Set selection to next item down. If there isn't one, reset stuff. */
-	if (SendMessage(selbox, LB_GETCOUNT, 0, 0))
-	{
-		SendMessage(selbox, LB_SETCURSEL, index, 0);
-		u_index = SendMessage(selbox, LB_GETITEMDATA, index, 0);
-		Units_Load(dialog);
-	}
-	else
-	{
-		ENABLE_WND(IDC_U_DEL, false);
-		ENABLE_WND(IDC_U_MAKEP1, false);
-		ENABLE_WND(IDC_U_MAKEP2, false);
-		ENABLE_WND(IDC_U_MAKEP3, false);
-		ENABLE_WND(IDC_U_MAKEP4, false);
-		ENABLE_WND(IDC_U_MAKEP5, false);
-		ENABLE_WND(IDC_U_MAKEP6, false);
-		ENABLE_WND(IDC_U_MAKEP7, false);
-		ENABLE_WND(IDC_U_MAKEP8, false);
-		ENABLE_WND(IDC_U_MAKEGA, false);
-		ENABLE_WND(IDC_U_DESELECT, false);
-		u_index = SIZE_MAX;
-	}
+	ENABLE_WND(IDC_U_DEL, false);
+	ENABLE_WND(IDC_U_MAKEP1, false);
+	ENABLE_WND(IDC_U_MAKEP2, false);
+	ENABLE_WND(IDC_U_MAKEP3, false);
+	ENABLE_WND(IDC_U_MAKEP4, false);
+	ENABLE_WND(IDC_U_MAKEP5, false);
+	ENABLE_WND(IDC_U_MAKEP6, false);
+	ENABLE_WND(IDC_U_MAKEP7, false);
+	ENABLE_WND(IDC_U_MAKEP8, false);
+	ENABLE_WND(IDC_U_MAKEGA, false);
+	ENABLE_WND(IDC_U_DESELECT, false);
+	u_index = SIZE_MAX;
+	Units_Reset(dialog);
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
 void Units_HandleDeselect(HWND dialog)
@@ -500,8 +492,6 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 
 		case IDC_U_DEL_TYPE:		//BN_CLICKED
 			Units_HandleDeleteAllType(dialog);
-			Units_Reset(dialog);
-			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 
 		case IDC_U_MAKEP1:		//BN_CLICKED

@@ -813,8 +813,9 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		}
 		break;
 
-	case ID_FILE_TRIGWRITE:
-		OnFileTrigWrite(sheet);
+	case ID_TRIGGERS_SORT_CONDS_EFFECTS:
+		scen.sort_conds_effects();
+		//TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 		break;
 
 	case ID_FILE_TRIGREAD:
@@ -915,8 +916,8 @@ INT_PTR CALLBACK MainDlgProc(HWND sheet, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_COMMAND:
 		ret = 0;	//processing message
-		if (!Sheet_HandleCommand(sheet, HIWORD(wParam), LOWORD(wParam), (HWND)lParam))
-			CALLPROC();
+		Sheet_HandleCommand(sheet, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+		CALLPROC();
 		break;
 
 	case WM_DESTROY:

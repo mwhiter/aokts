@@ -1533,7 +1533,7 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			break;
 
 		case ID_TRIGGERS_SORT_CONDS_EFFECTS:
-		    scen.sort_conds_effects();
+		    //scen.sort_conds_effects();
 		    TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 

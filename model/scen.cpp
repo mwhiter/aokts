@@ -1985,7 +1985,7 @@ AOKTS_ERROR Scenario::water_cliffs_visibility(const bool visibility)
 	    // 264 - 272 are cliffs (avoid) when game is aoe2
 	    u = &(players[8].units.at(j));
 	    if (u->getType()->id() >= 264 && players[8].units.at(j).getType()->id() <= 272) {
-            t = &map.terrain[(int)u->x][(int)u->y];
+            t = &map.terrain[(int)floor(u->x)][(int)floor(u->y)];
             switch (t->cnst) {
             case 1:
             case 4:

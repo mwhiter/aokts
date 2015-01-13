@@ -44,6 +44,7 @@
 #include "../res/resource.h" // must be included after Windows stuff
 #include <ctype.h>
 #include <fstream>
+#include <sstream>
 
 /* Microsoft-specific stuff */
 #ifdef _MSC_VER
@@ -465,7 +466,9 @@ void OnFileTrigWrite(HWND dialog)
 		return;
 
 	AutoFile textout(path, "w");
-	scen.accept(TrigXmlVisitor(textout));
+    std::ostringstream ss;
+	scen.accept(TrigXmlVisitor(ss));
+	fputs(ss.str().c_str(), textout.get());
 }
 
 /**

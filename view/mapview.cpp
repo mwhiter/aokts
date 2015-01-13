@@ -892,9 +892,10 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	{
 	    tBrushes.push_back(std::vector<HBRUSH>());
 	    tBrushes[i].reserve(256);
-	    // this messes up the memory when 256
+	    // This messes up the memory when 256
 	    // need to reduce to 200 for aokts and 190 for swgbts because
-	    // there are about 10 more terrains
+	    // there are about 10 more terrains.
+	    // Similar problems occur when using Rich Textboxes
 	    for (j = 0; j < 190; j++)
 	    {
 	        hsv = new hsv_t();

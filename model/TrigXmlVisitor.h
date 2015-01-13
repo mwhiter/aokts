@@ -9,8 +9,6 @@
 
 #include "TriggerVisitor.h"
 
-class AutoFile;
-
 /**
  * TriggerVisitor to print triggers, effects, and conditions to a file in XML
  * format.
@@ -18,7 +16,7 @@ class AutoFile;
 class TrigXmlVisitor : public TriggerVisitor
 {
 public:
-	TrigXmlVisitor(AutoFile&);
+	TrigXmlVisitor(std::ostringstream&);
 	~TrigXmlVisitor();
 
 	void visit(Trigger&);
@@ -27,6 +25,6 @@ public:
 	void visitEnd(Trigger&);
 
 private:
-	AutoFile& _af;
+    std::ostringstream& _ss;
 	unsigned _trigcount;
 };

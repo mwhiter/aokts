@@ -261,6 +261,8 @@
 /* Trigtext View Controls */
 #define IDC_TT_VIEW             1200
 #define IDC_TT_EXPORT           1201
+#define IDC_TT_SEARCHTEXT       1202
+#define IDC_TT_FINDNEXT         1203
 
 /* Condition Controls */
 #define IDC_C_TYPE				1900

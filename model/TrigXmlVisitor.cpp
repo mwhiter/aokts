@@ -3,8 +3,11 @@
 
 #include <string>
 #include <algorithm>
+#include <sstream>
 
 using std::string;
+
+const char * NEWLINE = "\r\n";
 
 string escape(const char * str)
 {
@@ -44,129 +47,120 @@ string escape(const char * str)
 /**
  * Writes specified value with specified tag, if value != -1.
  */
-inline void writeXmlLong(FILE * out, const char * tag, long value)
+inline void writeXmlLong(std::ostringstream * ss, const char * tag, long value)
 {
 	if (value != -1)
-		fprintf(out, "\t\t<%s>%d</%s>\n", tag, value, tag);
+		(*ss) << "\t\t<" << tag << ">" << value << "</" << tag << ">" << NEWLINE;
 }
 
-inline void writeXmlString(FILE * out, const char * tag, const SString& str)
+inline void writeXmlString(std::ostringstream * ss, const char * tag, const SString& str)
 {
 	if (str.length())
-		fprintf(out, "\t\t<%s>%s</%s>\n",
-			tag, escape(str.c_str()).c_str(), tag);
+		(*ss) << "\t\t<" << tag << ">" << escape(str.c_str()).c_str() << "</" << tag << ">" << NEWLINE;
 }
 
-inline void writeXml(FILE * out, const char * tag, const AOKRECT& rect)
+inline void writeXml(std::ostringstream * ss, const char * tag, const AOKRECT& rect)
 {
 	if (rect.top != -1) // just assume the rest is
 	{
-		fprintf(out, "\t\t<%s_ur>%d,%d</%s_ur>\n", tag, rect.right, rect.top, tag);
-		fprintf(out, "\t\t<%s_ll>%d,%d</%s_ll>\n", tag, rect.left, rect.bottom, tag);
+		(*ss) << "\t\t<" << tag << "_ur>" << rect.right << "," << rect.top << "</" << tag << "_ur>" << NEWLINE;
+		(*ss) << "\t\t<" << tag << "_ll>" << rect.left << "," << rect.bottom << "</" << tag << "_ll>" << NEWLINE;
 	}
 }
 
-inline void writeXml(FILE * out, const char * tag, const AOKPT& pt)
+inline void writeXml(std::ostringstream * ss, const char * tag, const AOKPT& pt)
 {
 	if (pt.x != -1) // just assume the rest is
-		fprintf(out, "\t\t<%s>%d,%d</%s>\n", tag, pt.x, pt.y, tag);
+		(*ss) << "\t\t<" << tag << ">" << pt.x << "," << pt.y << "</" << tag << ">" << NEWLINE;
 }
 
 
-TrigXmlVisitor::TrigXmlVisitor(AutoFile& af)
-: _af(af), _trigcount(0)
+TrigXmlVisitor::TrigXmlVisitor(std::ostringstream& ss)
+: _ss(ss), _trigcount(0)
 {
 	static const char * xmlheader =
-		"<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n";
+		"<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\r\n";
 
-	fputs(xmlheader, _af.get());
-	fputs("<triggers>\n", _af.get());
+	_ss << xmlheader;
+	_ss << "<triggers>" << NEWLINE;
 }
 
 TrigXmlVisitor::~TrigXmlVisitor()
 {
-	fputs("</triggers>\n", _af.get());
+	_ss << "</triggers>" << NEWLINE;
 }
 
 void TrigXmlVisitor::visit(Trigger& t)
 {
-	FILE * out = _af.get();
-
-	fprintf(out, "<trigger id=\"%u\">\n", _trigcount++);
-	fprintf(out, "\t<name>%s</name>\n",
-		escape(t.name).c_str());
-	fprintf(out, "\t<enabled>%d</enabled>\n", t.state);
-	fprintf(out, "\t<looping>%d</looping>\n", t.loop);
-	fprintf(out, "\t<objective>%d</objective>\n", t.obj);
-	fprintf(out, "\t<desc_order>%d</desc_order>\n", t.obj_order);
-	fprintf(out, "\t<display_order>%d</display_order>\n", t.display_order);
+	_ss << "<trigger id=\"" << _trigcount++ << ">" << NEWLINE;
+	_ss << "\t<name>" << escape(t.name).c_str() << "</name>" << NEWLINE;
+	_ss << "\t<enabled>" << t.state << "</enabled>" << NEWLINE;
+	_ss << "\t<looping>" << (int)t.loop << "</looping>" << NEWLINE;
+	_ss << "\t<objective>" << (int)t.obj << "</objective>" << NEWLINE;
+	_ss << "\t<desc_order>" << t.obj_order << "</desc_order>" << NEWLINE;
+	_ss << "\t<display_order>" << t.display_order << "</display_order>" << NEWLINE;
 	if (t.description.length())
-		fprintf(out, "\t<description>%s</description>\n",
-			escape(t.description.c_str()).c_str());
+		_ss << "\t<description>" << escape(t.description.c_str()).c_str() << "</description>" << NEWLINE;
 }
 
 void TrigXmlVisitor::visit(Effect& e)
 {
-	FILE * out = _af.get();
+	_ss << "\t<effect>" << NEWLINE;
 
-	fputs("\t<effect>\n", out);
+	_ss << "\t\t<type>" << e.getName().c_str() << "</type>" << NEWLINE;
 
-	fprintf(out, "\t\t<type>%s</type>\n", e.getName().c_str());
-
-	writeXmlLong(out, "ai_goal", e.ai_goal);
-	writeXmlLong(out, "amount", e.amount);
-	writeXmlLong(out, "resource", e.res_type);
-	writeXmlLong(out, "diplomacy", e.diplomacy);
-	writeXmlLong(out, "num_selected", e.num_sel); // TODO: don't write this
-	writeXmlLong(out, "unit_ids", e.num_sel > 0 ? e.uids[0] : -1);
-	writeXmlLong(out, "location_unit", e.uid_loc);
+	writeXmlLong(&_ss, "ai_goal", e.ai_goal);
+	writeXmlLong(&_ss, "amount", e.amount);
+	writeXmlLong(&_ss, "resource", e.res_type);
+	writeXmlLong(&_ss, "diplomacy", e.diplomacy);
+	writeXmlLong(&_ss, "num_selected", e.num_sel); // TODO: don't write this
+	writeXmlLong(&_ss, "unit_ids", e.num_sel > 0 ? e.uids[0] : -1);
+	writeXmlLong(&_ss, "location_unit", e.uid_loc);
 	if (e.pUnit)
-		writeXmlLong(out, "unit_type", e.pUnit->id());
-	writeXmlLong(out, "player_source", e.s_player);
-	writeXmlLong(out, "player_target", e.t_player);
+		writeXmlLong(&_ss, "unit_type", e.pUnit->id());
+	writeXmlLong(&_ss, "player_source", e.s_player);
+	writeXmlLong(&_ss, "player_target", e.t_player);
 	if (e.pTech)
-		writeXmlLong(out, "technology", e.pTech->id());
-	writeXmlLong(out, "textid", e.textid);
-	writeXmlLong(out, "display_time", e.disp_time);
-	writeXmlLong(out, "trigger", e.trig_index);
-	writeXml(out, "location", e.location);
-	writeXml(out, "area", e.area);
-	writeXmlLong(out, "unit_group", e.group);
-	writeXmlLong(out, "building_type", e.utype);
-	writeXmlLong(out, "instruction_panel", e.panel);
-	writeXmlString(out, "text", e.text);
-	writeXmlString(out, "sound_file", e.sound);
+		writeXmlLong(&_ss, "technology", e.pTech->id());
+	writeXmlLong(&_ss, "textid", e.textid);
+	writeXmlLong(&_ss, "display_time", e.disp_time);
+	writeXmlLong(&_ss, "trigger", e.trig_index);
+	writeXml(&_ss, "location", e.location);
+	writeXml(&_ss, "area", e.area);
+	writeXmlLong(&_ss, "unit_group", e.group);
+	writeXmlLong(&_ss, "building_type", e.utype);
+	writeXmlLong(&_ss, "instruction_panel", e.panel);
+	writeXmlString(&_ss, "text", e.text);
+	writeXmlString(&_ss, "sound_file", e.sound);
 
-	fputs("\t</effect>\n", out);
+	_ss << "\t</effect>" << NEWLINE;
 }
 
 void TrigXmlVisitor::visit(Condition& c)
 {
-	FILE * out = _af.get();
+	_ss << "\t<condition>" << NEWLINE;
 
-	fputs("\t<condition>\n", out);
+	_ss << "\t\t<type>" << c.getName().c_str() << "</type>" << NEWLINE;
 
-	fprintf(out, "\t\t<type>%s</type>\n", c.getName().c_str());
-
-	writeXmlLong(out, "amount", c.amount);
-	writeXmlLong(out, "resource", c.res_type);
-	writeXmlLong(out, "unit_object", c.object);
-	writeXmlLong(out, "unit_location", c.u_loc);
+	writeXmlLong(&_ss, "amount", c.amount);
+	writeXmlLong(&_ss, "resource", c.res_type);
+	writeXmlLong(&_ss, "unit_object", c.object);
+	writeXmlLong(&_ss, "unit_location", c.u_loc);
 	if (c.pUnit)
-		writeXmlLong(out, "unit_type", c.pUnit->id());
-	writeXmlLong(out, "player", c.player);
+		writeXmlLong(&_ss, "unit_type", c.pUnit->id());
+	writeXmlLong(&_ss, "player", c.player);
 	if (c.pTech)
-		writeXmlLong(out, "technology", c.pTech->id());
-	writeXmlLong(out, "timer", c.timer);
-	writeXml(out, "area", c.area);
-	writeXmlLong(out, "unit_group", c.group);
-	writeXmlLong(out, "building_type", c.utype);
-	writeXmlLong(out, "ai_signal", c.ai_signal);
+		writeXmlLong(&_ss, "technology", c.pTech->id());
+	writeXmlLong(&_ss, "timer", c.timer);
+	writeXml(&_ss, "area", c.area);
+	writeXmlLong(&_ss, "unit_group", c.group);
+	writeXmlLong(&_ss, "building_type", c.utype);
+	writeXmlLong(&_ss, "ai_signal", c.ai_signal);
 
-	fputs("\t</condition>\n", out);
+	_ss << "\t</condition>" << NEWLINE;
 }
 
 void TrigXmlVisitor::visitEnd(Trigger&)
 {
-	fputs("</trigger>\n", _af.get());
+	_ss << "</trigger>" << NEWLINE;
 }

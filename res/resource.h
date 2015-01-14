@@ -6,11 +6,15 @@
 	VIEW/CONTROLLER
 **/
 
+#pragma comment(linker,"\"/manifestdependency:type='win32' \
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
 #define VER_MAJOR 0x0001
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0 Alpha 19"
+#define VER_STRING "1.2.0.20 Beta"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -325,6 +329,9 @@
 #define IDC_E_TRIGID   			1830
 #define IDC_E_UCNSTID	    	1831
 #define IDC_E_CLEAR  	    	1832
+
+/* About Dialog Controls */
+#define IDC_UPDATELINK          1901
 
 /* Unit Selection Controls */
 #define IDC_US_UNITS			1700

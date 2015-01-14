@@ -1,0 +1,39 @@
+[OPTIONS]
+TITLE=AoK Trigger Studio
+CONTENTS=D162T1
+COPYRIGHT=Made with Shalom Help Maker www.danish-shareware.dk/soft/shelpm/
+LCID=0x409 0x0 0x0
+CNT=AoKTS.cnt
+COMPRESS=10
+
+[WINDOWS]
+main="AoK Trigger Studio",(32,40,480,440),4294953988,(192,192,192),(0,0,196),f2
+
+[CONFIG]
+BrowseButtons()
+AI(`mnu_help',`My_About',`&About',`PI(`',`SHM_contents0019')')
+
+[FILES]
+AOKTS.RTF
+
+[MAP]
+D162K1 11
+D162K2 12
+D162K3 13
+D162K4 14
+D162K5 15
+D162K6 16
+D162K7 17
+D162K8 18
+SHM_contents0019 19
+D162K0 10
+D162T1 1
+D162T2 2
+D162T3 3
+D162T4 4
+D162T5 5
+D162T6 6
+D162T7 7
+D162T8 8
+D162T9 9
+

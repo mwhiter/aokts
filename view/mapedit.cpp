@@ -721,16 +721,6 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 	case BN_CLICKED:
 		switch (id)
 		{
-		case ID_MAP_WATER_CLIFF_INVISIBLE:
-		    scen.water_cliffs_visibility(FALSE);
-		    SetWindowText(propdata.statusbar, "Water cliffs are now invisible");
-		    break;
-
-		case ID_MAP_WATER_CLIFF_VISIBLE:
-		    scen.water_cliffs_visibility(TRUE);
-		    SetWindowText(propdata.statusbar, "Water cliffs are now visible");
-		    break;
-
 		case IDC_TR_MMSET1:
 			click_state = CLICK_MMSet1;
 			break;

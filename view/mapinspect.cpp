@@ -28,22 +28,6 @@ INT_PTR MapInspect_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		switch (id)
 		{
 
-		case IDC_P_TOUP:
-			scen.hd_to_up();
-			break;
-
-		case IDC_P_TOHD:
-			scen.up_to_hd();
-			break;
-
-		case IDC_P_TOAOFE:
-			scen.up_to_aofe();
-			break;
-
-		case IDC_P_TO1C:
-			scen.up_to_10c();
-			break;
-
 		}
 	}
 

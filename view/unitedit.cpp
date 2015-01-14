@@ -312,7 +312,8 @@ void Units_HandleRandomizeRotation(HWND dialog)
     //MessageBox(dialog, tmp.c_str(), szTitle, MB_ICONERROR);
     //scen.randomize_unit_frames(cnst);
 	//MessageBox(dialog, toString<int>(scen.perversion->max_unit).c_str(), "", MB_ICONERROR);
-    scen.randomize_unit_frames(dialog);
+
+    //scen.randomize_unit_frames(dialog); // done in aokts
   	Units_Load(dialog);
 }
 

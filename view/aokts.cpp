@@ -89,8 +89,7 @@ DLGPROC procs[NUM_PAGES] =
 	&MapDlgProc,
 	&UnitDlgProc,
 	&TrigDlgProc,
-	&TrigtextDlgProc,
-	&MapInspectDlgProc
+	&TrigtextDlgProc
 };
 
 /* Strings */
@@ -813,16 +812,71 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		if (!scen.exFile("dump", -1))
 		{
 			MessageBox(sheet, "Dump failed.", "Scenario Dump", MB_ICONWARNING);
+		} else {
+		    SetWindowText(propdata.statusbar, "Per files saved to disk");
 		}
+		break;
+
+	case IDC_U_RANDOMIZE_ROT:
+		SetWindowText(propdata.statusbar, "Randomized unit frames and rotations");
+		break;
+
+	case ID_MAP_WATER_CLIFF_INVISIBLE:
+		scen.water_cliffs_visibility(FALSE);
+		SetWindowText(propdata.statusbar, "Water cliffs are now invisible");
+		break;
+
+	case ID_MAP_WATER_CLIFF_VISIBLE:
+		scen.water_cliffs_visibility(TRUE);
+		SetWindowText(propdata.statusbar, "Water cliffs are now visible");
 		break;
 
 	case ID_TRIGGERS_SORT_CONDS_EFFECTS:
 		scen.sort_conds_effects();
-		//TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+		SetWindowText(propdata.statusbar, "Trigger contitions and effects sorted alphanumerically");
+		break;
+
+	case ID_TRIGGERS_HIDENAMES:
+		scen.remove_trigger_names();
+		SetWindowText(propdata.statusbar, "Trigger names removed");
+		break;
+
+	case ID_TRIGGERS_HIDE_DESCRIPTIONS:
+		scen.remove_trigger_descriptions();
+		SetWindowText(propdata.statusbar, "Trigger descriptions removed");
+		break;
+
+	case ID_TRIGGERS_SWAP_NAMES_DESCRIPTIONS:
+		scen.swap_trigger_names_descriptions();
+		SetWindowText(propdata.statusbar, "Trigger names swapped with descriptions");
+		break;
+
+	case ID_FILE_TRIGWRITE:
+		OnFileTrigWrite(sheet);
 		break;
 
 	case ID_FILE_TRIGREAD:
 		OnFileTrigRead(sheet);
+		break;
+
+	case IDC_P_TOUP:
+		scen.hd_to_up();
+		SetWindowText(propdata.statusbar, "Trigger effects converted from AoHD to UserPatch");
+		break;
+
+	case IDC_P_TOHD:
+		scen.up_to_hd();
+		SetWindowText(propdata.statusbar, "Trigger effects converted from UserPatch to AoHD");
+		break;
+
+	case IDC_P_TOAOFE:
+		scen.up_to_aofe();
+		SetWindowText(propdata.statusbar, "Trigger effects converted from UserPatch to AoFE");
+		break;
+
+	case IDC_P_TO1C:
+		scen.up_to_10c();
+		SetWindowText(propdata.statusbar, "Trigger effects converted from UserPatch to 1.0c");
 		break;
 
 	case ID_FILE_RECENT1:
@@ -878,7 +932,7 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		break;
 
 	case ID_HELP:
-		WinHelp(sheet, "aokts.hlp", HELP_CONTENTS, 0);
+		WinHelp(sheet, "ts.hlp", HELP_CONTENTS, 0);
 		break;
 
 	case ID_APP_ABOUT:
@@ -927,13 +981,13 @@ INT_PTR CALLBACK MainDlgProc(HWND sheet, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			HWND page = (HWND)SendMessage(sheet, PSM_GETCURRENTPAGEHWND, 0, 0);
 			SendMessage(page, AOKTS_Closing, 0, 0);
-			WinHelp(sheet, "aokts.hlp", HELP_QUIT, 0);
+			WinHelp(sheet, "ts.hlp", HELP_QUIT, 0);
 			PostQuitMessage(0);
 		}
 		return CALLPROC();
 
 	case WM_HELP:
-		WinHelp(sheet, "aokts.hlp", HELP_CONTENTS, 0);
+		WinHelp(sheet, "ts.hlp", HELP_CONTENTS, 0);
 		break;
 
 	case WM_MENUSELECT:

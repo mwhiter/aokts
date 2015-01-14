@@ -1109,7 +1109,7 @@ void OnMAP_Reset(HWND mapview, bool resize)
 	// Erase everything and re-draw
 	// This is used for things such as duplicating units and terrain.
 	// therefore don't reset scrollbars
-	Refresh(mapview, FALSE);
+	Refresh(mapview, resize);
 }
 
 LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)

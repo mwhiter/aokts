@@ -1258,9 +1258,11 @@ void TrigTree_HandleSelChanged(NMTREEVIEW *treehdr, HWND dialog)
 	data_new = (class ItemData*)treehdr->itemNew.lParam;
 	data_old = (class ItemData*)treehdr->itemOld.lParam;
 
-	// If there was an old selection and it was a Trigger, save it.
-	if (treehdr->itemOld.hItem && data_old->type == TRIGGER)
-		SaveTrigger(dialog, &scen.triggers.at(data_old->index));
+    if (c_trig) { // check c_trig also
+	    // If there was an old selection and it was a Trigger, save it.
+	    if (treehdr->itemOld.hItem && data_old->type == TRIGGER)
+		    SaveTrigger(dialog, &scen.triggers.at(data_old->index));
+	}
 
 	if (treehdr->itemNew.hItem)	//new selection
 	{
@@ -1533,26 +1535,21 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 			break;
 
 		case ID_TRIGGERS_SORT_CONDS_EFFECTS:
-		    //scen.sort_conds_effects();
 		    TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
 		case ID_TRIGGERS_HIDENAMES:
-		    //SendMessage(treeview, CB_SETCURSEL, -1, 0);
-		    TreeView_SelectItem(treeview, NULL); // to prevent
-			scen.remove_trigger_names();
+			c_trig = NULL;
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
 		case ID_TRIGGERS_HIDE_DESCRIPTIONS:
-		    TreeView_SelectItem(treeview, NULL);
-			scen.remove_trigger_descriptions();
+			c_trig = NULL;
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 
 		case ID_TRIGGERS_SWAP_NAMES_DESCRIPTIONS:
-		    TreeView_SelectItem(treeview, NULL);
-			scen.swap_trigger_names_descriptions();
+			c_trig = NULL;
 			TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
 			break;
 

@@ -92,7 +92,7 @@ TrigXmlVisitor::~TrigXmlVisitor()
 
 void TrigXmlVisitor::visit(Trigger& t)
 {
-	_ss << "<trigger id=\"" << _trigcount++ << ">" << NEWLINE;
+	_ss << "<trigger id=\"" << _trigcount++ << "\">" << NEWLINE;
 	_ss << "\t<name>" << escape(t.name).c_str() << "</name>" << NEWLINE;
 	_ss << "\t<enabled>" << t.state << "</enabled>" << NEWLINE;
 	_ss << "\t<looping>" << (int)t.loop << "</looping>" << NEWLINE;

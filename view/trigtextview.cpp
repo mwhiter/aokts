@@ -14,11 +14,13 @@
 #include "../model/TrigXmlReader.h"
 #include "utilui.h"
 #include <commdlg.h>
+#include <cstring>
 
 void OnFileTrigWrite(HWND dialog);
 
 std::string tt = std::string("");
 
+const int context_size = 8000;
 int bottom;
 int top;
 unsigned long current_pos;
@@ -34,7 +36,7 @@ void LoadTrigtextView(HWND dialog)
 
 	current_pos = 0;
 
-	std::string snippet = tt.substr (0,2000);
+	std::string snippet = tt.substr (0,context_size);
     //SetDlgItemText(dialog, IDC_TT_VIEW, ss.str().c_str());
     SetDlgItemText(dialog, IDC_TT_VIEW, snippet.c_str());
 }
@@ -47,23 +49,31 @@ void TrigtextView_Reset(HWND dialog)
 void TrigtextFind(HWND dialog)
 {
     char searchtext[100];
+    int found_length = strlen(searchtext);
     GetDlgItemText(dialog, IDC_TT_SEARCHTEXT, searchtext, 100);
 
     unsigned long result = tt.find(searchtext, current_pos);
 
-    if (result != tt.npos)
-        current_pos = result + 1; // update current pos
-    else
-        current_pos = 0; // So can start search from top
+    if (result == tt.npos) {
+        result = tt.find(searchtext, 0); // search again from top
+    }
 
-    bottom = result - 1000;
-    top = result + 1000;
+    if (result != tt.npos) {
+        current_pos = result + 1; // update current pos
+        found_length = strlen(searchtext);
+    } else {
+        current_pos = 0; // No result for sure. Just go to top
+        found_length = 0;
+    }
+
+    bottom = result - context_size / 2;
+    top = result + context_size / 2;
     if (bottom < 0)
         bottom = 0;
     if (top > (int)tt.length())
         top = tt.length();
 
-	std::string snippet = tt.substr (bottom,2000);
+	std::string snippet = tt.substr (bottom,context_size);
     SetDlgItemText(dialog, IDC_TT_VIEW, snippet.c_str());
 
     std::ostringstream ss2;
@@ -72,7 +82,7 @@ void TrigtextFind(HWND dialog)
 
     HWND tt_view = GetDlgItem(dialog, IDC_TT_VIEW);
 
-    SendMessage(tt_view,EM_SETSEL,result-bottom,result-bottom);
+    SendMessage(tt_view,EM_SETSEL,result - bottom,result - bottom + found_length);
 
     SendMessage(tt_view,EM_SCROLLCARET,0,0);
 }
@@ -87,6 +97,14 @@ INT_PTR Trigtext_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 	HWND treeview = GetDlgItem(dialog, IDC_T_TREE);	//all use this
 
 	switch (code) {
+	case EN_CHANGE:
+		switch (id)
+		{
+		case IDC_TT_SEARCHTEXT:
+		    TrigtextFind(dialog);
+		    break;
+		}
+
 	case BN_CLICKED:
 		switch (id)
 		{
@@ -153,6 +171,11 @@ INT_PTR CALLBACK TrigtextDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lP
 				}
 			}
 			break;
+
+		case AOKTS_Loading:
+			TrigtextView_Reset(dialog);
+			break;
+
 		}
 	}
 	catch (std::exception& ex)

@@ -101,7 +101,7 @@ const char *szTitle = "Trigger Studio";
 const char welcome[] =
 "Welcome to AOKTS! Please open a scenario or make a new one.";
 const char extOpen[] =
-"AOEII Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0SWGB Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
+"Expansion Scenarios (*.scx)\0*.scx\0AoK Scenarios (*.scn)\0*.scn\0AoF Scenarios (*.scx2)\0*.scx2\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
 "AoK Scenarios (*.scn)\0*.scn\0AoC Scenarios (*.scx)\0*.scx\0AoHD Scenarios (*.scx)\0*.scx\0AoF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
 const char datapath[] = "data_aok.xml";

@@ -7,12 +7,19 @@
 #include "Unit.h"
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
+#include "../model/scen.h"
+
+extern Scenario scen;
 
 Unit::Unit(UID id)
 :	x(0), y(0), z(1), ident(id), cnst(0),
 	state(2), rotate(0), frame(0), garrison(-1),
 	pType(NULL)
-{}
+{
+    if (scen.ver2 == SV2_AOE2) {
+        garrison = 0;
+    }
+}
 
 Unit::Unit(Buffer &from)
 {

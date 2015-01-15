@@ -4,6 +4,8 @@
 	MODEL
 */
 
+#pragma once
+
 #include "scen_const.h"
 
 #include <stdio.h> // for FILE

@@ -91,7 +91,7 @@ void TrigtextFind(HWND dialog)
 void Trigtext_HandleMapClick(HWND dialog, int x, int y)
 {
     char text[10] = "";
-    sprintf(text, "%d,%d", x, y);
+    sprintf(text, ">%d,%d<", x, y);
     SetDlgItemText(dialog, IDC_TT_SEARCHTEXT, text);
     TrigtextFind(dialog);
 }

@@ -15,6 +15,7 @@
 #include "utilui.h"
 #include <commdlg.h>
 #include <cstring>
+#include "mapview.h"
 
 void OnFileTrigWrite(HWND dialog);
 
@@ -85,6 +86,14 @@ void TrigtextFind(HWND dialog)
     SendMessage(tt_view,EM_SETSEL,result - bottom,result - bottom + found_length);
 
     SendMessage(tt_view,EM_SCROLLCARET,0,0);
+}
+
+void Trigtext_HandleMapClick(HWND dialog, int x, int y)
+{
+    char text[10] = "";
+    sprintf(text, "%d,%d", x, y);
+    SetDlgItemText(dialog, IDC_TT_SEARCHTEXT, text);
+    TrigtextFind(dialog);
 }
 
 /* Map Inspector */
@@ -176,6 +185,9 @@ INT_PTR CALLBACK TrigtextDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lP
 			TrigtextView_Reset(dialog);
 			break;
 
+		case MAP_Click:
+			Trigtext_HandleMapClick(dialog, LOWORD(lParam), HIWORD(lParam));
+			break;
 		}
 	}
 	catch (std::exception& ex)

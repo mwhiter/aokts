@@ -293,6 +293,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_C_AREA_ALL          1919
 #define IDC_C_CLEAR  	    	1920
 #define IDC_C_REVERSE	    	1921
+#define IDC_C_TYPEVAL 			1922
 
 /* Effect Controls */
 #define IDC_E_TYPE				1800
@@ -329,6 +330,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_E_TRIGID   			1830
 #define IDC_E_UCNSTID	    	1831
 #define IDC_E_CLEAR  	    	1832
+#define IDC_E_TYPEVAL	    	1833
 
 /* About Dialog Controls */
 #define IDC_UPDATELINK          1901

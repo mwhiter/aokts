@@ -235,6 +235,7 @@ void LoadEffect(HWND dialog, EditEffect *data)
 	data->TrigCallback(GetDlgItem(dialog, IDC_E_TRIG), e->trig_index);
 
 	SendDlgItemMessage(dialog, IDC_E_TYPE, CB_SETCURSEL, e->type, 0);
+	SetDlgItemInt(dialog, IDC_E_TYPEVAL, e->type, TRUE);
 	SetDlgItemText(dialog, IDC_E_SOUND, e->sound.c_str());
 	SetDlgItemInt(dialog, IDC_E_SOUNDID, e->soundid, TRUE);
 	SendDlgItemMessage(dialog, IDC_E_PANEL, CB_SETCURSEL, e->panel, 0);

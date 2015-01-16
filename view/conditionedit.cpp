@@ -135,6 +135,7 @@ void LoadCond(HWND dialog, EditCondition *data)
 	Condition *c = &data->c;
 
 	SendDlgItemMessage(dialog, IDC_C_TYPE, CB_SETCURSEL, c->type, 0);
+	SetDlgItemInt(dialog, IDC_C_TYPEVAL, c->type, TRUE);
 	SendDlgItemMessage(dialog, IDC_C_PLAYER, CB_SETCURSEL, c->player, 0);
 	SetDlgItemInt(dialog, IDC_C_UIDOBJ, c->object, TRUE);
 	SetDlgItemInt(dialog, IDC_C_UIDLOC, c->u_loc, TRUE);

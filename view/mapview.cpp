@@ -950,6 +950,10 @@ void OnWM_MOUSEMOVE(HWND, int x, int y)
 	ScrollBar_SetText(data.statusbar, 1, text);
 }
 
+void OnWM_LBUTTONDOWN(HWND window, int x, int y)
+{
+}
+
 void OnWM_LBUTTONUP(HWND window, int x, int y)
 {
 	HWND owner = GetWindow(window, GW_OWNER);
@@ -1147,6 +1151,10 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_MOUSEMOVE:
 		OnWM_MOUSEMOVE(window, LOWORD(lParam), HIWORD(lParam));
+		break;
+
+	case WM_LBUTTONDOWN:
+		OnWM_LBUTTONDOWN(window, LOWORD(lParam), HIWORD(lParam));
 		break;
 
 	case WM_LBUTTONUP:

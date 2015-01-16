@@ -141,7 +141,6 @@ std::string Effect::getName(bool tip, TipFlags::Value flags) const
     if (!tip) {
 	    return (type < NUM_EFFECTS) ? types[type] : "Unknown!";
 	} else {
-        UnitLink *cUnit;
         bool valid_area = !(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1);
 
         std::string stype = std::string("");
@@ -663,6 +662,9 @@ void Effect::setPlayer(int player)
 	s_player = player;
 }
 
+/*
+ * False positives are better than false negatives.
+ */
 bool Effect::check() const
 {
 	switch (type)
@@ -700,7 +702,8 @@ bool Effect::check() const
 	case EFFECT_TaskObject:
 	case EFFECT_KillObject:
 	case EFFECT_RemoveObject:
-		return true;
+	    //return (num_sel == 0 && area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1) ||
+	    //       (num_sel >= 0 && area.right >= area.left && area.bottom >= area.top);
 	case EFFECT_FreezeUnit:
 	case EFFECT_StopUnit:
 		return true;

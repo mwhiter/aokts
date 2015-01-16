@@ -12,14 +12,6 @@ class TriggerVisitor;
 //todo: check UP, HD
 #define MAX_UNITSEL 22
 
-struct TipFlags {
-    enum Value{
-        NONE                           = 0x01,
-        ENABLED                        = 0x02,
-        LOOPING                        = 0x03
-    };
-};
-
 enum EffectType
 {
 	EFFECT_None,
@@ -81,8 +73,7 @@ public:
 	void setPlayer(int);
 	bool check() const;
 
-	std::string getName() const;
-	std::string getNameTip(TipFlags::Value flag=TipFlags::NONE) const;
+	std::string getName(bool tip = false, TipFlags::Value flag=TipFlags::NONE) const;
 
 	/**
 	 * Accepts a TriggerVisitor.

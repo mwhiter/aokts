@@ -20,6 +20,7 @@
 #include "ecedit.h"
 #include "utilui.h"
 #include "treeutil.h"
+#include "mapview.h"
 
 #include <stdio.h>	//sprintf()
 #include <windowsx.h>	//for GET_X_LPARAM, GET_Y_LPARAM
@@ -107,7 +108,7 @@ void FillTrigCB(HWND combobox, size_t select)
 		i != scen.t_order.end(); ++i)
 	{
 	    trig = &scen.triggers.at(*i);
-		LRESULT idx = Combo_AddStringA(combobox, std::string(trig->getNameTip()).append(" <").append(toString<long>(trig->display_order).append(">")).c_str());
+		LRESULT idx = Combo_AddStringA(combobox, std::string(trig->getName(setts.displayhints)).append(" <").append(toString<long>(trig->display_order).append(">")).c_str());
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
 
 		if (*i == select)	//to avoid cycling through again in LoadEffect()
@@ -199,7 +200,7 @@ void ItemData::GetName(char *buffer)
 {
 	Trigger *t = &scen.triggers.at(index);
 
-	strcpy(buffer, (t) ? std::string("<").append(toString<long>(t->display_order)).append(std::string("> (").append(toString<long>(index))).append(") ").append(t->getNameTip()).c_str() : "NULL Trigger.");
+	strcpy(buffer, (t) ? std::string("<").append(toString<long>(t->display_order)).append(std::string("> (").append(toString<long>(index))).append(") ").append(t->getName(setts.displayhints)).c_str() : "NULL Trigger.");
 }
 
 void ItemData::DuplicatePlayers(HWND treeview, HTREEITEM item)
@@ -330,9 +331,13 @@ void EffectItemData::GetName(char *buffer)
     // can't do this because when there are no conditions it is out of
     // place
 	//if (index == 0) {
-	//    sprintf(buffer, "then %s", t->effects[index].getNameTip().c_str());
+	//    sprintf(buffer, "then %s", t->effects[index].getName(true).c_str());
 	//} else {
-	    sprintf(buffer, "%s", t->effects[index].getNameTip().c_str());
+	if (setts.displayhints) {
+	    sprintf(buffer, "%s", t->effects[index].getName(true).c_str());
+	} else {
+	    sprintf(buffer, "E: %s", t->effects[index].getName(false).c_str());
+	}
 	//}
 }
 
@@ -514,10 +519,14 @@ void ConditionItemData::GetName(char *buffer)
 
 	const char * reverse = ((t->conds[index].reserved == -256)?"NOT ":"");
 
-	if (index == 0) {
-	    sprintf(buffer, "If %s%s", reverse, t->conds[index].getNameTip().c_str());
+    if (setts.displayhints) {
+	    if (index == 0) {
+	        sprintf(buffer, "If %s%s", reverse, t->conds[index].getName(true).c_str());
+	    } else {
+	        sprintf(buffer, "and %s%s", reverse, t->conds[index].getName(true).c_str());
+	    }
 	} else {
-	    sprintf(buffer, "and %s%s", reverse, t->conds[index].getNameTip().c_str());
+	    sprintf(buffer, "C: %s%s", reverse, t->conds[index].getName(false).c_str());
 	}
 }
 
@@ -1862,6 +1871,15 @@ static INT_PTR Handle_WM_TIMER(HWND dialog, WPARAM timerId, LPARAM callback)
 	return 0;
 }
 
+void TrigtextFindXY(HWND dialog, int x, int y)
+{
+}
+
+void Trigedit_HandleMapClick(HWND dialog, int x, int y)
+{
+    TrigtextFindXY(dialog, x, y);
+}
+
 /**
  * Dialog Box Procedure for the Trigger editor dialog.
  *
@@ -1914,6 +1932,10 @@ INT_PTR CALLBACK TrigDlgProc(
 
 		case WM_TIMER:
 			return Handle_WM_TIMER(dialog, wParam, lParam);
+
+		case MAP_Click:
+			Trigedit_HandleMapClick(dialog, LOWORD(lParam), HIWORD(lParam));
+			break;
 		}
 	}
 	catch (std::exception& ex)

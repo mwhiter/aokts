@@ -12,6 +12,14 @@
 	MODEL
 **/
 
+struct TipFlags {
+    enum Value{
+        NONE                           = 0x01,
+        ENABLED                        = 0x02,
+        LOOPING                        = 0x03
+    };
+};
+
 /**
  * Since Effects & Conditions use a different player-numbering system, and
  * there's no sure way to deduce how the scenario would handle Player > 8, we
@@ -84,7 +92,7 @@ public:
 	long type;	//identifies type of condition/effect
 	TType ttype;	//identifies EFFECT or CONDITION
 
-	virtual std::string getName() const = 0;
+	virtual std::string getName(bool tip = false, TipFlags::Value flag=TipFlags::NONE) const = 0;
 
 	/**
 	 * @return the player with which this E/C is associated, or -1 if none

@@ -80,7 +80,7 @@ Trigger::Trigger(Buffer& buffer)
 	display_order = -1;
 }
 
-std::string Trigger::getNameTip()
+std::string Trigger::getName(bool tip)
 {
 	return std::string(name).c_str();
 }
@@ -91,8 +91,8 @@ bool compare_effect_nametip(const Effect& first,
     //make change ownership act like it is prefixed with create (so that
     //create comes first
 
-    std::string s = std::string(first.getNameTip());
-    std::string t = std::string(second.getNameTip());
+    std::string s = std::string(first.getName(true));
+    std::string t = std::string(second.getName(true));
 
     // kill must come after create (hawk explosions)
     if (first.type == 14) {
@@ -132,8 +132,8 @@ bool compare_condition_nametip(const Condition& first,
 				  const Condition& second)
 {
 	// Windows doesn't support POSIX strcasecmp().
-	int sort = _stricmp(first.getNameTip().c_str(),
-		second.getNameTip().c_str());
+	int sort = _stricmp(first.getName(true).c_str(),
+		second.getName(true).c_str());
 
 	return (sort < 0);
 }

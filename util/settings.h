@@ -67,6 +67,7 @@ public:
 	char logname[12];
 	bool intense;
 	bool editall;
+	bool displayhints;
 	bool nowarnings;
 	bool drawconds;
 	bool draweffects;

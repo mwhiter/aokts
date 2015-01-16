@@ -136,522 +136,521 @@ void Effect::write(FILE *out)
 		fwrite(uids, sizeof(long), num_sel, out);
 }
 
-std::string Effect::getName() const
+std::string Effect::getName(bool tip, TipFlags::Value flags) const
 {
-	return (type < NUM_EFFECTS) ? types[type] : "Unknown!";
-}
+    if (!tip) {
+	    return (type < NUM_EFFECTS) ? types[type] : "Unknown!";
+	} else {
+        UnitLink *cUnit;
+        bool valid_area = !(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1);
 
-std::string Effect::getNameTip(TipFlags::Value flags) const
-{
-    UnitLink *cUnit;
-    bool valid_area = !(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1);
-
-    std::string stype = std::string("");
-    std::ostringstream convert;
-    switch (type) {
-    case 0: // Undefined
-        // Let this act like a separator
-        convert << "                                                                                    ";
-        stype.append(convert.str());
-        break;
-    case 2: // Research
-        switch (s_player) {
-        case -1:
-            break;
-        case 0:
-            convert << "Gaia";
-            break;
-        default:
-            convert << "p" << s_player;
-        }
-        convert << " gets ";
-        if (pTech && pTech->id()) {
-            std::wstring techname(pTech->name());
-            convert << std::string( techname.begin(), techname.end());
-        }
-        convert << " technology";
-        stype.append(convert.str());
-        break;
-    case 3: // Send chat
-        switch (s_player) {
-        case -1:
-            convert << "say Gaia";
-            break;
-        case 0:
-            convert << "tell Gaia";
-            break;
-        default:
-            convert << "tell p" << s_player;
-        }
-        convert << " \"" << text.c_str() << "\"";
-        stype.append(convert.str());
-        break;
-    case 5: // Tribute
-        // what is the significance of losing 2147483647?
-        // i guess it resets?
-        if (amount == 1410065407) {
-            // reset to 0
-            convert << "reset ";
-            if (s_player == 0) {
-                convert << "Gaia" << "'s ";
-            } else {
-                convert << "p" << s_player << "'s ";
-            }
-        } else if (amount >= 0) {
-            if (s_player == 0) {
-                convert << "Gaia";
-            } else {
-                convert << "p" << s_player;
-            }
-            if (t_player == 0) {
-                convert << " loses";
-            } else {
-                convert << " gives ";
-                convert << "p" << t_player;
-            }
-            convert << " " << amount << " ";
-        } else {
-            if (t_player == 0) {
-                if (res_type < 4) {
-                    convert << "p" << s_player << " silently gets " << -amount << " ";
-                } else {
-                    convert << "p" << s_player << " gets " << -amount << " ";
-                }
-            } else {
-                convert << "p" << t_player << " silently gives ";
-                if (s_player == 0) {
-                    convert << "Gaia";
-                } else {
-                    convert << "p" << s_player;
-                }
-                convert << " " << -amount << " ";
-            }
-        }
-        switch (res_type) {
-        case 0: // Food
-            convert << "food";
-            break;
-        case 1: // Wood
-            convert << "wood";
-            break;
-        case 2: // Stone
-            convert << "stone";
-            break;
-        case 3: // Gold
-            convert << "gold";
-            break;
-        case 20: // Units killed
-            if (amount == 1) {
-                convert << "kill";
-            } else {
-                convert << "kills";
-            }
-            break;
-        default:
-            //convert << types_short[type];
-            if (res_type >= 0) {
-                const Link * list = esdata.resources.head();
-	            for (int i=0; list; list = list->next(), i++)
-	            {
-		            if (i == res_type) {
-                        std::wstring resname(list->name());
-                        convert << std::string( resname.begin(), resname.end());
-                        convert << " (Res " << res_type << ")";
-		                break;
-		            }
-	            }
-	        }
-            break;
-        }
-        if (amount == 1410065407) {
-            convert << " to 0";
-        }
-        if (amount >= 0 && t_player > 0) {
-            convert << " (displays tribute alert)";
-        }
-        stype.append(convert.str());
-        break;
-    case 8: // Activate
-    case 9: // Deactivate trigger
-        //stype.append(types_short[type]);
+        std::string stype = std::string("");
+        std::ostringstream convert;
         switch (type) {
-        case 8:
-            stype.append("activate ");
-            break;
-        case 9:
-            stype.append("deactivate ");
-            break;
-        }
-        if (trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
-            if (trig_index < scen.triggers.size() && trig_index >= 0) {
-                stype.append(scen.triggers.at(trig_index).name).append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
-            } else {
-                stype.append("<?>");
-            }
-            //convert << trig_index;
-            //stype.append(convert.str());
-        }
-        break;
-    case 16: // Change view
-        if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
-            convert << "change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
-        } else {
-            convert << "INVALID";
-        }
-        stype.append(convert.str());
-        break;
-    case 6: // Unlock Gate
-    case 7: // Lock Gate
-    case 14: // Kill Object
-    case 15: // Remove
-    case 17: // Unload
-    case 22: // Freeze unit
-        switch (type) {
-        case 6:
-            convert << "unlock";
-            break;
-        case 7:
-            convert << "lock";
-            break;
-        case 14:
-            convert << "kill";
-            break;
-        case 15:
-            convert << "remove";
-            break;
-        case 17:
-            convert << "unload";
-            break;
-        case 22:
-            convert << "freeze";
-            break;
-        }
-        switch (s_player) {
-        case -1:
-            break;
-        case 0:
-            convert << " Gaia";
-            break;
-        default:
-            convert << " p" << s_player;
-        }
-        if (pUnit && pUnit->id()) {
-            std::wstring unitname(pUnit->name());
-            std::string un(unitname.begin(), unitname.end());
-            if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-                convert << " " << un << "s";
-            } else {
-                convert << " " << un;
-            }
-        } else {
-            convert << " units";
-        }
-	    for (int i = 0; i < num_sel; i++) {
-            convert << " " << uids[i];
-	    }
-        if (valid_area) {
-            if (area.left == area.right && area.top == area.bottom) {
-                convert << " at (" << area.left << "," << area.top << ")";
-            } else {
-                switch (type) {
-                case 6:
-                case 7:
-                case 22:
-                    convert << " in";
-                    break;
-                default:
-                    convert << " from";
-                }
-                convert << " area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-            }
-        }
-        stype.append(convert.str());
-        break;
-    case 11: // Create object
-        convert << "create";
-        switch (s_player) {
-        case -1:
-            break;
-        case 0:
-            convert << " Gaia";
-            break;
-        default:
-            convert << " p" << s_player;
-        }
-        if (pUnit && pUnit->id()) {
-            std::wstring unitname(pUnit->name());
-            std::string un(unitname.begin(), unitname.end());
-            convert << " " << un;
-        } else {
-            convert << " INVALID EFFECT";
-        }
-        convert << " at (" << location.x << ", " << location.y << ")";
-        stype.append(convert.str());
-        break;
-    case 18: // Change Ownership
-    case 19: // Patrol object
-    case 12: // Task object
-        switch (type) {
-        case 19:
-            {
-                // keep in mind multiple units can possess the same id, but
-                // it only operates on the last farm with that id.
-                //
-                // s_player may not be selected. Therefore, go through all
-                // the units in scenario.
-                //
-                // A gaia farm could be made infinite.
-                //Player * p = scen.players + s_player;
-                //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
-                //}
-
-                unsigned int farms_sel = 0;
-	            for (int i = 0; i < num_sel; i++) {
-	                if (uids[i] == 50)
-	                    farms_sel++;
-	            }
-                if (farms_sel > 0) {
-	                if (farms_sel == 1) {
-                        convert << "make farm ";
-                    } else {
-                        convert << "make farms ";
-                    }
-	                for (int i = 0; i < num_sel; i++) {
-	                    if (uids[i] == 50)
-                            convert << uids[i] << " ";
-	                }
-	                convert << "infinite";
-	                break;
-                } else {
-                    convert << "patrol";
-                }
-            }
-            break;
-        case 18:
-            convert << "convert";
-            break;
-        default:
-            convert << "task";
-        }
-        switch (s_player) {
-        case -1:
-            break;
-        case 0:
-            convert << " Gaia";
-            break;
-        default:
-            convert << " p" << s_player;
-        }
-        if (pUnit && pUnit->id()) {
-            std::wstring unitname(pUnit->name());
-            std::string un(unitname.begin(), unitname.end());
-            convert << " " << un;
-        } else {
-            if (num_sel == 1) {
-                convert << " unit";
-            } else {
-                convert << " units";
-            }
-        }
-	    for (int i = 0; i < num_sel; i++) {
-            convert << " " << uids[i];
-	    }
-        if (valid_area) {
-            if (area.left == area.right && area.top == area.bottom) {
-                convert << " at (" << area.left << "," << area.top << ")";
-            } else {
-                convert << " in (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-            }
-        }
-        switch (type) {
-        case 18:
-            convert << " to";
-            switch (t_player) {
-            case -1:
+            case 0: // Undefined
+                // Let this act like a separator
+                convert << "                                                                                    ";
+                stype.append(convert.str());
                 break;
-            case 0:
-                convert << " Gaia";
+            case 2: // Research
+                switch (s_player) {
+                    case -1:
+                        break;
+                    case 0:
+                        convert << "Gaia";
+                        break;
+                    default:
+                        convert << "p" << s_player;
+                }
+                convert << " gets ";
+                if (pTech && pTech->id()) {
+                    std::wstring techname(pTech->name());
+                    convert << std::string( techname.begin(), techname.end());
+                }
+                convert << " technology";
+                stype.append(convert.str());
+                break;
+            case 3: // Send chat
+                switch (s_player) {
+                    case -1:
+                        convert << "say Gaia";
+                        break;
+                    case 0:
+                        convert << "tell Gaia";
+                        break;
+                    default:
+                        convert << "tell p" << s_player;
+                }
+                convert << " \"" << text.c_str() << "\"";
+                stype.append(convert.str());
+                break;
+            case 5: // Tribute
+                // what is the significance of losing 2147483647?
+                // i guess it resets?
+                if (amount == 1410065407) {
+                    // reset to 0
+                    convert << "reset ";
+                    if (s_player == 0) {
+                        convert << "Gaia" << "'s ";
+                    } else {
+                        convert << "p" << s_player << "'s ";
+                    }
+                } else if (amount >= 0) {
+                    if (s_player == 0) {
+                        convert << "Gaia";
+                    } else {
+                        convert << "p" << s_player;
+                    }
+                    if (t_player == 0) {
+                        convert << " loses";
+                    } else {
+                        convert << " gives ";
+                        convert << "p" << t_player;
+                    }
+                    convert << " " << amount << " ";
+                } else {
+                    if (t_player == 0) {
+                        if (res_type < 4) {
+                            convert << "p" << s_player << " silently gets " << -amount << " ";
+                        } else {
+                            convert << "p" << s_player << " gets " << -amount << " ";
+                        }
+                    } else {
+                        convert << "p" << t_player << " silently gives ";
+                        if (s_player == 0) {
+                            convert << "Gaia";
+                        } else {
+                            convert << "p" << s_player;
+                        }
+                        convert << " " << -amount << " ";
+                    }
+                }
+                switch (res_type) {
+                    case 0: // Food
+                        convert << "food";
+                        break;
+                    case 1: // Wood
+                        convert << "wood";
+                        break;
+                    case 2: // Stone
+                        convert << "stone";
+                        break;
+                    case 3: // Gold
+                        convert << "gold";
+                        break;
+                    case 20: // Units killed
+                        if (amount == 1) {
+                            convert << "kill";
+                        } else {
+                            convert << "kills";
+                        }
+                        break;
+                    default:
+                        //convert << types_short[type];
+                        if (res_type >= 0) {
+                            const Link * list = esdata.resources.head();
+	                        for (int i=0; list; list = list->next(), i++)
+	                        {
+		                        if (i == res_type) {
+                                    std::wstring resname(list->name());
+                                    convert << std::string( resname.begin(), resname.end());
+                                    convert << " (Res " << res_type << ")";
+		                            break;
+		                        }
+	                        }
+	                    }
+                        break;
+                }
+                if (amount == 1410065407) {
+                    convert << " to 0";
+                }
+                if (amount >= 0 && t_player > 0) {
+                    convert << " (displays tribute alert)";
+                }
+                stype.append(convert.str());
+                break;
+            case 8: // Activate
+            case 9: // Deactivate trigger
+                //stype.append(types_short[type]);
+                switch (type) {
+                    case 8:
+                        stype.append("activate ");
+                        break;
+                    case 9:
+                        stype.append("deactivate ");
+                        break;
+                }
+                if (trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
+                    if (trig_index < scen.triggers.size() && trig_index >= 0) {
+                        stype.append(scen.triggers.at(trig_index).name).append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
+                    } else {
+                        stype.append("<?>");
+                    }
+                    //convert << trig_index;
+                    //stype.append(convert.str());
+                }
+                break;
+            case 16: // Change view
+                if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
+                    convert << "change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
+                } else {
+                    convert << "INVALID";
+                }
+                stype.append(convert.str());
+                break;
+            case 6: // Unlock Gate
+            case 7: // Lock Gate
+            case 14: // Kill Object
+            case 15: // Remove
+            case 17: // Unload
+            case 22: // Freeze unit
+                switch (type) {
+                    case 6:
+                        convert << "unlock";
+                        break;
+                    case 7:
+                        convert << "lock";
+                        break;
+                    case 14:
+                        convert << "kill";
+                        break;
+                    case 15:
+                        convert << "remove";
+                        break;
+                    case 17:
+                        convert << "unload";
+                        break;
+                    case 22:
+                        convert << "freeze";
+                        break;
+                }
+                switch (s_player) {
+                    case -1:
+                        break;
+                    case 0:
+                        convert << " Gaia";
+                        break;
+                    default:
+                        convert << " p" << s_player;
+                }
+                if (pUnit && pUnit->id()) {
+                    std::wstring unitname(pUnit->name());
+                    std::string un(unitname.begin(), unitname.end());
+                    if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
+                        convert << " " << un << "s";
+                    } else {
+                        convert << " " << un;
+                    }
+                } else {
+                    convert << " units";
+                }
+	            for (int i = 0; i < num_sel; i++) {
+                    convert << " " << uids[i];
+	            }
+                if (valid_area) {
+                    if (area.left == area.right && area.top == area.bottom) {
+                        convert << " at (" << area.left << "," << area.top << ")";
+                    } else {
+                        switch (type) {
+                            case 6:
+                            case 7:
+                            case 22:
+                                convert << " in";
+                                break;
+                            default:
+                                convert << " from";
+                        }
+                        convert << " area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                    }
+                }
+                stype.append(convert.str());
+                break;
+            case 11: // Create object
+                convert << "create";
+                switch (s_player) {
+                    case -1:
+                        break;
+                    case 0:
+                        convert << " Gaia";
+                        break;
+                    default:
+                        convert << " p" << s_player;
+                }
+                if (pUnit && pUnit->id()) {
+                    std::wstring unitname(pUnit->name());
+                    std::string un(unitname.begin(), unitname.end());
+                    convert << " " << un;
+                } else {
+                    convert << " INVALID EFFECT";
+                }
+                convert << " at (" << location.x << ", " << location.y << ")";
+                stype.append(convert.str());
+                break;
+            case 18: // Change Ownership
+            case 19: // Patrol object
+            case 12: // Task object
+                switch (type) {
+                    case 19:
+                        {
+                            // keep in mind multiple units can possess the same id, but
+                            // it only operates on the last farm with that id.
+                            //
+                            // s_player may not be selected. Therefore, go through all
+                            // the units in scenario.
+                            //
+                            // A gaia farm could be made infinite.
+                            //Player * p = scen.players + s_player;
+                            //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
+                            //}
+
+                            unsigned int farms_sel = 0;
+	                        for (int i = 0; i < num_sel; i++) {
+	                            if (uids[i] == 50)
+	                                farms_sel++;
+	                        }
+                            if (farms_sel > 0) {
+	                            if (farms_sel == 1) {
+                                    convert << "make farm ";
+                                } else {
+                                    convert << "make farms ";
+                                }
+	                            for (int i = 0; i < num_sel; i++) {
+	                                if (uids[i] == 50)
+                                        convert << uids[i] << " ";
+	                            }
+	                            convert << "infinite";
+	                            break;
+                            } else {
+                                convert << "patrol";
+                            }
+                        }
+                        break;
+                    case 18:
+                        convert << "convert";
+                        break;
+                    default:
+                        convert << "task";
+                }
+                switch (s_player) {
+                    case -1:
+                        break;
+                    case 0:
+                        convert << " Gaia";
+                        break;
+                    default:
+                        convert << " p" << s_player;
+                }
+                if (pUnit && pUnit->id()) {
+                    std::wstring unitname(pUnit->name());
+                    std::string un(unitname.begin(), unitname.end());
+                    convert << " " << un;
+                } else {
+                    if (num_sel == 1) {
+                        convert << " unit";
+                    } else {
+                        convert << " units";
+                    }
+                }
+	            for (int i = 0; i < num_sel; i++) {
+                    convert << " " << uids[i];
+	            }
+                if (valid_area) {
+                    if (area.left == area.right && area.top == area.bottom) {
+                        convert << " at (" << area.left << "," << area.top << ")";
+                    } else {
+                        convert << " in (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                    }
+                }
+                switch (type) {
+                    case 18:
+                        convert << " to";
+                        switch (t_player) {
+                            case -1:
+                                break;
+                            case 0:
+                                convert << " Gaia";
+                                break;
+                            default:
+                                convert << " p" << s_player;
+                        }
+                        break;
+                    default:
+                        convert << " to (" << location.x << ", " << location.y << ")";
+                }
+                stype.append(convert.str());
+                break;
+            case 13: // Declare victory
+                convert << "p" << s_player << " victory";
+                stype.append(convert.str());
+                break;
+            case 20: // Instructions
+                convert << "instruct players \"" << text.c_str() << "\"";
+                stype.append(convert.str());
+                break;
+            case 26: // Rename
+                //stype.append(types_short[type]);
+                stype.append("rename '");
+                stype.append(text.c_str());
+                stype.append("'");
+                switch (s_player) {
+                    case -1:
+                        break;
+                    case 0:
+                        convert << " Gaia";
+                        break;
+                    default:
+                        convert << " p" << s_player;
+                }
+                if (pUnit && pUnit->id()) {
+                    std::wstring unitname(pUnit->name());
+                    std::string un(unitname.begin(), unitname.end());
+                    convert << " " << un;
+                } else {
+                    convert << " unit";
+                }
+	            for (int i = 0; i < num_sel; i++) {
+                    convert << " " << uids[i];
+                    //for (int p = 0; p < NUM_PLAYERS; p++) {
+                    //    scen.players[p].units.at(
+                    //}
+	            }
+                if (valid_area) {
+                    if (area.left == area.right && area.top == area.bottom) {
+                        convert << " at (" << area.left << "," << area.top << ")";
+                    } else {
+                        convert << " over area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                    }
+                }
+                stype.append(convert.str());
+                break;
+            case 24: // Damage
+                {
+                    std::string sunit("");
+                    bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
+                    if (s_player > 0) {
+                        convert << "p" << s_player << "'s ";
+                    }
+	                if (num_sel > 0) {
+	                    if (num_sel == 1) {
+                            convert << "unit ";
+                        } else {
+                            convert << "units ";
+                        }
+	                    for (int i = 0; i < num_sel; i++) {
+                            convert << uids[i] << " ";
+	                    }
+	                    if (unit_set_selected) {
+	                        convert << " and ";
+	                    }
+                    }
+                    if (unit_set_selected) {
+                        std::wstring unitname(pUnit->name());
+                        std::string un(unitname.begin(), unitname.end());
+                        if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
+                            convert << un << "s ";
+                        } else {
+                            convert << un << " ";
+                        }
+                    } else {
+	                    if (num_sel <= 0) {
+                            convert << "units ";
+	                    }
+                    }
+                    if (unit_set_selected) {
+                        if (valid_area) {
+                            if (area.left == area.right && area.top == area.bottom) {
+                                convert << "at (" << area.left << "," << area.top << ") ";
+                            } else {
+                                convert << "from area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
+                            }
+                        }
+                    }
+
+                    // The above is setting up for the below
+
+                    sunit.append(convert.str());
+                    convert.str("");
+                    convert.clear();
+                    if (amount == -2147483647) {
+                        convert << "make " << sunit << "invincible";
+                    } else {
+                        if (amount < 0) {
+                            convert << "buff " << sunit << "with " << -amount << " HP";
+                        } else {
+                            convert << "damage " << sunit << "by " << amount << " HP";
+                        }
+                    }
+                    stype.append(convert.str());
+                }
+                break;
+            case 27: // HP
+            case 28: // Attack
+            case 30: // UP Speed
+            case 31: // UP Range
+            case 32: // UP Armor1
+            case 33: // UP Armor2
+                {
+                    std::string sunit("");
+                    bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
+                    if (s_player > 0) {
+                        convert << "p" << s_player << "'s ";
+                    }
+	                if (num_sel > 0) {
+	                    if (num_sel == 1) {
+                            convert << "unit ";
+                        } else {
+                            convert << "units ";
+                        }
+	                    for (int i = 0; i < num_sel; i++) {
+                            convert << uids[i] << " ";
+	                    }
+	                    if (unit_set_selected) {
+	                        convert << " and ";
+	                    }
+                    }
+                    if (unit_set_selected) {
+                        std::wstring unitname(pUnit->name());
+                        std::string un(unitname.begin(), unitname.end());
+                        replaced(un, ", Unpacked", "");
+                        if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
+                            convert << un << "s ";
+                        } else {
+                            convert << un << " ";
+                        }
+                    } else {
+	                    if (num_sel <= 0) {
+                            convert << "units ";
+	                    }
+                    }
+                    if (unit_set_selected) {
+                        if (valid_area) {
+                            if (area.left == area.right && area.top == area.bottom) {
+                                convert << "at (" << area.left << "," << area.top << ")";
+                            } else {
+                                convert << "in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                            }
+                        }
+                    }
+
+                    // The above is setting up for the below
+
+                    sunit.append(convert.str());
+                    convert.str("");
+                    convert.clear();
+                    if (amount < 0) {
+                        convert << "reduce " << types_short[type] << " of "  << sunit << "by " << -amount << " HP";
+                    } else {
+                        convert << "increase " << types_short[type] << " of "  << sunit << "by " << amount << " HP";
+                    }
+                    stype.append(convert.str());
+                }
                 break;
             default:
-                convert << " p" << s_player;
-            }
-            break;
-        default:
-            convert << " to (" << location.x << ", " << location.y << ")";
+                stype.append((type < NUM_EFFECTS) ? types_short[type] : "Unknown!");
         }
-        stype.append(convert.str());
-        break;
-    case 13: // Declare victory
-        convert << "p" << s_player << " victory";
-        stype.append(convert.str());
-        break;
-    case 20: // Instructions
-        convert << "instruct players \"" << text.c_str() << "\"";
-        stype.append(convert.str());
-        break;
-    case 26: // Rename
-        //stype.append(types_short[type]);
-        stype.append("rename '");
-        stype.append(text.c_str());
-        stype.append("'");
-        switch (s_player) {
-        case -1:
-            break;
-        case 0:
-            convert << " Gaia";
-            break;
-        default:
-            convert << " p" << s_player;
-        }
-        if (pUnit && pUnit->id()) {
-            std::wstring unitname(pUnit->name());
-            std::string un(unitname.begin(), unitname.end());
-            convert << " " << un;
-        } else {
-            convert << " unit";
-        }
-	    for (int i = 0; i < num_sel; i++) {
-            convert << " " << uids[i];
-            //for (int p = 0; p < NUM_PLAYERS; p++) {
-            //    scen.players[p].units.at(
-            //}
-	    }
-        if (valid_area) {
-            if (area.left == area.right && area.top == area.bottom) {
-                convert << " at (" << area.left << "," << area.top << ")";
-            } else {
-                convert << " over area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-            }
-        }
-        stype.append(convert.str());
-        break;
-    case 24: // Damage
-        {
-            std::string sunit("");
-            bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
-            if (s_player > 0) {
-                convert << "p" << s_player << "'s ";
-            }
-	        if (num_sel > 0) {
-	            if (num_sel == 1) {
-                    convert << "unit ";
-                } else {
-                    convert << "units ";
-                }
-	            for (int i = 0; i < num_sel; i++) {
-                    convert << uids[i] << " ";
-	            }
-	            if (unit_set_selected) {
-	                convert << " and ";
-	            }
-            }
-            if (unit_set_selected) {
-                std::wstring unitname(pUnit->name());
-                std::string un(unitname.begin(), unitname.end());
-                if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-                    convert << un << "s ";
-                } else {
-                    convert << un << " ";
-                }
-            } else {
-	            if (num_sel <= 0) {
-                    convert << "units ";
-	            }
-            }
-            if (unit_set_selected) {
-                if (valid_area) {
-                    if (area.left == area.right && area.top == area.bottom) {
-                        convert << "at (" << area.left << "," << area.top << ") ";
-                    } else {
-                        convert << "from area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
-                    }
-                }
-            }
 
-            // The above is setting up for the below
-
-            sunit.append(convert.str());
-            convert.str("");
-            convert.clear();
-            if (amount == -2147483647) {
-                convert << "make " << sunit << "invincible";
-            } else {
-                if (amount < 0) {
-                    convert << "buff " << sunit << "with " << -amount << " HP";
-                } else {
-                    convert << "damage " << sunit << "by " << amount << " HP";
-                }
-            }
-            stype.append(convert.str());
-        }
-        break;
-    case 27: // HP
-    case 28: // Attack
-    case 30: // UP Speed
-    case 31: // UP Range
-    case 32: // UP Armor1
-    case 33: // UP Armor2
-        {
-            std::string sunit("");
-            bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
-            if (s_player > 0) {
-                convert << "p" << s_player << "'s ";
-            }
-	        if (num_sel > 0) {
-	            if (num_sel == 1) {
-                    convert << "unit ";
-                } else {
-                    convert << "units ";
-                }
-	            for (int i = 0; i < num_sel; i++) {
-                    convert << uids[i] << " ";
-	            }
-	            if (unit_set_selected) {
-	                convert << " and ";
-	            }
-            }
-            if (unit_set_selected) {
-                std::wstring unitname(pUnit->name());
-                std::string un(unitname.begin(), unitname.end());
-                replaced(un, ", Unpacked", "");
-                if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-                    convert << un << "s ";
-                } else {
-                    convert << un << " ";
-                }
-            } else {
-	            if (num_sel <= 0) {
-                    convert << "units ";
-	            }
-            }
-            if (unit_set_selected) {
-                if (valid_area) {
-                    if (area.left == area.right && area.top == area.bottom) {
-                        convert << "at (" << area.left << "," << area.top << ")";
-                    } else {
-                        convert << "in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-                    }
-                }
-            }
-
-            // The above is setting up for the below
-
-            sunit.append(convert.str());
-            convert.str("");
-            convert.clear();
-            if (amount < 0) {
-                convert << "reduce " << types_short[type] << " of "  << sunit << "by " << -amount << " HP";
-            } else {
-                convert << "increase " << types_short[type] << " of "  << sunit << "by " << amount << " HP";
-            }
-            stype.append(convert.str());
-        }
-        break;
-    default:
-        stype.append((type < NUM_EFFECTS) ? types_short[type] : "Unknown!");
+	    return stype;
     }
-
-	return stype;
 }
 
 int Effect::getPlayer() const

@@ -68,6 +68,8 @@ public:
 	bool intense;
 	bool editall;
 	bool displayhints;
+	bool showdisplayorder;
+	bool showtrigids;
 	bool nowarnings;
 	bool drawconds;
 	bool draweffects;

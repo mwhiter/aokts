@@ -3,6 +3,7 @@
 #include "trigger.h"
 #include "TriggerVisitor.h"
 
+#include "../util/helper.h"
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
 #include "../util/settings.h"
@@ -82,7 +83,93 @@ Trigger::Trigger(Buffer& buffer)
 
 std::string Trigger::getName(bool tip)
 {
-	return std::string(name).c_str();
+    std::ostringstream ss;
+    if (!tip) {
+	    return std::string(name);
+	} else {
+        bool c_own_fewer = false;
+        bool c_in_area = false;
+        bool c_has_gold = false;
+        bool e_create_unit = false;
+        bool e_has_unit_type = false;
+        bool e_lose_gold = false;
+        const char * text = "";
+        std::string unit_type_name = "";
+        bool e_has_text = false;
+        int amount = 0;
+        int player = -1;
+
+	    // conditions
+	    for (vector<Condition>::iterator iter = conds.begin(); iter != conds.end(); ++iter) {
+	        switch (iter->type) {
+	        case 4:  // own fewer objects
+	            c_own_fewer = true;
+	            break;
+	        case 5:  // objects in area
+	            c_in_area = true;
+	            break;
+	        case 9:  // accumulate attribute
+	            if (iter->res_type == 3) {
+	                c_has_gold = true;
+	            }
+	            break;
+	        }
+        }
+	    // each effect
+	    for (vector<Effect>::iterator iter = effects.begin(); iter != effects.end(); ++iter) {
+	        text = iter->text.c_str();
+	        if (strlen(text) > 0) {
+	            e_has_text = true;
+	        }
+	        switch (iter->type) {
+            case 5:  // send tribute
+                if (iter->t_player == 0) {
+                    amount = -amount;
+                    if (amount < 0) {
+	                    if (iter->res_type == 3) {
+	                        e_lose_gold = true;
+	                    }
+	                }
+                }
+                break;
+	        case 11: // create unit
+	            player = iter->s_player;
+	            e_create_unit = true;
+	            e_has_unit_type = iter->pUnit && iter->pUnit->id();
+                std::wstring unitname(iter->pUnit->name());
+                unit_type_name = std::string(unitname.begin(), unitname.end());
+	            break;
+	        }
+	    }
+
+        if (c_in_area && c_has_gold && e_create_unit && e_lose_gold) {
+            ss << "buy unit";
+        }
+        if (c_own_fewer && e_create_unit && e_has_unit_type) {
+            switch (player) {
+                case -1:
+                    ss << "?";
+                    break;
+                case 0:
+                    ss << "Gaia";
+                    break;
+                default:
+                    ss << "p" << player;
+            }
+            ss << " spawn " << unit_type_name;
+        }
+        if (e_has_text) {
+            ss << trim(std::string(text));
+        }
+        return ss.str();
+	}
+
+    //int aInt = 368;
+    //char str[15];
+    //sprintf(str, "%d", Int);
+    //if (strlen(name) > 0)
+    //return (std::string(name))
+    //}
 }
 
 bool compare_effect_nametip(const Effect& first,

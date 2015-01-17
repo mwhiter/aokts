@@ -60,7 +60,9 @@ bool Setts::load()
 	if (GetPrivateProfileInt("Warnings", "WeirdResource", 1, path) != 0)
 		warnbits |= WARN_WEIRDRESOURCE;
 
-	displayhints = GetPrivateProfileInt("Advanced", "DisplayHints", 0, path) != 0;
+	displayhints = GetPrivateProfileInt("Advanced", "DisplayHints", 1, path) != 0;
+	showdisplayorder = GetPrivateProfileInt("Advanced", "ShowDisplayOrder", 1, path) != 0;
+	showtrigids = GetPrivateProfileInt("Advanced", "ShowTriggerIDs", 1, path) != 0;
 	editall = GetPrivateProfileInt("Advanced", "EditAll", 0, path) != 0;
 	nowarnings = GetPrivateProfileInt("Advanced", "NoWarnings", 1, path) != 0;
 	drawconds = GetPrivateProfileInt("Advanced", "DrawConds", 1, path) != 0;

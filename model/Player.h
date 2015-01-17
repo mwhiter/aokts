@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <string>
 
 #include <windows.h>	//for bitmaps, POINT, and RECT
 
@@ -88,6 +89,8 @@ public:
 	bool export_ai(const char *path);
 	void add_unit(Unit& uspec);
 	void add_unit(Unit * uspec);
+
+    std::string get_name();
 
 	char name[30];	//256 bytes in file, but only allows 29 characters
 	long stable;	//string table

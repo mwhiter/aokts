@@ -7,6 +7,7 @@
 #include "../view/utilui.h"
 #include "../util/Buffer.h"
 #include "../util/helper.h"
+#include "../util/settings.h"
 
 using std::vector;
 
@@ -281,7 +282,10 @@ std::string Effect::getName(bool tip, TipFlags::Value flags) const
                 }
                 if (trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
                     if (trig_index < scen.triggers.size() && trig_index >= 0) {
-                        stype.append(scen.triggers.at(trig_index).name).append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
+                        if (setts.showdisplayorder) {
+                            stype.append("<").append(toString(scen.triggers.at(trig_index).display_order)).append("> ");
+                        }
+                        stype.append(scen.triggers.at(trig_index).getName(setts.displayhints));
                     } else {
                         stype.append("<?>");
                     }

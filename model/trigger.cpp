@@ -112,9 +112,9 @@ std::string Trigger::getName(bool tip)
         int killer = -1;
         int timer = -1;
         bool victory = false;
-        bool victor[8];
+        bool victor[9];
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             victor[i] = false;
         }
 
@@ -182,7 +182,7 @@ std::string Trigger::getName(bool tip)
 	            break;
 	        case 13: // declare victory
 	            if (iter->s_player > 0) {
-	                victor[iter->s_player - 1] = true;
+	                victor[iter->s_player] = true;
 	                victory = true;
 	            }
 	            break;
@@ -232,7 +232,7 @@ std::string Trigger::getName(bool tip)
 
         if (victory) {
             ss << "victory to ";
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 9; i++) {
                 if (victor[i])
                     ss << "p" << i << " ";
             }

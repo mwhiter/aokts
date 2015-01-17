@@ -108,7 +108,12 @@ void FillTrigCB(HWND combobox, size_t select)
 		i != scen.t_order.end(); ++i)
 	{
 	    trig = &scen.triggers.at(*i);
-		LRESULT idx = Combo_AddStringA(combobox, std::string(trig->getName(setts.pseudonyms,true)).append(" <").append(toString<long>(trig->display_order).append(">")).c_str());
+        std::string name("");
+        if (setts.showdisplayorder) {
+            name.append("<").append(toString<long>(trig->display_order).append("> "));
+        }
+        name.append(trig->getName(setts.pseudonyms,true));
+		LRESULT idx = Combo_AddStringA(combobox, name.c_str());
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
 
 		if (*i == select)	//to avoid cycling through again in LoadEffect()
@@ -200,7 +205,20 @@ void ItemData::GetName(char *buffer)
 {
 	Trigger *t = &scen.triggers.at(index);
 
-	strcpy(buffer, (t) ? std::string("<").append(toString<long>(t->display_order)).append(std::string("> (").append(toString<long>(index))).append(") ").append(t->getName(setts.pseudonyms,true)).c_str() : "NULL Trigger.");
+    std::string name("");
+    if (t) {
+        if (setts.showdisplayorder) {
+            name.append("<").append(toString<long>(t->display_order).append("> "));
+        }
+        if (setts.showtrigids) {
+            name.append("(").append(toString<long>(index).append(") "));
+        }
+        name.append(t->getName(setts.pseudonyms,true));
+    } else {
+        name.append("NULL Trigger.");
+    }
+
+	strcpy(buffer, (t) ? name.c_str() : "NULL Trigger.");
 }
 
 void ItemData::DuplicatePlayers(HWND treeview, HTREEITEM item)
@@ -1510,6 +1528,22 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 	case 1:
 		switch (id)
 		{
+		case IDC_T_SHOWFIREORDER:
+            if (SendMessage(GetDlgItem(dialog, IDC_T_SHOWFIREORDER),BM_GETCHECK,0,0)) {
+                setts.showtrigids = true;
+            } else {
+                setts.showtrigids = false;
+            }
+            TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+            break;
+		case IDC_T_SHOWDISPLAYORDER:
+            if (SendMessage(GetDlgItem(dialog, IDC_T_SHOWDISPLAYORDER),BM_GETCHECK,0,0)) {
+                setts.showdisplayorder = true;
+            } else {
+                setts.showdisplayorder = false;
+            }
+            TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+            break;
 		case IDC_T_PSEUDONYMS:
             if (SendMessage(GetDlgItem(dialog, IDC_T_PSEUDONYMS),BM_GETCHECK,0,0)) {
                 setts.pseudonyms = true;

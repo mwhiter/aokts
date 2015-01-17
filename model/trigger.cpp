@@ -81,6 +81,10 @@ Trigger::Trigger(Buffer& buffer)
 	display_order = -1;
 }
 
+/*
+ * DON'T LET AOKTS GET RECURSIVE WITH TRIGGER HINTS (if one trigger's
+ * name displays the name of another)
+ */
 std::string Trigger::getName(bool tip)
 {
     std::ostringstream ss;

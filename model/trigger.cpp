@@ -94,6 +94,7 @@ std::string Trigger::getName(bool tip)
         bool c_own_fewer = false;
         bool c_in_area = false;
         bool c_has_gold = false;
+        bool c_x_units_killed = false;
         bool e_create_unit = false;
         bool e_has_unit_type = false;
         bool e_lose_gold = false;
@@ -113,8 +114,13 @@ std::string Trigger::getName(bool tip)
 	            c_in_area = true;
 	            break;
 	        case 9:  // accumulate attribute
-	            if (iter->res_type == 3) {
+	            switch (iter->res_type) {
+	            case 3:
 	                c_has_gold = true;
+	                break;
+	            case 20:
+	                c_x_units_killed = true;
+	                break;
 	            }
 	            break;
 	        }
@@ -161,6 +167,20 @@ std::string Trigger::getName(bool tip)
                     ss << "p" << player;
             }
             ss << " spawn " << unit_type_name;
+        }
+        if (c_x_units_killed) {
+            ss << "reward ";
+            switch (player) {
+                case -1:
+                    ss << "?";
+                    break;
+                case 0:
+                    ss << "Gaia";
+                    break;
+                default:
+                    ss << "p" << player;
+            }
+            ss << amount << " kills";
         }
         if (e_has_text) {
             ss << trim(std::string(text));

@@ -1,5 +1,6 @@
 #include "Effect.h"
 #include <sstream>
+#include <algorithm>
 #include "scen.h"
 #include "TriggerVisitor.h"
 
@@ -137,7 +138,7 @@ void Effect::write(FILE *out)
 		fwrite(uids, sizeof(long), num_sel, out);
 }
 
-std::string Effect::getName(bool tip, TipFlags::Value flags) const
+std::string Effect::getName(bool tip, TipFlags::Value flags, bool limitlen) const
 {
     if (!tip) {
 	    return (type < NUM_EFFECTS) ? types[type] : "Unknown!";
@@ -652,7 +653,7 @@ std::string Effect::getName(bool tip, TipFlags::Value flags) const
                 stype.append((type < NUM_EFFECTS) ? types_short[type] : "Unknown!");
         }
 
-	    return stype;
+        return limitlen?stype.substr(0,100):stype;
     }
 }
 

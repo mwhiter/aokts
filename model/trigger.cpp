@@ -8,11 +8,14 @@
 #include "../util/Buffer.h"
 #include "../util/settings.h"
 #include "../view/utilui.h"
+#include "scen.h"
 
 #include <vector>
 #include <algorithm>
 
 using std::vector;
+
+extern class Scenario scen;
 
 /* Triggers, Conditions, and Effects */
 
@@ -85,11 +88,13 @@ Trigger::Trigger(Buffer& buffer)
  * DON'T LET AOKTS GET RECURSIVE WITH TRIGGER HINTS (if one trigger's
  * name displays the name of another)
  */
-std::string Trigger::getName(bool tip)
+std::string Trigger::getName(bool tip, bool limitlen)
 {
     std::ostringstream ss;
+    std::string result;
     if (!tip) {
-	    return std::string(name);
+	    result = std::string(name);
+	    goto theend;
 	} else {
         bool c_own_fewer = false;
         bool c_in_area = false;
@@ -101,9 +106,13 @@ std::string Trigger::getName(bool tip)
         bool e_has_unit_type = false;
         bool e_buff = false;
         bool e_nerf = false;
+        bool e_activate = false;
+        bool e_deactivate = false;
+        int e_n_activated = false;
         const char * text = "";
         std::string unit_type_name = "";
         bool e_has_text = false;
+        int activated = -1;
         int amount = 0;
         int victims = 0;
         int razings = 0;
@@ -111,8 +120,14 @@ std::string Trigger::getName(bool tip)
         int player = -1;
         int killer = -1;
         int timer = -1;
+        int n_conds = 0;
+        int n_effects = 0;
         bool victory = false;
         bool victor[9];
+        bool defeat = false;
+        bool e_research = false;
+        Condition * last_cond = NULL;
+        Effect * last_effect = NULL;
 
         for (int i = 0; i < 9; i++) {
             victor[i] = false;
@@ -120,6 +135,8 @@ std::string Trigger::getName(bool tip)
 
 	    // conditions
 	    for (vector<Condition>::iterator iter = conds.begin(); iter != conds.end(); ++iter) {
+	        n_conds++;
+	        last_cond = &(*iter);
 	        switch (iter->type) {
 	        case 4:  // own fewer objects
 	            c_own_fewer = true;
@@ -150,16 +167,25 @@ std::string Trigger::getName(bool tip)
 	                timer = iter->timer;
 	            }
 	            break;
+	        case 13:
+	            defeat = true;
+	            player = iter->player;
+	            break;
 	        }
         }
 
 	    // each effect
 	    for (vector<Effect>::iterator iter = effects.begin(); iter != effects.end(); ++iter) {
+	        n_effects++;
+	        last_effect = &(*iter);
 	        if (strlen(iter->text.c_str()) > 0) {
 	            e_has_text = true;
 	            text = iter->text.c_str();
 	        }
 	        switch (iter->type) {
+	        case 2:  // research
+	            e_research = true;
+	            break;
             case 5:  // send tribute
                 amount = iter->amount;
                 if (iter->t_player == 0) {
@@ -168,6 +194,14 @@ std::string Trigger::getName(bool tip)
                 if (iter->res_type == 3) {
                     gold_total += amount;
 	            }
+                break;
+            case 8:  // activate
+                e_activate = true;
+                e_n_activated ++;
+                activated = iter->trig_index;
+                break;
+            case 9:  // deactivate
+                e_deactivate = true;
                 break;
 	        case 11: // create unit
 	            {
@@ -216,7 +250,20 @@ std::string Trigger::getName(bool tip)
 
 	    bool e_earn_gold = gold_total > 0;
 	    bool e_lose_gold = gold_total < 0;
+	    bool e_only_1_activated = e_n_activated == 1;
+        bool only_one_cond = n_effects == 0 && n_conds == 1;
+        bool only_one_effect = n_effects == 1 && n_conds == 0;
 
+        if (only_one_cond) {
+            ss << last_cond->getName(setts.displayhints);
+            result = ss.str();
+            goto theend;
+        }
+        if (only_one_effect) {
+            ss << last_effect->getName(setts.displayhints);
+            result = ss.str();
+            goto theend;
+        }
         if (timer > 0) {
             if (this->loop) {
                 ss << "every " << time_string(timer) << " ";
@@ -230,12 +277,29 @@ std::string Trigger::getName(bool tip)
             }
         }
 
+        if (e_only_1_activated && activated >= 0) {
+            // this is recursive, fix this
+            //ss << scen.triggers.at(activated).getName(setts.displayhints);
+            // do this for the moment
+            ss << scen.triggers.at(activated).getName(false);
+            result = ss.str();
+            goto theend;
+        }
+
+        if (defeat) {
+            ss << "p" << player << " disconnected";
+            result = ss.str();
+            goto theend;
+        }
+
         if (victory) {
             ss << "victory to ";
             for (int i = 0; i < 9; i++) {
                 if (victor[i])
                     ss << "p" << i << " ";
             }
+            result = ss.str();
+            goto theend;
         }
 
         if (c_in_area && e_remove_unit) {
@@ -253,7 +317,8 @@ std::string Trigger::getName(bool tip)
             if (e_has_text) {
                 ss << " \"" << trim(std::string(text)) << "\"";
             }
-            return ss.str();
+            result = ss.str();
+            goto theend;
         }
         //if (c_has_gold) {
         //    ss << "has gold";
@@ -266,11 +331,13 @@ std::string Trigger::getName(bool tip)
         //}
         if (c_in_area && c_has_gold && e_buff && e_lose_gold) {
             ss << "purchase buff for " << -gold_total << " gold";
-            return ss.str();
+            result = ss.str();
+            goto theend;
         }
         if (c_in_area && c_has_gold && e_create_unit && e_lose_gold) {
             ss << "buy " << unit_type_name << " for " << -gold_total << " gold";
-            return ss.str();
+            result = ss.str();
+            goto theend;
         }
         if (c_own_fewer && e_create_unit && e_has_unit_type) {
             switch (player) {
@@ -284,7 +351,8 @@ std::string Trigger::getName(bool tip)
                     ss << "p" << player;
             }
             ss << " spawn " << unit_type_name;
-            return ss.str();
+            result = ss.str();
+            goto theend;
         }
         if (c_x_units_killed) {
             ss << "reward ";
@@ -301,9 +369,11 @@ std::string Trigger::getName(bool tip)
             ss << " " << victims << " kills";
             if (e_earn_gold) {
                 ss << " earn " << gold_total << " gold";
-                return ss.str();
+                result = ss.str();
+                goto theend;
             }
-            return ss.str();
+            result = ss.str();
+            goto theend;
         }
         if (c_x_buildings_razed) {
             ss << "reward ";
@@ -320,13 +390,16 @@ std::string Trigger::getName(bool tip)
             ss << " " << razings << " razings";
             if (e_earn_gold) {
                 ss << " earn " << gold_total << " gold";
-                return ss.str();
+                result = ss.str();
+                goto theend;
             }
-            return ss.str();
+            result = ss.str();
+            goto theend;
         }
         if (e_earn_gold) {
             ss << "earn " << gold_total << " gold";
-            return ss.str();
+            result = ss.str();
+            goto theend;
         }
         if (e_create_unit) {
             ss << "create ";
@@ -341,12 +414,34 @@ std::string Trigger::getName(bool tip)
                     ss << "p" << killer;
             }
             ss << unit_type_name;
-            return ss.str();
+            result = ss.str();
+            goto theend;
+        }
+        if (e_nerf) {
+            ss << "nerf some units";
+            result = ss.str();
+            goto theend;
+        }
+        if (e_buff) {
+            ss << "buff some units";
+            result = ss.str();
+            goto theend;
+        }
+        if (e_research) {
+            ss << "do research";
+            result = ss.str();
+            goto theend;
+        }
+        if (e_remove_unit) {
+            ss << "remove some units";
+            result = ss.str();
+            goto theend;
         }
         if (e_has_text) {
             ss << " " << trim(std::string(text));
         }
-        return ss.str();
+        result = ss.str();
+        goto theend;
 	}
 
     //int aInt = 368;
@@ -355,6 +450,8 @@ std::string Trigger::getName(bool tip)
     //if (strlen(name) > 0)
     //return (std::string(name))
     //}
+theend:
+    return limitlen?result.substr(0,100):result;
 }
 
 bool compare_effect_nametip(const Effect& first,

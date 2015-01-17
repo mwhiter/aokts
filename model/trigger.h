@@ -45,7 +45,7 @@ public:
 	std::vector<Effect> effects;
 	std::vector<Condition> conds;
 
-    std::string getName(bool tip = false);
+    std::string getName(bool tip = false, bool limitlen = false);
 	void tobuffer(Buffer&) const;
 
 	/*	get_player: Returns non-GAIA player for conditions/effect in the trigger.

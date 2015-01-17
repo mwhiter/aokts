@@ -39,7 +39,7 @@ class SString
 	int len;
 	void put(const char *d);	//store string when len already set
 
-	static char null;	//now 
+	static char null;	//now
 
 public:
 	SString();
@@ -65,7 +65,7 @@ public:
 	 */
 	void read(Buffer&, size_t lensize);
 
-	/* 
+	/*
 	 * Read a variable length string from a file.
 	*/
 	bool read(FILE *in);
@@ -82,7 +82,7 @@ public:
 	 * @param lensize number of bytes in length field
 	 */
 	void write(Buffer&, size_t lensize) const;
-	
+
 	inline int total_size() const		{ return sizeof(long) + len + 1; }
 	inline int length() const			{ return len; }
 	/* length with null */
@@ -302,7 +302,7 @@ public:
 
 		return false;
 	}
-	
+
 	bool remove(size_t index)
 	{
 		_AC *item = at(index);
@@ -311,7 +311,7 @@ public:
 
 		return remove(item, 1);
 	}
-	
+
 	/*	I used to have item passed by reference, but I realized that this
 		was unreliable since item's reference can change in the middle of
 		the below function while it moves around stuff */
@@ -354,7 +354,7 @@ public:
 			new (dest) _AC(item);	//source = here
 		}
 	}
-	
+
 	inline int count() const	{ return next - begin; }
 	inline _AC* first()			{ return begin; }
 	inline const _AC* first() const { return begin; }

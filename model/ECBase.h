@@ -92,7 +92,7 @@ public:
 	long type;	//identifies type of condition/effect
 	TType ttype;	//identifies EFFECT or CONDITION
 
-	virtual std::string getName(bool tip = false, TipFlags::Value flag=TipFlags::NONE) const = 0;
+	virtual std::string getName(bool tip = false, TipFlags::Value flag=TipFlags::NONE, bool limitlen = false) const = 0;
 
 	/**
 	 * @return the player with which this E/C is associated, or -1 if none

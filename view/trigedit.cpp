@@ -108,7 +108,7 @@ void FillTrigCB(HWND combobox, size_t select)
 		i != scen.t_order.end(); ++i)
 	{
 	    trig = &scen.triggers.at(*i);
-		LRESULT idx = Combo_AddStringA(combobox, std::string(trig->getName(setts.displayhints)).append(" <").append(toString<long>(trig->display_order).append(">")).c_str());
+		LRESULT idx = Combo_AddStringA(combobox, std::string(trig->getName(setts.displayhints,true)).append(" <").append(toString<long>(trig->display_order).append(">")).c_str());
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
 
 		if (*i == select)	//to avoid cycling through again in LoadEffect()
@@ -200,7 +200,7 @@ void ItemData::GetName(char *buffer)
 {
 	Trigger *t = &scen.triggers.at(index);
 
-	strcpy(buffer, (t) ? std::string("<").append(toString<long>(t->display_order)).append(std::string("> (").append(toString<long>(index))).append(") ").append(t->getName(setts.displayhints)).c_str() : "NULL Trigger.");
+	strcpy(buffer, (t) ? std::string("<").append(toString<long>(t->display_order)).append(std::string("> (").append(toString<long>(index))).append(") ").append(t->getName(setts.displayhints,true)).c_str() : "NULL Trigger.");
 }
 
 void ItemData::DuplicatePlayers(HWND treeview, HTREEITEM item)
@@ -334,9 +334,11 @@ void EffectItemData::GetName(char *buffer)
 	//    sprintf(buffer, "then %s", t->effects[index].getName(true).c_str());
 	//} else {
 	if (setts.displayhints) {
-	    sprintf(buffer, "%s", t->effects[index].getName(true).c_str());
+	    sprintf(buffer, "%s", t->effects[index].getName(true,TipFlags::NONE,true).c_str());
+	    // limiting this fixes a bug, but better to do this in getName
+	    //sprintf(buffer, "%.100s", t->effects[index].getName(true).c_str());
 	} else {
-	    sprintf(buffer, "E: %s", t->effects[index].getName(false).c_str());
+	    sprintf(buffer, "E: %s", t->effects[index].getName(false,TipFlags::NONE,true).c_str());
 	}
 	//}
 }
@@ -521,12 +523,12 @@ void ConditionItemData::GetName(char *buffer)
 
     if (setts.displayhints) {
 	    if (index == 0) {
-	        sprintf(buffer, "If %s%s", reverse, t->conds[index].getName(true).c_str());
+	        sprintf(buffer, "If %s%s", reverse, t->conds[index].getName(true,TipFlags::NONE,true).c_str());
 	    } else {
-	        sprintf(buffer, "and %s%s", reverse, t->conds[index].getName(true).c_str());
+	        sprintf(buffer, "and %s%s", reverse, t->conds[index].getName(true,TipFlags::NONE,true).c_str());
 	    }
 	} else {
-	    sprintf(buffer, "C: %s%s", reverse, t->conds[index].getName(false).c_str());
+	    sprintf(buffer, "C: %s%s", reverse, t->conds[index].getName(false,TipFlags::NONE,true).c_str());
 	}
 }
 

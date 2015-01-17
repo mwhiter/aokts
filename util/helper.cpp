@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include "helper.h"
 
 // for trim functions
@@ -45,3 +46,46 @@ std::string &rtrim(std::string &s) {
 std::string &trim(std::string &s) {
     return ltrim(rtrim(s));
 }
+
+std::string time_string(unsigned int seconds) {
+    std::ostringstream convert;
+    unsigned int mins = seconds / 60;
+    unsigned int hours = mins / 60;
+    bool input = false;
+
+    seconds = seconds - mins * 60;
+    mins = mins - hours * 60;
+
+    if (seconds + mins + hours == 0) {
+        convert << "no time";
+    } else {
+        if (hours > 0) {
+            convert << hours << " hr";
+            if (hours > 1) {
+                convert << "s";
+            }
+            input = true;
+        }
+        if (mins > 0) {
+            if (input) {
+                convert << " ";
+            }
+            convert << mins << " min";
+            if (mins > 1) {
+                convert << "s";
+            }
+            input = true;
+        }
+        if (seconds > 0) {
+            if (input) {
+                convert << " ";
+            }
+            convert << seconds << " second";
+            if (seconds > 1) {
+                convert << "s";
+            }
+        }
+    }
+    return convert.str();
+}
+

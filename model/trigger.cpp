@@ -95,14 +95,28 @@ std::string Trigger::getName(bool tip)
         bool c_in_area = false;
         bool c_has_gold = false;
         bool c_x_units_killed = false;
+        bool c_x_buildings_razed = false;
         bool e_create_unit = false;
+        bool e_remove_unit = false;
         bool e_has_unit_type = false;
-        bool e_lose_gold = false;
+        bool e_buff = false;
+        bool e_nerf = false;
         const char * text = "";
         std::string unit_type_name = "";
         bool e_has_text = false;
         int amount = 0;
+        int victims = 0;
+        int razings = 0;
+        int gold_total = 0;
         int player = -1;
+        int killer = -1;
+        int timer = -1;
+        bool victory = false;
+        bool victor[8];
+
+        for (int i = 0; i < 8; i++) {
+            victor[i] = false;
+        }
 
 	    // conditions
 	    for (vector<Condition>::iterator iter = conds.begin(); iter != conds.end(); ++iter) {
@@ -113,47 +127,150 @@ std::string Trigger::getName(bool tip)
 	        case 5:  // objects in area
 	            c_in_area = true;
 	            break;
-	        case 9:  // accumulate attribute
+	        case 8:  // accumulate attribute
 	            switch (iter->res_type) {
 	            case 3:
 	                c_has_gold = true;
+	                player = iter->player;
 	                break;
 	            case 20:
 	                c_x_units_killed = true;
+	                killer = iter->player;
+	                victims = iter->amount;
 	                break;
+	            case 43:
+	                c_x_buildings_razed = true;
+	                killer = iter->player;
+	                razings = iter->amount;
+	                break;
+	            }
+	            break;
+	        case 10:
+	            if (iter->timer > 0 && iter->timer > timer) {
+	                timer = iter->timer;
 	            }
 	            break;
 	        }
         }
+
 	    // each effect
 	    for (vector<Effect>::iterator iter = effects.begin(); iter != effects.end(); ++iter) {
-	        text = iter->text.c_str();
-	        if (strlen(text) > 0) {
+	        if (strlen(iter->text.c_str()) > 0) {
 	            e_has_text = true;
+	            text = iter->text.c_str();
 	        }
 	        switch (iter->type) {
             case 5:  // send tribute
+                amount = iter->amount;
                 if (iter->t_player == 0) {
                     amount = -amount;
-                    if (amount < 0) {
-	                    if (iter->res_type == 3) {
-	                        e_lose_gold = true;
-	                    }
-	                }
                 }
+                if (iter->res_type == 3) {
+                    gold_total += amount;
+	            }
                 break;
 	        case 11: // create unit
-	            player = iter->s_player;
-	            e_create_unit = true;
-	            e_has_unit_type = iter->pUnit && iter->pUnit->id();
-                std::wstring unitname(iter->pUnit->name());
-                unit_type_name = std::string(unitname.begin(), unitname.end());
+	            {
+	                player = iter->s_player;
+	                e_create_unit = true;
+	                e_has_unit_type = iter->pUnit && iter->pUnit->id();
+	                if (e_has_unit_type) {
+                        std::wstring unitname(iter->pUnit->name());
+                        unit_type_name = std::string(unitname.begin(), unitname.end());
+                    }
+                }
 	            break;
+	        case 13: // declare victory
+	            if (iter->s_player > 0) {
+	                victor[iter->s_player - 1] = true;
+	                victory = true;
+	            }
+	            break;
+	        case 15: // remove unit
+	            {
+	                player = iter->s_player;
+	                e_remove_unit = true;
+	                e_has_unit_type = iter->pUnit && iter->pUnit->id();
+	                if (e_has_unit_type) {
+                        std::wstring unitname(iter->pUnit->name());
+                        unit_type_name = std::string(unitname.begin(), unitname.end());
+                    }
+                }
+	            break;
+            case 24: // Damage
+            case 27: // HP
+            case 28: // Attack
+            case 30: // UP Speed
+            case 31: // UP Range
+            case 32: // UP Armor1
+            case 33: // UP Armor2
+                amount = iter->amount;
+                if (amount < 0) {
+	                e_nerf = true;
+	            } else if (amount > 0) {
+	                e_buff = true;
+	            }
+                break;
 	        }
 	    }
 
+	    bool e_earn_gold = gold_total > 0;
+	    bool e_lose_gold = gold_total < 0;
+
+        if (timer > 0) {
+            if (this->loop) {
+                ss << "every " << time_string(timer) << " ";
+                if (!this->state) {
+                    ss << "once activated ";
+                }
+            } else if (this->state) {
+                ss << "at " << time_string(timer) << " ";
+            } else {
+                ss << "in " << time_string(timer) << " ";
+            }
+        }
+
+        if (victory) {
+            ss << "victory to ";
+            for (int i = 0; i < 8; i++) {
+                if (victor[i])
+                    ss << "p" << i << " ";
+            }
+        }
+
+        if (c_in_area && e_remove_unit) {
+            switch (player) {
+                case -1:
+                    ss << "?";
+                    break;
+                case 0:
+                    ss << "Gaia";
+                    break;
+                default:
+                    ss << "p" << player;
+            }
+            ss << " buy special";
+            if (e_has_text) {
+                ss << " \"" << trim(std::string(text)) << "\"";
+            }
+            return ss.str();
+        }
+        //if (c_has_gold) {
+        //    ss << "has gold";
+        //}
+        //if (e_create_unit) {
+        //    ss << "create_unit";
+        //}
+        //if (e_lose_gold) {
+        //    ss << "lose gold";
+        //}
+        if (c_in_area && c_has_gold && e_buff && e_lose_gold) {
+            ss << "purchase buff for " << -gold_total << " gold";
+            return ss.str();
+        }
         if (c_in_area && c_has_gold && e_create_unit && e_lose_gold) {
-            ss << "buy unit";
+            ss << "buy " << unit_type_name << " for " << -gold_total << " gold";
+            return ss.str();
         }
         if (c_own_fewer && e_create_unit && e_has_unit_type) {
             switch (player) {
@@ -167,10 +284,11 @@ std::string Trigger::getName(bool tip)
                     ss << "p" << player;
             }
             ss << " spawn " << unit_type_name;
+            return ss.str();
         }
         if (c_x_units_killed) {
             ss << "reward ";
-            switch (player) {
+            switch (killer) {
                 case -1:
                     ss << "?";
                     break;
@@ -178,12 +296,55 @@ std::string Trigger::getName(bool tip)
                     ss << "Gaia";
                     break;
                 default:
-                    ss << "p" << player;
+                    ss << "p" << killer;
             }
-            ss << amount << " kills";
+            ss << " " << victims << " kills";
+            if (e_earn_gold) {
+                ss << " earn " << gold_total << " gold";
+                return ss.str();
+            }
+            return ss.str();
+        }
+        if (c_x_buildings_razed) {
+            ss << "reward ";
+            switch (killer) {
+                case -1:
+                    ss << "?";
+                    break;
+                case 0:
+                    ss << "Gaia";
+                    break;
+                default:
+                    ss << "p" << killer;
+            }
+            ss << " " << razings << " razings";
+            if (e_earn_gold) {
+                ss << " earn " << gold_total << " gold";
+                return ss.str();
+            }
+            return ss.str();
+        }
+        if (e_earn_gold) {
+            ss << "earn " << gold_total << " gold";
+            return ss.str();
+        }
+        if (e_create_unit) {
+            ss << "create ";
+            switch (killer) {
+                case -1:
+                    ss << "?";
+                    break;
+                case 0:
+                    ss << "Gaia";
+                    break;
+                default:
+                    ss << "p" << killer;
+            }
+            ss << unit_type_name;
+            return ss.str();
         }
         if (e_has_text) {
-            ss << trim(std::string(text));
+            ss << " " << trim(std::string(text));
         }
         return ss.str();
 	}

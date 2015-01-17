@@ -213,48 +213,8 @@ std::string Condition::getName(bool tip, TipFlags::Value flag) const
                 stype.append(convert.str());
                 break;
             case 10: // Time
-                { // scope needed here because we are initializing some variables inside a case
-                    unsigned int seconds = timer;
-                    unsigned int mins = seconds / 60;
-                    unsigned int hours = mins / 60;
-                    bool input = false;
-
-                    seconds = seconds - mins * 60;
-                    mins = mins - hours * 60;
-
-                    if (timer == 0) {
-                        convert << "no time has passed";
-                    } else {
-                        if (hours > 0) {
-                            convert << hours << " hr";
-                            if (hours > 1) {
-                                convert << "s";
-                            }
-                            input = true;
-                        }
-                        if (mins > 0) {
-                            if (input) {
-                                convert << " ";
-                            }
-                            convert << mins << " min";
-                            if (mins > 1) {
-                                convert << "s";
-                            }
-                            input = true;
-                        }
-                        if (seconds > 0) {
-                            if (input) {
-                                convert << " ";
-                            }
-                            convert << seconds << " second";
-                            if (seconds > 1) {
-                                convert << "s";
-                            }
-                        }
-                        convert << " has passed";
-                    }
-                    stype.append(convert.str());
-                }
+                convert << time_string(timer) << " has passed";
+                stype.append(convert.str());
                 break;
             case 13: // Player defeated
                 if (player == 0) {

@@ -68,6 +68,7 @@ public:
 	bool intense;
 	bool editall;
 	bool displayhints;
+	bool pseudonyms;
 	bool showdisplayorder;
 	bool showtrigids;
 	bool nowarnings;

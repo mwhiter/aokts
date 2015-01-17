@@ -108,7 +108,7 @@ void FillTrigCB(HWND combobox, size_t select)
 		i != scen.t_order.end(); ++i)
 	{
 	    trig = &scen.triggers.at(*i);
-		LRESULT idx = Combo_AddStringA(combobox, std::string(trig->getName(setts.displayhints,true)).append(" <").append(toString<long>(trig->display_order).append(">")).c_str());
+		LRESULT idx = Combo_AddStringA(combobox, std::string(trig->getName(setts.pseudonyms,true)).append(" <").append(toString<long>(trig->display_order).append(">")).c_str());
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
 
 		if (*i == select)	//to avoid cycling through again in LoadEffect()
@@ -200,7 +200,7 @@ void ItemData::GetName(char *buffer)
 {
 	Trigger *t = &scen.triggers.at(index);
 
-	strcpy(buffer, (t) ? std::string("<").append(toString<long>(t->display_order)).append(std::string("> (").append(toString<long>(index))).append(") ").append(t->getName(setts.displayhints,true)).c_str() : "NULL Trigger.");
+	strcpy(buffer, (t) ? std::string("<").append(toString<long>(t->display_order)).append(std::string("> (").append(toString<long>(index))).append(") ").append(t->getName(setts.pseudonyms,true)).c_str() : "NULL Trigger.");
 }
 
 void ItemData::DuplicatePlayers(HWND treeview, HTREEITEM item)
@@ -1231,6 +1231,8 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	CheckDlgButton(dialog, IDC_T_SHOWDISPLAYORDER, true);
 	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, true);
 
+	SendDlgItemMessage(dialog, IDC_T_PSEUDONYMS, BM_SETCHECK, setts.pseudonyms, 0);
+
 	return TRUE;
 }
 
@@ -1499,10 +1501,23 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 
 	switch (code)
 	{
+	case EN_CHANGE:
+		switch (id)
+		{
+        }
+	    break;
 	case BN_CLICKED:
 	case 1:
 		switch (id)
 		{
+		case IDC_T_PSEUDONYMS:
+            if (SendMessage(GetDlgItem(dialog, IDC_T_PSEUDONYMS),BM_GETCHECK,0,0)) {
+                setts.pseudonyms = true;
+            } else {
+                setts.pseudonyms = false;
+            }
+            TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+            break;
 		case ID_EDIT_COPY:
 			SAFECHECK();
 			if (GetFocus() == treeview)

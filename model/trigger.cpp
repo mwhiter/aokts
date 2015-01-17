@@ -268,7 +268,7 @@ std::string Trigger::getName(bool tip, bool limitlen)
             if (this->loop) {
                 ss << "every " << time_string(timer) << " ";
                 if (!this->state) {
-                    ss << "once activated ";
+                    ss << "after activated ";
                 }
             } else if (this->state) {
                 ss << "at " << time_string(timer) << " ";

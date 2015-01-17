@@ -119,6 +119,10 @@ std::string Trigger::getName(bool tip, bool limitlen)
         int gold_total = 0;
         int player = -1;
         int killer = -1;
+        int buyer = -1;
+        int earner = -1;
+        int giver = -1;
+        int receiver = -1;
         int timer = -1;
         int n_conds = 0;
         int n_effects = 0;
@@ -188,17 +192,33 @@ std::string Trigger::getName(bool tip, bool limitlen)
 	            break;
             case 5:  // send tribute
                 amount = iter->amount;
-                if (iter->t_player == 0) {
+                giver = iter->s_player;
+                receiver = iter->t_player;
+
+                if (receiver == 0 && giver > 0) {
                     amount = -amount;
+                    int tmp = receiver;
+                    receiver = giver;
+                    giver = tmp;
+                } else if (giver == 0 && receiver > 0) {
                 }
+
                 if (iter->res_type == 3) {
                     gold_total += amount;
 	            }
+
+                if (giver == 0) {
+                    if (amount < 0 && receiver > 0) {
+                        buyer = receiver;
+                    } else if (amount > 0 && receiver > 0) {
+                        earner = receiver;
+                    }
+                }
                 break;
             case 8:  // activate
                 e_activate = true;
                 e_n_activated ++;
-                activated = iter->trig_index;
+                activated = scen.t_order[iter->trig_index];
                 break;
             case 9:  // deactivate
                 e_deactivate = true;
@@ -239,6 +259,9 @@ std::string Trigger::getName(bool tip, bool limitlen)
             case 32: // UP Armor1
             case 33: // UP Armor2
                 amount = iter->amount;
+                if (iter->type == 24) {
+                    amount = -amount;
+                }
                 if (amount < 0) {
 	                e_nerf = true;
 	            } else if (amount > 0) {
@@ -305,7 +328,7 @@ std::string Trigger::getName(bool tip, bool limitlen)
         if (c_in_area && e_remove_unit) {
             switch (player) {
                 case -1:
-                    ss << "?";
+                    ss << "p?";
                     break;
                 case 0:
                     ss << "Gaia";
@@ -335,14 +358,24 @@ std::string Trigger::getName(bool tip, bool limitlen)
             goto theend;
         }
         if (c_in_area && c_has_gold && e_create_unit && e_lose_gold) {
-            ss << "buy " << unit_type_name << " for " << -gold_total << " gold";
+            switch (buyer) {
+                case -1:
+                    ss << "p?";
+                    break;
+                case 0:
+                    ss << "Gaia";
+                    break;
+                default:
+                    ss << "p" << buyer;
+            }
+            ss << " buy " << unit_type_name << " for " << -gold_total << " gold";
             result = ss.str();
             goto theend;
         }
         if (c_own_fewer && e_create_unit && e_has_unit_type) {
             switch (player) {
                 case -1:
-                    ss << "?";
+                    ss << "p?";
                     break;
                 case 0:
                     ss << "Gaia";
@@ -358,7 +391,7 @@ std::string Trigger::getName(bool tip, bool limitlen)
             ss << "reward ";
             switch (killer) {
                 case -1:
-                    ss << "?";
+                    ss << "p?";
                     break;
                 case 0:
                     ss << "Gaia";
@@ -379,7 +412,7 @@ std::string Trigger::getName(bool tip, bool limitlen)
             ss << "reward ";
             switch (killer) {
                 case -1:
-                    ss << "?";
+                    ss << "p?";
                     break;
                 case 0:
                     ss << "Gaia";
@@ -397,23 +430,33 @@ std::string Trigger::getName(bool tip, bool limitlen)
             goto theend;
         }
         if (e_earn_gold) {
-            ss << "earn " << gold_total << " gold";
-            result = ss.str();
-            goto theend;
-        }
-        if (e_create_unit) {
-            ss << "create ";
-            switch (killer) {
+            switch (earner) {
                 case -1:
-                    ss << "?";
+                    ss << "p?";
                     break;
                 case 0:
                     ss << "Gaia";
                     break;
                 default:
-                    ss << "p" << killer;
+                    ss << "p" << earner;
             }
-            ss << unit_type_name;
+            ss << " earns " << gold_total << " gold";
+            result = ss.str();
+            goto theend;
+        }
+        if (e_create_unit) {
+            ss << "create ";
+            switch (player) {
+                case -1:
+                    ss << "p?";
+                    break;
+                case 0:
+                    ss << "Gaia";
+                    break;
+                default:
+                    ss << "p" << player;
+            }
+            ss << " " << unit_type_name;
             result = ss.str();
             goto theend;
         }

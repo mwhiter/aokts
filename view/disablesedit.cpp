@@ -32,19 +32,20 @@ const char d_title[] = "Disables Editor";
  */
 static void MoveToDisabled(HWND dialog, int index)
 {
+    if (index < 0) return;
 	HWND const list_all = GetDlgItem(dialog, IDC_D_ALL);
 	HWND const list_dis = GetDlgItem(dialog, IDC_D_SEL);
 
 	// Get Link pointer from "all" listbox entry.
 	const Link * link = LinkListBox_Get(list_all, index);
 
+
 	if (link == NULL)
 	{
-		MessageBox(
-				dialog,
-				"Error while retrieving entry for left list. Please report this.",
-				"Disables editor",
-				MB_ICONWARNING);
+	    const size_t BUFSIZE = 60;
+	    char text[BUFSIZE] = "Outside boundaries";
+	    sprintf(text, "Disables unknown unit %d. Please report this.", index);
+		MessageBox( dialog, text, "Disables editor", MB_ICONWARNING);
 		return;
 	}
 
@@ -62,6 +63,7 @@ static void MoveToDisabled(HWND dialog, int index)
  */
 static void DisableItem(HWND dialog, int id)
 {
+    if (id < 0) return;
 	// Get the index of the id in the "all" list.
 	int index;
 	HWND list_all = GetDlgItem(dialog, IDC_D_ALL);

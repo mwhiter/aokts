@@ -213,7 +213,7 @@ const wchar_t *noselecte = L"<none>";
 
 void E_Init(HWND dialog)
 {
-	Combo_Fill(dialog, IDC_E_TYPE, Effect::types, NUM_EFFECTS);
+	Combo_Fill(dialog, IDC_E_TYPE, (scen.ver2 == SV2_AOE2TF)?Effect::types_aohd:Effect::types, NUM_EFFECTS);
 
 	Combo_Fill(dialog, IDC_E_SPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, EC_NUM_PLAYERS);

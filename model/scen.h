@@ -218,7 +218,7 @@ public:
 	AOKFile *files;
 
 	void open(const char *path, const char *dpath);
-	int save(const char *path, const char *dpath, bool write, int convert);
+	int save(const char *path, const char *dpath, bool write, int convert, bool convert_effects);
 	void reset();
 	bool export_bmp(const char *path);
 	//exFile: Exports all (index of -1) or one file to the specified directory

@@ -377,7 +377,7 @@ void Scenario::open(const char *path, const char *dpath)
 
 /* Open a destination scenario, write the header, and optionally write compressed data */
 
-int Scenario::save(const char *path, const char *dpath, bool write, int convert)
+int Scenario::save(const char *path, const char *dpath, bool write, int convert, bool convert_effects)
 {
 	size_t uc_len;
 	int code = 0;	//return from zlib functions
@@ -393,10 +393,14 @@ int Scenario::save(const char *path, const char *dpath, bool write, int convert)
 		case 2:
 			ver1 = SV1_AOE2TC;
 			ver2 = SV2_AOE2TC;
+			if (convert_effects)
+			    hd_to_up();
 			break;
 		case 3:
 			ver1 = SV1_AOE2TC;
 			ver2 = SV2_AOE2TF;
+			if (convert_effects)
+			    up_to_hd();
 			break;
 		case 4:
 			ver1 = SV1_SWGB;

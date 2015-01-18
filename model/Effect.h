@@ -70,6 +70,7 @@ public:
 	void write(FILE *out);
 
 	int getPlayer() const;
+	const char * getTypeName(size_t type, bool concise = false) const;
 	void setPlayer(int);
 	bool check() const;
 
@@ -108,7 +109,9 @@ public:
 #pragma pack(pop)
 
 	static const char* types[NUM_EFFECTS];
+	static const char* types_aohd[NUM_EFFECTS];
 	static const char* types_short[NUM_EFFECTS];
+	static const char* types_short_aohd[NUM_EFFECTS];
 
 private:
 	void fromGenie(const struct Genie_Effect&);

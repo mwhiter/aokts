@@ -141,7 +141,7 @@ void Effect::write(FILE *out)
 std::string Effect::getName(bool tip, TipFlags::Value flags, bool limitlen) const
 {
     if (!tip) {
-	    return (type < NUM_EFFECTS) ? types[type] : "Unknown!";
+	    return (type < NUM_EFFECTS) ? getTypeName(type, false) : "Unknown!";
 	} else {
         bool valid_area = !(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1);
 
@@ -641,20 +641,28 @@ std::string Effect::getName(bool tip, TipFlags::Value flags, bool limitlen) cons
                     sunit.append(convert.str());
                     convert.str("");
                     convert.clear();
-                    if (amount < 0) {
-                        convert << "reduce " << types_short[type] << " of "  << sunit << "by " << -amount << " HP";
-                    } else {
-                        convert << "increase " << types_short[type] << " of "  << sunit << "by " << amount << " HP";
+                    if (amount > 0) {
+                        convert << "+";
                     }
+                    convert << amount << " " << getTypeName(type, true) << " to "  << sunit;
                     stype.append(convert.str());
                 }
                 break;
             default:
-                stype.append((type < NUM_EFFECTS) ? types_short[type] : "Unknown!");
+                stype.append((type < NUM_EFFECTS) ? getTypeName(type, true) : "Unknown!");
         }
 
         return limitlen?stype.substr(0,100):stype;
     }
+}
+
+const char * Effect::getTypeName(size_t type, bool concise) const
+{
+    if (scen.ver2 == SV2_AOE2TF) {
+	    return concise?types_short_aohd[type]:types_aohd[type];
+    } else {
+	    return concise?types_short[type]:types[type];
+	}
 }
 
 int Effect::getPlayer() const
@@ -890,10 +898,51 @@ const char *Effect::types[] =
 	"Change Object HP",
 	"Change Object Attack",
 	"Stop Unit",
-	"Change Speed (UP) - Attack-Move (HD)",
-	"Change Range (UP) - Armor (HD)",
-	"Change Armor1 (UP) - Range (HD)",
-	"Change Armor2 (UP) - Speed (HD)",
+	"Change Speed (UP)",
+	"Change Range (UP)",
+	"Change Mele Armor (UP)",
+	"Change Piercing Armor (UP)",
+	"Enable Unit",
+	"Disable Unit",
+	"Flash Objects"
+};
+
+const char *Effect::types_aohd[] =
+{
+	"Undefined",
+	"Change Diplomacy",
+	"Research Technology",
+	"Send Chat",
+	"Play Sound",
+	"Send Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate Trigger",
+	"Deactivate Trigger",
+	"AI Script Goal",
+	"Create Object",
+	"Task Object",
+	"Declare Victory",
+	"Kill Object",
+	"Remove Object",
+	"Change View",
+	"Unload",
+	"Change Ownership",
+	"Patrol",
+	"Display Instructions",
+	"Clear Instructions",
+	"Freeze Unit",
+	"Use Advanced Buttons",
+	"Damage Object",
+	"Place Foundation",
+	"Change Object Name",
+	"Change Object HP",
+	"Change Object Attack",
+	"Stop Unit",
+	"Attack-Move (HD)",
+	"Change Armor (HD)",
+	"Change Range (HD)",
+	"Change Speed (HD)",
 	"Enable Unit",
 	"Disable Unit",
 	"Flash Objects"
@@ -931,10 +980,51 @@ const char *Effect::types_short[] =
 	"HP",
 	"Attack",
 	"Stop Unit",
-	"Speed (UP) - Attack-Move (HD)",
-	"Range (UP) - Armor (HD)",
-	"Armor1 (UP) - Range (HD)",
-	"Armor2 (UP) - Speed (HD)",
+	"Speed",
+	"Range",
+	"Mele Armor",
+	"Piercing Armor",
+	"Enable Unit",
+	"Disable Unit",
+	"Flash Objects"
+};
+
+const char *Effect::types_short_aohd[] =
+{
+	"Undefined",
+	"Change Diplomacy",
+	"Research",
+	"Chat",
+	"Sound",
+	"Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate",
+	"Deactivate",
+	"AI Script Goal",
+	"Create",
+	"Task",
+	"Declare Victory",
+	"Kill",
+	"Remove",
+	"Change View",
+	"Unload",
+	"Change Ownership",
+	"Patrol",
+	"Instructions",
+	"Clear Instructions",
+	"Freeze",
+	"Use Advanced Buttons",
+	"Damage",
+	"Place Foundation",
+	"Rename",
+	"HP",
+	"Attack",
+	"Stop Unit",
+	"Attack-Move",
+	"Armor",
+	"Range",
+	"Speed",
 	"Enable Unit",
 	"Disable Unit",
 	"Flash Objects"

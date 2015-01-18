@@ -184,6 +184,7 @@ void FileSave(HWND sheet, bool as, bool write)
 	char titleBuffer[100];
 	char startver;
 	int conv = 0;
+	bool convert_effects = false;
 
 	//init
 	cpage = PropSheet_GetCurrentPageHwnd(sheet);
@@ -240,6 +241,18 @@ void FileSave(HWND sheet, bool as, bool write)
 		SetWindowText(sheet, titleBuffer);
 	}
 
+    // convert effects from AOF/AOHD to UP
+    if (startver == 4 || startver == 3 && conv == 2) {
+        convert_effects = setts.asktoconverteffects?MessageBox(sheet,
+                "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES:true;
+    }
+
+    // convert effects from UP to AOF/AOHD
+    if (conv == 4 || conv == 3 && startver == 2) {
+        convert_effects = setts.asktoconverteffects?MessageBox(sheet,
+                "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES:true;
+    }
+
 	//update scenario data
 	SendMessage(cpage, AOKTS_Saving, 0, 0);
 
@@ -253,7 +266,7 @@ void FileSave(HWND sheet, bool as, bool write)
 	//save the scenario
 	try
 	{
- 		error = scen.save(setts.ScenPath, setts.TempPath, write, conv);
+ 		error = scen.save(setts.ScenPath, setts.TempPath, write, conv, convert_effects);
 		SetCursor(previous);
 	}
 	catch (std::exception &ex)

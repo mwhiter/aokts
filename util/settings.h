@@ -67,6 +67,7 @@ public:
 	char logname[12];
 	bool intense;
 	bool editall;
+	bool asktoconverteffects;
 	bool displayhints;
 	bool pseudonyms;
 	bool showdisplayorder;

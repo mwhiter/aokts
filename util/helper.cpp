@@ -47,7 +47,7 @@ std::string &trim(std::string &s) {
     return ltrim(rtrim(s));
 }
 
-std::string time_string(unsigned int seconds) {
+std::string time_string(unsigned int seconds, bool shortened) {
     std::ostringstream convert;
     unsigned int mins = seconds / 60;
     unsigned int hours = mins / 60;
@@ -60,29 +60,41 @@ std::string time_string(unsigned int seconds) {
         convert << "no time";
     } else {
         if (hours > 0) {
-            convert << hours << " hr";
-            if (hours > 1) {
-                convert << "s";
+            if (shortened) {
+                convert << hours << "h";
+            } else {
+                convert << hours << " hr";
+                if (hours > 1) {
+                    convert << "s";
+                }
             }
             input = true;
         }
         if (mins > 0) {
-            if (input) {
-                convert << " ";
-            }
-            convert << mins << " min";
-            if (mins > 1) {
-                convert << "s";
+            if (shortened) {
+                convert << mins << "m";
+            } else {
+                if (input) {
+                    convert << " ";
+                }
+                convert << mins << " min";
+                if (mins > 1) {
+                    convert << "s";
+                }
             }
             input = true;
         }
         if (seconds > 0) {
-            if (input) {
-                convert << " ";
-            }
-            convert << seconds << " second";
-            if (seconds > 1) {
-                convert << "s";
+            if (shortened) {
+                convert << seconds << "s";
+            } else {
+                if (input) {
+                    convert << " ";
+                }
+                convert << seconds << " second";
+                if (seconds > 1) {
+                    convert << "s";
+                }
             }
         }
     }

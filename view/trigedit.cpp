@@ -112,7 +112,7 @@ void FillTrigCB(HWND combobox, size_t select)
         if (setts.showdisplayorder) {
             name.append("<").append(toString<long>(trig->display_order).append("> "));
         }
-        name.append(trig->getName(setts.pseudonyms,true));
+        name.append(trig->getName(setts.pseudonyms,true,2));
 		LRESULT idx = Combo_AddStringA(combobox, name.c_str());
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
 
@@ -213,7 +213,7 @@ void ItemData::GetName(char *buffer)
         if (setts.showtrigids) {
             name.append("(").append(toString<long>(index).append(") "));
         }
-        name.append(t->getName(setts.pseudonyms,true));
+        name.append(t->getName(setts.pseudonyms,true,20));
     } else {
         name.append("NULL Trigger.");
     }

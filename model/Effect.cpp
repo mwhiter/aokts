@@ -286,7 +286,9 @@ std::string Effect::getName(bool tip, TipFlags::Value flags, bool limitlen) cons
                         if (setts.showdisplayorder) {
                             stype.append("<").append(toString(scen.triggers.at(trig_index).display_order)).append("> ");
                         }
-                        stype.append(scen.triggers.at(trig_index).getName(setts.pseudonyms));
+                        // can't make recursion > 0 until I find a way
+                        // to limit it
+                        stype.append(scen.triggers.at(trig_index).getName(setts.pseudonyms,true,0));
                     } else {
                         stype.append("<?>");
                     }

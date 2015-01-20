@@ -12,11 +12,10 @@
 	MODEL
 **/
 
-struct TipFlags {
+struct NameFlags {
     enum Value{
         NONE                           = 0x01,
-        ENABLED                        = 0x02,
-        LOOPING                        = 0x03
+        LIMITLEN                       = 0x02
     };
 };
 
@@ -92,7 +91,7 @@ public:
 	long type;	//identifies type of condition/effect
 	TType ttype;	//identifies EFFECT or CONDITION
 
-	virtual std::string getName(bool tip = false, TipFlags::Value flag=TipFlags::NONE, bool limitlen = false) const = 0;
+	virtual std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const = 0;
 
 	/**
 	 * @return the player with which this E/C is associated, or -1 if none

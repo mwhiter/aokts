@@ -74,7 +74,7 @@ public:
 	void setPlayer(int);
 	bool check() const;
 
-	std::string getName(bool tip = false, TipFlags::Value flag=TipFlags::NONE, bool limitlen = false) const;
+	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const;
 
 	/**
 	 * Accepts a TriggerVisitor.

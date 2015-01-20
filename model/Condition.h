@@ -51,7 +51,7 @@ public:
 	void write(FILE *out);
 	void tobuffer(Buffer &b) const;
 
-	std::string getName(bool tip = false, TipFlags::Value flag=TipFlags::NONE, bool limitlen = false) const;
+	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const;
 
 	int getPlayer() const;
 	void setPlayer(int);

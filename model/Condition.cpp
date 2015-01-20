@@ -56,7 +56,7 @@ Condition::Condition(Buffer& b)
 	fromGenie(genie);
 }
 
-std::string Condition::getName(bool tip, TipFlags::Value flag, bool limitlen) const
+std::string Condition::getName(bool tip, NameFlags::Value flags) const
 {
     if (!tip) {
 	    return (type < NUM_CONDS) ? types[type] : "Unknown!";
@@ -262,7 +262,7 @@ std::string Condition::getName(bool tip, TipFlags::Value flag, bool limitlen) co
                 stype.append((type < NUM_CONDS) ? types_short[type] : "Unknown!");
         }
 
-        return limitlen?stype.substr(0,100):stype;
+        return flags&NameFlags::LIMITLEN?stype.substr(0,100):stype;
     }
 }
 

@@ -352,11 +352,11 @@ void EffectItemData::GetName(char *buffer)
 	//    sprintf(buffer, "then %s", t->effects[index].getName(true).c_str());
 	//} else {
 	if (setts.displayhints) {
-	    sprintf(buffer, "%s", t->effects[index].getName(true,TipFlags::NONE,true).c_str());
+	    sprintf(buffer, "%s", t->effects[index].getName(true,NameFlags::NONE).c_str());
 	    // limiting this fixes a bug, but better to do this in getName
 	    //sprintf(buffer, "%.100s", t->effects[index].getName(true).c_str());
 	} else {
-	    sprintf(buffer, "E: %s", t->effects[index].getName(false,TipFlags::NONE,true).c_str());
+	    sprintf(buffer, "E: %s", t->effects[index].getName(false,NameFlags::NONE).c_str());
 	}
 	//}
 }
@@ -541,12 +541,12 @@ void ConditionItemData::GetName(char *buffer)
 
     if (setts.displayhints) {
 	    if (index == 0) {
-	        sprintf(buffer, "If %s%s", reverse, t->conds[index].getName(true,TipFlags::NONE,true).c_str());
+	        sprintf(buffer, "If %s%s", reverse, t->conds[index].getName(true,NameFlags::NONE).c_str());
 	    } else {
-	        sprintf(buffer, "and %s%s", reverse, t->conds[index].getName(true,TipFlags::NONE,true).c_str());
+	        sprintf(buffer, "and %s%s", reverse, t->conds[index].getName(true,NameFlags::NONE).c_str());
 	    }
 	} else {
-	    sprintf(buffer, "C: %s%s", reverse, t->conds[index].getName(false,TipFlags::NONE,true).c_str());
+	    sprintf(buffer, "C: %s%s", reverse, t->conds[index].getName(false,NameFlags::NONE).c_str());
 	}
 }
 

@@ -138,7 +138,7 @@ void Effect::write(FILE *out)
 		fwrite(uids, sizeof(long), num_sel, out);
 }
 
-std::string Effect::getName(bool tip, TipFlags::Value flags, bool limitlen) const
+std::string Effect::getName(bool tip, NameFlags::Value flags) const
 {
     if (!tip) {
 	    return (type < NUM_EFFECTS) ? getTypeName(type, false) : "Unknown!";
@@ -654,7 +654,7 @@ std::string Effect::getName(bool tip, TipFlags::Value flags, bool limitlen) cons
                 stype.append((type < NUM_EFFECTS) ? getTypeName(type, true) : "Unknown!");
         }
 
-        return limitlen?stype.substr(0,100):stype;
+        return flags&NameFlags::LIMITLEN?stype.substr(0,100):stype;
     }
 }
 

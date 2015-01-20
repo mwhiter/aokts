@@ -1692,11 +1692,30 @@ AOKTS_ERROR Scenario::up_to_hd() {
 	    return ERR_none;
 	Trigger *trig = &(*triggers.begin());
 
+    bool removed = false;
+
     // triggers
 	long i = num;
 	while (i--)
 	{
-	    // effects
+	    // unify effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end();) {
+	        if (iter->type == 32) { // armor 1
+	            for (vector<Effect>::iterator iter2 = (iter + 1); iter2 != trig->effects.end(); ++iter2) {
+	                if (iter2->type == 33 && iter->amount == iter2->amount) { // armor 1
+	                    trig->effects.erase(iter2);
+                        removed = true;
+	                    break;
+	                }
+	            }
+	        }
+
+	        if (!removed)
+	            ++iter;
+	        removed = false;
+		}
+
+	    // convert remaining effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
 	        switch (iter->type) {
 	            case 30: // speed
@@ -1712,7 +1731,8 @@ AOKTS_ERROR Scenario::up_to_hd() {
 	                iter->type = 31;  // no way to make this function reversible
 	            break;
 	        }
-		}
+	    }
+
 		trig++;
 	}
 	return ERR_none;

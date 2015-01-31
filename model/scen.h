@@ -55,6 +55,14 @@ struct OpFlags {
     };
 };
 
+struct SaveFlags {
+    enum Value{
+        NONE                           = 0x00,
+        CONVERT_AOK                    = 0x01,
+        CONVERT_EFFECTS                = 0x02,
+    };
+};
+
 /* Map */
 
 #pragma pack(push, 1)	//set packing alignment to work with terrain array
@@ -218,7 +226,7 @@ public:
 	AOKFile *files;
 
 	void open(const char *path, const char *dpath);
-	int save(const char *path, const char *dpath, bool write, int convert, bool convert_effects);
+	int save(const char *path, const char *dpath, bool write, int convert, SaveFlags::Value flags);
 	void reset();
 	bool export_bmp(const char *path);
 	//exFile: Exports all (index of -1) or one file to the specified directory
@@ -251,10 +259,10 @@ public:
 	void accept(TriggerVisitor&);
 
 	/*	map_size: returns size of memory needed to copy rectangle.
-	
+
 		WARNING: This function assumes source is a valid rectangle, ie. (top < bottom &&
 		left < right).
-	
+
 		We need to do this since the app has to allocate the memory using Win API
 		functions for clipboard.
 
@@ -268,6 +276,8 @@ public:
 	AOKTS_ERROR up_to_hd();
 	AOKTS_ERROR up_to_aofe();
 	AOKTS_ERROR up_to_10c();
+	AOKTS_ERROR aoc_to_aok();
+	AOKTS_ERROR aok_to_aoc();
 	AOKTS_ERROR hd_to_up();
 	AOKTS_ERROR fix_trigger_outliers();
 

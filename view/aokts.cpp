@@ -184,7 +184,7 @@ void FileSave(HWND sheet, bool as, bool write)
 	char titleBuffer[100];
 	char startver;
 	int conv = 0;
-	bool convert_effects = false;
+    SaveFlags::Value flags = SaveFlags::NONE;
 
 	//init
 	cpage = PropSheet_GetCurrentPageHwnd(sheet);
@@ -241,16 +241,29 @@ void FileSave(HWND sheet, bool as, bool write)
 		SetWindowText(sheet, titleBuffer);
 	}
 
+    // convert effects from AOK to AOC
+    if (startver == 1 && conv != 1) {
+        flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_AOK);
+    }
+
+    if (startver != 1 && conv == 1) {
+        flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_AOK);
+    }
+
     // convert effects from AOF/AOHD to UP
     if (startver == 4 || startver == 3 && conv == 2) {
-        convert_effects = setts.asktoconverteffects?MessageBox(sheet,
-                "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES:true;
+        if (setts.asktoconverteffects &&
+            MessageBox(sheet, "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES) {
+            flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
+        }
     }
 
     // convert effects from UP to AOF/AOHD
     if (conv == 4 || conv == 3 && startver == 2) {
-        convert_effects = setts.asktoconverteffects?MessageBox(sheet,
-                "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES:true;
+        if (setts.asktoconverteffects &&
+            MessageBox(sheet, "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES) {
+            flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
+        }
     }
 
 	//update scenario data
@@ -266,7 +279,7 @@ void FileSave(HWND sheet, bool as, bool write)
 	//save the scenario
 	try
 	{
- 		error = scen.save(setts.ScenPath, setts.TempPath, write, conv, convert_effects);
+ 		error = scen.save(setts.ScenPath, setts.TempPath, write, conv, flags);
 		SetCursor(previous);
 	}
 	catch (std::exception &ex)

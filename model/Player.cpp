@@ -334,6 +334,7 @@ void Player::read_data3(FILE *in, float *view)
 	readbin(in, &color);
 
 	// now this is the weird stuff
+	// 1.0F for AOK and 2.0F for AOC?
 	readbin(in, &ucount);
 
 	if (ucount != 1.0F && ucount != 2.0F)

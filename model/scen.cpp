@@ -377,7 +377,7 @@ void Scenario::open(const char *path, const char *dpath)
 
 /* Open a destination scenario, write the header, and optionally write compressed data */
 
-int Scenario::save(const char *path, const char *dpath, bool write, int convert, bool convert_effects)
+int Scenario::save(const char *path, const char *dpath, bool write, int convert, SaveFlags::Value flags)
 {
 	size_t uc_len;
 	int code = 0;	//return from zlib functions
@@ -389,22 +389,30 @@ int Scenario::save(const char *path, const char *dpath, bool write, int convert,
 		case 1:
 			ver1 = SV1_AOE2;
 			ver2 = SV2_AOE2;
+			if (flags & SaveFlags::CONVERT_AOK)
+			    aoc_to_aok();
 			break;
 		case 2:
 			ver1 = SV1_AOE2TC;
 			ver2 = SV2_AOE2TC;
-			if (convert_effects)
+			if (flags & SaveFlags::CONVERT_EFFECTS)
 			    hd_to_up();
+			if (flags & SaveFlags::CONVERT_AOK)
+			    aok_to_aoc();
 			break;
 		case 3:
 			ver1 = SV1_AOE2TC;
 			ver2 = SV2_AOE2TF;
-			if (convert_effects)
+			if (flags & SaveFlags::CONVERT_EFFECTS)
 			    up_to_hd();
+			if (flags & SaveFlags::CONVERT_AOK)
+			    aok_to_aoc();
 			break;
 		case 4:
 			ver1 = SV1_SWGB;
 			ver2 = SV2_SWGB;
+			if (flags & SaveFlags::CONVERT_AOK)
+			    aok_to_aoc();
 			break;
 	}
 
@@ -1735,6 +1743,22 @@ AOKTS_ERROR Scenario::up_to_hd() {
 
 		trig++;
 	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::aoc_to_aok() {
+	//Player *p;
+	//int i;
+	//FEP(p)
+	//	p->ucount=1.0F;
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::aok_to_aoc() {
+	//Player *p;
+	//int i;
+	//FEP(p)
+	//	p->ucount=2.0F;
 	return ERR_none;
 }
 

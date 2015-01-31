@@ -1246,8 +1246,8 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	treeview = GetDlgItem(dialog, IDC_T_TREE);
 	TreeView_SetImageList(treeview, il, TVSIL_NORMAL);
 
-	CheckDlgButton(dialog, IDC_T_SHOWDISPLAYORDER, true);
-	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, true);
+	CheckDlgButton(dialog, IDC_T_SHOWDISPLAYORDER, setts.showdisplayorder);
+	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, setts.showdisplayorder);
 
 	SendDlgItemMessage(dialog, IDC_T_PSEUDONYMS, BM_SETCHECK, setts.pseudonyms, 0);
 

@@ -477,7 +477,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                                 convert << " Gaia";
                                 break;
                             default:
-                                convert << " p" << s_player;
+                                convert << " p" << t_player;
                         }
                         break;
                     default:

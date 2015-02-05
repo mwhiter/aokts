@@ -296,6 +296,10 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     //stype.append(convert.str());
                 }
                 break;
+            case 10:
+                convert << "signal AI " << ai_goal;
+                stype.append(convert.str());
+                break;;
             case 16: // Change view
                 if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
                     convert << "change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";

@@ -140,6 +140,10 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                     stype.append(convert.str());
                 }
                 break;
+            case 12: // AI script goal
+                convert << "AI signalled " << ai_signal;
+                stype.append(convert.str());
+                break;
             case 15: // object visible
                 convert << "unit " << object << " is visible";
                 stype.append(convert.str());

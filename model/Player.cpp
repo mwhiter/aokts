@@ -60,7 +60,7 @@ void Player::reset()
 	avictory = false;
 	memset(diplomacy, 0, sizeof(diplomacy));
 	color = 8;
-	ucount = 2;
+	ucount = 2.0F;
 	units.clear();
 }
 
@@ -449,7 +449,7 @@ void Player::write_data3(FILE *out, int me, float *view)
 
 	fwrite(&color, 4, 2, out);	//color, ucount
 	NULLS(out, 9);
-	if (ucount == 1)
+	if (ucount == 1.0F)
 	{
 		NULLS(out, 4);
 	}

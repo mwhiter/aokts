@@ -140,16 +140,12 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                     stype.append(convert.str());
                 }
                 break;
-            case 12: // AI script goal
-                convert << "AI signalled " << ai_signal;
-                stype.append(convert.str());
-                break;
-            case 15: // object visible
-                convert << "unit " << object << " is visible";
-                stype.append(convert.str());
-                break;
             case 6: // Destroy object
                 convert << "unit " << object << " is destroyed";
+                stype.append(convert.str());
+                break;
+            case 7: // Unit captured
+                convert << "p" << player << " captured unit " << object;
                 stype.append(convert.str());
                 break;
             case 8: // Accumulated
@@ -218,6 +214,18 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 break;
             case 10: // Time
                 convert << time_string(timer) << " has passed";
+                stype.append(convert.str());
+                break;
+            case 11: // Unit selected
+                convert << "selected unit " << object;
+                stype.append(convert.str());
+                break;
+            case 12: // AI script goal
+                convert << "AI signalled " << ai_signal;
+                stype.append(convert.str());
+                break;
+            case 15: // object visible
+                convert << "unit " << object << " is visible";
                 stype.append(convert.str());
                 break;
             case 13: // Player defeated

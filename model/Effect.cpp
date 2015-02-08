@@ -373,6 +373,9 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         convert << " area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
                     }
                 }
+                if (location.x >= 0 && location.y >= 0) {
+                    convert << " at (" << location.x << ", " << location.y << ")";
+                }
                 stype.append(convert.str());
                 break;
             case 11: // Create object

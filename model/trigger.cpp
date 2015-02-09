@@ -389,8 +389,28 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	    bool e_only_1_activated = e_n_activated == 1;
         bool only_one_cond = n_conds == 1;
         bool only_one_effect = n_effects == 1;
-        //bool only_one_effect = n_effects == 1 && (n_conds == 0 || (n_conds == 1 && timer >= 0));
-	    bool only_one_cond_or_effect = only_one_cond && only_one_effect;
+	    bool only_one_cond_or_effect = (n_effects + n_conds == 1);
+
+        if (only_one_cond && only_one_effect) {
+            ss << "If " << last_cond->getName(setts.displayhints);
+            ss << " then " << last_effect->getName(setts.displayhints);
+            goto theendnotext;
+        }
+
+        if (only_one_cond_or_effect && only_one_cond) {
+            ss << last_cond->getName(setts.displayhints);
+            goto theendnotext;
+        }
+
+        if (only_one_cond_or_effect && only_one_effect) {
+            ss << last_effect->getName(setts.displayhints);
+            goto theendnotext;
+        }
+
+        if (only_one_cond_or_effect && only_one_cond) {
+            ss << last_cond->getName(setts.displayhints);
+            goto theendnotext;
+        }
 
         if (timer > 0) {
             if (this->loop) {

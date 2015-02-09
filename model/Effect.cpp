@@ -185,6 +185,10 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 convert << " \"" << text.c_str() << "\"";
                 stype.append(convert.str());
                 break;
+            case 4: // Play sound
+                convert << "play sound " << sound.c_str();
+                stype.append(convert.str());
+                break;
             case 5: // Tribute
                 // what is the significance of losing 2147483647?
                 // i guess it resets?
@@ -488,7 +492,11 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         }
                         break;
                     default:
-                        convert << " to (" << location.x << ", " << location.y << ")";
+                        if (location.x >= 0 && location.y >= 0) {
+                            convert << " to (" << location.x << ", " << location.y << ")";
+                        } else {
+                            convert << " to unit " << uid_loc;
+                        }
                 }
                 stype.append(convert.str());
                 break;

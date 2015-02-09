@@ -92,19 +92,24 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 {
     std::ostringstream ss;
     std::string result;
-    std::string unit_type_name = "";
     const char * text = "";
+    const char * chat_text = "";
     const char * name = "";
+    const char * sound_name = "";
+    std::string c_unit_type_name = "";
+    std::string e_unit_type_name = "";
     if (!tip) {
 	    ss << this->name;
 	    goto theendnotext;
 	} else {
+        bool c_own = false;
         bool c_own_fewer = false;
         bool c_in_area = false;
         bool c_object_destroyed = false;
         bool c_has_gold = false;
         bool c_x_units_killed = false;
         bool c_x_buildings_razed = false;
+        bool c_has_unit_type = false;
         bool e_create_unit = false;
         bool e_remove_unit = false;
         bool e_has_unit_type = false;
@@ -115,13 +120,18 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         bool e_change_ownership = false;
         bool e_activate = false;
         bool e_deactivate = false;
-        int e_n_activated = false;
+        int c_n_owned = 0;
+        int c_n_not_owned = 0;
+        int e_n_activated = 0;
         bool e_has_text = false;
         int vanquished_unit = -1;
         int activated = -1;
         int amount = 0;
         int victims = 0;
         int razings = 0;
+        int food_total = 0;
+        int wood_total = 0;
+        int stone_total = 0;
         int gold_total = 0;
         int player_decimated = -1;
         int convertee = -1;
@@ -132,12 +142,15 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         int earner = -1;
         int giver = -1;
         int receiver = -1;
+        int e_res_type = -1;
         int timer = -1;
         int n_conds = 0;
         int n_effects = 0;
         bool victory = false;
         bool victor[9];
         bool defeat = false;
+        bool e_chat = false;
+        bool e_sound = false;
         bool e_research = false;
         bool e_task = false;
         Condition * last_cond = NULL;
@@ -152,8 +165,29 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	        n_conds++;
 	        last_cond = &(*iter);
 	        switch (iter->type) {
+	        case 3:  // own objects
+	            {
+	                player = iter->player;
+	                c_own = true;
+	                c_n_owned = iter->amount;
+	                c_has_unit_type = iter->pUnit && iter->pUnit->id();
+	                if (c_has_unit_type) {
+                        std::wstring unitname(iter->pUnit->name());
+                        c_unit_type_name = std::string(unitname.begin(), unitname.end());
+                    }
+                }
+	            break;
 	        case 4:  // own fewer objects
-	            c_own_fewer = true;
+	            {
+	                player = iter->player;
+	                c_own_fewer = true;
+	                c_n_not_owned = iter->amount;
+	                c_has_unit_type = iter->pUnit && iter->pUnit->id();
+	                if (c_has_unit_type) {
+                        std::wstring unitname(iter->pUnit->name());
+                        c_unit_type_name = std::string(unitname.begin(), unitname.end());
+                    }
+                }
 	            break;
 	        case 5:  // objects in area
 	            c_in_area = true;
@@ -204,10 +238,27 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	        case 2:  // research
 	            e_research = true;
 	            break;
+	        case 3:  // send chat
+	            if (strlen(iter->text.c_str()) > 1) {
+	                e_chat = true;
+	                chat_text = iter->text.c_str();
+	            } else {
+	                n_effects--;
+	            }
+	            break;
+	        case 4:  // play sound
+	            if (strlen(iter->sound.c_str()) > 1) {
+	                e_sound = true;
+	                sound_name = iter->sound.c_str();
+	            } else {
+	                n_effects--;
+	            }
+	            break;
             case 5:  // send tribute
                 amount = iter->amount;
                 giver = iter->s_player;
                 receiver = iter->t_player;
+                e_res_type = iter->res_type;
 
                 if (receiver == 0 && giver > 0) {
                     amount = -amount;
@@ -217,9 +268,20 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                 } else if (giver == 0 && receiver > 0) {
                 }
 
-                if (iter->res_type == 3) {
+                switch (e_res_type) {
+                case 0:
+                    food_total += amount;
+                    break;
+                case 1:
+                    wood_total += amount;
+                    break;
+                case 2:
+                    stone_total += amount;
+                    break;
+                case 3:
                     gold_total += amount;
-	            }
+                    break;
+                }
 
                 if (giver == 0) {
                     if (amount < 0 && receiver > 0) {
@@ -245,7 +307,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                e_has_unit_type = iter->pUnit && iter->pUnit->id();
 	                if (e_has_unit_type) {
                         std::wstring unitname(iter->pUnit->name());
-                        unit_type_name = std::string(unitname.begin(), unitname.end());
+                        e_unit_type_name = std::string(unitname.begin(), unitname.end());
                     }
                 }
 	            break;
@@ -265,7 +327,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                e_has_unit_type = iter->pUnit && iter->pUnit->id();
 	                if (e_has_unit_type) {
                         std::wstring unitname(iter->pUnit->name());
-                        unit_type_name = std::string(unitname.begin(), unitname.end());
+                        e_unit_type_name = std::string(unitname.begin(), unitname.end());
                     }
                 }
 	            break;
@@ -276,7 +338,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                e_has_unit_type = iter->pUnit && iter->pUnit->id();
 	                if (e_has_unit_type) {
                         std::wstring unitname(iter->pUnit->name());
-                        unit_type_name = std::string(unitname.begin(), unitname.end());
+                        e_unit_type_name = std::string(unitname.begin(), unitname.end());
                     }
                 }
 	            break;
@@ -287,7 +349,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                e_has_unit_type = iter->pUnit && iter->pUnit->id();
 	                if (e_has_unit_type) {
                         std::wstring unitname(iter->pUnit->name());
-                        unit_type_name = std::string(unitname.begin(), unitname.end());
+                        e_unit_type_name = std::string(unitname.begin(), unitname.end());
                     }
                 }
 	            break;
@@ -315,20 +377,21 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	        }
 	    }
 
+	    bool e_earn_food = food_total > 0;
+	    bool e_lose_food = food_total < 0;
+	    bool e_earn_wood = wood_total > 0;
+	    bool e_lose_wood = wood_total < 0;
+	    bool e_earn_stone = stone_total > 0;
+	    bool e_lose_stone = stone_total < 0;
 	    bool e_earn_gold = gold_total > 0;
 	    bool e_lose_gold = gold_total < 0;
+	    bool e_earn_resource = e_earn_food || e_earn_wood || e_earn_stone || e_earn_gold;
 	    bool e_only_1_activated = e_n_activated == 1;
-        bool only_one_cond = n_effects == 0 && n_conds == 1;
-        bool only_one_effect = n_effects == 1 && n_conds == 0;
+        bool only_one_cond = n_conds == 1;
+        bool only_one_effect = n_effects == 1;
+        //bool only_one_effect = n_effects == 1 && (n_conds == 0 || (n_conds == 1 && timer >= 0));
+	    bool only_one_cond_or_effect = only_one_cond && only_one_effect;
 
-        if (only_one_cond) {
-            ss << last_cond->getName(setts.displayhints);
-            goto theendnotext;
-        }
-        if (only_one_effect) {
-            ss << last_effect->getName(setts.displayhints);
-            goto theendnotext;
-        }
         if (timer > 0) {
             if (this->loop) {
                 ss << "loop " << time_string(timer,true) << " ";
@@ -390,10 +453,12 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         //if (e_lose_gold) {
         //    ss << "lose gold";
         //}
+
         if (c_in_area && c_has_gold && e_buff && e_lose_gold) {
             ss << "purchase buff for " << -gold_total << " gold";
             goto theend;
         }
+
         if (c_in_area && c_has_gold && e_create_unit && e_lose_gold) {
             switch (buyer) {
                 case -1:
@@ -405,9 +470,10 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                 default:
                     ss << "p" << buyer;
             }
-            ss << " buy " << unit_type_name << " for " << -gold_total << " gold";
+            ss << " buy " << e_unit_type_name << " for " << -gold_total << " gold";
             goto theend;
         }
+
         if (c_in_area && c_has_gold && e_research && e_lose_gold) {
             switch (buyer) {
                 case -1:
@@ -422,6 +488,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
             ss << " buy research for " << -gold_total << " gold";
             goto theend;
         }
+
         if (c_own_fewer && e_create_unit && e_has_unit_type) {
             switch (player) {
                 case -1:
@@ -433,9 +500,10 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                 default:
                     ss << "p" << player;
             }
-            ss << " spawn " << unit_type_name;
+            ss << " spawn " << e_unit_type_name;
             goto theend;
         }
+
         if (c_x_units_killed) {
             ss << "reward ";
             switch (killer) {
@@ -449,12 +517,25 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     ss << "p" << killer;
             }
             ss << " " << victims << " kills";
-            if (e_earn_gold) {
-                ss << " earn " << gold_total << " gold";
-                goto theend;
+            if (e_earn_resource) {
+                switch (e_res_type) {
+                    case 0:
+                        ss << " " << food_total << " food";
+                        break;
+                    case 1:
+                        ss << " " << wood_total << " wood";
+                        break;
+                    case 2:
+                        ss << " " << stone_total << " stone";
+                        break;
+                    case 3:
+                        ss << " " << gold_total << " gold";
+                        break;
+                }
             }
             goto theend;
         }
+
         if (c_x_buildings_razed) {
             ss << "reward ";
             switch (killer) {
@@ -468,15 +549,28 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     ss << "p" << killer;
             }
             ss << " " << razings << " razings";
-            if (e_earn_gold) {
-                ss << " earn " << gold_total << " gold";
-                goto theend;
+            if (e_earn_resource) {
+                switch (e_res_type) {
+                    case 0:
+                        ss << " " << food_total << " food";
+                        break;
+                    case 1:
+                        ss << " " << wood_total << " wood";
+                        break;
+                    case 2:
+                        ss << " " << stone_total << " stone";
+                        break;
+                    case 3:
+                        ss << " " << gold_total << " gold";
+                        break;
+                }
             }
             goto theend;
         }
+
         if (c_object_destroyed) {
             ss << "destroying " << vanquished_unit;
-            if (e_earn_gold) {
+            if (e_earn_resource) {
                 ss << " earns ";
                 switch (earner) {
                     case -1:
@@ -488,10 +582,24 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     default:
                         ss << "p" << earner;
                 }
-                ss << " " << gold_total << " gold";
+                switch (e_res_type) {
+                    case 0:
+                        ss << " " << food_total << " food";
+                        break;
+                    case 1:
+                        ss << " " << wood_total << " wood";
+                        break;
+                    case 2:
+                        ss << " " << stone_total << " stone";
+                        break;
+                    case 3:
+                        ss << " " << gold_total << " gold";
+                        break;
+                }
             }
             goto theend;
         }
+
         if (e_change_ownership) {
             ss << "convert ";
             switch (convertee) {
@@ -504,9 +612,10 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                 default:
                     ss << "p" << convertee;
             }
-            ss << " " << (e_has_unit_type?unit_type_name:"units");
+            ss << " " << (e_has_unit_type?e_unit_type_name:"units");
             goto theend;
         }
+
         if (e_kill_object) {
             ss << "kill ";
             switch (player_decimated) {
@@ -519,9 +628,10 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                 default:
                     ss << "p" << player_decimated;
             }
-            ss << " " << (e_has_unit_type?unit_type_name:"units");
+            ss << " " << (e_has_unit_type?e_unit_type_name:"units");
             goto theend;
         }
+
         if (e_create_unit) {
             ss << "create ";
             switch (player) {
@@ -534,33 +644,89 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                 default:
                     ss << "p" << player;
             }
-            ss << " " << (e_has_unit_type?unit_type_name:"units");
+            ss << " " << (e_has_unit_type?e_unit_type_name:"units");
             goto theend;
         }
+
         if (e_nerf) {
             ss << "nerf some units";
             goto theend;
         }
+
         if (e_buff) {
             ss << "buff some units";
             goto theend;
         }
+
         if (e_research) {
             ss << "do research";
             goto theend;
         }
+
         if (e_remove_unit) {
             ss << "remove some units";
             goto theend;
         }
+
         if (e_task) {
             ss << "task some units";
             goto theend;
         }
+
+        if (e_sound) {
+            ss << "sound " << " \"" << trim(std::string(sound_name)) << "\"";
+            goto theend;
+        }
+
         if (e_rename) {
             ss << "rename " << " \"" << trim(std::string(text)) << "\"";
             goto theendnotext;
         }
+
+        if (e_chat) {
+            ss << "message " << " \"" << trim(std::string(chat_text)) << "\"";
+            goto theendnotext;
+        }
+
+        if (c_own && c_has_unit_type && e_earn_resource) {
+            ss << c_n_owned << " " << c_unit_type_name << " generates ";
+            switch (player) {
+                case -1:
+                    ss << "p?";
+                    break;
+                case 0:
+                    ss << "Gaia";
+                    break;
+                default:
+                    ss << "p" << player;
+            }
+            switch (e_res_type) {
+            case 0:
+                ss << " " << food_total << " food";
+                break;
+            case 1:
+                ss << " " << wood_total << " wood";
+                break;
+            case 2:
+                ss << " " << stone_total << " stone";
+                break;
+            case 3:
+                ss << " " << gold_total << " gold";
+                break;
+            }
+            goto theend;
+        }
+
+        if (only_one_effect) {
+            ss << last_effect->getName(setts.displayhints);
+            goto theendnotext;
+        }
+
+        if (only_one_cond) {
+            ss << last_cond->getName(setts.displayhints);
+            goto theendnotext;
+        }
+
         if (n_effects > 0)
             ss << "something happens";
         goto theend;

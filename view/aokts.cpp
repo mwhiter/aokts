@@ -407,7 +407,9 @@ void FileOpen(HWND sheet, bool ask, int recent)
 	{
 		scen.open(setts.ScenPath, setts.TempPath);
 		SetCursor(previous);
-		SetSaveState(sheet, ofn.Flags & OFN_READONLY ? MF_GRAYED : MF_ENABLED);
+		// for some reason this is always read only. on Wine at least
+		//SetSaveState(sheet, ofn.Flags & OFN_READONLY ? MF_GRAYED : MF_ENABLED);
+		SetSaveState(sheet, ofn.Flags & OFN_READONLY ? MF_ENABLED : MF_ENABLED);
 
 		// set status bar text
 		SetWindowTextW(propdata.statusbar, L"Scenario loaded successfully.");

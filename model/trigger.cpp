@@ -428,6 +428,8 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         if (e_only_1_activated && activated >= 0) {
             if (e_has_text) {
                 ss << trim(std::string(text)) << ". ";
+            } else if (e_create_unit) {
+                ss << "create " << e_unit_type_name << " ";
             }
             if (recursion > 0) {
                 ss << "=> " << scen.triggers.at(activated).getName(setts.pseudonyms, true, --recursion);

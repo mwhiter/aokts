@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <algorithm>
 
+extern Scenario scen;
+
 using std::vector;
 
 /** Options **/
@@ -173,6 +175,45 @@ void UnitList_FillGroup(HWND typebox, const UnitGroupLink *group)
 	{
 		LinkListBox_Fill(typebox, esdata.units.head());
 	}
+}
+
+std::string get_unit_full_name(UID id)
+{
+    std::ostringstream ss;
+    std::string name = "";
+    PlayersUnit * fu = find_map_unit(id);
+    if (fu) {
+        std::wstring unitname(fu->u->getType()->name());
+        switch (fu->player) {
+            case 8:
+                ss << "Gaia's ";
+                break;
+            default:
+                ss << "p" << fu->player + 1 << "'s ";
+        }
+        ss << std::string(unitname.begin(), unitname.end());
+        return ss.str();
+        delete fu;
+    }
+    return "INVALID UNIT ID";
+}
+
+PlayersUnit * find_map_unit(UID id)
+{
+	/* Find the owner player from first UID. */
+	for (int i = 0; i < NUM_PLAYERS; i++)
+	{
+	    int pos = scen.players[i].find_unit(id);
+		if (pos != scen.players[i].units.size())
+		{
+		    //return &scen.players[i].units.at(pos);
+            PlayersUnit * ret = new PlayersUnit();
+            ret->player = i;
+            ret->u = &scen.players[i].units.at(pos);
+		    return ret;
+		}
+	}
+	return NULL;
 }
 
 /*

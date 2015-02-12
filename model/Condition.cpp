@@ -2,6 +2,7 @@
 #include <sstream>
 #include "TriggerVisitor.h"
 
+#include "../view/utilunit.h"
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
 #include "../util/helper.h"
@@ -70,7 +71,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 1: // Bring object to area
-                convert << "unit " << object;
+                convert << "unit " << object << " (" << get_unit_full_name(object) << ")";
                 if (area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1) {
                     convert << " is on the map";
                 } else {
@@ -83,7 +84,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 2: // Bring object to object
-                convert << "unit " << object << " is next to unit " << u_loc;
+                convert << "unit " << object << " (" << get_unit_full_name(object) << ") is next to unit " << u_loc;
                 stype.append(convert.str());
                 break;
             case 3: // Own
@@ -141,11 +142,14 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 break;
             case 6: // Destroy object
-                convert << "unit " << object << " is destroyed";
+                convert << "unit " << object;
+                convert << " (" << get_unit_full_name(object) << ")";
+                convert << " is destroyed";
                 stype.append(convert.str());
                 break;
             case 7: // Unit captured
                 convert << "p" << player << " captured unit " << object;
+                convert << " (" << get_unit_full_name(object) << ")";
                 stype.append(convert.str());
                 break;
             case 8: // Accumulated
@@ -218,6 +222,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 break;
             case 11: // Unit selected
                 convert << "selected unit " << object;
+                convert << " (" << get_unit_full_name(object) << ")";
                 stype.append(convert.str());
                 break;
             case 12: // AI script goal
@@ -225,7 +230,8 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 15: // object visible
-                convert << "unit " << object << " is visible";
+                convert << "unit " << object;
+                convert << " (" << get_unit_full_name(object) << ") is visible";
                 stype.append(convert.str());
                 break;
             case 13: // Player defeated
@@ -239,9 +245,9 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 break;
             case 18: // Units Garrisoned
                 if (amount == 1) {
-                    convert << "unit " << object << " has " << amount << " units garrisoned";
+                    convert << "unit " << object << " (" << get_unit_full_name(object) << ") has " << amount << " units garrisoned";
                 } else {
-                    convert << "unit " << object << " has one unit garrisoned";
+                    convert << "unit " << object << " (" << get_unit_full_name(object) << ") has one unit garrisoned";
                 }
                 stype.append(convert.str());
                 break;

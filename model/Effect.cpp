@@ -4,6 +4,7 @@
 #include "scen.h"
 #include "TriggerVisitor.h"
 
+#include "../view/utilunit.h"
 #include "../util/utilio.h"
 #include "../view/utilui.h"
 #include "../util/Buffer.h"
@@ -360,6 +361,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
 	            for (int i = 0; i < num_sel; i++) {
                     convert << " " << uids[i];
+                    convert << " (" << get_unit_full_name(uids[i]) << ")";
 	            }
                 if (valid_area) {
                     if (area.left == area.right && area.top == area.bottom) {
@@ -433,7 +435,9 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                                 }
 	                            for (int i = 0; i < num_sel; i++) {
 	                                if (uids[i] == 50)
-                                        convert << uids[i] << " ";
+                                        convert << uids[i] << " (" <<
+                                            get_unit_full_name(uids[i])
+                                            << ")" << " ";
 	                            }
 	                            convert << "infinite";
 	                            break;
@@ -469,7 +473,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     }
                 }
 	            for (int i = 0; i < num_sel; i++) {
-                    convert << " " << uids[i];
+                    convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
+                    
 	            }
                 if (valid_area) {
                     if (area.left == area.right && area.top == area.bottom) {
@@ -530,7 +535,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     convert << " unit";
                 }
 	            for (int i = 0; i < num_sel; i++) {
-                    convert << " " << uids[i];
+                    convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
                     //for (int p = 0; p < NUM_PLAYERS; p++) {
                     //    scen.players[p].units.at(
                     //}
@@ -558,7 +563,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                             convert << "units ";
                         }
 	                    for (int i = 0; i < num_sel; i++) {
-                            convert << uids[i] << " ";
+                            convert << uids[i] << " (" << get_unit_full_name(uids[i]) << ") ";
 	                    }
 	                    if (unit_set_selected) {
 	                        convert << " and ";
@@ -623,7 +628,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                             convert << "units ";
                         }
 	                    for (int i = 0; i < num_sel; i++) {
-                            convert << uids[i] << " ";
+                            convert << uids[i] << " (" << get_unit_full_name(uids[i]) << ") ";
 	                    }
 	                    if (unit_set_selected) {
 	                        convert << " and ";

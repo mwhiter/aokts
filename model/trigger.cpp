@@ -3,6 +3,7 @@
 #include "trigger.h"
 #include "TriggerVisitor.h"
 
+#include "../view/utilunit.h"
 #include "../util/helper.h"
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
@@ -192,7 +193,16 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                 }
 	            break;
 	        case 5:  // objects in area
-	            c_in_area = true;
+	            {
+	                player = iter->player;
+	                c_in_area = true;
+	                c_n_owned = iter->amount;
+	                c_has_unit_type = iter->pUnit && iter->pUnit->id();
+	                if (c_has_unit_type) {
+                        std::wstring unitname(iter->pUnit->name());
+                        c_unit_type_name = std::string(unitname.begin(), unitname.end());
+                    }
+                }
 	            break;
 	        case 6:  // destroy object
 	            c_object_destroyed = true;
@@ -390,6 +400,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	    bool e_earn_gold = gold_total > 0;
 	    bool e_lose_gold = gold_total < 0;
 	    bool e_earn_resource = e_earn_food || e_earn_wood || e_earn_stone || e_earn_gold;
+	    bool e_lose_resource = e_lose_food || e_lose_wood || e_lose_stone || e_lose_gold;
 	    bool e_only_1_activated = e_n_activated == 1;
         bool only_one_cond = n_conds == 1;
         bool only_one_effect = n_effects == 1;
@@ -544,7 +555,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         }
 
         if (c_object_destroyed) {
-            ss << "destroying " << vanquished_unit;
+            ss << "destroying " << " " << get_unit_full_name(vanquished_unit);
             if (e_earn_resource) {
                 ss << " earns ";
                 switch (earner) {
@@ -599,6 +610,36 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                 break;
             case 3:
                 ss << " " << gold_total << " gold";
+                break;
+            }
+            goto theend;
+        }
+
+        if ((c_own || c_in_area) && c_has_unit_type && this->loop && timer > 0 && e_lose_resource) {
+            ss << "upkeep of ";
+            switch (player) {
+                case -1:
+                    ss << "p?";
+                    break;
+                case 0:
+                    ss << "Gaia";
+                    break;
+                default:
+                    ss << "p" << player;
+            }
+            ss << "'s " << c_n_owned << " " << c_unit_type_name << " costs ";
+            switch (e_res_type) {
+            case 0:
+                ss << " " << -food_total << " food";
+                break;
+            case 1:
+                ss << " " << -wood_total << " wood";
+                break;
+            case 2:
+                ss << " " << -stone_total << " stone";
+                break;
+            case 3:
+                ss << " " << -gold_total << " gold";
                 break;
             }
             goto theend;

@@ -114,7 +114,15 @@ void TrigXmlVisitor::visit(Effect& e)
 	writeXmlLong(&_ss, "resource", e.res_type);
 	writeXmlLong(&_ss, "diplomacy", e.diplomacy);
 	writeXmlLong(&_ss, "num_selected", e.num_sel); // TODO: don't write this
-	writeXmlLong(&_ss, "unit_ids", e.num_sel > 0 ? e.uids[0] : -1);
+    std::ostringstream ss;
+    if (e.num_sel == 0)
+        ss << -1;
+    else if (e.num_sel > 0)
+        ss << e.uids[0];
+	for (int i = 1; i < e.num_sel; i++) {
+        ss << "," << e.uids[i];
+	}
+	writeXmlString(&_ss, "unit_ids", SString(ss.str().c_str()));
 	writeXmlLong(&_ss, "location_unit", e.uid_loc);
 	if (e.pUnit)
 		writeXmlLong(&_ss, "unit_type", e.pUnit->id());

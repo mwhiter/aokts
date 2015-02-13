@@ -79,6 +79,18 @@ const PerVersion Scenario::pv1_22 =
 	42
 };
 
+//// AOFE
+//const PerVersion Scenario::pv1_22 =
+//{
+//	6,
+//	true,
+//	30, 20,
+//	866, // the true value of this number is very importint!
+//	460,
+//	514,
+//	42
+//};
+
 // AOHD
 const PerVersion Scenario::pv1_23 =
 {
@@ -1794,6 +1806,20 @@ AOKTS_ERROR Scenario::hd_to_up() {
 	    }
 		trig++;
 	}
+
+    // each player i
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+        // units
+	    for (std::vector<Unit>::iterator unit = players[i].units.begin(); unit != players[i].units.end(); ++unit) {
+            switch (unit->getType()->id()) {
+            case 445: // church 4
+                // change to monastery (104)
+                unit->setType(esdata.units.getById(104));
+                break;
+            }
+	    }
+	}
+
 	return ERR_none;
 }
 

@@ -84,7 +84,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 2: // Bring object to object
-                convert << "unit " << object << " (" << get_unit_full_name(object) << ") is next to unit " << u_loc;
+                convert << "unit " << object << " (" << get_unit_full_name(object) << ") is next to unit " << u_loc << " (" << get_unit_full_name(u_loc) << ")";
                 stype.append(convert.str());
                 break;
             case 3: // Own

@@ -119,6 +119,9 @@ void Effect::read(FILE *in)
 	text.read(in, sizeof(long));
 	sound.read(in, sizeof(long));
 
+    // this helped me find why there was heap corruption
+    // && num_sel < 22
+    // Need a bigger number for max selected units
 	if (num_sel > 0)
 		readbin(in, uids, num_sel);
 
@@ -474,7 +477,6 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
 	            for (int i = 0; i < num_sel; i++) {
                     convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
-                    
 	            }
                 if (valid_area) {
                     if (area.left == area.right && area.top == area.bottom) {

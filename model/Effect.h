@@ -9,8 +9,13 @@ class TriggerVisitor;
 #define NUM_EFFECTS	37	//+1 for undefined
 #define EFFECT_CONTROLS	23
 
-//todo: check UP, HD
-#define MAX_UNITSEL 22
+// Need to enforce these
+// AoC
+//#define MAX_UNITSEL 22
+// UP
+//#define MAX_UNITSEL 40
+// HD
+#define MAX_UNITSEL 60
 
 enum EffectType
 {

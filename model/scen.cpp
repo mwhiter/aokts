@@ -1812,9 +1812,13 @@ AOKTS_ERROR Scenario::hd_to_up() {
         // units
 	    for (std::vector<Unit>::iterator unit = players[i].units.begin(); unit != players[i].units.end(); ++unit) {
             switch (unit->getType()->id()) {
-            case 445: // church 4
-                // change to monastery (104)
+            case 445: // Church 4 (AOF) / INVALID (AOFE)
+                // change to Monastery (104)
                 unit->setType(esdata.units.getById(104));
+                break;
+            case 918: // Brown Rock (AOF) / Monk With Relic (AOFE)
+                // change to Rock (104)
+                unit->setType(esdata.units.getById(623));
                 break;
             }
 	    }

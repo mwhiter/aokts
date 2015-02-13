@@ -352,11 +352,11 @@ void EffectItemData::GetName(char *buffer)
 	//    sprintf(buffer, "then %s", t->effects[index].getName(true).c_str());
 	//} else {
 	if (setts.displayhints) {
-	    sprintf(buffer, "%s", t->effects[index].getName(true,NameFlags::NONE).c_str());
+	    sprintf(buffer, "%s", t->effects[index].getName(true,NameFlags::LIMITLEN).c_str());
 	    // limiting this fixes a bug, but better to do this in getName
 	    //sprintf(buffer, "%.100s", t->effects[index].getName(true).c_str());
 	} else {
-	    sprintf(buffer, "E: %s", t->effects[index].getName(false,NameFlags::NONE).c_str());
+	    sprintf(buffer, "E: %s", t->effects[index].getName(false,NameFlags::LIMITLEN).c_str());
 	}
 	//}
 }

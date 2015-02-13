@@ -407,23 +407,23 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	    bool only_one_cond_or_effect = (n_effects + n_conds == 1);
 
         if (only_one_cond && only_one_effect) {
-            ss << "If " << last_cond->getName(setts.displayhints);
-            ss << " then " << last_effect->getName(setts.displayhints);
+            ss << "If " << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
+            ss << " then " << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN);
             goto theendnotext;
         }
 
         if (only_one_cond_or_effect && only_one_cond) {
-            ss << last_cond->getName(setts.displayhints);
+            ss << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
             goto theendnotext;
         }
 
         if (only_one_cond_or_effect && only_one_effect) {
-            ss << last_effect->getName(setts.displayhints);
+            ss << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN);
             goto theendnotext;
         }
 
         if (only_one_cond_or_effect && only_one_cond) {
-            ss << last_cond->getName(setts.displayhints);
+            ss << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
             goto theendnotext;
         }
 
@@ -646,7 +646,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         }
 
         if (only_one_cond && timer == -1) {
-            ss << "If " << last_cond->getName(setts.displayhints) << " ";
+            ss << "If " << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN) << " ";
         }
 
         if (e_only_1_activated && activated >= 0) {
@@ -794,7 +794,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         }
 
         if (only_one_effect) {
-            ss << last_effect->getName(setts.displayhints);
+            ss << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN);
             goto theendnotext;
         }
 

@@ -32,7 +32,7 @@ void EditEffect::update(Trigger *t)
 */
 void MakeUIDString(UID *list, int count, HWND dest)
 {
-	char buffer[0x30];
+	char buffer[0x100];
 	char *pos = buffer;
 	int ret;
 

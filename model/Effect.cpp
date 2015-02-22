@@ -589,7 +589,12 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                             if (area.left == area.right && area.top == area.bottom) {
                                 convert << "at (" << area.left << "," << area.top << ") ";
                             } else {
-                                convert << "from area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
+                                if (amount == -2147483647) {
+                                    convert << "in ";
+                                } else {
+                                    convert << "from ";
+                                }
+                                convert << "area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
                             }
                         }
                     }
@@ -620,8 +625,14 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 {
                     std::string sunit("");
                     bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
-                    if (s_player > 0) {
-                        convert << "p" << s_player << "'s ";
+                    switch (s_player) {
+                        case -1:
+                            break;
+                        case 0:
+                            convert << "Gaia ";
+                            break;
+                        default:
+                            convert << "p" << s_player << "'s ";
                     }
 	                if (num_sel > 0) {
 	                    if (num_sel == 1) {

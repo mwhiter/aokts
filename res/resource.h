@@ -119,6 +119,14 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_P_RANDOMGAME    1167
 #define IDC_P_PROMISORY     1168
 #define IDC_P_AIMODE_VAL    1169
+#define IDC_P_SWAPP1		1170
+#define IDC_P_SWAPP2		1171
+#define IDC_P_SWAPP3		1172
+#define IDC_P_SWAPP4		1173
+#define IDC_P_SWAPP5		1174
+#define IDC_P_SWAPP6		1175
+#define IDC_P_SWAPP7		1176
+#define IDC_P_SWAPP8		1177
 
 /* Global Victory Controls */
 #define IDC_V_SSTD				1300

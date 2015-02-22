@@ -188,6 +188,38 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 	case CBN_SELCHANGE:
 		switch (id)
 		{
+		case IDC_P_SWAPP1:
+		    scen.swap_players(propdata.pindex, 0);
+			LoadPlayer(dialog);
+			break;
+		case IDC_P_SWAPP2:
+		    scen.swap_players(propdata.pindex, 1);
+			LoadPlayer(dialog);
+			break;
+		case IDC_P_SWAPP3:
+		    scen.swap_players(propdata.pindex, 2);
+			LoadPlayer(dialog);
+			break;
+		case IDC_P_SWAPP4:
+		    scen.swap_players(propdata.pindex, 3);
+			LoadPlayer(dialog);
+			break;
+		case IDC_P_SWAPP5:
+		    scen.swap_players(propdata.pindex, 4);
+			LoadPlayer(dialog);
+			break;
+		case IDC_P_SWAPP6:
+		    scen.swap_players(propdata.pindex, 5);
+			LoadPlayer(dialog);
+			break;
+		case IDC_P_SWAPP7:
+		    scen.swap_players(propdata.pindex, 6);
+			LoadPlayer(dialog);
+			break;
+		case IDC_P_SWAPP8:
+		    scen.swap_players(propdata.pindex, 7);
+			LoadPlayer(dialog);
+			break;
 		case IDC_P_SP1:
 		case IDC_P_SP2:
 		case IDC_P_SP3:

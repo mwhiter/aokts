@@ -311,6 +311,7 @@ public:
 
     AOKTS_ERROR add_activation(size_t start, size_t end, size_t to);
     AOKTS_ERROR move_triggers(size_t start, size_t end, size_t to);
+    AOKTS_ERROR swap_players(int a, int b);
     AOKTS_ERROR delete_triggers(size_t start, size_t end);
     AOKTS_ERROR duplicate_triggers(size_t start, size_t end, size_t to);
     AOKTS_ERROR sync_triggers();

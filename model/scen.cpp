@@ -1350,6 +1350,38 @@ AOKTS_ERROR Scenario::move_triggers(size_t start, size_t end, size_t to) {
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::swap_players(int a, int b) {
+    std::swap(players[a], players[b]);
+
+    a++;
+    b++;
+
+    // each triggers
+	for (vector<Trigger>::iterator trig = triggers.begin(); trig != triggers.end(); ++trig) {
+	    // each effect
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        if (iter->s_player == a)
+	            iter->s_player = b;
+	        else if (iter->s_player == b)
+	            iter->s_player = a;
+
+	        if (iter->t_player == a)
+	            iter->t_player = b;
+	        else if (iter->t_player == b)
+	            iter->t_player = a;
+	    }
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+	        if (iter->player == a)
+	            iter->player = b;
+	        else if (iter->player == b)
+	            iter->player = a;
+        }
+	}
+
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::delete_triggers(size_t start, size_t end) {
 	size_t num = triggers.size();
 	// don't need to do this as start is unsigned: start >= 0

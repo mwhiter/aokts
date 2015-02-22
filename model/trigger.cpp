@@ -821,30 +821,40 @@ bool compare_effect_nametip(const Effect& first,
     std::string s = std::string(first.getName(true));
     std::string t = std::string(second.getName(true));
 
-    // kill must come after create (hawk explosions)
-    if (first.type == 14) {
+    // UP only -- change speed must come after create
+    if (first.type == 30 && scen.ver2 == SV2_AOE2TC) {
         s.insert (0, "create");
     }
 
-    if (second.type == 14) {
-        t.insert (0, "create");
-    }
-
-    // remove must come before create (clear way for spawn)
-    if (first.type == 15) {
+    switch (first.type) {
+    case 15: // remove must come before create (clear way for spawn)
         s.insert (0, "creat ");
-    }
-
-    if (second.type == 15) {
-        t.insert (0, "creat ");
-    }
-
-    // change ownership must come after create (non-convertible gaia)
-    if (first.type == 18) {
+        break;
+    case 14: // kill must come after create (hawk explosions)
+    case 24: // Damage
+    case 26: // Rename
+    case 27: // HP -- change stats must come after create (hawk explosions)
+    case 28: // Attack
+    case 31: // Range (UP)
+    case 32: // Mele (UP)
+    case 33: // Piercing (UP)
+    case 18: // Change Ownership must come after create (non-convertible gaia)
         s.insert (0, "create");
     }
 
-    if (second.type == 18) {
+    switch (second.type) {
+    case 15: // remove must come before create (clear way for spawn)
+        s.insert (0, "creat ");
+        break;
+    case 14: // kill must come after create (hawk explosions)
+    case 24: // Damage
+    case 26: // Rename
+    case 27: // HP -- change stats must come after create (hawk explosions)
+    case 28: // Attack
+    case 31: // Range (UP)
+    case 32: // Mele (UP)
+    case 33: // Piercing (UP)
+    case 18: // Change Ownership must come after create (non-convertible gaia)
         t.insert (0, "create");
     }
 

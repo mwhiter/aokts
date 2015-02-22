@@ -248,6 +248,24 @@ void Units_HandleDelete(HWND dialog)
 	}
 }
 
+inline int from_ecplayer(int player) {
+    if (player == 0)
+        return 8;
+    else if (player > 0)
+        return player - 1;
+    else
+        return -1;
+}
+
+inline int to_ecplayer(int player) {
+    if (player == 8)
+        return 0;
+    else if (player > 0)
+        return player + 1;
+    else
+        return -1;
+}
+
 void Units_HandleChangeOwnership(HWND dialog, unsigned int player)
 {
 	unsigned index, count, data;
@@ -265,6 +283,46 @@ void Units_HandleChangeOwnership(HWND dialog, unsigned int player)
     p->add_unit(*(propdata.p->units.begin() + u_index));
 
 	propdata.p->erase_unit(u_index);
+
+    // each triggers
+	for (vector<Trigger>::iterator trig = scen.triggers.begin(); trig != scen.triggers.end(); ++trig) {
+	    // each effect
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        // fix source player, but only when safe
+	        int s_player = from_ecplayer(iter->s_player);
+	        bool all_same = s_player == propdata.pindex;
+	        PlayersUnit pu;
+
+	        if (all_same && s_player != GAIA_INDEX) {
+	            if (iter->num_sel == 1 && iter->uids[0] == u_index) {
+	                iter->s_player = to_ecplayer(player);
+	            } else if (iter->num_sel > 1) {
+	                pu = find_map_unit(iter->uids[0]);
+	                all_same = all_same && pu.u && s_player == pu.player;
+	                for (int i = 1; i < iter->num_sel; i++) {
+	                    pu = find_map_unit(iter->uids[i]);
+	                    if (pu.u && pu.player != s_player) {
+	                        all_same = false;
+	                        break;
+	                    }
+	                }
+
+	                if (all_same) {
+	                    iter->s_player = to_ecplayer(player);
+	                }
+                }
+	        }
+	    }
+
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+	        PlayersUnit pu;
+	        pu = find_map_unit(iter->object);
+	        if (pu.u && pu.player == propdata.pindex && from_ecplayer(iter->player) == propdata.pindex) {
+	            iter->player = to_ecplayer(player);
+	        }
+        }
+	}
 
 	index = SendMessage(selbox, LB_GETCURSEL, 0, 0);
 	SendMessage(selbox, LB_DELETESTRING, index, 0);

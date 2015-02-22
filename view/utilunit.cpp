@@ -181,25 +181,25 @@ std::string get_unit_full_name(UID id)
 {
     std::ostringstream ss;
     std::string name = "";
-    PlayersUnit * fu = find_map_unit(id);
-    if (fu) {
-        std::wstring unitname(fu->u->getType()->name());
-        switch (fu->player) {
+    PlayersUnit fu = find_map_unit(id);
+    if (fu.u) {
+        std::wstring unitname(fu.u->getType()->name());
+        switch (fu.player) {
             case 8:
                 ss << "Gaia's ";
                 break;
             default:
-                ss << "p" << fu->player + 1 << "'s ";
+                ss << "p" << fu.player + 1 << "'s ";
         }
         ss << std::string(unitname.begin(), unitname.end());
         return ss.str();
-        delete fu;
     }
     return "INVALID UNIT ID";
 }
 
-PlayersUnit * find_map_unit(UID id)
+PlayersUnit find_map_unit(UID id)
 {
+    PlayersUnit ret;
 	/* Find the owner player from first UID. */
 	for (int i = 0; i < NUM_PLAYERS; i++)
 	{
@@ -207,13 +207,12 @@ PlayersUnit * find_map_unit(UID id)
 		if (pos != scen.players[i].units.size())
 		{
 		    //return &scen.players[i].units.at(pos);
-            PlayersUnit * ret = new PlayersUnit();
-            ret->player = i;
-            ret->u = &scen.players[i].units.at(pos);
+            ret.player = i;
+            ret.u = &scen.players[i].units.at(pos);
 		    return ret;
 		}
 	}
-	return NULL;
+	return ret;
 }
 
 /*

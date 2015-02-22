@@ -11,6 +11,7 @@
 #include "utilui.h"
 #include "../util/settings.h"
 #include "LCombo.h"
+#include "mapview.h"
 
 #include <commdlg.h>
 
@@ -191,34 +192,42 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		case IDC_P_SWAPP1:
 		    scen.swap_players(propdata.pindex, 0);
 			LoadPlayer(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 		case IDC_P_SWAPP2:
 		    scen.swap_players(propdata.pindex, 1);
 			LoadPlayer(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 		case IDC_P_SWAPP3:
 		    scen.swap_players(propdata.pindex, 2);
 			LoadPlayer(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 		case IDC_P_SWAPP4:
 		    scen.swap_players(propdata.pindex, 3);
 			LoadPlayer(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 		case IDC_P_SWAPP5:
 		    scen.swap_players(propdata.pindex, 4);
 			LoadPlayer(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 		case IDC_P_SWAPP6:
 		    scen.swap_players(propdata.pindex, 5);
 			LoadPlayer(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 		case IDC_P_SWAPP7:
 		    scen.swap_players(propdata.pindex, 6);
 			LoadPlayer(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 		case IDC_P_SWAPP8:
 		    scen.swap_players(propdata.pindex, 7);
 			LoadPlayer(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
 		case IDC_P_SP1:
 		case IDC_P_SP2:

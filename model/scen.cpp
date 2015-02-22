@@ -1353,6 +1353,22 @@ AOKTS_ERROR Scenario::move_triggers(size_t start, size_t end, size_t to) {
 AOKTS_ERROR Scenario::swap_players(int a, int b) {
     std::swap(players[a], players[b]);
 
+    // keep correct colors
+    long color = players[a].color;
+    players[a].color = players[b].color;
+    players[b].color = color;
+
+	// Need to fix diplomacy of all the OTHER players
+	long tempdiplo;
+	Player * p;
+	int i;
+	for (i = PLAYER1_INDEX, p = players; i < NUM_PLAYERS; i++, p++)
+	{
+	    tempdiplo = p->diplomacy[a];
+	    p->diplomacy[a] = p->diplomacy[b];
+	    p->diplomacy[b] = tempdiplo;
+	}
+
     a++;
     b++;
 

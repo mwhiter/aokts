@@ -73,11 +73,15 @@ struct PlayersUnit
 {
     int player;
     Unit * u;
+
+    PlayersUnit() : player(-1), u(NULL)
+    {
+    }
 };
 
 std::string get_unit_full_name(UID id);
 
-PlayersUnit * find_map_unit(UID id);
+PlayersUnit find_map_unit(UID id);
 
 /*
  * Displays a modal unit-selection dialog box.

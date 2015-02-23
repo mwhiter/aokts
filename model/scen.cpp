@@ -1517,6 +1517,12 @@ AOKTS_ERROR Scenario::map_copy(Buffer &to, const MapCopyCache *mcc)
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::delete_player_units(int pindex)
+{
+	players[pindex].units.clear();
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::map_paste(const POINT &to, Buffer &from)
 {
 	using std::vector;
@@ -2075,7 +2081,7 @@ AOKTS_ERROR Scenario::compress_unit_ids()
 	return ERR_none;
 }
 
-AOKTS_ERROR Scenario::randomize_unit_frames(HWND dialog)
+AOKTS_ERROR Scenario::randomize_unit_frames()
 {
     // compiler will set first array element to the value you've
     // provided (0) and all others will be set to zero because it is a

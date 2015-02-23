@@ -413,5 +413,6 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define ID_TRIGGERS_EXPAND_ALL              0xE156
 #define ID_TRIGGERS_COMPATIBILITY           0xE157
 #define ID_TRIGGERS_SAVE_PSEUDONYMS         0xE158
-#define ID_MAP_WATER_CLIFF_INVISIBLE 0xE159
-#define ID_MAP_WATER_CLIFF_VISIBLE   0xE15A
+#define ID_UNITS_DELETE_ALL                 0xE159
+#define ID_MAP_WATER_CLIFF_INVISIBLE        0xE15A
+#define ID_MAP_WATER_CLIFF_VISIBLE          0xE15B

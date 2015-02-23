@@ -371,7 +371,7 @@ void Units_HandleRandomizeRotation(HWND dialog)
     //scen.randomize_unit_frames(cnst);
 	//MessageBox(dialog, toString<int>(scen.perversion->max_unit).c_str(), "", MB_ICONERROR);
 
-    //scen.randomize_unit_frames(dialog); // done in aokts
+    //scen.randomize_unit_frames(); // done in aokts
   	Units_Load(dialog);
 }
 
@@ -601,6 +601,10 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		case IDC_U_RANDOMIZE_ROT:
 			Units_HandleRandomizeRotation(dialog);
 			break;
+
+	    case ID_UNITS_DELETE_ALL:
+			Units_Reset(dialog);
+		    break;
 
 		case IDC_U_DEL:			//BN_CLICKED
 		case ID_EDIT_DELETE:	//accelerator

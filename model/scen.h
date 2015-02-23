@@ -291,6 +291,8 @@ public:
 	*/
 	AOKTS_ERROR map_copy(Buffer &to, const MapCopyCache *mcc);
 
+    AOKTS_ERROR delete_player_units(int pindex);
+
 	/*	map_paste: "pastes" terrain and units from a buffer to a specified point.
 
 		Note: The buffer should have been filled by map_copy.
@@ -306,7 +308,7 @@ public:
     AOKTS_ERROR map_swap(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_scale(const RECT &area, const float scale);
     AOKTS_ERROR water_cliffs_visibility(const bool visibility);
-    AOKTS_ERROR randomize_unit_frames(HWND dialog);
+    AOKTS_ERROR randomize_unit_frames();
     AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);
     AOKTS_ERROR map_duplicate(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
 

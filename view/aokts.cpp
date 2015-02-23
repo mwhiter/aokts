@@ -846,7 +846,14 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		break;
 
 	case IDC_U_RANDOMIZE_ROT:
+	    scen.randomize_unit_frames();
 		SetWindowText(propdata.statusbar, "Randomized unit frames and rotations");
+		break;
+
+	case ID_UNITS_DELETE_ALL:
+		scen.delete_player_units(propdata.pindex);
+		SetWindowText(propdata.statusbar, "Player's units deleted");
+	    SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 		break;
 
 	case ID_MAP_WATER_CLIFF_INVISIBLE:

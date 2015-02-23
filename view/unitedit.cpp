@@ -9,6 +9,7 @@
 #include "editors.h"
 
 #include "../util/settings.h"
+#include "../util/helper.h"
 
 #include <stdio.h>
 #include "../res/resource.h"
@@ -246,24 +247,6 @@ void Units_HandleDelete(HWND dialog)
 		ENABLE_WND(IDC_U_DESELECT, false);
 		u_index = SIZE_MAX;
 	}
-}
-
-inline int from_ecplayer(int player) {
-    if (player == 0)
-        return 8;
-    else if (player > 0)
-        return player - 1;
-    else
-        return -1;
-}
-
-inline int to_ecplayer(int player) {
-    if (player == 8)
-        return 0;
-    else if (player > 0)
-        return player + 1;
-    else
-        return -1;
 }
 
 void Units_HandleChangeOwnership(HWND dialog, unsigned int player)

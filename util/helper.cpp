@@ -100,4 +100,3 @@ std::string time_string(unsigned int seconds, bool shortened) {
     }
     return convert.str();
 }
-

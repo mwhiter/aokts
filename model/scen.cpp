@@ -13,6 +13,7 @@
 #include "../util/utilio.h"
 #include "../util/settings.h"
 #include "../util/Buffer.h"
+#include "../util/helper.h"
 
 #include <direct.h>
 #include <string.h>
@@ -1369,8 +1370,8 @@ AOKTS_ERROR Scenario::swap_players(int a, int b) {
 	    p->diplomacy[b] = tempdiplo;
 	}
 
-    a++;
-    b++;
+    a = to_ecplayer(a);
+    b = to_ecplayer(b);
 
     // each triggers
 	for (vector<Trigger>::iterator trig = triggers.begin(); trig != triggers.end(); ++trig) {

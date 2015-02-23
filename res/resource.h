@@ -127,6 +127,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_P_SWAPP6		1175
 #define IDC_P_SWAPP7		1176
 #define IDC_P_SWAPP8		1177
+#define IDC_P_SWAPGA		1178
 
 /* Global Victory Controls */
 #define IDC_V_SSTD				1300

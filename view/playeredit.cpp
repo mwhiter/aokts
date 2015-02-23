@@ -229,6 +229,11 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			LoadPlayer(dialog);
 			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
+		case IDC_P_SWAPGA:
+		    scen.swap_players(propdata.pindex, 8);
+			LoadPlayer(dialog);
+			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+			break;
 		case IDC_P_SP1:
 		case IDC_P_SP2:
 		case IDC_P_SP3:

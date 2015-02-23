@@ -869,6 +869,11 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		SetWindowText(propdata.statusbar, "Trigger names removed");
 		break;
 
+	case ID_TRIGGERS_SAVE_PSEUDONYMS:
+		scen.save_pseudonyms();
+		SetWindowText(propdata.statusbar, "Pseudonyms saved");
+		break;
+
 	case ID_TRIGGERS_HIDE_DESCRIPTIONS:
 		scen.remove_trigger_descriptions();
 		SetWindowText(propdata.statusbar, "Trigger descriptions removed");

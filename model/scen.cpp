@@ -1680,6 +1680,25 @@ AOKTS_ERROR Scenario::remove_trigger_descriptions()
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::save_pseudonyms()
+{
+	long num = triggers.size();
+	if (num > 0) {
+	    Trigger *trig = &(*triggers.begin());
+
+        // triggers
+	    long i = num;
+	    while (i--)
+	    {
+	        strncpy ( trig->name, trig->getName(true, true, 2).c_str(), 128 );
+	        trig->name[128] = '\0';
+		    trig++;
+	    }
+	}
+
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::swap_trigger_names_descriptions()
 {
 	long num = triggers.size();

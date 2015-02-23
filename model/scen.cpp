@@ -1267,6 +1267,20 @@ private:
 	RECT _rect;
 };
 
+// Recursive 4-way floodfill, crashes if recursion stack is full
+void Scenario::floodFill4(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst)
+{
+    if(x >= 0 && x < map.x && y >= 0 && y < map.y && map.terrain[x][y].cnst == oldcnst && map.terrain[x][y].cnst != newcnst)
+    {
+        map.terrain[x][y].cnst = newcnst; //set color before starting recursion!
+
+        floodFill4(x + 1, y,     newcnst, oldcnst);
+        floodFill4(x - 1, y,     newcnst, oldcnst);
+        floodFill4(x,     y + 1, newcnst, oldcnst);
+        floodFill4(x,     y - 1, newcnst, oldcnst);
+    }
+}
+
 int Scenario::map_size(const RECT &source, MapCopyCache *&mcc)
 {
 	Player *p;

@@ -258,6 +258,8 @@ public:
 	 */
 	void accept(TriggerVisitor&);
 
+    void floodFill4(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst);
+
 	/*	map_size: returns size of memory needed to copy rectangle.
 
 		WARNING: This function assumes source is a valid rectangle, ie. (top < bottom &&

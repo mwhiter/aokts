@@ -198,6 +198,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_TR_REPEAT_TERRAIN       1444
 #define IDC_TR_REPEAT_ELEV          1445
 #define IDC_TR_CONST			    1446
+#define IDC_TR_FLOOD			    1447
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

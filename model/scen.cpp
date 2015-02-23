@@ -1272,7 +1272,7 @@ void Scenario::floodFill4(unsigned long x, unsigned long y, unsigned char newcns
 {
     if(x >= 0 && x < map.x && y >= 0 && y < map.y && map.terrain[x][y].cnst == oldcnst && map.terrain[x][y].cnst != newcnst)
     {
-        map.terrain[x][y].cnst = newcnst; //set color before starting recursion!
+        map.terrain[x][y].cnst = newcnst;
 
         floodFill4(x + 1, y,     newcnst, oldcnst);
         floodFill4(x - 1, y,     newcnst, oldcnst);

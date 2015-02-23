@@ -122,7 +122,7 @@ BEGIN
         MENUITEM "Randomize look (rotation and frame)", IDC_U_RANDOMIZE_ROT
         MENUITEM "Make water cliffs invisible", ID_MAP_WATER_CLIFF_INVISIBLE
         MENUITEM "Make water cliffs visible (frame=1, rotation=1)", ID_MAP_WATER_CLIFF_VISIBLE
-        MENUITEM "Delete all player's units", ID_UNITS_DELETE_ALL
+        MENUITEM "Delete all player's units",   ID_UNITS_DELETE_ALL
     END
     POPUP "&Triggers"
     BEGIN
@@ -338,7 +338,7 @@ BEGIN
     COMBOBOX        IDC_TR_AITYPE,48,32,118,72,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Run After Shrinking:",IDC_STATIC,17,52,68,10
     PUSHBUTTON      "Force Trigger Bounds",IDC_TR_FIXTRIGGEROUTLIERS,85,49,81,14
-    GROUPBOX        "Selected Tile",IDC_STATIC,10,76,165,112
+    GROUPBOX        "Selected Tile",IDC_STATIC,10,76,165,126
     LTEXT           "X:",IDC_STATIC,26,92,8,8
     EDITTEXT        IDC_TR_TX,35,90,24,12,ES_NUMBER
     LTEXT           "Y:",IDC_STATIC,26,107,8,8
@@ -348,7 +348,7 @@ BEGIN
     LTEXT           "Normal range 0-6 ",IDC_STATIC,16,136,60,8
     PUSHBUTTON      "Save Tile",IDC_TR_SAVETILE,16,147,55,15
     PUSHBUTTON      "Normalize",IDC_TR_NORMALIZE_ELEV,16,164,55,15
-    LISTBOX         IDC_TR_ID,80,100,85,79,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_TR_ID,80,100,85,96,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Operations",IDC_STATIC,219,1,196,317
     RTEXT           "From (L,B):",IDC_STATIC,222,16,40,10
     EDITTEXT        IDC_TR_MMX1,266,15,18,12,ES_NUMBER
@@ -387,6 +387,7 @@ BEGIN
     PUSHBUTTON      "Scale",IDC_TR_SCALE,294,196,45,15,WS_DISABLED
     LTEXT           "Constant:",IDC_STATIC,80,87,31,8
     LTEXT           "CNST",IDC_TR_CONST,112,87,20,10
+    PUSHBUTTON      "Flood Fill",IDC_TR_FLOOD,15,182,55,15
 END
 
 IDD_UNITS DIALOGEX 0, 0, 419, 321

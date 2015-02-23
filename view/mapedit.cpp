@@ -524,9 +524,21 @@ void Map_HandleMapDuplicate(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
+void Map_HandleFloodFill(HWND dialog)
+{
+    // remember, y is inverted on map
+    int xpos = propdata.sel0;
+    int ypos = propdata.sel1;
+
+    scen.floodFill4(xpos, ypos, static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
+            scen.map.terrain[xpos][ypos].cnst);
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
 void Map_HandleNormalizeElevation(HWND dialog)
 {
-    // remember, y is iverted on map
+    // remember, y is inverted on map
     int xpos = propdata.sel0;
     int ypos = propdata.sel1;
     int xpos_temp = 0;
@@ -835,6 +847,11 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		    Map_SaveTile(dialog);
 			Map_HandleNormalizeElevation(dialog);
 		    SetWindowText(propdata.statusbar, "Elevation of tile normalized");
+			break;
+
+		case IDC_TR_FLOOD:
+			Map_HandleFloodFill(dialog);
+		    SetWindowText(propdata.statusbar, "Filled terrain");
 			break;
 		}
 

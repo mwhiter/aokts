@@ -24,7 +24,7 @@ inline int from_ecplayer(int player) {
 inline int to_ecplayer(int player) {
     if (player == 8)
         return 0;
-    else if (player > 0)
+    else if (player >= 0)
         return player + 1;
     else
         return -1;

@@ -1751,9 +1751,9 @@ Note: Due to my own laziness, these _must_ be in ID order, meaning
 also that you can't skip IDs. Also, ref is reverse-order (BGR) as
 usual.
 -->
-<terrain id="0" color="279933" name="Grass 1" />
+<terrain id="0" color="279933" name="Grass 1 (default terrain)" />
 <terrain id="1" color="B65D30" name="Water, Shallow" />
-<terrain id="2" color="78B4E8" name="Beach" />
+<terrain id="2" color="78B4E8" name="Beach (no buildings)" />
 <terrain id="3" color="52A2E4" name="Dirt 3" />
 <terrain id="4" color="B09254" name="Shallows" />
 <terrain id="5" color="279933" name="Leaves" />
@@ -1766,32 +1766,33 @@ usual.
 <terrain id="12" color="279933" name="Grass 2" />
 <terrain id="13" color="157615" name="Palm Desert" />
 <terrain id="14" color="78B4E8" name="Desert" />
-<terrain id="15" color="B65D30" name="Water (Other)" />
-<terrain id="16" color="279933" name="Grass 1 (Other)" />
+<terrain id="15" color="B65D30" name="Water (not dockable)" />
+<terrain id="16" color="279933" name="Grass 1 (buildings, only siege can move)" />
 <terrain id="17" color="157615" name="Jungle" />
 <terrain id="18" color="157615" name="Bamboo" />
 <terrain id="19" color="157615" name="Pine Forest" />
-<terrain id="20" color="157615" name="Oak Forest" />
+<terrain id="20" color="157615" name="Forest (says oak forest when clicking tree)" />
 <terrain id="21" color="157615" name="Snow Pine Forest" />
 <terrain id="22" color="BB4A00" name="Water, Deep" />
 <terrain id="23" color="BB4A00" name="Water, Medium" />
 <terrain id="24" color="52A2E4" name="Road" />
 <terrain id="25" color="52A2E4" name="Road, Broken" />
-<terrain id="26" color="49ECFF" name="Ice (Other)" />
-<terrain id="27" color="52A2E4" name="Dirt 2 (Building)" />
-<terrain id="28" color="B65D30" name="Water (Bridge)" />
+<terrain id="26" color="49ECFF" name="Ice (no ships)" />
+<terrain id="27" color="52A2E4" name="Dirt 2 (no beach, building residue, dockable)" />
+<terrain id="28" color="B65D30" name="Water, Bridge (walkable, no ships)" />
 <terrain id="29" color="4d8882" name="Farm 1" />
 <terrain id="30" color="4d8882" name="Farm 2" />
 <terrain id="31" color="4d8882" name="Farm 3" />
 <terrain id="32" color="FFD8C8" name="Snow" />
 <terrain id="33" color="FFD8C8" name="Snow Dirt" />
 <terrain id="34" color="FFD8C8" name="Snow Grass" />
-<terrain id="35" color="F0C098" name="Ice" />
-<terrain id="36" color="FFD8C8" name="Snow Dirt (Building)" />
-<terrain id="37" color="F0C098" name="Ice (Beach)" />
+<terrain id="35" color="F0C098" name="Ice (allows ships)" />
+<terrain id="36" color="FFD8C8" name="Snow Dirt (building residue)" />
+<terrain id="37" color="F0C098" name="Ice (allows ships, build walls only)" />
 <terrain id="38" color="FFD8C8" name="Road, Snow" />
 <terrain id="39" color="FFD8C8" name="Road, Fungus" />
-<terrain id="40" color="52A2E4" name="Road (Other)" />
+<terrain id="40" color="52A2E4" name="Rock / Road (no buildings)" />
+<terrain id="41" color="222222" name="Grass 1 (black on map)" />
 </terrains>
 
 <!-- The following are custom unit groups. They have no effect on the saved scenario,

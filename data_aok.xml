@@ -1762,22 +1762,22 @@ also that you can't skip IDs. Also, ref is reverse-order (BGR) as
 usual.
 -->
 <terrain id="0" color="279933" name="Grass 1 (default terrain)" />
-<terrain id="1" color="b65d30" name="Water, Shallow" />
+<terrain id="1" color="C55d30" name="Water, Shallow" />
 <terrain id="2" color="48c0e8" name="Beach (no buildings)" />
-<terrain id="3" color="52a2e4" name="Dirt 3" />
+<terrain id="3" color="52a2e4" name="Dirt 3 (grassy)" />
 <terrain id="4" color="b09254" name="Shallows" />
 <terrain id="5" color="475093" name="Leaves" />
-<terrain id="6" color="6090d4" name="Dirt 1" />
+<terrain id="6" color="6090d4" name="Dirt 1 (brown with occasional cactus)" />
 <terrain id="7" color="4d8882" name="Farm" />
 <terrain id="8" color="1d3832" name="Dead Farm" />
-<terrain id="9" color="30cc40" name="Grass 3" />
+<terrain id="9" color="276033" name="Grass 3 (brownish)" />
 <terrain id="10" color="157615" name="Forest" />
-<terrain id="11" color="40a0f0" name="Dirt 2" />
-<terrain id="12" color="276033" name="Grass 2" />
+<terrain id="11" color="40a0f0" name="Dirt 2 (dirt grass mixture)" />
+<terrain id="12" color="30cc40" name="Grass 2 (lush / very green)" />
 <terrain id="13" color="159030" name="Palm Desert" />
-<terrain id="14" color="78b4e8" name="Desert" />
+<terrain id="14" color="78b4e8" name="Desert (sandy and light colored)" />
 <terrain id="15" color="a06030" name="Water (not dockable)" />
-<terrain id="16" color="27C033" name="Grass 1 (buildings, only siege can move)" />
+<terrain id="16" color="27C033" name="Looks like Grass 1 (can build, only siege can move)" />
 <terrain id="17" color="157635" name="Jungle" />
 <terrain id="18" color="157655" name="Bamboo" />
 <terrain id="19" color="208020" name="Pine Forest" />
@@ -1802,7 +1802,7 @@ usual.
 <terrain id="38" color="ffd8d8" name="Road, Snow" />
 <terrain id="39" color="eff8c8" name="Road, Fungus" />
 <terrain id="40" color="90a2e4" name="Rock / Road (no buildings)" />
-<terrain id="41" color="333333" name="Grass 1 (black on map)" />
+<terrain id="41" color="333333" name="Looks like grass 1 (nobuild, crazy pathfinding, black on map)" />
 </terrains>
 
 <!-- The following are custom unit groups. They have no effect on the saved scenario,

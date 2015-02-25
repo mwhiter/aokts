@@ -577,15 +577,24 @@ WS - Work Speed
 
 <pcolors>
 <!-- Player colors. Note that the ref attribute is reverse-order. -->
-<color id="0" name="Blue" color="FF3300" />
-<color id="1" name="Red" color="0000FF" />
-<color id="2" name="Green" color="00FF00" />
-<color id="3" name="Yellow" color="00FFFF" />
-<color id="4" name="Cyan" color="FFFF00" />
-<color id="5" name="Purple" color="FF00FF" />
-<color id="6" name="White" color="FFFFFF" />
-<color id="7" name="Orange" color="0077FF" />
-<color id="8" name="Dark Green" color="004400" />
+<color id="0" name="Blue"
+	color="FF3300" />
+<color id="1" name="Red"
+	color="0000FF" />
+<color id="2" name="Green"
+	color="00FF00" />
+<color id="3" name="Yellow"
+	color="00FFFF" />
+<color id="4" name="Cyan"
+	color="FFFF00" />
+<color id="5" name="Purple"
+	color="FF00FF" />
+<color id="6" name="White"
+	color="FFFFFF" />
+<color id="7" name="Orange"
+	color="0077FF" />
+<color id="8" name="Dark Green"
+	color="004400" />
 </pcolors>
 
 <units>
@@ -650,7 +659,7 @@ WS - Work Speed
 <protounit id="58" name="Fisher, M D" />
 <protounit id="59" name="Forage Bush" />
 <protounit id="60" name="Fisher, F D" />
-<protounit id="61" name="Dolphin" />
+<protounit id="61" name="Trireme / Dolphin" />
 <protounit id="62" name="Huskarl, D" />
 <protounit id="63" name="Gate, AA3" />
 <protounit id="64" name="Gate, AA2" />
@@ -683,7 +692,7 @@ WS - Work Speed
 <protounit id="91" name="Gate, BB2" />
 <protounit id="92" name="Gate, BC3" />
 <protounit id="93" name="Spearman" />
-<protounit id="94" name="Berserk 2" />
+<protounit id="94" name="Hoplite" /><!-- Berserk 2 -->
 <protounit id="95" name="Gate, BC2" />
 <protounit id="96" name="Hawk" />
 <protounit id="97" name="Arrow 1" />
@@ -1489,6 +1498,7 @@ WS - Work Speed
 <protounit id="897" name="Camel 2" />
 <protounit id="898" name="Camel 2, D" />
 <protounit id="899" name="Arch of Constantine" />
+
 <protounit id="904" name="Wooden Bridge A Top" />
 <protounit id="905" name="Wooden Bridge A Middle" />
 <protounit id="906" name="Wooden Bridge A Bottom" />

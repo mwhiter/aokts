@@ -1282,7 +1282,7 @@ void Scenario::outline(unsigned long x, unsigned long y, unsigned char newcnst, 
         outlineDraw(x,y,TEMPTERRAIN2,oldcnst, flags);
         swapTerrain(newcnst, TEMPTERRAIN2);
     } else {
-        outlineDraw(x,y,newcnst,oldcnst);
+        outlineDraw(x,y,newcnst,oldcnst, flags);
     }
 }
 
@@ -1301,6 +1301,7 @@ unsigned char Scenario::outlineDraw(unsigned long x, unsigned long y, unsigned c
 
     if (map.terrain[x][y].cnst == TEMPTERRAIN) {
         map.terrain[x][y].cnst = oldcnst;
+
         unsigned char t1 = outlineDraw(x - 1, y + 1, newcnst, oldcnst, flags);
         unsigned char t2 = outlineDraw(x + 1, y - 1, newcnst, oldcnst, flags);
         unsigned char t3 = outlineDraw(x - 1, y - 1, newcnst, oldcnst, flags);
@@ -1310,14 +1311,20 @@ unsigned char Scenario::outlineDraw(unsigned long x, unsigned long y, unsigned c
         unsigned char t7 = outlineDraw(x + 1, y,     newcnst, oldcnst, flags);
         unsigned char t8 = outlineDraw(x,     y + 1, newcnst, oldcnst, flags);
 
-        if (    (isTerrainEdge(t1, newcnst, oldcnst) && (flags & TerrainFlags::EIGHT) ) ||
-                (isTerrainEdge(t2, newcnst, oldcnst) && (flags & TerrainFlags::EIGHT) ) ||
-                (isTerrainEdge(t3, newcnst, oldcnst) && (flags & TerrainFlags::EIGHT) ) ||
-                (isTerrainEdge(t4, newcnst, oldcnst) && (flags & TerrainFlags::EIGHT) ) ||
-                (isTerrainEdge(t5, newcnst, oldcnst)) ||
-                (isTerrainEdge(t6, newcnst, oldcnst)) ||
-                (isTerrainEdge(t7, newcnst, oldcnst)) ||
-                (isTerrainEdge(t8, newcnst, oldcnst))) {
+        bool colorit =  isTerrainEdge(t5, newcnst, oldcnst) ||
+                        isTerrainEdge(t6, newcnst, oldcnst) ||
+                        isTerrainEdge(t7, newcnst, oldcnst) ||
+                        isTerrainEdge(t8, newcnst, oldcnst);
+
+        if (flags & TerrainFlags::EIGHT) {
+            colorit = colorit ||
+                        isTerrainEdge(t1, newcnst, oldcnst) ||
+                        isTerrainEdge(t2, newcnst, oldcnst) ||
+                        isTerrainEdge(t3, newcnst, oldcnst) ||
+                        isTerrainEdge(t4, newcnst, oldcnst);
+        }
+
+        if (colorit) {
             map.terrain[x][y].cnst = newcnst;
         }
     }

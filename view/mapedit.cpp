@@ -560,6 +560,18 @@ void Map_HandleStrictOutline(HWND dialog)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
+void Map_HandleOutlineEight(HWND dialog)
+{
+    // remember, y is inverted on map
+    int xpos = propdata.sel0;
+    int ypos = propdata.sel1;
+
+    scen.outline(xpos, ypos, static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
+            scen.map.terrain[xpos][ypos].cnst, TerrainFlags::EIGHT);
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
 void Map_HandleStrictOutlineEight(HWND dialog)
 {
     // remember, y is inverted on map
@@ -909,6 +921,11 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_TR_OUTLINE_FORCE:
 			Map_HandleStrictOutline(dialog);
+		    SetWindowText(propdata.statusbar, "Outlined terrain");
+			break;
+
+		case IDC_TR_OUTLINE_EIGHT:
+			Map_HandleOutlineEight(dialog);
 		    SetWindowText(propdata.statusbar, "Outlined terrain");
 			break;
 

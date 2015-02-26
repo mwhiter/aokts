@@ -1267,28 +1267,57 @@ private:
 	RECT _rect;
 };
 
-void Scenario::outline(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst) {
+void Scenario::swapTerrain(unsigned char newcnst, unsigned char oldcnst) {
+	for (LONG i = 0; i < map.x; i++) {
+		for (LONG j = 0; j < map.y; j++) {
+		    if (map.terrain[i][j].cnst == oldcnst)
+		        map.terrain[i][j].cnst = newcnst;
+		}
+	}
+}
+
+void Scenario::outline(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst, TerrainFlags::Value flags) {
     floodFill4(x,y,TEMPTERRAIN,oldcnst);
-    outlineDraw(x,y,newcnst,oldcnst);
+    if (flags & TerrainFlags::FORCE) {
+        outlineDraw(x,y,TEMPTERRAIN2,oldcnst, flags);
+        swapTerrain(newcnst, TEMPTERRAIN2);
+    } else {
+        outlineDraw(x,y,newcnst,oldcnst);
+    }
+}
+
+bool Scenario::isTerrainEdge(unsigned char cnst, unsigned char newcnst, unsigned char oldcnst) {
+    return (cnst != oldcnst &&
+            cnst != TEMPTERRAIN &&
+            cnst != newcnst);
 }
 
 // Recursive outline
-unsigned char Scenario::outlineDraw(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst)
+// Make this 9-way rather than 4
+unsigned char Scenario::outlineDraw(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst, TerrainFlags::Value flags)
 {
     if (!(x >= 0 && x < map.x && y >= 0 && y < map.y))
         return OUTOFBOUNDS;
 
     if (map.terrain[x][y].cnst == TEMPTERRAIN) {
         map.terrain[x][y].cnst = oldcnst;
-        unsigned char t1 = outlineDraw(x + 1, y,     newcnst, oldcnst);
-        unsigned char t2 = outlineDraw(x - 1, y,     newcnst, oldcnst);
-        unsigned char t3 = outlineDraw(x,     y + 1, newcnst, oldcnst);
-        unsigned char t4 = outlineDraw(x,     y - 1, newcnst, oldcnst);
+        unsigned char t1 = outlineDraw(x - 1, y + 1, newcnst, oldcnst, flags);
+        unsigned char t2 = outlineDraw(x + 1, y - 1, newcnst, oldcnst, flags);
+        unsigned char t3 = outlineDraw(x - 1, y - 1, newcnst, oldcnst, flags);
+        unsigned char t4 = outlineDraw(x + 1, y + 1, newcnst, oldcnst, flags);
+        unsigned char t5 = outlineDraw(x,     y - 1, newcnst, oldcnst, flags);
+        unsigned char t6 = outlineDraw(x - 1, y,     newcnst, oldcnst, flags);
+        unsigned char t7 = outlineDraw(x + 1, y,     newcnst, oldcnst, flags);
+        unsigned char t8 = outlineDraw(x,     y + 1, newcnst, oldcnst, flags);
 
-        if (    (t1 != oldcnst && t1 != newcnst) ||
-                (t2 != oldcnst && t2 != newcnst) ||
-                (t3 != oldcnst && t3 != newcnst) ||
-                (t4 != oldcnst && t4 != newcnst) ) {
+        if (    (isTerrainEdge(t1, newcnst, oldcnst) && (flags & TerrainFlags::EIGHT) ) ||
+                (isTerrainEdge(t2, newcnst, oldcnst) && (flags & TerrainFlags::EIGHT) ) ||
+                (isTerrainEdge(t3, newcnst, oldcnst) && (flags & TerrainFlags::EIGHT) ) ||
+                (isTerrainEdge(t4, newcnst, oldcnst) && (flags & TerrainFlags::EIGHT) ) ||
+                (isTerrainEdge(t5, newcnst, oldcnst)) ||
+                (isTerrainEdge(t6, newcnst, oldcnst)) ||
+                (isTerrainEdge(t7, newcnst, oldcnst)) ||
+                (isTerrainEdge(t8, newcnst, oldcnst))) {
             map.terrain[x][y].cnst = newcnst;
         }
     }

@@ -14,7 +14,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0.27"
+#define VER_STRING "1.2.0.28"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -200,6 +200,9 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_TR_CONST			    1446
 #define IDC_TR_FLOOD			    1447
 #define IDC_TR_OUTLINE      	    1448
+#define IDC_TR_OUTLINE_FORCE   	    1449
+#define IDC_TR_SWAP_TERRAIN_TYPES   1450
+#define IDC_TR_OUTLINE_FORCE_EIGHT  1451
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

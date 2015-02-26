@@ -44,6 +44,14 @@ struct AOKFile
 	SString data;
 };
 
+struct TerrainFlags {
+    enum Value{
+        NONE                           = 0x00,
+        FORCE                          = 0x01,
+        EIGHT                          = 0x02,
+    };
+};
+
 struct OpFlags {
     enum Value{
         TERRAIN                        = 0x01,
@@ -160,6 +168,8 @@ class Scenario
 	 */
 	int write_data(const char *path);
 
+    bool isTerrainEdge(unsigned char cnst, unsigned char newcnst, unsigned char oldcnst);
+
 public:
 	const PerVersion *perversion;	//yes, I know that's a word. :-P
 
@@ -259,9 +269,11 @@ public:
 	void accept(TriggerVisitor&);
 
     static const unsigned char TEMPTERRAIN = (unsigned char)(-1);
+    static const unsigned char TEMPTERRAIN2 = (unsigned char)(-3);
     static const unsigned char OUTOFBOUNDS = (unsigned char)(-2);
-    void outline(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst);
-    unsigned char outlineDraw(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst);
+    void swapTerrain(unsigned char newcnst, unsigned char oldcnst);
+    void outline(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst, TerrainFlags::Value flags=TerrainFlags::NONE);
+    unsigned char outlineDraw(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst, TerrainFlags::Value flags=TerrainFlags::NONE);
     void floodFill4(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst);
 
 	/*	map_size: returns size of memory needed to copy rectangle.

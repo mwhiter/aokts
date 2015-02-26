@@ -45,8 +45,8 @@ IDI_LOGO                ICON                    "aokts.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,27
- PRODUCTVERSION 1,2,0,27
+ FILEVERSION 1,2,0,28
+ PRODUCTVERSION 1,2,0,28
  FILEFLAGSMASK 0x0L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -63,13 +63,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Created by David Tombs (DiGiT)"
             VALUE "FileDescription", "TS executable"
-            VALUE "FileVersion", "1.2.0.27"
+            VALUE "FileVersion", "1.2.0.28"
             VALUE "InternalName", "ts"
             VALUE "LegalCopyright", "Copyright (c) David Tombs 2010. See readme.txt."
             VALUE "LegalTrademarks", "Age of Empires II is a legal trademark of Microsoft Corporation."
             VALUE "OriginalFilename", "ts.exe"
             VALUE "ProductName", "Trigger Studio"
-            VALUE "ProductVersion", "1.2.0.27"
+            VALUE "ProductVersion", "1.2.0.28"
         END
     END
     BLOCK "VarFileInfo"
@@ -189,7 +189,7 @@ BEGIN
     CONTROL         202,IDC_STATIC,"Static",SS_BITMAP,8,8,21,20
     LTEXT           "Trigger Studio",IDC_STATIC,48,8,122,10
     LTEXT           "Version:",IDC_STATIC,179,8,48,8
-    LTEXT           "1.2.0.27",IDC_STATIC,179,16,52,8
+    LTEXT           "1.2.0.28",IDC_STATIC,179,16,52,8
     DEFPUSHBUTTON   "OK",IDOK,179,54,48,14
     LTEXT           "Created by David Tombs (DiGiT)",IDC_STATIC,48,21,122,11
     LTEXT           "1.0.2 by danielpereira",IDC_STATIC,48,34,122,9
@@ -350,6 +350,9 @@ BEGIN
     PUSHBUTTON      "Normalize",IDC_TR_NORMALIZE_ELEV,16,164,55,15
     PUSHBUTTON      "Flood Fill",IDC_TR_FLOOD,15,182,55,15
     PUSHBUTTON      "Outline",IDC_TR_OUTLINE,15,200,55,15
+    PUSHBUTTON      "Strict Outline",IDC_TR_OUTLINE_FORCE,15,218,55,15
+    PUSHBUTTON      "Swap Type",IDC_TR_SWAP_TERRAIN_TYPES,15,236,55,15
+    PUSHBUTTON      "8-way Strict Outline",IDC_TR_OUTLINE_FORCE,15,254,55,15
     LISTBOX         IDC_TR_ID,80,100,197,96,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Operations",IDC_STATIC,289,1,125,317
     RTEXT           "From (L,B):",IDC_STATIC,292,15,40,10

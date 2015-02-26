@@ -536,6 +536,42 @@ void Map_HandleOutline(HWND dialog)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
+void Map_HandleSwapTerrainTypes(HWND dialog)
+{
+    // remember, y is inverted on map
+    int xpos = propdata.sel0;
+    int ypos = propdata.sel1;
+
+    scen.swapTerrain(static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
+            scen.map.terrain[xpos][ypos].cnst);
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
+void Map_HandleStrictOutline(HWND dialog)
+{
+    // remember, y is inverted on map
+    int xpos = propdata.sel0;
+    int ypos = propdata.sel1;
+
+    scen.outline(xpos, ypos, static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
+            scen.map.terrain[xpos][ypos].cnst, TerrainFlags::FORCE);
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
+void Map_HandleStrictOutlineEight(HWND dialog)
+{
+    // remember, y is inverted on map
+    int xpos = propdata.sel0;
+    int ypos = propdata.sel1;
+
+    scen.outline(xpos, ypos, static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
+            scen.map.terrain[xpos][ypos].cnst, (TerrainFlags::Value)(TerrainFlags::FORCE | TerrainFlags::EIGHT));
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
 void Map_HandleFloodFill(HWND dialog)
 {
     // remember, y is inverted on map
@@ -869,6 +905,21 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		case IDC_TR_OUTLINE:
 			Map_HandleOutline(dialog);
 		    SetWindowText(propdata.statusbar, "Outlined terrain");
+			break;
+
+		case IDC_TR_OUTLINE_FORCE:
+			Map_HandleStrictOutline(dialog);
+		    SetWindowText(propdata.statusbar, "Outlined terrain");
+			break;
+
+		case IDC_TR_OUTLINE_FORCE_EIGHT:
+			Map_HandleStrictOutlineEight(dialog);
+		    SetWindowText(propdata.statusbar, "Outlined terrain");
+			break;
+
+		case IDC_TR_SWAP_TERRAIN_TYPES:
+			Map_HandleSwapTerrainTypes(dialog);
+		    SetWindowText(propdata.statusbar, "Swapped terrain types");
 			break;
 		}
 

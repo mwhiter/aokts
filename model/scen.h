@@ -258,6 +258,10 @@ public:
 	 */
 	void accept(TriggerVisitor&);
 
+    static const unsigned char TEMPTERRAIN = (unsigned char)(-1);
+    static const unsigned char OUTOFBOUNDS = (unsigned char)(-2);
+    void outline(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst);
+    unsigned char outlineDraw(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst);
     void floodFill4(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst);
 
 	/*	map_size: returns size of memory needed to copy rectangle.

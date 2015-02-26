@@ -1267,6 +1267,35 @@ private:
 	RECT _rect;
 };
 
+void Scenario::outline(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst) {
+    floodFill4(x,y,TEMPTERRAIN,oldcnst);
+    outlineDraw(x,y,newcnst,oldcnst);
+}
+
+// Recursive outline
+unsigned char Scenario::outlineDraw(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst)
+{
+    if (!(x >= 0 && x < map.x && y >= 0 && y < map.y))
+        return OUTOFBOUNDS;
+
+    if (map.terrain[x][y].cnst == TEMPTERRAIN) {
+        map.terrain[x][y].cnst = oldcnst;
+        unsigned char t1 = outlineDraw(x + 1, y,     newcnst, oldcnst);
+        unsigned char t2 = outlineDraw(x - 1, y,     newcnst, oldcnst);
+        unsigned char t3 = outlineDraw(x,     y + 1, newcnst, oldcnst);
+        unsigned char t4 = outlineDraw(x,     y - 1, newcnst, oldcnst);
+
+        if (    (t1 != oldcnst && t1 != newcnst) ||
+                (t2 != oldcnst && t2 != newcnst) ||
+                (t3 != oldcnst && t3 != newcnst) ||
+                (t4 != oldcnst && t4 != newcnst) ) {
+            map.terrain[x][y].cnst = newcnst;
+        }
+    }
+
+    return map.terrain[x][y].cnst;
+}
+
 // Recursive 4-way floodfill, crashes if recursion stack is full
 void Scenario::floodFill4(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst)
 {

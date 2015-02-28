@@ -454,7 +454,7 @@ const char *Condition::types[] =
 	"Destroy Object",
 	"Capture Object",
 	"Accumulate Attribute",
-	"Research Technology",
+	"Researched Technology",
 	"Timer",
 	"Object Selected",
 	"AI Signal",

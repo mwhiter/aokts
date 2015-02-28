@@ -1064,3 +1064,31 @@ const char *Effect::types_short_aohd[] =
 	"Disable Unit",
 	"Flash Objects"
 };
+
+const char *Effect::virtual_types[] =
+{
+    "None",
+    "Enable Object",
+    "Disable Object",
+    "Enable Technology",
+    "Disable Technology",
+    "Enable Tech For Any Civ",
+    "Set HP",
+    "Heal Object",
+    "Set Aggressive",
+    "Set Defensive",
+    "Stand Ground",
+    "No Attack Without Halt",
+    "Resign",
+    "Flash Objects",
+    "Set AP",
+    "Set Control Group 1",
+    "Set Control Group 2",
+    "Set Control Group 3",
+    "Set Control Group 4",
+    "Set Control Group 5",
+    "Set Control Group 6",
+    "Set Control Group 7",
+    "Set Control Group 8",
+    "Set Control Group 9"
+};

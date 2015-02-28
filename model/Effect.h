@@ -8,6 +8,7 @@ class TriggerVisitor;
 
 #define NUM_EFFECTS	37	//+1 for undefined
 #define EFFECT_CONTROLS	23
+#define NUM_VIRTUAL_EFFECTS	24
 
 // Need to enforce these
 // AoC
@@ -16,6 +17,34 @@ class TriggerVisitor;
 //#define MAX_UNITSEL 40
 // HD
 #define MAX_UNITSEL 60
+
+enum EffectVirtualType
+{
+	EFFECT_VIRTUAL_None,
+	EFFECT_VIRTUAL_EnableObject,
+	EFFECT_VIRTUAL_DisableObject,
+	EFFECT_VIRTUAL_EnableTechnology,
+	EFFECT_VIRTUAL_DisableTechnology,
+	EFFECT_VIRTUAL_EnableTechnologyAnyCiv,
+	EFFECT_VIRTUAL_SetHP,
+	EFFECT_VIRTUAL_HealObject,
+	EFFECT_VIRTUAL_SetAggressive,
+	EFFECT_VIRTUAL_SetDefensive,
+	EFFECT_VIRTUAL_SetStandGround,
+	EFFECT_VIRTUAL_SetNoAttackWithoutHalt,
+	EFFECT_VIRTUAL_Resign,
+	EFFECT_VIRTUAL_FlashObjects,
+	EFFECT_VIRTUAL_SetAP,
+	EFFECT_VIRTUAL_SetControlGroup1,
+	EFFECT_VIRTUAL_SetControlGroup2,
+	EFFECT_VIRTUAL_SetControlGroup3,
+	EFFECT_VIRTUAL_SetControlGroup4,
+	EFFECT_VIRTUAL_SetControlGroup5,
+	EFFECT_VIRTUAL_SetControlGroup6,
+	EFFECT_VIRTUAL_SetControlGroup7,
+	EFFECT_VIRTUAL_SetControlGroup8,
+	EFFECT_VIRTUAL_SetControlGroup9
+};
 
 enum EffectType
 {
@@ -117,6 +146,7 @@ public:
 	static const char* types_aohd[NUM_EFFECTS];
 	static const char* types_short[NUM_EFFECTS];
 	static const char* types_short_aohd[NUM_EFFECTS];
+	static const char* virtual_types[NUM_VIRTUAL_EFFECTS];
 
 private:
 	void fromGenie(const struct Genie_Effect&);

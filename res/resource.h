@@ -347,6 +347,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_E_UCNSTID	    	1831
 #define IDC_E_CLEAR  	    	1832
 #define IDC_E_TYPEVAL	    	1833
+#define IDC_E_VTYPE				1834
 
 /* About Dialog Controls */
 #define IDC_UPDATELINK          1901

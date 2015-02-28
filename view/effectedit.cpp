@@ -560,6 +560,7 @@ void E_HandleChangeType(HWND dialog, EditEffect *data)
 	data->e.type = newtype;
 	EffectControls(dialog, newtype);
 	//LoadEffect(dialog, data);
+	SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
 }
 
 void E_HandleChangeVType(HWND dialog, EditEffect *data)

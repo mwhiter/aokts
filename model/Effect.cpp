@@ -142,6 +142,47 @@ void Effect::write(FILE *out)
 		fwrite(uids, sizeof(long), num_sel, out);
 }
 
+inline std::string playerPronoun(int p) {
+    std::ostringstream convert;
+    switch (p) {
+    case -1:
+        break;
+    case 0:
+        convert << "Gaia";
+        break;
+    default:
+        convert << "p" << p;
+    }
+    return convert.str();
+}
+
+inline std::string unitTypeName(const UnitLink *pUnit) {
+    std::ostringstream convert;
+    if (pUnit && pUnit->id()) {
+        std::wstring unitname(pUnit->name());
+        std::string un(unitname.begin(), unitname.end());
+        replaced(un, ", Unpacked", "");
+        if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
+            convert << un << "s";
+        } else {
+            convert << un;
+        }
+    } else {
+        convert << "units";
+    }
+    return convert.str();
+}
+
+std::string Effect::selectedUnits() const {
+    std::ostringstream convert;
+    convert << playerPronoun(s_player);
+    convert << " " << unitTypeName(pUnit);
+	for (int i = 0; i < num_sel; i++) {
+        convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
+	}
+    return convert.str();
+}
+
 std::string Effect::getName(bool tip, NameFlags::Value flags) const
 {
     if (!tip) {
@@ -158,21 +199,34 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 2: // Research
-                switch (s_player) {
-                    case -1:
-                        break;
-                    case 0:
-                        convert << "Gaia";
-                        break;
-                    default:
-                        convert << "p" << s_player;
+                {
+                    bool hastech = pTech && pTech->id();
+                    std::wstring wtechname;
+                    std::string techname;
+                    if (hastech) {
+                        wtechname = std::wstring(pTech->name());
+                        techname = std::string(wtechname.begin(), wtechname.end());
+                        if (panel >= 1 && panel <= 3) {
+                        switch (panel) {
+                        case 1:
+                            convert << "enable " << playerPronoun(s_player) << " to research " << techname;
+                            break;
+                        case 2:
+                            convert << "disable " << playerPronoun(s_player) << " to research " << techname;
+                            break;
+                        case 3:
+                            convert << "enable " << playerPronoun(s_player) << " to research " << techname << " regardless of civ";
+                            break;
+                        }
+                        } else {
+                            convert << playerPronoun(s_player);
+                            convert << " researches " << techname;
+                            stype.append(convert.str());
+                        }
+                    } else {
+                        convert << "INVALID";
+                    }
                 }
-                convert << " gets ";
-                if (pTech && pTech->id()) {
-                    std::wstring techname(pTech->name());
-                    convert << std::string( techname.begin(), techname.end());
-                }
-                convert << " technology";
                 stype.append(convert.str());
                 break;
             case 3: // Send chat
@@ -199,17 +253,9 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 if (amount == 1410065407) {
                     // reset to 0
                     convert << "reset ";
-                    if (s_player == 0) {
-                        convert << "Gaia" << "'s ";
-                    } else {
-                        convert << "p" << s_player << "'s ";
-                    }
+                    convert << playerPronoun(s_player) << "'s";
                 } else if (amount >= 0) {
-                    if (s_player == 0) {
-                        convert << "Gaia";
-                    } else {
-                        convert << "p" << s_player;
-                    }
+                    convert << playerPronoun(s_player);
                     if (t_player == 0) {
                         convert << " loses";
                     } else {
@@ -226,11 +272,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         }
                     } else {
                         convert << "p" << t_player << " silently gives ";
-                        if (s_player == 0) {
-                            convert << "Gaia";
-                        } else {
-                            convert << "p" << s_player;
-                        }
+                        convert << playerPronoun(s_player);
                         convert << " " << -amount << " ";
                     }
                 }
@@ -323,49 +365,26 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
             case 17: // Unload
             case 22: // Freeze unit
                 switch (type) {
-                    case 6:
-                        convert << "unlock";
-                        break;
-                    case 7:
-                        convert << "lock";
-                        break;
-                    case 14:
-                        convert << "kill";
-                        break;
-                    case 15:
-                        convert << "remove";
-                        break;
-                    case 17:
-                        convert << "unload";
-                        break;
-                    case 22:
-                        convert << "freeze";
-                        break;
+                case 6:
+                    convert << "unlock";
+                    break;
+                case 7:
+                    convert << "lock";
+                    break;
+                case 14:
+                    convert << "kill";
+                    break;
+                case 15:
+                    convert << "remove";
+                    break;
+                case 17:
+                    convert << "unload";
+                    break;
+                case 22:
+                    convert << "freeze";
+                    break;
                 }
-                switch (s_player) {
-                    case -1:
-                        break;
-                    case 0:
-                        convert << " Gaia";
-                        break;
-                    default:
-                        convert << " p" << s_player;
-                }
-                if (pUnit && pUnit->id()) {
-                    std::wstring unitname(pUnit->name());
-                    std::string un(unitname.begin(), unitname.end());
-                    if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-                        convert << " " << un << "s";
-                    } else {
-                        convert << " " << un;
-                    }
-                } else {
-                    convert << " units";
-                }
-	            for (int i = 0; i < num_sel; i++) {
-                    convert << " " << uids[i];
-                    convert << " (" << get_unit_full_name(uids[i]) << ")";
-	            }
+                convert << " " << selectedUnits();
                 if (valid_area) {
                     if (area.left == area.right && area.top == area.bottom) {
                         convert << " at (" << area.left << "," << area.top << ")";
@@ -387,17 +406,38 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
+            case 29: // Stop unit
+                if (panel >= 1 && panel <= 9) {
+                    convert << "place" << " " << selectedUnits() << " into control group " << panel;
+                } else {
+                    convert << " " << selectedUnits();
+                    if (valid_area) {
+                        if (area.left == area.right && area.top == area.bottom) {
+                            convert << " at (" << area.left << "," << area.top << ")";
+                        } else {
+                            switch (type) {
+                            case 6:
+                            case 7:
+                            case 22:
+                                convert << " in";
+                                break;
+                            default:
+                                convert << " from";
+                            }
+                            convert << " area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                        }
+                    }
+                    if (location.x >= 0 && location.y >= 0) {
+                        convert << " at (" << location.x << ", " << location.y << ")";
+                    }
+                    stype.append(convert.str());
+                    break;
+                }
+                stype.append(convert.str());
+                break;
             case 11: // Create object
                 convert << "create";
-                switch (s_player) {
-                    case -1:
-                        break;
-                    case 0:
-                        convert << " Gaia";
-                        break;
-                    default:
-                        convert << " p" << s_player;
-                }
+                convert << " " << playerPronoun(s_player);
                 if (pUnit && pUnit->id()) {
                     std::wstring unitname(pUnit->name());
                     std::string un(unitname.begin(), unitname.end());
@@ -455,29 +495,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     default:
                         convert << "task";
                 }
-                switch (s_player) {
-                    case -1:
-                        break;
-                    case 0:
-                        convert << " Gaia";
-                        break;
-                    default:
-                        convert << " p" << s_player;
-                }
-                if (pUnit && pUnit->id()) {
-                    std::wstring unitname(pUnit->name());
-                    std::string un(unitname.begin(), unitname.end());
-                    convert << " " << un;
-                } else {
-                    if (num_sel == 1) {
-                        convert << " unit";
-                    } else {
-                        convert << " units";
-                    }
-                }
-	            for (int i = 0; i < num_sel; i++) {
-                    convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
-	            }
+                convert << " " << selectedUnits();
                 if (valid_area) {
                     if (area.left == area.right && area.top == area.bottom) {
                         convert << " at (" << area.left << "," << area.top << ")";
@@ -488,15 +506,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 switch (type) {
                     case 18:
                         convert << " to";
-                        switch (t_player) {
-                            case -1:
-                                break;
-                            case 0:
-                                convert << " Gaia";
-                                break;
-                            default:
-                                convert << " p" << t_player;
-                        }
+                        convert << " " << playerPronoun(t_player);
                         break;
                     default:
                         if (location.x >= 0 && location.y >= 0) {
@@ -520,28 +530,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 stype.append("rename '");
                 stype.append(text.c_str());
                 stype.append("'");
-                switch (s_player) {
-                    case -1:
-                        break;
-                    case 0:
-                        convert << " Gaia";
-                        break;
-                    default:
-                        convert << " p" << s_player;
-                }
-                if (pUnit && pUnit->id()) {
-                    std::wstring unitname(pUnit->name());
-                    std::string un(unitname.begin(), unitname.end());
-                    convert << " " << un;
-                } else {
-                    convert << " unit";
-                }
-	            for (int i = 0; i < num_sel; i++) {
-                    convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
-                    //for (int p = 0; p < NUM_PLAYERS; p++) {
-                    //    scen.players[p].units.at(
-                    //}
-	            }
+                convert << " " << selectedUnits();
                 if (valid_area) {
                     if (area.left == area.right && area.top == area.bottom) {
                         convert << " at (" << area.left << "," << area.top << ")";
@@ -555,9 +544,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 {
                     std::string sunit("");
                     bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
-                    if (s_player > 0) {
-                        convert << "p" << s_player << "'s ";
-                    }
+                    convert << playerPronoun(s_player) << "'s";
 	                if (num_sel > 0) {
 	                    if (num_sel == 1) {
                             convert << "unit ";
@@ -625,15 +612,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 {
                     std::string sunit("");
                     bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
-                    switch (s_player) {
-                        case -1:
-                            break;
-                        case 0:
-                            convert << "Gaia ";
-                            break;
-                        default:
-                            convert << "p" << s_player << "'s ";
-                    }
+                    convert << playerPronoun(s_player) << "'s ";
 	                if (num_sel > 0) {
 	                    if (num_sel == 1) {
                             convert << "unit ";
@@ -648,20 +627,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
 	                    }
                     }
                     if (unit_set_selected) {
-                        std::wstring unitname(pUnit->name());
-                        std::string un(unitname.begin(), unitname.end());
-                        replaced(un, ", Unpacked", "");
-                        if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-                            convert << un << "s ";
-                        } else {
-                            convert << un << " ";
-                        }
-                    } else {
-	                    if (num_sel <= 0) {
-                            convert << "units ";
-	                    }
-                    }
-                    if (unit_set_selected) {
+                        convert << unitTypeName(pUnit) << " ";
                         if (valid_area) {
                             if (area.left == area.right && area.top == area.bottom) {
                                 convert << "at (" << area.left << "," << area.top << ")";
@@ -669,6 +635,10 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                                 convert << "in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
                             }
                         }
+                    } else {
+	                    if (num_sel <= 0) {
+                            convert << "units ";
+	                    }
                     }
 
                     // The above is setting up for the below
@@ -1072,13 +1042,13 @@ const char *Effect::virtual_types[] =
     "Disable Object",
     "Enable Technology",
     "Disable Technology",
-    "Enable Tech For Any Civ",
+    "Enable Tech (Any Civ)",
     "Set HP",
     "Heal Object",
-    "Set Aggressive",
-    "Set Defensive",
+    "Aggressive Stance",
+    "Defensive Stance",
     "Stand Ground",
-    "No Attack Without Halt",
+    "No Attack Stance",
     "Resign",
     "Flash Objects",
     "Set AP",

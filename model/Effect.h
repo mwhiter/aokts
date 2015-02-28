@@ -91,6 +91,9 @@ enum EffectType
 
 class Effect : public ECBase
 {
+private:
+    std::string selectedUnits() const;
+
 public:
 	Effect();
 //	~Effect();

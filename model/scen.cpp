@@ -1289,6 +1289,7 @@ void Scenario::outline(unsigned long x, unsigned long y, unsigned char newcnst, 
 bool Scenario::isTerrainEdge(unsigned char cnst, unsigned char newcnst, unsigned char oldcnst) {
     return (cnst != oldcnst &&
             cnst != TEMPTERRAIN &&
+            cnst != OUTOFBOUNDS &&
             cnst != newcnst);
 }
 

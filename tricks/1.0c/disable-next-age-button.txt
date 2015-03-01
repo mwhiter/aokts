@@ -1,0 +1,37 @@
+JustTesting1234 (edited 05-13-2013 @ 04:57 AM)
+----------------------------------------------
+
+In order to advance to the next age, besides the tech cost, it also requires an amount of buildings created from the current age
+
+when one of those buildings is created, it initializates one research (Shadow X), and there is one research that check if at least 2 (except for imperial age) of those buildings were built (Shadow Node for Age X). that research, the previous age and the food/gold cost are the requirements to advance to the next age
+
+so all you need to disable the next age button is to disable one of these researches (use trigger studio):
+
+120 - Shadow Node for Age Two
+135 - Shadow Node for Age Three
+142 - Shadow Node for Age Four
+
+edit:
+
+if instead you want to re-enable the button later, disable these techs (dont disable the Shadow Node for Age X):
+
+- for feudal age
+108 - Dock built
+110 - Mill built
+122 - Barracks built
+258 - Lumber Camp built
+282 - Mining Camp built
+
+- for castle age
+106 - Blacksmith built
+128 - Market Built
+130 - Stable built
+132 - Archery Range built
+
+- for imperial age
+107 - Monastery built
+138 - Siege Workshop built
+146 - University built
+266 - Castle built
+
+and then manually research 'Shadow Node for Age X' via triggers

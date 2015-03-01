@@ -1,0 +1,15 @@
+badmiracle (posted 05-11-13 10:06 AM CT (US) )
+----------------------------------------------
+
+The method is changing your Town Center's ownership to GAIA and then back again. This will cancel the research everytime and refund the resources.
+
+Create a new Looping Trigger, and add the following:
+
+Trigger 1
+C: Researching Tech: Feudal Age (or w.e age)
+E: Change Ownership: Player 1 to GAIA - Town Center (Do not set an actual object, this will change all TC's to GAIA briefly)
+E: Send Chat: Player 1: "You cannot advance yet!"
+E: Activate Trigger 2
+
+Trigger 2
+E: Change Ownership: GAIA to Player 1 - Town Center

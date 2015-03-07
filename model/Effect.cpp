@@ -232,10 +232,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
             case 3: // Send chat
                 switch (s_player) {
                     case -1:
-                        convert << "say Gaia";
-                        break;
                     case 0:
-                        convert << "tell Gaia";
+                        convert << "tell everyone";
                         break;
                     default:
                         convert << "tell p" << s_player;

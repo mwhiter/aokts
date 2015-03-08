@@ -221,7 +221,6 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         } else {
                             convert << playerPronoun(s_player);
                             convert << " researches " << techname;
-                            stype.append(convert.str());
                         }
                     } else {
                         convert << "INVALID";

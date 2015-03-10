@@ -691,10 +691,18 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	    if (len_vc)
 	        p->vcfile.read(dc2in.get(), sizeof(unsigned long), len_vc);
+	    else
+	        p->vcfile.erase();
+
 	    if (len_cty)
 	        p->ctyfile.read(dc2in.get(), sizeof(unsigned long), len_cty);
+	    else
+	        p->ctyfile.erase();
+
 	    if (len_ai)
 	        p->aifile.read(dc2in.get(), sizeof(unsigned long), len_ai);
+	    else
+	        p->aifile.erase();
 	}
 
 	FEP(p)

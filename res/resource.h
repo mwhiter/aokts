@@ -14,7 +14,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0.29"
+#define VER_STRING "1.2.0.30"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */

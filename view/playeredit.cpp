@@ -415,6 +415,10 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			Players_ManageVC(dialog, false);
 			break;
 
+		case IDC_P_EXCTY:
+			Players_ManageCTY(dialog, false);
+			break;
+
 		case IDC_P_IMAI:
 			Players_ManageAI(dialog, true);
 			//we don't need a full LoadPlayer() for this

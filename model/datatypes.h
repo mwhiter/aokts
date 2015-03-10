@@ -58,7 +58,7 @@ public:
 	void lock();							//trims buffer after unlock()
 
 	/* I/O */
-	bool read(FILE *in, size_t lensize);
+	bool read(FILE *in, size_t lensize, unsigned long len = 0);
 
 	/**
 	 * Read the string from a Buffer.
@@ -74,8 +74,9 @@ public:
 	 * Write the string to a FILE.
 	 * @param lensize number of bytes in length field
 	 * @param force forces a write of a single null even if empty
+	 * @param writelen write the length of the file
 	 */
-	void write(FILE *out, size_t lensize, bool force = false) const;
+	void write(FILE *out, size_t lensize, bool force = false, bool writelen = true, bool nonull = false) const;
 
 	/**
 	 * Write the string to a Buffer.

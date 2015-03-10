@@ -672,14 +672,30 @@ void Scenario::read_data(const char *path)	//decompressed data
 	if (setts.intense)
 		printf("Debug 3.\n");
 
-	for (i = 0; i < NUM_UNK; i++)
-		unk[i].read(dc2in.get(), sizeof(short));
-
 	FEP(p)
-		readcs<unsigned short>(dc2in.get(), p->ai, sizeof(p->ai));
-
+ 		readcs<unsigned short>(dc2in.get(), p->vc, sizeof(p->vc));
 	FEP(p)
-		p->read_aifile(dc2in.get());
+ 		readcs<unsigned short>(dc2in.get(), p->cty, sizeof(p->cty));
+	FEP(p)
+ 		readcs<unsigned short>(dc2in.get(), p->ai, sizeof(p->ai));
+
+	FEP(p) {
+        unsigned long len_vc;
+	    fread(&len_vc, sizeof(unsigned long), 1, dc2in.get());
+
+        unsigned long len_cty;
+	    fread(&len_cty, sizeof(unsigned long), 1, dc2in.get());
+
+        unsigned long len_ai;
+	    fread(&len_ai, sizeof(unsigned long), 1, dc2in.get());
+
+	    if (len_vc)
+	        p->vcfile.read(dc2in.get(), sizeof(unsigned long), len_vc);
+	    if (len_cty)
+	        p->ctyfile.read(dc2in.get(), sizeof(unsigned long), len_cty);
+	    if (len_ai)
+	        p->aifile.read(dc2in.get(), sizeof(unsigned long), len_ai);
+	}
 
 	FEP(p)
 		p->read_aimode(dc2in.get());
@@ -933,18 +949,33 @@ int Scenario::write_data(const char *path)
 		writeval(dcout, (short)-1);
 		bitmap.write(dcout);
 	}
-	NULLS(dcout, 0x40);
+	//NULLS(dcout, 0x40); -- this was vc and cty files
 
 	/* Player Data 2 */
 
 	FEP(p)
-	{
-		writecs<unsigned short>(dcout, p->ai, false);
-	}
+		writecs<unsigned short>(dcout, p->vc, false); // vc filename
+	FEP(p)
+		writecs<unsigned short>(dcout, p->cty, false); // cty filename
+	FEP(p)
+		writecs<unsigned short>(dcout, p->ai, false); // ai filename
 	FEP(p)
 	{
-		NULLS(dcout, 8);
-		p->aifile.write(dcout, sizeof(unsigned long));
+	    unsigned long vclen = p->vcfile.length();
+	    unsigned long ctylen = p->ctyfile.length();
+	    unsigned long ailen = p->aifile.length();
+	    printf("vclen %lu\n", vclen);
+	    printf("ctylen %lu\n", ctylen);
+	    printf("ailen %lu\n", ailen);
+		fwrite(&vclen, sizeof(unsigned long), 1, dcout);
+		fwrite(&ctylen, sizeof(unsigned long), 1, dcout);
+		fwrite(&ailen, sizeof(unsigned long), 1, dcout);
+		if (vclen)
+		    p->vcfile.write(dcout, sizeof(unsigned long), false, false, true);
+		if (ctylen)
+		    p->ctyfile.write(dcout, sizeof(unsigned long), false, false, true);
+		if (ailen)
+		    p->aifile.write(dcout, sizeof(unsigned long), false, false, true);
 	}
 	FEP(p)
 		putc(p->aimode, dcout);

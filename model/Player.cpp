@@ -147,10 +147,10 @@ void Player::erase_unit(vector<Unit>::size_type index)
 	units.erase(units.begin() + index);
 }
 
-bool Player::read_aifile(FILE *in)
+bool Player::read_aifiles(FILE *in)
 {
-	readunk<long>(in, 0, "AI file unk 1", true);
-	readunk<long>(in, 0, "AI file unk 2", true);
+	vcfile.read(in, sizeof(unsigned long));
+	ctyfile.read(in, sizeof(unsigned long));
 	aifile.read(in, sizeof(unsigned long));
 
 	return true;
@@ -476,6 +476,37 @@ bool Player::import_ai(const char *path)
 	return true;
 }
 
+bool Player::import_vc(const char *path)
+{
+	size_t vc_len = fsize(path);
+	char * vc_buf;
+
+	vc_buf = vcfile.unlock(vc_len + 1);
+
+	AutoFile vc_in(path, "rb");
+	readbin(vc_in.get(), vc_buf, vc_len);
+	vc_buf[vc_len] = '\0';	//null-terminate it
+
+	vcfile.lock();
+
+	return true;
+}
+
+bool Player::import_cty(const char *path)
+{
+	size_t cty_len = fsize(path);
+	char * cty_buf;
+
+	cty_buf = ctyfile.unlock(cty_len + 1);
+
+	AutoFile cty_in(path, "rb");
+	readbin(cty_in.get(), cty_buf, cty_len);
+	cty_buf[cty_len] = '\0';	//null-terminate it
+
+	ctyfile.lock();
+
+	return true;
+}
 
 bool Player::export_ai(const char *path)
 {
@@ -492,6 +523,42 @@ bool Player::export_ai(const char *path)
 	fputs(aifile.c_str(), ai_out);
 
 	fclose(ai_out);
+	return true;
+}
+
+bool Player::export_vc(const char *path)
+{
+	FILE *vc_out;
+
+	//check that player actually has a vc script.
+	if (vcfile.length() == 0)
+		return false;
+
+	vc_out = fopen(path, "wb");
+	if (!vc_out)
+		return false;
+
+	fputs(vcfile.c_str(), vc_out);
+
+	fclose(vc_out);
+	return true;
+}
+
+bool Player::export_cty(const char *path)
+{
+	FILE *cty_out;
+
+	//check that player actually has a vc script.
+	if (ctyfile.length() == 0)
+		return false;
+
+	cty_out = fopen(path, "wb");
+	if (!cty_out)
+		return false;
+
+	fputs(ctyfile.c_str(), cty_out);
+
+	fclose(cty_out);
 	return true;
 }
 

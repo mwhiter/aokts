@@ -132,8 +132,6 @@ class MapCopyCache;
 
 /* The Scenario Wrapper */
 
-#define NUM_UNK 32
-
 class Scenario
 {
 	static const long sect = 0xFFFFFF9D;
@@ -218,7 +216,6 @@ public:
 	char	cinem[NUM_CINEM][0x20];	//pre-game, victory, lose, bkg
 	long	bBitmap;
 	AOKBMP bitmap;
-	SString unk[NUM_UNK];	//probably part of PlayerData2
 	Player players[NUM_PLAYERS];
 	Victory vict;
 	long lock_teams;

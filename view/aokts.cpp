@@ -84,6 +84,8 @@ DLGPROC procs[NUM_PAGES] =
 {
 	&IMsgsDlgProc,
 	&PlyDlgProc,
+	&PlyDlgProc,
+	&PlyDlgProc,
 	&VictDlgProc,
 	&DisDlgProc,
 	&MapDlgProc,
@@ -1019,8 +1021,9 @@ INT_PTR CALLBACK MainDlgProc(HWND sheet, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DESTROY:
 		{
-			HWND page = (HWND)SendMessage(sheet, PSM_GETCURRENTPAGEHWND, 0, 0);
-			SendMessage(page, AOKTS_Closing, 0, 0);
+		    SendMessage(
+			    PropSheet_GetCurrentPageHwnd(sheet),
+			    AOKTS_Closing, 0, 0);
 			WinHelp(sheet, "ts.hlp", HELP_QUIT, 0);
 			PostQuitMessage(0);
 		}

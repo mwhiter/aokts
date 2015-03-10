@@ -42,16 +42,18 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDD_UNITSEL1		104
 #define IDD_UNITSEL2		105
 #define IDD_MSGS			111
-#define IDD_PLAYERS			112
-#define IDD_VICTORY			113
-#define IDD_DISABLES		114
-#define IDD_TERRAIN			115
-#define IDD_UNITS			116
-#define IDD_TRIGGERS		117
-#define IDD_TRIGTEXT        118
-#define IDD_MAPINSPECT      119
-#define IDD_EFFECT			120
-#define IDD_COND			121
+#define IDD_PLAYERSAI	    112
+#define IDD_PLAYERSCTY      113
+#define IDD_PLAYERSVC       114
+#define IDD_VICTORY			115
+#define IDD_DISABLES		116
+#define IDD_TERRAIN			117
+#define IDD_UNITS			118
+#define IDD_TRIGGERS		119
+#define IDD_TRIGTEXT        120
+#define IDD_MAPINSPECT      121
+#define IDD_EFFECT			122
+#define IDD_COND			123
 
 /* Bitmaps */
 #define IDB_GOOD			200
@@ -114,7 +116,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_P_LBL_GOLD      1162
 #define IDC_P_LBL_STONE     1163
 #define IDC_P_LBL_OREX      1164
-#define IDC_P_SCRIPT        1165
+#define IDC_P_AISCRIPT      1165
 #define IDC_P_CLEARAI       1166
 #define IDC_P_RANDOMGAME    1167
 #define IDC_P_PROMISORY     1168
@@ -128,6 +130,16 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_P_SWAPP7		1176
 #define IDC_P_SWAPP8		1177
 #define IDC_P_SWAPGA		1178
+#define IDC_P_CLEARVC       1179
+#define IDC_P_IMVC			1180
+#define IDC_P_EXVC			1182
+#define IDC_P_CLEARCTY      1183
+#define IDC_P_IMCTY			1184
+#define IDC_P_EXCTY			1185
+#define IDC_P_VCSCRIPT      1186
+#define IDC_P_CTYSCRIPT     1187
+#define IDC_P_CTY           1188
+#define IDC_P_VC            1189
 
 /* Global Victory Controls */
 #define IDC_V_SSTD				1300

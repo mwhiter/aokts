@@ -12,6 +12,7 @@
 #include "../util/settings.h"
 #include "LCombo.h"
 #include "mapview.h"
+#include "../util/winugly.h"
 
 #include <commdlg.h>
 
@@ -25,8 +26,11 @@ enum Diplomacy b_to_d[3] = { DIP_enemy, DIP_ally, DIP_neutral };
 int gaia_disables[] =
 {
 	IDC_P_NAME, IDC_P_STABLE, IDC_P_HUMAN, IDC_P_COLOR, IDC_P_SPDIP, IDC_P_ACTIVE,
-	IDC_P_DSTATE, IDC_P_AV, IDC_P_X, IDC_P_Y, IDC_P_AI, IDC_P_EXAI, IDC_P_IMAI,
-	IDC_P_AIMODE, IDC_P_SCRIPT, IDC_P_CLEARAI, IDC_P_RANDOMGAME, IDC_P_PROMISORY
+	IDC_P_DSTATE, IDC_P_AV, IDC_P_X, IDC_P_Y,
+	IDC_P_AI, IDC_P_EXAI, IDC_P_IMAI, IDC_P_CLEARAI, IDC_P_AISCRIPT,
+	IDC_P_VC, IDC_P_EXVC, IDC_P_IMVC, IDC_P_CLEARVC, IDC_P_VCSCRIPT,
+	IDC_P_CTY, IDC_P_EXCTY, IDC_P_IMCTY, IDC_P_CLEARCTY, IDC_P_CTYSCRIPT,
+	IDC_P_AIMODE, IDC_P_RANDOMGAME, IDC_P_PROMISORY
 };
 
 void LoadPlayer(HWND dialog)
@@ -72,12 +76,28 @@ void LoadPlayer(HWND dialog)
 	SetDlgItemInt(dialog, IDC_P_US0, p->u1, FALSE);
 	SetDlgItemInt(dialog, IDC_P_US1, p->u2, FALSE);
 
-	/* AI is special */
-	SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
-	SetDlgItemText(dialog, IDC_P_AI, p->ai);
-	//EnableWindow(GetDlgItem(dialog, IDC_P_AI), p->aimode != AI_standard);
-	SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
-	SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
+    HWND hAI = GetDlgItem(dialog, IDC_P_AI);
+    HWND hVC = GetDlgItem(dialog, IDC_P_VC);
+    HWND hCTY = GetDlgItem(dialog, IDC_P_CTY);
+
+    if (hAI) {
+	    /* AI is special */
+	    SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
+	    SetDlgItemText(dialog, IDC_P_AI, p->ai);
+	    //EnableWindow(GetDlgItem(dialog, IDC_P_AI), p->aimode != AI_standard);
+	    SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
+	    SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
+	}
+
+    if (hVC) {
+	    SetDlgItemText(dialog, IDC_P_VC, p->vc);
+	    SetDlgItemText(dialog, IDC_P_VCSCRIPT, p->vcfile.c_str());
+	}
+
+    if (hCTY) {
+	    SetDlgItemText(dialog, IDC_P_CTY, p->cty);
+	    SetDlgItemText(dialog, IDC_P_CTYSCRIPT, p->ctyfile.c_str());
+	}
 }
 
 void SavePlayer(HWND dialog)
@@ -103,21 +123,39 @@ void SavePlayer(HWND dialog)
 	p->u1 = toshort(GetDlgItemInt(dialog, IDC_P_US0, NULL, FALSE));
 	p->u2 = toshort(GetDlgItemInt(dialog, IDC_P_US1, NULL, FALSE));
 
-    // only change this when clicking on checkbox
-	//p->aimode = (SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_GETCHECK, 0, 0) != 0);
-	if (p->aimode != AI_standard)
-	{
-		GetDlgItemText(dialog, IDC_P_AI, p->ai, _MAX_FNAME);
-		if (*p->ai)
-			p->aimode = AI_custom;
+    HWND hAI = GetDlgItem(dialog, IDC_P_AI);
+    HWND hVC = GetDlgItem(dialog, IDC_P_VC);
+    HWND hCTY = GetDlgItem(dialog, IDC_P_CTY);
+
+    if (hAI) {
+        // only change this when clicking on checkbox
+	    //p->aimode = (SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_GETCHECK, 0, 0) != 0);
+	    if (p->aimode != AI_standard)
+	    {
+		    GetDlgItemText(dialog, IDC_P_AI, p->ai, _MAX_FNAME);
+		    if (*p->ai)
+			    p->aimode = AI_custom;
+	    }
+	    //else
+	    //	strcpy(p->ai, scen.StandardAI);
+	    GetWindowText(GetDlgItem(dialog, IDC_P_AISCRIPT), p->aifile);
+    }
+
+    if (hVC) {
+        GetDlgItemText(dialog, IDC_P_VC, p->vc, _MAX_FNAME);
+	    GetWindowText(GetDlgItem(dialog, IDC_P_VCSCRIPT), p->vcfile);
+    }
+
+    if (hCTY) {
+        GetDlgItemText(dialog, IDC_P_CTY, p->cty, _MAX_FNAME);
+	    GetWindowText(GetDlgItem(dialog, IDC_P_CTYSCRIPT), p->ctyfile);
 	}
-	//else
-	//	strcpy(p->ai, scen.StandardAI);
-	GetWindowText(GetDlgItem(dialog, IDC_P_SCRIPT), p->aifile);
 }
 
 const char errorImpExpFail[] =
 "Error. Please make sure the file you selected is valid.";
+#define IDC_P_CTY           1188
+
 
 // FIXME: separate this alternate cohesion crap
 void Players_ManageAI(HWND dialog, bool import)
@@ -177,6 +215,126 @@ void Players_ManageAI(HWND dialog, bool import)
 	}
 	else
 		MessageBox(dialog, "Sorry, that player doesn't have an AI File.", "AI Export", MB_OK);
+}
+
+// FIXME: separate this alternate cohesion crap
+void Players_ManageVC(HWND dialog, bool import)
+{
+	char path[_MAX_PATH], dir[_MAX_PATH];
+	OPENFILENAME ofn;
+
+	//shared init
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = dialog;
+	ofn.lpstrFilter = "VC Scripts (*.vc)\0*.vc\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrCustomFilter = NULL;	//user should not change filter
+	ofn.lpstrFile = path;
+	ofn.nMaxFile = sizeof(path);
+	strcpy(dir, setts.BasePath);
+	strcat(dir, "vc");
+	ofn.lpstrInitialDir = dir;
+
+	if (import)
+	{
+		*path = '\0';
+		ofn.lpstrFileTitle = propdata.p->vc;
+		ofn.nMaxFileTitle = _MAX_FNAME;
+		ofn.lpstrTitle = "Import VC Script";
+		ofn.Flags = OFN_NOCHANGEDIR | OFN_HIDEREADONLY;
+		ofn.lpstrDefExt = "vc";
+
+		if (GetOpenFileName(&ofn))
+		{
+			propdata.p->vc
+				[ofn.nFileExtension - ofn.nFileOffset - 1]	//offset to extension '.'
+				= '\0';
+			//do it
+			if (propdata.p->import_vc(path))
+				SetWindowText(propdata.statusbar, "VC successfully imported.");
+			else
+				MessageBox(dialog, errorImpExpFail, "VC Import", MB_OK);
+		}
+	}
+	else if (propdata.p->aifile.length()) //export, so check for existence
+	{
+		strcpy(path, propdata.p->vc);
+		ofn.lpstrFileTitle = NULL;
+		ofn.lpstrTitle = "Export VC Script";
+		ofn.Flags = OFN_NOCHANGEDIR | OFN_NOREADONLYRETURN | OFN_OVERWRITEPROMPT;
+		ofn.lpstrDefExt = "vc";
+
+		if (GetSaveFileName(&ofn))
+		{
+			//do it
+			if (propdata.p->export_vc(path))
+				SetWindowText(propdata.statusbar, "VC successfully exported.");
+			else
+				MessageBox(dialog, errorImpExpFail, "VC Export Warning", MB_ICONWARNING);
+		}
+	}
+	else
+		MessageBox(dialog, "Sorry, that player doesn't have an VC File.", "VC Export", MB_OK);
+}
+
+// FIXME: separate this alternate cohesion crap
+void Players_ManageCTY(HWND dialog, bool import)
+{
+	char path[_MAX_PATH], dir[_MAX_PATH];
+	OPENFILENAME ofn;
+
+	//shared init
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = dialog;
+	ofn.lpstrFilter = "CTY Scripts (*.cty)\0*.cty\0";
+	ofn.nFilterIndex = 1;
+	ofn.lpstrCustomFilter = NULL;	//user should not change filter
+	ofn.lpstrFile = path;
+	ofn.nMaxFile = sizeof(path);
+	strcpy(dir, setts.BasePath);
+	strcat(dir, "cty");
+	ofn.lpstrInitialDir = dir;
+
+	if (import)
+	{
+		*path = '\0';
+		ofn.lpstrFileTitle = propdata.p->cty;
+		ofn.nMaxFileTitle = _MAX_FNAME;
+		ofn.lpstrTitle = "Import CTY Script";
+		ofn.Flags = OFN_NOCHANGEDIR | OFN_HIDEREADONLY;
+		ofn.lpstrDefExt = "cty";
+
+		if (GetOpenFileName(&ofn))
+		{
+			propdata.p->cty
+				[ofn.nFileExtension - ofn.nFileOffset - 1]	//offset to extension '.'
+				= '\0';
+			//do it
+			if (propdata.p->import_cty(path))
+				SetWindowText(propdata.statusbar, "CTY successfully imported.");
+			else
+				MessageBox(dialog, errorImpExpFail, "CTY Import", MB_OK);
+		}
+	}
+	else if (propdata.p->ctyfile.length()) //export, so check for existence
+	{
+		strcpy(path, propdata.p->cty);
+		ofn.lpstrFileTitle = NULL;
+		ofn.lpstrTitle = "Export CTY Script";
+		ofn.Flags = OFN_NOCHANGEDIR | OFN_NOREADONLYRETURN | OFN_OVERWRITEPROMPT;
+		ofn.lpstrDefExt = "cty";
+
+		if (GetSaveFileName(&ofn))
+		{
+			//do it
+			if (propdata.p->export_cty(path))
+				SetWindowText(propdata.statusbar, "CTY successfully exported.");
+			else
+				MessageBox(dialog, errorImpExpFail, "CTY Export Warning", MB_ICONWARNING);
+		}
+	}
+	else
+		MessageBox(dialog, "Sorry, that player doesn't have an CTY File.", "CTY Export", MB_OK);
 }
 
 void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
@@ -253,15 +411,33 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			Players_ManageAI(dialog, false);
 			break;
 
+		case IDC_P_EXVC:
+			Players_ManageVC(dialog, false);
+			break;
+
 		case IDC_P_IMAI:
 			Players_ManageAI(dialog, true);
 			//we don't need a full LoadPlayer() for this
 			SetDlgItemText(dialog, IDC_P_AI, propdata.p->ai);
-			SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
+			SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
 		    if (*p->ai)
 			    p->aimode = AI_custom;
 			SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode, 0);
 			SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
+			break;
+
+		case IDC_P_IMVC:
+			Players_ManageVC(dialog, true);
+			//we don't need a full LoadPlayer() for this
+			SetDlgItemText(dialog, IDC_P_VC, propdata.p->vc);
+			SetDlgItemText(dialog, IDC_P_VCSCRIPT, p->vcfile.c_str());
+			break;
+
+		case IDC_P_IMCTY:
+			Players_ManageCTY(dialog, true);
+			//we don't need a full LoadPlayer() for this
+			SetDlgItemText(dialog, IDC_P_CTY, propdata.p->cty);
+			SetDlgItemText(dialog, IDC_P_CTYSCRIPT, p->ctyfile.c_str());
 			break;
 
 		case IDC_P_CLEARAI:
@@ -269,7 +445,7 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		        char *cstr = p->aifile.unlock(1);
 	            strcpy(cstr, "");
 		        p->aifile.lock();
-		        SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
+		        SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
 
                 p->aimode = AI_none;
 
@@ -281,12 +457,36 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		    }
 			break;
 
+		case IDC_P_CLEARVC:
+		    {
+		        char *cstr = p->vcfile.unlock(1);
+	            strcpy(cstr, "");
+		        p->vcfile.lock();
+		        SetDlgItemText(dialog, IDC_P_VCSCRIPT, p->vcfile.c_str());
+
+	            strcpy(p->vc, "");
+	            SetDlgItemText(dialog, IDC_P_VC, p->vc);
+		    }
+			break;
+
+		case IDC_P_CLEARCTY:
+		    {
+		        char *cstr = p->ctyfile.unlock(1);
+	            strcpy(cstr, "");
+		        p->ctyfile.lock();
+		        SetDlgItemText(dialog, IDC_P_CTYSCRIPT, p->ctyfile.c_str());
+
+	            strcpy(p->cty, "");
+	            SetDlgItemText(dialog, IDC_P_CTY, p->cty);
+		    }
+			break;
+
 		case IDC_P_RANDOMGAME:
 		    {
 		        char *cstr = p->aifile.unlock(1);
 	            strcpy(cstr, "");
 		        p->aifile.lock();
-		        SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
+		        SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
 
                 p->aimode = AI_standard;
 
@@ -303,7 +503,7 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		        char *cstr = p->aifile.unlock(1);
 	            strcpy(cstr, "");
 		        p->aifile.lock();
-		        SetDlgItemText(dialog, IDC_P_SCRIPT, p->aifile.c_str());
+		        SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
 
                 p->aimode = AI_standard;
 

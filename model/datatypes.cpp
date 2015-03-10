@@ -129,12 +129,16 @@ void SString::lock()
 	data = newbuff;
 }
 
-bool SString::read(FILE *in, size_t lensize)
+/*
+ * len is optionally, the length already determined. So no need to read
+ * again.
+ */
+bool SString::read(FILE *in, size_t lensize, unsigned long len)
 {
-	size_t len = 0;
 	bool ret = true;
 
-	fread(&len, 1, lensize, in);
+    if (!len)
+	    fread(&len, 1, lensize, in);
 	if (len)
 	{
 		char *buff = unlock(len + 1);
@@ -184,13 +188,14 @@ bool SString::read(FILE *in)
 	return ret;
 }
 
-void SString::write(FILE *out, size_t lensize, bool force) const
+void SString::write(FILE *out, size_t lensize, bool force, bool writelen, bool nonull) const
 {
-	int len = length();
-	if (len || force)
+	unsigned long len = length();
+	if ((len || force) && !nonull)
 		len++;
 
-	fwrite(&len, lensize, 1, out);
+    if (writelen)
+	    fwrite(&len, lensize, 1, out);
 	fwrite(c_str(), sizeof(char), len, out);
 }
 

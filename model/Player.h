@@ -50,7 +50,7 @@ public:
 	void erase_unit_type(UCNST type);
 	void erase_unit(std::vector<Unit>::size_type);
 
-	bool read_aifile(FILE *in);	//returns false if out-of-memory
+	bool read_aifiles(FILE *in);	//returns false if out-of-memory
 
 	void read_header_name(FILE *in);
 	void read_header_stable(FILE *in);
@@ -87,6 +87,10 @@ public:
 
 	bool import_ai(const char *path);
 	bool export_ai(const char *path);
+	bool import_vc(const char *path);
+	bool export_vc(const char *path);
+	bool import_cty(const char *path);
+	bool export_cty(const char *path);
 	void add_unit(Unit& uspec);
 	void add_unit(Unit * uspec);
 
@@ -96,6 +100,12 @@ public:
 	long stable;	//string table
 	bool enable, human;
 	long civ;
+
+	char vc[_MAX_FNAME];
+	SString vcfile; // ie, .per file contents
+
+	char cty[_MAX_FNAME];
+	SString ctyfile; // ie, .per file contents
 
 	char ai[_MAX_FNAME];
 	SString aifile; // ie, .per file contents

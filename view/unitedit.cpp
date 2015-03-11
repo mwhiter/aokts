@@ -656,12 +656,16 @@ void Units_HandleMapClick(HWND dialog, int x, int y)
 		Unit &u = propdata.p->units[u_index];
 		if (setts.nowarnings || (MessageBox(dialog, "Do you want to move the selected unit?", "Unit Editor", MB_YESNO) == IDYES))
 		{
+		    int ox = truncate(u.x);
+		    int oy = truncate(u.y);
+		    int dx = x - ox;
+		    int dy = y - oy;
+		    int dz = scen.map.terrain[x][y].elev - scen.map.terrain[ox][oy].elev;
 			HWND mv = propdata.mapview;
-			SendMessage(mv, MAP_UnhighlightPoint,
-				truncate(u.x), truncate(u.y));
-			// TODO: always add 0.5?
-			SetDlgItemFloat(dialog, IDC_U_X, x + 0.5);
-			SetDlgItemFloat(dialog, IDC_U_Y, y + 0.5);
+			SendMessage(mv, MAP_UnhighlightPoint, ox, oy);
+			SetDlgItemFloat(dialog, IDC_U_X, u.x + dx);
+			SetDlgItemFloat(dialog, IDC_U_Y, u.y + dy);
+			SetDlgItemFloat(dialog, IDC_U_Z, u.z + dz);
 			Units_Save(dialog);
 			SendMessage(mv, MAP_HighlightPoint, x, y);
 			SendMessage(mv, MAP_Reset, 0, 0);

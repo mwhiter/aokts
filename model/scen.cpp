@@ -129,6 +129,11 @@ const char e_zver[]	= "Your version of zlib1.dll is incompatible. I need at leas
 const char e_digit[]	= "Oops, my programmer (David Tombs) made an error.\nProblem: %s" SMSG;
 const char e_bitmap[]	= "Sorry, the bitmap data in this scenario appears incomplete." SMSG;
 
+inline int truncate(float x)
+{
+	return (int)x;
+}
+
 inline int myround(float n)
 {
 	return int((n >= 0.0) ? n + 0.5 : n - 0.5);
@@ -2526,10 +2531,10 @@ AOKTS_ERROR Scenario::sort_conds_effects()
 // Remember the RANDOMIZE flag
 AOKTS_ERROR Scenario::map_repeat(const RECT &target, const POINT &source, OpFlags::Value flags)
 {
-	LONG dx, dy, w, h, truew, trueh;
+	LONG bdx, bdy, w, h, truew, trueh;
 
-	dx = target.left - source.x;
-	dy = target.bottom - source.y;
+	bdx = target.left - source.x;
+	bdy = target.bottom - source.y;
 	w = target.right - target.left;
 	h = target.top - target.bottom;
     // +1 because right - left == 0 represents 1 tile
@@ -2563,13 +2568,18 @@ AOKTS_ERROR Scenario::map_repeat(const RECT &target, const POINT &source, OpFlag
             vector<Unit>::iterator end = players[i_p].units.end();
             LONG numunits = players[i_p].units.size();
 	        for (int i_u = 0; i_u < numunits; i_u++) {
-                if (ISINRECT(truesource, players[i_p].units.at(i_u).x, players[i_p].units.at(i_u).y)) {
-	                for (LONG i = 0; i < cw; i++) {
-		                for (LONG j = 0; j < ch; j++) {
-	                        Unit spec(players[i_p].units.at(i_u));
+		        Unit & ou = players[i_p].units.at(i_u);
+                if (ISINRECT(truesource, ou.x, ou.y)) {
+		            int ox = truncate(ou.x);
+		            int oy = truncate(ou.y);
+	                for (LONG dx = 0; dx < cw; dx++) {
+		                for (LONG dy = 0; dy < ch; dy++) {
+		                    int dz = scen.map.terrain[bdx + ox + dx][bdy + oy + dy].elev - scen.map.terrain[ox][oy].elev;
+	                        Unit spec(ou);
 	                        spec.ident = scen.next_uid++;
-		                    spec.x += dx + i;
-		                    spec.y += dy + j;
+		                    spec.x += bdx + dx;
+		                    spec.y += bdy + dy;
+		                    spec.z += dz;
 		                    players[i_p].units.push_back(spec);
 		                }
 		            }

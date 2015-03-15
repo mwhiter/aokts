@@ -1798,7 +1798,7 @@ usual.
 <terrain id="34" color="fff8c8" name="Snow Grass" />
 <terrain id="35" color="f0c098" name="Ice (allows ships)" />
 <terrain id="36" color="e0d8c8" name="Snow Dirt (building residue)" />
-<terrain id="37" color="f0c0b0" name="Ice (allows ships, build walls only)" />
+<terrain id="37" color="f0c0b0" name="Ice, Beach (allows ships, build walls only)" />
 <terrain id="38" color="ffd8d8" name="Road, Snow" />
 <terrain id="39" color="eff8c8" name="Road, Fungus" />
 <terrain id="40" color="90a2e4" name="Rock / Road (no buildings)" />

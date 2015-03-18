@@ -216,6 +216,8 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_TR_SWAP_TERRAIN_TYPES   1450
 #define IDC_TR_OUTLINE_FORCE_EIGHT  1451
 #define IDC_TR_OUTLINE_EIGHT        1452
+#define IDC_TR_RAISE_ELEV           1453
+#define IDC_TR_LOWER_ELEV           1454
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

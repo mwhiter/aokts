@@ -45,6 +45,8 @@ const char *sizes[NUM_SIZES] =
 #define NUM_ELEVS 7
 const char *elevs[NUM_ELEVS] = { "0", "1", "2", "3", "4", "5", "6" };
 
+const char *warningTileHasReachedLimit =
+"Sorry, doing this will result in a tile having an elevation less than 0 or greater than 255.";
 const char *warningExceededMaxSize =
 "Sorry, you have exceeded the maximum allowed mapsize. I will now set the mapsize to maximum.";
 const char *warningSensibleRect =
@@ -358,6 +360,55 @@ void Map_HandleMapDelete(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
+
+void Map_HandleMapChangeElevation(HWND dialog, int adjustment)
+{
+	bool disp = false;
+	RECT target;
+	long temp;
+
+	/* Get the target rect */
+	target.left = GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE);
+	target.bottom = GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE);	//top and bottom are "normal", reverse from GDI standard
+	target.right = GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE);
+	target.top = GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE);
+
+	/* We need to make sure it's a sane rectangle. */
+	if (target.left > target.right)
+	{
+		temp = target.left;
+		target.left = target.right;
+		target.right = temp;
+		disp = true;
+	}
+	if (target.bottom > target.top)
+	{
+		temp = target.top;
+		target.top = target.bottom;
+		target.bottom = temp;
+		disp = true;
+	}
+
+	// check no tiles will go beyond bounds
+	bool isok = true;
+	int tempelev = 0;
+	for (LONG i = target.left; i <= target.right; i++) {
+		for (LONG j = target.bottom; j <= target.top; j++) {
+		    tempelev = scen.map.terrain[i][j].elev + adjustment;
+		    if (tempelev < 0 || tempelev > 255)
+		        isok = false;
+		}
+	}
+
+	if (disp) {
+		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
+	} else if (!isok) {
+		MessageBox(dialog, warningTileHasReachedLimit, szMapTitle, MB_ICONWARNING);
+	} else {
+	    scen.map_change_elevation(target, adjustment);
+	}
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0); }
 
 void Map_HandleMapRepeat(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 {
@@ -855,6 +906,14 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 
 		case IDC_TR_REPEAT_ELEV:
 			Map_HandleMapRepeat(dialog, OpFlags::ELEVATION);
+			break;
+
+		case IDC_TR_RAISE_ELEV:
+			Map_HandleMapChangeElevation(dialog, 1);
+			break;
+
+		case IDC_TR_LOWER_ELEV:
+			Map_HandleMapChangeElevation(dialog, -1);
 			break;
 
 		case IDC_TR_MMSWAP:

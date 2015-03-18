@@ -316,6 +316,7 @@ public:
 
     AOKTS_ERROR compress_unit_ids();
     AOKTS_ERROR sort_conds_effects();
+    AOKTS_ERROR map_change_elevation(const RECT &target, int adjustment);
     AOKTS_ERROR map_repeat(const RECT &target, const POINT &source, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_delete(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
 	/*  map_move: moves the units, terrain and triggers in that terrain */

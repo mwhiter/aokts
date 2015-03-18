@@ -2528,6 +2528,36 @@ AOKTS_ERROR Scenario::sort_conds_effects()
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::map_change_elevation(const RECT &target, int adjustment)
+{
+	/* perform some validation on input */
+	if (!(target.bottom < 0 || static_cast<unsigned>(target.top) > map.y ||
+		        target.left < 0 || static_cast<unsigned>(target.right) > map.x)) {
+
+	    // check no tiles will go beyond bounds
+	    bool isok = true;
+	    int tempelev = 0;
+	    for (LONG i = target.left; i <= target.right; i++) {
+		    for (LONG j = target.bottom; j <= target.top; j++) {
+		        tempelev = map.terrain[i][j].elev + adjustment;
+		        if (tempelev < 0 || tempelev > 255)
+		            isok = false;
+		    }
+	    }
+
+	    if (isok) {
+	        for (LONG i = target.left; i <= target.right; i++) {
+		        for (LONG j = target.bottom; j <= target.top; j++) {
+		            map.terrain[i][j].elev += adjustment;
+		        }
+	        }
+	    } else {
+	    }
+	}
+
+	return ERR_none;
+}
+
 // Remember the RANDOMIZE flag
 AOKTS_ERROR Scenario::map_repeat(const RECT &target, const POINT &source, OpFlags::Value flags)
 {

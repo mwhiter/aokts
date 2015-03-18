@@ -406,9 +406,13 @@ void Map_HandleMapChangeElevation(HWND dialog, int adjustment)
 		MessageBox(dialog, warningTileHasReachedLimit, szMapTitle, MB_ICONWARNING);
 	} else {
 	    scen.map_change_elevation(target, adjustment);
-	}
 
-	SendMessage(propdata.mapview, MAP_Reset, 0, 0); }
+	    Map::Terrain *tn = &scen.map.terrain[propdata.sel0][propdata.sel1];
+	    SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
+
+	    SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+	}
+}
 
 void Map_HandleMapRepeat(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 {
@@ -447,9 +451,13 @@ void Map_HandleMapRepeat(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 		MessageBox(dialog, warningSensibleRect, szMapTitle, MB_ICONWARNING);
 	} else {
 	    scen.map_repeat(target, source, flags);
-	}
 
-	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+	    Map::Terrain *tn = &scen.map.terrain[propdata.sel0][propdata.sel1];
+	    SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
+	    SetDlgItemInt(dialog, IDC_TR_CONST, tn->cnst, TRUE);
+
+	    SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+	}
 }
 
 void Map_HandleMapMove(HWND dialog, OpFlags::Value flags=OpFlags::ALL)

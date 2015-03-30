@@ -1372,5 +1372,11 @@ HWND CreateMapView(HWND owner, int x, int y, Scenario * scenario)
 		0, 0,   // width, height are calculated in OnWM_CREATE
 		owner, NULL, instance, scenario);
 
+	HMENU hmenu = GetSystemMenu(mapview,FALSE);
+	DeleteMenu(hmenu,SC_CLOSE,MF_BYCOMMAND );
+	LONG style = GetWindowLong(mapview,GWL_STYLE);
+	style ^= WS_SYSMENU;
+	SetWindowLong(mapview,GWL_STYLE,style);
+
 	return mapview;
 }

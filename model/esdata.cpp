@@ -102,6 +102,7 @@ void ESDATA::readTech(const XML_Char **attrs)
 	}
 
 	techs.push_back(link);
+
 	tech_count++;
 }
 
@@ -352,6 +353,15 @@ void ESDATA::load(const char *path)
 	char buffer[XMLBUFF_SIZE];
 
 	/* init */
+	techs.clear();
+	colors.clear();
+	units.clear();
+	resources.clear();
+	aitypes.clear();
+	terrains.clear();
+	unitgroups.clear();
+	civs.clear();
+
 	tech_count = 0;
 	color_count = 0;
 	unit_count = 0;

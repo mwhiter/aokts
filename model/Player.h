@@ -66,7 +66,7 @@ public:
 	void read_dis_bldgs(FILE * in, const PerVersion& pv);
 	void read_age(FILE * in);
 	void read_camera_longs(FILE * in);
-	void read_data4(FILE * in, ScenVersion1 v);
+	void read_data4(FILE * in, Game v);
 	void read_units(FILE *in);
 
 	/*

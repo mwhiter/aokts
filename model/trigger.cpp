@@ -822,7 +822,7 @@ bool compare_effect_nametip(const Effect& first,
     std::string t = std::string(second.getName(true));
 
     // UP only -- change speed must come after create
-    if (first.type == 30 && scen.ver2 == SV2_AOE2TC) {
+    if (first.type == 30 && scen.ver2 == SV2_AOC_SWGB) {
         s.insert (0, "create");
     }
 

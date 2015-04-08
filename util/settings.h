@@ -25,6 +25,7 @@ struct RecentFile
 {
 	char path[_MAX_PATH];
 	char display[_MAX_FNAME];
+	int game;
 
 	struct RecentFile *next;	//kinda a linked list?
 };

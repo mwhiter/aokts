@@ -14,21 +14,34 @@ typedef short UCNST;
  * This is not saved in the scenario but is used internally by many data
  * reading functions.
  */
+enum Game
+{
+	UNKNOWN = 0,
+	AOE     = 1,
+	ROR     = 2,
+	AOK     = 3,
+	AOC     = 4,
+	AOHD    = 5,
+	AOF     = 6,
+	SWGB    = 7,
+	SWGBCC  = 8,
+	NOCONV  = 100
+};
+
 enum ScenVersion1
 {
 	SV1_AOE1		= 10,
-	SV1_AOE2		= 18,
-	SV1_AOE2TC		= 21,
-	SV1_SWGB        = 22 // or should it be 21?
+	SV1_AOK		= 18,
+	SV1_AOC_SWGB	= 21
 };
 
 enum ScenVersion2
 {
 	SV2_AOE1		= 15,
-	SV2_AOE2		= 18,
-	SV2_AOE2TC		= 22,
-	SV2_AOE2TF		= 23,// The Forgotten
-	SV2_SWGB		= 24 // SWGB ? 
+	SV2_AOK		    = 18,
+	SV2_AOC_SWGB	= 22,
+	SV2_AOHD_AOF	= 23,// HD / The Forgotten
+	SV2_SWGBCC		= 24 // SWGB
 };
 
 /**
@@ -41,6 +54,10 @@ struct PerVersion
 	bool mstrings;
 	int max_disables1; // max disable tech and unit
 	int max_disables2; // max disable buildings
+};
+
+struct PerGame
+{
 	UCNST max_unit; // max unit types
 	int max_research; // max research
 	int max_tech; // max tech

@@ -14,7 +14,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0.31"
+#define VER_STRING "1.2.0.32"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -351,12 +351,12 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_E_GROUP				1821
 #define IDC_E_UTYPE				1822
 #define IDC_E_PANEL				1823
-#define IDC_E_END	            1824
-#define IDC_E_TEXTID            1825
-#define IDC_E_SOUNDID           1826
-#define IDC_E_OPENSEL			1827
-#define IDC_E_OPENSEL2			1828
-#define IDC_E_AREA_ALL			1829
+#define IDC_E_AREA_ALL			1824
+#define IDC_E_END	            1825
+#define IDC_E_TEXTID            1826
+#define IDC_E_SOUNDID           1827
+#define IDC_E_OPENSEL			1828
+#define IDC_E_OPENSEL2			1829
 #define IDC_E_TRIGID   			1830
 #define IDC_E_UCNSTID	    	1831
 #define IDC_E_CLEAR  	    	1832

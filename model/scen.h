@@ -66,8 +66,7 @@ struct OpFlags {
 struct SaveFlags {
     enum Value{
         NONE                           = 0x00,
-        CONVERT_AOK                    = 0x01,
-        CONVERT_EFFECTS                = 0x02,
+        CONVERT_EFFECTS                = 0x01,
     };
 };
 
@@ -170,6 +169,7 @@ class Scenario
 
 public:
 	const PerVersion *perversion;	//yes, I know that's a word. :-P
+	const PerGame *pergame;
 
 	static const PerVersion pv1_15;
 	static const PerVersion pv1_18;
@@ -177,6 +177,14 @@ public:
 	static const PerVersion pv1_22;
 	static const PerVersion pv1_23;
 	static const PerVersion pv1_30;
+
+	static const PerGame pgAOE;
+	static const PerGame pgAOK;
+	static const PerGame pgAOC;
+	static const PerGame pgSWGB;
+	static const PerGame pgAOHD;
+	static const PerGame pgAOF;
+	static const PerGame pgSWGBCC;
 
 	Scenario();
 	~Scenario();
@@ -187,6 +195,8 @@ public:
 
 	/* The scenario */
 
+	// Internal use, this is what we determine the scx type to be
+	Game game;
 	// Internal use, set according to header::version[]
 	ScenVersion1 ver1;
 	// Internal use, set according to version2
@@ -203,7 +213,7 @@ public:
 
 		void reset();
 		bool read(FILE *scx);	//error return
-		void write(FILE *scx, const SString *instr, long players, ScenVersion1 v);
+		void write(FILE *scx, const SString *instr, long players, Game g);
 	} header;
 
 //	Compression starts here
@@ -232,8 +242,9 @@ public:
 	long cFiles;
 	AOKFile *files;
 
-	void open(const char *path, const char *dpath);
-	int save(const char *path, const char *dpath, bool write, int convert, SaveFlags::Value flags);
+    // open the file and return the actual scx game version
+	Game open(const char *path, const char *dpath, Game version);
+	int save(const char *path, const char *dpath, bool write, Game convert, SaveFlags::Value flags);
 	void reset();
 	bool export_bmp(const char *path);
 	//exFile: Exports all (index of -1) or one file to the specified directory
@@ -338,10 +349,6 @@ public:
 	int getPlayerCount();
 
 	bool needsave()	{ return mod_status; }
-
-	bool isAok();
-	bool isScx();
-	bool isScx2();
 };
 
 #undef UNREAD

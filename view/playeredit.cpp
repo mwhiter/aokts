@@ -577,7 +577,7 @@ BOOL Players_Init(HWND dialog)
 	Combo_PairFill(GetDlgItem(dialog, IDC_P_AGE), NUM_AGES, ages);
 
 	/* Set resource names per game */
-	if (scen.ver1 == SV1_SWGB) {
+	if (scen.game == SWGB) {
 	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_FOOD), L"Food:");
 	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_WOOD), L"Carbon:");
 	    Window_SetTextW(GetDlgItem(dialog, IDC_P_LBL_GOLD), L"Nova:");

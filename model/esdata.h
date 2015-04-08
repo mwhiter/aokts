@@ -36,9 +36,9 @@ public:
 	void setNext(Link*);
 	int id() const;
 	const wchar_t * name() const;
+	Link* _next; // didn't want to have to make this public, but how to make friend template class LinkList?
 
 private:
-	Link* _next;
 	int _id;
 	std::wstring _name;
 };
@@ -140,6 +140,10 @@ public:
 private:
 	T * _head;
 	T * _tail;
+
+	void clear();
+
+	T * pop();
 
 	/**
 	 * Appends the given item to the list. I don't like "push_back", but it's
@@ -336,4 +340,39 @@ template <class T> void LinkList<T>::push_back(T * item)
 	_tail = item;
 }
 
+template <class T> T * LinkList<T>::pop()
+{
+	// If list is empty, return NULL
+	if (!_head)
+		return NULL;
+
+    // If only one in list, pop it
+	T * current = _head;
+	if (!current->_next) {
+	    _head = NULL;
+	    _tail = NULL;
+	    return current;
+	}
+
+	T * previous = NULL;
+
+    // Otherwise, pop the last one
+	while (current->_next) {
+	    previous = current;
+	    current = static_cast<T*>(current->_next);
+	}
+
+	previous->_next = NULL;
+
+	return current;
+}
+
+template <class T> void LinkList<T>::clear()
+{
+    T * current = pop();
+    while (current) {
+        delete current;
+        current = pop();
+    }
+}
 #endif // INC_ESDATA_H

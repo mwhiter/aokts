@@ -16,7 +16,7 @@ Unit::Unit(UID id)
 	state(2), rotate(0), frame(0), garrison(-1),
 	pType(NULL)
 {
-    if (scen.ver2 == SV2_AOE2) {
+    if (scen.ver2 == SV2_AOK) {
         garrison = 0;
     }
 }

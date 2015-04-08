@@ -33,10 +33,13 @@ using std::pair;
 /* See scen_const.h
 struct PerVersion
 {
-	int messages_count;
-	bool mstrings;
-	int max_disables1; // max disable tech and unit
-	int max_disables2; // max disable buildings
+	UCNST max_unit; // max unit types
+	int max_research; // max research
+	int max_tech; // max tech
+	int max_terrains; // max tech
+};
+struct PerGame
+{
 	UCNST max_unit; // max unit types
 	int max_research; // max research
 	int max_tech; // max tech
@@ -49,7 +52,12 @@ const PerVersion Scenario::pv1_15 =
 {
 	5,
 	true,
-	30, 20,
+	30,
+	20
+};
+
+const PerGame Scenario::pgAOE =
+{
 	374,
 	118,
 	140,
@@ -61,56 +69,94 @@ const PerVersion Scenario::pv1_18 =
 {
 	5,
 	true,
-	30, 20,
+	30,
+	20
+};
+
+const PerGame Scenario::pgAOK =
+{
 	750,
 	426,
 	438,
 	32
 };
 
-// AOC
+// AOC / SWGB
 const PerVersion Scenario::pv1_22 =
 {
 	6,
 	true,
-	30, 20,
+	30,
+	20,
+};
+
+// AOC
+const PerGame Scenario::pgAOC =
+{
 	866,
 	460,
 	514,
 	42
 };
 
-//// AOFE
-//const PerVersion Scenario::pv1_22 =
+//// SWGB
+//const PerGame Scenario::pgSWGB =
 //{
-//	6,
-//	true,
-//	30, 20,
-//	866, // the true value of this number is very importint!
+//	866,
 //	460,
 //	514,
 //	42
 //};
+
+const PerGame Scenario::pgSWGB =
+{
+	750,
+	426,
+	438,
+	32
+};
+
 
 // AOHD
 const PerVersion Scenario::pv1_23 =
 {
 	6,
 	true,
-	30, 20,
+	30,
+	20
+};
+
+// AOHD
+const PerGame Scenario::pgAOHD =
+{
 	865,
 	459,
 	513,
 	41
 };
 
-// SWGB
+// AOF -- these are not correct
+const PerGame Scenario::pgAOF =
+{
+	865,
+	459,
+	513,
+	41
+};
+
+// SWGB CC
 const PerVersion Scenario::pv1_30 =
 {
 	6,
 	true,
-	60, 60,
-	866, // install SWGB and use AGE to find the these values
+	60,
+	60
+};
+
+// SWGB CC
+const PerGame Scenario::pgSWGBCC =
+{
+	866,
 	460,
 	514,
 	42
@@ -158,8 +204,10 @@ void Scenario::reset()
 
 	/* Internal */
 	mod_status = false;
-	ver1 = SV1_AOE2TC;
-	ver2 = SV2_AOE2TC;
+	ver1 = SV1_AOC_SWGB;
+	ver2 = SV2_AOC_SWGB;
+	game = AOK;
+	pergame = &pgAOK;
 
 	/* "Blank" scenario */
 	strcpy(header.version, "1.21");
@@ -272,45 +320,40 @@ void Scenario::AOKBMP::reset()
 	delete [] image;
 }
 
-bool Scenario::isAok() //The Age of Kings
-{
-	bool ret = false;
-
-	if (ver1 == SV1_AOE2)
-		ret = true;
-
-	return ret;
-}
-
-bool Scenario::isScx() //The Conquerors
-{
-	bool ret = false;
-
-	if (ver1 == SV1_AOE2TC)
-		ret = true;
-
-	return ret;
-}
-
-bool Scenario::isScx2() //The Forgotten
-{
-	bool ret = false;
-
-	if (ver1 == SV1_AOE2TC && ver2 == SV2_AOE2TF)
-		ret = true;
-
-	return ret;
-}
-
 char Scenario::StandardAI[] = "RandomGame";
 char Scenario::StandardAI2[] = "Promisory";
 
 /* Open a scenario, read header, and read compressed data */
 
-void Scenario::open(const char *path, const char *dpath)
+Game Scenario::open(const char *path, const char *dpath, Game version)
 {
 	using std::runtime_error;
 	using std::logic_error;
+
+	game = version;
+	switch (version) {
+	case AOE:
+	    pergame = &pgAOE;
+	    break;
+	case AOK:
+	    pergame = &pgAOK;
+	    break;
+	case AOC:
+	    pergame = &pgAOC;
+	    break;
+	case AOHD:
+	    pergame = &pgAOHD;
+	    break;
+	case AOF:
+	    pergame = &pgAOF;
+	    break;
+	case SWGB:
+	    pergame = &pgSWGB;
+	    break;
+	case SWGBCC:
+	    pergame = &pgSWGBCC;
+	    break;
+	}
 
 	int clen;	//length of compressed data
 
@@ -330,26 +373,32 @@ void Scenario::open(const char *path, const char *dpath)
 		throw runtime_error("Not a valid scenario.");
 	}
 
+	printf("Outside Header Version %g: ", version2);
 	if (!strncmp(header.version, "1.18", 4))
 	{
-		ver1 = SV1_AOE2;
+		ver1 = SV1_AOK;
+		printf("ver1: 1.18 (AOE 2).\n");
+		game = AOK;
+		pergame = &pgAOK;
 	}
 	else if (!strncmp(header.version, "1.21", 4))
 	{
-		ver1 = SV1_AOE2TC;
-	}
-	else if (!strncmp(header.version, "1.30", 4))
-	{
-		ver1 = SV1_AOE2TC;
+		ver1 = SV1_AOC_SWGB;
+		printf("ver1: 1.21 (AOE 2 TC or SWGB or SWGB:CC).\n");
 	}
 	else if (header.version[2] == '1' &&
 		(header.version[3] == '0' || header.version[3] == '1')) // 1.10 or 1.11
 	{
 		ver1 = SV1_AOE1;
+		printf("ver1: 1.1x (AOE 1).\n");
+		game = AOE;
+		pergame = &pgAOE;
 	}
 	else
 	{
 		printf("Unrecognized scenario version: %s.\n", header.version);
+		game = UNKNOWN;
+		pergame = NULL;
 		throw bad_data_error("unrecognized format version");
 	}
 
@@ -391,11 +440,13 @@ void Scenario::open(const char *path, const char *dpath)
 	}
 
 	read_data(dpath);
+
+	return game;
 }
 
 /* Open a destination scenario, write the header, and optionally write compressed data */
 
-int Scenario::save(const char *path, const char *dpath, bool write, int convert, SaveFlags::Value flags)
+int Scenario::save(const char *path, const char *dpath, bool write, Game convert, SaveFlags::Value flags)
 {
 	size_t uc_len;
 	int code = 0;	//return from zlib functions
@@ -404,38 +455,59 @@ int Scenario::save(const char *path, const char *dpath, bool write, int convert,
 
 	switch (convert)
 	{
-		case 1:
-			ver1 = SV1_AOE2;
-			ver2 = SV2_AOE2;
-			if (flags & SaveFlags::CONVERT_AOK)
+		case AOK:
+			ver1 = SV1_AOK;
+			ver2 = SV2_AOK;
+			perversion = &pv1_18;
+			if (game == AOC || game == AOHD || game == AOF)
 			    aoc_to_aok();
+			game = AOK;
 			break;
-		case 2:
-			ver1 = SV1_AOE2TC;
-			ver2 = SV2_AOE2TC;
-			if (flags & SaveFlags::CONVERT_EFFECTS)
+		case AOC:
+			ver1 = SV1_AOC_SWGB;
+			ver2 = SV2_AOC_SWGB;
+			perversion = &pv1_22;
+			if ((game == AOHD || game == AOF) && (flags & SaveFlags::CONVERT_EFFECTS))
 			    hd_to_up();
-			if (flags & SaveFlags::CONVERT_AOK)
+			if (game == AOK)
 			    aok_to_aoc();
+			game = AOC;
 			break;
-		case 3:
-			ver1 = SV1_AOE2TC;
-			ver2 = SV2_AOE2TF;
-			if (flags & SaveFlags::CONVERT_EFFECTS)
+		case AOHD:
+		case AOF:
+			ver1 = SV1_AOC_SWGB;
+			ver2 = SV2_AOHD_AOF;
+			perversion = &pv1_23;
+			if (game == AOC && (flags & SaveFlags::CONVERT_EFFECTS))
 			    up_to_hd();
-			if (flags & SaveFlags::CONVERT_AOK)
+			if (game == AOK)
 			    aok_to_aoc();
+			game = AOF;
 			break;
-		case 4:
-			ver1 = SV1_SWGB;
-			ver2 = SV2_SWGB;
-			if (flags & SaveFlags::CONVERT_AOK)
+		case SWGB:
+			ver1 = SV1_AOC_SWGB;
+			ver2 = SV2_AOC_SWGB;
+			perversion = &pv1_30;
+			if ((game == AOHD || game == AOF) && (flags & SaveFlags::CONVERT_EFFECTS))
+			    hd_to_up();
+			if (game == AOK)
 			    aok_to_aoc();
+			game = SWGB;
+			break;
+		case SWGBCC:
+			ver1 = SV1_AOC_SWGB;
+			ver2 = SV2_SWGBCC;
+			perversion = &pv1_30;
+			if ((game == AOHD || game == AOF) && (flags & SaveFlags::CONVERT_EFFECTS))
+			    hd_to_up();
+			if (game == AOK)
+			    aok_to_aoc();
+			game = SWGBCC;
 			break;
 	}
 
 	/* Header */
-	header.write(scx.get(), messages, getPlayerCount(), ver1);
+	header.write(scx.get(), messages, getPlayerCount(), game);
 
 	/* Write uncompressed data to a temp file */
 	if (write)
@@ -515,20 +587,20 @@ bool Scenario::_header::read(FILE *scx)
 	return ret;
 }
 
-void Scenario::_header::write(FILE *scx, const SString *instr, long players, ScenVersion1 v)
+void Scenario::_header::write(FILE *scx, const SString *instr, long players, Game g)
 {
+    // this is the header 1
 	long num;
 
-	switch (v)
+	switch (g)
 	{
-	case SV1_AOE2:
+	case AOK:
 		strcpy(version, "1.18");
 		break;
-	case SV1_AOE2TC:
+	case AOC:
+	case SWGB:
+	case SWGBCC:
 		strcpy(version, "1.21");
-		break;
-	case SV1_SWGB:
-		strcpy(version, "1.30");
 		break;
 	default:
 		strcpy(version, "0.00");
@@ -597,11 +669,15 @@ void Scenario::read_data(const char *path)	//decompressed data
 	if (setts.intense)
 		printf("Debug 1.\n");
 
+	printf("Compressed (inside) Header Version %g: ", version2);
 	switch (myround(version2 * 100))
 	{
 	case 115:
 		perversion = &pv1_15;
+		pergame = &pgAOE;
 		ver2 = SV2_AOE1;
+		printf("ver2: 1.15 (AOE).\n");
+		game = AOE;
 		break;
 
 	case 118:
@@ -609,33 +685,51 @@ void Scenario::read_data(const char *path)	//decompressed data
 	case 120:
 	case 121:
 		perversion = &pv1_18;
-		ver2 = SV2_AOE2;
+		pergame = &pgAOK;
+		ver2 = SV2_AOK;
+		printf("ver2: 1.18-1.21 (AOK).\n");
+		game = AOK;
 		break;
 
 	case 122:
 		perversion = &pv1_22;
-		ver2 = SV2_AOE2TC;
+		ver2 = SV2_AOC_SWGB;
+		printf("ver2: 1.22 (AOE 2 TC or SWGB).\n");
+		if (game == UNKNOWN) {
+		    game = AOC;
+		    pergame = &pgAOC;
+		}
 		break;
 
 	case 123:
 		perversion = &pv1_23;
-		ver2 = SV2_AOE2TF;
+		ver2 = SV2_AOHD_AOF;
+		printf("ver2: 1.23 (AOHD or AOF).\n");
+		if (game == UNKNOWN || game == SWGB || game == AOC) {
+		    game = AOF;
+		    pergame = &pgAOF;
+		}
 		break;
 
 	case 130:
 		perversion = &pv1_30;
-		ver2 = SV2_SWGB;
+		ver2 = SV2_SWGBCC;
+		printf("ver2: 1.30 (SWGB:CC).\n");
+		game = SWGBCC;
+		pergame = &pgSWGBCC;
 		break;
 
 	default:
 		printf("Unrecognized scenario version2: %f.\n", version2);
+		game = UNKNOWN;
+		pergame = NULL;
 		throw bad_data_error("unrecognized format version");
 	}
 
 	FEP(p)
 		p->read_header_name(dc2in.get());
 
-	if (ver1 >= SV1_AOE2)
+	if (ver1 >= SV1_AOK)
 	{
 		FEP(p)
 			p->read_header_stable(dc2in.get());
@@ -735,7 +829,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	SKIP(dc2in.get(), sizeof(long) * NUM_PLAYERS);	//other allied victory
 
-	if (ver2 == SV2_AOE2TF || ver2 == SV2_SWGB)
+	if (ver2 == SV2_AOHD_AOF)
 		readbin(dc2in.get(), &lock_teams);
 
 	/* Disables */
@@ -755,7 +849,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 		p->read_dis_bldgs(dc2in.get(), *perversion);
 
 	if (setts.intense)
-		printf("Debug 4.\n");
+	    printf("Debug 4.\n");
 
 	readunk<long>(dc2in.get(), 0, "Disables unused 1", true);
 	readunk<long>(dc2in.get(), 0, "Disables unused 2", true);
@@ -768,6 +862,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 	readunk(dc2in.get(), sect, "map sect begin", true);
 
 	players[0].read_camera_longs(dc2in.get());
+
 	map.read(dc2in.get(), ver1);
 
 	/* Population Limits & Units */
@@ -775,7 +870,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 	readunk<long>(dc2in.get(), 9, "Player count before units", true);
 
 	for (i = PLAYER1_INDEX; i < GAIA_INDEX; i++)
-		players[i].read_data4(dc2in.get(), ver1);
+		players[i].read_data4(dc2in.get(), game);
 
 	// GAIA first! Grrrr.
 	players[GAIA_INDEX].read_units(dc2in.get());
@@ -839,7 +934,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 			throw bad_data_error("Trigger order list corrupted. Possibly out of sync.");
 	}
 
-    if (ver2 == SV2_AOE2) {
+    if (ver2 == SV2_AOK) {
         // this code is from aokts-0.3.6, which could open aok files
 	    /* Included Files */
 	    fread(&unk3, sizeof(long), 2, dc2in.get());	//unk3, unk4
@@ -902,16 +997,16 @@ int Scenario::write_data(const char *path)
 
 	switch (ver2)
 	{
-		case SV2_AOE2:
+		case SV2_AOK:
 			version2 = 1.20F;
 			break;
-		case SV2_AOE2TC:
+		case SV2_AOC_SWGB:
 			version2 = 1.22F;
 			break;
-		case SV2_AOE2TF:
+		case SV2_AOHD_AOF:
 			version2 = 1.23F;
 			break;
-		case SV2_SWGB:
+		case SV2_SWGBCC:
 			version2 = 1.30F;
 			break;
 		default:
@@ -923,7 +1018,7 @@ int Scenario::write_data(const char *path)
 	FEP(p)
 		p->write_header_name(dcout);
 
-	if (ver1 >= SV1_AOE2)
+	if (ver1 >= SV1_AOK)
 	{
 	    FEP(p)
 		    p->write_header_stable(dcout);
@@ -1022,7 +1117,7 @@ int Scenario::write_data(const char *path)
 		fwrite(&num, sizeof(long), 1, dcout);
 	}
 
-	if (ver2 == SV2_AOE2TF)
+	if (ver2 == SV2_AOHD_AOF)
 		fwrite(&lock_teams, sizeof(long), 1, dcout);
 
 	/* Disables */
@@ -1066,13 +1161,9 @@ int Scenario::write_data(const char *path)
 		resources[3] = (float)players[i].resources[3];
 		resources[4] = (float)players[i].resources[4];
 		resources[5] = 0.0F;
-		if (ver1 == SV1_SWGB) {
-		    fwrite(resources, sizeof(float), 5, dcout);
-		} else {
-		    fwrite(resources, sizeof(float), 6, dcout);
-		}
+		fwrite(resources, sizeof(float), 6, dcout);
 
-		if (ver1 >= SV1_AOE2TC)
+        if (game >= AOC && game != SWGB && game != SWGBCC)
 			fwrite(&players[i].pop, 4, 1, dcout);
 	}
 
@@ -2213,7 +2304,7 @@ AOKTS_ERROR Scenario::randomize_unit_frames()
     // doesn't work in vc++ 2005
     //unsigned char lookup[perversion->max_unit][2] = {0};
     //map<unsigned char, unsigned char> lookup;
-    vector< pair<short,float>> lookup(perversion->max_unit, std::make_pair(0,0.0F));
+    vector< pair<short,float>> lookup(pergame->max_unit, std::make_pair(0,0.0F));
 
     UCNST cunitid;
     // each player
@@ -2222,7 +2313,7 @@ AOKTS_ERROR Scenario::randomize_unit_frames()
         vector<Unit>::iterator end = players[i].units.end();
         for (vector<Unit>::iterator iter = players[i].units.begin(); iter != end; ++iter) {
 	        cunitid = iter->getType()->id();
-	        if (cunitid >= 0 && cunitid < perversion->max_unit){
+	        if (cunitid >= 0 && cunitid < pergame->max_unit){
 	            if (iter->frame > lookup.at(cunitid).first) {
 	                lookup.at(cunitid).first = iter->frame;
 	            }
@@ -2241,7 +2332,7 @@ AOKTS_ERROR Scenario::randomize_unit_frames()
 	    for (vector<Unit>::iterator iter = players[i].units.begin(); iter != end; ++iter) {
 	        cunitid = iter->getType()->id();
 	        // 264 - 272 are cliffs (avoid) when game is aoe2
-	        if (cunitid >= 0 && cunitid < perversion->max_unit && !((ver1 == SV1_AOE2 || ver1 == SV1_AOE2TC) && cunitid >= 264 && cunitid <= 272)){
+	        if (cunitid >= 0 && cunitid < pergame->max_unit && !((ver1 == SV1_AOK || ver1 == SV1_AOC_SWGB) && cunitid >= 264 && cunitid <= 272)){
                 iter->frame = (short)(rand() % (lookup.at(cunitid).first + 1));
                 iter->rotate = (float)(rand() % (int)(lookup.at(cunitid).second / (float)PI * 4 + 1)) / 4 * (float)PI;
             }
@@ -2256,24 +2347,26 @@ AOKTS_ERROR Scenario::water_cliffs_visibility(const bool visibility)
     Unit * u;
     Map::Terrain * t;
 	for (int j = 0; j < numunits; j++) {
-	    // 264 - 272 are cliffs (avoid) when game is aoe2
-	    u = &(players[8].units.at(j));
-	    if (u->getType()->id() >= 264 && players[8].units.at(j).getType()->id() <= 272) {
-            t = &map.terrain[(int)floor(u->x)][(int)floor(u->y)];
-            switch (t->cnst) {
-            case 1:
-            case 4:
-            case 22:
-            case 23:
-                if (visibility) {
-                    u->rotate = 1;
-                    u->frame = 1;
-                } else {
-                    u->rotate = 0;
-                    u->frame = 0;
+	    if (game == AOK || game == AOC || game == AOHD || game == AOF) {
+	        // 264 - 272 are cliffs (avoid) when game is aoe2
+	        u = &(players[8].units.at(j));
+	        if (u->getType()->id() >= 264 && players[8].units.at(j).getType()->id() <= 272) {
+                t = &map.terrain[(int)floor(u->x)][(int)floor(u->y)];
+                switch (t->cnst) {
+                case 1:
+                case 4:
+                case 22:
+                case 23:
+                    if (visibility) {
+                        u->rotate = 1;
+                        u->frame = 1;
+                    } else {
+                        u->rotate = 0;
+                        u->frame = 0;
+                    }
+                    break;
                 }
-                break;
-            }
+	        }
 	    }
 	}
 	return ERR_none;
@@ -3010,12 +3103,15 @@ void Map::reset()
 void Map::read(FILE *in, ScenVersion1 version)
 {
 	Terrain *t_parse;
+	unsigned int count;
 
-	if (version >= SV1_AOE2TC)
+	if (version >= SV1_AOC_SWGB)
 		readbin(in, &aitype);
 
 	readbin(in, &x);
 	readbin(in, &y);
+	printf("Debug X %lu.\n",x);
+	printf("Debug Y %lu.\n",y);
 
 	/**
 	 * Note that I treat x as the row indices, not the usual col indices,
@@ -3023,7 +3119,7 @@ void Map::read(FILE *in, ScenVersion1 version)
 	 */
 	for (unsigned int i = 0; i < x; i++)
 	{
-		unsigned int count = y;
+		count = y;
 		t_parse = terrain[i];
 
 		while (count--)
@@ -3040,7 +3136,7 @@ void Map::write(FILE *out, ScenVersion1 version)
 	Terrain *t_parse;
 
 	//there's no aitype in non-TC
-	if (version >= SV1_AOE2TC)
+	if (version >= SV1_AOC_SWGB)
 		fwrite(this, sizeof(long), 3, out);	//aitype, x, y
 	else
 		fwrite(&x, sizeof(long), 2, out);	//x, y

@@ -98,16 +98,15 @@ DLGPROC procs[NUM_PAGES] =
 const char * askSaveChanges =
 "Do you want to save your changes?";
 
-
 const char *szTitle = "Trigger Studio";
 const char welcome[] =
 "Welcome to AOKTS! Please open a scenario or make a new one.";
 const char extOpen[] =
-"Expansion Scenarios (*.scx)\0*.scx\0AoK Scenarios (*.scn)\0*.scn\0AoF Scenarios (*.scx2)\0*.scx2\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
+"AOC/HD Scenarios (*.scx)\0*.scx\0SWGB Scenarios (*.scx)\0*.scx\0AOK Scenarios (*.scn)\0*.scn\0AOF Scenarios (*.scx2)\0*.scx2\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
-"AoK Scenarios (*.scn)\0*.scn\0AoC Scenarios (*.scx)\0*.scx\0AoHD Scenarios (*.scx)\0*.scx\0AoF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
-const char datapath[] = "data_aok.xml";
-//const char datapath[] = "data_swgb.xml";
+"AOK Scenarios (*.scn)\0*.scn\0AOC Scenarios (*.scx)\0*.scx\0AOHD Scenarios (*.scx)\0*.scx\0AOF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
+const char datapath_aok[] = "data_aok.xml";
+const char datapath_swgb[] = "data_swgb.xml";
 
 /** Functions **/
 
@@ -184,8 +183,8 @@ void FileSave(HWND sheet, bool as, bool write)
 	HCURSOR previous;	//the mouse cursor before/after save operation
 	OPENFILENAME ofn;
 	char titleBuffer[100];
-	char startver;
-	int conv = 0;
+	Game startver;
+	Game conv = NOCONV;
     SaveFlags::Value flags = SaveFlags::NONE;
 
 	//init
@@ -202,37 +201,68 @@ void FileSave(HWND sheet, bool as, bool write)
 		ofn.hwndOwner = sheet;
 		ofn.lpstrFilter = extSave;
 		ofn.lpstrCustomFilter = NULL;
-		if (scen.isAok()) {
-		    startver = 1;
-		} else if (scen.isScx2()) {
-		    if (strstr(setts.ScenPath, ".scx2")) {
-		        startver = 4;
-		    } else {
-		        startver = 3;
-		    }
-		} else if (scen.isScx()) {
-		    startver = 2;
-		} else {
-		    startver = 5;
-		}
-		ofn.nFilterIndex = startver;
 		ofn.lpstrFile = setts.ScenPath;
 		ofn.nMaxFile = _MAX_PATH;
 		ofn.lpstrFileTitle = NULL;
 		ofn.lpstrInitialDir = dir;
 		ofn.lpstrTitle = NULL;
 		ofn.Flags = OFN_NOREADONLYRETURN | OFN_OVERWRITEPROMPT;
-		ofn.lpstrDefExt = "scx";
+
+	    startver = scen.game;
+
+		switch (scen.game) {
+		case AOK:
+		    ofn.nFilterIndex =	1;
+		    ofn.lpstrDefExt =	"scn";
+		    break;
+		case AOC:
+		    ofn.nFilterIndex =	2;
+		    ofn.lpstrDefExt =	"scx";
+		    break;
+		case AOHD:
+		    ofn.nFilterIndex =	3;
+		    ofn.lpstrDefExt =	"scx";
+		    break;
+		case AOF:
+		    ofn.nFilterIndex =	4;
+		    ofn.lpstrDefExt =	"scx2";
+		    break;
+		case SWGB:
+		    ofn.nFilterIndex =	5;
+		    ofn.lpstrDefExt =	"scx";
+		    break;
+		case SWGBCC:
+		    ofn.nFilterIndex =	6;
+		    ofn.lpstrDefExt =	"sc1";
+		    break;
+		}
 
 		if (!GetSaveFileName(&ofn))
 			return;
 
-		if (ofn.nFilterIndex != startver)
-			conv = ofn.nFilterIndex;
+		switch (ofn.nFilterIndex) {
+		case 1:
+		    conv = AOK;
+		    break;
+		case 2:
+		    conv = AOC;
+		    break;
+		case 3:
+		    conv = AOHD;
+		    break;
+		case 4:
+		    conv = AOF;
+		    break;
+		case 5:
+		    conv = SWGB;
+		    break;
+		case 6:
+		    conv = SWGBCC;
+		    break;
+		}
 
-        /* because scx2 is same as aohd scx? */
-		if (conv >= 4)
-		    conv--;
+		if (startver == conv)
+		    conv = NOCONV;
 
 		if (!*scen.origname)
 			strcpy(scen.origname, setts.ScenPath + ofn.nFileOffset);
@@ -243,17 +273,8 @@ void FileSave(HWND sheet, bool as, bool write)
 		SetWindowText(sheet, titleBuffer);
 	}
 
-    // convert effects from AOK to AOC
-    if (startver == 1 && conv != 1) {
-        flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_AOK);
-    }
-
-    if (startver != 1 && conv == 1) {
-        flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_AOK);
-    }
-
     // convert effects from AOF/AOHD to UP
-    if (startver == 4 || startver == 3 && conv == 2) {
+    if ((startver == AOHD || startver == AOF) && (conv != AOHD && conv != AOF)) {
         if (setts.asktoconverteffects &&
             MessageBox(sheet, "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES) {
             flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
@@ -261,7 +282,7 @@ void FileSave(HWND sheet, bool as, bool write)
     }
 
     // convert effects from UP to AOF/AOHD
-    if (conv == 4 || conv == 3 && startver == 2) {
+    if ((conv == AOHD || conv == AOF) && (startver != AOHD && startver != AOF)) {
         if (setts.asktoconverteffects &&
             MessageBox(sheet, "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES) {
             flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
@@ -302,6 +323,19 @@ void FileSave(HWND sheet, bool as, bool write)
 	}
 }
 
+#define MAP_OFFSET 10
+HWND MakeMapView(HWND sheet, int cmdshow)
+{
+	HWND ret;
+	RECT rect;
+
+	GetWindowRect(sheet, &rect);
+	ret = CreateMapView(sheet, rect.right + MAP_OFFSET, rect.top, &scen);
+	ShowWindow(ret, cmdshow);
+
+	return ret;
+}
+
 /*
 	FileOpen: Handles a request to open a file. (Either by menu or generated by the app.)
 
@@ -316,6 +350,7 @@ void FileOpen(HWND sheet, bool ask, int recent)
 	struct RecentFile *file = NULL;	//the file info will be stored here one way or another
 	char titleBuffer[100];
 	const char *filename;
+	Game version = UNKNOWN;
 
 	HWND page = PropSheet_GetCurrentPageHwnd(sheet);
 
@@ -351,6 +386,7 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		}
 
 		strcpy(setts.ScenPath, file->path);
+		version = (Game)file->game;
 	}
 	/* Prompt the user for a filename. */
 	else if (ask)
@@ -365,17 +401,66 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		//ofn.hInstance unused
 		ofn.lpstrFilter =	extOpen;
 		ofn.lpstrCustomFilter = NULL;	//user should not set custom filters
-		ofn.nFilterIndex =	1;
 		ofn.lpstrFile =		setts.ScenPath;
 		ofn.nMaxFile =		_MAX_PATH;
 		ofn.lpstrFileTitle = NULL;
 		ofn.lpstrInitialDir = dir;
 		ofn.lpstrTitle =	NULL;
 		ofn.Flags =			OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON | OFN_NOCHANGEDIR;
-		ofn.lpstrDefExt =	"scx";
+
+		switch (scen.game) {
+		case AOK:
+		    ofn.nFilterIndex =	3;
+		    ofn.lpstrDefExt =	"scn";
+		    break;
+		case AOC:
+		case AOHD:
+		    ofn.nFilterIndex =	1;
+		    ofn.lpstrDefExt =	"scx";
+		    break;
+		case AOF:
+		    ofn.nFilterIndex =	4;
+		    ofn.lpstrDefExt =	"scx2";
+		    break;
+		case SWGB:
+		    ofn.nFilterIndex =	2;
+		    ofn.lpstrDefExt =	"scx";
+		    break;
+		case SWGBCC:
+		    ofn.nFilterIndex =	5;
+		    ofn.lpstrDefExt =	"sc1";
+		    break;
+		}
 
 		if (!GetOpenFileName(&ofn))
 			return;
+
+		switch (ofn.nFilterIndex) {
+		case 1:
+		    version = AOC;
+		    printf("Selected %d, AOC.\n", ofn.nFilterIndex);
+		    break;
+		case 2:
+		    version = SWGB;
+		    printf("Selected %d, SWGB.\n", ofn.nFilterIndex);
+		    break;
+		case 3:
+		    version = AOK;
+		    printf("Selected %d, AOK.\n", ofn.nFilterIndex);
+		    break;
+		case 4:
+		    version = AOF;
+		    printf("Selected %d, AOF.\n", ofn.nFilterIndex);
+		    break;
+		case 5:
+		    version = SWGBCC;
+		    printf("Selected %d, SWGB:CC.\n", ofn.nFilterIndex);
+		    break;
+		case 6:
+		    version = UNKNOWN;
+		    printf("Selected %d, All Files.\n", ofn.nFilterIndex);
+		    break;
+		}
 
 		/* Now check if selected file is already on recent list. */
 		r_parse = setts.recent_first;
@@ -390,15 +475,17 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		}
 	}
 
-	/* Handle recent file stuff */
-	if (!file)
-	{
-		file = setts.recent_getnext();
-		strcpy(file->path, setts.ScenPath);
-		strcpy(file->display, setts.ScenPath + ofn.nFileOffset);
+	DestroyWindow(propdata.mapview);
+	SendMessage(GetWindow(propdata.mapview, GW_OWNER), MAP_Close, 0, 0);
+	switch (version) {
+	case SWGB:
+	case SWGBCC:
+		esdata.load(datapath_swgb);
+		break;
+	default:
+		esdata.load(datapath_aok);
 	}
-	setts.recent_push(file);
-	UpdateRecentMenu(propdata.menu);
+	propdata.mapview = MakeMapView(sheet, SW_NORMAL);
 
 	/* Open it! */
 	SendMessage(page, AOKTS_Closing, 0, 0);
@@ -407,7 +494,19 @@ void FileOpen(HWND sheet, bool ask, int recent)
 	scen.reset();
 	try
 	{
-		scen.open(setts.ScenPath, setts.TempPath);
+		version = scen.open(setts.ScenPath, setts.TempPath, version);
+
+	    /* Handle recent file stuff */
+	    if (!file)
+	    {
+		    file = setts.recent_getnext();
+		    strcpy(file->path, setts.ScenPath);
+		    strcpy(file->display, setts.ScenPath + ofn.nFileOffset);
+		    file->game = (int)version;
+	    }
+	    setts.recent_push(file);
+	    UpdateRecentMenu(propdata.menu);
+
 		SetCursor(previous);
 		// for some reason this is always read only. on Wine at least
 		//SetSaveState(sheet, ofn.Flags & OFN_READONLY ? MF_GRAYED : MF_ENABLED);
@@ -415,6 +514,17 @@ void FileOpen(HWND sheet, bool ask, int recent)
 
 		// set status bar text
 		SetWindowTextW(propdata.statusbar, L"Scenario loaded successfully.");
+
+	    /* Updates*/
+	    SendMessage(page, AOKTS_Loading, 0, 0);
+	    MapView_Reset(propdata.mapview, true);
+
+	    filename = getFilenameFromPath(setts.ScenPath);
+
+	    _snprintf(titleBuffer, sizeof(titleBuffer),
+		        "%s - %s", szTitle, filename);
+
+	    SetWindowText(sheet, titleBuffer);
 	}
 	catch (std::exception &ex)
 	{
@@ -435,21 +545,19 @@ void FileOpen(HWND sheet, bool ask, int recent)
 	#ifndef _DEBUG
 		scen.reset();
 	#endif
+
+	    /* Updates*/
+	    SendMessage(page, AOKTS_Loading, 0, 0);
+	    MapView_Reset(propdata.mapview, true);
+
+	    _snprintf(titleBuffer, sizeof(titleBuffer),
+		        "%s", szTitle);
+
+	    SetWindowText(sheet, titleBuffer);
 	}
 
 	//report errors to logfile
 	fflush(stdout);
-
-	/* Updates*/
-	SendMessage(page, AOKTS_Loading, 0, 0);
-	MapView_Reset(propdata.mapview, true);
-
-	filename = getFilenameFromPath(setts.ScenPath);
-
-	_snprintf(titleBuffer, sizeof(titleBuffer),
-		"%s - %s", szTitle, filename);
-
-	SetWindowText(sheet, titleBuffer);
 }
 
 /*
@@ -1160,19 +1268,6 @@ bool ProcessCmdline(char *cmdline)
 	return ret;
 }
 
-#define MAP_OFFSET 10
-HWND MakeMapView(HWND sheet, int cmdshow)
-{
-	HWND ret;
-	RECT rect;
-
-	GetWindowRect(sheet, &rect);
-	ret = CreateMapView(sheet, rect.right + MAP_OFFSET, rect.top, &scen);
-	ShowWindow(ret, cmdshow);
-
-	return ret;
-}
-
 /*
 	WinMain: The entry-point function.
 
@@ -1205,7 +1300,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 	//read genie data
 	try
 	{
-		esdata.load(datapath);
+		esdata.load(datapath_aok);
 	}
 	catch (std::exception& ex)
 	{

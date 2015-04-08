@@ -10,6 +10,8 @@
 
 #define OEMRESOURCE
 
+#include "../model/scen.h"
+
 #include "editors.h"
 
 #include "../util/MemBuffer.h"
@@ -26,6 +28,8 @@
 #include <windowsx.h>	//for GET_X_LPARAM, GET_Y_LPARAM
 #include <stdexcept>
 #include <algorithm>
+
+extern Scenario scen;
 
 using std::vector;
 
@@ -1250,6 +1254,8 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, setts.showdisplayorder);
 
 	SendDlgItemMessage(dialog, IDC_T_PSEUDONYMS, BM_SETCHECK, setts.pseudonyms, 0);
+
+    ENABLE_WND(IDC_T_OBJSTATE, scen.game == AOHD || scen.game == AOF || setts.editall);
 
 	return TRUE;
 }

@@ -6,6 +6,8 @@
 	VIEW/CONTROLLER
 **/
 
+#include "../model/scen.h"
+
 #include "../util/settings.h"
 #include "../res/resource.h"
 #include "ecedit.h"
@@ -15,6 +17,8 @@
 #include "mapview.h"
 #include "../util/winugly.h"
 #include <stdio.h>
+
+extern Scenario scen;
 
 /* Editor classes */
 
@@ -121,6 +125,7 @@ const wchar_t *noselectc = L"<none>";
 
 void C_Init(HWND dialog)
 {
+    ENABLE_WND(IDC_C_REVERSE, scen.game == AOC || setts.editall);
 	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, NUM_CONDS);
 	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS);
 	LCombo_Fill(dialog, IDC_C_RESEARCH, esdata.techs.head());

@@ -268,7 +268,7 @@ void Player::read_camera_longs(FILE * in)
 	camera[0] = static_cast<float>(value);
 }
 
-void Player::read_data4(FILE * in, ScenVersion1 version)
+void Player::read_data4(FILE * in, Game game)
 {
 	// Read and check duplicate copies of resources.
 	readunk(in, static_cast<float>(resources[2]), "food float");
@@ -276,15 +276,10 @@ void Player::read_data4(FILE * in, ScenVersion1 version)
 	readunk(in, static_cast<float>(resources[0]), "gold float");
 	readunk(in, static_cast<float>(resources[3]), "stone float");
 	readunk(in, static_cast<float>(resources[4]), "orex float");
-    if (version != SV1_SWGB) {
-	    // unforunately it's the game, and not the scenario version
-	    // above check does not work (at least for SWGB -- not CC
-	    // (need to determine game with open dialog file type select)
-	    readunk(in, static_cast<float>(resources[5]), "?? res float");
+	readunk(in, static_cast<float>(resources[5]), "?? res float");
 
-	    if (version >= SV1_AOE2TC)
-		    readbin(in, &pop);
-	}
+	if (game >= AOC && game != SWGB && game != SWGBCC)
+		readbin(in, &pop);
 }
 
 void Player::read_units(FILE *in)

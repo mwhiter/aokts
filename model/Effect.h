@@ -7,7 +7,7 @@
 class TriggerVisitor;
 
 #define NUM_EFFECTS	37	//+1 for undefined
-#define EFFECT_CONTROLS	23
+#define EFFECT_CONTROLS	24
 #define NUM_VIRTUAL_EFFECTS	24
 
 // Need to enforce these

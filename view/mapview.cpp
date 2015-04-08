@@ -891,12 +891,13 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	for (i = 0, parse = esdata.terrains.head(); parse; parse = (ColorLink*)parse->next(), i++)
 	{
 	    tBrushes.push_back(std::vector<HBRUSH>());
-	    tBrushes[i].reserve(256);
+	    //tBrushes[i].reserve(256);
+	    tBrushes[i].reserve(40);
 	    // This messes up the memory when 256
 	    // need to reduce to 200 for aokts and 190 for swgbts because
 	    // there are about 10 more terrains.
 	    // Similar problems occur when using Rich Textboxes
-	    for (j = 0; j < 190; j++)
+	    for (j = 0; j < 20; j++)
 	    {
 	        hsv = new hsv_t();
             rgb2hsv(parse->ref, hsv);

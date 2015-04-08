@@ -541,7 +541,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 {
                     std::string sunit("");
                     bool unit_set_selected = pUnit && pUnit->id(); // also use unit class and type
-                    convert << playerPronoun(s_player) << "'s";
+                    convert << playerPronoun(s_player) << "'s ";
 	                if (num_sel > 0) {
 	                    if (num_sel == 1) {
                             convert << "unit ";
@@ -660,7 +660,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
 
 const char * Effect::getTypeName(size_t type, bool concise) const
 {
-    if (scen.ver2 == SV2_AOE2TF) {
+    if (scen.game == AOHD) {
 	    return concise?types_short_aohd[type]:types_aohd[type];
     } else {
 	    return concise?types_short[type]:types[type];

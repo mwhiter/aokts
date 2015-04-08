@@ -110,6 +110,8 @@ void Setts::read_recent(const char *path)
 			r_parse->path, sizeof(r_parse->path),
 			path);
 
+		r_parse->game = GetPrivateProfileInt(section, "Game", 1, path);
+
 		r_parse++;
 		section[6]++;	//increment the number
 	}
@@ -136,6 +138,11 @@ void Setts::write_recent(const char *path)
 	{
 		WritePrivateProfileString(section, "Name", r_parse->display, path);
 		WritePrivateProfileString(section, "Path", r_parse->path, path);
+
+	    const size_t BUFSIZE = 60;
+	    char text[BUFSIZE] = "";
+	    sprintf(text, "%d", (int)r_parse->game);
+		WritePrivateProfileString(section, "Game", text, path);
 
 		r_parse = r_parse->next;
 		section[6]++;

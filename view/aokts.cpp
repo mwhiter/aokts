@@ -506,8 +506,8 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		// set status bar text
 		SetWindowTextW(propdata.statusbar, L"Scenario loaded successfully.");
 
-	    /* Updates*/
 	    SendMessage(page, AOKTS_Loading, 0, 0);
+	    propdata.mapview = MakeMapView(sheet, SW_NORMAL);
 	    MapView_Reset(propdata.mapview, true);
 
 	    filename = getFilenameFromPath(setts.ScenPath);
@@ -516,17 +516,6 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		        "%s - %s", szTitle, filename);
 
 	    SetWindowText(sheet, titleBuffer);
-
-	    switch (version) {
-	        case SWGB:
-	        case SWGBCC:
-		        esdata.load(datapath_swgb);
-		        break;
-	        default:
-		        esdata.load(datapath_aok);
-	    }
-	    propdata.mapview = MakeMapView(sheet, SW_NORMAL);
-	    MapView_Reset(propdata.mapview, true);
 	}
 	catch (std::exception &ex)
 	{

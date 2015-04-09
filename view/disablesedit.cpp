@@ -348,6 +348,11 @@ INT_PTR CALLBACK DisDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case AOKTS_Loading:
+			List_Clear(dialog, IDC_D_SPLY);
+			List_Clear(dialog, IDC_D_STYPE);
+			Combo_Fill(dialog, IDC_D_SPLY, Player::names, NUM_PLAYERS);
+			Combo_Fill(dialog, IDC_D_STYPE, dtypes, NUM_TYPES);
+
 			reset(dialog);
 			return 0;
 

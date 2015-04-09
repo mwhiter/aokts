@@ -634,6 +634,13 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 
 BOOL Units_HandleInit(HWND dialog)
 {
+	List_Clear(dialog, IDC_U_SELP);
+	List_Clear(dialog, IDC_U_ROTATE);
+	List_Clear(dialog, IDC_U_SORT);
+	List_Clear(dialog, IDC_U_TYPE);
+	List_Clear(dialog, IDC_U_UNIT);
+	List_Clear(dialog, IDC_U_SELU);
+
 	Combo_Fill(dialog, IDC_U_SELP, Player::names, NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_U_ROTATE, rotates, NUM_ROTATES);
 	Combo_Fill(dialog, IDC_U_SORT, sorts, NUM_SORTS);
@@ -716,6 +723,7 @@ INT_PTR CALLBACK UnitDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam
 			break;
 
 		case AOKTS_Loading:
+		    Units_HandleInit(dialog);
 			Units_Reset(dialog);
 			break;
 

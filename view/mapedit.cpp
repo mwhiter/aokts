@@ -1076,6 +1076,20 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 				break;
 
 			case AOKTS_Loading:
+			    List_Clear(dialog, IDC_TR_ID);
+			    List_Clear(dialog, IDC_TR_AITYPE);
+			    List_Clear(dialog, IDC_TR_SIZE);
+			    List_Clear(dialog, IDC_TR_SIZE2);
+			    List_Clear(dialog, IDC_TR_ELEV);
+
+				LinkListBox_Fill(
+						GetDlgItem(dialog, IDC_TR_ID), esdata.terrains.head());
+
+				LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
+				Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
+				Combo_Fill(dialog, IDC_TR_SIZE2, sizes, NUM_SIZES);
+				Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
+
 				Map_Reset(dialog);
 				break;
 

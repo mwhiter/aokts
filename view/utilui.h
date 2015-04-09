@@ -64,6 +64,8 @@ void unhandledExceptionAlert(HWND parent, UINT msg, std::exception& ex);
  */
 void Combo_Fill(HWND dialog, int id, char const * * strings, size_t count);
 
+void List_Clear(HWND dialog, int id);
+
 /*
 	Combo_PairFill: Fills a combobox with strings & data from PAIRs.
 */

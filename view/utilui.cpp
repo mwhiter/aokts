@@ -221,3 +221,8 @@ BOOL AddTool(HWND dialog, int ctrlId, LPTSTR text)
 	return ToolTip_AddTool(tooltip, &ti);
 }
 
+void List_Clear(HWND dialog, int id)
+{
+	HWND listbox = GetDlgItem(dialog, id);
+	SendMessage(listbox, LB_RESETCONTENT, 0, 0);
+}

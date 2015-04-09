@@ -24,6 +24,9 @@
 #include <functional>
 #include <iterator>
 
+const char datapath_aok[] = "data_aok.xml";
+const char datapath_swgb[] = "data_swgb.xml";
+
 using std::vector;
 using std::pair;
 
@@ -738,6 +741,27 @@ void Scenario::read_data(const char *path)	//decompressed data
 		game = UNKNOWN;
 		pergame = NULL;
 		throw bad_data_error("unrecognized format version");
+	}
+
+	/* Updates*/
+	//read genie data
+	try
+	{
+	    switch (game) {
+	        case SWGB:
+	        case SWGBCC:
+		        esdata.load(datapath_swgb);
+		        break;
+	        default:
+		        esdata.load(datapath_aok);
+	    }
+	}
+	catch (std::exception& ex)
+	{
+		printf("Could not load data: %s\n", ex.what());
+		MessageBox(NULL,
+			"Could not read Genie Data from xml file.",
+			"Error", MB_ICONERROR);
 	}
 
 	FEP(p)

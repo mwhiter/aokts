@@ -569,6 +569,11 @@ char ttAI[] =
 
 BOOL Players_Init(HWND dialog)
 {
+	List_Clear(dialog, IDC_P_CIV);
+	List_Clear(dialog, IDC_P_SPDIP);
+	List_Clear(dialog, IDC_P_COLOR);
+	List_Clear(dialog, IDC_P_AGE);
+
 	/* Fill Combo Boxes */
 	LCombo_Fill(dialog, IDC_P_CIV, esdata.civs.head());
 	Combo_Fill(dialog, IDC_P_SPDIP, Player::names, NUM_PLAYERS);
@@ -638,7 +643,7 @@ INT_PTR CALLBACK PlyDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case AOKTS_Loading:
-			ret = TRUE;
+			ret = Players_Init(dialog);
 			CheckRadioButton(
 				dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
 			LoadPlayer(dialog);

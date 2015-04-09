@@ -100,3 +100,16 @@ std::string time_string(unsigned int seconds, bool shortened) {
     }
     return convert.str();
 }
+
+std::string wstringToString(std::wstring ws) {
+    return std::string(ws.begin(), ws.end());
+}
+
+std::string wstringToString(const wchar_t * wcs) {
+    if (wcs && wcslen(wcs)) {
+        std::wstring ws(wcs);
+        return std::string(ws.begin(), ws.end());
+    } else {
+        return std::string("");
+    }
+}

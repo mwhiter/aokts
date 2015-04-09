@@ -9,6 +9,8 @@ std::string &ltrim(std::string &s);
 std::string &rtrim(std::string &s);
 std::string &trim(std::string &s);
 std::string time_string(unsigned int seconds, bool shortened = false);
+std::string wstringToString(std::wstring ws);
+std::string wstringToString(const wchar_t * ws);
 
 // inline functions must reside in the header (the compiler needs access
 // to it)

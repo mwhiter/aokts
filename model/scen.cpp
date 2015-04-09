@@ -474,6 +474,15 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			game = AOC;
 			break;
 		case AOHD:
+			ver1 = SV1_AOC_SWGB;
+			ver2 = SV2_AOHD_AOF;
+			perversion = &pv1_23;
+			if (game == AOC && (flags & SaveFlags::CONVERT_EFFECTS))
+			    up_to_hd();
+			if (game == AOK)
+			    aok_to_aoc();
+			game = AOHD;
+			break;
 		case AOF:
 			ver1 = SV1_AOC_SWGB;
 			ver2 = SV2_AOHD_AOF;
@@ -706,8 +715,13 @@ void Scenario::read_data(const char *path)	//decompressed data
 		ver2 = SV2_AOHD_AOF;
 		printf("ver2: 1.23 (AOHD or AOF).\n");
 		if (game == UNKNOWN || game == SWGB || game == AOC) {
-		    game = AOF;
-		    pergame = &pgAOF;
+		    if (strstr(setts.ScenPath, ".scx2")) {
+		        game = AOF;
+		        pergame = &pgAOF;
+		    } else {
+		        game = AOHD;
+		        pergame = &pgAOHD;
+		    }
 		}
 		break;
 

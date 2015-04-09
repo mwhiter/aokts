@@ -68,13 +68,14 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_M_SEL			1014
 #define IDC_M_SELC			1016
 #define IDC_G_VER			1050
-#define IDC_G_TIMESTAMP		1051
-#define IDC_G_ONAME			1052
-#define IDC_G_ALLTECHS		1058
-#define IDC_G_X				1059
-#define IDC_G_Y				1060
-#define IDC_G_NEXTID		1061
-#define IDC_G_LOCKTEAMS		1062
+#define IDC_G_GAME  		1051
+#define IDC_G_TIMESTAMP		1052
+#define IDC_G_ONAME			1053
+#define IDC_G_ALLTECHS		1059
+#define IDC_G_X				1060
+#define IDC_G_Y				1061
+#define IDC_G_NEXTID		1062
+#define IDC_G_LOCKTEAMS		1063
 
 /* Player Controls */
 #define IDC_P_SP1			1100

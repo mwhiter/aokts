@@ -115,8 +115,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                             break;
                     }
                     if (pUnit && pUnit->id()) {
-                        std::wstring unitname(pUnit->name());
-                        std::string un(unitname.begin(), unitname.end());
+                        std::string un(wstringToString(pUnit->name()));
                         if (amount > 1 && !un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
                             convert << " " << un << "s";
                         } else {

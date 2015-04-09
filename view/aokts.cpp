@@ -477,15 +477,6 @@ void FileOpen(HWND sheet, bool ask, int recent)
 
 	DestroyWindow(propdata.mapview);
 	SendMessage(GetWindow(propdata.mapview, GW_OWNER), MAP_Close, 0, 0);
-	switch (version) {
-	case SWGB:
-	case SWGBCC:
-		esdata.load(datapath_swgb);
-		break;
-	default:
-		esdata.load(datapath_aok);
-	}
-	propdata.mapview = MakeMapView(sheet, SW_NORMAL);
 
 	/* Open it! */
 	SendMessage(page, AOKTS_Closing, 0, 0);
@@ -525,6 +516,17 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		        "%s - %s", szTitle, filename);
 
 	    SetWindowText(sheet, titleBuffer);
+
+	    switch (version) {
+	        case SWGB:
+	        case SWGBCC:
+		        esdata.load(datapath_swgb);
+		        break;
+	        default:
+		        esdata.load(datapath_aok);
+	    }
+	    propdata.mapview = MakeMapView(sheet, SW_NORMAL);
+	    MapView_Reset(propdata.mapview, true);
 	}
 	catch (std::exception &ex)
 	{
@@ -535,9 +537,43 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		SetWindowText(propdata.statusbar, ex.what());
 
 		// report error to user
-		std::string desc = "Sorry, could not read scenario file. ";
+		std::string desc = "Failed to open as ";
+
+		switch (scen.game) {
+		case AOK:
+		    desc.append("an Age of Kings ");
+		    break;
+		case AOC:
+		    desc.append("a Conquerors ");
+		    break;
+		case AOHD:
+		    desc.append("an Age of Empires II: HD Edition ");
+		    break;
+		case AOF:
+		    desc.append("an Age of Forgotten ");
+		    break;
+		case SWGB:
+		    desc.append("a Star Wars Galactic Battlegrounds ");
+		    break;
+		case SWGBCC:
+		    desc.append("a Clone Campaigns ");
+		    break;
+		}
+		desc.append("scenario file.\n");
+
+		switch (scen.game) {
+		case AOC:
+		    desc.append("Try opening as a SWGB scx file instead\nusing File->Open\n");
+		    break;
+		case SWGB:
+		    desc.append("Try opening as a Conquerors scx file instead\nusing File->Open\n");
+		    break;
+		}
+
+		desc.append("\nThe problem: ");
 		desc.append(ex.what());
-		desc.append("\n\nIf the game can open the scenario, please report this error.");
+
+		desc.append("\n\nIf the game is able to open the scenario,\nplease report this error. Thanks.");
 		printf("User message: %s\n", desc.c_str());
 		MessageBox(sheet, desc.c_str(), "Scenario Load Error", MB_ICONWARNING);
 
@@ -548,7 +584,6 @@ void FileOpen(HWND sheet, bool ask, int recent)
 
 	    /* Updates*/
 	    SendMessage(page, AOKTS_Loading, 0, 0);
-	    MapView_Reset(propdata.mapview, true);
 
 	    _snprintf(titleBuffer, sizeof(titleBuffer),
 		        "%s", szTitle);

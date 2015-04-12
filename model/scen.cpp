@@ -1880,9 +1880,7 @@ AOKTS_ERROR Scenario::up_to_aofe() {
 
 bool up_to_10c_test(const Effect & e)
 {
-    return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33
-        || (e.type == 24 && e.s_player == 0)
-        || (e.type == 26 && (e.area.left != -2 || e.area.right != -1 || e.area.top != -1 || e.area.bottom != -1));
+    return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33;
 }
 
 AOKTS_ERROR Scenario::up_to_10c() {

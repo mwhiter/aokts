@@ -57,6 +57,20 @@ Condition::Condition(Buffer& b)
 	fromGenie(genie);
 }
 
+inline std::string playerPronoun(int p) {
+    std::ostringstream convert;
+    switch (p) {
+    case -1:
+        break;
+    case 0:
+        convert << "Gaia";
+        break;
+    default:
+        convert << "p" << p;
+    }
+    return convert.str();
+}
+
 std::string Condition::getName(bool tip, NameFlags::Value flags) const
 {
     if (!tip) {
@@ -91,12 +105,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
             case 4: // Own Fewer
             case 5: // In Area
                 { // we define some variables in this block, therefore need scope as we are also in a case
-                    if (player == 0) {
-                        convert << "Gaia";
-                    } else {
-                        convert << "p" << player;
-                    }
-                    convert << " has ";
+                    convert << playerPronoun(player) << " has ";
                     switch (type) {
                         case 3:
                         case 5:
@@ -147,42 +156,42 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 7: // Unit captured
-                convert << "p" << player << " captured unit " << object;
+                convert << playerPronoun(player) << " captured unit " << object;
                 convert << " (" << get_unit_full_name(object) << ")";
                 stype.append(convert.str());
                 break;
             case 8: // Accumulated
                 switch (res_type) {
                     case 0: // Food accumulated
-                        convert << "p" << player << " has " << amount << " food";
+                        convert << playerPronoun(player) << " has " << amount << " food";
                         break;
                     case 1: // Wood accumulated
-                        convert << "p" << player << " has " << amount << " wood";
+                        convert << playerPronoun(player) << " has " << amount << " wood";
                         break;
                     case 2: // Stone accumulated
-                        convert << "p" << player << " has " << amount << " stone";
+                        convert << playerPronoun(player) << " has " << amount << " stone";
                         break;
                     case 3: // Gold accumulated
-                        convert << "p" << player << " has " << amount << " gold";
+                        convert << playerPronoun(player) << " has " << amount << " gold";
                         break;
                     case 20: // Units killed
                         if (amount == 1) {
-                            convert << "p" << player << " kills a unit";
+                            convert << playerPronoun(player) << " kills a unit";
                         } else {
-                            convert << "p" << player << " has killed " << amount << " units";
+                            convert << playerPronoun(player) << " has killed " << amount << " units";
                         }
                         break;
                     case 44: // Kill ratio
                         if (amount == 0) {
-                            convert << "p" << player << " has equal kills and fatalities";
+                            convert << playerPronoun(player) << " has equal kills and fatalities";
                         } else if (amount == 1) {
-                            convert << "p" << player << " has killed one more than lost";
+                            convert << playerPronoun(player) << " has killed one more than lost";
                         } else if (amount > 0) {
-                            convert << "p" << player << " has " << amount << " more kills than fatalities";
+                            convert << playerPronoun(player) << " has " << amount << " more kills than fatalities";
                         } else if (amount == -1) {
-                            convert << "p" << player << " has lost one more unit than has killed";
+                            convert << playerPronoun(player) << " has lost one more unit than has killed";
                         } else {
-                            convert << "p" << player << " has " << -amount << " more fatalities than kills";
+                            convert << playerPronoun(player) << " has " << -amount << " more fatalities than kills";
                         }
                         break;
                     default:
@@ -193,7 +202,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
 	                        {
 		                        if (i == res_type) {
                                     std::wstring resname(list->name());
-		                            convert << "p" << player << " has " << amount << " ";
+		                            convert << playerPronoun(player) << " has " << amount << " ";
                                     convert << std::string( resname.begin(), resname.end());
                                     convert << "(res_type " << res_type << ")";
 		                            break;
@@ -206,7 +215,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 break;
             case  9: // Researched
                 if (pTech && pTech->id()) {
-                    convert << "p" << player << " has tech ";
+                    convert << playerPronoun(player) << " has tech ";
                     std::wstring techname(pTech->name());
                     convert << std::string( techname.begin(), techname.end());
                     convert << " researched";
@@ -237,7 +246,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 if (player == 0) {
                     convert << "Gaia";
                 } else {
-                    convert << "p" << player;
+                    convert << playerPronoun(player);
                 }
                 convert << " is defeated";
                 stype.append(convert.str());
@@ -272,7 +281,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 24: // Queued Past Pop Cap
-                convert << "p" << player << " has " << amount << " units queued past the pop cap";
+                convert << playerPronoun(player) << " has " << amount << " units queued past the pop cap";
                 stype.append(convert.str());
                 break;
             default:

@@ -273,19 +273,21 @@ void FileSave(HWND sheet, bool as, bool write)
 		SetWindowText(sheet, titleBuffer);
 	}
 
-    // convert effects from AOF/AOHD to UP
-    if ((startver == AOHD || startver == AOF) && (conv != AOHD && conv != AOF)) {
-        if (setts.asktoconverteffects &&
-            MessageBox(sheet, "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES) {
-            flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
+    if (conv != NOCONV) {
+        // convert effects from AOF/AOHD to UP
+        if ((startver == AOHD || startver == AOF) && (conv != AOHD && conv != AOF)) {
+            if (setts.asktoconverteffects &&
+                MessageBox(sheet, "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES) {
+                flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
+            }
         }
-    }
 
-    // convert effects from UP to AOF/AOHD
-    if ((conv == AOHD || conv == AOF) && (startver != AOHD && startver != AOF)) {
-        if (setts.asktoconverteffects &&
-            MessageBox(sheet, "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES) {
-            flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
+        // convert effects from UP to AOF/AOHD
+        if ((conv == AOHD || conv == AOF) && (startver != AOHD && startver != AOF)) {
+            if (setts.asktoconverteffects &&
+                MessageBox(sheet, "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES) {
+                flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
+            }
         }
     }
 

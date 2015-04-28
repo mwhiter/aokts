@@ -960,11 +960,6 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 			Map_HandleMapScale(dialog);
 			break;
 
-		case IDC_TR_FIXTRIGGEROUTLIERS:
-			scen.fix_trigger_outliers();
-		    SetWindowText(propdata.statusbar, "Triggers outside of map have been put within the boundaries");
-			break;
-
 		case IDC_TR_SAVETILE:
 			Map_SaveTile(dialog);
 		    SetWindowText(propdata.statusbar, "Tile saved");
@@ -1035,47 +1030,8 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		switch (msg)
 		{
-			case WM_INITDIALOG:
-				{
-					LinkListBox_Fill(
-						GetDlgItem(dialog, IDC_TR_ID), esdata.terrains.head());
-
-					LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
-					Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
-					Combo_Fill(dialog, IDC_TR_SIZE2, sizes, NUM_SIZES);
-					Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
-
-					ret = TRUE;
-				}
-				break;
-
-			case WM_COMMAND:
-				Map_HandleCommand(
-						dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
-				break;
-
-			case WM_NOTIFY:
-				{
-					NMHDR *header = (NMHDR*)lParam;
-					switch (header->code)
-					{
-						case PSN_SETACTIVE:
-							Map_Reset(dialog);
-							break;
-						case PSN_KILLACTIVE:
-							SaveMap(dialog);
-							break;
-					}
-
-					ret = TRUE;
-				}
-				break;
-
-			case MAP_Click:
-				Map_HandleMapClick(dialog, LOWORD(lParam), HIWORD(lParam));
-				break;
-
-			case AOKTS_Loading:
+		case WM_INITDIALOG:
+			{
 			    List_Clear(dialog, IDC_TR_ID);
 			    List_Clear(dialog, IDC_TR_AITYPE);
 			    List_Clear(dialog, IDC_TR_SIZE);
@@ -1083,19 +1039,64 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 			    List_Clear(dialog, IDC_TR_ELEV);
 
 				LinkListBox_Fill(
-						GetDlgItem(dialog, IDC_TR_ID), esdata.terrains.head());
+					GetDlgItem(dialog, IDC_TR_ID), esdata.terrains.head());
 
 				LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
 				Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
 				Combo_Fill(dialog, IDC_TR_SIZE2, sizes, NUM_SIZES);
 				Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
 
-				Map_Reset(dialog);
-				break;
+				ret = TRUE;
+			}
+			break;
 
-			case AOKTS_Saving:
-				SaveMap(dialog);
-				break;
+		case WM_COMMAND:
+			Map_HandleCommand(
+					dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+			break;
+
+		case WM_NOTIFY:
+			{
+				NMHDR *header = (NMHDR*)lParam;
+				switch (header->code)
+				{
+					case PSN_SETACTIVE:
+						Map_Reset(dialog);
+						break;
+					case PSN_KILLACTIVE:
+						SaveMap(dialog);
+						break;
+				}
+
+				ret = TRUE;
+			}
+			break;
+
+		case MAP_Click:
+			Map_HandleMapClick(dialog, LOWORD(lParam), HIWORD(lParam));
+			break;
+
+		case AOKTS_Loading:
+			List_Clear(dialog, IDC_TR_ID);
+			List_Clear(dialog, IDC_TR_AITYPE);
+			List_Clear(dialog, IDC_TR_SIZE);
+			List_Clear(dialog, IDC_TR_SIZE2);
+			List_Clear(dialog, IDC_TR_ELEV);
+
+			LinkListBox_Fill(
+					GetDlgItem(dialog, IDC_TR_ID), esdata.terrains.head());
+
+			LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
+			Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
+			Combo_Fill(dialog, IDC_TR_SIZE2, sizes, NUM_SIZES);
+			Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
+
+			Map_Reset(dialog);
+			break;
+
+		case AOKTS_Saving:
+			SaveMap(dialog);
+			break;
 		}
 	}
 	catch (std::exception& ex)

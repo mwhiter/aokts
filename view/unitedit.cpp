@@ -634,17 +634,11 @@ void Units_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 
 BOOL Units_HandleInit(HWND dialog)
 {
-	List_Clear(dialog, IDC_U_SELP);
-	List_Clear(dialog, IDC_U_ROTATE);
-	List_Clear(dialog, IDC_U_SORT);
-	List_Clear(dialog, IDC_U_TYPE);
-	List_Clear(dialog, IDC_U_UNIT);
-	List_Clear(dialog, IDC_U_SELU);
-
 	Combo_Fill(dialog, IDC_U_SELP, Player::names, NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_U_ROTATE, rotates, NUM_ROTATES);
 	Combo_Fill(dialog, IDC_U_SORT, sorts, NUM_SORTS);
 	SendDlgItemMessage(dialog, IDC_U_SORT, CB_SETCURSEL, 0, 0);
+	SendDlgItemMessage(dialog, IDC_U_SELP, CB_SETCURSEL, propdata.pindex, 0);
 
 	LCombo_Fill(dialog, IDC_U_TYPE, esdata.unitgroups.head(), L"All");
 	UnitList_FillGroup(GetDlgItem(dialog, IDC_U_UNIT), NULL);
@@ -653,6 +647,7 @@ BOOL Units_HandleInit(HWND dialog)
 	SendDlgItemMessage(dialog, IDC_U_X, EM_SETLIMITTEXT, 5, 0);
 	SendDlgItemMessage(dialog, IDC_U_Y, EM_SETLIMITTEXT, 5, 0);
 
+	Units_Reset(dialog);
 	return TRUE;
 }
 
@@ -724,7 +719,6 @@ INT_PTR CALLBACK UnitDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam
 
 		case AOKTS_Loading:
 		    Units_HandleInit(dialog);
-			Units_Reset(dialog);
 			break;
 
 		case AOKTS_Saving:

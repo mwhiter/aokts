@@ -6,10 +6,6 @@
 // Fwd declaration, don't want to #include it.
 class TriggerVisitor;
 
-#define NUM_EFFECTS	37	//+1 for undefined
-#define EFFECT_CONTROLS	24
-#define NUM_VIRTUAL_EFFECTS	24
-
 // Need to enforce these
 // AoC
 //#define MAX_UNITSEL 22
@@ -145,11 +141,22 @@ public:
 	UID uids[MAX_UNITSEL];		//array of selected units
 #pragma pack(pop)
 
-	static const char* types[NUM_EFFECTS];
-	static const char* types_aohd[NUM_EFFECTS];
-	static const char* types_short[NUM_EFFECTS];
-	static const char* types_short_aohd[NUM_EFFECTS];
-	static const char* virtual_types[NUM_VIRTUAL_EFFECTS];
+    static int num_effects; // set this to one of the below
+    static const int NUM_EFFECTS_AOC = 37;
+    static const int NUM_EFFECTS_SWGB = 39;
+    static const int NUM_VIRTUAL_EFFECTS_AOC = 24;
+
+	static const char* types_aoc[NUM_EFFECTS_AOC];
+	static const char* types_aohd[NUM_EFFECTS_AOC];
+	static const char* types_swgb[NUM_EFFECTS_SWGB];
+	static const char* types_short_aoc[NUM_EFFECTS_AOC];
+	static const char* types_short_aohd[NUM_EFFECTS_AOC];
+	static const char* types_short_swgb[NUM_EFFECTS_SWGB];
+
+	static const char* virtual_types_aoc[NUM_VIRTUAL_EFFECTS_AOC];
+
+    static const char** types; // set to one of effect_types... above
+    static const char** types_short; // set to one of effect_types_short... above
 
 private:
 	void fromGenie(const struct Genie_Effect&);

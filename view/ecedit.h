@@ -73,6 +73,8 @@ public:
 	void (__cdecl *TrigCallback)(HWND, unsigned selection);
 
 	void update(Trigger *t);
+
+    static const int N_CONTROLS = 24;
 };
 
 INT_PTR WINAPI EffectWndProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam);

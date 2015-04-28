@@ -1861,6 +1861,7 @@ INT_PTR Handle_AOKTS_Loading(HWND dialog)
 {
 	LoadTriggerSection(dialog);
 	TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
+	LoadTrigger(dialog, NULL);
 
 	/* Return anything: it is ignored. */
 	return TRUE;

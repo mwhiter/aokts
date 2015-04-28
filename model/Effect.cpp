@@ -186,7 +186,7 @@ std::string Effect::selectedUnits() const {
 std::string Effect::getName(bool tip, NameFlags::Value flags) const
 {
     if (!tip) {
-	    return (type < NUM_EFFECTS) ? getTypeName(type, false) : "Unknown!";
+	    return (type < scen.pergame->max_effect_types) ? getTypeName(type, false) : "Unknown!";
 	} else {
         bool valid_area = !(area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1);
 
@@ -390,12 +390,15 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                             case 6:
                             case 7:
                             case 22:
-                                convert << " in";
+                                convert << " in area";
+                                break;
+                            case 14:
+                                convert << " within";
                                 break;
                             default:
-                                convert << " from";
+                                convert << " from area";
                         }
-                        convert << " area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                        convert << " (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
                     }
                 }
                 if (location.x >= 0 && location.y >= 0) {
@@ -651,7 +654,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 break;
             default:
-                stype.append((type < NUM_EFFECTS) ? getTypeName(type, true) : "Unknown!");
+                stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
         }
 
         return flags&NameFlags::LIMITLEN?stype.substr(0,100):stype;
@@ -660,11 +663,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
 
 const char * Effect::getTypeName(size_t type, bool concise) const
 {
-    if (scen.game == AOHD) {
-	    return concise?types_short_aohd[type]:types_aohd[type];
-    } else {
-	    return concise?types_short[type]:types[type];
-	}
+	return concise?types_short[type]:types[type];
 }
 
 int Effect::getPlayer() const
@@ -868,8 +867,7 @@ Genie_Effect Effect::toGenie() const
 	return ret;
 }
 
-const char *Effect::types[] =
-{
+const char *Effect::types_aoc[] = {
 	"Undefined",
 	"Change Diplomacy",
 	"Research Technology",
@@ -909,8 +907,49 @@ const char *Effect::types[] =
 	"Flash Objects"
 };
 
-const char *Effect::types_aohd[] =
-{
+const char *Effect::types_swgb[] = {
+	"Undefined",
+	"Change Alliance",
+	"Research Technology",
+	"Send Chat",
+	"Play Sound",
+	"Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate Trigger",
+	"Deactivate Trigger",
+	"AI Script Goal",
+	"Create Object",
+	"Task Object",
+	"Declare Victory",
+	"Kill Object",
+	"Remove Object",
+	"Scroll View",
+	"Unload",
+	"Change Ownership",
+	"Patrol",
+	"Display Instructions",
+	"Clear Instructions",
+	"Freeze Unit",
+	"Enable Advanced Buttons",
+	"Damage Object",
+	"Place Foundation",
+	"Change Object Name",
+	"Change Object HP",
+	"Change Object Attack",
+	"Stop Unit",
+	"Snap View",
+	"Disable Advanced Buttons",
+	"Enable Tech",
+	"Disable Tech",
+	"Enable Unit",
+	"Disable Unit",
+	"Flash Objects",
+	"Turn Input Off",
+	"Turn Input On"
+};
+
+const char *Effect::types_aohd[] = {
 	"Undefined",
 	"Change Diplomacy",
 	"Research Technology",
@@ -950,8 +989,7 @@ const char *Effect::types_aohd[] =
 	"Flash Objects"
 };
 
-const char *Effect::types_short[] =
-{
+const char *Effect::types_short_aoc[] = {
 	"Undefined",
 	"Change Diplomacy",
 	"Research",
@@ -991,8 +1029,7 @@ const char *Effect::types_short[] =
 	"Flash Objects"
 };
 
-const char *Effect::types_short_aohd[] =
-{
+const char *Effect::types_short_aohd[] = {
 	"Undefined",
 	"Change Diplomacy",
 	"Research",
@@ -1032,8 +1069,49 @@ const char *Effect::types_short_aohd[] =
 	"Flash Objects"
 };
 
-const char *Effect::virtual_types[] =
-{
+const char *Effect::types_short_swgb[] = {
+	"Undefined",
+	"Change Alliance",
+	"Research",
+	"Chat",
+	"Sound",
+	"Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate",
+	"Deactivate",
+	"AI Script Goal",
+	"Create",
+	"Task",
+	"Declare Victory",
+	"Kill",
+	"Remove",
+	"Scroll View",
+	"Unload",
+	"Change Ownership",
+	"Patrol",
+	"Instructions",
+	"Clear Instructions",
+	"Freeze",
+	"Use Advanced Buttons",
+	"Damage",
+	"Place Foundation",
+	"Rename",
+	"HP",
+	"Attack",
+	"Stop Unit",
+	"Snap View",
+	"Disable Advanced",
+	"Enable Tech",
+	"Disable Tech",
+	"Enable Unit",
+	"Disable Unit",
+	"Flash",
+	"Input Off",
+	"Input On"
+};
+
+const char *Effect::virtual_types_aoc[] = {
     "None",
     "Enable Object",
     "Disable Object",
@@ -1059,3 +1137,7 @@ const char *Effect::virtual_types[] =
     "Set Control Group 8",
     "Set Control Group 9"
 };
+
+int Effect::num_effects;
+const char** Effect::types;
+const char** Effect::types_short;

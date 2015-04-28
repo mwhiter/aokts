@@ -12,6 +12,7 @@
 #include "utilunit.h"
 #include "utilui.h"
 #include "../model/scen.h"
+#include "assert.h"
 
 /* Disabled */
 
@@ -146,23 +147,26 @@ void Disables_HandleClear(HWND dialog)
 
 void LoadDisables(HWND dialog)
 {
-	HWND list_sel, list_all;
+	HWND list_all;
 	int i;
 	long *d_parse;
 
-	list_sel = GetDlgItem(dialog, IDC_D_SEL);
+	List_Clear(dialog, IDC_D_SEL);
+
 	list_all = GetDlgItem(dialog, IDC_D_ALL);
 
-	SendMessage(list_sel, LB_RESETCONTENT, 0, 0);
 	SendMessage(list_all, LB_RESETCONTENT, 0, 0);
 
+    //const char datapath_swgb[] = "data_swgb.xml";
+    //esdata.load(datapath_swgb);
 	switch (propdata.sel0)
 	{
 	case DIS_bldg:
 
-		if (esdata.ug_buildings)
-			UnitList_FillGroup(list_all, esdata.ug_buildings);
-		else
+		if (esdata.ug_buildings) {
+		    //assert(list_all);
+		    UnitList_FillGroup(list_all, esdata.ug_buildings);
+		} else
 			MessageBox(dialog, "Could not load building list.", d_title, MB_ICONWARNING);
 
 		d_parse = propdata.p->dis_bldg;
@@ -310,6 +314,9 @@ void Disables_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
  */
 static void reset(HWND dialog)
 {
+	Combo_Fill(dialog, IDC_D_SPLY, Player::names, NUM_PLAYERS);
+	Combo_Fill(dialog, IDC_D_STYPE, dtypes, NUM_TYPES);
+
 	propdata.sel0 = 0;
 	LoadDisables(dialog);
 	SendDlgItemMessage(dialog, IDC_D_SPLY, CB_SETCURSEL, propdata.pindex, 0);
@@ -318,13 +325,14 @@ static void reset(HWND dialog)
 
 INT_PTR CALLBACK DisDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	INT_PTR ret = FALSE;	//default: doesn't process message
+
 	try
 	{
 		switch (msg)
 		{
 		case WM_INITDIALOG:
-			Combo_Fill(dialog, IDC_D_SPLY, Player::names, NUM_PLAYERS);
-			Combo_Fill(dialog, IDC_D_STYPE, dtypes, NUM_TYPES);
+			reset(dialog);
 			return TRUE;
 
 		case WM_COMMAND:
@@ -338,21 +346,18 @@ INT_PTR CALLBACK DisDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 				switch (header->code)
 				{
 				case PSN_SETACTIVE:
-					reset(dialog);
+			        reset(dialog);
 					break;
 				case PSN_KILLACTIVE:
 					SaveDisables(dialog);
 					break;
 				}
+
+				ret = TRUE;
 			}
 			break;
 
 		case AOKTS_Loading:
-			List_Clear(dialog, IDC_D_SPLY);
-			List_Clear(dialog, IDC_D_STYPE);
-			Combo_Fill(dialog, IDC_D_SPLY, Player::names, NUM_PLAYERS);
-			Combo_Fill(dialog, IDC_D_STYPE, dtypes, NUM_TYPES);
-
 			reset(dialog);
 			return 0;
 

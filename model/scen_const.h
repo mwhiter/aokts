@@ -62,6 +62,8 @@ struct PerGame
 	int max_research; // max research
 	int max_tech; // max tech
 	int max_terrains; // max tech
+	int max_condition_types;
+	int max_effect_types;
 };
 
 /* Internal Constants */

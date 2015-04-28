@@ -263,9 +263,9 @@ void ESDATA::readUnitGroup(const XML_Char **attrs)
 	}
 
 	// TODO: any less-hardcoded way to do this?
-	if (!ug_buildings && !wcscmp(link->name(), L"Buildings"))
+	if (!wcscmp(link->name(), L"Buildings"))
 		ug_buildings = link;
-	else if (!ug_units && !wcscmp(link->name(), L"Units"))
+	else if (!wcscmp(link->name(), L"Units"))
 		ug_units = link;
 
 	unitgroups.push_back(link);
@@ -290,19 +290,18 @@ void ESDATA::readCiv(const XML_Char **attrs)
 	civ_count++;
 }
 
-#define PF(n, f) { n, f }	//I just prefer this syntax
 ESDATA::pFunc ESDATA::pfuncs[] = 
 {
-	PF(L"tech", &ESDATA::readTech),
-	PF(L"color", &ESDATA::readColor),
-	PF(L"protounit", &ESDATA::readUnit),
-	PF(L"resources", &ESDATA::readResources),
-	PF(L"simple", &ESDATA::readSimple),
-	PF(L"aitypes", &ESDATA::readAitypes),
-	PF(L"terrain", &ESDATA::readTerrain),
-	PF(L"group", &ESDATA::readUnitGroup),
-	PF(L"civ", &ESDATA::readCiv),
-	PF(NULL, NULL)
+	{L"tech", &ESDATA::readTech},
+	{L"color", &ESDATA::readColor},
+	{L"protounit", &ESDATA::readUnit},
+	{L"resources", &ESDATA::readResources},
+	{L"simple", &ESDATA::readSimple},
+	{L"aitypes", &ESDATA::readAitypes},
+	{L"terrain", &ESDATA::readTerrain},
+	{L"group", &ESDATA::readUnitGroup},
+	{L"civ", &ESDATA::readCiv},
+	{NULL, NULL}
 };
 
 void XMLCALL startHandler(void *userdata, const XML_Char *name, const XML_Char **attrs)

@@ -36,18 +36,21 @@ using std::pair;
 /* See scen_const.h
 struct PerVersion
 {
-	UCNST max_unit; // max unit types
-	int max_research; // max research
-	int max_tech; // max tech
-	int max_terrains; // max tech
+	int messages_count;
+	bool mstrings;
+	int max_disables1; // max disable tech and unit
+	int max_disables2; // max disable buildings
 };
+
 struct PerGame
 {
 	UCNST max_unit; // max unit types
 	int max_research; // max research
 	int max_tech; // max tech
 	int max_terrains; // max tech
-}; */
+	int max_condition_types;
+	int max_effect_types;
+};*/
 
 /* PerVersions */
 // AOE
@@ -64,7 +67,9 @@ const PerGame Scenario::pgAOE =
 	374,
 	118,
 	140,
-	32
+	32,
+	0,
+	0
 };
 
 // AOK
@@ -81,7 +86,8 @@ const PerGame Scenario::pgAOK =
 	750,
 	426,
 	438,
-	32
+	20,
+	37
 };
 
 // AOC / SWGB
@@ -99,7 +105,9 @@ const PerGame Scenario::pgAOC =
 	866,
 	460,
 	514,
-	42
+	42,
+	20,
+	37
 };
 
 //// SWGB
@@ -116,7 +124,9 @@ const PerGame Scenario::pgSWGB =
 	750,
 	426,
 	438,
-	32
+	32,
+	24,
+	39
 };
 
 
@@ -135,7 +145,9 @@ const PerGame Scenario::pgAOHD =
 	865,
 	459,
 	513,
-	41
+	41,
+	20,
+	37
 };
 
 // AOF -- these are not correct
@@ -144,7 +156,9 @@ const PerGame Scenario::pgAOF =
 	865,
 	459,
 	513,
-	41
+	41,
+	20,
+	37
 };
 
 // SWGB CC
@@ -162,7 +176,9 @@ const PerGame Scenario::pgSWGBCC =
 	866,
 	460,
 	514,
-	42
+	42,
+	24,
+	39
 };
 
 /* The Scenario */
@@ -443,6 +459,26 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 	}
 
 	read_data(dpath);
+
+	switch (game) {
+    case AOK:
+    case AOC:
+        Effect::types = Effect::types_aoc;
+        Effect::types_short = Effect::types_short_aoc;
+        break;
+    case AOF:
+    case AOHD:
+        Effect::types = Effect::types_aohd;
+        Effect::types_short = Effect::types_short_aohd;
+        break;
+    case SWGB:
+    case SWGBCC:
+        Effect::types = Effect::types_swgb;
+        Effect::types_short = Effect::types_short_swgb;
+        break;
+	}
+
+    Effect::num_effects = pergame->max_effect_types;
 
 	return game;
 }

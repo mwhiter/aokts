@@ -83,9 +83,9 @@ const WORD PropSheetButtons[] =
 DLGPROC procs[NUM_PAGES] =
 {
 	&IMsgsDlgProc,
-	&PlyDlgProc,
-	&PlyDlgProc,
-	&PlyDlgProc,
+	&PlyAIDlgProc,
+	&PlyCTYDlgProc,
+	&PlyVCDlgProc,
 	&VictDlgProc,
 	&DisDlgProc,
 	&MapDlgProc,
@@ -1025,6 +1025,11 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		SetWindowText(propdata.statusbar, "Trigger names swapped with descriptions");
 		break;
 
+	case ID_TRIGGERS_FIXTRIGGEROUTLIERS:
+		scen.fix_trigger_outliers();
+		SetWindowText(propdata.statusbar, "Triggers outside of map have been put within the boundaries");
+		break;
+
 	case ID_FILE_TRIGWRITE:
 		OnFileTrigWrite(sheet);
 		break;
@@ -1325,6 +1330,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 	try
 	{
 		esdata.load(datapath_aok);
+		//esdata.load(datapath_swgb);
 	}
 	catch (std::exception& ex)
 	{

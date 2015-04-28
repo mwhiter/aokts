@@ -12,6 +12,7 @@
 #include "../util/winugly.h"
 #include <climits>
 #include <string>
+#include <vector>
 #include <sstream>
 
 /* Shared msgbox strings */
@@ -62,8 +63,10 @@ void unhandledExceptionAlert(HWND parent, UINT msg, std::exception& ex);
 /**
  * Fills a combo box with the specified strings.
  */
+void Combo_Fill(HWND dialog, int id, std::vector<std::string> strings);
 void Combo_Fill(HWND dialog, int id, char const * * strings, size_t count);
 
+void Combo_Clear(HWND dialog, int id);
 void List_Clear(HWND dialog, int id);
 
 /*

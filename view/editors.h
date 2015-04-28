@@ -72,7 +72,9 @@ extern struct PropSheetData
 */
 
 INT_PTR CALLBACK IMsgsDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PlyDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK PlyAIDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK PlyCTYDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK PlyVCDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK VictDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DisDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK MapDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);

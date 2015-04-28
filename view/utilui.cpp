@@ -41,8 +41,20 @@ void unhandledExceptionAlert(HWND parent, UINT msg, std::exception& ex)
 			MB_ICONERROR);
 }
 
+/*
+void Combo_Fill(HWND dialog, int id, std::vector<std::string> strings)
+{
+	HWND control = GetDlgItem(dialog, id);
+
+    for(std::vector<std::string>::const_iterator i = strings.begin(); i != strings.end(); ++i) {
+		Combo_AddStringA(control, *i);
+    }
+}
+*/
+
 void Combo_Fill(HWND dialog, int id, char const * * strings, size_t count)
 {
+    Combo_Clear(dialog, id);
 	HWND control = GetDlgItem(dialog, id);
 	for (size_t i = 0; i < count; ++i)
 		Combo_AddStringA(control, *strings++);
@@ -219,6 +231,12 @@ BOOL AddTool(HWND dialog, int ctrlId, LPTSTR text)
 	ti.lpszText = text;
 
 	return ToolTip_AddTool(tooltip, &ti);
+}
+
+void Combo_Clear(HWND dialog, int id)
+{
+	HWND listbox = GetDlgItem(dialog, id);
+	SendMessage(listbox, CB_RESETCONTENT, 0, 0);
 }
 
 void List_Clear(HWND dialog, int id)

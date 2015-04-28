@@ -569,11 +569,6 @@ char ttAI[] =
 
 BOOL Players_Init(HWND dialog)
 {
-	List_Clear(dialog, IDC_P_CIV);
-	List_Clear(dialog, IDC_P_SPDIP);
-	List_Clear(dialog, IDC_P_COLOR);
-	List_Clear(dialog, IDC_P_AGE);
-
 	/* Fill Combo Boxes */
 	LCombo_Fill(dialog, IDC_P_CIV, esdata.civs.head());
 	Combo_Fill(dialog, IDC_P_SPDIP, Player::names, NUM_PLAYERS);
@@ -604,7 +599,127 @@ BOOL Players_Init(HWND dialog)
 	return TRUE;
 }
 
-INT_PTR CALLBACK PlyDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK PlyAIDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	INT_PTR ret = FALSE;
+
+	try
+	{
+		switch (msg)
+		{
+		case WM_INITDIALOG:
+			ret = Players_Init(dialog);
+			break;
+
+		case WM_COMMAND:
+			ret = 0;
+			Players_HandleCommand(
+				dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+			break;
+
+		case WM_NOTIFY:
+			{
+				ret = TRUE;
+
+				NMHDR *header = (NMHDR*)lParam;
+				switch (header->code)
+				{
+				case PSN_SETACTIVE:
+					CheckRadioButton(
+						dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+					LoadPlayer(dialog);
+					return ret;
+
+				case PSN_KILLACTIVE:
+					SavePlayer(dialog);
+					break;
+				}
+			}
+			break;
+
+		case AOKTS_Loading:
+			ret = Players_Init(dialog);
+			CheckRadioButton(
+				dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+			LoadPlayer(dialog);
+			return ret;
+
+		case AOKTS_Saving:
+			SavePlayer(dialog);
+		}
+	}
+	catch (std::exception& ex)
+	{
+		// Show a user-friendly message, bug still crash to allow getting all
+		// the debugging info.
+		unhandledExceptionAlert(dialog, msg, ex);
+		throw;
+	}
+
+	return ret;
+}
+
+INT_PTR CALLBACK PlyCTYDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	INT_PTR ret = FALSE;
+
+	try
+	{
+		switch (msg)
+		{
+		case WM_INITDIALOG:
+			ret = Players_Init(dialog);
+			break;
+
+		case WM_COMMAND:
+			ret = 0;
+			Players_HandleCommand(
+				dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+			break;
+
+		case WM_NOTIFY:
+			{
+				ret = TRUE;
+
+				NMHDR *header = (NMHDR*)lParam;
+				switch (header->code)
+				{
+				case PSN_SETACTIVE:
+					CheckRadioButton(
+						dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+					LoadPlayer(dialog);
+					return ret;
+
+				case PSN_KILLACTIVE:
+					SavePlayer(dialog);
+					break;
+				}
+			}
+			break;
+
+		case AOKTS_Loading:
+			ret = Players_Init(dialog);
+			CheckRadioButton(
+				dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+			LoadPlayer(dialog);
+			return ret;
+
+		case AOKTS_Saving:
+			SavePlayer(dialog);
+		}
+	}
+	catch (std::exception& ex)
+	{
+		// Show a user-friendly message, bug still crash to allow getting all
+		// the debugging info.
+		unhandledExceptionAlert(dialog, msg, ex);
+		throw;
+	}
+
+	return ret;
+}
+
+INT_PTR CALLBACK PlyVCDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR ret = FALSE;
 

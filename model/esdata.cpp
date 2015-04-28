@@ -383,6 +383,7 @@ void ESDATA::load(const char *path)
 
     char xmlpath[MAX_PATH];
     strcpy (xmlpath,global::exedir);
+    strcat (xmlpath,"\\");
     strcat (xmlpath,path);
 	datafile = fopen(xmlpath, "r");
 

@@ -1341,6 +1341,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 	catch (std::exception& ex)
 	{
 		printf("Could not load data: %s\n", ex.what());
+		printf("Path: %s\n", global::exedir);
 		MessageBox(NULL,
 			"Could not read Genie Data from data.xml. Terminating...",
 			"Error", MB_ICONERROR);

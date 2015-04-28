@@ -797,6 +797,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 	catch (std::exception& ex)
 	{
 		printf("Could not load data: %s\n", ex.what());
+		printf("Path: %s\n", global::exedir);
 		MessageBox(NULL,
 			"Could not read Genie Data from xml file.",
 			"Error", MB_ICONERROR);

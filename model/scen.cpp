@@ -3276,3 +3276,8 @@ bool Map::scaleArea(const RECT &area, const float scale)
 
     return true;
 }
+
+namespace global // or any appropriate name
+{
+   char exedir[MAX_PATH];
+}

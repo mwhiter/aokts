@@ -351,6 +351,12 @@ public:
 	bool needsave()	{ return mod_status; }
 };
 
+
+namespace global
+{
+   extern char exedir[MAX_PATH];
+}
+
 #undef UNREAD
 
 #pragma pack(pop)	//restore default packing alignment

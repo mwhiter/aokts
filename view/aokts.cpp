@@ -45,6 +45,7 @@
 #include <ctype.h>
 #include <fstream>
 #include <sstream>
+#include "Shlwapi.h"
 
 /* Microsoft-specific stuff */
 #ifdef _MSC_VER
@@ -1327,6 +1328,9 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 	//process any compress/decompress requests
 	if ((*cmdline == '/' || *cmdline == '-') && ProcessCmdline(cmdline))
 			return 0;
+
+    GetModuleFileName(NULL, global::exedir, MAX_PATH) ;
+    PathRemoveFileSpec(global::exedir);
 
 	//read genie data
 	try

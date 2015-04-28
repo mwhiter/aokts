@@ -8,6 +8,7 @@
 
 #include "esdata.h"
 
+#include "scen.h"
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
 #include <expat.h>
@@ -380,7 +381,10 @@ void ESDATA::load(const char *path)
 	XML_SetCharacterDataHandler(parser, characterDataHandler);
 	XML_SetUserData(parser, this);
 
-	datafile = fopen(path, "r");
+    char xmlpath[MAX_PATH];
+    strcpy (xmlpath,global::exedir);
+    strcat (xmlpath,path);
+	datafile = fopen(xmlpath, "r");
 
 	if (!datafile)
 	{

@@ -1892,6 +1892,8 @@ Tweaked by E/X mantis - Fri 05 Dec 2014 04:20:17 NZDT
 <group name="BOAT_LASER"      units="4,5" />
 <group name="BOAT_MISSILE"    units="4,5" />
 <group name="BOAT_TRANSPORT"  units="4,5" />
+<group name="Units"           units="4,5" />
+<group name="Buildings"       units="4,5" />
 </unitgroups>
 
 <civs>

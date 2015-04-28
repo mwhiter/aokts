@@ -103,7 +103,7 @@ const char *szTitle = "Trigger Studio";
 const char welcome[] =
 "Welcome to AOKTS! Please open a scenario or make a new one.";
 const char extOpen[] =
-"AOC/HD Scenarios (*.scx)\0*.scx\0SWGB Scenarios (*.scx)\0*.scx\0AOK Scenarios (*.scn)\0*.scn\0AOF Scenarios (*.scx2)\0*.scx2\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
+"AoE 2 Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0Star Wars Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
 "AOK Scenarios (*.scn)\0*.scn\0AOC Scenarios (*.scx)\0*.scx\0AOHD Scenarios (*.scx)\0*.scx\0AOF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
 const char datapath_aok[] = "data_aok.xml";
@@ -413,25 +413,16 @@ void FileOpen(HWND sheet, bool ask, int recent)
 
 		switch (scen.game) {
 		case AOK:
-		    ofn.nFilterIndex =	3;
-		    ofn.lpstrDefExt =	"scn";
-		    break;
 		case AOC:
 		case AOHD:
+		case AOF:
 		    ofn.nFilterIndex =	1;
 		    ofn.lpstrDefExt =	"scx";
 		    break;
-		case AOF:
-		    ofn.nFilterIndex =	4;
-		    ofn.lpstrDefExt =	"scx2";
-		    break;
 		case SWGB:
+		case SWGBCC:
 		    ofn.nFilterIndex =	2;
 		    ofn.lpstrDefExt =	"scx";
-		    break;
-		case SWGBCC:
-		    ofn.nFilterIndex =	5;
-		    ofn.lpstrDefExt =	"sc1";
 		    break;
 		}
 
@@ -441,27 +432,11 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		switch (ofn.nFilterIndex) {
 		case 1:
 		    version = AOC;
-		    printf("Selected %d, AOC.\n", ofn.nFilterIndex);
+		    printf("Selected %d, AOE 2.\n", ofn.nFilterIndex);
 		    break;
 		case 2:
 		    version = SWGB;
-		    printf("Selected %d, SWGB.\n", ofn.nFilterIndex);
-		    break;
-		case 3:
-		    version = AOK;
-		    printf("Selected %d, AOK.\n", ofn.nFilterIndex);
-		    break;
-		case 4:
-		    version = AOF;
-		    printf("Selected %d, AOF.\n", ofn.nFilterIndex);
-		    break;
-		case 5:
-		    version = SWGBCC;
-		    printf("Selected %d, SWGB:CC.\n", ofn.nFilterIndex);
-		    break;
-		case 6:
-		    version = UNKNOWN;
-		    printf("Selected %d, All Files.\n", ofn.nFilterIndex);
+		    printf("Selected %d, Star Wars.\n", ofn.nFilterIndex);
 		    break;
 		}
 

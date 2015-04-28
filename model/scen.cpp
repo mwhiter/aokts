@@ -648,6 +648,8 @@ void Scenario::_header::write(FILE *scx, const SString *instr, long players, Gam
 	case AOC:
 	case SWGB:
 	case SWGBCC:
+	case AOHD:
+	case AOF:
 		strcpy(version, "1.21");
 		break;
 	default:

@@ -1,11 +1,12 @@
-Trigger Studio
-------------------
+About Trigger Studio
+--------------------
 
-**Trigger Studio**, otherwise known as AOK Trigger Studio or AOKTS, is
-an open-source utility for Age of Empires II Scenario Designers that
-serves as a supplement to the in-game editor. It equips designers to do
-things that aren't possible or are very time consuming with the standard
-editor. It is written in C++ using the standard Win32 API.
+Trigger Studio is an open-source utility for Age of Empires II and Star
+Wars Galactic Battlegrounds scenario designers that serves to supplement
+various features not found in the in-game editor.
+
+It is also known as AOKTS (AOK Trigger Studio), SWGBTS (Star Wars
+Galactic Battlegrounds Trigger Studio) or, simply, TS.
 
 Visit AoK Heaven to give feedback!
 [AoK Heaven](http://aok.heavengames.com/blacksmith/showfile.php?fileid=12103&amp;f=&amp;st=40&amp;ci=)
@@ -14,13 +15,13 @@ You can:
 
 * Decompress a scenario for editing with a hex editor.
 * Convert scenarios between different versions of the game.
-* Manipulate unit type, rotation, position, elevation, garrison, ID number etc. to enable scenario tricks such as controlling another player's units, invincible units, invisible units, putting fire on the map, unlocking beta version units to name a few.
+* Manipulate unit type, rotation, position, elevation, garrison, id number etc. to enable scenario tricks such as controlling another player's units, invincible units, invisible units, putting fire on the map, unlocking beta version units to name a few.
 * Allow negative (silent) tributes and negative damages (for buffing units).
-* Export/View and edit AI files included in a scenario.
-* Copy, Cut, Paste and Rearrange groups of triggers.
-* Copy, Cut, Paste, Move and Duplicate map units, terrain, elevation and/or triggers.
+* Export/view and edit ai files included in a scenario.
+* Copy, cut, paste and rearrange groups of triggers.
+* Copy, cut, paste, move and duplicate map units, terrain, elevation and/or triggers.
 * Map displays all units, terrains, elevation and triggers and can zoom and save as a bitmap file.
-* Group units with custom lists, other than the 4 standard AOK groups.
+* Group units with custom lists, other than the 4 standard aok groups.
 * Create a scenario from scratch.
 * And much, much more...
 
@@ -28,20 +29,20 @@ How to decompress or compress raw data
 
 You have two options:
 
-* Open AOKTS and click the appropriate menu item under "Tools". Select
-  the source and destination file.
-* Run AOKTS from the Windows Run dialog. Use -c to compress and -u to
-  decompress. After that, type the path to the source file, then the
-  path to the destination file.
+* Open TS and click the appropriate menu item under "Tools". Select the source and destination file.
+* Run TS from the Windows Run dialog. Use -c to compress and -u to decompress. After that, type the path to the source file, then the path to the destination file.
 
 How to save hex-edited data to a scenario.
 
-* Open the scenario you want to hex edit in AOKTS.
-* Leave AOKTS open and open scendata.tmp in your preferred hex editor.
+* Open the scenario you want to hex edit in TS.
+* Leave TS open and open scendata.tmp in your preferred hex editor.
 * Make desired changes to scendata.tmp, save, and close the hex editor.
-* Activate AOKTS and select "Save scendata.tmp to SCX..." from the Scenario menu.
-  Specify the file to save. All your changes to scendata.tmp will be
-  saved to the scenario. No changes made in AOKTS will be saved.
+* Activate TS and select "Save scendata.tmp to SCX..." from the Scenario menu.  Specify the file to save. All your changes to scendata.tmp will be saved to the scenario. No changes made in TS will be saved.
+
+Code
+----
+
+It is written in C++ using the standard Win32 API.
 
 Credit
 ------

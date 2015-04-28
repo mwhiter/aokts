@@ -1874,8 +1874,24 @@ Tweaked by E/X mantis - Fri 05 Dec 2014 04:20:17 NZDT
      just the editor itself. Feel free to add some more if you like. Also, make sure
      this is after the specifications of the units themselves. -->
 <unitgroups>
-<group name="Test"
-	units="4,5" />
+<group name="ANIMAL_BIRD"     units="4,5" />
+<group name="ANIMAL_CAPTURE"  units="4,5" />
+<group name="ANIMAL_CONTROL"  units="4,5" />
+<group name="ANIMAL_DOMESTIC" units="4,5" />
+<group name="ANIMAL_HUNTED"   units="4,5" />
+<group name="ANIMAL_PREDATOR" units="4,5" />
+<group name="BLDG_BARRIER"    units="4,5" />
+<group name="BLDG_FARM"       units="4,5" />
+<group name="BLDG_GATE"       units="4,5" />
+<group name="BLDG_MISSILE"    units="4,5" />
+<group name="BLDG_TURRET"     units="4,5" />
+<group name="BOAT_ARTILLERY"  units="4,5" />
+<group name="BOAT_CARGO"      units="4,5" />
+<group name="BOAT_CUTLASER"   units="4,5" />
+<group name="BOAT_FISHING"    units="4,5" />
+<group name="BOAT_LASER"      units="4,5" />
+<group name="BOAT_MISSILE"    units="4,5" />
+<group name="BOAT_TRANSPORT"  units="4,5" />
 </unitgroups>
 
 <civs>

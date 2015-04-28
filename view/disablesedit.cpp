@@ -157,8 +157,6 @@ void LoadDisables(HWND dialog)
 
 	SendMessage(list_all, LB_RESETCONTENT, 0, 0);
 
-    //const char datapath_swgb[] = "data_swgb.xml";
-    //esdata.load(datapath_swgb);
 	switch (propdata.sel0)
 	{
 	case DIS_bldg:

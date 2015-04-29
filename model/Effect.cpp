@@ -10,6 +10,7 @@
 #include "../util/Buffer.h"
 #include "../util/helper.h"
 #include "../util/settings.h"
+#include "../util/cpp11compat.h"
 
 using std::vector;
 
@@ -183,6 +184,56 @@ std::string Effect::selectedUnits() const {
     return convert.str();
 }
 
+// functor used for getting a subset of an array of PlayerUnits
+class playersunit_ucnst_equals
+{
+public:
+	playersunit_ucnst_equals(UCNST cnst)
+		: _cnst(cnst)
+	{
+	}
+
+	bool operator()(const PlayersUnit& pu)
+	{
+	    bool sametype = false;
+        if (pu.u) {
+            const UnitLink * ul = pu.u->getType();
+	        if (ul->id() == _cnst) {
+	            sametype = true;
+	        }
+        }
+		return (sametype);
+	}
+
+private:
+	UCNST _cnst;
+};
+
+// functor used for getting a subset of an array of PlayerUnits
+class playersunit_ucnst_notequals
+{
+public:
+	playersunit_ucnst_notequals(UCNST cnst)
+		: _cnst(cnst)
+	{
+	}
+
+	bool operator()(const PlayersUnit& pu)
+	{
+	    bool difftype = false;
+        if (pu.u) {
+            const UnitLink * ul = pu.u->getType();
+	        if (ul->id() != _cnst) {
+	            difftype = true;
+	        }
+        }
+		return (difftype);
+	}
+
+private:
+	UCNST _cnst;
+};
+
 std::string Effect::getName(bool tip, NameFlags::Value flags) const
 {
     if (!tip) {
@@ -196,6 +247,25 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
             case 0: // Undefined
                 // Let this act like a separator
                 convert << "                                                                                    ";
+                stype.append(convert.str());
+                break;
+            case 1: // Change diplomacy
+                convert << playerPronoun(s_player);
+                switch (diplomacy) {
+                case 0:
+                    convert << " allies with ";
+                    break;
+                case 1:
+                    convert << " becomes neutral to ";
+                    break;
+                case 2:
+                    convert << " <INVALID DIPLOMACY> to ";
+                    break;
+                case 3:
+                    convert << " declares war on ";
+                    break;
+                }
+                convert << playerPronoun(t_player);
                 stype.append(convert.str());
                 break;
             case 2: // Research
@@ -448,47 +518,56 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 convert << " at (" << location.x << ", " << location.y << ")";
                 stype.append(convert.str());
                 break;
-            case 18: // Change Ownership
             case 19: // Patrol object
+                {
+                    // keep in mind multiple units can possess the same id, but
+                    // it only operates on the last farm with that id.
+                    //
+                    // s_player may not be selected. Therefore, go through all
+                    // the units in scenario.
+                    //
+                    // A gaia farm could be made infinite.
+                    //Player * p = scen.players + s_player;
+                    //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
+                    //}
+
+                    std::vector<PlayersUnit> all (num_sel);
+	                for (int i = 0; i < num_sel; i++) {
+                        all[i] = find_map_unit(uids[i]);
+	                }
+                    std::vector<PlayersUnit> farms (num_sel);
+                    std::vector<PlayersUnit> other (num_sel);
+
+                    std::vector<PlayersUnit>::iterator it;
+                    it = copy_if (all.begin(), all.end(), farms.begin(), playersunit_ucnst_equals(50) );
+                    farms.resize(std::distance(farms.begin(),it));  // shrink container to new size
+
+                    it = copy_if (all.begin(), all.end(), other.begin(), playersunit_ucnst_notequals(50) );
+                    other.resize(std::distance(other.begin(),it));  // shrink container to new size
+
+                    if (farms.size() > 0) {
+                        convert << "reseed ";
+                        for(std::vector<PlayersUnit>::iterator it = farms.begin(); it != farms.end(); ++it) {
+                            convert << it->u->ident << " (" <<
+                                get_unit_full_name(it->u->ident)
+                                << ")" << " ";
+                        }
+	                }
+
+                    if (other.size() > 0) {
+                        convert << "patrol ";
+                        for(std::vector<PlayersUnit>::iterator it = other.begin(); it != other.end(); ++it) {
+                            convert << it->u->ident << " (" <<
+                                get_unit_full_name(it->u->ident)
+                                << ")" << " ";
+                        }
+	                }
+                    stype.append(convert.str());
+                }
+                break;
+            case 18: // Change Ownership
             case 12: // Task object
                 switch (type) {
-                    case 19:
-                        {
-                            // keep in mind multiple units can possess the same id, but
-                            // it only operates on the last farm with that id.
-                            //
-                            // s_player may not be selected. Therefore, go through all
-                            // the units in scenario.
-                            //
-                            // A gaia farm could be made infinite.
-                            //Player * p = scen.players + s_player;
-                            //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
-                            //}
-
-                            unsigned int farms_sel = 0;
-	                        for (int i = 0; i < num_sel; i++) {
-	                            if (uids[i] == 50)
-	                                farms_sel++;
-	                        }
-                            if (farms_sel > 0) {
-	                            if (farms_sel == 1) {
-                                    convert << "make farm ";
-                                } else {
-                                    convert << "make farms ";
-                                }
-	                            for (int i = 0; i < num_sel; i++) {
-	                                if (uids[i] == 50)
-                                        convert << uids[i] << " (" <<
-                                            get_unit_full_name(uids[i])
-                                            << ")" << " ";
-	                            }
-	                            convert << "infinite";
-	                            break;
-                            } else {
-                                convert << "patrol";
-                            }
-                        }
-                        break;
                     case 18:
                         convert << "convert";
                         break;
@@ -504,16 +583,16 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     }
                 }
                 switch (type) {
-                    case 18:
-                        convert << " to";
-                        convert << " " << playerPronoun(t_player);
-                        break;
-                    default:
-                        if (location.x >= 0 && location.y >= 0) {
-                            convert << " to (" << location.x << ", " << location.y << ")";
-                        } else {
-                            convert << " to unit " << uid_loc;
-                        }
+                case 18:
+                    convert << " to";
+                    convert << " " << playerPronoun(t_player);
+                    break;
+                default:
+                    if (location.x >= 0 && location.y >= 0) {
+                        convert << " to (" << location.x << ", " << location.y << ")";
+                    } else {
+                        convert << " to unit " << uid_loc;
+                    }
                 }
                 stype.append(convert.str());
                 break;
@@ -887,7 +966,7 @@ const char *Effect::types_aoc[] = {
 	"Change View",
 	"Unload",
 	"Change Ownership",
-	"Patrol",
+	"Patrol / Reseed",
 	"Display Instructions",
 	"Clear Instructions",
 	"Freeze Unit",
@@ -969,7 +1048,7 @@ const char *Effect::types_aohd[] = {
 	"Change View",
 	"Unload",
 	"Change Ownership",
-	"Patrol",
+	"Patrol / Reseed",
 	"Display Instructions",
 	"Clear Instructions",
 	"Freeze Unit",
@@ -1009,7 +1088,7 @@ const char *Effect::types_short_aoc[] = {
 	"Change View",
 	"Unload",
 	"Change Ownership",
-	"Patrol",
+	"Patrol / Reseed",
 	"Instructions",
 	"Clear Instructions",
 	"Freeze",
@@ -1049,7 +1128,7 @@ const char *Effect::types_short_aohd[] = {
 	"Change View",
 	"Unload",
 	"Change Ownership",
-	"Patrol",
+	"Patrol / Reseed",
 	"Instructions",
 	"Clear Instructions",
 	"Freeze",

@@ -900,7 +900,7 @@ void Trigger::read(FILE *in)
 	    show_binrep(u1);
 	    //swapByteOrder(u1);
 	    //swapByteOrder(u2);
-	    printf("trigger unknown: %u\n", u1);
+	    //printf("trigger unknown: %u\n", u1);
 	    //printf("trigger unknown: %u\n", u2);
 	}
 	readbin(in, &obj);
@@ -940,7 +940,9 @@ void Trigger::read(FILE *in)
 		while (n_effects--)
 		{
 			long order = readval<long>(in);
-	        printf("effect order: %d", order);
+	        if (setts.intense) {
+	            printf("effect order: %d\n", order);
+	        }
 	        //show_binrep(order);
 			// I keep the effects in the proper order in memory, unlike AOK.
 			this->effects.push_back(effects[order]);

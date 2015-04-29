@@ -1002,7 +1002,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 		// save the trigger display order to the trigger objects
 		for (unsigned int j = 0; j < n_trigs; j++) {
-			//printf("%hu\n",j);
+			printf("DO:%hu\n",j);
 			triggers.at(t_order[j]).display_order = j;
 		}
 

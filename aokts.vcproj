@@ -187,6 +187,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\util\cpp11compat.h"
+				>
+			</File>
+			<File
 				RelativePath=".\util\helper.cpp"
 				>
 			</File>

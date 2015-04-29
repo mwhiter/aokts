@@ -224,6 +224,16 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
+            case  17: // Researching
+                if (pTech && pTech->id()) {
+                    convert << playerPronoun(player) << " is researching ";
+                    std::wstring techname(pTech->name());
+                    convert << std::string( techname.begin(), techname.end());
+                } else {
+                    convert << "INVALID";
+                }
+                stype.append(convert.str());
+                break;
             case 10: // Time
                 convert << time_string(timer) << " has passed";
                 stype.append(convert.str());
@@ -260,22 +270,22 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 19: // Difficulty
-                convert << "difficulty ";
+                convert << "difficulty is ";
                 switch (amount) {
                     case 0:
-                        convert << "harder";
+                        convert << "Harder";
                         break;
                     case 1:
-                        convert << "hard";
+                        convert << "Hard";
                         break;
                     case 2:
-                        convert << "moderate";
+                        convert << "Moderate";
                         break;
                     case 3:
-                        convert << "standard";
+                        convert << "Standard";
                         break;
                     case 4:
-                        convert << "easiest";
+                        convert << "Easiest";
                         break;
                 }
                 stype.append(convert.str());

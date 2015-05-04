@@ -17,7 +17,7 @@
 
 /*
 	REPORT(expr, action)
-	
+
 	If [expr] evaluates false, performs [action].
 	Also brings up a debug box in a debug build.
 */
@@ -54,6 +54,8 @@
 #endif
 
 #define SKIP(f, s) fseek(f, s, SEEK_CUR)
+
+void printf_log(char* fmt, ...);
 
 /**
  * @return the file's size, in bytes.

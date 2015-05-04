@@ -900,8 +900,8 @@ void Trigger::read(FILE *in)
 	    show_binrep(u1);
 	    //swapByteOrder(u1);
 	    //swapByteOrder(u2);
-	    //printf("trigger unknown: %u\n", u1);
-	    //printf("trigger unknown: %u\n", u2);
+	    //printf_log("trigger unknown: %u\n", u1);
+	    //printf_log("trigger unknown: %u\n", u2);
 	}
 	readbin(in, &obj);
 	readbin(in, &obj_order);
@@ -913,7 +913,7 @@ void Trigger::read(FILE *in)
 	//read effects
 	readbin(in, &n_effects);
 	if (setts.intense) {
-	    printf("nEffects: ");
+	    printf_log("nEffects: ");
 	    show_binrep(n_effects);
 	}
 
@@ -932,7 +932,7 @@ void Trigger::read(FILE *in)
 			}
 			catch (std::exception &)
 			{
-				printf("Effect %d invalid.\n", i);
+				printf_log("Effect %d invalid.\n", i);
 				throw;
 			}
 		}
@@ -941,7 +941,7 @@ void Trigger::read(FILE *in)
 		{
 			long order = readval<long>(in);
 	        if (setts.intense) {
-	            printf("effect order: %d\n", order);
+	            printf_log("effect order: %d\n", order);
 	        }
 	        //show_binrep(order);
 			// I keep the effects in the proper order in memory, unlike AOK.
@@ -954,7 +954,7 @@ void Trigger::read(FILE *in)
 	//read conditions
 	readbin(in, &n_conds);
 	if (setts.intense) {
-	    printf("nConds: ");
+	    printf_log("nConds: ");
 	    show_binrep(n_conds);
 	}
 
@@ -971,7 +971,7 @@ void Trigger::read(FILE *in)
 			}
 			catch (std::exception &)
 			{
-				printf("Condition %d invalid.\n", i);
+				printf_log("Condition %d invalid.\n", i);
 				throw;
 			}
 		}

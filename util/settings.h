@@ -86,3 +86,8 @@ public:
 	struct RecentFile *recent_first;
 
 } setts;
+
+namespace global
+{
+   extern char exedir[_MAX_PATH];
+}

@@ -143,20 +143,6 @@ void Effect::write(FILE *out)
 		fwrite(uids, sizeof(long), num_sel, out);
 }
 
-inline std::string playerPronoun(int p) {
-    std::ostringstream convert;
-    switch (p) {
-    case -1:
-        break;
-    case 0:
-        convert << "Gaia";
-        break;
-    default:
-        convert << "p" << p;
-    }
-    return convert.str();
-}
-
 inline std::string unitTypeName(const UnitLink *pUnit) {
     std::ostringstream convert;
     if (pUnit && pUnit->id()) {
@@ -176,8 +162,9 @@ inline std::string unitTypeName(const UnitLink *pUnit) {
 
 std::string Effect::selectedUnits() const {
     std::ostringstream convert;
-    convert << playerPronoun(s_player);
-    convert << " " << unitTypeName(pUnit);
+    if (s_player >= 0)
+        convert << playerPronoun(s_player) << " ";
+    convert << unitTypeName(pUnit);
 	for (int i = 0; i < num_sel; i++) {
         convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
 	}
@@ -480,7 +467,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 if (panel >= 1 && panel <= 9) {
                     convert << "place" << " " << selectedUnits() << " into control group " << panel;
                 } else {
-                    convert << " " << selectedUnits();
+                    convert << "Stop " << selectedUnits();
                     if (valid_area) {
                         if (area.left == area.right && area.top == area.bottom) {
                             convert << " at (" << area.left << "," << area.top << ")";
@@ -519,6 +506,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 19: // Patrol object
+                try
                 {
                     // keep in mind multiple units can possess the same id, but
                     // it only operates on the last farm with that id.
@@ -531,39 +519,47 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
                     //}
 
-                    std::vector<PlayersUnit> all (num_sel);
-	                for (int i = 0; i < num_sel; i++) {
-                        all[i] = find_map_unit(uids[i]);
-	                }
-                    std::vector<PlayersUnit> farms (num_sel);
-                    std::vector<PlayersUnit> other (num_sel);
+                    if (num_sel > 0) {
+                        std::vector<PlayersUnit> all (num_sel);
+	                    for (int i = 0; i < num_sel; i++) {
+                            all[i] = find_map_unit(uids[i]);
+	                    }
+                        std::vector<PlayersUnit> farms (num_sel);
+                        std::vector<PlayersUnit> other (num_sel);
 
-                    std::vector<PlayersUnit>::iterator it;
-                    it = copy_if (all.begin(), all.end(), farms.begin(), playersunit_ucnst_equals(50) );
-                    farms.resize(std::distance(farms.begin(),it));  // shrink container to new size
+                        std::vector<PlayersUnit>::iterator it;
+                        it = copy_if (all.begin(), all.end(), farms.begin(), playersunit_ucnst_equals(50) );
+                        farms.resize(std::distance(farms.begin(),it));  // shrink container to new size
 
-                    it = copy_if (all.begin(), all.end(), other.begin(), playersunit_ucnst_notequals(50) );
-                    other.resize(std::distance(other.begin(),it));  // shrink container to new size
+                        it = copy_if (all.begin(), all.end(), other.begin(), playersunit_ucnst_notequals(50) );
+                        other.resize(std::distance(other.begin(),it));  // shrink container to new size
 
-                    if (farms.size() > 0) {
-                        convert << "reseed ";
-                        for(std::vector<PlayersUnit>::iterator it = farms.begin(); it != farms.end(); ++it) {
-                            convert << it->u->ident << " (" <<
-                                get_unit_full_name(it->u->ident)
-                                << ")" << " ";
-                        }
-	                }
+                        if (farms.size() > 0) {
+                            convert << "reseed ";
+                            for(std::vector<PlayersUnit>::iterator it = farms.begin(); it != farms.end(); ++it) {
+                                convert << it->u->ident << " (" <<
+                                    get_unit_full_name(it->u->ident)
+                                    << ")" << " ";
+                            }
+	                    }
 
-                    if (other.size() > 0) {
-                        convert << "patrol ";
-                        for(std::vector<PlayersUnit>::iterator it = other.begin(); it != other.end(); ++it) {
-                            convert << it->u->ident << " (" <<
-                                get_unit_full_name(it->u->ident)
-                                << ")" << " ";
-                        }
+                        if (other.size() > 0) {
+                            convert << "patrol ";
+                            for(std::vector<PlayersUnit>::iterator it = other.begin(); it != other.end(); ++it) {
+                                convert << it->u->ident << " (" <<
+                                    get_unit_full_name(it->u->ident)
+                                    << ")" << " ";
+                            }
+	                    }
+	                } else {
+                        convert << "patrol / reseed nothing";
 	                }
                     stype.append(convert.str());
                 }
+	            catch (std::exception& ex)
+	            {
+                    stype.append(ex.what());
+	            }
                 break;
             case 18: // Change Ownership
             case 12: // Task object
@@ -591,7 +587,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     if (location.x >= 0 && location.y >= 0) {
                         convert << " to (" << location.x << ", " << location.y << ")";
                     } else {
-                        convert << " to unit " << uid_loc;
+                        convert << " to unit " << uid_loc << " (" << get_unit_full_name(uid_loc) << ")";
                     }
                 }
                 stype.append(convert.str());
@@ -966,7 +962,7 @@ const char *Effect::types_aoc[] = {
 	"Change View",
 	"Unload",
 	"Change Ownership",
-	"Patrol / Reseed",
+	"Patrol Units / Reseed Farms",
 	"Display Instructions",
 	"Clear Instructions",
 	"Freeze Unit",
@@ -1006,7 +1002,7 @@ const char *Effect::types_swgb[] = {
 	"Scroll View",
 	"Unload",
 	"Change Ownership",
-	"Patrol",
+	"Patrol Units",
 	"Display Instructions",
 	"Clear Instructions",
 	"Freeze Unit",
@@ -1048,7 +1044,7 @@ const char *Effect::types_aohd[] = {
 	"Change View",
 	"Unload",
 	"Change Ownership",
-	"Patrol / Reseed",
+	"Patrol Units / Reseed Farms",
 	"Display Instructions",
 	"Clear Instructions",
 	"Freeze Unit",
@@ -1190,7 +1186,7 @@ const char *Effect::types_short_swgb[] = {
 	"Input On"
 };
 
-const char *Effect::virtual_types_aoc[] = {
+const char *Effect::virtual_types_up[] = {
     "None",
     "Enable Object",
     "Disable Object",
@@ -1217,6 +1213,26 @@ const char *Effect::virtual_types_aoc[] = {
     "Set Control Group 9"
 };
 
+const char *Effect::virtual_types_aoc[] = {
+    "None",
+    "Freeze unit",
+};
+
+const char *Effect::virtual_types_aohd[] = {
+    "None",
+    "Freeze unit",
+};
+
+const char *Effect::virtual_types_swgb[] = {
+    "None",
+};
+
+const char *Effect::virtual_types_aok[] = {
+    "None",
+};
+
 int Effect::num_effects;
+int Effect::num_virtual_effects;
 const char** Effect::types;
 const char** Effect::types_short;
+const char** Effect::virtual_types;

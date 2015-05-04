@@ -8,7 +8,7 @@
 
 #include "esdata.h"
 
-#include "scen.h"
+#include "../util/settings.h"
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
 #include <expat.h>
@@ -371,7 +371,11 @@ void ESDATA::load(const char *path)
 	unitgroup_count = 0;
 	civ_count = 0;
 	rstate.pos = ESD_nowhere;
-	printf("\nReading esdata from \"%s\"...\n", path);
+
+    char xmlpath[_MAX_PATH];
+    strcpy (xmlpath,global::exedir);
+    strcat (xmlpath,"\\");
+    strcat (xmlpath,path);
 
 	parser = XML_ParserCreate(NULL);
 	if (!parser)
@@ -381,10 +385,6 @@ void ESDATA::load(const char *path)
 	XML_SetCharacterDataHandler(parser, characterDataHandler);
 	XML_SetUserData(parser, this);
 
-    char xmlpath[MAX_PATH];
-    strcpy (xmlpath,global::exedir);
-    strcat (xmlpath,"\\");
-    strcat (xmlpath,path);
 	datafile = fopen(xmlpath, "r");
 
 	if (!datafile)
@@ -392,6 +392,8 @@ void ESDATA::load(const char *path)
 		XML_ParserFree(parser);
 		throw std::runtime_error("Failed to open file.");
 	}
+
+	printf("\nOpened successfully genie/esdata from \"%s\"...\n", xmlpath);
 
 	while (true)
 	{

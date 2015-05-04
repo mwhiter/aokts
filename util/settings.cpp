@@ -10,6 +10,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include "settings.h"
+#include "utilio.h"
 #include <stdio.h>
 
 const char *regkey_swgb = "SOFTWARE\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0";
@@ -35,8 +36,10 @@ bool Setts::load()
 	DWORD size = sizeof(BasePath);
 	char buffer[_MAX_PATH];
 
-	GetCurrentDirectory(_MAX_PATH, path);
+	//GetCurrentDirectory(_MAX_PATH, path);
+    strcpy(path, global::exedir);
 	strcat(path, "\\ts.ini");
+	//printf_log("Settings file: \"%s\"\n", path);
 
 	/* result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, regkey, 0, KEY_READ, &key);
 	if (result == ERROR_SUCCESS)
@@ -49,10 +52,12 @@ bool Setts::load()
     result = ERROR_SUCCESS;
 
 	/* [Decompressed] */
-	GetCurrentDirectory(_MAX_PATH, TempPath);
-	GetPrivateProfileString("Decompressed", "Path", "scendata.tmp", buffer, sizeof(buffer), path);
+	//GetCurrentDirectory(_MAX_PATH, TempPath);
+    strcpy(TempPath, global::exedir);
 	strcat(TempPath, "\\");
+	GetPrivateProfileString("Decompressed", "Path", "scendata.tmp", buffer, sizeof(buffer), path);
 	strcat(TempPath, buffer);
+	//printf_log("Decompressed path: \"%s\"\n", TempPath);
 	DelTempOnExit = GetPrivateProfileInt("Decompressed", "DelOnExit", 1, path) == 1;
 
 	/* [Warnings] */
@@ -198,4 +203,9 @@ void Setts::recent_push(RecentFile *target)
 		/* Set target's next pointer to the previous top o' the stack. */
 		target->next = previous_top;
 	}
+}
+
+namespace global // or any appropriate name
+{
+   char exedir[_MAX_PATH];
 }

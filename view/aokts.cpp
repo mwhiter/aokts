@@ -432,11 +432,11 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		switch (ofn.nFilterIndex) {
 		case 1:
 		    version = AOC;
-		    printf("Selected %d, AOE 2.\n", ofn.nFilterIndex);
+		    printf_log("Selected %d, AOE 2.\n", ofn.nFilterIndex);
 		    break;
 		case 2:
 		    version = SWGB;
-		    printf("Selected %d, Star Wars.\n", ofn.nFilterIndex);
+		    printf_log("Selected %d, Star Wars.\n", ofn.nFilterIndex);
 		    break;
 		}
 
@@ -470,7 +470,7 @@ void FileOpen(HWND sheet, bool ask, int recent)
 	    {
 		    file = setts.recent_getnext();
 		    strcpy(file->path, setts.ScenPath);
-		    strcpy(file->display, setts.ScenPath + ofn.nFileOffset);
+		    strcpy(file->display, PathFindFileName(setts.ScenPath));
 		    file->game = (int)version;
 	    }
 	    setts.recent_push(file);
@@ -541,7 +541,7 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		desc.append(ex.what());
 
 		desc.append("\n\nIf the game is able to open the scenario,\nplease report this error. Thanks.");
-		printf("User message: %s\n", desc.c_str());
+		printf_log("User message: %s\n", desc.c_str());
 		MessageBox(sheet, desc.c_str(), "Scenario Load Error", MB_ICONWARNING);
 
 		// unless it's a debug build, clear the bad data
@@ -1177,7 +1177,7 @@ char *getCmdlinePath(char *cmdline, char *buffer)
 
 	if (!*cmdline)
 	{
-		printf("Too few arguments!\n");
+		printf_log("Too few arguments!\n");
 		return NULL;
 	}
 
@@ -1232,14 +1232,14 @@ bool ProcessCmdline(char *cmdline)
 		buffer = new unsigned char[size];
 		if (!buffer)
 		{
-			printf("not enough memory.\n");
+			printf_log("not enough memory.\n");
 			break;
 		}
 
 		fileIn = fopen(pathIn, "rb");
 		if (!fileIn)
 		{
-			printf("couldn\'t open input file\n");
+			printf_log("couldn\'t open input file\n");
 			delete [] buffer;
 			break;
 		}
@@ -1249,7 +1249,7 @@ bool ProcessCmdline(char *cmdline)
 		fileOut = fopen(pathOut, "wb");
 		if (!fileOut)
 		{
-			printf("couldn\'t open output file\n");
+			printf_log("couldn\'t open output file\n");
 			delete [] buffer;
 			break;
 		}
@@ -1262,9 +1262,9 @@ bool ProcessCmdline(char *cmdline)
 		fclose(fileOut);
 
 		if (code >= 0)
-			printf("done!\n");
+			printf_log("done!\n");
 		else
-			printf("failed.\n");
+			printf_log("failed.\n");
 
 		break;
 
@@ -1292,31 +1292,39 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 	_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF);	//check for memory leaks
 #endif
 
+    // These two methods are not the same
+    GetModuleFileName(NULL, global::exedir, MAX_PATH); // works
+    PathRemoveFileSpec(global::exedir);
+	//GetCurrentDirectory(_MAX_PATH, global::exedir); // doesn't work
+
 	//basic initializations
 	aokts = inst;
 	propdata.p = scen.players;	//start pointing to first member
 	ret = setts.load();
-	if (*setts.logname)
-		freopen(setts.logname, "w", stdout);
-	printf("Opened log file.\n");
+	if (*setts.logname) {
+	    char logpath[_MAX_PATH];
+
+	    //GetCurrentDirectory(_MAX_PATH, logpath);
+        strcpy(logpath, global::exedir);
+	    strcat(logpath, "\\");
+	    strcat(logpath, setts.logname);
+		freopen(logpath, "w", stdout);
+	    printf_log("Opened log file %s.\n", logpath);
+	}
+	printf_log("TS Path: %s\n", global::exedir);
 
 	//process any compress/decompress requests
 	if ((*cmdline == '/' || *cmdline == '-') && ProcessCmdline(cmdline))
 			return 0;
 
-    GetModuleFileName(NULL, global::exedir, MAX_PATH) ;
-    PathRemoveFileSpec(global::exedir);
-
 	//read genie data
 	try
 	{
 		esdata.load(datapath_aok);
-		//esdata.load(datapath_swgb);
 	}
 	catch (std::exception& ex)
 	{
-		printf("Could not load data: %s\n", ex.what());
-		printf("Path: %s\n", global::exedir);
+		printf_log("Could not load data: %s\n", ex.what());
 		MessageBox(NULL,
 			"Could not read Genie Data from data.xml. Terminating...",
 			"Error", MB_ICONERROR);
@@ -1363,6 +1371,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 		}
 
 		strcpy(setts.ScenPath, cmdline);
+		printf_log("cmdline scenpath: %s\n", setts.ScenPath);
 		FileOpen(sheet, false, -1);
 	}
 

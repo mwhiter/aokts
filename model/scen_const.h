@@ -25,6 +25,7 @@ enum Game
 	AOF     = 6,
 	SWGB    = 7,
 	SWGBCC  = 8,
+	UP      = 9, // UserPatch
 	NOCONV  = 100
 };
 

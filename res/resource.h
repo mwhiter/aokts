@@ -14,7 +14,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0.34"
+#define VER_STRING "1.2.0.35"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -362,6 +362,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_E_CLEAR  	    	1832
 #define IDC_E_TYPEVAL	    	1833
 #define IDC_E_VTYPE				1834
+#define IDC_E_NSELECTED 		1835
 
 /* About Dialog Controls */
 #define IDC_UPDATELINK          1901

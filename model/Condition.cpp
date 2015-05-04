@@ -57,20 +57,6 @@ Condition::Condition(Buffer& b)
 	fromGenie(genie);
 }
 
-inline std::string playerPronoun(int p) {
-    std::ostringstream convert;
-    switch (p) {
-    case -1:
-        break;
-    case 0:
-        convert << "Gaia";
-        break;
-    default:
-        convert << "p" << p;
-    }
-    return convert.str();
-}
-
 std::string Condition::getName(bool tip, NameFlags::Value flags) const
 {
     if (!tip) {

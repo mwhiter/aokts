@@ -45,8 +45,8 @@ IDI_LOGO                ICON                    "aokts.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,34
- PRODUCTVERSION 1,2,0,34
+ FILEVERSION 1,2,0,35
+ PRODUCTVERSION 1,2,0,35
  FILEFLAGSMASK 0x0L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -63,13 +63,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Created by David Tombs (DiGiT)"
             VALUE "FileDescription", "TS executable"
-            VALUE "FileVersion", "1.2.0.34"
+            VALUE "FileVersion", "1.2.0.35"
             VALUE "InternalName", "ts"
             VALUE "LegalCopyright", "Copyright (c) David Tombs 2010. See readme.txt."
             VALUE "LegalTrademarks", "Age of Empires II is a legal trademark of Microsoft Corporation."
             VALUE "OriginalFilename", "ts.exe"
             VALUE "ProductName", "Trigger Studio"
-            VALUE "ProductVersion", "1.2.0.34"
+            VALUE "ProductVersion", "1.2.0.35"
         END
     END
     BLOCK "VarFileInfo"
@@ -190,7 +190,7 @@ BEGIN
     CONTROL         202,IDC_STATIC,"Static",SS_BITMAP,8,8,21,20
     LTEXT           "Trigger Studio",IDC_STATIC,48,8,122,10
     LTEXT           "Version:",IDC_STATIC,179,8,48,8
-    LTEXT           "1.2.0.34",IDC_STATIC,179,16,52,8
+    LTEXT           "1.2.0.35",IDC_STATIC,179,16,52,8
     DEFPUSHBUTTON   "OK",IDOK,179,54,48,14
     LTEXT           "Created by David Tombs (DiGiT)",IDC_STATIC,48,21,122,11
     LTEXT           "1.0.2 by danielpereira",IDC_STATIC,48,34,122,9
@@ -785,14 +785,14 @@ BEGIN
     COMBOBOX        IDC_E_SPLAY,4,52,50,89,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_E_TPLAY,63,52,50,89,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     COMBOBOX        IDC_E_DSTATE,122,52,49,45,CBS_DROPDOWNLIST | WS_TABSTOP
-    LTEXT           "Selected Units:",IDC_STATIC,3,72,49,8
-    EDITTEXT        IDC_E_UIDS,53,70,146,13,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Selected Units:",IDC_E_NSELECTED,3,72,59,8
+    EDITTEXT        IDC_E_UIDS,63,70,136,13,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "...",IDC_E_OPENSEL,203,70,15,13
     LTEXT           "Location:",IDC_STATIC,3,88,32,8
     EDITTEXT        IDC_E_LOCX,41,86,25,12,ES_AUTOHSCROLL
     LTEXT           ",",IDC_STATIC,69,89,8,8
     EDITTEXT        IDC_E_LOCY,75,86,25,12,ES_AUTOHSCROLL
-    LTEXT           "Unit:",IDC_STATIC,139,88,20,10
+    LTEXT           "Location Unit:",IDC_STATIC,109,88,50,10
     EDITTEXT        IDC_E_LOCUID,160,86,40,13,ES_NUMBER
     PUSHBUTTON      "...",IDC_E_OPENSEL2,203,86,15,13
     LTEXT           "Area:",IDC_STATIC,3,105,18,8
@@ -850,7 +850,7 @@ BEGIN
     COMBOBOX        IDC_US_PLAYER,121,7,58,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
-IDD_UNITSEL2 DIALOG  0, 0, 186, 94
+IDD_UNITSEL2 DIALOG  0, 0, 186, 104
 STYLE DS_SETFONT | WS_POPUP | WS_CAPTION
 CAPTION "Select Units..."
 FONT 8, "MS Sans Serif"

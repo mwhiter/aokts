@@ -14,32 +14,62 @@ class TriggerVisitor;
 // HD
 #define MAX_UNITSEL 60
 
-enum EffectVirtualType
-{
-	EFFECT_VIRTUAL_None,
-	EFFECT_VIRTUAL_EnableObject,
-	EFFECT_VIRTUAL_DisableObject,
-	EFFECT_VIRTUAL_EnableTechnology,
-	EFFECT_VIRTUAL_DisableTechnology,
-	EFFECT_VIRTUAL_EnableTechnologyAnyCiv,
-	EFFECT_VIRTUAL_SetHP,
-	EFFECT_VIRTUAL_HealObject,
-	EFFECT_VIRTUAL_SetAggressive,
-	EFFECT_VIRTUAL_SetDefensive,
-	EFFECT_VIRTUAL_SetStandGround,
-	EFFECT_VIRTUAL_SetNoAttackWithoutHalt,
-	EFFECT_VIRTUAL_Resign,
-	EFFECT_VIRTUAL_FlashObjects,
-	EFFECT_VIRTUAL_SetAP,
-	EFFECT_VIRTUAL_SetControlGroup1,
-	EFFECT_VIRTUAL_SetControlGroup2,
-	EFFECT_VIRTUAL_SetControlGroup3,
-	EFFECT_VIRTUAL_SetControlGroup4,
-	EFFECT_VIRTUAL_SetControlGroup5,
-	EFFECT_VIRTUAL_SetControlGroup6,
-	EFFECT_VIRTUAL_SetControlGroup7,
-	EFFECT_VIRTUAL_SetControlGroup8,
-	EFFECT_VIRTUAL_SetControlGroup9
+struct EffectVirtualTypeUP {
+    enum Value {
+	    None,
+	    EnableObject,
+	    DisableObject,
+	    EnableTechnology,
+	    DisableTechnology,
+	    EnableTechnologyAnyCiv,
+	    SetHP,
+	    HealObject,
+	    SetAggressive,
+	    SetDefensive,
+	    SetStandGround,
+	    SetNoAttackWithoutHalt,
+	    Resign,
+	    FlashObjects,
+	    SetAP,
+	    SetControlGroup1,
+	    SetControlGroup2,
+	    SetControlGroup3,
+	    SetControlGroup4,
+	    SetControlGroup5,
+	    SetControlGroup6,
+	    SetControlGroup7,
+	    SetControlGroup8,
+	    SetControlGroup9
+    };
+};
+
+struct EffectVirtualTypeAOK {
+    enum Value {
+	    None,
+	    ReseedFarm,
+    };
+};
+
+struct EffectVirtualTypeSWGB {
+    enum Value {
+	    None,
+    };
+};
+
+struct EffectVirtualTypeAOC {
+    enum Value {
+	    None,
+	    ReseedFarm,
+	    FreezeUnit,
+    };
+};
+
+struct EffectVirtualTypeAOHD {
+    enum Value {
+	    None,
+	    ReseedFarm,
+	    FreezeUnit,
+    };
 };
 
 enum EffectType
@@ -144,7 +174,13 @@ public:
     static int num_effects; // set this to one of the below
     static const int NUM_EFFECTS_AOC = 37;
     static const int NUM_EFFECTS_SWGB = 39;
-    static const int NUM_VIRTUAL_EFFECTS_AOC = 24;
+
+    static int num_virtual_effects; // set this to one of the below
+    static const int NUM_VIRTUAL_EFFECTS_AOK = 1;
+    static const int NUM_VIRTUAL_EFFECTS_AOC = 2;
+    static const int NUM_VIRTUAL_EFFECTS_UP = 24;
+    static const int NUM_VIRTUAL_EFFECTS_AOHD = 2;
+    static const int NUM_VIRTUAL_EFFECTS_SWGB = 1;
 
 	static const char* types_aoc[NUM_EFFECTS_AOC];
 	static const char* types_aohd[NUM_EFFECTS_AOC];
@@ -153,10 +189,15 @@ public:
 	static const char* types_short_aohd[NUM_EFFECTS_AOC];
 	static const char* types_short_swgb[NUM_EFFECTS_SWGB];
 
+	static const char* virtual_types_aok[NUM_VIRTUAL_EFFECTS_AOK];
 	static const char* virtual_types_aoc[NUM_VIRTUAL_EFFECTS_AOC];
+	static const char* virtual_types_up[NUM_VIRTUAL_EFFECTS_UP];
+	static const char* virtual_types_aohd[NUM_VIRTUAL_EFFECTS_AOHD];
+	static const char* virtual_types_swgb[NUM_VIRTUAL_EFFECTS_SWGB];
 
     static const char** types; // set to one of effect_types... above
     static const char** types_short; // set to one of effect_types_short... above
+    static const char** virtual_types; // set to one of effect_types_short... above
 
 private:
 	void fromGenie(const struct Genie_Effect&);

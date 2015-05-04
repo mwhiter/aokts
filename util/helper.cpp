@@ -113,3 +113,18 @@ std::string wstringToString(const wchar_t * wcs) {
         return std::string("");
     }
 }
+
+std::string playerPronoun(int p) {
+    std::ostringstream convert;
+    switch (p) {
+    case -1:
+        break;
+    case 0:
+        convert << "Gaia";
+        break;
+    default:
+        convert << "p" << p;
+    }
+    return convert.str();
+}
+

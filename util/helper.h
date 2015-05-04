@@ -32,4 +32,6 @@ inline int to_ecplayer(int player) {
         return -1;
 }
 
+std::string playerPronoun(int p);
+
 #endif // INC_HELPER_H

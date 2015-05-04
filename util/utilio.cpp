@@ -1,13 +1,23 @@
 /* UTIL */
 
 #include "utilio.h"
+#include <cstdarg>
+
+void printf_log(char* fmt, ...)
+{
+    va_list args;
+    va_start(args,fmt);
+    vprintf(fmt,args);
+    fflush(stdout);
+    va_end(args);
+}
 
 long fsize(const char *path)
 {
 	AutoFile file(path, "rb");
 
 	fseek(file.get(), 0, SEEK_END);
-	
+
 	return ftell(file.get());
 	// AutoFile closes file
 }

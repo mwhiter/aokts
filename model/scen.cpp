@@ -33,65 +33,33 @@ using std::pair;
 /* some options */
 #define BMP_READ_HACK
 
-/* See scen_const.h
-struct PerVersion
-{
-	int messages_count;
-	bool mstrings;
-	int max_disables1; // max disable tech and unit
-	int max_disables2; // max disable buildings
-};
-
-struct PerGame
-{
-	UCNST max_unit; // max unit types
-	int max_research; // max research
-	int max_tech; // max tech
-	int max_terrains; // max tech
-	int max_condition_types;
-	int max_effect_types;
-};*/
+/*  PerVersion
+ *  See scen_const.h
+ *
+ *  struct PerVersion {
+ *  	int messages_count;
+ *  	bool mstrings;
+ *  	int max_disables1; // max disable tech and unit
+ *  	int max_disables2; // max disable buildings
+ *  };
+ */
 
 /* PerVersions */
-// AOE
-const PerVersion Scenario::pv1_15 =
-{
+const PerVersion Scenario::pv1_15 = { // AOE
 	5,
 	true,
 	30,
 	20
 };
 
-const PerGame Scenario::pgAOE =
-{
-	374,
-	118,
-	140,
-	32,
-	0,
-	0
-};
-
-// AOK
-const PerVersion Scenario::pv1_18 =
-{
+const PerVersion Scenario::pv1_18 = { // AOK
 	5,
 	true,
 	30,
 	20
 };
 
-const PerGame Scenario::pgAOK =
-{
-	750,
-	426,
-	438,
-	20,
-	37
-};
-
-// AOC / SWGB
-const PerVersion Scenario::pv1_22 =
+const PerVersion Scenario::pv1_22 = // AOC / SWGB
 {
 	6,
 	true,
@@ -99,70 +67,7 @@ const PerVersion Scenario::pv1_22 =
 	20,
 };
 
-// AOC
-const PerGame Scenario::pgAOC =
-{
-	866,
-	460,
-	514,
-	42,
-	20,
-	37
-};
-
-//// SWGB
-//const PerGame Scenario::pgSWGB =
-//{
-//	866,
-//	460,
-//	514,
-//	42
-//};
-
-const PerGame Scenario::pgSWGB =
-{
-	750,
-	426,
-	438,
-	32,
-	24,
-	39
-};
-
-
-// AOHD
-const PerVersion Scenario::pv1_23 =
-{
-	6,
-	true,
-	30,
-	20
-};
-
-// AOHD
-const PerGame Scenario::pgAOHD =
-{
-	865,
-	459,
-	513,
-	41,
-	20,
-	37
-};
-
-// AOF -- these are not correct
-const PerGame Scenario::pgAOF =
-{
-	865,
-	459,
-	513,
-	41,
-	20,
-	37
-};
-
-// SWGB CC
-const PerVersion Scenario::pv1_30 =
+const PerVersion Scenario::pv1_30 = // SWGB CC
 {
 	6,
 	true,
@@ -170,15 +75,95 @@ const PerVersion Scenario::pv1_30 =
 	60
 };
 
-// SWGB CC
+const PerVersion Scenario::pv1_23 = // AOHD / AOF
+{
+	6,
+	true,
+	30,
+	20
+};
+
+/*  PerGames
+ *  See scen_const.h
+ *
+ *  struct PerGame  {
+ *      UCNST max_unit; // max unit types
+ *      int max_research; // max research
+ *      int max_tech; // max tech
+ *      int max_terrains; // max terrains
+ *      int max_condition_types;
+ *      int max_effect_types;
+ *  };
+ */
+
+const PerGame Scenario::pgAOE =
+{
+	374,
+	118,
+	140,
+	23, // not including 9 undefined
+	0,
+	0
+};
+
+const PerGame Scenario::pgAOK =
+{
+	750,
+	426,
+	438,
+	32,
+	20,
+	37
+};
+
+const PerGame Scenario::pgAOC =
+{
+	866,
+	460,
+	514,
+	42, // including 1 undefined
+	20,
+	37
+};
+
+const PerGame Scenario::pgSWGB =
+{
+	750,
+	426,
+	438,
+	51, // not including 4 undefined
+	24,
+	39
+};
+
 const PerGame Scenario::pgSWGBCC =
 {
 	866,
 	460,
 	514,
-	42,
+	53,  // not including 2 undefined
 	24,
 	39
+};
+
+const PerGame Scenario::pgAOHD =
+{
+	865,
+	459,
+	513,
+	42,  // including 1 undefined
+	20,
+	37
+};
+
+const PerGame Scenario::pgAOF = // these are not correct
+{
+	865,
+	459,
+	513,
+	41,  // including 1 undefined
+	20,
+	37
 };
 
 /* The Scenario */
@@ -376,7 +361,7 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 
 	int clen;	//length of compressed data
 
-	printf("Opening scenario \"%s\"\n", path);
+	printf_log("Opening scenario \"%s\"\n", path);
 
 	/* Initialization */
 
@@ -388,34 +373,34 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 	/* Header */
 	if (!header.read(scx.get()))
 	{
-		printf("Invalid scenario header in %s\n", path);
+		printf_log("Invalid scenario header in %s\n", path);
 		throw runtime_error("Not a valid scenario.");
 	}
 
-	printf("Outside Header Version %g: ", version2);
+	printf_log("Outside Header Version %g: ", version2);
 	if (!strncmp(header.version, "1.18", 4))
 	{
 		ver1 = SV1_AOK;
-		printf("ver1: 1.18 (AOE 2).\n");
+		printf_log("ver1: 1.18 (AOE 2).\n");
 		game = AOK;
 		pergame = &pgAOK;
 	}
 	else if (!strncmp(header.version, "1.21", 4))
 	{
 		ver1 = SV1_AOC_SWGB;
-		printf("ver1: 1.21 (AOE 2 TC or SWGB or SWGB:CC).\n");
+		printf_log("ver1: 1.21 (AOE 2 TC or SWGB or SWGB:CC).\n");
 	}
 	else if (header.version[2] == '1' &&
 		(header.version[3] == '0' || header.version[3] == '1')) // 1.10 or 1.11
 	{
 		ver1 = SV1_AOE1;
-		printf("ver1: 1.1x (AOE 1).\n");
+		printf_log("ver1: 1.1x (AOE 1).\n");
 		game = AOE;
 		pergame = &pgAOE;
 	}
 	else
 	{
-		printf("Unrecognized scenario version: %s.\n", header.version);
+		printf_log("Unrecognized scenario version: %s.\n", header.version);
 		game = UNKNOWN;
 		pergame = NULL;
 		throw bad_data_error("unrecognized format version");
@@ -427,7 +412,7 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 	if (clen <= 0)
 		throw bad_data_error("no compressed data");
 
-	printf("Allocating %d bytes for compressed data buffer.\n", clen);
+	printf_log("Allocating %d bytes for compressed data buffer.\n", clen);
 
 	// Open file before allocating buffer since file is more likely to fail.
 	AutoFile tempout(dpath, "wb"); // TODO: exclusive access?
@@ -462,19 +447,34 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 
 	switch (game) {
     case AOK:
+        Effect::types = Effect::types_aoc;
+        Effect::types_short = Effect::types_short_aoc;
+        Effect::virtual_types = Effect::virtual_types_aok;
+        Effect::num_virtual_effects = Effect::NUM_VIRTUAL_EFFECTS_AOK;
+        printf_log("Data shows game is AOK\n");
+        break;
     case AOC:
         Effect::types = Effect::types_aoc;
         Effect::types_short = Effect::types_short_aoc;
+        Effect::virtual_types = Effect::virtual_types_aoc;
+        Effect::num_virtual_effects = Effect::NUM_VIRTUAL_EFFECTS_AOC;
+        printf_log("Data shows game is AOC\n");
         break;
     case AOF:
     case AOHD:
         Effect::types = Effect::types_aohd;
         Effect::types_short = Effect::types_short_aohd;
+        Effect::virtual_types = Effect::virtual_types_aohd;
+        Effect::num_virtual_effects = Effect::NUM_VIRTUAL_EFFECTS_AOHD;
+        printf_log("Data shows game is AOHD or AOF\n");
         break;
     case SWGB:
     case SWGBCC:
         Effect::types = Effect::types_swgb;
         Effect::types_short = Effect::types_short_swgb;
+        Effect::virtual_types = Effect::virtual_types_swgb;
+        Effect::num_virtual_effects = Effect::NUM_VIRTUAL_EFFECTS_SWGB;
+        printf_log("Data shows game is SWGB or SWGB:CC\n");
         break;
 	}
 
@@ -708,7 +708,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 	int i;
 	Player *p;
 
-	printf("Read decompressed data file %s...\n", path);
+	printf_log("Read decompressed data file %s...\n", path);
 	AutoFile dc2in(path, "rb"); // temp decompressed file
 
 	/* Compressed Header */
@@ -717,16 +717,16 @@ void Scenario::read_data(const char *path)	//decompressed data
 	readbin(dc2in.get(), &version2);
 
 	if (setts.intense)
-		printf("Debug 1.\n");
+		printf_log("Debug 1.\n");
 
-	printf("Compressed (inside) Header Version %g: ", version2);
+	printf_log("Compressed (inside) Header Version %g: ", version2);
 	switch (myround(version2 * 100))
 	{
 	case 115:
 		perversion = &pv1_15;
 		pergame = &pgAOE;
 		ver2 = SV2_AOE1;
-		printf("ver2: 1.15 (AOE).\n");
+		printf_log("ver2: 1.15 (AOE).\n");
 		game = AOE;
 		break;
 
@@ -737,14 +737,14 @@ void Scenario::read_data(const char *path)	//decompressed data
 		perversion = &pv1_18;
 		pergame = &pgAOK;
 		ver2 = SV2_AOK;
-		printf("ver2: 1.18-1.21 (AOK).\n");
+		printf_log("ver2: 1.18-1.21 (AOK).\n");
 		game = AOK;
 		break;
 
 	case 122:
 		perversion = &pv1_22;
 		ver2 = SV2_AOC_SWGB;
-		printf("ver2: 1.22 (AOE 2 TC or SWGB).\n");
+		printf_log("ver2: 1.22 (AOE 2 TC or SWGB).\n");
 		if (game == UNKNOWN) {
 		    game = AOC;
 		    pergame = &pgAOC;
@@ -754,7 +754,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 	case 123:
 		perversion = &pv1_23;
 		ver2 = SV2_AOHD_AOF;
-		printf("ver2: 1.23 (AOHD or AOF).\n");
+		printf_log("ver2: 1.23 (AOHD or AOF).\n");
 		if (game == UNKNOWN || game == SWGB || game == AOC) {
 		    if (strstr(setts.ScenPath, ".scx2")) {
 		        game = AOF;
@@ -769,13 +769,13 @@ void Scenario::read_data(const char *path)	//decompressed data
 	case 130:
 		perversion = &pv1_30;
 		ver2 = SV2_SWGBCC;
-		printf("ver2: 1.30 (SWGB:CC).\n");
+		printf_log("ver2: 1.30 (SWGB:CC).\n");
 		game = SWGBCC;
 		pergame = &pgSWGBCC;
 		break;
 
 	default:
-		printf("Unrecognized scenario version2: %f.\n", version2);
+		printf_log("Unrecognized scenario version2: %f.\n", version2);
 		game = UNKNOWN;
 		pergame = NULL;
 		throw bad_data_error("unrecognized format version");
@@ -796,8 +796,8 @@ void Scenario::read_data(const char *path)	//decompressed data
 	}
 	catch (std::exception& ex)
 	{
-		printf("Could not load data: %s\n", ex.what());
-		printf("Path: %s\n", global::exedir);
+		printf_log("Could not load data: %s\n", ex.what());
+		printf_log("Path: %s\n", global::exedir);
 		MessageBox(NULL,
 			"Could not read Genie Data from xml file.",
 			"Error", MB_ICONERROR);
@@ -816,7 +816,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 		p->read_data1(dc2in.get());
 
 	if (setts.intense)
-		printf("Debug 2.\n");
+		printf_log("Debug 2.\n");
 
 	readbin(dc2in.get(), &unknown);
 	readunk(dc2in.get(), (char)0, "post-PlayerData1 char");
@@ -846,7 +846,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 	/* Player Data 2 */
 
 	if (setts.intense)
-		printf("Debug 3.\n");
+		printf_log("Debug 3.\n");
 
 	FEP(p)
  		readcs<unsigned short>(dc2in.get(), p->vc, sizeof(p->vc));
@@ -926,7 +926,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 		p->read_dis_bldgs(dc2in.get(), *perversion);
 
 	if (setts.intense)
-	    printf("Debug 4.\n");
+	    printf_log("Debug 4.\n");
 
 	readunk<long>(dc2in.get(), 0, "Disables unused 1", true);
 	readunk<long>(dc2in.get(), 0, "Disables unused 2", true);
@@ -969,21 +969,21 @@ void Scenario::read_data(const char *path)	//decompressed data
 	}
 
 	if (setts.intense)
-		printf("Debug 5.\n");
+		printf_log("Debug 5.\n");
 	/* Triggers */
 
 	readunk<double>(dc2in.get(), 1.6, "Trigger system version");
 	readbin(dc2in.get(), &objstate);
 
 	if (setts.intense)
-		printf("Debug 9.\n");
+		printf_log("Debug 9.\n");
 	/* Triggers */
 
 	unsigned long n_trigs = readval<unsigned long>(dc2in.get());
 	triggers.resize(n_trigs);
 
 	if (setts.intense)
-		printf("Debug 10.\n");
+		printf_log("Debug 10.\n");
 	if (n_trigs)
 	{
 		Trigger *t = &(*triggers.begin());
@@ -992,7 +992,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 		for (unsigned int i = 0; i < n_trigs; ++i)
 		{
 			if (setts.intense)
-				printf("Reading trigger %d.\n", i);
+				printf_log("Reading trigger %d.\n", i);
 			t++->read(dc2in.get());
 		}
 
@@ -1002,7 +1002,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 		// save the trigger display order to the trigger objects
 		for (unsigned int j = 0; j < n_trigs; j++) {
-			printf("DO:%hu\n",j);
+			printf_log("DO:%hu\n",j);
 			triggers.at(t_order[j]).display_order = j;
 		}
 
@@ -1025,7 +1025,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	    if (unk4 == 1)
 	    {
-		    printf("unk4 hack around %x\n", ftell(dc2in.get()));
+		    printf_log("unk4 hack around %x\n", ftell(dc2in.get()));
 		    SKIP(dc2in.get(), 396);
 	    }
 	}
@@ -1052,7 +1052,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	// FILE close taken care of by AutoFile! yay.
 
-	printf("Done.\n");
+	printf_log("Done.\n");
 }
 
 /* Write to-be-compressed data to a temp file */
@@ -1149,9 +1149,9 @@ int Scenario::write_data(const char *path)
 	    unsigned long vclen = p->vcfile.length();
 	    unsigned long ctylen = p->ctyfile.length();
 	    unsigned long ailen = p->aifile.length();
-	    printf("vclen %lu\n", vclen);
-	    printf("ctylen %lu\n", ctylen);
-	    printf("ailen %lu\n", ailen);
+	    printf_log("vclen %lu\n", vclen);
+	    printf_log("ctylen %lu\n", ctylen);
+	    printf_log("ailen %lu\n", ailen);
 		fwrite(&vclen, sizeof(unsigned long), 1, dcout);
 		fwrite(&ctylen, sizeof(unsigned long), 1, dcout);
 		fwrite(&ailen, sizeof(unsigned long), 1, dcout);
@@ -3187,8 +3187,8 @@ void Map::read(FILE *in, ScenVersion1 version)
 
 	readbin(in, &x);
 	readbin(in, &y);
-	printf("Debug X %lu.\n",x);
-	printf("Debug Y %lu.\n",y);
+	printf_log("Debug X %lu.\n",x);
+	printf_log("Debug Y %lu.\n",y);
 
 	/**
 	 * Note that I treat x as the row indices, not the usual col indices,
@@ -3276,9 +3276,4 @@ bool Map::scaleArea(const RECT &area, const float scale)
 {
 
     return true;
-}
-
-namespace global // or any appropriate name
-{
-   char exedir[MAX_PATH];
 }

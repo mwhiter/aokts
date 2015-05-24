@@ -11,6 +11,7 @@
 #include "../util/zlibfile.h"
 #include "../view/utilui.h"
 #include "../util/utilio.h"
+#include "../util/cpp11compat.h"
 #include "../util/settings.h"
 #include "../util/Buffer.h"
 #include "../util/helper.h"
@@ -93,6 +94,7 @@ const PerVersion Scenario::pv1_23 = // AOHD / AOF
  *      int max_terrains; // max terrains
  *      int max_condition_types;
  *      int max_effect_types;
+ *      int max_virtual_effect_types;
  *  };
  */
 
@@ -102,6 +104,7 @@ const PerGame Scenario::pgAOE =
 	118,
 	140,
 	23, // not including 9 undefined
+	0,
 	0,
 	0
 };
@@ -113,7 +116,8 @@ const PerGame Scenario::pgAOK =
 	438,
 	32,
 	20,
-	37
+	24,
+	1
 };
 
 const PerGame Scenario::pgAOC =
@@ -123,7 +127,19 @@ const PerGame Scenario::pgAOC =
 	514,
 	42, // including 1 undefined
 	20,
-	37
+	30,
+	2
+};
+
+const PerGame Scenario::pgUP =
+{
+	866,
+	460,
+	514,
+	42, // including 1 undefined
+	20,
+	34,
+	24
 };
 
 const PerGame Scenario::pgSWGB =
@@ -132,8 +148,9 @@ const PerGame Scenario::pgSWGB =
 	426,
 	438,
 	51, // not including 4 undefined
-	24,
-	39
+	22,
+	37,
+	1
 };
 
 const PerGame Scenario::pgSWGBCC =
@@ -143,7 +160,8 @@ const PerGame Scenario::pgSWGBCC =
 	514,
 	53,  // not including 2 undefined
 	24,
-	39
+	39,
+	1
 };
 
 const PerGame Scenario::pgAOHD =
@@ -153,7 +171,8 @@ const PerGame Scenario::pgAOHD =
 	513,
 	42,  // including 1 undefined
 	20,
-	37
+	34,
+	2
 };
 
 const PerGame Scenario::pgAOF = // these are not correct
@@ -163,7 +182,8 @@ const PerGame Scenario::pgAOF = // these are not correct
 	513,
 	41,  // including 1 undefined
 	20,
-	37
+	34,
+	2
 };
 
 /* The Scenario */
@@ -345,6 +365,9 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 	case AOC:
 	    pergame = &pgAOC;
 	    break;
+	case UP:
+	    pergame = &pgUP;
+	    break;
 	case AOHD:
 	    pergame = &pgAOHD;
 	    break;
@@ -447,38 +470,55 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 
 	switch (game) {
     case AOK:
-        Effect::types = Effect::types_aoc;
-        Effect::types_short = Effect::types_short_aoc;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Effect::types = Effect::types_aok;
+        Effect::types_short = Effect::types_short_aok;
         Effect::virtual_types = Effect::virtual_types_aok;
-        Effect::num_virtual_effects = Effect::NUM_VIRTUAL_EFFECTS_AOK;
         printf_log("Data shows game is AOK\n");
         break;
     case AOC:
-        Effect::types = Effect::types_aoc;
-        Effect::types_short = Effect::types_short_aoc;
-        Effect::virtual_types = Effect::virtual_types_aoc;
-        Effect::num_virtual_effects = Effect::NUM_VIRTUAL_EFFECTS_AOC;
-        printf_log("Data shows game is AOC\n");
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        if (is_userpatch()) {
+            game = UP;
+            Effect::types = Effect::types_up;
+            Effect::types_short = Effect::types_short_up;
+            Effect::virtual_types = Effect::virtual_types_up;
+            printf_log("Data shows game is AOC:UserPatch\n");
+        } else {
+            Effect::types = Effect::types_aoc;
+            Effect::types_short = Effect::types_short_aoc;
+            Effect::virtual_types = Effect::virtual_types_aoc;
+            printf_log("Data shows game is AOC\n");
+        }
         break;
     case AOF:
     case AOHD:
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
         Effect::types = Effect::types_aohd;
         Effect::types_short = Effect::types_short_aohd;
         Effect::virtual_types = Effect::virtual_types_aohd;
-        Effect::num_virtual_effects = Effect::NUM_VIRTUAL_EFFECTS_AOHD;
         printf_log("Data shows game is AOHD or AOF\n");
         break;
     case SWGB:
-    case SWGBCC:
+        Condition::types = Condition::types_swgb;
+        Condition::types_short = Condition::types_short_swgb;
         Effect::types = Effect::types_swgb;
         Effect::types_short = Effect::types_short_swgb;
         Effect::virtual_types = Effect::virtual_types_swgb;
-        Effect::num_virtual_effects = Effect::NUM_VIRTUAL_EFFECTS_SWGB;
-        printf_log("Data shows game is SWGB or SWGB:CC\n");
+        printf_log("Data shows game is SWGB\n");
+        break;
+    case SWGBCC:
+        Condition::types = Condition::types_cc;
+        Condition::types_short = Condition::types_short_cc;
+        Effect::types = Effect::types_cc;
+        Effect::types_short = Effect::types_short_cc;
+        Effect::virtual_types = Effect::virtual_types_cc;
+        printf_log("Data shows game is SWGB:CC\n");
         break;
 	}
-
-    Effect::num_effects = pergame->max_effect_types;
 
 	return game;
 }
@@ -506,38 +546,74 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			ver1 = SV1_AOC_SWGB;
 			ver2 = SV2_AOC_SWGB;
 			perversion = &pv1_22;
-			if ((game == AOHD || game == AOF) && (flags & SaveFlags::CONVERT_EFFECTS))
-			    hd_to_up();
-			if (game == AOK)
+			switch (game) {
+			case AOHD:
+			case AOF:
+			    hd_to_10c();
+			    break;
+			case UP:
+			    up_to_10c();
+			    break;
+			case AOK:
 			    aok_to_aoc();
+			    break;
+			}
 			game = AOC;
+			break;
+		case UP:
+			ver1 = SV1_AOC_SWGB;
+			ver2 = SV2_AOC_SWGB;
+			perversion = &pv1_22;
+			switch (game) {
+			case AOHD:
+			case AOF:
+			    if ((flags & SaveFlags::CONVERT_EFFECTS))
+			        hd_to_up();
+			    break;
+			case AOK:
+			    aok_to_aoc();
+			    break;
+			}
+			game = UP;
 			break;
 		case AOHD:
 			ver1 = SV1_AOC_SWGB;
 			ver2 = SV2_AOHD_AOF;
 			perversion = &pv1_23;
-			if (game == AOC && (flags & SaveFlags::CONVERT_EFFECTS))
-			    up_to_hd();
-			if (game == AOK)
+			switch (game) {
+			case UP:
+			    if ((flags & SaveFlags::CONVERT_EFFECTS))
+			        up_to_hd();
+			    break;
+			case AOK:
 			    aok_to_aoc();
+			    break;
+			}
 			game = AOHD;
 			break;
 		case AOF:
 			ver1 = SV1_AOC_SWGB;
 			ver2 = SV2_AOHD_AOF;
 			perversion = &pv1_23;
-			if (game == AOC && (flags & SaveFlags::CONVERT_EFFECTS))
-			    up_to_hd();
-			if (game == AOK)
+			switch (game) {
+			case UP:
+			    if ((flags & SaveFlags::CONVERT_EFFECTS))
+			        up_to_hd();
+			    break;
+			case AOK:
 			    aok_to_aoc();
+			    break;
+			}
 			game = AOF;
 			break;
 		case SWGB:
 			ver1 = SV1_AOC_SWGB;
 			ver2 = SV2_AOC_SWGB;
 			perversion = &pv1_30;
-			if ((game == AOHD || game == AOF) && (flags & SaveFlags::CONVERT_EFFECTS))
-			    hd_to_up();
+			if ((game == AOHD || game == AOF))
+			    hd_to_swgb();
+			if (game == UP)
+			    up_to_swgb();
 			if (game == AOK)
 			    aok_to_aoc();
 			game = SWGB;
@@ -546,8 +622,10 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			ver1 = SV1_AOC_SWGB;
 			ver2 = SV2_SWGBCC;
 			perversion = &pv1_30;
-			if ((game == AOHD || game == AOF) && (flags & SaveFlags::CONVERT_EFFECTS))
-			    hd_to_up();
+			if ((game == AOHD || game == AOF))
+			    hd_to_swgb();
+			if (game == UP)
+			    up_to_swgb();
 			if (game == AOK)
 			    aok_to_aoc();
 			game = SWGBCC;
@@ -688,6 +766,42 @@ void Scenario::_header::reset()
 */
 #define FEP(p) \
 	for (i = PLAYER1_INDEX, p = players; i < NUM_PLAYERS; i++, p++)
+
+/* Will check triggers to see if must be userpatch */
+
+bool Scenario::is_userpatch()
+{
+	Trigger *trig = &(*triggers.begin());
+	long num = triggers.size();
+
+    bool is_userpatch = false;
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+	        if (iter->reserved == -256) {
+	            is_userpatch = true;
+	        }
+		}
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        switch (iter->type) {
+	        case 30:
+	        case 31:
+	        case 32:
+	        case 33:
+	            is_userpatch = true;
+	            break;
+	        }
+		}
+		trig++;
+	}
+
+    return is_userpatch;
+}
 
 /**
  * I suppose this is as good a place as any to document how I designed the
@@ -2048,7 +2162,7 @@ AOKTS_ERROR Scenario::up_to_aofe() {
 
 bool up_to_10c_test(const Effect & e)
 {
-    return e.type == 30 || e.type == 31 || e.type == 32 || e.type == 33;
+    return e.type > Effect::NUM_EFFECTS_AOC;
 }
 
 AOKTS_ERROR Scenario::up_to_10c() {
@@ -2067,6 +2181,33 @@ AOKTS_ERROR Scenario::up_to_10c() {
         trig->effects.erase(std::remove_if(trig->effects.begin(), trig->effects.end(), up_to_10c_test), trig->effects.end());
 		trig++;
 	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::hd_to_10c() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // using a lamba function, delete speed range armor1 armor2
+        // remove effects that change name over area
+        // prevent using damage on gaia
+        trig->effects.erase(std::remove_if(trig->effects.begin(), trig->effects.end(), up_to_10c_test), trig->effects.end());
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::hd_to_swgb() {
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::up_to_swgb() {
 	return ERR_none;
 }
 

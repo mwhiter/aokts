@@ -178,12 +178,15 @@ public:
 	static const PerVersion pv1_23;
 	static const PerVersion pv1_30;
 
+	PerGame pgGame[10];
+
 	static const PerGame pgAOE;
 	static const PerGame pgAOK;
 	static const PerGame pgAOC;
-	static const PerGame pgSWGB;
+	static const PerGame pgUP;
 	static const PerGame pgAOHD;
 	static const PerGame pgAOF;
+	static const PerGame pgSWGB;
 	static const PerGame pgSWGBCC;
 
 	Scenario();
@@ -250,6 +253,8 @@ public:
 	//exFile: Exports all (index of -1) or one file to the specified directory
 	bool exFile(const char *directory, long index);
 
+	bool is_userpatch();
+
 	/*
 		clean_triggers: cleans trigger list of unused triggers
 
@@ -306,6 +311,9 @@ public:
 	AOKTS_ERROR aoc_to_aok();
 	AOKTS_ERROR aok_to_aoc();
 	AOKTS_ERROR hd_to_up();
+	AOKTS_ERROR hd_to_10c();
+	AOKTS_ERROR hd_to_swgb();
+	AOKTS_ERROR up_to_swgb();
 	AOKTS_ERROR fix_trigger_outliers();
 
 	/*	map_copy: copies terrain and units from a specified area of the map

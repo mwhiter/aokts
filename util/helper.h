@@ -34,4 +34,11 @@ inline int to_ecplayer(int player) {
 
 std::string playerPronoun(int p);
 
+// Standard in C++11
+// Gives pointers to the first and last elements of an array
+template <typename T, size_t N>
+T* begin(T(&arr)[N]) { return &arr[0]; }
+template <typename T, size_t N>
+T* end(T(&arr)[N]) { return &arr[0]+N; }
+
 #endif // INC_HELPER_H

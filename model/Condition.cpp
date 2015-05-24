@@ -60,7 +60,7 @@ Condition::Condition(Buffer& b)
 std::string Condition::getName(bool tip, NameFlags::Value flags) const
 {
     if (!tip) {
-	    return (type < NUM_CONDS) ? types[type] : "Unknown!";
+	    return (type < scen.pergame->max_condition_types) ? types[type] : "Unknown!";
 	} else {
 	    std::string stype = std::string("");
         std::ostringstream convert;
@@ -281,7 +281,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             default:
-                stype.append((type < NUM_CONDS) ? types_short[type] : "Unknown!");
+                stype.append((type < scen.pergame->max_condition_types) ? types_short[type] : "Unknown!");
         }
 
         return flags&NameFlags::LIMITLEN?stype.substr(0,100):stype;
@@ -447,7 +447,57 @@ Genie_Condition Condition::toGenie() const
 	return ret;
 }
 
-const char *Condition::types[] =
+const char *Condition::types_aok[] =
+{
+	"Undefined",
+	"Bring Object to Area",
+	"Bring Object to Object",
+	"Own Objects",
+	"Own Fewer Objects",
+	"Objects in Area",
+	"Destroy Object",
+	"Capture Object",
+	"Accumulate Attribute",
+	"Researched Technology",
+	"Timer",
+	"Object Selected",
+	"AI Signal",
+	"Player Defeated",
+	"Object Has Target",
+	"Object Visible",
+	"Object Not Visible",
+	"Researching Technology",
+	"Units Garrisoned",
+	"Difficulty Level"
+};
+
+const char *Condition::types_swgb[] =
+{
+	"Undefined",
+	"Bring Object to Area",
+	"Bring Object to Object",
+	"Own Objects",
+	"Own Fewer Objects",
+	"Objects in Area",
+	"Destroy Object",
+	"Capture Object",
+	"Accumulate Attribute",
+	"Researched Technology",
+	"Timer",
+	"Object Selected",
+	"AI Signal",
+	"Player Defeated",
+	"Object Has Target",
+	"Object Visible",
+	"Object Not Visible",
+	"Researching Technology",
+	"Units Garrisoned",
+	"Difficulty Level",
+	"Own Fewer Foundations",
+	"Selected Objects in Area",
+};
+
+const char *Condition::types_cc[] =
 {
 	"Undefined",
 	"Bring Object to Area",
@@ -475,7 +525,57 @@ const char *Condition::types[] =
 	"Units Queued Past Pop Cap"
 };
 
-const char *Condition::types_short[] =
+const char *Condition::types_short_aok[] =
+{
+	"Undefined",
+	"Arrived",
+	"At Object",
+	"Own",
+	"Own Fewer",
+	"In Area",
+	"Destroyed",
+	"Captured",
+	"Accumulated",
+	"Researched",
+	"Time",
+	"Selected",
+	"AI Signal",
+	"Defeated",
+	"Targetting",
+	"Visible",
+	"Not Visible",
+	"Researching",
+	"Garrisoned",
+	"Difficulty"
+};
+
+const char *Condition::types_short_swgb[] =
+{
+	"Undefined",
+	"Arrived",
+	"At Object",
+	"Own",
+	"Own Fewer",
+	"In Area",
+	"Destroyed",
+	"Captured",
+	"Accumulated",
+	"Researched",
+	"Time",
+	"Selected",
+	"AI Signal",
+	"Defeated",
+	"Targetting",
+	"Visible",
+	"Not Visible",
+	"Researching",
+	"Garrisoned",
+	"Difficulty",
+	"Fewer Foundations",
+	"Selected in Area"
+};
+
+const char *Condition::types_short_cc[] =
 {
 	"Undefined",
 	"Arrived",
@@ -502,3 +602,6 @@ const char *Condition::types_short[] =
 	"Powered in Area",
 	"Queued Past Pop Cap"
 };
+
+const char** Condition::types;
+const char** Condition::types_short;

@@ -517,11 +517,35 @@
 				>
 			</File>
 			<File
-				RelativePath=".\res\evil.bmp"
+				RelativePath=".\res\cond-bad.bmp"
 				>
 			</File>
 			<File
-				RelativePath=".\res\good.bmp"
+				RelativePath=".\res\cond-good.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\effect-bad.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\effect-good.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\loop-off-bad.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\loop-off-good.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\loop-on-bad.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\loop-on-good.bmp"
 				>
 			</File>
 			<File
@@ -530,6 +554,22 @@
 			</File>
 			<File
 				RelativePath=".\res\swgbts.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\trig-off-bad.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\trig-off-good.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\trig-on-bad.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\trig-on-good.bmp"
 				>
 			</File>
 			<File

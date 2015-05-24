@@ -19,6 +19,8 @@ int IM_csel = 0;
 
 void LoadIM(HWND dialog)
 {
+	ENABLE_WND(IDC_M_USERPATCH, scen.game == AOC || scen.game == UP);
+
 	SetDlgItemText(dialog, IDC_M_MSGS, scen.messages[IM_msel].c_str());
 	SetDlgItemText(dialog, IDC_M_CINEM, scen.cinem[IM_csel]);
 	CheckDlgButton(dialog, IDC_G_ALLTECHS, scen.all_techs);
@@ -27,6 +29,7 @@ void LoadIM(HWND dialog)
 	SetDlgItemInt(dialog, IDC_G_NEXTID, scen.next_uid, FALSE);
 	SetDlgItemFloat(dialog, IDC_G_X, scen.editor_pos[0]);
 	SetDlgItemFloat(dialog, IDC_G_Y, scen.editor_pos[1]);
+	CheckDlgButton(dialog, IDC_M_USERPATCH, scen.game == UP);
 }
 
 void SaveM(HWND dialog)
@@ -74,6 +77,64 @@ void ExportBitmap(HWND dialog)
 		MessageBox(dialog, "No bitmap to export. Duh?", "Bitmap Export", MB_OK);
 }
 
+void IMsgs_Reset(HWND dialog)
+{
+	char string[32], version[5] = "0.00";
+	char game[32] = "";
+	char *version1 = scen.header.version;
+
+	//these aren't gonna change, so load them here
+	if (version1[0] == '\0')
+		version1 = version;
+	sprintf(string, "%s - %.2f", version1, scen.version2);
+
+	switch (scen.game) {
+	case AOE:
+	    sprintf(game, "Age of Empires");
+	    break;
+	case ROR:
+	    sprintf(game, "Rise of Rome");
+	    break;
+	case AOK:
+	    sprintf(game, "Age of Kings");
+	    break;
+	case AOC:
+	    sprintf(game, "The Conquerors");
+	    break;
+	case UP:
+	    sprintf(game, "The Conquerors: UserPatch");
+	    break;
+	case AOHD:
+	    sprintf(game, "Age of Empires II: HD Edition");
+	    break;
+	case AOF:
+	    sprintf(game, "The Forgotten");
+	    break;
+	case SWGB:
+	    sprintf(game, "Star Wars Galactic Battlegrounds");
+	    break;
+	case SWGBCC:
+	    sprintf(game, "Clone Campaigns");
+	    break;
+	default:
+	    sprintf(game, "Unknown");
+	    break;
+	}
+
+	SetDlgItemText(dialog, IDC_G_VER, string);
+	SetDlgItemText(dialog, IDC_G_GAME, game);
+	SetDlgItemText(dialog, IDC_G_TIMESTAMP, _ctime32(&scen.header.timestamp));
+	SetDlgItemText(dialog, IDC_G_ONAME, scen.origname);
+	SetDlgItemFloat(dialog, IDC_G_X, scen.editor_pos[0]);
+	SetDlgItemFloat(dialog, IDC_G_Y, scen.editor_pos[1]);
+
+	IM_msel = 0;
+	SendDlgItemMessage(dialog, IDC_M_SEL, CB_SETCURSEL, 0, 0);
+	IM_csel = 3;	//Bitmap = default
+	SendDlgItemMessage(dialog, IDC_M_SELC, CB_SETCURSEL, 3, 0);
+	LoadIM(dialog);
+}
+
 void IMsgs_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 {
 	switch (code)
@@ -109,6 +170,30 @@ void IMsgs_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		case ID_EDIT_PASTE:
 			SendMessage(GetFocus(), WM_PASTE, 0, 0);
 			break;
+
+		case IDC_M_USERPATCH:
+	        if (scen.game == AOC && IsDlgButtonChecked(dialog, IDC_M_USERPATCH)) {
+	            scen.game = UP;
+
+                scen.pergame = &(Scenario::pgUP);
+                Effect::types = Effect::types_up;
+                Effect::types_short = Effect::types_short_up;
+                Effect::virtual_types = Effect::virtual_types_up;
+	        } else if (scen.game == UP && !IsDlgButtonChecked(dialog, IDC_M_USERPATCH)) {
+	            if (!scen.is_userpatch()) {
+	                scen.game = AOC;
+
+                    scen.pergame = &(Scenario::pgAOC);
+                    Effect::types = Effect::types_aoc;
+                    Effect::types_short = Effect::types_short_aoc;
+                    Effect::virtual_types = Effect::virtual_types_aoc;
+                } else {
+                    CheckDlgButton(dialog, IDC_M_USERPATCH, BST_CHECKED);
+			        MessageBox(dialog, "Can't disable. Scenario uses userpatch-only features.\nTry converting scenario.", "AOKTS Warning", MB_ICONWARNING);
+                }
+	        }
+		    IMsgs_Reset(dialog);
+		    break;
 		}
 		break;
 
@@ -126,61 +211,6 @@ void IMsgs_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		break;
 	}
 
-}
-
-void IMsgs_Reset(HWND dialog)
-{
-	char string[32], version[5] = "0.00";
-	char game[32] = "";
-	char *version1 = scen.header.version;
-
-	//these aren't gonna change, so load them here
-	if (version1[0] == '\0')
-		version1 = version;
-	sprintf(string, "%s - %.2f", version1, scen.version2);
-
-	switch (scen.game) {
-	case AOE:
-	    sprintf(game, "Age of Empires");
-	    break;
-	case ROR:
-	    sprintf(game, "Rise of Rome");
-	    break;
-	case AOK:
-	    sprintf(game, "Age of Kings");
-	    break;
-	case AOC:
-	    sprintf(game, "The Conquerors");
-	    break;
-	case AOHD:
-	    sprintf(game, "Age of Empires II: HD Edition");
-	    break;
-	case AOF:
-	    sprintf(game, "The Forgotten");
-	    break;
-	case SWGB:
-	    sprintf(game, "Star Wars Galactic Battlegrounds");
-	    break;
-	case SWGBCC:
-	    sprintf(game, "Clone Campaigns");
-	    break;
-	default:
-	    sprintf(game, "Unknown");
-	    break;
-	}
-
-	SetDlgItemText(dialog, IDC_G_VER, string);
-	SetDlgItemText(dialog, IDC_G_GAME, game);
-	SetDlgItemText(dialog, IDC_G_TIMESTAMP, _ctime32(&scen.header.timestamp));
-	SetDlgItemText(dialog, IDC_G_ONAME, scen.origname);
-	SetDlgItemFloat(dialog, IDC_G_X, scen.editor_pos[0]);
-	SetDlgItemFloat(dialog, IDC_G_Y, scen.editor_pos[1]);
-
-	IM_msel = 0;
-	SendDlgItemMessage(dialog, IDC_M_SEL, CB_SETCURSEL, 0, 0);
-	IM_csel = 3;	//Bitmap = default
-	SendDlgItemMessage(dialog, IDC_M_SELC, CB_SETCURSEL, 3, 0);
-	LoadIM(dialog);
 }
 
 INT_PTR CALLBACK IMsgsDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)

@@ -105,7 +105,7 @@ const char welcome[] =
 const char extOpen[] =
 "AoE 2 Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0Star Wars Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
-"AOK Scenarios (*.scn)\0*.scn\0AOC Scenarios (*.scx)\0*.scx\0AOHD Scenarios (*.scx)\0*.scx\0AOF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
+"AOK Scenarios (*.scn)\0*.scn\0AOC 1.0C Scenarios (*.scx)\0AOC 1.4RC Scenarios (*.scx)\0*.scx\0AOHD Scenarios (*.scx)\0*.scx\0AOF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
 const char datapath_aok[] = "data_aok.xml";
 const char datapath_swgb[] = "data_swgb.xml";
 
@@ -220,20 +220,24 @@ void FileSave(HWND sheet, bool as, bool write)
 		    ofn.nFilterIndex =	2;
 		    ofn.lpstrDefExt =	"scx";
 		    break;
-		case AOHD:
+		case UP:
 		    ofn.nFilterIndex =	3;
 		    ofn.lpstrDefExt =	"scx";
 		    break;
-		case AOF:
+		case AOHD:
 		    ofn.nFilterIndex =	4;
+		    ofn.lpstrDefExt =	"scx";
+		    break;
+		case AOF:
+		    ofn.nFilterIndex =	5;
 		    ofn.lpstrDefExt =	"scx2";
 		    break;
 		case SWGB:
-		    ofn.nFilterIndex =	5;
+		    ofn.nFilterIndex =	6;
 		    ofn.lpstrDefExt =	"scx";
 		    break;
 		case SWGBCC:
-		    ofn.nFilterIndex =	6;
+		    ofn.nFilterIndex =	7;
 		    ofn.lpstrDefExt =	"sc1";
 		    break;
 		}
@@ -249,15 +253,18 @@ void FileSave(HWND sheet, bool as, bool write)
 		    conv = AOC;
 		    break;
 		case 3:
-		    conv = AOHD;
+		    conv = UP;
 		    break;
 		case 4:
-		    conv = AOF;
+		    conv = AOHD;
 		    break;
 		case 5:
-		    conv = SWGB;
+		    conv = AOF;
 		    break;
 		case 6:
+		    conv = SWGB;
+		    break;
+		case 7:
 		    conv = SWGBCC;
 		    break;
 		}
@@ -681,6 +688,12 @@ int CALLBACK PropSheetProc(HWND sheet, UINT msgid, LPARAM lParam)
 			/* Set the big icon */
 			icon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_LOGO));
 			Window_SetIcon(sheet, ICON_BIG, icon);
+
+            if (setts.editall) {
+                CheckMenuItem(GetMenu(sheet), ID_EDIT_ALL, MF_BYCOMMAND | MF_CHECKED);
+            } else {
+                CheckMenuItem(GetMenu(sheet), ID_EDIT_ALL, MF_BYCOMMAND);
+            }
 		}
 		break;
 	}
@@ -1077,6 +1090,20 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		{
 			ShowWindow(propdata.mapview, SW_SHOW);
 			CheckMenuItem(GetMenu(sheet), ID_VIEW_MAP, MF_BYCOMMAND | MF_CHECKED);
+		}
+		break;
+
+	case ID_EDIT_ALL:
+		if (GetMenuState(GetMenu(sheet), ID_EDIT_ALL, MF_BYCOMMAND) & MF_CHECKED)
+		{
+		    setts.editall = false;
+			// clear check
+			CheckMenuItem(GetMenu(sheet), ID_EDIT_ALL, MF_BYCOMMAND);
+		}
+		else
+		{
+		    setts.editall = true;
+			CheckMenuItem(GetMenu(sheet), ID_EDIT_ALL, MF_BYCOMMAND | MF_CHECKED);
 		}
 		break;
 

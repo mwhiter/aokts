@@ -942,6 +942,33 @@ Genie_Effect Effect::toGenie() const
 	return ret;
 }
 
+const char *Effect::types_aok[] = {
+	"Undefined",
+	"Change Diplomacy",
+	"Research Technology",
+	"Send Chat",
+	"Play Sound",
+	"Send Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate Trigger",
+	"Deactivate Trigger",
+	"AI Script Goal",
+	"Create Object",
+	"Task Object",
+	"Declare Victory",
+	"Kill Object",
+	"Remove Object",
+	"Change View",
+	"Unload",
+	"Change Ownership",
+	"Patrol Units / Reseed Farms",
+	"Display Instructions",
+	"Clear Instructions",
+	"Freeze Unit",
+	"Use Advanced Buttons"
+};
+
 const char *Effect::types_aoc[] = {
 	"Undefined",
 	"Change Diplomacy",
@@ -972,14 +999,44 @@ const char *Effect::types_aoc[] = {
 	"Change Object Name",
 	"Change Object HP",
 	"Change Object Attack",
+	"Stop Unit"
+};
+
+const char *Effect::types_up[] = {
+	"Undefined",
+	"Change Diplomacy",
+	"Research Technology",
+	"Send Chat",
+	"Play Sound",
+	"Send Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate Trigger",
+	"Deactivate Trigger",
+	"AI Script Goal",
+	"Create Object",
+	"Task Object",
+	"Declare Victory",
+	"Kill Object",
+	"Remove Object",
+	"Change View",
+	"Unload",
+	"Change Ownership",
+	"Patrol Units / Reseed Farms",
+	"Display Instructions",
+	"Clear Instructions",
+	"Freeze Unit",
+	"Use Advanced Buttons",
+	"Damage Object",
+	"Place Foundation",
+	"Change Object Name",
+	"Change Object HP",
+	"Change Object Attack",
 	"Stop Unit",
-	"Change Speed (UP)",
-	"Change Range (UP)",
-	"Change Mele Armor (UP)",
-	"Change Piercing Armor (UP)",
-	"Enable Unit",
-	"Disable Unit",
-	"Flash Objects"
+	"Change Speed",
+	"Change Range",
+	"Change Mele Armor",
+	"Change Piercing Armor"
 };
 
 const char *Effect::types_swgb[] = {
@@ -1019,9 +1076,42 @@ const char *Effect::types_swgb[] = {
 	"Disable Tech",
 	"Enable Unit",
 	"Disable Unit",
-	"Flash Objects",
-	"Turn Input Off",
-	"Turn Input On"
+	"Flash Objects"
+};
+
+const char *Effect::types_cc[] = {
+	"Undefined",
+	"Change Alliance",
+	"Research Technology",
+	"Send Chat",
+	"Play Sound",
+	"Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate Trigger",
+	"Deactivate Trigger",
+	"AI Script Goal",
+	"Create Object",
+	"Task Object",
+	"Declare Victory",
+	"Kill Object",
+	"Remove Object",
+	"Scroll View",
+	"Unload",
+	"Change Ownership",
+	"Patrol Units",
+	"Display Instructions",
+	"Clear Instructions",
+	"Freeze Unit",
+	"Enable Advanced Buttons",
+	"Damage Object",
+	"Place Foundation",
+	"Change Object Name",
+	"Change Object HP",
+	"Change Object Attack",
+	"Stop Unit",
+	"Snap View",
+	"Disable Advanced Buttons",
 };
 
 const char *Effect::types_aohd[] = {
@@ -1055,16 +1145,73 @@ const char *Effect::types_aohd[] = {
 	"Change Object HP",
 	"Change Object Attack",
 	"Stop Unit",
-	"Attack-Move (HD)",
-	"Change Armor (HD)",
-	"Change Range (HD)",
-	"Change Speed (HD)",
-	"Enable Unit",
-	"Disable Unit",
-	"Flash Objects"
+	"Attack-Move",
+	"Change Armor",
+	"Change Range",
+	"Change Speed",
+};
+
+const char *Effect::types_short_aok[] = {
+	"Undefined",
+	"Change Diplomacy",
+	"Research",
+	"Chat",
+	"Sound",
+	"Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate",
+	"Deactivate",
+	"AI Script Goal",
+	"Create",
+	"Task",
+	"Declare Victory",
+	"Kill",
+	"Remove",
+	"Change View",
+	"Unload",
+	"Change Ownership",
+	"Patrol / Reseed",
+	"Instructions",
+	"Clear Instructions",
+	"Freeze",
+	"Use Advanced Buttons"
 };
 
 const char *Effect::types_short_aoc[] = {
+	"Undefined",
+	"Change Diplomacy",
+	"Research",
+	"Chat",
+	"Sound",
+	"Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate",
+	"Deactivate",
+	"AI Script Goal",
+	"Create",
+	"Task",
+	"Declare Victory",
+	"Kill",
+	"Remove",
+	"Change View",
+	"Unload",
+	"Change Ownership",
+	"Patrol / Reseed",
+	"Instructions",
+	"Clear Instructions",
+	"Freeze",
+	"Use Advanced Buttons",
+	"Damage",
+	"Place Foundation",
+	"Rename",
+	"HP",
+	"Attack",
+	"Stop Unit"
+};
+
+const char *Effect::types_short_up[] = {
 	"Undefined",
 	"Change Diplomacy",
 	"Research",
@@ -1098,10 +1245,7 @@ const char *Effect::types_short_aoc[] = {
 	"Speed",
 	"Range",
 	"Mele Armor",
-	"Piercing Armor",
-	"Enable Unit",
-	"Disable Unit",
-	"Flash Objects"
+	"Piercing Armor"
 };
 
 const char *Effect::types_short_aohd[] = {
@@ -1138,13 +1282,50 @@ const char *Effect::types_short_aohd[] = {
 	"Attack-Move",
 	"Armor",
 	"Range",
-	"Speed",
-	"Enable Unit",
-	"Disable Unit",
-	"Flash Objects"
+	"Speed"
 };
 
 const char *Effect::types_short_swgb[] = {
+	"Undefined",
+	"Change Alliance",
+	"Research",
+	"Chat",
+	"Sound",
+	"Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate",
+	"Deactivate",
+	"AI Script Goal",
+	"Create",
+	"Task",
+	"Declare Victory",
+	"Kill",
+	"Remove",
+	"Scroll View",
+	"Unload",
+	"Change Ownership",
+	"Patrol",
+	"Instructions",
+	"Clear Instructions",
+	"Freeze",
+	"Use Advanced Buttons",
+	"Damage",
+	"Place Foundation",
+	"Rename",
+	"HP",
+	"Attack",
+	"Stop Unit",
+	"Snap View",
+	"Disable Advanced",
+	"Enable Tech",
+	"Disable Tech",
+	"Enable Unit",
+	"Disable Unit",
+	"Flash"
+};
+
+const char *Effect::types_short_cc[] = {
 	"Undefined",
 	"Change Alliance",
 	"Research",
@@ -1227,12 +1408,14 @@ const char *Effect::virtual_types_swgb[] = {
     "None",
 };
 
+const char *Effect::virtual_types_cc[] = {
+    "None",
+};
+
 const char *Effect::virtual_types_aok[] = {
     "None",
 };
 
-int Effect::num_effects;
-int Effect::num_virtual_effects;
 const char** Effect::types;
 const char** Effect::types_short;
 const char** Effect::virtual_types;

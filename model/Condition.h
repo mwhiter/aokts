@@ -6,7 +6,6 @@
 // Fwd declaration, don't want to #include it.
 class TriggerVisitor;
 
-#define NUM_CONDS	24	//+1 for undefined
 #define COND_CONTROLS	16
 
 #pragma pack(push, 4)	//everything in effects/conditions is a long
@@ -76,8 +75,19 @@ public:
 	long utype;
 	long ai_signal;
 
-	static const char* types[NUM_CONDS];
-	static const char* types_short[NUM_CONDS];
+    static const int NUM_CONDITIONS_AOK = 20;
+    static const int NUM_CONDITIONS_SWGB = 22;
+    static const int NUM_CONDITIONS_CC = 24;
+
+	static const char* types_aok[NUM_CONDITIONS_AOK];
+	static const char* types_swgb[NUM_CONDITIONS_SWGB];
+	static const char* types_cc[NUM_CONDITIONS_CC];
+	static const char* types_short_aok[NUM_CONDITIONS_AOK];
+	static const char* types_short_swgb[NUM_CONDITIONS_SWGB];
+	static const char* types_short_cc[NUM_CONDITIONS_CC];
+
+	static const char** types;
+	static const char** types_short;
 
 private:
 	void fromGenie(const struct Genie_Condition&);

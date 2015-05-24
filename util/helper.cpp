@@ -91,7 +91,7 @@ std::string time_string(unsigned int seconds, bool shortened) {
                 if (input) {
                     convert << " ";
                 }
-                convert << seconds << " second";
+                convert << seconds << " sec";
                 if (seconds > 1) {
                     convert << "s";
                 }

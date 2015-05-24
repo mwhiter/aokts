@@ -33,6 +33,23 @@ extern Scenario scen;
 
 using std::vector;
 
+struct BitmapIcons {
+    enum Value{
+        TRIG_ON_GOOD  = 0x00,
+        TRIG_ON_BAD   = 0x01,
+        TRIG_OFF_GOOD = 0x02,
+        TRIG_OFF_BAD  = 0x03,
+        LOOP_ON_GOOD  = 0x04,
+        LOOP_ON_BAD   = 0x05,
+        LOOP_OFF_GOOD = 0x06,
+        LOOP_OFF_BAD  = 0x07,
+        COND_GOOD     = 0x08,
+        COND_BAD      = 0x09,
+        EFFECT_GOOD   = 0x0a,
+        EFFECT_BAD    = 0x0b
+    };
+};
+
 /*
 	Triggers
 
@@ -755,7 +772,12 @@ HTREEITEM TrigTree_AddTrig(HWND treeview, int index, HTREEITEM after)
 
 	for (unsigned ec_index = 0; ec_index != t->conds.size(); ++ec_index)
 	{
-		good &= (tvis.item.iImage = t->conds[ec_index].check());
+	    if (t->conds[ec_index].check()) {
+	        tvis.item.iImage = BitmapIcons::COND_GOOD;
+	    } else {
+	        tvis.item.iImage = BitmapIcons::COND_BAD;
+		    good = false;
+	    }
 		tvis.item.iSelectedImage = tvis.item.iImage;
 		tvis.item.lParam = (LPARAM)new ConditionItemData(ec_index, index);
 		SendMessage(treeview, TVM_INSERTITEM, 0, (LPARAM)&tvis);
@@ -765,7 +787,12 @@ HTREEITEM TrigTree_AddTrig(HWND treeview, int index, HTREEITEM after)
 	// Don't use iterators: we need the index.
 	for (unsigned ec_index = 0; ec_index != t->effects.size(); ++ec_index)
 	{
-		good &= (tvis.item.iImage = t->effects[ec_index].check());
+	    if (t->effects[ec_index].check()) {
+	        tvis.item.iImage = BitmapIcons::EFFECT_GOOD;
+	    } else {
+	        tvis.item.iImage = BitmapIcons::EFFECT_BAD;
+	        good = false;
+	    }
 		//printf("trig index: %d...\n", t->effects[ec_index].trig_index);
 		//good &= (tvis.item.iImage = (t->effects[ec_index].check() && scen.triggers.at(t->effects[ec_index].trig_index) != NULL));
 		tvis.item.iSelectedImage = tvis.item.iImage;
@@ -775,8 +802,43 @@ HTREEITEM TrigTree_AddTrig(HWND treeview, int index, HTREEITEM after)
 
 	tvis.item.hItem = trignode;
 	tvis.item.mask = TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-	tvis.item.iImage = good;
-	tvis.item.iSelectedImage = good;
+	if (good) {
+	    if (t->loop) {
+	        if (t->state) {
+	            tvis.item.iImage = BitmapIcons::LOOP_ON_GOOD;
+	            tvis.item.iSelectedImage = BitmapIcons::LOOP_ON_GOOD;
+	        } else {
+	            tvis.item.iImage = BitmapIcons::LOOP_OFF_GOOD;
+	            tvis.item.iSelectedImage = BitmapIcons::LOOP_OFF_GOOD;
+	        }
+	    } else {
+	        if (t->state) {
+	            tvis.item.iImage = BitmapIcons::TRIG_ON_GOOD;
+	            tvis.item.iSelectedImage = BitmapIcons::TRIG_ON_GOOD;
+	        } else {
+	            tvis.item.iImage = BitmapIcons::TRIG_OFF_GOOD;
+	            tvis.item.iSelectedImage = BitmapIcons::TRIG_OFF_GOOD;
+	        }
+	    }
+	} else {
+	    if (t->loop) {
+	        if (t->state) {
+	            tvis.item.iImage = BitmapIcons::LOOP_ON_BAD;
+	            tvis.item.iSelectedImage = BitmapIcons::LOOP_ON_BAD;
+	        } else {
+	            tvis.item.iImage = BitmapIcons::LOOP_OFF_BAD;
+	            tvis.item.iSelectedImage = BitmapIcons::LOOP_OFF_BAD;
+	        }
+	    } else {
+	        if (t->state) {
+	            tvis.item.iImage = BitmapIcons::TRIG_ON_BAD;
+	            tvis.item.iSelectedImage = BitmapIcons::TRIG_ON_BAD;
+	        } else {
+	            tvis.item.iImage = BitmapIcons::TRIG_OFF_BAD;
+	            tvis.item.iSelectedImage = BitmapIcons::TRIG_OFF_BAD;
+	        }
+	    }
+	}
 	TreeView_SetItem(treeview, &tvis.item);
 
 	return trignode;
@@ -1228,24 +1290,48 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	HIMAGELIST il;
 	HWND treeview;
 	HINSTANCE inst = GetModuleHandle(NULL);
-	HBITMAP good, evil;
+	HBITMAP trig_on_good,  trig_on_bad;
+	HBITMAP trig_off_good, trig_off_bad;
+	HBITMAP loop_on_good,  loop_on_bad;
+	HBITMAP loop_off_good, loop_off_bad;
+	HBITMAP cond_good,  cond_bad;
+	HBITMAP effect_good,  effect_bad;
 
 	/* Subclass IDC_T_TREE to accept Enter keypresses. */
 	TVWndProc = SetWindowWndProc(GetDlgItem(dialog, IDC_T_TREE),
 			TreeView_KeyWndProc);
 
 	/* Setup image list */
-	il = ImageList_Create(16, 16, ILC_COLOR, 2, 1);
-	good = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_GOOD), IMAGE_BITMAP,
-		0, 0, LR_DEFAULTCOLOR);
-	evil = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_EVIL), IMAGE_BITMAP,
-		0, 0, LR_DEFAULTCOLOR);
+	il = ImageList_Create(16, 16, ILC_COLOR, 12, 1);
+	trig_on_good  = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_TRIG_ON_GOOD ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	trig_on_bad   = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_TRIG_ON_BAD  ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	trig_off_good = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_TRIG_OFF_GOOD), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	trig_off_bad  = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_TRIG_OFF_BAD ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	loop_on_good  = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_LOOP_ON_GOOD ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	loop_on_bad   = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_LOOP_ON_BAD  ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	loop_off_good = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_LOOP_OFF_GOOD), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	loop_off_bad  = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_LOOP_OFF_BAD ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	cond_good     = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_COND_GOOD    ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	cond_bad      = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_COND_BAD     ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	effect_good   = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_EFFECT_GOOD  ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+	effect_bad    = (HBITMAP)LoadImage(inst, MAKEINTRESOURCE(IDB_EFFECT_BAD   ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+
 	/*
 	ImageList_AddMasked(il, evil, RGB(0xFF,0xFF,0xFF));	//index 0 = false
 	ImageList_AddMasked(il, good, RGB(0xFF,0xFF,0xFF));	//index 1 = true
 	*/
-	ImageList_Add(il, evil, NULL);	//index 0 = false
-	ImageList_Add(il, good, NULL);	//index 1 = true
+	ImageList_Add(il, trig_on_good,  NULL);	//index 0 = false
+	ImageList_Add(il, trig_on_bad ,  NULL);	//index 1 = true
+	ImageList_Add(il, trig_off_good, NULL);	//index 2
+	ImageList_Add(il, trig_off_bad , NULL);	//index 3
+	ImageList_Add(il, loop_on_good,  NULL);	//index 4
+	ImageList_Add(il, loop_on_bad ,  NULL);	//index 5
+	ImageList_Add(il, loop_off_good, NULL);	//index 6
+	ImageList_Add(il, loop_off_bad , NULL);	//index 7
+	ImageList_Add(il, cond_good,     NULL);	//index 8
+	ImageList_Add(il, cond_bad,      NULL);	//index 9
+	ImageList_Add(il, effect_good,   NULL);	//index 10
+	ImageList_Add(il, effect_bad,    NULL);	//index 11
 
 	treeview = GetDlgItem(dialog, IDC_T_TREE);
 	TreeView_SetImageList(treeview, il, TVSIL_NORMAL);
@@ -1352,7 +1438,19 @@ void TrigTree_HandleClosing(HWND treeview, WPARAM wParam, class EditEC *edit_dat
 		item.hItem = static_cast<HTREEITEM>(edit_data->user);
 		item.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		item.pszText = (LPSTR)LPSTR_TEXTCALLBACK;
-		item.iImage = HIWORD(wParam);
+		if (HIWORD(wParam)) {
+		    if (id->type == EFFECT) {
+		        item.iImage = BitmapIcons::EFFECT_GOOD;
+		    } else if (id->type == CONDITION) {
+		        item.iImage = BitmapIcons::COND_GOOD;
+		    }
+		} else {
+		    if (id->type == EFFECT) {
+		        item.iImage = BitmapIcons::EFFECT_BAD;
+		    } else if (id->type == CONDITION) {
+		        item.iImage = BitmapIcons::COND_BAD;
+		    }
+		}
 		item.iSelectedImage = item.iImage;
 		SendMessage(treeview, TVM_SETITEM, 0, (LPARAM)&item);
 	}

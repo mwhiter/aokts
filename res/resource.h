@@ -14,7 +14,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0.35"
+#define VER_STRING "1.2.0.37"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -56,9 +56,19 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDD_COND			123
 
 /* Bitmaps */
-#define IDB_GOOD			200
-#define IDB_EVIL			201
-#define IDB_LOGO       		202
+#define IDB_LOGO       		200
+#define IDB_TRIG_ON_GOOD    201
+#define IDB_TRIG_ON_BAD     202
+#define IDB_TRIG_OFF_GOOD   203
+#define IDB_TRIG_OFF_BAD    204
+#define IDB_LOOP_ON_GOOD    205
+#define IDB_LOOP_ON_BAD     206
+#define IDB_LOOP_OFF_GOOD   207
+#define IDB_LOOP_OFF_BAD    208
+#define IDB_COND_GOOD       209
+#define IDB_COND_BAD        210
+#define IDB_EFFECT_GOOD     211
+#define IDB_EFFECT_BAD      212
 
 /* Info/Messages Controls */
 #define IDC_M_MSGS			1001
@@ -76,6 +86,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_G_Y				1061
 #define IDC_G_NEXTID		1062
 #define IDC_G_LOCKTEAMS		1063
+#define IDC_M_USERPATCH     1064
 
 /* Player Controls */
 #define IDC_P_SP1			1100
@@ -421,6 +432,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define ID_EDIT_PASTE			0xE125
 #define ID_EDIT_DELETE			0xE126
 #define ID_EDIT_UNDO			0xE12B
+#define ID_EDIT_ALL             0xE12C
 #define ID_VIEW_STATUS_BAR		0xE131
 #define ID_VIEW_STATISTICS		0xE132
 #define ID_VIEW_MAP				0xE133

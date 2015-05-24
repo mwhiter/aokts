@@ -428,16 +428,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         }
 
         if (timer > 0) {
-            if (this->loop) {
-                if (!this->state) {
-                    ss << "await ";
-                }
-                ss << "loop " << time_string(timer,true) << " ";
-            } else if (this->state) {
-                ss << "at " << time_string(timer,false) << " ";
-            } else {
-                ss << "+" << time_string(timer,true) << " ";
-            }
+            ss << "every " << time_string(timer,false) << " ";
         }
 
         if (c_in_area && c_has_gold && e_buff && e_lose_gold) {

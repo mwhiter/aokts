@@ -32,7 +32,7 @@ enum Game
 enum ScenVersion1
 {
 	SV1_AOE1		= 10,
-	SV1_AOK		= 18,
+	SV1_AOK		    = 18,
 	SV1_AOC_SWGB	= 21
 };
 
@@ -65,6 +65,7 @@ struct PerGame
 	int max_terrains; // max tech
 	int max_condition_types;
 	int max_effect_types;
+	int max_virtual_effect_types;
 };
 
 /* Internal Constants */

@@ -28,7 +28,7 @@ void EditCondition::update(Trigger *t)
 }
 
 // AoC v1.0c
-const char ctable1_10C[NUM_CONDS][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
+const char ctable_aok[Condition::NUM_CONDITIONS_AOK][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
 {	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
@@ -49,18 +49,14 @@ const char ctable1_10C[NUM_CONDS][COND_CONTROLS] = // Using 0 instead of -1 to w
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
 	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
 	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Difficulty Level
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // OwnFewerFoundations    (SWGB only)
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // SelectedObjectsInArea  (SWGB only)
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // PoweredObjectsInArea   (SWGB only)
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // UnitsQueuedPastPopCap  (works in AOK)
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // Difficulty Level
 };
 
 // ../res/resource.h
 // go to IDC_C_START
 
-// AoC v1.4RC
-const char ctable1_14RC[NUM_CONDS][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
+// SWGB
+const char ctable_swgb[Condition::NUM_CONDITIONS_SWGB][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
 {	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
@@ -82,17 +78,44 @@ const char ctable1_14RC[NUM_CONDS][COND_CONTROLS] = // Using 0 instead of -1 to 
 	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
 	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Difficulty Level
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // OwnFewerFoundations    (SWGB only)
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // SelectedObjectsInArea  (SWGB only)
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // PoweredObjectsInArea   (SWGB only)
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // UnitsQueuedPastPopCap  (works in AOK)
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // OwnFewerFoundations
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // SelectedObjectsInArea
+};
+
+// SWGB:CC
+const char ctable_cc[Condition::NUM_CONDITIONS_CC][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
+{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
+	{ 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Bring Object to Object
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Fewer Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 2, 2, 0 },	// Objects in Area
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Destroy Object
+	{ 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Capture Object
+	{ 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Accumulate Attribute
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Research Technology
+	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },	// Timer
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Selected
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },	// AI Signal
+	{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Player Defeated
+	{ 0, 0, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Object Has Target
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Visible
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
+	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Difficulty Level
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // OwnFewerFoundations
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // SelectedObjectsInArea
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // PoweredObjectsInArea
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // UnitsQueuedPastPopCap  (works in AOK??)
 };
 
 void ConditionControls(HWND dialog, int type)
 {
 	int i;
 
-	if (type >= NUM_CONDS)
+	if (type >= scen.pergame->max_condition_types)
 	{
 		for (i = IDC_C_START; i <= IDC_C_END; i++)
 			ENABLE_WND(i, true);
@@ -106,7 +129,24 @@ void ConditionControls(HWND dialog, int type)
 	ENABLE_WND(IDC_C_USEL1, false);
 	ENABLE_WND(IDC_C_USEL2, false);
 
-	const char *table = ctable1_14RC[type];
+	const char *table;
+	switch (scen.game) {
+	case AOK:
+	case AOC:
+	case UP:
+	case AOHD:
+	case AOF:
+	    table = ctable_aok[type];
+	    break;
+	case SWGB:
+	    table = ctable_swgb[type];
+	    break;
+	case SWGBCC:
+	    table = ctable_cc[type];
+	    break;
+	default:
+	    table = ctable_cc[type];
+    }
 
 	for (i = 0; i < COND_CONTROLS; i++)
 	{
@@ -125,9 +165,9 @@ const wchar_t *noselectc = L"<none>";
 
 void C_Init(HWND dialog)
 {
-    ENABLE_WND(IDC_C_REVERSE, scen.game == AOC || setts.editall);
-    ENABLE_WND(IDC_C_RESERVED, scen.game == AOC || setts.editall);
-	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, NUM_CONDS);
+    ENABLE_WND(IDC_C_REVERSE, scen.game == UP || setts.editall);
+    ENABLE_WND(IDC_C_RESERVED, scen.game == UP || setts.editall);
+	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, scen.pergame->max_condition_types);
 	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS);
 	LCombo_Fill(dialog, IDC_C_RESEARCH, esdata.techs.head());
 	LCombo_Fill(dialog, IDC_C_RESTYPE, esdata.resources.head());

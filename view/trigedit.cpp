@@ -33,23 +33,6 @@ extern Scenario scen;
 
 using std::vector;
 
-struct BitmapIcons {
-    enum Value{
-        TRIG_ON_GOOD  = 0x00,
-        TRIG_ON_BAD   = 0x01,
-        TRIG_OFF_GOOD = 0x02,
-        TRIG_OFF_BAD  = 0x03,
-        LOOP_ON_GOOD  = 0x04,
-        LOOP_ON_BAD   = 0x05,
-        LOOP_OFF_GOOD = 0x06,
-        LOOP_OFF_BAD  = 0x07,
-        COND_GOOD     = 0x08,
-        COND_BAD      = 0x09,
-        EFFECT_GOOD   = 0x0a,
-        EFFECT_BAD    = 0x0b
-    };
-};
-
 /*
 	Triggers
 
@@ -389,7 +372,9 @@ void EffectItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)
 
 	tvis.hParent = TreeView_GetParent(treeview, target);
 	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
+	tvis.item.iImage = BitmapIcons::EFFECT_BAD;
+	tvis.item.iSelectedImage = BitmapIcons::EFFECT_BAD;
+	tvis.item.mask = TVIF_IMAGE | TVIF_TEXT | TVIF_PARAM | TVIF_SELECTEDIMAGE;
 	tvis.item.pszText = (LPSTR)LPSTR_TEXTCALLBACK;
 
 	for (int i = 1; i <= 8; i++) //weird e/c player indexes
@@ -578,7 +563,9 @@ void ConditionItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)
 
 	tvis.hParent = TreeView_GetParent(treeview, target);
 	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
+	tvis.item.iImage = BitmapIcons::COND_BAD;
+	tvis.item.iSelectedImage = BitmapIcons::COND_BAD;
+	tvis.item.mask = TVIF_IMAGE | TVIF_TEXT | TVIF_PARAM | TVIF_SELECTEDIMAGE;
 	tvis.item.pszText = (LPSTR)LPSTR_TEXTCALLBACK;
 
 	for (int i = 1; i <= 8; i++)	//weird e/c player indexes
@@ -1150,7 +1137,7 @@ void TrigTree_Paste(HWND dialog)
 					t->effects.push_back(Effect(buffer));
 					data = new EffectItemData(t->effects.size() - 1,
 						index_sel);
-					TreeView_AddChild(treeview, (LPARAM)data, parent, TVI_LAST);
+					TreeView_AddChild(treeview, (LPARAM)data, parent, TVI_LAST, 1);
 				}
 				else if (*ec_data == CONDITION)
 				{
@@ -1158,7 +1145,7 @@ void TrigTree_Paste(HWND dialog)
 					data = new ConditionItemData(t->conds.size() - 1,
 						index_sel);
 					TreeView_AddChild(treeview, (LPARAM)data, parent,
-						TrigTree_GetLastCondition(treeview, parent));
+						TrigTree_GetLastCondition(treeview, parent), 0);
 				}
 			}
 			catch (std::exception &ex)
@@ -1568,7 +1555,8 @@ void TrigTree_HandleNewEffect(HWND treeview)
 		(LPARAM)new EffectItemData(c_trig->effects.size() - 1,
 			c_trig - &(*scen.triggers.begin())),
 		GetRootSel(treeview),
-		TVI_LAST
+		TVI_LAST,
+		1
 		);
 }
 
@@ -1583,7 +1571,8 @@ void TrigTree_HandleNewCondition(HWND treeview)
 		(LPARAM)new ConditionItemData(c_trig->conds.size() - 1,
 			c_trig - &(*scen.triggers.begin())),
 		trigger,
-		TrigTree_GetLastCondition(treeview, trigger)
+		TrigTree_GetLastCondition(treeview, trigger),
+		0
 		);
 }
 

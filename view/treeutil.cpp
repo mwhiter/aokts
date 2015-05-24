@@ -43,7 +43,7 @@ LPARAM GetItemParam(HWND treeview, HTREEITEM which)
 	return item.lParam;
 }
 
-void TreeView_AddChild(HWND treeview, LPARAM param, HTREEITEM parent, HTREEITEM after)
+void TreeView_AddChild(HWND treeview, LPARAM param, HTREEITEM parent, HTREEITEM after, int type)
 {
 	//variables
 	HTREEITEM newitem;
@@ -58,9 +58,18 @@ void TreeView_AddChild(HWND treeview, LPARAM param, HTREEITEM parent, HTREEITEM 
 	//common settings
 	tvis.hParent = parent;
 	tvis.hInsertAfter = after;
-	tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
+	tvis.item.mask = TVIF_IMAGE | TVIF_TEXT | TVIF_PARAM | TVIF_SELECTEDIMAGE;
 	tvis.item.pszText = (LPSTR)LPSTR_TEXTCALLBACK;
 	tvis.item.lParam = param;
+	switch (type) {
+	case 0: // condition
+		tvis.item.iImage = BitmapIcons::COND_BAD;
+		break;
+	case 1: // effect
+		tvis.item.iImage = BitmapIcons::EFFECT_BAD;
+		break;
+	}
+	tvis.item.iSelectedImage = tvis.item.iImage;
 
 	//insert the item
 	newitem = TreeView_InsertItem(treeview, &tvis);

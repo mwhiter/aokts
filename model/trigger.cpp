@@ -428,7 +428,11 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         }
 
         if (timer > 0) {
-            ss << "every " << time_string(timer,false) << " ";
+            if (this->loop) {
+                ss << "every " << time_string(timer,false) << " ";
+            } else {
+                ss << "after " << time_string(timer,false) << " ";
+            }
         }
 
         if (c_in_area && c_has_gold && e_buff && e_lose_gold) {

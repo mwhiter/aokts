@@ -116,7 +116,7 @@ extern const struct PAIR ages[NUM_AGES];
 #define NUM_GROUPS 63
 extern const struct PAIR groups[NUM_GROUPS];
 
-#define NUM_UTYPES 5
+#define NUM_UTYPES 7
 extern const struct PAIR utypes[NUM_UTYPES];
 
 #endif //SCEN_CONST_H

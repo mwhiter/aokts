@@ -133,8 +133,10 @@ const struct PAIR groups[] =
 const struct PAIR utypes[] =
 {
 	{ -1, "None" },
-	{  1, "Other" },
+	{  0, "Other" },
+	{  1, "Boar" },
 	{  2, "Building" },
 	{  3, "Civilian" },
-	{  4, "Military" }
+	{  4, "Military" },
+	{  5, "Monk w/o Relic" }
 };

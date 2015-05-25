@@ -362,11 +362,8 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 	case AOK:
 	    pergame = &pgAOK;
 	    break;
-	case AOC:
+	case AOC: // covers UP
 	    pergame = &pgAOC;
-	    break;
-	case UP:
-	    pergame = &pgUP;
 	    break;
 	case AOHD:
 	    pergame = &pgAOHD;
@@ -482,6 +479,7 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
         Condition::types_short = Condition::types_short_aok;
         if (is_userpatch()) {
             game = UP;
+		    pergame = &pgUP;
             Effect::types = Effect::types_up;
             Effect::types_short = Effect::types_short_up;
             Effect::virtual_types = Effect::virtual_types_up;
@@ -724,6 +722,7 @@ void Scenario::_header::write(FILE *scx, const SString *instr, long players, Gam
 		strcpy(version, "1.18");
 		break;
 	case AOC:
+	case UP:
 	case SWGB:
 	case SWGBCC:
 	case AOHD:
@@ -860,8 +859,15 @@ void Scenario::read_data(const char *path)	//decompressed data
 		ver2 = SV2_AOC_SWGB;
 		printf_log("ver2: 1.22 (AOE 2 TC or SWGB).\n");
 		if (game == UNKNOWN) {
+		    // guess AOC
 		    game = AOC;
 		    pergame = &pgAOC;
+		} else if (game == AOC) {
+		    game = AOC;
+		    pergame = &pgAOC;
+		} else if (game == UP) {
+		    game = UP;
+		    pergame = &pgUP;
 		}
 		break;
 

@@ -143,19 +143,25 @@ void Effect::write(FILE *out)
 		fwrite(uids, sizeof(long), num_sel, out);
 }
 
+std::string pluralizeUnitType(std::string unit_type_name) { 
+    std::ostringstream convert;
+    replaced(unit_type_name, ", Unpacked", "");
+    if (!unit_type_name.empty() && *unit_type_name.rbegin() != 's' && !replaced(unit_type_name, "man", "men")) {
+        convert << unit_type_name << "s";
+    } else {
+        convert << unit_type_name;
+    }
+    return convert.str();
+}
+
 inline std::string unitTypeName(const UnitLink *pUnit) {
     std::ostringstream convert;
     if (pUnit && pUnit->id()) {
         std::wstring unitname(pUnit->name());
         std::string un(unitname.begin(), unitname.end());
-        replaced(un, ", Unpacked", "");
-        if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-            convert << un << "s";
-        } else {
-            convert << un;
-        }
+        convert << un;
     } else {
-        convert << "units";
+        convert << "unit";
     }
     return convert.str();
 }
@@ -164,7 +170,11 @@ std::string Effect::selectedUnits() const {
     std::ostringstream convert;
     if (s_player >= 0)
         convert << playerPronoun(s_player) << " ";
-    convert << unitTypeName(pUnit);
+    if (num_sel > 1) {
+        convert << pluralizeUnitType(unitTypeName(pUnit));
+    } else {
+        convert << unitTypeName(pUnit);
+    }
 	for (int i = 0; i < num_sel; i++) {
         convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
 	}

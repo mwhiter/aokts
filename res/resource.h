@@ -336,6 +336,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_C_CLEAR  	    	1920
 #define IDC_C_REVERSE	    	1921
 #define IDC_C_TYPEVAL 			1922
+#define IDC_C_VTYPE				1923
 
 /* Effect Controls */
 #define IDC_E_TYPE				1800

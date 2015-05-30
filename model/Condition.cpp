@@ -230,7 +230,25 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case 12: // AI script goal
-                convert << "AI signalled " << ai_signal;
+                switch (ai_signal) {
+                case -1034:
+                    convert << "singleplayer";
+                    break;
+                case -1036:
+                    convert << "starting resources set to standard";
+                    break;
+                default:
+                    if (ai_signal >= -518 && ai_signal <= -7) {
+                        int signal = ai_signal + 518;
+                        int taunt_player = signal / 64;
+                        int taunt_set_id = signal % 64;
+                        convert << "player " << taunt_player + 1 << " taunted " << taunt_set[taunt_set_id];
+                    } else if (ai_signal >= -774) {
+                        convert << "ai script goal " << ai_signal + 774;
+                    } else {
+                        convert << "AI signalled " << ai_signal;
+                    }
+                }
                 stype.append(convert.str());
                 break;
             case 15: // object visible
@@ -338,7 +356,7 @@ bool Condition::check() const
 		return (object >= 0);
 
 	case CONDITION_AISignal:
-		return (ai_signal >= 0);
+		return (true);
 
 	case CONDITION_PlayerDefeated:
 	case CONDITION_UnitsQueuedPastPopCap:
@@ -603,5 +621,109 @@ const char *Condition::types_short_cc[] =
 	"Queued Past Pop Cap"
 };
 
+const char *Condition::virtual_types_aok[] = {
+    "None"
+};
+
+const char *Condition::virtual_types_aoc[] = {
+    "None",
+    "Singleplayer Mode",
+    "Taunt",
+    "AI Script Goal",
+    "Starting resources: Standard",
+};
+
+const char *Condition::virtual_types_aohd[] = {
+    "None"
+};
+
+const char *Condition::virtual_types_aof[] = {
+    "None"
+};
+
+const char *Condition::virtual_types_up[] = {
+    "None",
+    "Singleplayer Mode",
+    "Taunt",
+    "AI Script Goal",
+    "Starting resources: Standard",
+};
+
+const char *Condition::virtual_types_cc[] = {
+    "None"
+};
+
+const char *Condition::virtual_types_swgb[] = {
+    "None"
+};
+
+const char *Condition::taunt_set[] = {
+    "1, 2, 3 or 4",
+    "5, 6, 7 or 8",
+    "9, 10, 11 or 12",
+    "13, 14, 15 or 16",
+    "17, 18, 19 or 20",
+    "21, 22, 23 or 24",
+    "25, 26, 27 or 28",
+    "29, 30, 31 or 32",
+    "33, 34, 35 or 36",
+    "37, 38, 39 or 40",
+    "41, 42, 43 or 44",
+    "45, 46, 47 or 48",
+    "49, 50, 51 or 52",
+    "53, 54, 55 or 56",
+    "57, 58, 59 or 60",
+    "61, 62, 63 or 64",
+    "65, 66, 67 or 68",
+    "69, 70, 71 or 72",
+    "73, 74, 75 or 76",
+    "77, 78, 79 or 80",
+    "81, 82, 83 or 84",
+    "85, 86, 87 or 88",
+    "89, 90, 91 or 92",
+    "93, 94, 95 or 96",
+    "97, 98, 99 or 100",
+    "101, 102, 103 or 104",
+    "105, 106, 107 or 108",
+    "109, 110, 111 or 112",
+    "113, 114, 115 or 116",
+    "117, 118, 119 or 120",
+    "121, 122, 123 or 124",
+    "125, 126, 127 or 128",
+    "129, 130, 131 or 132",
+    "133, 134, 135 or 136",
+    "137, 138, 139 or 140",
+    "141, 142, 143 or 144",
+    "145, 146, 147 or 148",
+    "149, 150, 151 or 152",
+    "153, 154, 155 or 156",
+    "157, 158, 159 or 160",
+    "161, 162, 163 or 164",
+    "165, 166, 167 or 168",
+    "169, 170, 171 or 172",
+    "173, 174, 175 or 176",
+    "177, 178, 179 or 180",
+    "181, 182, 183 or 184",
+    "185, 186, 187 or 188",
+    "189, 190, 191 or 192",
+    "193, 194, 195 or 196",
+    "197, 198, 199 or 200",
+    "201, 202, 203 or 204",
+    "205, 206, 207 or 208",
+    "209, 210, 211 or 212",
+    "213, 214, 215 or 216",
+    "217, 218, 219 or 220",
+    "221, 222, 223 or 224",
+    "225, 226, 227 or 228",
+    "229, 230, 231 or 232",
+    "233, 234, 235 or 236",
+    "237, 238, 239 or 240",
+    "241, 242, 243 or 244",
+    "245, 246, 247 or 248",
+    "249, 250, 251 or 252",
+    "253, 254, 255 or 256"
+};
+
 const char** Condition::types;
 const char** Condition::types_short;
+const char** Condition::virtual_types;

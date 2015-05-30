@@ -248,6 +248,7 @@ public:
     // open the file and return the actual scx game version
 	Game open(const char *path, const char *dpath, Game version);
 	int save(const char *path, const char *dpath, bool write, Game convert, SaveFlags::Value flags);
+	void adapt_game();
 	void reset();
 	bool export_bmp(const char *path);
 	//exFile: Exports all (index of -1) or one file to the specified directory

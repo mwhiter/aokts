@@ -85,6 +85,8 @@ public:
 	Condition c;
 
 	void update(Trigger *t);
+
+    static const int N_CONTROLS = 16;
 };
 
 INT_PTR WINAPI CondWndProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam);

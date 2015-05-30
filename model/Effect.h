@@ -39,7 +39,8 @@ struct EffectVirtualTypeUP {
 	    SetControlGroup6,
 	    SetControlGroup7,
 	    SetControlGroup8,
-	    SetControlGroup9
+	    SetControlGroup9,
+	    SnapView
     };
 };
 
@@ -174,27 +175,31 @@ public:
     static const int NUM_EFFECTS_AOK = 24;
     static const int NUM_EFFECTS_AOC = 30;
     static const int NUM_EFFECTS_AOHD = 34;
+    static const int NUM_EFFECTS_AOF = 34;
     static const int NUM_EFFECTS_UP = 34;
     static const int NUM_EFFECTS_SWGB = 37;
     static const int NUM_EFFECTS_CC   = 39;
 
     static const int NUM_VIRTUAL_EFFECTS_AOK = 1;
     static const int NUM_VIRTUAL_EFFECTS_AOC = 2;
-    static const int NUM_VIRTUAL_EFFECTS_UP = 24;
+    static const int NUM_VIRTUAL_EFFECTS_UP = 25;
     static const int NUM_VIRTUAL_EFFECTS_AOHD = 2;
-    static const int NUM_VIRTUAL_EFFECTS_SWGB = 1;
-    static const int NUM_VIRTUAL_EFFECTS_CC = 1;
+    static const int NUM_VIRTUAL_EFFECTS_AOF = 2;
+    static const int NUM_VIRTUAL_EFFECTS_SWGB = 2;
+    static const int NUM_VIRTUAL_EFFECTS_CC = 2;
 
 	static const char* types_aok[NUM_EFFECTS_AOK];
 	static const char* types_aoc[NUM_EFFECTS_AOC];
 	static const char* types_up[NUM_EFFECTS_UP];
 	static const char* types_aohd[NUM_EFFECTS_AOHD];
+	static const char* types_aof[NUM_EFFECTS_AOF];
 	static const char* types_swgb[NUM_EFFECTS_SWGB];
 	static const char* types_cc[NUM_EFFECTS_CC];
 	static const char* types_short_aok[NUM_EFFECTS_AOK];
 	static const char* types_short_aoc[NUM_EFFECTS_AOC];
 	static const char* types_short_up[NUM_EFFECTS_UP];
 	static const char* types_short_aohd[NUM_EFFECTS_AOHD];
+	static const char* types_short_aof[NUM_EFFECTS_AOF];
 	static const char* types_short_swgb[NUM_EFFECTS_SWGB];
 	static const char* types_short_cc[NUM_EFFECTS_CC];
 
@@ -202,12 +207,13 @@ public:
 	static const char* virtual_types_aoc[NUM_VIRTUAL_EFFECTS_AOC];
 	static const char* virtual_types_up[NUM_VIRTUAL_EFFECTS_UP];
 	static const char* virtual_types_aohd[NUM_VIRTUAL_EFFECTS_AOHD];
+	static const char* virtual_types_aof[NUM_VIRTUAL_EFFECTS_AOF];
 	static const char* virtual_types_swgb[NUM_VIRTUAL_EFFECTS_SWGB];
 	static const char* virtual_types_cc[NUM_VIRTUAL_EFFECTS_CC];
 
-    static const char** types; // set to one of effect_types... above
-    static const char** types_short; // set to one of effect_types_short... above
-    static const char** virtual_types; // set to one of effect_types_short... above
+    static const char** types;
+    static const char** types_short;
+    static const char** virtual_types;
 
 private:
 	void fromGenie(const struct Genie_Effect&);

@@ -1161,6 +1161,43 @@ const char *Effect::types_aohd[] = {
 	"Change Speed",
 };
 
+const char *Effect::types_aof[] = {
+	"Undefined",
+	"Change Diplomacy",
+	"Research Technology",
+	"Send Chat",
+	"Play Sound",
+	"Send Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate Trigger",
+	"Deactivate Trigger",
+	"AI Script Goal",
+	"Create Object",
+	"Task Object",
+	"Declare Victory",
+	"Kill Object",
+	"Remove Object",
+	"Change View",
+	"Unload",
+	"Change Ownership",
+	"Patrol Units / Reseed Farms",
+	"Display Instructions",
+	"Clear Instructions",
+	"Freeze Unit",
+	"Use Advanced Buttons",
+	"Damage Object",
+	"Place Foundation",
+	"Change Object Name",
+	"Change Object HP",
+	"Change Object Attack",
+	"Stop Unit",
+	"Attack-Move",
+	"Change Armor",
+	"Change Range",
+	"Change Speed",
+};
+
 const char *Effect::types_short_aok[] = {
 	"Undefined",
 	"Change Diplomacy",
@@ -1259,6 +1296,43 @@ const char *Effect::types_short_up[] = {
 };
 
 const char *Effect::types_short_aohd[] = {
+	"Undefined",
+	"Change Diplomacy",
+	"Research",
+	"Chat",
+	"Sound",
+	"Tribute",
+	"Unlock Gate",
+	"Lock Gate",
+	"Activate",
+	"Deactivate",
+	"AI Script Goal",
+	"Create",
+	"Task",
+	"Declare Victory",
+	"Kill",
+	"Remove",
+	"Change View",
+	"Unload",
+	"Change Ownership",
+	"Patrol / Reseed",
+	"Instructions",
+	"Clear Instructions",
+	"Freeze",
+	"Use Advanced Buttons",
+	"Damage",
+	"Place Foundation",
+	"Rename",
+	"HP",
+	"Attack",
+	"Stop Unit",
+	"Attack-Move",
+	"Armor",
+	"Range",
+	"Speed"
+};
+
+const char *Effect::types_short_aof[] = {
 	"Undefined",
 	"Change Diplomacy",
 	"Research",
@@ -1401,7 +1475,8 @@ const char *Effect::virtual_types_up[] = {
     "Set Control Group 6",
     "Set Control Group 7",
     "Set Control Group 8",
-    "Set Control Group 9"
+    "Set Control Group 9",
+    "Snap View"
 };
 
 const char *Effect::virtual_types_aoc[] = {
@@ -1414,16 +1489,23 @@ const char *Effect::virtual_types_aohd[] = {
     "Freeze unit",
 };
 
+const char *Effect::virtual_types_aof[] = {
+    "None",
+    "Freeze unit",
+};
+
 const char *Effect::virtual_types_swgb[] = {
     "None",
+    "Freeze unit"
 };
 
 const char *Effect::virtual_types_cc[] = {
     "None",
+    "Freeze unit"
 };
 
 const char *Effect::virtual_types_aok[] = {
-    "None",
+    "None"
 };
 
 const char** Effect::types;

@@ -65,6 +65,7 @@ struct PerGame
 	int max_terrains; // max tech
 	int max_condition_types;
 	int max_effect_types;
+	int max_virtual_condition_types;
 	int max_virtual_effect_types;
 };
 

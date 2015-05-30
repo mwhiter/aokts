@@ -14,7 +14,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0.37"
+#define VER_STRING "1.2.0.38"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -337,6 +337,9 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_C_REVERSE	    	1921
 #define IDC_C_TYPEVAL 			1922
 #define IDC_C_VTYPE				1923
+#define IDC_C_TAUNT_PLAYER 		1924
+#define IDC_C_TAUNT_SET         1925
+#define IDC_C_AIGOAL            1926
 
 /* Effect Controls */
 #define IDC_E_TYPE				1800

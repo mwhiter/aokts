@@ -174,24 +174,15 @@ void IMsgs_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		case IDC_M_USERPATCH:
 	        if (scen.game == AOC && IsDlgButtonChecked(dialog, IDC_M_USERPATCH)) {
 	            scen.game = UP;
-
-                scen.pergame = &(Scenario::pgUP);
-                Effect::types = Effect::types_up;
-                Effect::types_short = Effect::types_short_up;
-                Effect::virtual_types = Effect::virtual_types_up;
 	        } else if (scen.game == UP && !IsDlgButtonChecked(dialog, IDC_M_USERPATCH)) {
 	            if (!scen.is_userpatch()) {
 	                scen.game = AOC;
-
-                    scen.pergame = &(Scenario::pgAOC);
-                    Effect::types = Effect::types_aoc;
-                    Effect::types_short = Effect::types_short_aoc;
-                    Effect::virtual_types = Effect::virtual_types_aoc;
                 } else {
                     CheckDlgButton(dialog, IDC_M_USERPATCH, BST_CHECKED);
 			        MessageBox(dialog, "Can't disable. Scenario uses userpatch-only features.\nTry converting scenario.", "AOKTS Warning", MB_ICONWARNING);
                 }
 	        }
+	        scen.adapt_game();
 		    IMsgs_Reset(dialog);
 		    break;
 		}

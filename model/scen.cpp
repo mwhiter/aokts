@@ -94,6 +94,7 @@ const PerVersion Scenario::pv1_23 = // AOHD / AOF
  *      int max_terrains; // max terrains
  *      int max_condition_types;
  *      int max_effect_types;
+ *      int max_virtual_condition_types;
  *      int max_virtual_effect_types;
  *  };
  */
@@ -104,6 +105,7 @@ const PerGame Scenario::pgAOE =
 	118,
 	140,
 	23, // not including 9 undefined
+	0,
 	0,
 	0,
 	0
@@ -117,7 +119,8 @@ const PerGame Scenario::pgAOK =
 	32,
 	20,
 	24,
-	1
+	0,
+	0
 };
 
 const PerGame Scenario::pgAOC =
@@ -128,7 +131,8 @@ const PerGame Scenario::pgAOC =
 	42, // including 1 undefined
 	20,
 	30,
-	2
+	4,
+	1
 };
 
 const PerGame Scenario::pgUP =
@@ -139,6 +143,7 @@ const PerGame Scenario::pgUP =
 	42, // including 1 undefined
 	20,
 	34,
+	4,
 	24
 };
 
@@ -150,6 +155,7 @@ const PerGame Scenario::pgSWGB =
 	51, // not including 4 undefined
 	22,
 	37,
+	0,
 	1
 };
 
@@ -161,6 +167,7 @@ const PerGame Scenario::pgSWGBCC =
 	53,  // not including 2 undefined
 	24,
 	39,
+	0,
 	1
 };
 
@@ -172,7 +179,8 @@ const PerGame Scenario::pgAOHD =
 	42,  // including 1 undefined
 	20,
 	34,
-	2
+	0,
+	1
 };
 
 const PerGame Scenario::pgAOF = // these are not correct
@@ -183,7 +191,8 @@ const PerGame Scenario::pgAOF = // these are not correct
 	41,  // including 1 undefined
 	20,
 	34,
-	2
+	0,
+	1
 };
 
 /* The Scenario */
@@ -347,6 +356,86 @@ void Scenario::AOKBMP::reset()
 char Scenario::StandardAI[] = "RandomGame";
 char Scenario::StandardAI2[] = "Promisory";
 
+void Scenario::adapt_game() {
+	switch (game) {
+	case AOE:
+	    pergame = &pgAOE;
+	    break;
+    case AOK:
+	    pergame = &pgAOK;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_aok;
+        Effect::types = Effect::types_aok;
+        Effect::types_short = Effect::types_short_aok;
+        Effect::virtual_types = Effect::virtual_types_aok;
+        printf_log("Data shows game is AOK\n");
+        break;
+    case AOC:
+	    pergame = &pgAOC;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_aoc;
+        Effect::types = Effect::types_aoc;
+        Effect::types_short = Effect::types_short_aoc;
+        Effect::virtual_types = Effect::virtual_types_aoc;
+        printf_log("Data shows game is AOC\n");
+        break;
+    case UP:
+		pergame = &pgUP;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_up;
+        Effect::types = Effect::types_up;
+        Effect::types_short = Effect::types_short_up;
+        Effect::virtual_types = Effect::virtual_types_up;
+        printf_log("Data shows game is AOC:UserPatch\n");
+        break;
+    case AOF:
+	    pergame = &pgAOF;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_aof;
+        Effect::types = Effect::types_aof;
+        Effect::types_short = Effect::types_short_aof;
+        Effect::virtual_types = Effect::virtual_types_aof;
+        printf_log("Data shows game is AOF\n");
+        break;
+    case AOHD:
+	    pergame = &pgAOHD;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_aohd;
+        Effect::types = Effect::types_aohd;
+        Effect::types_short = Effect::types_short_aohd;
+        Effect::virtual_types = Effect::virtual_types_aohd;
+        printf_log("Data shows game is AOHD\n");
+        break;
+    case SWGB:
+	    pergame = &pgSWGB;
+        Condition::types = Condition::types_swgb;
+        Condition::types_short = Condition::types_short_swgb;
+        Condition::virtual_types = Condition::virtual_types_swgb;
+        Effect::types = Effect::types_swgb;
+        Effect::types_short = Effect::types_short_swgb;
+        Effect::virtual_types = Effect::virtual_types_swgb;
+        printf_log("Data shows game is SWGB\n");
+        break;
+    case SWGBCC:
+	    pergame = &pgSWGBCC;
+        Condition::types = Condition::types_cc;
+        Condition::types_short = Condition::types_short_cc;
+        Condition::virtual_types = Condition::virtual_types_cc;
+        Effect::types = Effect::types_cc;
+        Effect::types_short = Effect::types_short_cc;
+        Effect::virtual_types = Effect::virtual_types_cc;
+        printf_log("Data shows game is SWGB:CC\n");
+        break;
+    default:
+        printf_log("Data shows game is unknown: %d\n", game);
+	}
+}
+
 /* Open a scenario, read header, and read compressed data */
 
 Game Scenario::open(const char *path, const char *dpath, Game version)
@@ -465,58 +554,9 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 
 	read_data(dpath);
 
-	switch (game) {
-    case AOK:
-        Condition::types = Condition::types_aok;
-        Condition::types_short = Condition::types_short_aok;
-        Effect::types = Effect::types_aok;
-        Effect::types_short = Effect::types_short_aok;
-        Effect::virtual_types = Effect::virtual_types_aok;
-        printf_log("Data shows game is AOK\n");
-        break;
-    case AOC:
-        Condition::types = Condition::types_aok;
-        Condition::types_short = Condition::types_short_aok;
-        if (is_userpatch()) {
-            game = UP;
-		    pergame = &pgUP;
-            Effect::types = Effect::types_up;
-            Effect::types_short = Effect::types_short_up;
-            Effect::virtual_types = Effect::virtual_types_up;
-            printf_log("Data shows game is AOC:UserPatch\n");
-        } else {
-            Effect::types = Effect::types_aoc;
-            Effect::types_short = Effect::types_short_aoc;
-            Effect::virtual_types = Effect::virtual_types_aoc;
-            printf_log("Data shows game is AOC\n");
-        }
-        break;
-    case AOF:
-    case AOHD:
-        Condition::types = Condition::types_aok;
-        Condition::types_short = Condition::types_short_aok;
-        Effect::types = Effect::types_aohd;
-        Effect::types_short = Effect::types_short_aohd;
-        Effect::virtual_types = Effect::virtual_types_aohd;
-        printf_log("Data shows game is AOHD or AOF\n");
-        break;
-    case SWGB:
-        Condition::types = Condition::types_swgb;
-        Condition::types_short = Condition::types_short_swgb;
-        Effect::types = Effect::types_swgb;
-        Effect::types_short = Effect::types_short_swgb;
-        Effect::virtual_types = Effect::virtual_types_swgb;
-        printf_log("Data shows game is SWGB\n");
-        break;
-    case SWGBCC:
-        Condition::types = Condition::types_cc;
-        Condition::types_short = Condition::types_short_cc;
-        Effect::types = Effect::types_cc;
-        Effect::types_short = Effect::types_short_cc;
-        Effect::virtual_types = Effect::virtual_types_cc;
-        printf_log("Data shows game is SWGB:CC\n");
-        break;
-	}
+    if (is_userpatch())
+        game = UP;
+	adapt_game();
 
 	return game;
 }
@@ -684,6 +724,8 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 
 	delete [] uncompressed;
 	fflush(stdout);	//report errors to logfile
+
+	adapt_game();
 
 	return code;
 }

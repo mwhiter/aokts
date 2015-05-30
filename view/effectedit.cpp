@@ -8,6 +8,8 @@
 
 #include "../model/scen.h"
 
+#include "editors.h"
+
 #include "../util/settings.h"
 #include "../res/resource.h"
 #include "../model/Effect.h"
@@ -449,7 +451,7 @@ const wchar_t *noselecte = L"<none>";
 void E_Init(HWND dialog)
 {
 	Combo_Fill(dialog, IDC_E_TYPE, Effect::types,scen.pergame->max_effect_types);
-	Combo_Fill(dialog, IDC_E_VTYPE, Effect::virtual_types, scen.pergame->max_virtual_effect_types);
+	Combo_Fill(dialog, IDC_E_VTYPE, Effect::virtual_types, scen.pergame->max_virtual_effect_types + 1); // +1 for None option
 
 	Combo_Fill(dialog, IDC_E_SPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, EC_NUM_PLAYERS);
@@ -499,6 +501,15 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
                 break;
             case 2:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::DisableObject, 0);
+                break;
+            default:
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+            }
+            break;
+        case 16: // Change View
+            switch (e->panel) {
+            case 1:
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SnapView, 0);
                 break;
             default:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
@@ -830,22 +841,24 @@ void E_HandleChangeType(HWND dialog, EditEffect *data)
 	//	data->e = Effect();
 	data->e.type = newtype;
 	EffectControls(dialog, newtype);
-	//LoadEffect(dialog, data);
-	SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	LoadEffect(dialog, data);
 }
 
 void E_HandleChangeVType(HWND dialog, EditEffect *data)
 {
 	int newtype = SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_GETCURSEL, 0, 0);
+	if (newtype == 0) {
+	    EffectControls(dialog, data->e.type);
+	    return;
+	}
+
+	data->e = Effect();
 
     switch (scen.game) {
-    case AOK:
-    case SWGB:
-        break;
     case UP:
         switch (newtype) {
         case 0: // None
-            data->e.panel = -1;
+            //data->e.panel = -1;
             break;
         case 1: // Enable Object
             data->e.panel = 1;
@@ -903,24 +916,23 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
             data->e.panel = 1;
             data->e.type = 28;
             break;
+        case 24: // Snap View
+            data->e.panel = 1;
+            data->e.type = 16;
+            break;
         }
         if (newtype >=15 && newtype <= 23) { // Set control group 1-9
             data->e.panel = newtype - 14;
             data->e.type = 29;
         }
-
-	    SetDlgItemInt(dialog, IDC_E_PANEL, data->e.panel, TRUE);
-
-	    SendDlgItemMessage(dialog, IDC_E_TYPE, CB_SETCURSEL, data->e.type, 0);
+        break;
+    default:
 	    EffectControls(dialog, data->e.type);
 	    // change to:
 	    //VirtualEffectControls(dialog, data->e.type);
-        break;
-    case AOC:
-    case AOHD:
-    case AOF:
-        break;
     }
+
+	LoadEffect(dialog, data);
 }
 
 const char warnInvalidE[] =
@@ -963,7 +975,7 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 				SaveEffect(dialog, data);
 				valid = data->e.check();
 
-				if (!valid)
+		        if (!valid && !setts.editall)
 					ret = MessageBox(dialog, warnInvalidE, "Effect Editor", MB_OKCANCEL);
 
 				if (ret == IDOK)
@@ -1035,6 +1047,29 @@ const char errorNoDataE[] =
 const char noteTrigDeleted[] =
 "Selected trigger deleted.";
 
+/**
+ * Initializes the trigger editor, namely the tree's image list, in response to
+ * WM_INITDIALOG.
+*/
+BOOL Handle_WM_INITDIALOG(HWND dialog, class EditEffect* data)
+{
+	E_Init(dialog);
+
+	if (!data)
+	{
+		MessageBox(dialog, errorNoDataE, "Error", MB_ICONWARNING);
+		DestroyWindow(dialog);
+        return FALSE;
+	}
+
+	LoadEffect(dialog, data);
+
+	SetDialogUserData(dialog, data);
+	EffectControls(dialog, data->e.type);
+
+    return TRUE;
+}
+
 INT_PTR CALLBACK EffectWndProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR ret = FALSE;
@@ -1043,30 +1078,26 @@ INT_PTR CALLBACK EffectWndProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lPar
 	switch (msg)
 	{
 	case WM_INITDIALOG:
-		data = (EditEffect*)lParam;
-
-		E_Init(dialog);
-
-		if (!data)
-		{
-			MessageBox(dialog, errorNoDataE, "Error", MB_ICONWARNING);
-			DestroyWindow(dialog);
-			ret = FALSE;
-			break;
-		}
-
-		LoadEffect(dialog, data);
-
-		SetDialogUserData(dialog, data);
-		EffectControls(dialog, data->e.type);
-
-		ret = TRUE;
-		break;
+		return Handle_WM_INITDIALOG(dialog, (EditEffect*)lParam);
 
 	case WM_COMMAND:
 		ret = 0;
 		E_HandleCommand(dialog, LOWORD(wParam), HIWORD(wParam), (HWND)lParam);
 		break;
+
+	case WM_NOTIFY:
+		{
+			NMHDR *header = (NMHDR*)lParam;
+			switch (header->code)
+			{
+			case PSN_SETACTIVE:
+		        return Handle_WM_INITDIALOG(dialog, (EditEffect*)lParam);
+			}
+		}
+		break;
+
+	case AOKTS_Loading:
+		return Handle_WM_INITDIALOG(dialog, (EditEffect*)lParam);
 
 	case WM_DESTROY:
 		data = (EditEffect*)GetWindowLongPtr(dialog, DWLP_USER);

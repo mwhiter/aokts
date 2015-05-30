@@ -28,7 +28,7 @@ void EditCondition::update(Trigger *t)
 }
 
 // AoC v1.0c
-const char ctable_aok[Condition::NUM_CONDITIONS_AOK][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
+const char ctable_aok[Condition::NUM_CONDITIONS_AOK][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
 {	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
@@ -56,7 +56,7 @@ const char ctable_aok[Condition::NUM_CONDITIONS_AOK][COND_CONTROLS] = // Using 0
 // go to IDC_C_START
 
 // SWGB
-const char ctable_swgb[Condition::NUM_CONDITIONS_SWGB][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
+const char ctable_swgb[Condition::NUM_CONDITIONS_SWGB][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
 {	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
@@ -83,7 +83,7 @@ const char ctable_swgb[Condition::NUM_CONDITIONS_SWGB][COND_CONTROLS] = // Using
 };
 
 // SWGB:CC
-const char ctable_cc[Condition::NUM_CONDITIONS_CC][COND_CONTROLS] = // Using 0 instead of -1 to waste less space
+const char ctable_cc[Condition::NUM_CONDITIONS_CC][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
 {	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
@@ -111,8 +111,21 @@ const char ctable_cc[Condition::NUM_CONDITIONS_CC][COND_CONTROLS] = // Using 0 i
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // UnitsQueuedPastPopCap  (works in AOK??)
 };
 
+// AoC v1.4RC virtual conditions
+const char ctable_14RC_virtual[Condition::NUM_VIRTUAL_CONDITIONS_UP][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
+{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } 	// Detect Single Player Mode
+};
+
 void ConditionControls(HWND dialog, int type)
 {
+	Combo_Clear(dialog, IDC_C_TAUNT_PLAYER);
+	Combo_Clear(dialog, IDC_C_TAUNT_SET);
+	ENABLE_WND(IDC_C_TAUNT_PLAYER, false);
+	ENABLE_WND(IDC_C_TAUNT_SET, false);
+	ENABLE_WND(IDC_C_AIGOAL, false);
+
 	int i;
 
 	if (type >= scen.pergame->max_condition_types)
@@ -148,7 +161,7 @@ void ConditionControls(HWND dialog, int type)
 	    table = ctable_cc[type];
     }
 
-	for (i = 0; i < COND_CONTROLS; i++)
+	for (i = 0; i < EditCondition::N_CONTROLS; i++)
 	{
 		if (table[i])
 		{
@@ -168,12 +181,73 @@ void C_Init(HWND dialog)
     ENABLE_WND(IDC_C_REVERSE, scen.game == UP || setts.editall);
     ENABLE_WND(IDC_C_RESERVED, scen.game == UP || setts.editall);
 	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, scen.pergame->max_condition_types);
+	Combo_Fill(dialog, IDC_C_VTYPE, Condition::virtual_types, scen.pergame->max_virtual_condition_types + 1); // +1 for None option
 	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS);
 	LCombo_Fill(dialog, IDC_C_RESEARCH, esdata.techs.head());
 	LCombo_Fill(dialog, IDC_C_RESTYPE, esdata.resources.head());
 	Combo_PairFill(GetDlgItem(dialog, IDC_C_GROUP), NUM_GROUPS, groups);
 	Combo_PairFill(GetDlgItem(dialog, IDC_C_UTYPE), NUM_UTYPES, utypes);
 	LCombo_Fill(dialog, IDC_C_UCNST, esdata.units.head(), noselectc);
+}
+
+void LoadVirtualTypeConditions(HWND dialog, EditCondition *data) {
+	Condition *c = &data->c;
+
+    switch (scen.game) {
+    case AOK:
+    case SWGB:
+	    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, 0, 0);
+        break;
+    case AOC:
+    case UP:
+        switch (c->type) {
+        case 12: // AI Signalled
+            switch (c->ai_signal)
+            {
+            case -1034:
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::SinglePlayer, 0);
+		        ENABLE_WND(IDC_C_AISIG, false);
+                break;
+            case -1036:
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::StartingResourcesStandard, 0);
+		        ENABLE_WND(IDC_C_AISIG, false);
+                break;
+            default:
+                {
+                    if (c->ai_signal >= -518 && c->ai_signal <= -7) {
+	                    Combo_Fill(dialog, IDC_C_TAUNT_PLAYER, players_ec + 1, EC_NUM_PLAYERS - 1);
+	                    Combo_Fill(dialog, IDC_C_TAUNT_SET, Condition::taunt_set, Condition::NUM_TAUNT_SETS);
+	                    ENABLE_WND(IDC_C_TAUNT_PLAYER, true);
+	                    ENABLE_WND(IDC_C_TAUNT_SET, true);
+                        int signal = (c->ai_signal + 518);
+                        int taunt_player = signal / 64;
+                        int taunt_set = signal % 64;
+	                    SendDlgItemMessage(dialog, IDC_C_TAUNT_PLAYER, CB_SETCURSEL, taunt_player, 0);
+	                    SendDlgItemMessage(dialog, IDC_C_TAUNT_SET, CB_SETCURSEL, taunt_set, 0);
+	                    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::Taunt, 0);
+		                ENABLE_WND(IDC_C_AISIG, false);
+	                    return;
+	                } else if (c->ai_signal >= -774) {
+	                    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::AIScriptGoal, 0);
+	                    ENABLE_WND(IDC_C_AIGOAL, true);
+	                    SetDlgItemInt(dialog, IDC_C_AIGOAL, c->ai_signal + 774, TRUE);
+		                ENABLE_WND(IDC_C_AISIG, false);
+                    } else {
+	                    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, 0, 0);
+		                ENABLE_WND(IDC_C_AISIG, true);
+	                }
+	            }
+            }
+            break;
+        default:
+	        SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, 0, 0);
+        }
+        break;
+    case AOHD:
+    case AOF:
+	    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, 0, 0);
+        break;
+    }
 }
 
 void LoadCond(HWND dialog, EditCondition *data)
@@ -205,6 +279,7 @@ void LoadCond(HWND dialog, EditCondition *data)
 	} else {
 	    SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reset Value"));
 	}
+	LoadVirtualTypeConditions(dialog, data);
 }
 
 void SaveCond(HWND dialog, EditCondition *data)
@@ -292,6 +367,81 @@ void C_HandleChangeType(HWND dialog, EditCondition *data)
 	LoadCond(dialog, data);
 }
 
+void C_HandleChangeAIGoal(HWND dialog, EditCondition *data)
+{
+	int goal = GetDlgItemInt(dialog, IDC_C_AIGOAL, NULL, TRUE);
+
+    if (goal != CB_ERR && goal > 0) {
+        data->c.ai_signal = -774 + goal;
+	    SetDlgItemInt(dialog, IDC_C_AISIG, data->c.ai_signal, TRUE);
+	} else {
+	    SetDlgItemInt(dialog, IDC_C_AISIG, 0, TRUE);
+    }
+}
+
+void C_HandleChangeVTypeTaunt(HWND dialog, EditCondition *data)
+{
+	int taunt_player = SendDlgItemMessage(dialog, IDC_C_TAUNT_PLAYER, CB_GETCURSEL, 0, 0);
+	int taunt_set = SendDlgItemMessage(dialog, IDC_C_TAUNT_SET, CB_GETCURSEL, 0, 0);
+
+    if (taunt_player != CB_ERR && taunt_set != CB_ERR) {
+        data->c.ai_signal = -518 + taunt_player * 64 + taunt_set;
+
+	    LoadCond(dialog, data);
+    }
+}
+
+void C_HandleChangeVType(HWND dialog, EditCondition *data)
+{
+	int newtype = SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_GETCURSEL, 0, 0);
+	if (newtype == 0) {
+	    ConditionControls(dialog, data->c.type);
+	    return;
+	}
+
+	data->c = Condition();
+
+    switch (scen.game) {
+    case AOC:
+    case UP:
+        switch (newtype) {
+        case 0: // None
+            break;
+        case 1: // Singleplayer Mode
+            data->c.ai_signal = -1034;
+            data->c.type = 12;
+	        ConditionControls(dialog, data->c.type);
+		    ENABLE_WND(IDC_C_AISIG, false);
+            break;
+        case 2: // Taunt
+            data->c.ai_signal = -518;
+            data->c.type = 12;
+	        ConditionControls(dialog, data->c.type);
+		    ENABLE_WND(IDC_C_AISIG, false);
+            break;
+        case 3: // AI Script Goal
+            data->c.ai_signal = -774;
+            data->c.type = 12;
+	        ConditionControls(dialog, data->c.type);
+		    ENABLE_WND(IDC_C_AISIG, false);
+            break;
+        case 4: // Starting Resources: Standard
+            data->c.ai_signal = -1036;
+            data->c.type = 12;
+	        ConditionControls(dialog, data->c.type);
+		    ENABLE_WND(IDC_C_AISIG, false);
+            break;
+        }
+        break;
+    default:
+	    ConditionControls(dialog, data->c.type);
+	    // change to:
+	    //VirtualConditionControls(dialog, data->c.type);
+    }
+
+	LoadCond(dialog, data);
+}
+
 const char warnInvalidC[] =
 "Watch out, this condition appears to be invalid.";
 
@@ -335,7 +485,7 @@ void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 		        SaveCond(dialog, data);	//update type
 		        valid = data->c.check();
 
-		        if (!valid)
+		        if (!valid && !setts.editall)
 			        ret = MessageBox(dialog, warnInvalidC, "Condition Editor", MB_OKCANCEL);
 
 		        if (ret == IDOK)
@@ -378,14 +528,30 @@ void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 		}
 		break;
 
+	case EN_CHANGE:
+		switch (id)
+		{
+		case IDC_C_AIGOAL:
+		    C_HandleChangeAIGoal(dialog, data);
+		    break;
+		}
+		break;
+
     case CBN_SELCHANGE:
 	    switch (id)
 	    {
 	    case IDC_C_TYPE:
-	        {
-		        C_HandleChangeType(dialog, data);
-	        }
+		    C_HandleChangeType(dialog, data);
 		    break;
+
+		case IDC_C_VTYPE:
+			C_HandleChangeVType(dialog, data);
+			break;
+
+		case IDC_C_TAUNT_PLAYER:
+		case IDC_C_TAUNT_SET:
+			C_HandleChangeVTypeTaunt(dialog, data);
+			break;
 	    }
 		break;
 

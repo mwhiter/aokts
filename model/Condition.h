@@ -6,9 +6,17 @@
 // Fwd declaration, don't want to #include it.
 class TriggerVisitor;
 
-#define COND_CONTROLS	16
-
 #pragma pack(push, 4)	//everything in effects/conditions is a long
+
+struct ConditionVirtualTypeUP {
+    enum Value {
+	    None,
+	    SinglePlayer,
+	    Taunt,
+	    AIScriptGoal,
+	    StartingResourcesStandard
+    };
+};
 
 enum ConditionType
 {
@@ -79,6 +87,14 @@ public:
     static const int NUM_CONDITIONS_SWGB = 22;
     static const int NUM_CONDITIONS_CC = 24;
 
+    static const int NUM_VIRTUAL_CONDITIONS_AOK = 1;
+    static const int NUM_VIRTUAL_CONDITIONS_AOC = 5;
+    static const int NUM_VIRTUAL_CONDITIONS_UP = 5;
+    static const int NUM_VIRTUAL_CONDITIONS_AOHD = 1;
+    static const int NUM_VIRTUAL_CONDITIONS_AOF = 1;
+    static const int NUM_VIRTUAL_CONDITIONS_SWGB = 1;
+    static const int NUM_VIRTUAL_CONDITIONS_CC = 1;
+
 	static const char* types_aok[NUM_CONDITIONS_AOK];
 	static const char* types_swgb[NUM_CONDITIONS_SWGB];
 	static const char* types_cc[NUM_CONDITIONS_CC];
@@ -86,8 +102,20 @@ public:
 	static const char* types_short_swgb[NUM_CONDITIONS_SWGB];
 	static const char* types_short_cc[NUM_CONDITIONS_CC];
 
+	static const char* virtual_types_aok[NUM_VIRTUAL_CONDITIONS_AOK];
+	static const char* virtual_types_aoc[NUM_VIRTUAL_CONDITIONS_AOC];
+	static const char* virtual_types_up[NUM_VIRTUAL_CONDITIONS_UP];
+	static const char* virtual_types_aohd[NUM_VIRTUAL_CONDITIONS_AOHD];
+	static const char* virtual_types_aof[NUM_VIRTUAL_CONDITIONS_AOF];
+	static const char* virtual_types_swgb[NUM_VIRTUAL_CONDITIONS_SWGB];
+	static const char* virtual_types_cc[NUM_VIRTUAL_CONDITIONS_CC];
+
 	static const char** types;
 	static const char** types_short;
+    static const char** virtual_types;
+
+    static const int NUM_TAUNT_SETS = 64;
+	static const char* taunt_set[NUM_TAUNT_SETS];
 
 private:
 	void fromGenie(const struct Genie_Condition&);

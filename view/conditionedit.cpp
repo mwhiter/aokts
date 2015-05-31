@@ -371,7 +371,7 @@ void C_HandleChangeAIGoal(HWND dialog, EditCondition *data)
 {
 	int goal = GetDlgItemInt(dialog, IDC_C_AIGOAL, NULL, TRUE);
 
-    if (goal != CB_ERR && goal > 0) {
+    if (goal != CB_ERR && goal >= 0) {
         data->c.ai_signal = -774 + goal;
 	    SetDlgItemInt(dialog, IDC_C_AISIG, data->c.ai_signal, TRUE);
 	} else {

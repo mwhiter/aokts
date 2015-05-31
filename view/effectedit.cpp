@@ -470,12 +470,7 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
     switch (scen.game) {
     case AOK:
     case SWGB:
-        switch (e->type) {
-        case 0: // Task Object
-            break;
-        default:
-	        SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
-        }
+	    SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
         break;
     case UP:
         switch (e->type) {

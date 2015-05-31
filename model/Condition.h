@@ -14,7 +14,11 @@ struct ConditionVirtualTypeUP {
 	    SinglePlayer,
 	    Taunt,
 	    AIScriptGoal,
-	    StartingResourcesStandard
+	    StartingAgeStandard,
+	    StartingResourcesStandard,
+	    Regicide,
+	    Deathmatch,
+	    OneClickGarrison
     };
 };
 
@@ -88,8 +92,8 @@ public:
     static const int NUM_CONDITIONS_CC = 24;
 
     static const int NUM_VIRTUAL_CONDITIONS_AOK = 1;
-    static const int NUM_VIRTUAL_CONDITIONS_AOC = 5;
-    static const int NUM_VIRTUAL_CONDITIONS_UP = 5;
+    static const int NUM_VIRTUAL_CONDITIONS_AOC = 6;
+    static const int NUM_VIRTUAL_CONDITIONS_UP = 6;
     static const int NUM_VIRTUAL_CONDITIONS_AOHD = 1;
     static const int NUM_VIRTUAL_CONDITIONS_AOF = 1;
     static const int NUM_VIRTUAL_CONDITIONS_SWGB = 1;

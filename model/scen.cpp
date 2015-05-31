@@ -131,7 +131,7 @@ const PerGame Scenario::pgAOC =
 	42, // including 1 undefined
 	20,
 	30,
-	4,
+	5,
 	1
 };
 
@@ -143,7 +143,7 @@ const PerGame Scenario::pgUP =
 	42, // including 1 undefined
 	20,
 	34,
-	4,
+	5,
 	24
 };
 

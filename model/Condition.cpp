@@ -232,10 +232,19 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
             case 12: // AI script goal
                 switch (ai_signal) {
                 case -1034:
-                    convert << "singleplayer";
+                    convert << "singleplayer / cheats enabled";
                     break;
                 case -1036:
                     convert << "starting resources set to standard";
+                    break;
+                case -1039:
+                    convert << "regicide";
+                    break;
+                case -1040:
+                    convert << "deathmatch";
+                    break;
+                case -70850:
+                    convert << "one-click garrison";
                     break;
                 default:
                     if (ai_signal >= -518 && ai_signal <= -7) {
@@ -243,8 +252,8 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                         int taunt_player = signal / 64;
                         int taunt_set_id = signal % 64;
                         convert << "player " << taunt_player + 1 << " taunted " << taunt_set[taunt_set_id];
-                    } else if (ai_signal >= -774) {
-                        convert << "ai script goal " << ai_signal + 774;
+                    } else if (ai_signal >= -774 && ai_signal <= -519) {
+                        convert << "AI goal " << ai_signal + 774 << " achieved";
                     } else {
                         convert << "AI signalled " << ai_signal;
                     }
@@ -627,10 +636,14 @@ const char *Condition::virtual_types_aok[] = {
 
 const char *Condition::virtual_types_aoc[] = {
     "None",
-    "Singleplayer Mode",
+    "Singleplayer / Cheats Enabled",
     "Taunt",
     "AI Script Goal",
-    "Starting resources: Standard",
+    "Starting age: Standard",
+    "Starting resources: Standard"
+    //"Regicide",
+    //"Deathmatch",
+    //"One-click Garrison",
 };
 
 const char *Condition::virtual_types_aohd[] = {
@@ -643,10 +656,14 @@ const char *Condition::virtual_types_aof[] = {
 
 const char *Condition::virtual_types_up[] = {
     "None",
-    "Singleplayer Mode",
+    "Singleplayer / Cheats Enabled",
     "Taunt",
     "AI Script Goal",
-    "Starting resources: Standard",
+    "Starting age: Standard",
+    "Starting resources: Standard"
+    //"Regicide",
+    //"Deathmatch",
+    //"One-click Garrison",
 };
 
 const char *Condition::virtual_types_cc[] = {

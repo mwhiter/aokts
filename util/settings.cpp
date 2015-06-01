@@ -90,7 +90,7 @@ bool Setts::load()
 	intense = GetPrivateProfileInt("Log", "Intense", 0, path) != 0;
 
 	/* [Minimap] */
-	zoom = (char)GetPrivateProfileInt("Minimap", "Zoom", 1, path);
+	zoom = (char)GetPrivateProfileInt("Minimap", "Zoom", 8, path);
 
 	/* [Recent#] */
 	read_recent(path);

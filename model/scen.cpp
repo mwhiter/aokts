@@ -554,7 +554,7 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 
 	read_data(dpath);
 
-    if (is_userpatch())
+    if (game == AOC && is_userpatch())
         game = UP;
 	adapt_game();
 

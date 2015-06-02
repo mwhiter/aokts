@@ -931,7 +931,7 @@ bool Effect::check() const
 	    case UP:
 	    case AOHD:
 	    case AOF:
-		    return (valid_selected || valid_area()) && valid_location();
+		    return (valid_selected || valid_area()) && valid_points();
 	    case SWGB:
 	    case SWGBCC:
 		    return true;

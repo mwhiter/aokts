@@ -773,7 +773,8 @@ void Effect::setPlayer(int player)
 }
 
 inline bool Effect::valid_area() const {
-    return area.left >= 0 && area.right > area.left && area.bottom >= 0 && area.top >= area.bottom;
+    return (area.left == -1 && area.right == -1     &&    area.bottom == -1 && area.top == -1) ||
+           (area.left >=  0 && area.right  > area.left && area.bottom >=  0 && area.top >= area.bottom);
 }
 
 inline bool Effect::valid_selected() const {

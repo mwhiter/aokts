@@ -442,7 +442,6 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
             case EffectType::LockGate:
             case EffectType::KillObject:
             case EffectType::RemoveObject:
-            case EffectType::Unload:
             case EffectType::FreezeUnit:
                 switch (type) {
                 case EffectType::UnlockGate:
@@ -489,6 +488,11 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
+            case EffectType::Unload:
+                convert << "unload " << selectedUnits() << " to (" << location.x << ", " << location.y << ")";
+                stype.append(convert.str());
+                break;
+
             case EffectType::StopUnit:
                 if (panel >= 1 && panel <= 9) {
                     convert << "place" << " " << selectedUnits() << " into control group " << panel;
@@ -882,6 +886,8 @@ bool Effect::check() const
 		return valid_source_player() && valid_location() && valid_unit_spec();
 
 	case EffectType::Unload:
+        return valid_selected && valid_destination();
+
 	case EffectType::TaskObject:
         return (valid_selected || valid_area()) && valid_destination();
 

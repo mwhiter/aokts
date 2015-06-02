@@ -154,6 +154,8 @@ private:
     bool valid_destination() const;
     bool valid_points() const;
 
+    bool valid_since_last_check;
+
 public:
 	Effect();
 //	~Effect();
@@ -169,6 +171,8 @@ public:
 	int getPlayer() const;
 	const char * getTypeName(size_t type, bool concise = false) const;
 	void setPlayer(int);
+    bool get_valid_since_last_check();
+    bool check_and_save();
 	bool check() const;
 
 	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const;

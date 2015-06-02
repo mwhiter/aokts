@@ -759,7 +759,7 @@ HTREEITEM TrigTree_AddTrig(HWND treeview, int index, HTREEITEM after)
 
 	for (unsigned ec_index = 0; ec_index != t->conds.size(); ++ec_index)
 	{
-	    if (t->conds[ec_index].check()) {
+	    if (t->conds[ec_index].get_valid_since_last_check()) {
 	        tvis.item.iImage = BitmapIcons::COND_GOOD;
 	    } else {
 	        tvis.item.iImage = BitmapIcons::COND_BAD;
@@ -774,7 +774,7 @@ HTREEITEM TrigTree_AddTrig(HWND treeview, int index, HTREEITEM after)
 	// Don't use iterators: we need the index.
 	for (unsigned ec_index = 0; ec_index != t->effects.size(); ++ec_index)
 	{
-	    if (t->effects[ec_index].check()) {
+	    if (t->effects[ec_index].get_valid_since_last_check()) {
 	        tvis.item.iImage = BitmapIcons::EFFECT_GOOD;
 	    } else {
 	        tvis.item.iImage = BitmapIcons::EFFECT_BAD;

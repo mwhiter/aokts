@@ -43,7 +43,8 @@ Condition::Condition()
 	// AOKRECT default constructor OK
 	group(-1),
 	utype(-1),
-	ai_signal(-1)
+	ai_signal(-1),
+	valid_since_last_check(true)
 {
 }
 
@@ -55,6 +56,8 @@ Condition::Condition(Buffer& b)
 	b.read(&genie, sizeof(genie));
 	std::swap(genie.type, genie.check); // HACK: un-swap type, check
 	fromGenie(genie);
+
+	check_and_save();
 }
 
 std::string Condition::getName(bool tip, NameFlags::Value flags) const
@@ -325,8 +328,21 @@ void Condition::setPlayer(int pplayer)
 	player = pplayer;
 }
 
+bool Condition::get_valid_since_last_check() {
+    return valid_since_last_check;
+}
+
+bool Condition::check_and_save()
+{
+    return valid_since_last_check = check();
+}
+
 bool Condition::check() const
 {
+    if (type < 1 || type >= scen.pergame->max_condition_types) {
+        return false;
+    }
+
 	switch (type)
 	{
 	case CONDITION_BringObjectToArea:
@@ -402,6 +418,8 @@ void Condition::read(FILE *in)
 
 	readbin(in, &genie);
 	fromGenie(genie);
+
+	check();
 }
 
 void Condition::write(FILE *out)

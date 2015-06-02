@@ -521,7 +521,7 @@ void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 		        int ret = IDOK;
 
 		        SaveCond(dialog, data);	//update type
-		        valid = data->c.check();
+		        valid = data->c.check_and_save();
 
 		        if (!valid && !setts.editall)
 			        ret = MessageBox(dialog, warnInvalidC, "Condition Editor", MB_OKCANCEL);

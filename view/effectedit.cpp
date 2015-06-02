@@ -1012,7 +1012,7 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 				int ret = IDOK;
 
 				SaveEffect(dialog, data);
-				valid = data->e.check();
+				valid = data->e.check_and_save();
 
 		        if (!valid && !setts.editall)
 					ret = MessageBox(dialog, warnInvalidE, "Effect Editor", MB_OKCANCEL);

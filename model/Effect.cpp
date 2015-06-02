@@ -64,7 +64,8 @@ Effect::Effect()
 	// area default ctor fine
 	group(-1),
 	utype(-1),
-	panel(-1)
+	panel(-1),
+	valid_since_last_check(true)
 {
 	memset(uids, -1, sizeof(uids));
 }
@@ -90,6 +91,8 @@ Effect::Effect(Buffer &b)
 	sound.read(b, sizeof(long));
 	if (num_sel > 0)
 		b.read(uids, sizeof(uids));
+
+	check_and_save();
 }
 
 void Effect::tobuffer(Buffer &b) const
@@ -130,6 +133,8 @@ void Effect::read(FILE *in)
 	if ((long)trig_index < 0) {
 	    trig_index = -1;
 	}
+
+	check_and_save();
 }
 
 void Effect::write(FILE *out)
@@ -241,12 +246,12 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
         std::string stype = std::string("");
         std::ostringstream convert;
         switch (type) {
-            case 0: // Undefined
+            case EffectType::None:
                 // Let this act like a separator
                 convert << "                                                                                    ";
                 stype.append(convert.str());
                 break;
-            case 1: // Change diplomacy
+            case EffectType::ChangeDiplomacy:
                 convert << playerPronoun(s_player);
                 switch (diplomacy) {
                 case 0:
@@ -265,7 +270,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 convert << playerPronoun(t_player);
                 stype.append(convert.str());
                 break;
-            case 2: // Research
+            case EffectType::ResearchTechnology:
                 {
                     bool hastech = pTech && pTech->id();
                     std::wstring wtechname;
@@ -295,7 +300,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case 3: // Send chat
+            case EffectType::SendChat:
                 switch (s_player) {
                     case -1:
                     case 0:
@@ -307,11 +312,11 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 convert << " \"" << text.c_str() << "\"";
                 stype.append(convert.str());
                 break;
-            case 4: // Play sound
+            case EffectType::Sound:
                 convert << "play sound " << sound.c_str();
                 stype.append(convert.str());
                 break;
-            case 5: // Tribute
+            case EffectType::SendTribute:
                 // what is the significance of losing 2147483647?
                 // i guess it resets?
                 if (amount == 1410065407) {
@@ -384,14 +389,14 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case 8: // Activate
-            case 9: // Deactivate trigger
+            case EffectType::ActivateTrigger:
+            case EffectType::DeactivateTrigger:
                 //stype.append(types_short[type]);
                 switch (type) {
-                    case 8:
+                    case EffectType::ActivateTrigger:
                         stype.append("activate ");
                         break;
-                    case 9:
+                    case EffectType::DeactivateTrigger:
                         stype.append("deactivate ");
                         break;
                 }
@@ -410,7 +415,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     //stype.append(convert.str());
                 }
                 break;
-            case 10:
+            case EffectType::AIScriptGoal:
                 switch (ai_goal) {
                 default:
                     if (ai_goal >= -258 && ai_goal <= -3) {
@@ -425,7 +430,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;;
-            case 16: // Change view
+            case EffectType::ChangeView:
                 if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
                     convert << "change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
                 } else {
@@ -433,29 +438,29 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case 6: // Unlock Gate
-            case 7: // Lock Gate
-            case 14: // Kill Object
-            case 15: // Remove
-            case 17: // Unload
-            case 22: // Freeze unit
+            case EffectType::UnlockGate:
+            case EffectType::LockGate:
+            case EffectType::KillObject:
+            case EffectType::RemoveObject:
+            case EffectType::Unload:
+            case EffectType::FreezeUnit:
                 switch (type) {
-                case 6:
+                case EffectType::UnlockGate:
                     convert << "unlock";
                     break;
-                case 7:
+                case EffectType::LockGate:
                     convert << "lock";
                     break;
-                case 14:
+                case EffectType::KillObject:
                     convert << "kill";
                     break;
-                case 15:
+                case EffectType::RemoveObject:
                     convert << "remove";
                     break;
-                case 17:
+                case EffectType::Unload:
                     convert << "unload";
                     break;
-                case 22:
+                case EffectType::FreezeUnit:
                     convert << "freeze";
                     break;
                 }
@@ -465,12 +470,12 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         convert << " at (" << area.left << "," << area.top << ")";
                     } else {
                         switch (type) {
-                            case 6:
-                            case 7:
-                            case 22:
+                            case EffectType::UnlockGate:
+                            case EffectType::LockGate:
+                            case EffectType::FreezeUnit:
                                 convert << " in area";
                                 break;
-                            case 14:
+                            case EffectType::KillObject:
                                 convert << " within";
                                 break;
                             default:
@@ -484,7 +489,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case 29: // Stop unit
+            case EffectType::StopUnit:
                 if (panel >= 1 && panel <= 9) {
                     convert << "place" << " " << selectedUnits() << " into control group " << panel;
                 } else {
@@ -493,16 +498,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         if (area.left == area.right && area.top == area.bottom) {
                             convert << " at (" << area.left << "," << area.top << ")";
                         } else {
-                            switch (type) {
-                            case 6:
-                            case 7:
-                            case 22:
-                                convert << " in";
-                                break;
-                            default:
-                                convert << " from";
-                            }
-                            convert << " area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                            convert << " in area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
                         }
                     }
                     if (location.x >= 0 && location.y >= 0) {
@@ -513,7 +509,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case 11: // Create object
+            case EffectType::CreateObject:
                 convert << "create";
                 convert << " " << playerPronoun(s_player);
                 if (pUnit && pUnit->id()) {
@@ -526,7 +522,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 convert << " at (" << location.x << ", " << location.y << ")";
                 stype.append(convert.str());
                 break;
-            case 19: // Patrol object
+            case EffectType::Patrol:
                 try
                 {
                     // keep in mind multiple units can possess the same id, but
@@ -582,13 +578,13 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     stype.append(ex.what());
 	            }
                 break;
-            case 18: // Change Ownership
-            case 12: // Task object
+            case EffectType::ChangeOwnership:
+            case EffectType::TaskObject:
                 switch (type) {
-                    case 18:
+                    case EffectType::ChangeOwnership:
                         convert << "convert";
                         break;
-                    default:
+                    case EffectType::TaskObject:
                         convert << "task";
                 }
                 convert << " " << selectedUnits();
@@ -600,11 +596,11 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     }
                 }
                 switch (type) {
-                case 18:
+                case EffectType::ChangeOwnership:
                     convert << " to";
                     convert << " " << playerPronoun(t_player);
                     break;
-                default:
+                case EffectType::TaskObject:
                     if (location.x >= 0 && location.y >= 0) {
                         convert << " to (" << location.x << ", " << location.y << ")";
                     } else {
@@ -828,6 +824,15 @@ inline bool Effect::valid_destination() const {
 inline bool Effect::valid_points() const {
 	//return (amount != -1);
 	return true;
+}
+
+bool Effect::get_valid_since_last_check() {
+    return valid_since_last_check;
+}
+
+bool Effect::check_and_save()
+{
+    return valid_since_last_check = check();
 }
 
 /*

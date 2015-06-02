@@ -197,6 +197,15 @@ std::string get_unit_full_name(UID id)
     return "INVALID UNIT ID";
 }
 
+bool valid_unit_id(UID id)
+{
+    PlayersUnit fu = find_map_unit(id);
+    if (fu.u) {
+        return true;
+    }
+    return false;
+}
+
 PlayersUnit find_map_unit(UID id)
 {
     PlayersUnit ret;

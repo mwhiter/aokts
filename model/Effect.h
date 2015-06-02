@@ -85,53 +85,74 @@ struct EffectVirtualTypeAOF {
     };
 };
 
-enum EffectType
-{
-	EFFECT_None,
-	EFFECT_ChangeDiplomacy,
-	EFFECT_ResearchTechnology,
-	EFFECT_SendChat,
-	EFFECT_PlaySound,
-	EFFECT_SendTribute,
-	EFFECT_UnlockGate,
-	EFFECT_LockGate,
-	EFFECT_ActivateTrigger,
-	EFFECT_DeactivateTrigger,
-	EFFECT_AIScriptGoal,
-	EFFECT_CreateObject,
-	EFFECT_TaskObject,
-	EFFECT_DeclareVictory,
-	EFFECT_KillObject,
-	EFFECT_RemoveObject,
-	EFFECT_ChangeView,
-	EFFECT_Unload,
-	EFFECT_ChangeOwnership,
-	EFFECT_Patrol,
-	EFFECT_DisplayInstructions,
-	EFFECT_ClearInstructions,
-	EFFECT_FreezeUnit,
-	EFFECT_UseAdvancedButtons,
-	EFFECT_DamageObject,
-	EFFECT_PlaceFoundation,
-	EFFECT_ChangeObjectName,
-	EFFECT_ChangeObjectHP,
-	EFFECT_ChangeObjectAttack,
-	EFFECT_StopUnit,
-
-	/* SWGB-only after here */
-	EFFECT_SnapView, //Equal to UP Change Speed
-	EFFECT_Unknown31, //Equal to UP Change Range
-	EFFECT_EnableTech, //Equal to UP Change Armor #1
-	EFFECT_DisableTech, //Equal to UP Change Range #2
-	EFFECT_EnableUnit,
-	EFFECT_DisableUnit,
-	EFFECT_FlashObjects
+struct EffectType {
+    enum Value {
+	    None,
+	    ChangeDiplomacy,
+	    ResearchTechnology,
+	    SendChat,
+	    Sound,
+	    SendTribute,
+	    UnlockGate,
+	    LockGate,
+	    ActivateTrigger,
+	    DeactivateTrigger,
+	    AIScriptGoal,
+	    CreateObject,
+	    TaskObject,
+	    DeclareVictory,
+	    KillObject,
+	    RemoveObject,
+	    ChangeView,
+	    Unload,
+	    ChangeOwnership,
+	    Patrol,
+	    DisplayInstructions,
+	    ClearInstructions,
+	    FreezeUnit,
+	    UseAdvancedButtons,
+	    DamageObject,
+	    PlaceFoundation,
+	    ChangeObjectName,
+	    ChangeObjectHP,
+	    ChangeObjectAttack,
+	    StopUnit,
+	    ChangeSpeed_UP,
+	        SnapView_SWGB = ChangeSpeed_UP,
+	        AttackMove_HD = ChangeSpeed_UP,
+	    ChangeRange_UP,
+	        DisableAdvancedButtons_SWGB = ChangeRange_UP,
+	        ChangeArmor_HD = ChangeRange_UP,
+	    ChangeMeleArmor_UP,
+	        ChangeRange_HD = ChangeMeleArmor_UP,
+	        EnableTech_SWGB = ChangeMeleArmor_UP,
+	    ChangePiercingArmor_UP,
+	        ChangeSpeed_HD = ChangePiercingArmor_UP,
+	        DisableTech_SWGB = ChangePiercingArmor_UP,
+	    EnableUnit_SWGB,
+	    DisableUnit_SWGB,
+	    FlashUnit_SWGB,
+	    InputOff_CC,
+	    InputOn_CC,
+	};
 };
 
 class Effect : public ECBase
 {
 private:
     std::string selectedUnits() const;
+
+    bool valid_area() const;
+    bool valid_selected() const;
+    bool valid_unit_spec() const;
+    bool valid_technology_spec() const;
+    bool valid_location() const;
+    bool valid_source_player() const;
+    bool valid_target_player() const;
+    bool valid_trigger() const;
+    bool valid_panel() const;
+    bool valid_destination() const;
+    bool valid_points() const;
 
 public:
 	Effect();

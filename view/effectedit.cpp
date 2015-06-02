@@ -413,10 +413,10 @@ void EffectControls(HWND dialog, int type)
 
 	switch (type)
 	{
-		case EFFECT_SendChat:
+		case EffectType::SendChat:
 			i = 64;
 			break;
-		case EFFECT_DisplayInstructions:
+		case EffectType::DisplayInstructions:
 			i = 256;
 			break;
 		default:
@@ -810,7 +810,7 @@ void E_HandleChangeType(HWND dialog, EditEffect *data)
 	static const char *promptClearEffect =
 		"Would you like to clear the effect? (Recommended)";
 
-	if (data->e.type != EFFECT_None &&
+	if (data->e.type != EffectType::None &&
 		MessageBox(dialog, promptClearEffect, "Effect Editor", MB_YESNO) == IDYES)
 	{
 		data->e = Effect();

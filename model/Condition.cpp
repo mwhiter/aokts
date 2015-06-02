@@ -330,10 +330,10 @@ bool Condition::check() const
 	switch (type)
 	{
 	case CONDITION_BringObjectToArea:
-		return (object >= 0 && area.left >= 0);
+		return (valid_unit_id(object) && area.left >= 0);
 
 	case CONDITION_BringObjectToObject:
-		return (object >= 0 && u_loc >= 0);
+		return (valid_unit_id(object) && u_loc >= 0);
 
 	case CONDITION_OwnObjects:
 	case CONDITION_OwnFewerObjects:
@@ -346,10 +346,10 @@ bool Condition::check() const
 		return (area.left >= 0 && amount >= 0);
 
 	case CONDITION_DestroyObject:
-		return (object >= 0);
+		return (valid_unit_id(object));
 
 	case CONDITION_CaptureObject:
-		return (object >= 0 && player >= 0);
+		return (valid_unit_id(object) && player >= 0);
 
 	case CONDITION_AccumulateAttribute:
 		return (player >= 0 && res_type >= 0);
@@ -362,7 +362,7 @@ bool Condition::check() const
 		return (timer >= 0);
 
 	case CONDITION_ObjectSelected:
-		return (object >= 0);
+		return (valid_unit_id(object));
 
 	case CONDITION_AISignal:
 		return (true);
@@ -372,16 +372,16 @@ bool Condition::check() const
 		return (player >= 0);
 
 	case CONDITION_ObjectHasTarget:
-		return (object >= 0 && u_loc >= 0);
+		return (valid_unit_id(object) && u_loc >= 0);
 
 	case CONDITION_ObjectVisible:
 	case CONDITION_ObjectNotVisible:
-		return (object >= 0);
+		return (valid_unit_id(object));
 
 	//CONDITION_ResearchingTechnology above
 
 	case CONDITION_UnitsGarrisoned:
-		return (object >= 0 && amount >= 0);
+		return (valid_unit_id(object) && amount >= 0);
 
 	case CONDITION_DifficultyLevel:
 		return (amount >= 0);

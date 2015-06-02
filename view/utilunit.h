@@ -79,6 +79,8 @@ struct PlayersUnit
     }
 };
 
+bool valid_unit_id(UID id);
+
 std::string get_unit_full_name(UID id);
 
 PlayersUnit find_map_unit(UID id);

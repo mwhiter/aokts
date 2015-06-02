@@ -772,125 +772,201 @@ void Effect::setPlayer(int player)
 	s_player = player;
 }
 
+inline bool Effect::valid_area() const {
+    return area.left >= 0 && area.right > area.left && area.bottom >= 0 && area.top >= area.bottom;
+}
+
+inline bool Effect::valid_selected() const {
+	for (int i = 0; i < num_sel; i++) {
+	    if (!valid_unit_id(uids[i])) {
+		    return false;
+	    }
+	}
+	return true;
+}
+
+inline bool Effect::valid_unit_spec() const {
+    // utype >= 0
+	return pUnit != NULL;
+}
+
+inline bool Effect::valid_technology_spec() const {
+	return pTech != NULL;
+}
+
+inline bool Effect::valid_location() const {
+    return location.x >= 0 && location.y >= 0;
+}
+
+inline bool Effect::valid_source_player() const {
+    return s_player >= 0 && s_player <= 8;
+}
+
+inline bool Effect::valid_target_player() const {
+    return t_player >= 0 && t_player <= 8;
+}
+
+inline bool Effect::valid_trigger() const {
+    return trig_index >= 0 &&  trig_index < scen.triggers.size();
+}
+
+inline bool Effect::valid_panel() const {
+	// panel == -1 is acceptable because Azzzru's scripts omit panel
+	// to shorten SCX file and scenario still works fine.
+    return panel >= -1;
+}
+
+inline bool Effect::valid_destination() const {
+	return valid_location() || valid_unit_id(uid_loc);
+}
+
+/*
+ * Amount can be negative, but can't be -1 (or can it? it appears red in
+ * scenario editor. It CAN be -1 (in AOHD at least)
+ */
+inline bool Effect::valid_points() const {
+	//return (amount != -1);
+	return true;
+}
+
 /*
  * False positives are better than false negatives.
  */
 bool Effect::check() const
 {
+    if (type < 1 || type >= scen.pergame->max_effect_types) {
+        return false;
+    }
+
+    bool valid_selected = Effect::valid_selected(); // perform this check on all effects
+
+    if (num_sel > 0 && !valid_selected) {
+        return false;
+    }
+
 	switch (type)
 	{
-	case EFFECT_ChangeDiplomacy:
-		return (s_player >= 0 && t_player >= 0 && diplomacy >= 0);
+	case EffectType::ChangeDiplomacy:
+		return (valid_source_player() && valid_source_player() && diplomacy >= 0);
 
-	case EFFECT_ResearchTechnology:
-		return (s_player >= 0 && pTech);
+	case EffectType::ResearchTechnology:
+		return (valid_source_player() && valid_technology_spec());
 
-	case EFFECT_SendChat:
-		return (s_player >= 0 && *text.c_str());	//AOK missing text check
+	case EffectType::SendChat:
+		return (valid_source_player() && *text.c_str());	//AOK missing text check
 
-	case EFFECT_PlaySound:
-		return (s_player >= 0 && sound.length());	//AOK missing sound check
+	case EffectType::Sound:
+		return (valid_source_player() && sound.length());	//AOK missing sound check
 
-	case EFFECT_SendTribute:
-		return (s_player >= 0 && t_player >= 0 && res_type >= 0);
+	case EffectType::SendTribute:
+		return (valid_source_player() && valid_target_player() && res_type >= 0);
 
-	case EFFECT_UnlockGate:
-	case EFFECT_LockGate:
-		return (num_sel >= 0);
+	case EffectType::UnlockGate:
+	case EffectType::LockGate:
+		return valid_selected;
 
-	case EFFECT_ActivateTrigger:
-	case EFFECT_DeactivateTrigger:
-		return (trig_index >= 0 && trig_index != (unsigned)-1 && trig_index != (unsigned)-2 && trig_index < scen.triggers.size());
+	case EffectType::ActivateTrigger:
+	case EffectType::DeactivateTrigger:
+		return valid_trigger();
 
-	case EFFECT_AIScriptGoal:
-		//return (s_player >= 0 && ai_goal >= 0);
+	case EffectType::AIScriptGoal:
 		return true;
 
-	case EFFECT_CreateObject:
-		return (s_player >= 0 &&
-			location.x >= 0 && location.y >= 0 && pUnit);
+	case EffectType::CreateObject:
+		return valid_source_player() && valid_location() && valid_unit_spec();
 
-	case EFFECT_TaskObject:
-	case EFFECT_KillObject:
-	case EFFECT_RemoveObject:
-	    //return (num_sel == 0 && area.left == -1 && area.right == -1 && area.top == -1 && area.bottom == -1) ||
-	    //       (num_sel >= 0 && area.right >= area.left && area.bottom >= area.top);
-	case EFFECT_FreezeUnit:
-	case EFFECT_StopUnit:
+	case EffectType::Unload:
+	case EffectType::TaskObject:
+        return (valid_selected || valid_area()) && valid_destination();
+
+	case EffectType::KillObject:
+	case EffectType::RemoveObject:
+	case EffectType::FreezeUnit:
+	case EffectType::StopUnit:
+	case EffectType::FlashUnit_SWGB:
+		return valid_selected || valid_area();
+
+	case EffectType::DeclareVictory:
+		return valid_source_player();
+
+	case EffectType::ChangeView:
+		return valid_source_player() && valid_location();
+
+	case EffectType::ChangeOwnership:
+		return (valid_selected || valid_area()) && valid_source_player() && valid_source_player();
+
+	case EffectType::Patrol:
+		return (valid_selected && valid_location());
+
+	case EffectType::DisplayInstructions:
+		return (valid_panel() && disp_time >= 0 && (*text.c_str() || textid));	//AOK missing text
+
+	case EffectType::ClearInstructions:
+		return valid_panel();
+
+	case EffectType::UseAdvancedButtons:
 		return true;
 
-	case EFFECT_DeclareVictory:
-		return (s_player >= 0);
+	case EffectType::DamageObject:
+	case EffectType::ChangeObjectHP:
+	case EffectType::ChangeObjectAttack:
+		return (valid_selected || valid_area()) && valid_points();
 
-	//EFFECT_KillObject, EFFECT_RemoveObject above.
+	case EffectType::ChangeSpeed_UP: // SnapView_SWGB // AttackMove_HD
+	    switch (scen.game) {
+	    case UP:
+		    return (valid_selected || valid_area()) && valid_points();
+	    case AOHD:
+	    case AOF:
+		    return (valid_selected || valid_area()) && valid_location();
+	    case SWGB:
+	    case SWGBCC:
+		    return valid_source_player() && valid_location();
+	    }
+		return valid_location();
 
-	case EFFECT_ChangeView:
-		return (s_player >= 0 && location.x >= 0 && location.y >= 0);
+	case EffectType::ChangeRange_UP: // DisableAdvancedButtons_SWGB // ChangeArmor_HD
+	    switch (scen.game) {
+	    case UP:
+	    case AOHD:
+	    case AOF:
+		    return (valid_selected || valid_area()) && valid_location();
+	    case SWGB:
+	    case SWGBCC:
+		    return true;
+	    }
+		return valid_location();
 
-	case EFFECT_Unload:
-		return (s_player >= 0
-			&& (num_sel >= 0 || area.left >= 0 || utype >= 0)	//AOK missing this
-			&& location.x >=0 && location.y >= 0);
-
-	case EFFECT_ChangeOwnership:
+	case EffectType::ChangeMeleArmor_UP: // ChangeRange_HD // EnableTech_SWGB
+	case EffectType::ChangePiercingArmor_UP: // ChangeSpeed_HD // DisableTech_SWGB
+	    switch (scen.game) {
+	    case UP:
+	    case AOHD:
+	    case AOF:
+		    return (valid_selected || valid_area()) && valid_points();
+	    case SWGB:
+	    case SWGBCC:
+		    return valid_technology_spec();
+	    }
 		return true;
-		//return (s_player >= 0 && t_player >= 0
-		//	&& (num_sel >= 0 || area.left >= 0 || utype >= 0));	//AOK missing this
 
-	case EFFECT_Patrol:
-		return (num_sel >= 0 && location.x >= 0 && location.y >= 0);
+	case EffectType::PlaceFoundation:
+		return (valid_source_player() && valid_unit_spec() && valid_location());
 
-	case EFFECT_DisplayInstructions:
-	    // panel == -1 is acceptable because Azzzru's scripts omit panel
-	    // to shorten SCX file and scenario still works fine.
-		return (panel >= -1 && disp_time >= 0
-			&& (*text.c_str() || textid));	//AOK missing text
-
-	case EFFECT_ClearInstructions:
-		return (panel >= 0);
-
-	case EFFECT_UseAdvancedButtons:
-		return true;	//no properties to set
-
-	case EFFECT_DamageObject:
-	case EFFECT_ChangeObjectHP:
-	case EFFECT_ChangeObjectAttack:
-		//return (amount != -1);		//amount can be negative, but can't be -1 (or can it? it appears red in scenario editor. It CAN be -1 (in AOHD at least)
+	case EffectType::ChangeObjectName:
+	    switch (scen.game) {
+	    case AOK:
+	    case AOC:
+	        return (valid_selected || valid_area());
+	    case AOHD:
+	    case AOF:
+	        return (valid_selected || valid_area());
+	    }
 		return true;
-		//	&& (num_sel >= 0 || area.left >= 0));	//AOK missing this
-	case EFFECT_SnapView: //Equal to UP Change Speed
-		return true;
-	case EFFECT_EnableTech: //Equal to UP Change Armor #1
-		return true;
-	case EFFECT_DisableTech: //Equal to UP Change Armor #2
-		return true;
-	case EFFECT_Unknown31: //Equal to UP Change Range
-		return true;
-		//return (amount != 0		//amount can be negative
-		//	&& (num_sel >= 0 || area.left >= 0));	//AOK missing this
 
-	case EFFECT_PlaceFoundation:
-		return (s_player >= 0 && pUnit
-			&& location.x >= 0 && location.y >= 0);
-
-	case EFFECT_ChangeObjectName:
-		return true;
-		//return (num_sel >= 0);	//no text check
-		//return (area.left >= 0);	//no text check
-
-	//EFFECT_ChangeObjectHP, EFFECT_ChangeObjectAttack, EFFECT_StopUnit, and new UP effects above
-
-	//EFFECT_SnapView shares with EFFECT_ChangeView above
-
-
-		return (pTech != NULL);
-
-	case EFFECT_EnableUnit:
-	case EFFECT_DisableUnit:
-		return (pUnit != NULL);
-
-	case EFFECT_FlashObjects:
-		return (area.left >= 0); //SWGB missing this
+	case EffectType::EnableUnit_SWGB:
+	case EffectType::DisableUnit_SWGB:
+		return valid_unit_spec();
 
 	default:
 		return false;	//unknown effect type
@@ -923,10 +999,6 @@ void Effect::fromGenie(const Genie_Effect& genie)
 	soundid = genie.soundid;
 	disp_time = genie.display_time;
 	trig_index = genie.trigger_index;
-	//if (trig_index == (unsigned)-4 || trig_index == (unsigned)-5 || trig_index == (unsigned)-11) {
-	//if (trig_index > 1000) {
-	//    trig_index = (unsigned)-1;
-	//}
 	location = genie.location;
 	area = genie.area;
 	group = genie.unit_group;

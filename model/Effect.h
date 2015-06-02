@@ -40,7 +40,9 @@ struct EffectVirtualTypeUP {
 	    SetControlGroup7,
 	    SetControlGroup8,
 	    SetControlGroup9,
-	    SnapView
+	    SnapView,
+	    SetAISignal,
+	    SetAISharedGloal
     };
 };
 
@@ -60,16 +62,26 @@ struct EffectVirtualTypeSWGB {
 struct EffectVirtualTypeAOC {
     enum Value {
 	    None,
-	    ReseedFarm,
+	    SetAISignal,
+	    SetAISharedGloal,
 	    FreezeUnit,
+	    ReseedFarm,
     };
 };
 
 struct EffectVirtualTypeAOHD {
     enum Value {
 	    None,
-	    ReseedFarm,
 	    FreezeUnit,
+	    ReseedFarm,
+    };
+};
+
+struct EffectVirtualTypeAOF {
+    enum Value {
+	    None,
+	    FreezeUnit,
+	    ReseedFarm,
     };
 };
 
@@ -181,8 +193,8 @@ public:
     static const int NUM_EFFECTS_CC   = 39;
 
     static const int NUM_VIRTUAL_EFFECTS_AOK = 1;
-    static const int NUM_VIRTUAL_EFFECTS_AOC = 2;
-    static const int NUM_VIRTUAL_EFFECTS_UP = 25;
+    static const int NUM_VIRTUAL_EFFECTS_AOC = 4;
+    static const int NUM_VIRTUAL_EFFECTS_UP = 27;
     static const int NUM_VIRTUAL_EFFECTS_AOHD = 2;
     static const int NUM_VIRTUAL_EFFECTS_AOF = 2;
     static const int NUM_VIRTUAL_EFFECTS_SWGB = 2;

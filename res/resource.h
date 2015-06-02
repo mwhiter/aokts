@@ -364,10 +364,10 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_E_AREAY1			1818
 #define IDC_E_AREAX2			1819
 #define IDC_E_AREAY2			1820
-#define IDC_E_GROUP				1821
-#define IDC_E_UTYPE				1822
-#define IDC_E_PANEL				1823
-#define IDC_E_AREA_ALL			1824
+#define IDC_E_AREA_ALL			1821
+#define IDC_E_GROUP				1822
+#define IDC_E_UTYPE				1823
+#define IDC_E_PANEL				1824
 #define IDC_E_END	            1825
 #define IDC_E_TEXTID            1826
 #define IDC_E_SOUNDID           1827
@@ -379,6 +379,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_E_TYPEVAL	    	1833
 #define IDC_E_VTYPE				1834
 #define IDC_E_NSELECTED 		1835
+#define IDC_E_SIGGOAL   		1836
 
 /* About Dialog Controls */
 #define IDC_UPDATELINK          1901

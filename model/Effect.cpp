@@ -411,7 +411,18 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 break;
             case 10:
-                convert << "signal AI " << ai_goal;
+                switch (ai_goal) {
+                default:
+                    if (ai_goal >= -258 && ai_goal <= -3) {
+                        // AI Shared Goal
+                        convert << "complete AI shared goal " << ai_goal + 258;
+                    } else if (ai_goal >= 774 && ai_goal <= 1029) {
+	                    // Set AI Signal
+                        convert << "signal AI " << ai_goal - 774;
+                    } else {
+                        convert << "AI signalled " << ai_goal;
+                    }
+                }
                 stype.append(convert.str());
                 break;;
             case 16: // Change view
@@ -792,7 +803,8 @@ bool Effect::check() const
 		return (trig_index >= 0 && trig_index != (unsigned)-1 && trig_index != (unsigned)-2 && trig_index < scen.triggers.size());
 
 	case EFFECT_AIScriptGoal:
-		return (s_player >= 0 && ai_goal >= 0);
+		//return (s_player >= 0 && ai_goal >= 0);
+		return true;
 
 	case EFFECT_CreateObject:
 		return (s_player >= 0 &&
@@ -953,7 +965,7 @@ Genie_Effect Effect::toGenie() const
 }
 
 const char *Effect::types_aok[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research Technology",
 	"Send Chat",
@@ -980,7 +992,7 @@ const char *Effect::types_aok[] = {
 };
 
 const char *Effect::types_aoc[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research Technology",
 	"Send Chat",
@@ -1013,7 +1025,7 @@ const char *Effect::types_aoc[] = {
 };
 
 const char *Effect::types_up[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research Technology",
 	"Send Chat",
@@ -1050,7 +1062,7 @@ const char *Effect::types_up[] = {
 };
 
 const char *Effect::types_swgb[] = {
-	"Undefined",
+	"",
 	"Change Alliance",
 	"Research Technology",
 	"Send Chat",
@@ -1090,7 +1102,7 @@ const char *Effect::types_swgb[] = {
 };
 
 const char *Effect::types_cc[] = {
-	"Undefined",
+	"",
 	"Change Alliance",
 	"Research Technology",
 	"Send Chat",
@@ -1125,7 +1137,7 @@ const char *Effect::types_cc[] = {
 };
 
 const char *Effect::types_aohd[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research Technology",
 	"Send Chat",
@@ -1162,7 +1174,7 @@ const char *Effect::types_aohd[] = {
 };
 
 const char *Effect::types_aof[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research Technology",
 	"Send Chat",
@@ -1199,7 +1211,7 @@ const char *Effect::types_aof[] = {
 };
 
 const char *Effect::types_short_aok[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research",
 	"Chat",
@@ -1226,7 +1238,7 @@ const char *Effect::types_short_aok[] = {
 };
 
 const char *Effect::types_short_aoc[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research",
 	"Chat",
@@ -1259,7 +1271,7 @@ const char *Effect::types_short_aoc[] = {
 };
 
 const char *Effect::types_short_up[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research",
 	"Chat",
@@ -1296,7 +1308,7 @@ const char *Effect::types_short_up[] = {
 };
 
 const char *Effect::types_short_aohd[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research",
 	"Chat",
@@ -1333,7 +1345,7 @@ const char *Effect::types_short_aohd[] = {
 };
 
 const char *Effect::types_short_aof[] = {
-	"Undefined",
+	"",
 	"Change Diplomacy",
 	"Research",
 	"Chat",
@@ -1370,7 +1382,7 @@ const char *Effect::types_short_aof[] = {
 };
 
 const char *Effect::types_short_swgb[] = {
-	"Undefined",
+	"",
 	"Change Alliance",
 	"Research",
 	"Chat",
@@ -1410,7 +1422,7 @@ const char *Effect::types_short_swgb[] = {
 };
 
 const char *Effect::types_short_cc[] = {
-	"Undefined",
+	"",
 	"Change Alliance",
 	"Research",
 	"Chat",
@@ -1476,11 +1488,15 @@ const char *Effect::virtual_types_up[] = {
     "Set Control Group 7",
     "Set Control Group 8",
     "Set Control Group 9",
-    "Snap View"
+    "Snap View",
+    "Set AI Signal",
+    "Set AI Shared Goal"
 };
 
 const char *Effect::virtual_types_aoc[] = {
     "None",
+    "Set AI Signal",
+    "Set AI Shared Goal",
     "Freeze unit",
 };
 

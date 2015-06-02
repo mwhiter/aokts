@@ -216,18 +216,18 @@ void LoadVirtualTypeConditions(HWND dialog, EditCondition *data) {
 	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::StartingResourcesStandard, 0);
 		        ENABLE_WND(IDC_C_AISIG, false);
                 break;
-            //case -1039:
-	        //    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::Regicide, 0);
-		    //    ENABLE_WND(IDC_C_AISIG, false);
-            //    break;
-            //case -1040:
-	        //    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::Deathmatch, 0);
-		    //    ENABLE_WND(IDC_C_AISIG, false);
-            //    break;
-            //case -70850:
-	        //    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::OneClickGarrison, 0);
-		    //    ENABLE_WND(IDC_C_AISIG, false);
-            //    break;
+            case -1039:
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::Regicide, 0);
+		        ENABLE_WND(IDC_C_AISIG, false);
+                break;
+            case -1040:
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::Deathmatch, 0);
+		        ENABLE_WND(IDC_C_AISIG, false);
+                break;
+            case -70850:
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::OneClickGarrison, 0);
+		        ENABLE_WND(IDC_C_AISIG, false);
+                break;
             default:
                 {
                     if (c->ai_signal >= -518 && c->ai_signal <= -7) {
@@ -391,7 +391,7 @@ void C_HandleChangeAIGoal(HWND dialog, EditCondition *data)
         data->c.ai_signal = -774 + goal;
 	    SetDlgItemInt(dialog, IDC_C_AISIG, data->c.ai_signal, TRUE);
 	} else {
-	    SetDlgItemInt(dialog, IDC_C_AISIG, 0, TRUE);
+	    SetDlgItemInt(dialog, IDC_C_AISIG, -744, TRUE);
     }
 }
 
@@ -421,56 +421,54 @@ void C_HandleChangeVType(HWND dialog, EditCondition *data)
     case AOC:
     case UP:
         switch (newtype) {
-        case 0: // None
-            break;
-        case 1: // Singleplayer / Cheats Enabled
+        case (long)ConditionVirtualTypeAOC::SinglePlayer:
             data->c.ai_signal = -1034;
             data->c.type = 12;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case 2: // Taunt
+        case (long)ConditionVirtualTypeAOC::Taunt:
             data->c.ai_signal = -518;
             data->c.type = 12;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case 3: // AI Script Goal
+        case (long)ConditionVirtualTypeAOC::AIScriptGoal:
             data->c.ai_signal = -774;
             data->c.type = 12;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case 4: // Starting Age: Standard
+        case (long)ConditionVirtualTypeAOC::StartingAgeStandard:
             data->c.ai_signal = -1035;
             data->c.type = 12;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case 5: // Starting Resources: Standard
+        case (long)ConditionVirtualTypeAOC::StartingResourcesStandard:
             data->c.ai_signal = -1036;
             data->c.type = 12;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        //case 6: // Regicide
-        //    data->c.ai_signal = -1039;
-        //    data->c.type = 12;
-	    //    ConditionControls(dialog, data->c.type);
-		//    ENABLE_WND(IDC_C_AISIG, false);
-        //    break;
-        //case 7: // Deathmatch
-        //    data->c.ai_signal = -1040;
-        //    data->c.type = 12;
-	    //    ConditionControls(dialog, data->c.type);
-		//    ENABLE_WND(IDC_C_AISIG, false);
-        //    break;
-        //case 8: // One-click Garrison
-        //    data->c.ai_signal = -70850;
-        //    data->c.type = 12;
-	    //    ConditionControls(dialog, data->c.type);
-		//    ENABLE_WND(IDC_C_AISIG, false);
-        //    break;
+        case (long)ConditionVirtualTypeAOC::Regicide:
+            data->c.ai_signal = -1039;
+            data->c.type = 12;
+	        ConditionControls(dialog, data->c.type);
+		    ENABLE_WND(IDC_C_AISIG, false);
+            break;
+        case (long)ConditionVirtualTypeAOC::Deathmatch:
+            data->c.ai_signal = -1040;
+            data->c.type = 12;
+	        ConditionControls(dialog, data->c.type);
+		    ENABLE_WND(IDC_C_AISIG, false);
+            break;
+        case (long)ConditionVirtualTypeAOC::OneClickGarrison:
+            data->c.ai_signal = -70850;
+            data->c.type = 12;
+	        ConditionControls(dialog, data->c.type);
+		    ENABLE_WND(IDC_C_AISIG, false);
+            break;
         }
         break;
     default:

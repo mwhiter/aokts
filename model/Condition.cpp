@@ -476,7 +476,7 @@ Genie_Condition Condition::toGenie() const
 
 const char *Condition::types_aok[] =
 {
-	"Undefined",
+	"",
 	"Bring Object to Area",
 	"Bring Object to Object",
 	"Own Objects",
@@ -500,7 +500,7 @@ const char *Condition::types_aok[] =
 
 const char *Condition::types_swgb[] =
 {
-	"Undefined",
+	"",
 	"Bring Object to Area",
 	"Bring Object to Object",
 	"Own Objects",
@@ -526,7 +526,7 @@ const char *Condition::types_swgb[] =
 
 const char *Condition::types_cc[] =
 {
-	"Undefined",
+	"",
 	"Bring Object to Area",
 	"Bring Object to Object",
 	"Own Objects",
@@ -554,7 +554,7 @@ const char *Condition::types_cc[] =
 
 const char *Condition::types_short_aok[] =
 {
-	"Undefined",
+	"",
 	"Arrived",
 	"At Object",
 	"Own",
@@ -578,7 +578,7 @@ const char *Condition::types_short_aok[] =
 
 const char *Condition::types_short_swgb[] =
 {
-	"Undefined",
+	"",
 	"Arrived",
 	"At Object",
 	"Own",
@@ -604,7 +604,7 @@ const char *Condition::types_short_swgb[] =
 
 const char *Condition::types_short_cc[] =
 {
-	"Undefined",
+	"",
 	"Arrived",
 	"At Object",
 	"Own",
@@ -640,9 +640,9 @@ const char *Condition::virtual_types_aoc[] = {
     "Taunt",
     "AI Script Goal",
     "Starting age: Standard",
-    "Starting resources: Standard"
-    //"Regicide",
-    //"Deathmatch",
+    "Starting resources: Standard",
+    "Regicide",
+    "Deathmatch",
     //"One-click Garrison",
 };
 
@@ -660,9 +660,9 @@ const char *Condition::virtual_types_up[] = {
     "Taunt",
     "AI Script Goal",
     "Starting age: Standard",
-    "Starting resources: Standard"
-    //"Regicide",
-    //"Deathmatch",
+    "Starting resources: Standard",
+    "Regicide",
+    "Deathmatch",
     //"One-click Garrison",
 };
 

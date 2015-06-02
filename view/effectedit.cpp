@@ -360,6 +360,7 @@ void EffectControls(HWND dialog, int type)
 {
 	int i;
 
+	ENABLE_WND(IDC_E_SIGGOAL, false);
 	HWND control = GetDlgItem(dialog, IDC_E_TEXT);
 
 	if (type >= scen.pergame->max_effect_types)
@@ -448,8 +449,12 @@ const char *dnames[4] = { "Ally", "Neutral", "Unknown", "Enemy" };
 const char *pnames[3] = { "Objectives", "Hints", "Scouts" };
 const wchar_t *noselecte = L"<none>";
 
-void E_Init(HWND dialog)
+void E_Init(HWND dialog, EditEffect *data)
 {
+	Effect *e = &data->e;
+
+	data->TrigCallback(GetDlgItem(dialog, IDC_E_TRIG), e->trig_index);
+
 	Combo_Fill(dialog, IDC_E_TYPE, Effect::types,scen.pergame->max_effect_types);
 	Combo_Fill(dialog, IDC_E_VTYPE, Effect::virtual_types, scen.pergame->max_virtual_effect_types + 1); // +1 for None option
 
@@ -468,9 +473,25 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
 	Effect *e = &data->e;
 
     switch (scen.game) {
-    case AOK:
-    case SWGB:
-	    SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+    case AOC:
+        switch (e->type) {
+        case 10: // AI Script Goal
+            if (e->ai_goal >= 774 && e->ai_goal <= 1029) {
+	            ENABLE_WND(IDC_E_SIGGOAL, true);
+	            ENABLE_WND(IDC_E_AIGOAL, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::SetAISignal, 0);
+	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal - 774, TRUE);
+	            return;
+            }
+            if (e->ai_goal >= -258 && e->ai_goal <= -3) {
+	            ENABLE_WND(IDC_E_SIGGOAL, true);
+	            ENABLE_WND(IDC_E_AIGOAL, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::SetAISharedGloal, 0);
+	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal + 258, TRUE);
+	            return;
+            }
+            break;
+        }
         break;
     case UP:
         switch (e->type) {
@@ -478,122 +499,105 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableTechnology, 0);
-                break;
+	            return;
             case 2:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::DisableTechnology, 0);
-                break;
+	            return;
             case 3:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableTechnologyAnyCiv, 0);
-                break;
-            default:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	            return;
             }
             break;
         case 11: // Create Object
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableObject, 0);
-                break;
+	            return;
             case 2:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::DisableObject, 0);
-                break;
-            default:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	            return;
             }
             break;
         case 16: // Change View
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SnapView, 0);
-                break;
-            default:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	            return;
             }
             break;
         case 13: // Declare Victory
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::Resign, 0);
-                break;
-            default:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	            return;
             }
             break;
         case 18: // Change Ownership
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::FlashObjects, 0);
-                break;
-            default:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	            return;
             }
             break;
         case 22: // Freeze Object
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAggressive, 0);
-                break;
+	            return;
             case 2:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetDefensive, 0);
-                break;
+	            return;
             case 3:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetStandGround, 0);
-                break;
+	            return;
             case 4:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetNoAttackWithoutHalt, 0);
-                break;
-            default:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	            return;
             }
             break;
         case 27: // Change Object HP
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetHP, 0);
-                break;
+	            return;
             case 2:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::HealObject, 0);
-                break;
-            default:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	            return;
             }
             break;
         case 28: // Change Object Attack
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAP, 0);
-                break;
-            default:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	            return;
             }
             break;
         case 29: // Stop Unit
             if (e->panel >= 1 && e->panel <= 9) {
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetControlGroup1 + e->panel - 1, 0);
-            } else {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+	            return;
             }
             break;
-        default:
-	        SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
-        }
-        break;
-    case AOC:
-    case AOHD:
-    case AOF:
-        switch (e->type) {
-        case 2: // Freeze unit
-            if (e->num_sel == 0) {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetControlGroup1 + e->panel - 1, 0);
-            } else {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
+        case 10: // AI Script Goal
+            if (e->ai_goal >= 774 && e->ai_goal <= 1029) {
+	            ENABLE_WND(IDC_E_SIGGOAL, true);
+	            ENABLE_WND(IDC_E_AIGOAL, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAISignal, 0);
+	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal - 774, TRUE);
+	            return;
+            }
+            if (e->ai_goal >= -258 && e->ai_goal <= -3) {
+	            ENABLE_WND(IDC_E_SIGGOAL, true);
+	            ENABLE_WND(IDC_E_AIGOAL, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAISharedGloal, 0);
+	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal + 258, TRUE);
+	            return;
             }
             break;
-        default:
-	        SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
         }
         break;
     }
+	SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, 0, 0);
 }
 
 void LoadEffect(HWND dialog, EditEffect *data)
@@ -601,8 +605,10 @@ void LoadEffect(HWND dialog, EditEffect *data)
 	Effect *e = &data->e;
 
 	// Refresh trigger combo box.
-	SendMessageW(GetDlgItem(dialog, IDC_E_TRIG), CB_RESETCONTENT, 0, 0);
-	data->TrigCallback(GetDlgItem(dialog, IDC_E_TRIG), e->trig_index);
+	//SendMessageW(GetDlgItem(dialog, IDC_E_TRIG), CB_RESETCONTENT, 0, 0);
+	//SendDlgItemMessage(dialog, IDC_E_TRIG, CB_SETCURSEL, -1, 0);
+	// Removed in favor of performance
+	//data->TrigCallback(GetDlgItem(dialog, IDC_E_TRIG), e->trig_index);
 
 	SendDlgItemMessage(dialog, IDC_E_TYPE, CB_SETCURSEL, e->type, 0);
 	SetDlgItemInt(dialog, IDC_E_TYPEVAL, e->type, TRUE);
@@ -850,83 +856,100 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
 	data->e = Effect();
 
     switch (scen.game) {
+    case AOC:
+        switch (newtype) {
+        case (long)EffectVirtualTypeAOC::SetAISignal:
+            data->e.ai_goal = 774;
+            data->e.type = 10;
+            break;
+        case (long)EffectVirtualTypeAOC::SetAISharedGloal:
+            data->e.ai_goal = -258;
+            data->e.type = 10;
+            break;
+        }
+        break;
     case UP:
         switch (newtype) {
-        case 0: // None
-            //data->e.panel = -1;
-            break;
-        case 1: // Enable Object
+        case (long)EffectVirtualTypeUP::EnableObject:
             data->e.panel = 1;
             data->e.type = 11;
             break;
-        case 2: // Disable Object
+        case (long)EffectVirtualTypeUP::DisableObject:
             data->e.panel = 2;
             data->e.type = 11;
             break;
-        case 3: // Enable Technology
+        case (long)EffectVirtualTypeUP::EnableTechnology:
             data->e.panel = 1;
             data->e.type = 2;
             break;
-        case 4: // Disable Technology
+        case (long)EffectVirtualTypeUP::DisableTechnology:
             data->e.panel = 2;
             data->e.type = 2;
             break;
-        case 5: // Enable Tech For Any Civ
+        case (long)EffectVirtualTypeUP::EnableTechnologyAnyCiv:
             data->e.panel = 3;
             data->e.type = 2;
             break;
-        case 6: // Set HP
+        case (long)EffectVirtualTypeUP::SetHP:
             data->e.panel = 1;
             data->e.type = 27;
             break;
-        case 7: // Heal Object
+        case (long)EffectVirtualTypeUP::HealObject:
             data->e.panel = 2;
             data->e.type = 27;
             break;
-        case 8: // Set Aggressive
+        case (long)EffectVirtualTypeUP::SetAggressive:
             data->e.panel = 1;
             data->e.type = 22;
             break;
-        case 9: // Set Defensive
+        case (long)EffectVirtualTypeUP::SetDefensive:
             data->e.panel = 2;
             data->e.type = 22;
             break;
-        case 10: // Stand Ground
+        case (long)EffectVirtualTypeUP::SetStandGround:
             data->e.panel = 3;
             data->e.type = 22;
             break;
-        case 11: // No Attack Without Halt
+        case (long)EffectVirtualTypeUP::SetNoAttackWithoutHalt:
             data->e.panel = 4;
             data->e.type = 22;
             break;
-        case 12: // Resign
+        case (long)EffectVirtualTypeUP::Resign:
             data->e.panel = 1;
             data->e.type = 13;
             break;
-        case 13: // Flash Objects
+        case (long)EffectVirtualTypeUP::FlashObjects:
             data->e.panel = 1;
             data->e.type = 18;
             break;
-        case 14: // Set AP
+        case (long)EffectVirtualTypeUP::SetAP:
             data->e.panel = 1;
             data->e.type = 28;
             break;
-        case 24: // Snap View
+        case (long)EffectVirtualTypeUP::SnapView:
             data->e.panel = 1;
             data->e.type = 16;
             break;
+        case (long)EffectVirtualTypeUP::SetAISignal:
+            data->e.ai_goal = 774;
+            data->e.type = 10;
+            break;
+        case (long)EffectVirtualTypeUP::SetAISharedGloal:
+            data->e.ai_goal = -258;
+            data->e.type = 10;
+            break;
         }
-        if (newtype >=15 && newtype <= 23) { // Set control group 1-9
+        if (newtype >= (long)EffectVirtualTypeUP::SetControlGroup1 &&
+                newtype <= (long)EffectVirtualTypeUP::SetControlGroup9) {
             data->e.panel = newtype - 14;
             data->e.type = 29;
         }
         break;
-    default:
-	    EffectControls(dialog, data->e.type);
-	    // change to:
-	    //VirtualEffectControls(dialog, data->e.type);
     }
 
+	EffectControls(dialog, data->e.type);
+	// change to:
+	//VirtualEffectControls(dialog, data->e.type);
 	LoadEffect(dialog, data);
 }
 
@@ -935,6 +958,44 @@ const char warnInvalidE[] =
 
 const char warnWeirdResource[] =
 "The resource you selected is non-standard and may have unpredictable consequences.";
+
+void E_HandleChangeAISigSharedGoal(HWND dialog, EditEffect *data)
+{
+	int sig_or_sharedgoal = GetDlgItemInt(dialog, IDC_E_SIGGOAL, NULL, TRUE);
+
+    // can't do this. it will crash
+    // data->e.ai_goal = 5;
+    switch (scen.game) {
+    case UP:
+    case AOC:
+        switch (data->e.type) {
+        case 10: // AI Script Goal
+            if (data->e.ai_goal >= 774 && data->e.ai_goal <= 1029) {
+                if (sig_or_sharedgoal != CB_ERR && sig_or_sharedgoal >= 0) {
+	                // Set AI Signal
+                    data->e.ai_goal = sig_or_sharedgoal + 774;
+	                SetDlgItemInt(dialog, IDC_E_AIGOAL, data->e.ai_goal, TRUE);
+                } else {
+	                SetDlgItemInt(dialog, IDC_E_AIGOAL, 774, TRUE);
+                }
+	            return;
+            }
+            if (data->e.ai_goal >= -258 && data->e.ai_goal <= -3) {
+                if (sig_or_sharedgoal != CB_ERR && sig_or_sharedgoal >= 0) {
+                    // AI Shared Goal
+                    data->e.ai_goal = sig_or_sharedgoal - 258;
+	                SetDlgItemInt(dialog, IDC_E_AIGOAL, data->e.ai_goal, TRUE);
+                } else {
+	                SetDlgItemInt(dialog, IDC_E_AIGOAL, -258, TRUE);
+                }
+	            return;
+            }
+            break;
+        }
+        break;
+    }
+	SetDlgItemInt(dialog, IDC_E_AIGOAL, -1, TRUE);
+}
 
 void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 {
@@ -959,6 +1020,8 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 			{
 			    data->e = Effect();
 			    LoadEffect(dialog, data);
+			    SendMessageW(GetDlgItem(dialog, IDC_E_TRIG), CB_RESETCONTENT, 0, 0);
+	            data->TrigCallback(GetDlgItem(dialog, IDC_E_TRIG), data->e.trig_index);
 			}
 			break;
 
@@ -1000,6 +1063,15 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 			}
 			break;
 
+		}
+		break;
+
+	case EN_CHANGE:
+		switch (id)
+		{
+		case IDC_E_SIGGOAL:
+		    E_HandleChangeAISigSharedGoal(dialog, data);
+		    break;
 		}
 		break;
 
@@ -1048,7 +1120,7 @@ const char noteTrigDeleted[] =
 */
 BOOL Handle_WM_INITDIALOG(HWND dialog, class EditEffect* data)
 {
-	E_Init(dialog);
+	E_Init(dialog, data);
 
 	if (!data)
 	{
@@ -1057,10 +1129,11 @@ BOOL Handle_WM_INITDIALOG(HWND dialog, class EditEffect* data)
         return FALSE;
 	}
 
+    SetWindowLongPtr(dialog, DWLP_USER, (LPARAM)data);
+	EffectControls(dialog, data->e.type);
 	LoadEffect(dialog, data);
 
 	SetDialogUserData(dialog, data);
-	EffectControls(dialog, data->e.type);
 
     return TRUE;
 }

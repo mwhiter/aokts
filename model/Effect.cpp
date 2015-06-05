@@ -552,6 +552,18 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
+            case EffectType::PlaceFoundation:
+                convert << "place " << playerPronoun(s_player);
+                if (pUnit && pUnit->id()) {
+                    std::wstring unitname(pUnit->name());
+                    std::string un(unitname.begin(), unitname.end());
+                    convert << " " << un;
+                } else {
+                    convert << " INVALID EFFECT";
+                }
+                convert << " foundation at (" << location.x << ", " << location.y << ")";
+                stype.append(convert.str());
+                break;
             case EffectType::CreateObject:
                 convert << "create";
                 convert << " " << playerPronoun(s_player);

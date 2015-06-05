@@ -810,7 +810,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         }
 
         if (n_effects > 0)
-            ss << "something happens";
+            ss << "...";
         goto theend;
 theend:
         if (e_has_text) {

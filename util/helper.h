@@ -3,6 +3,10 @@
 
 #include <string>
 
+const long gibi = 1073741824; // gibi- 2^30 = 1024^3
+const long maxs31bit = gibi - 1;
+const long maxs32bit = 2147483647; // gibi * 2 - 1; // (2^31 - 1) max signed 32-bit 0x7FFFFFFF. 32 - 1 bit for the sign (leading 1 means -ve)
+
 bool replaced( std::string &s, const std::string &search, const std::string &replace );
 void replaceAll( std::string &s, const std::string &search, const std::string &replace );
 std::string &ltrim(std::string &s);

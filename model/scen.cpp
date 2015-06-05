@@ -120,7 +120,7 @@ const PerGame Scenario::pgAOK =
 	20,
 	24,
 	0,
-	0
+	2
 };
 
 const PerGame Scenario::pgAOC =
@@ -131,7 +131,7 @@ const PerGame Scenario::pgAOC =
 	42, // including 1 undefined
 	20,
 	30,
-	7,
+	3,
 	2
 };
 
@@ -143,7 +143,7 @@ const PerGame Scenario::pgUP =
 	42, // including 1 undefined
 	20,
 	34,
-	7,
+	3,
 	26
 };
 
@@ -156,7 +156,7 @@ const PerGame Scenario::pgSWGB =
 	22,
 	37,
 	0,
-	0
+	2
 };
 
 const PerGame Scenario::pgSWGBCC =
@@ -168,7 +168,7 @@ const PerGame Scenario::pgSWGBCC =
 	24,
 	39,
 	0,
-	0
+	2
 };
 
 const PerGame Scenario::pgAOHD =
@@ -180,7 +180,7 @@ const PerGame Scenario::pgAOHD =
 	20,
 	34,
 	0,
-	0
+	2
 };
 
 const PerGame Scenario::pgAOF = // these are not correct
@@ -192,7 +192,7 @@ const PerGame Scenario::pgAOF = // these are not correct
 	20,
 	34,
 	0,
-	0
+	2
 };
 
 /* The Scenario */
@@ -278,6 +278,8 @@ void Scenario::reset()
 	files = NULL;
 
 	memset(msg, 0, sizeof(msg));
+
+	adapt_game();
 }
 
 Scenario::AOKBMP::AOKBMP()
@@ -369,7 +371,7 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_aok;
         Effect::types_short = Effect::types_short_aok;
         Effect::virtual_types = Effect::virtual_types_aok;
-        printf_log("Data shows game is AOK\n");
+        printf_log("Game is AOK\n");
         break;
     case AOC:
 	    pergame = &pgAOC;
@@ -379,7 +381,7 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_aoc;
         Effect::types_short = Effect::types_short_aoc;
         Effect::virtual_types = Effect::virtual_types_aoc;
-        printf_log("Data shows game is AOC\n");
+        printf_log("Game is AOC\n");
         break;
     case UP:
 		pergame = &pgUP;
@@ -389,7 +391,7 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_up;
         Effect::types_short = Effect::types_short_up;
         Effect::virtual_types = Effect::virtual_types_up;
-        printf_log("Data shows game is AOC:UserPatch\n");
+        printf_log("Game is AOC:UserPatch\n");
         break;
     case AOF:
 	    pergame = &pgAOF;
@@ -399,7 +401,7 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_aof;
         Effect::types_short = Effect::types_short_aof;
         Effect::virtual_types = Effect::virtual_types_aof;
-        printf_log("Data shows game is AOF\n");
+        printf_log("Game is AOF\n");
         break;
     case AOHD:
 	    pergame = &pgAOHD;
@@ -409,7 +411,7 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_aohd;
         Effect::types_short = Effect::types_short_aohd;
         Effect::virtual_types = Effect::virtual_types_aohd;
-        printf_log("Data shows game is AOHD\n");
+        printf_log("Game is AOHD\n");
         break;
     case SWGB:
 	    pergame = &pgSWGB;
@@ -419,7 +421,7 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_swgb;
         Effect::types_short = Effect::types_short_swgb;
         Effect::virtual_types = Effect::virtual_types_swgb;
-        printf_log("Data shows game is SWGB\n");
+        printf_log("Game is SWGB\n");
         break;
     case SWGBCC:
 	    pergame = &pgSWGBCC;
@@ -429,10 +431,10 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_cc;
         Effect::types_short = Effect::types_short_cc;
         Effect::virtual_types = Effect::virtual_types_cc;
-        printf_log("Data shows game is SWGB:CC\n");
+        printf_log("Game is SWGB:CC\n");
         break;
     default:
-        printf_log("Data shows game is unknown: %d\n", game);
+        printf_log("Game is unknown: %d\n", game);
 	}
 }
 

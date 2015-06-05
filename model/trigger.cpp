@@ -168,7 +168,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	        n_conds++;
 	        last_cond = &(*iter);
 	        switch (iter->type) {
-	        case 3:  // own objects
+	        case (long)ConditionType::OwnObjects:
 	            {
 	                player = iter->player;
 	                c_own = true;
@@ -180,7 +180,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case 4:  // own fewer objects
+	        case (long)ConditionType::OwnFewerObjects:
 	            {
 	                player = iter->player;
 	                c_own_fewer = true;
@@ -192,7 +192,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case 5:  // objects in area
+	        case (long)ConditionType::ObjectsInArea:
 	            {
 	                player = iter->player;
 	                c_in_area = true;
@@ -204,11 +204,11 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case 6:  // destroy object
+	        case (long)ConditionType::DestroyObject:
 	            c_object_destroyed = true;
 	            vanquished_unit = iter->object;
 	            break;
-	        case 8:  // accumulate attribute
+	        case (long)ConditionType::AccumulateAttribute:
 	            switch (iter->res_type) {
 	            case 3:
 	                c_has_gold = true;
@@ -226,12 +226,12 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                break;
 	            }
 	            break;
-	        case 10:
+	        case (long)ConditionType::Timer:
 	            if (iter->timer > 0 && iter->timer > timer) {
 	                timer = iter->timer;
 	            }
 	            break;
-	        case 13:
+	        case (long)ConditionType::PlayerDefeated:
 	            defeat = true;
 	            deceased = iter->player;
 	            break;
@@ -247,10 +247,10 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	            text = iter->text.c_str();
 	        }
 	        switch (iter->type) {
-	        case 2:  // research
+	        case (long)EffectType::ResearchTechnology:
 	            e_research = true;
 	            break;
-	        case 3:  // send chat
+	        case (long)EffectType::SendChat:
 	            if (strlen(iter->text.c_str()) > 1) {
 	                e_chat = true;
 	                chat_text = iter->text.c_str();
@@ -258,7 +258,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                n_effects--;
 	            }
 	            break;
-	        case 4:  // play sound
+	        case (long)EffectType::Sound:
 	            if (strlen(iter->sound.c_str()) > 1) {
 	                e_sound = true;
 	                sound_name = iter->sound.c_str();
@@ -266,7 +266,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                n_effects--;
 	            }
 	            break;
-            case 5:  // send tribute
+            case (long)EffectType::SendTribute:
                 amount = iter->amount;
                 giver = iter->s_player;
                 receiver = iter->t_player;
@@ -303,18 +303,18 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
                 break;
-            case 8:  // activate
+            case (long)EffectType::ActivateTrigger:
                 e_activate = true;
                 e_n_activated ++;
                 //activated = scen.t_order[iter->trig_index];
                 activated = iter->trig_index;
                 break;
-            case 9:  // deactivate
+            case (long)EffectType::DeactivateTrigger:
                 e_deactivate = true;
                 e_n_deactivated ++;
                 deactivated = iter->trig_index;
                 break;
-	        case 11: // create unit
+	        case (long)EffectType::CreateObject:
 	            {
 	                player = iter->s_player;
 	                e_create_unit = true;
@@ -325,16 +325,16 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case 12: // task unit
+	        case (long)EffectType::TaskObject:
 	            e_task = true;
 	            break;
-	        case 13: // declare victory
+	        case (long)EffectType::DeclareVictory:
 	            if (iter->s_player > 0) {
 	                victor[iter->s_player] = true;
 	                victory = true;
 	            }
 	            break;
-	        case 14: // kill object
+	        case (long)EffectType::KillObject:
 	            {
 	                e_kill_object = true;
 	                player_decimated = iter->s_player;
@@ -345,7 +345,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case 15: // remove unit
+	        case (long)EffectType::RemoveObject:
 	            {
 	                player = iter->s_player;
 	                e_remove_unit = true;
@@ -356,7 +356,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case 18: // change ownership
+	        case (long)EffectType::ChangeOwnership:
 	            {
 	                convertee = iter->s_player;
 	                e_change_ownership = true;
@@ -367,17 +367,17 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case 26: // Rename
+	        case (long)EffectType::ChangeObjectName:
 	            e_rename = true;
 	            name = text;
 	            break;
-            case 24: // Damage
-            case 27: // HP
-            case 28: // Attack
-            case 30: // UP Speed
-            case 31: // UP Range
-            case 32: // UP Armor1
-            case 33: // UP Armor2
+            case (long)EffectType::DamageObject:
+            case (long)EffectType::ChangeObjectHP:
+            case (long)EffectType::ChangeObjectAttack:
+            case (long)EffectType::ChangeSpeed_UP:
+            case (long)EffectType::ChangeRange_UP:
+            case (long)EffectType::ChangeMeleArmor_UP:
+            case (long)EffectType::ChangePiercingArmor_UP:
                 amount = iter->amount;
                 if (iter->type == 24) {
                     amount = -amount;

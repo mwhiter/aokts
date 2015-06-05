@@ -10,6 +10,7 @@
 
 #include "../util/settings.h"
 #include "../res/resource.h"
+//#include "../model/Condition.h"
 #include "ecedit.h"
 #include "utilui.h"
 #include "LCombo.h"
@@ -29,27 +30,27 @@ void EditCondition::update(Trigger *t)
 
 // AoC v1.0c
 const char ctable_aok[Condition::NUM_CONDITIONS_AOK][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
-{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
-	{ 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Bring Object to Object
-	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Objects
-	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Fewer Objects
-	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 2, 2, 0 },	// Objects in Area
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Destroy Object
-	{ 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Capture Object
-	{ 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Accumulate Attribute
-	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Research Technology
-	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },	// Timer
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Selected
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },	// AI Signal
-	{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Player Defeated
-	{ 0, 0, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Object Has Target
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Visible
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
-	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
-	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // Difficulty Level
+{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
+	{ 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Bring Object to Object
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Fewer Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },	// Objects in Area
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Destroy Object
+	{ 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Capture Object
+	{ 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Accumulate Attribute
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Research Technology
+	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Timer
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Selected
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },	// AI Signal
+	{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Player Defeated
+	{ 0, 0, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Object Has Target
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Visible
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
+	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // Difficulty Level
 };
 
 // ../res/resource.h
@@ -57,65 +58,58 @@ const char ctable_aok[Condition::NUM_CONDITIONS_AOK][EditCondition::N_CONTROLS] 
 
 // SWGB
 const char ctable_swgb[Condition::NUM_CONDITIONS_SWGB][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
-{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
-	{ 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Bring Object to Object
-	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Objects
-	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Fewer Objects
-	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 2, 2, 0 },	// Objects in Area
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Destroy Object
-	{ 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Capture Object
-	{ 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Accumulate Attribute
-	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Research Technology
-	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },	// Timer
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Selected
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },	// AI Signal
-	{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Player Defeated
-	{ 0, 0, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Object Has Target
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Visible
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
-	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
-	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Difficulty Level
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // OwnFewerFoundations
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // SelectedObjectsInArea
+{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 15
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
+	{ 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Bring Object to Object
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Fewer Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },	// Objects in Area
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Destroy Object
+	{ 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Capture Object
+	{ 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Accumulate Attribute
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Research Technology
+	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Timer
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Selected
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },	// AI Signal
+	{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Player Defeated
+	{ 0, 0, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Object Has Target
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Visible
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
+	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // OwnFewerFoundations
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // SelectedObjectsInArea
 };
 
 // SWGB:CC
 const char ctable_cc[Condition::NUM_CONDITIONS_CC][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
-{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
-	{ 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Bring Object to Object
-	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Objects
-	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Own Fewer Objects
-	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 2, 2, 0 },	// Objects in Area
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Destroy Object
-	{ 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Capture Object
-	{ 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Accumulate Attribute
-	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Research Technology
-	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },	// Timer
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Selected
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },	// AI Signal
-	{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Player Defeated
-	{ 0, 0, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },	// Object Has Target
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Visible
-	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
-	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
-	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // Difficulty Level
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // OwnFewerFoundations
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // SelectedObjectsInArea
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // PoweredObjectsInArea
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // UnitsQueuedPastPopCap  (works in AOK??)
-};
-
-// AoC v1.4RC virtual conditions
-const char ctable_14RC_virtual[Condition::NUM_VIRTUAL_CONDITIONS_UP][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
-{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
-	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } 	// Detect Single Player Mode
+{	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // None
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 },  // Bring Object to Area
+	{ 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Bring Object to Object
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },  // Own Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },  // Own Fewer Objects
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },  // Objects in Area
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Destroy Object
+	{ 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Capture Object
+	{ 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Accumulate Attribute
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Research Technology
+	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Timer
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Object Selected
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },  // AI Signal
+	{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Player Defeated
+	{ 0, 0, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },  // Object Has Target
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Object Visible
+	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Object Not Visible
+	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Researching Tech
+	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Units Garrisoned
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // OwnFewerFoundations
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // SelectedObjectsInArea
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // PoweredObjectsInArea
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }   // UnitsQueuedPastPopCap  (works in AOK??)
 };
 
 void ConditionControls(HWND dialog, int type)
@@ -366,7 +360,7 @@ void C_HandleChangeType(HWND dialog, EditCondition *data)
 	static const char *promptClearCondition =
 		"Would you like to clear the condition? (Recommended)";
 
-	if (data->c.type != CONDITION_None &&
+	if (data->c.type != ConditionType::None &&
 		MessageBox(dialog, promptClearCondition, "Condition Editor", MB_YESNO) == IDYES)
 	{
 		// reset to default-constructor state

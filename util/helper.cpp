@@ -78,9 +78,6 @@ std::string time_string(unsigned int seconds, bool shortened) {
                     convert << " ";
                 }
                 convert << mins << " min";
-                if (mins > 1) {
-                    convert << "s";
-                }
             }
             input = true;
         }
@@ -92,9 +89,6 @@ std::string time_string(unsigned int seconds, bool shortened) {
                     convert << " ";
                 }
                 convert << seconds << " sec";
-                if (seconds > 1) {
-                    convert << "s";
-                }
             }
         }
     }

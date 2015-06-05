@@ -10,6 +10,7 @@
 
 #include "editors.h"
 
+#include "../util/helper.h"
 #include "../util/settings.h"
 #include "../res/resource.h"
 #include "../model/Effect.h"
@@ -235,7 +236,7 @@ const char etable1_aohd[Effect::NUM_EFFECTS_AOHD][EditEffect::N_CONTROLS] = // U
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object HP
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object Attack
 	{ 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Stop Unit
-	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Attack-move
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 1 },	// Attack-move
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Armor
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Speed
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Range
@@ -456,7 +457,21 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
     switch (scen.game) {
     case AOC:
         switch (e->type) {
-        case 10: // AI Script Goal
+        case (long)EffectType::DamageObject:
+            if (e->amount == -(maxs31bit + 1)) {
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::ZeroHealth, 0);
+	            SetDlgItemInt(dialog, IDC_E_AMOUNT, -(maxs31bit + 1), TRUE);
+	            return;
+            }
+            if (e->amount == -maxs32bit) {
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::Invincible, 0);
+	            SetDlgItemInt(dialog, IDC_E_AMOUNT, -maxs32bit, TRUE);
+	            return;
+            }
+            break;
+        case (long)EffectType::AIScriptGoal:
             if (e->ai_goal >= 774 && e->ai_goal <= 1029) {
 	            ENABLE_WND(IDC_E_SIGGOAL, true);
 	            ENABLE_WND(IDC_E_AIGOAL, false);
@@ -471,12 +486,18 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
 	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal + 258, TRUE);
 	            return;
             }
+            if (e->ai_goal == -260) {
+	            ENABLE_WND(IDC_E_SIGGOAL, true);
+	            ENABLE_WND(IDC_E_AIGOAL, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::EnableCheats, 0);
+	            return;
+            }
             break;
         }
         break;
     case UP:
         switch (e->type) {
-        case 2: // Research Technology
+        case (long)EffectType::ResearchTechnology:
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableTechnology, 0);
@@ -489,7 +510,7 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
 	            return;
             }
             break;
-        case 11: // Create Object
+        case (long)EffectType::CreateObject:
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableObject, 0);
@@ -499,28 +520,28 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
 	            return;
             }
             break;
-        case 16: // Change View
+        case (long)EffectType::ChangeView:
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SnapView, 0);
 	            return;
             }
             break;
-        case 13: // Declare Victory
+        case (long)EffectType::DeclareVictory:
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::Resign, 0);
 	            return;
             }
             break;
-        case 18: // Change Ownership
+        case (long)EffectType::ChangeOwnership:
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::FlashObjects, 0);
 	            return;
             }
             break;
-        case 22: // Freeze Object
+        case (long)EffectType::FreezeUnit:
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAggressive, 0);
@@ -536,7 +557,7 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
 	            return;
             }
             break;
-        case 27: // Change Object HP
+        case (long)EffectType::ChangeObjectHP:
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetHP, 0);
@@ -546,20 +567,20 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
 	            return;
             }
             break;
-        case 28: // Change Object Attack
+        case (long)EffectType::ChangeObjectAttack:
             switch (e->panel) {
             case 1:
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAP, 0);
 	            return;
             }
             break;
-        case 29: // Stop Unit
+        case (long)EffectType::StopUnit:
             if (e->panel >= 1 && e->panel <= 9) {
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetControlGroup1 + e->panel - 1, 0);
 	            return;
             }
             break;
-        case 10: // AI Script Goal
+        case (long)EffectType::AIScriptGoal:
             if (e->ai_goal >= 774 && e->ai_goal <= 1029) {
 	            ENABLE_WND(IDC_E_SIGGOAL, true);
 	            ENABLE_WND(IDC_E_AIGOAL, false);
@@ -572,6 +593,26 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
 	            ENABLE_WND(IDC_E_AIGOAL, false);
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAISharedGloal, 0);
 	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal + 258, TRUE);
+	            return;
+            }
+            if (e->ai_goal == -260) {
+	            ENABLE_WND(IDC_E_SIGGOAL, true);
+	            ENABLE_WND(IDC_E_AIGOAL, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableCheats, 0);
+	            return;
+            }
+            break;
+        case (long)EffectType::DamageObject:
+            if (e->amount == -(maxs31bit + 1)) {
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::ZeroHealth, 0);
+	            SetDlgItemInt(dialog, IDC_E_AMOUNT, -(maxs31bit + 1), TRUE);
+	            return;
+            }
+            if (e->amount == -maxs32bit) {
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::Invincible, 0);
+	            SetDlgItemInt(dialog, IDC_E_AMOUNT, -maxs32bit, TRUE);
 	            return;
             }
             break;
@@ -841,11 +882,23 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         switch (newtype) {
         case (long)EffectVirtualTypeAOC::SetAISignal:
             data->e.ai_goal = 774;
-            data->e.type = 10;
+            data->e.type = (long)EffectType::AIScriptGoal;
             break;
         case (long)EffectVirtualTypeAOC::SetAISharedGloal:
             data->e.ai_goal = -258;
-            data->e.type = 10;
+            data->e.type = (long)EffectType::AIScriptGoal;
+            break;
+        case (long)EffectVirtualTypeAOC::EnableCheats:
+            data->e.ai_goal = -260;
+            data->e.type = (long)EffectType::AIScriptGoal;
+            break;
+        case (long)EffectVirtualTypeAOC::ZeroHealth:
+            data->e.amount = -(maxs31bit + 1);
+            data->e.type = (long)EffectType::DamageObject;
+            break;
+        case (long)EffectVirtualTypeAOC::Invincible:
+            data->e.amount = -maxs32bit;
+            data->e.type = (long)EffectType::DamageObject;
             break;
         }
         break;
@@ -918,6 +971,18 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         case (long)EffectVirtualTypeUP::SetAISharedGloal:
             data->e.ai_goal = -258;
             data->e.type = 10;
+            break;
+        case (long)EffectVirtualTypeUP::EnableCheats:
+            data->e.ai_goal = -260;
+            data->e.type = 10;
+            break;
+        case (long)EffectVirtualTypeUP::ZeroHealth:
+            data->e.amount = -(maxs31bit + 1);
+            data->e.type = (long)EffectType::DamageObject;
+            break;
+        case (long)EffectVirtualTypeUP::Invincible:
+            data->e.amount = -maxs32bit;
+            data->e.type = (long)EffectType::DamageObject;
             break;
         }
         if (newtype >= (long)EffectVirtualTypeUP::SetControlGroup1 &&

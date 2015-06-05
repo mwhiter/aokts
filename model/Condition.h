@@ -36,32 +36,33 @@ struct ConditionVirtualTypeUP {
     };
 };
 
-enum ConditionType
-{
-	CONDITION_None,
-	CONDITION_BringObjectToArea,
-	CONDITION_BringObjectToObject,
-	CONDITION_OwnObjects,
-	CONDITION_OwnFewerObjects,
-	CONDITION_ObjectsInArea,
-	CONDITION_DestroyObject,
-	CONDITION_CaptureObject,
-	CONDITION_AccumulateAttribute,
-	CONDITION_ResearchTehcnology,
-	CONDITION_Timer,
-	CONDITION_ObjectSelected,
-	CONDITION_AISignal,
-	CONDITION_PlayerDefeated,
-	CONDITION_ObjectHasTarget,
-	CONDITION_ObjectVisible,
-	CONDITION_ObjectNotVisible,
-	CONDITION_ResearchingTechnology,
-	CONDITION_UnitsGarrisoned,
-	CONDITION_DifficultyLevel,
-	CONDITION_OwnFewerFoundations,   // (SWGB only)
-	CONDITION_SelectedObjectsInArea, // (SWGB only)
-	CONDITION_PoweredObjectsInArea,  // (SWGB only)
-	CONDITION_UnitsQueuedPastPopCap  // (works in AOK)
+struct ConditionType {
+    enum Value {
+	    None,
+	    BringObjectToArea,
+	    BringObjectToObject,
+	    OwnObjects,
+	    OwnFewerObjects,
+	    ObjectsInArea,
+	    DestroyObject,
+	    CaptureObject,
+	    AccumulateAttribute,
+	    ResearchTehcnology,
+	    Timer,
+	    ObjectSelected,
+	    AISignal,
+	    PlayerDefeated,
+	    ObjectHasTarget,
+	    ObjectVisible,
+	    ObjectNotVisible,
+	    ResearchingTechnology,
+	    UnitsGarrisoned,
+	    DifficultyLevel,
+	    OwnFewerFoundations_SWGB,
+	    SelectedObjectsInArea_SWGB,
+	    PoweredObjectsInArea_SWGB,
+	    UnitsQueuedPastPopCap_SWGB,
+	};
 };
 
 class Condition : public ECBase
@@ -76,6 +77,7 @@ public:
 	void write(FILE *out);
 	void tobuffer(Buffer &b) const;
 
+    std::string selectedUnits() const;
 	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const;
 
 	int getPlayer() const;
@@ -140,6 +142,13 @@ public:
 private:
 	void fromGenie(const struct Genie_Condition&);
 	struct Genie_Condition toGenie() const;
+
+    bool valid_full_map() const;
+    bool valid_partial_map() const;
+    bool valid_technology_spec() const;
+    bool valid_unit_spec() const;
+    bool valid_area() const;
+    bool valid_area_location() const;
 
 	bool valid_since_last_check;
 };

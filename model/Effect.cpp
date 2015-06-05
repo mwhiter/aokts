@@ -517,29 +517,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     convert << "no attack stance";
                     break;
                 }
-                convert << " " << selectedUnits();
-                if (valid_partial_map()) {
-                    if (valid_area_location()) {
-                        convert << " at (" << area.left << "," << area.top << ")";
-                    } else {
-                        switch (type) {
-                            case EffectType::UnlockGate:
-                            case EffectType::LockGate:
-                            case EffectType::FreezeUnit:
-                                convert << " in area";
-                                break;
-                            case EffectType::KillObject:
-                                convert << " within";
-                                break;
-                            default:
-                                convert << " from area";
-                        }
-                        convert << " (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-                    }
-                }
-                if (valid_location()) {
-                    convert << " at (" << location.x << ", " << location.y << ")";
-                }
+                convert << " " << getAffectedUnits();
                 stype.append(convert.str());
                 break;
             case EffectType::Unload:

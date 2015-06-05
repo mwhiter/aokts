@@ -97,8 +97,11 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
     const char * chat_text = "";
     const char * name = "";
     const char * sound_name = "";
-    std::string c_unit_type_name = "";
-    std::string e_unit_type_name = "";
+    std::string c_unit_type_name;
+    std::string e_unit_type_name;
+    std::string e_killed_units;
+    std::string e_damaged_units;
+    std::string e_set_hp_units;
     if (!tip) {
 	    ss << this->name;
 	    goto theendnotext;
@@ -146,6 +149,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         int giver = -1;
         int receiver = -1;
         int e_res_type = -1;
+        int e_set_hp_value = 0;
         int timer = -1;
         int n_conds = 0;
         int n_effects = 0;
@@ -336,6 +340,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	            break;
 	        case (long)EffectType::KillObject:
 	            {
+	                e_killed_units = iter->getAffectedUnits();
 	                e_kill_object = true;
 	                player_decimated = iter->s_player;
 	                e_has_unit_type = iter->pUnit && iter->pUnit->id();
@@ -372,6 +377,12 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	            name = text;
 	            break;
             case (long)EffectType::DamageObject:
+	            e_damaged_units = iter->getAffectedUnits();
+	            if (e_kill_object && e_killed_units.compare(e_damaged_units) == 0)  {
+	                e_set_hp_units = e_damaged_units;
+	                e_set_hp_value = -iter->amount;
+	                break;
+	            }
             case (long)EffectType::ChangeObjectHP:
             case (long)EffectType::ChangeObjectAttack:
             case (long)EffectType::ChangeSpeed_UP:
@@ -716,6 +727,11 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
             goto theend;
         }
 
+        if (!e_set_hp_units.empty()) {
+            ss << "set hp of  " << e_set_hp_units << " to " << e_set_hp_value;
+            goto theend;
+        }
+
         if (e_kill_object) {
             ss << "kill ";
             switch (player_decimated) {
@@ -822,34 +838,34 @@ bool compare_effect_nametip(const Effect& first,
     }
 
     switch (first.type) {
-    case 15: // remove must come before create (clear way for spawn)
+    case (long)EffectType::RemoveObject: // must come before create (clear way for spawn)
         s.insert (0, "creat ");
         break;
-    case 14: // kill must come after create (hawk explosions)
-    case 24: // Damage
-    case 26: // Rename
-    case 27: // HP -- change stats must come after create (hawk explosions)
-    case 28: // Attack
-    case 31: // Range (UP)
-    case 32: // Mele (UP)
-    case 33: // Piercing (UP)
-    case 18: // Change Ownership must come after create (non-convertible gaia)
+    case (long)EffectType::KillObject: // must come after create (hawk explosions)
+    case (long)EffectType::DamageObject:
+    case (long)EffectType::ChangeObjectName:
+    case (long)EffectType::ChangeObjectHP: // change stats must come after create (hawk explosions)
+    case (long)EffectType::ChangeObjectAttack:
+    case (long)EffectType::ChangeRange_UP:
+    case (long)EffectType::ChangeMeleArmor_UP:
+    case (long)EffectType::ChangePiercingArmor_UP:
+    case (long)EffectType::ChangeOwnership: // must come after create (non-convertible gaia)
         s.insert (0, "create");
     }
 
     switch (second.type) {
-    case 15: // remove must come before create (clear way for spawn)
+    case (long)EffectType::RemoveObject: // must come before create (clear way for spawn)
         s.insert (0, "creat ");
         break;
     case 14: // kill must come after create (hawk explosions)
-    case 24: // Damage
-    case 26: // Rename
-    case 27: // HP -- change stats must come after create (hawk explosions)
-    case 28: // Attack
-    case 31: // Range (UP)
-    case 32: // Mele (UP)
-    case 33: // Piercing (UP)
-    case 18: // Change Ownership must come after create (non-convertible gaia)
+    case (long)EffectType::DamageObject:
+    case (long)EffectType::ChangeObjectName:
+    case (long)EffectType::ChangeObjectHP: // change stats must come after create (hawk explosions)
+    case (long)EffectType::ChangeObjectAttack:
+    case (long)EffectType::ChangeRange_UP:
+    case (long)EffectType::ChangeMeleArmor_UP:
+    case (long)EffectType::ChangePiercingArmor_UP:
+    case (long)EffectType::ChangeOwnership: // must come after create (non-convertible gaia)
         t.insert (0, "create");
     }
 

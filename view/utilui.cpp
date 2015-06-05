@@ -244,3 +244,10 @@ void List_Clear(HWND dialog, int id)
 	HWND listbox = GetDlgItem(dialog, id);
 	SendMessage(listbox, LB_RESETCONTENT, 0, 0);
 }
+
+bool TSSetDlgItemInt(HWND hDlg, int nIDDlgItem, UINT uValue, BOOL bSigned) {
+	char text [16];
+    wsprintf(text, "%d", uValue);
+    return SetDlgItemText(hDlg, nIDDlgItem, text);
+}
+

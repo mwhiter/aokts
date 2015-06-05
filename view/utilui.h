@@ -168,4 +168,6 @@ LRESULT Combo_GetSelData(HWND combobox)
 			SendMessage(combobox, CB_GETCURSEL, 0, 0), 0);
 }
 
+bool TSSetDlgItemInt(HWND hDlg, int nIDDlgItem, UINT uValue, BOOL bSigned);
+
 #endif // INC_UTILUI_H

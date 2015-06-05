@@ -254,7 +254,8 @@ private:
 std::string Effect::getAffectedUnits() const {
     std::ostringstream convert;
     bool unit_set_selected = valid_unit_spec(); // also use unit class and type
-    convert << playerPronoun(s_player) << "'s ";
+    if (s_player >= 0)
+        convert << playerPronoun(s_player) << "'s ";
 	if (num_sel > 0) {
 	    if (num_sel == 1) {
             convert << "unit ";
@@ -372,76 +373,82 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case EffectType::SendTribute:
-                // 9999999999 result in 1410065407 because 9999999999 =
-                // 2*2^32 + 1410065407 and a long has 32 bits only.
-                if (amount == 1410065407) {
-                    // reset to 0
-                    convert << "reset ";
-                    convert << playerPronoun(s_player) << "'s";
-                } else if (amount >= 0) {
-                    convert << playerPronoun(s_player);
-                    if (t_player == 0) {
-                        convert << " loses";
+                {
+                    std::string amount_string;
+                    if (amount == TS_LONG_MAX || amount == TS_LONG_MIN) {
+                        amount_string = "max";
                     } else {
-                        convert << " gives ";
-                        convert << "p" << t_player;
-                    }
-                    convert << " " << amount << " ";
-                } else {
-                    if (t_player == 0) {
-                        if (res_type < 4) {
-                            convert << "p" << s_player << " silently gets " << -amount << " ";
+                        if (amount < 0) {
+                            amount_string = longToString(-amount);
                         } else {
-                            convert << "p" << s_player << " gets " << -amount << " ";
+                            amount_string = longToString(amount);
                         }
-                    } else {
-                        convert << "p" << t_player << " silently gives ";
+                    }
+                    if (amount >= 0) {
                         convert << playerPronoun(s_player);
-                        convert << " " << -amount << " ";
-                    }
-                }
-                switch (res_type) {
-                    case 0: // Food
-                        convert << "food";
-                        break;
-                    case 1: // Wood
-                        convert << "wood";
-                        break;
-                    case 2: // Stone
-                        convert << "stone";
-                        break;
-                    case 3: // Gold
-                        convert << "gold";
-                        break;
-                    case 20: // Units killed
-                        if (amount == 1) {
-                            convert << "kill";
+                        if (t_player == 0) {
+                            convert << " loses";
                         } else {
-                            convert << "kills";
+                            convert << " gives ";
+                            convert << "p" << t_player;
                         }
-                        break;
-                    default:
-                        //convert << types_short[type];
-                        if (res_type >= 0) {
-                            const Link * list = esdata.resources.head();
-	                        for (int i=0; list; list = list->next(), i++)
-	                        {
-		                        if (i == res_type) {
-                                    std::wstring resname(list->name());
-                                    convert << std::string( resname.begin(), resname.end());
-		                            break;
-		                        }
+                        convert << " " << amount_string << " ";
+                    } else {
+                        if (t_player == 0) {
+                            if (res_type < 4) {
+                                convert << "p" << s_player << " silently gets " << amount_string << " ";
+                            } else {
+                                convert << "p" << s_player << " gets " << amount_string << " ";
+                            }
+                        } else {
+                            convert << "p" << t_player << " silently gives ";
+                            convert << playerPronoun(s_player);
+                            convert << " " << amount_string << " ";
+                        }
+                    }
+                    switch (res_type) {
+                        case 0: // Food
+                            convert << "food";
+                            break;
+                        case 1: // Wood
+                            convert << "wood";
+                            break;
+                        case 2: // Stone
+                            convert << "stone";
+                            break;
+                        case 3: // Gold
+                            convert << "gold";
+                            break;
+                        case 20: // Units killed
+                            if (amount == 1) {
+                                convert << "kill";
+                            } else {
+                                convert << "kills";
+                            }
+                            break;
+                        default:
+                            //convert << types_short[type];
+                            if (res_type >= 0) {
+                                const Link * list = esdata.resources.head();
+	                            for (int i=0; list; list = list->next(), i++)
+	                            {
+		                            if (i == res_type) {
+                                        std::wstring resname(list->name());
+                                        convert << std::string( resname.begin(), resname.end());
+		                                break;
+		                            }
+	                            }
 	                        }
-	                    }
-                        break;
+                            break;
+                    }
+                    if (amount == 1410065407) {
+                        convert << " to 0";
+                    }
+                    if (amount >= 0 && t_player > 0) {
+                        convert << " (displays tribute alert)";
+                    }
+                    stype.append(convert.str());
                 }
-                if (amount == 1410065407) {
-                    convert << " to 0";
-                }
-                if (amount >= 0 && t_player > 0) {
-                    convert << " (displays tribute alert)";
-                }
-                stype.append(convert.str());
                 break;
             case EffectType::ActivateTrigger:
             case EffectType::DeactivateTrigger:
@@ -670,9 +677,9 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 break;
             case 24: // Damage
                 {
-                    if (amount == -(maxs31bit + 1)) {
-                        convert << "zero health for " << getAffectedUnits();
-                    } else if (amount == -maxs32bit) {
+                    if (amount == TS_LONG_MAX) {
+                        convert << "min health for " << getAffectedUnits();
+                    } else if (amount == TS_LONG_MIN) {
                         convert << "make " << getAffectedUnits() << "invincible";
                     } else {
                         if (amount < 0) {
@@ -1024,7 +1031,7 @@ const char *Effect::types_aok[] = {
 	"Create Object",
 	"Task Object",
 	"Declare Victory",
-	"Kill Object (Health=0)",
+	"Kill Object (Health=0,deselect)",
 	"Remove Object",
 	"Change View",
 	"Unload",
@@ -1051,7 +1058,7 @@ const char *Effect::types_aoc[] = {
 	"Create Object",
 	"Task Object",
 	"Declare Victory",
-	"Kill Object (Health=0)",
+	"Kill Object (Health=0,deselect)",
 	"Remove Object",
 	"Change View",
 	"Unload",
@@ -1084,7 +1091,7 @@ const char *Effect::types_up[] = {
 	"Create Object",
 	"Task Object",
 	"Declare Victory",
-	"Kill Object (Health=0)",
+	"Kill Object (Health=0,deselect)",
 	"Remove Object",
 	"Change View",
 	"Unload",
@@ -1121,7 +1128,7 @@ const char *Effect::types_swgb[] = {
 	"Create Object",
 	"Task Object",
 	"Declare Victory",
-	"Kill Object (Health=0)",
+	"Kill Object (Health=0,deselect)",
 	"Remove Object",
 	"Scroll View",
 	"Unload",
@@ -1161,7 +1168,7 @@ const char *Effect::types_cc[] = {
 	"Create Object",
 	"Task Object",
 	"Declare Victory",
-	"Kill Object (Health=0)",
+	"Kill Object (Health=0,deselect)",
 	"Remove Object",
 	"Scroll View",
 	"Unload",
@@ -1196,7 +1203,7 @@ const char *Effect::types_aohd[] = {
 	"Create Object",
 	"Task Object",
 	"Declare Victory",
-	"Kill Object (Health=0)",
+	"Kill Object (Health=0,deselect)",
 	"Remove Object",
 	"Change View",
 	"Unload",
@@ -1233,7 +1240,7 @@ const char *Effect::types_aof[] = {
 	"Create Object",
 	"Task Object",
 	"Declare Victory",
-	"Kill Object (Health=0)",
+	"Kill Object (Health=0,deselect)",
 	"Remove Object",
 	"Change View",
 	"Unload",
@@ -1534,8 +1541,8 @@ const char *Effect::virtual_types_up[] = {
     "Set Control Group 8",
     "Set Control Group 9",
     "Snap View",
-    "Zero Health",
-    "Invincible",
+    "Max Amount",
+    "Min Amount",
     "Set AI Signal",
     "Set AI Shared Goal",
     "Enable Cheats",
@@ -1543,8 +1550,8 @@ const char *Effect::virtual_types_up[] = {
 
 const char *Effect::virtual_types_aoc[] = {
     "",
-    "Zero Health",
-    "Invincible",
+    "Max Amount",
+    "Min Amount",
     "Set AI Signal",
     "Set AI Shared Goal",
     "Enable Cheats",
@@ -1553,36 +1560,36 @@ const char *Effect::virtual_types_aoc[] = {
 
 const char *Effect::virtual_types_aohd[] = {
     "",
-    "Zero Health",
-    "Invincible",
+    "Max Amount",
+    "Min Amount",
     "Freeze unit",
 };
 
 const char *Effect::virtual_types_aof[] = {
     "",
-    "Zero Health",
-    "Invincible",
+    "Max Amount",
+    "Min Amount",
     "Freeze unit",
 };
 
 const char *Effect::virtual_types_swgb[] = {
     "",
-    "Zero Health",
-    "Invincible",
+    "Max Amount",
+    "Min Amount",
     "Freeze unit"
 };
 
 const char *Effect::virtual_types_cc[] = {
     "",
-    "Zero Health",
-    "Invincible",
+    "Max Amount",
+    "Min Amount",
     "Freeze unit"
 };
 
 const char *Effect::virtual_types_aok[] = {
     ""
-    "Zero Health",
-    "Invincible",
+    "Max Amount",
+    "Min Amount",
 };
 
 const char** Effect::types;

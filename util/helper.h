@@ -3,9 +3,10 @@
 
 #include <string>
 
-const long gibi = 1073741824; // gibi- 2^30 = 1024^3
-const long maxs31bit = gibi - 1;
-const long maxs32bit = 2147483647; // gibi * 2 - 1; // (2^31 - 1) max signed 32-bit 0x7FFFFFFF. 32 - 1 bit for the sign (leading 1 means -ve)
+const long TS_LONG_MAX = 2147483647L; // gibi * 2 - 1; // (2^31 - 1) max signed 32-bit 0x7FFFFFFF. 32 - 1 bit for the sign (leading 1 means -ve)
+const long TS_LONG_MIN = -2147483648L;
+//const long TS_LONG_MAX = LONG_MAX;
+//const long TS_LONG_MIN = LONG_MIN;
 
 bool replaced( std::string &s, const std::string &search, const std::string &replace );
 void replaceAll( std::string &s, const std::string &search, const std::string &replace );
@@ -15,6 +16,7 @@ std::string &trim(std::string &s);
 std::string time_string(unsigned int seconds, bool shortened = false);
 std::string wstringToString(std::wstring ws);
 std::string wstringToString(const wchar_t * ws);
+std::string longToString(long l);
 
 // inline functions must reside in the header (the compiler needs access
 // to it)

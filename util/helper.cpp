@@ -122,3 +122,8 @@ std::string playerPronoun(int p) {
     return convert.str();
 }
 
+std::string longToString(long l) {
+    std::ostringstream convert;
+    convert << l;
+    return convert.str();
+}

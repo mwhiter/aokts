@@ -328,16 +328,6 @@ const char etable1_cc[Effect::NUM_EFFECTS_CC][EditEffect::N_CONTROLS] = // Using
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Input On
 };
 
-
-
-
-
-
-
-
-
-
-
 void EffectControls(HWND dialog, int type)
 {
 	int i;
@@ -455,19 +445,37 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
 	Effect *e = &data->e;
 
     switch (scen.game) {
+    case AOK:
+    case AOHD:
+    case AOF:
+    case SWGB:
+    case SWGBCC:
+        switch (e->type) {
+        case (long)EffectType::DamageObject:
+            if (e->amount == TS_LONG_MAX) {
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::MaxAmount, 0);
+	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MAX, TRUE);
+	            return;
+            }
+            if (e->amount == TS_LONG_MIN) {
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::MinAmount, 0);
+	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MIN, TRUE);
+	            return;
+            }
+            break;
+        }
+        break;
     case AOC:
         switch (e->type) {
         case (long)EffectType::DamageObject:
-            if (e->amount == -(maxs31bit + 1)) {
-	            ENABLE_WND(IDC_E_AMOUNT, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::ZeroHealth, 0);
-	            SetDlgItemInt(dialog, IDC_E_AMOUNT, -(maxs31bit + 1), TRUE);
+            if (e->amount == TS_LONG_MAX) {
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::MaxAmount, 0);
+	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MAX, TRUE);
 	            return;
             }
-            if (e->amount == -maxs32bit) {
-	            ENABLE_WND(IDC_E_AMOUNT, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::Invincible, 0);
-	            SetDlgItemInt(dialog, IDC_E_AMOUNT, -maxs32bit, TRUE);
+            if (e->amount == TS_LONG_MIN) {
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::MinAmount, 0);
+	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MIN, TRUE);
 	            return;
             }
             break;
@@ -603,16 +611,14 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
             }
             break;
         case (long)EffectType::DamageObject:
-            if (e->amount == -(maxs31bit + 1)) {
-	            ENABLE_WND(IDC_E_AMOUNT, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::ZeroHealth, 0);
-	            SetDlgItemInt(dialog, IDC_E_AMOUNT, -(maxs31bit + 1), TRUE);
+            if (e->amount == TS_LONG_MAX) {
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::MaxAmount, 0);
+	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MAX, TRUE);
 	            return;
             }
-            if (e->amount == -maxs32bit) {
-	            ENABLE_WND(IDC_E_AMOUNT, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::Invincible, 0);
-	            SetDlgItemInt(dialog, IDC_E_AMOUNT, -maxs32bit, TRUE);
+            if (e->amount == TS_LONG_MIN) {
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::MinAmount, 0);
+	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MIN, TRUE);
 	            return;
             }
             break;
@@ -667,7 +673,12 @@ void LoadEffect(HWND dialog, EditEffect *data)
 	Combo_SelectByData(GetDlgItem(dialog, IDC_E_GROUP), e->group);
 	Combo_SelectByData(GetDlgItem(dialog, IDC_E_UTYPE), e->utype);
 	LCombo_Select(dialog, IDC_E_RESEARCH, e->pTech);
-	SetDlgItemInt(dialog, IDC_E_AMOUNT, e->amount, TRUE);
+
+	char text [16];
+    wsprintf(text, "%d", e->amount);
+    SetDlgItemText (dialog, IDC_E_AMOUNT, text);
+	//SetDlgItemInt(dialog, IDC_E_AMOUNT, e->amount, TRUE);
+
 	LCombo_SelById(dialog, IDC_E_RESTYPE, e->res_type);
 	SetDlgItemInt(dialog, IDC_E_TRIGID, e->trig_index, TRUE);
 	if (e->pUnit) {
@@ -875,9 +886,29 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
 	    return;
 	}
 
-	data->e = Effect();
+	switch (newtype) {
+    case (long)EffectVirtualTypeAOC::MaxAmount:
+    case (long)EffectVirtualTypeAOC::MinAmount:
+        break;
+    default:
+	    data->e = Effect();
+    }
 
     switch (scen.game) {
+    case AOHD:
+    case AOF:
+    case SWGB:
+    case SWGBCC:
+    case AOK:
+        switch (newtype) {
+        case (long)EffectVirtualTypeAOC::MaxAmount:
+            data->e.amount = TS_LONG_MAX;
+            break;
+        case (long)EffectVirtualTypeAOC::MinAmount:
+            data->e.amount = TS_LONG_MIN;
+            break;
+        }
+        break;
     case AOC:
         switch (newtype) {
         case (long)EffectVirtualTypeAOC::SetAISignal:
@@ -892,13 +923,11 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
             data->e.ai_goal = -260;
             data->e.type = (long)EffectType::AIScriptGoal;
             break;
-        case (long)EffectVirtualTypeAOC::ZeroHealth:
-            data->e.amount = -(maxs31bit + 1);
-            data->e.type = (long)EffectType::DamageObject;
+        case (long)EffectVirtualTypeAOC::MaxAmount:
+            data->e.amount = TS_LONG_MAX;
             break;
-        case (long)EffectVirtualTypeAOC::Invincible:
-            data->e.amount = -maxs32bit;
-            data->e.type = (long)EffectType::DamageObject;
+        case (long)EffectVirtualTypeAOC::MinAmount:
+            data->e.amount = TS_LONG_MIN;
             break;
         }
         break;
@@ -976,12 +1005,12 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
             data->e.ai_goal = -260;
             data->e.type = 10;
             break;
-        case (long)EffectVirtualTypeUP::ZeroHealth:
-            data->e.amount = -(maxs31bit + 1);
+        case (long)EffectVirtualTypeUP::MaxAmount:
+            data->e.amount = TS_LONG_MAX;
             data->e.type = (long)EffectType::DamageObject;
             break;
-        case (long)EffectVirtualTypeUP::Invincible:
-            data->e.amount = -maxs32bit;
+        case (long)EffectVirtualTypeUP::MinAmount:
+            data->e.amount = TS_LONG_MIN;
             data->e.type = (long)EffectType::DamageObject;
             break;
         }

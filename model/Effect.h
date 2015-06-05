@@ -41,8 +41,8 @@ struct EffectVirtualTypeUP {
 	    SetControlGroup8,
 	    SetControlGroup9,
 	    SnapView,
-	    ZeroHealth,
-	    Invincible,
+	    MaxAmount,
+	    MinAmount,
 	    SetAISignal,
 	    SetAISharedGloal,
 	    EnableCheats,
@@ -52,8 +52,8 @@ struct EffectVirtualTypeUP {
 struct EffectVirtualTypeAOK {
     enum Value {
 	    None,
-	    ZeroHealth,
-	    Invincible,
+	    MaxAmount,
+	    MinAmount,
 	    ReseedFarm,
     };
 };
@@ -61,16 +61,16 @@ struct EffectVirtualTypeAOK {
 struct EffectVirtualTypeSWGB {
     enum Value {
 	    None,
-	    ZeroHealth,
-	    Invincible,
+	    MaxAmount,
+	    MinAmount,
     };
 };
 
 struct EffectVirtualTypeAOC {
     enum Value {
 	    None,
-	    ZeroHealth,
-	    Invincible,
+	    MaxAmount,
+	    MinAmount,
 	    SetAISignal,
 	    SetAISharedGloal,
 	    EnableCheats,
@@ -82,8 +82,8 @@ struct EffectVirtualTypeAOC {
 struct EffectVirtualTypeAOHD {
     enum Value {
 	    None,
-	    ZeroHealth,
-	    Invincible,
+	    MaxAmount,
+	    MinAmount,
 	    FreezeUnit,
 	    ReseedFarm,
     };
@@ -92,8 +92,8 @@ struct EffectVirtualTypeAOHD {
 struct EffectVirtualTypeAOF {
     enum Value {
 	    None,
-	    ZeroHealth,
-	    Invincible,
+	    MaxAmount,
+	    MinAmount,
 	    FreezeUnit,
 	    ReseedFarm,
     };

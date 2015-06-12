@@ -994,6 +994,11 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		SetWindowText(propdata.statusbar, "Trigger contitions and effects sorted alphanumerically");
 		break;
 
+	case ID_TRIGGERS_NOPANEL:
+		scen.remove_panel_from_instructions();
+		SetWindowText(propdata.statusbar, "Panel ID removed from all display instructions effects");
+		break;
+
 	case ID_TRIGGERS_HIDENAMES:
 		scen.remove_trigger_names();
 		SetWindowText(propdata.statusbar, "Trigger names removed");

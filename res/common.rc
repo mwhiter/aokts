@@ -150,6 +150,10 @@ BEGIN
             MENUITEM "UserPatch to 1.0C",           IDC_P_TO1C
             MENUITEM "UserPatch to AOFE",           IDC_P_TOAOFE
         END
+        POPUP "Refactoring"
+        BEGIN
+            MENUITEM "Remove Panel ID from display instructions",  ID_TRIGGERS_NOPANEL
+        END
         MENUITEM "Confine to map boundaries",   ID_TRIGGERS_FIXTRIGGEROUTLIERS
     END
     POPUP "&Tools"

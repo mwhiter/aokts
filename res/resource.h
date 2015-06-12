@@ -458,3 +458,4 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define ID_MAP_WATER_CLIFF_INVISIBLE        0xE15A
 #define ID_MAP_WATER_CLIFF_VISIBLE          0xE15B
 #define ID_TRIGGERS_FIXTRIGGEROUTLIERS      0xE15C
+#define ID_TRIGGERS_NOPANEL                0xE15D

@@ -418,7 +418,7 @@ void EffectControls(HWND dialog, int type)
 }
 
 const char *dnames[4] = { "Ally", "Neutral", "Unknown", "Enemy" };
-const char *pnames[3] = { "Objectives", "Hints", "Scouts" };
+const char *pnames[4] = { "None (-1)", "Objectives (0)", "Hints (1)", "Scouts (2)" };
 const wchar_t *noselecte = L"<none>";
 
 void E_Init(HWND dialog, EditEffect *data)
@@ -433,7 +433,7 @@ void E_Init(HWND dialog, EditEffect *data)
 	Combo_Fill(dialog, IDC_E_SPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, EC_NUM_PLAYERS);
 	Combo_Fill(dialog, IDC_E_DSTATE, dnames, 4);
-	Combo_Fill(dialog, IDC_E_PANEL, pnames, 3); // should this be 4?
+	Combo_Fill(dialog, IDC_E_PANEL, pnames, 4); // should this be 5?
 	LCombo_Fill(dialog, IDC_E_RESEARCH, esdata.techs.head());
 	LCombo_Fill(dialog, IDC_E_RESTYPE, esdata.resources.head());
 	Combo_PairFill(GetDlgItem(dialog, IDC_E_GROUP), NUM_GROUPS, groups);
@@ -643,8 +643,10 @@ void LoadEffect(HWND dialog, EditEffect *data)
 	SetDlgItemText(dialog, IDC_E_SOUND, e->sound.c_str());
 	SetDlgItemInt(dialog, IDC_E_SOUNDID, e->soundid, TRUE);
 
-	if (e->panel >= 0 && e->panel <= 2) {
-	    SendDlgItemMessage(dialog, IDC_E_PANEL, CB_SETCURSEL, e->panel, 0);
+    if (e->panel == -1) {
+	    SendDlgItemMessage(dialog, IDC_E_PANEL, CB_SETCURSEL, 0, 0);
+    } else if (e->panel >= 0 && e->panel <= 2) {
+	    SendDlgItemMessage(dialog, IDC_E_PANEL, CB_SETCURSEL, e->panel + 1, 0);
 	} else {
 	    SetDlgItemInt(dialog, IDC_E_PANEL, e->panel, TRUE);
 	}
@@ -715,6 +717,11 @@ void SaveEffect(HWND dialog, EditEffect *data)
 
             GetWindowText(GetDlgItem(dialog, IDC_E_PANEL), panelname);
 		    panel = SendDlgItemMessage(dialog, IDC_E_PANEL, CB_FINDSTRING, -1, (LPARAM) (LPCTSTR)panelname.c_str());
+		    if (panel == 0) {
+		        panel = -1;
+		    } else {
+		        panel -= 1;
+		    }
 
 		    if (panel == CB_ERR)
 		        panel = -1;

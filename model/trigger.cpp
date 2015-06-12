@@ -687,6 +687,11 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
             goto theend;
         }
 
+        if (only_one_cond && c_own) {
+            ss << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
+            goto theendnotext;
+        }
+
         if (c_in_area && e_remove_unit) {
             switch (player) {
                 case -1:

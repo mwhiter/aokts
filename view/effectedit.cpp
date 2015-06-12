@@ -736,6 +736,7 @@ void SaveEffect(HWND dialog, EditEffect *data)
 		e->diplomacy = (enum Diplomacy)SendDlgItemMessage(dialog, IDC_E_DSTATE, CB_GETCURSEL, 0, 0);
 		e->location.x = GetDlgItemInt(dialog, IDC_E_LOCX, NULL, TRUE);
 		e->location.y = GetDlgItemInt(dialog, IDC_E_LOCY, NULL, TRUE);
+		e->uid_loc = GetDlgItemInt(dialog, IDC_E_LOCUID, NULL, TRUE);
 		e->area.left = GetDlgItemInt(dialog, IDC_E_AREAX1, NULL, TRUE);
 		e->area.bottom = GetDlgItemInt(dialog, IDC_E_AREAY1, NULL, TRUE);
 		e->area.right = GetDlgItemInt(dialog, IDC_E_AREAX2, NULL, TRUE);
@@ -1141,7 +1142,7 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 			if (SingleUnitSelDialogBox(dialog, data->players,
 				data->e.uid_loc, (data->e.uid_loc != -1)))
 			{
-				SetDlgItemInt(dialog, IDC_E_LOCUID, data->e.uid_loc, FALSE);
+				SetDlgItemInt(dialog, IDC_E_LOCUID, data->e.uid_loc, TRUE);
 			}
 			break;
 

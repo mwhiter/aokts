@@ -1905,39 +1905,59 @@ AOKTS_ERROR Scenario::duplicate_triggers(size_t start, size_t end, size_t to) {
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::swap_triggers(long id_a, long id_b) {
+    size_t num = triggers.size();
+    // swap these triggers' IDs (positions)
+    iter_swap(triggers.begin() + id_a, triggers.begin() + id_b);
+    for (size_t k = 0; k < num; k++) {
+        for (size_t ie = 0; ie < triggers.at(k).effects.size(); ie++) {
+            if (triggers.at(k).effects.at(ie).trig_index == id_a) {
+                triggers.at(k).effects.at(ie).trig_index = id_b;
+            } else if (triggers.at(k).effects.at(ie).trig_index == id_b) {
+                triggers.at(k).effects.at(ie).trig_index = id_a;
+            }
+        }
+    }
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::sync_triggers() {
+    // Before doing this, make sure no trigger display orders are set to
+    // -1 (not really set). Use the trigview.
+
 	size_t num = triggers.size();
 	if (num > 0) {
         for (size_t i = 0; i < num; i++) {
-            if (triggers.at(i).display_order != (long)i) {
+            // if DO == ID
+            if (triggers.at(i).display_order == (long)i) {
+                // increment the display order of any other triggers that have same display order
                 for (size_t j = i+1; j < num; j++) {
                     if (triggers.at(j).display_order == (long)i) {
-                        iter_swap(triggers.begin() + i, triggers.begin() + j);
-                        for (size_t k = 0; k < num; k++) {
-                            for (size_t ie = 0; ie < triggers.at(k).effects.size(); ie++) {
-                                if (triggers.at(k).effects.at(ie).trig_index == i) {
-                                    triggers.at(k).effects.at(ie).trig_index = j;
-                                } else if (triggers.at(k).effects.at(ie).trig_index == j) {
-                                    triggers.at(k).effects.at(ie).trig_index = i;
-                                }
+                        triggers.at(j).display_order++;
+                    }
+                }
+            // if DO != ID
+            } else {
+                // check each following trigger (trigger with larger ID) for DO == reference ID (of original trigger)
+                bool swapped = false; // only swap once, then increment for the rest
+                for (size_t j = i+1; j < num; j++) {
+                    if (triggers.at(j).display_order == (long)i) {
+                        if (!swapped) {
+                            swap_triggers(i, j); // only taking one of them
+                            swapped = true;
+                        } else {
+                            if (triggers.at(j).display_order == (long)i) {
+                                triggers.at(j).display_order++;
                             }
                         }
                     }
                 }
+                if (!swapped) {
+                    triggers.at(i).display_order = i;
+                }
             }
-		    //// save the trigger display order to the trigger objects
-		    //for (unsigned int j = 0; j < n_trigs; j++) {
-			//    //printf("%hu\n",j);
-			//    triggers.at(t_order[j]).display_order = j;
-		    //}
-			//triggers.at(.display_order = j;
 			t_order[i] = i;
-
-		    //*t_order.begin() = i;
         }
-        //for (size_t i = 0; i < num; i++) {
-        //    t_order[triggers.at(i).display_order] = i;
-        //}
     }
 
 	return ERR_none;
@@ -2882,6 +2902,27 @@ AOKTS_ERROR Scenario::sort_conds_effects()
 	{
 		trig->sort_effects();
 		trig->sort_conditions();
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::remove_panel_from_instructions() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        if (iter->type == EffectType::DisplayInstructions) {
+	            iter->panel = -1;
+	        }
+		}
 		trig++;
 	}
 	return ERR_none;

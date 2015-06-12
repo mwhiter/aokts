@@ -238,7 +238,7 @@ public:
 	double	trigver;
 	char    objstate;
 	std::vector<Trigger> triggers;
-	std::vector<unsigned long> t_order;
+	std::vector<unsigned long> t_order; // index = trigger display order, value = trigger id
 
 	long unk3; // TODO: rename
 	long unk4;
@@ -336,6 +336,7 @@ public:
 
     AOKTS_ERROR compress_unit_ids();
     AOKTS_ERROR sort_conds_effects();
+    AOKTS_ERROR remove_panel_from_instructions();
     AOKTS_ERROR map_change_elevation(const RECT &target, int adjustment);
     AOKTS_ERROR map_repeat(const RECT &target, const POINT &source, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_delete(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
@@ -353,6 +354,7 @@ public:
     AOKTS_ERROR swap_players(int a, int b);
     AOKTS_ERROR delete_triggers(size_t start, size_t end);
     AOKTS_ERROR duplicate_triggers(size_t start, size_t end, size_t to);
+    AOKTS_ERROR swap_triggers(long id_a, long id_b);
     AOKTS_ERROR sync_triggers();
 
 	int getPlayerCount();

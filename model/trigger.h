@@ -32,6 +32,9 @@ public:
 
 	const static size_t MAX_TRIGNAME = 128;
 
+    // the display order is not written along with the rest of the
+    // trigger's data. all display orders are recorded and loaded from
+    // t_order.
 	long display_order;
 	long state;
 	char loop;

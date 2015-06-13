@@ -130,8 +130,7 @@ void SString::lock()
 }
 
 /*
- * len is optionally, the length already determined. So no need to read
- * again.
+ * len is optional for already determined. So no need to read again.
  */
 bool SString::read(FILE *in, size_t lensize, unsigned long len)
 {

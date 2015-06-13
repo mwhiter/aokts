@@ -994,9 +994,39 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		SetWindowText(propdata.statusbar, "Trigger contitions and effects sorted alphanumerically");
 		break;
 
+	case ID_TRIGGERS_NOINSTRUCTIONSSOUND:
+		scen.instructions_sound_text_set();
+		SetWindowText(propdata.statusbar, "Sound text set to null");
+		break;
+
+	case ID_TRIGGERS_NOINSTRUCTIONSSOUNDID:
+		scen.instructions_sound_id_set(-1);
+		SetWindowText(propdata.statusbar, "Sound ID set to -1 for all display instructions effects");
+		break;
+
+	case ID_TRIGGERS_ZEROINSTRUCTIONSSOUNDID:
+		scen.instructions_sound_id_set(0);
+		SetWindowText(propdata.statusbar, "Sound ID set to 0 for all display instructions effects");
+		break;
+
 	case ID_TRIGGERS_NOPANEL:
-		scen.remove_panel_from_instructions();
+		scen.instructions_panel_set(-1);
 		SetWindowText(propdata.statusbar, "Panel ID removed from all display instructions effects");
+		break;
+
+	case ID_TRIGGERS_ZEROPANEL:
+		scen.instructions_panel_set(0);
+		SetWindowText(propdata.statusbar, "Panel ID set to 0 for all display instructions effects");
+		break;
+
+	case ID_TRIGGERS_ZERODI:
+		scen.instructions_string_zero();
+		SetWindowText(propdata.statusbar, "String ID set to 0 for all display instructions effects");
+		break;
+
+	case ID_TRIGGERS_RESETDI:
+		scen.instructions_string_reset();
+		SetWindowText(propdata.statusbar, "String ID set to -1 for all display instructions effects");
 		break;
 
 	case ID_TRIGGERS_HIDENAMES:

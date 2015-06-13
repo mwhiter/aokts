@@ -14,7 +14,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define VER_MINOR 0x00001
 #define VER_BUGFIX 0x0000
 #define VER_BUILD 0x0000
-#define VER_STRING "1.2.0.41"
+#define VER_STRING "1.2.0.42"
 #define URL "http://goo.gl/BTYOSh"
 
 /* Custom controls */
@@ -458,4 +458,11 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define ID_MAP_WATER_CLIFF_INVISIBLE        0xE15A
 #define ID_MAP_WATER_CLIFF_VISIBLE          0xE15B
 #define ID_TRIGGERS_FIXTRIGGEROUTLIERS      0xE15C
-#define ID_TRIGGERS_NOPANEL                0xE15D
+#define ID_TRIGGERS_NOPANEL                 0xE15D
+#define ID_TRIGGERS_ZERODI                  0xE15E
+#define ID_TRIGGERS_RESETDI                 0xE15F
+#define ID_TRIGGERS_ZEROPANEL               0xE160
+#define ID_TRIGGERS_HINTSPANEL              0xE161
+#define ID_TRIGGERS_ZEROINSTRUCTIONSSOUNDID 0xE162
+#define ID_TRIGGERS_NOINSTRUCTIONSSOUNDID   0xE163
+#define ID_TRIGGERS_NOINSTRUCTIONSSOUND     0xE164

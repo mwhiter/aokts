@@ -142,8 +142,8 @@ void Effect::write(FILE *out)
 	Genie_Effect genie = toGenie();
 	writebin(out, &genie);
 
-	text.write(out, sizeof(long));
-	sound.write(out, sizeof(long));
+	text.write(out, sizeof(long), true);
+	sound.write(out, sizeof(long), true);
 	if (num_sel > 0)
 		fwrite(uids, sizeof(long), num_sel, out);
 }

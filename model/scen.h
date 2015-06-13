@@ -336,7 +336,11 @@ public:
 
     AOKTS_ERROR compress_unit_ids();
     AOKTS_ERROR sort_conds_effects();
-    AOKTS_ERROR remove_panel_from_instructions();
+    AOKTS_ERROR instructions_sound_id_set(long value);
+    AOKTS_ERROR instructions_sound_text_set();
+    AOKTS_ERROR instructions_string_zero();
+    AOKTS_ERROR instructions_string_reset();
+    AOKTS_ERROR instructions_panel_set(long value);
     AOKTS_ERROR map_change_elevation(const RECT &target, int adjustment);
     AOKTS_ERROR map_repeat(const RECT &target, const POINT &source, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_delete(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);

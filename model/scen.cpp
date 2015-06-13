@@ -2907,7 +2907,7 @@ AOKTS_ERROR Scenario::sort_conds_effects()
 	return ERR_none;
 }
 
-AOKTS_ERROR Scenario::remove_panel_from_instructions() {
+AOKTS_ERROR Scenario::instructions_panel_set(long value) {
 	long num = triggers.size();
 	if (num < 1)
 	    return ERR_none;
@@ -2920,7 +2920,91 @@ AOKTS_ERROR Scenario::remove_panel_from_instructions() {
 	    // effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
 	        if (iter->type == EffectType::DisplayInstructions) {
-	            iter->panel = -1;
+	            iter->panel = value;
+	        }
+		}
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::instructions_sound_id_set(long value) {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        if (iter->type == EffectType::DisplayInstructions) {
+	            iter->soundid = value;
+	        }
+		}
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::instructions_sound_text_set() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        if (iter->type == EffectType::DisplayInstructions) {
+	            iter->sound.erase();
+	        }
+		}
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::instructions_string_zero() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        if (iter->type == EffectType::DisplayInstructions) {
+	            iter->textid = 0;
+	        }
+		}
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::instructions_string_reset() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        if (iter->type == EffectType::DisplayInstructions) {
+	            iter->textid = -1;
 	        }
 		}
 		trig++;

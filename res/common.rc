@@ -125,6 +125,8 @@ BEGIN
     BEGIN
         MENUITEM "Status &Bar",                 ID_VIEW_STATUS_BAR, CHECKED
         MENUITEM "&Map Viewer",                 ID_VIEW_MAP, CHECKED
+        MENUITEM "&Draw Terrain (A)",           ID_DRAW_TERRAIN, CHECKED
+        MENUITEM "&Draw Elevation (V)",         ID_DRAW_ELEVATION, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "&Statistics...",              ID_VIEW_STATISTICS
     END

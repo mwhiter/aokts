@@ -77,6 +77,8 @@ public:
 	bool drawconds;
 	bool draweffects;
 	bool drawlocations;
+	bool drawterrain;
+	bool drawelevation;
 	char drawplayer[9];
 
 	//[Minimap]

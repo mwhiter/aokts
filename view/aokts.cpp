@@ -1126,6 +1126,38 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		}
 		break;
 
+	case ID_DRAW_TERRAIN:
+		if (GetMenuState(GetMenu(sheet), ID_DRAW_TERRAIN, MF_BYCOMMAND) & MF_CHECKED)
+		{
+		    setts.drawterrain = false;
+			// clear check
+			CheckMenuItem(GetMenu(sheet), ID_DRAW_TERRAIN, MF_BYCOMMAND);
+		}
+		else
+		{
+		    setts.drawterrain = true;
+			// clear check
+			CheckMenuItem(GetMenu(sheet), ID_DRAW_TERRAIN, MF_BYCOMMAND | MF_CHECKED);
+		}
+		SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+		break;
+
+	case ID_DRAW_ELEVATION:
+		if (GetMenuState(GetMenu(sheet), ID_DRAW_ELEVATION, MF_BYCOMMAND) & MF_CHECKED)
+		{
+		    setts.drawelevation = false;
+			// clear check
+			CheckMenuItem(GetMenu(sheet), ID_DRAW_ELEVATION, MF_BYCOMMAND);
+		}
+		else
+		{
+		    setts.drawelevation = true;
+			// clear check
+			CheckMenuItem(GetMenu(sheet), ID_DRAW_ELEVATION, MF_BYCOMMAND | MF_CHECKED);
+		}
+		SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+		break;
+
 	case ID_EDIT_ALL:
 		if (GetMenuState(GetMenu(sheet), ID_EDIT_ALL, MF_BYCOMMAND) & MF_CHECKED)
 		{

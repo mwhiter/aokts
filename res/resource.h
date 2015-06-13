@@ -466,3 +466,5 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define ID_TRIGGERS_ZEROINSTRUCTIONSSOUNDID 0xE162
 #define ID_TRIGGERS_NOINSTRUCTIONSSOUNDID   0xE163
 #define ID_TRIGGERS_NOINSTRUCTIONSSOUND     0xE164
+#define ID_DRAW_TERRAIN                     0xE165
+#define ID_DRAW_ELEVATION                   0xE166

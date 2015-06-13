@@ -75,6 +75,8 @@ bool Setts::load()
 	drawconds = GetPrivateProfileInt("Advanced", "DrawConds", 1, path) != 0;
 	draweffects = GetPrivateProfileInt("Advanced", "DrawEffects", 1, path) != 0;
 	drawlocations = GetPrivateProfileInt("Advanced", "DrawLocations", 1, path) != 0;
+	drawterrain = GetPrivateProfileInt("Advanced", "DrawTerrain", 1, path) != 0;
+	drawelevation = GetPrivateProfileInt("Advanced", "DrawElevation", 1, path) != 0;
 	drawplayer[0] = GetPrivateProfileInt("Advanced", "DrawPlayer1", 1, path) != 0;
 	drawplayer[1] = GetPrivateProfileInt("Advanced", "DrawPlayer2", 1, path) != 0;
 	drawplayer[2] = GetPrivateProfileInt("Advanced", "DrawPlayer3", 1, path) != 0;

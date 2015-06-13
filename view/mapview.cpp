@@ -29,6 +29,7 @@
 
 /* Brushes (created with window) */
 std::vector<std::vector<HBRUSH>> tBrushes;
+std::vector<HBRUSH> eBrushes; // elevation only
 HBRUSH *pBrushes;
 HBRUSH bWhite, bGrey, bDarkGrey, bBlack;
 
@@ -585,7 +586,15 @@ void PaintMap(HDC dcdest)
 			area.right = rx + setts.zoom;
 			area.top = ry;
 			area.bottom = ry + setts.zoom;
-			FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(parse->elev));
+			if (setts.drawelevation && setts.drawterrain) {
+			    FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(parse->elev));
+			} else if (setts.drawelevation) {
+			    FillRect(data.copydc, &area, eBrushes.at(parse->elev));
+			} else if (setts.drawterrain) {
+			    FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(0));
+			} else {
+			    FillRect(data.copydc, &area, eBrushes.at(0));
+			}
 		}
 	}
 
@@ -661,6 +670,18 @@ void Refresh(HWND window, BOOL erase)
 
 	/* now repaint the window */
 	InvalidateRect(window, NULL, erase);
+}
+
+void HandleToggleElevation(HWND window)
+{
+    setts.drawelevation = !setts.drawelevation;
+	Refresh(window, FALSE);
+}
+
+void HandleToggleTerrain(HWND window)
+{
+    setts.drawterrain = !setts.drawterrain;
+	Refresh(window, FALSE);
 }
 
 void HandleToggleTriggers(HWND window)
@@ -907,6 +928,17 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 		    //tBrushes[i].push_back(CreateSolidBrush(tmp));
 		    tBrushes[i].push_back(CreateSolidBrush(tmp));
 	    }
+	}
+
+	eBrushes.reserve(40);
+	for (j = 0; j < 20; j++)
+	{
+	    hsv = new hsv_t();
+        rgb2hsv(0x101010, hsv);
+        hsv->value /= 2;
+        hsv->value += j * 256 / 16;
+        tmp = hsv2rgb(hsv);
+		eBrushes.push_back(CreateSolidBrush(tmp));
 	}
 
 	pBrushes = new HBRUSH[esdata.getCount(ESD_colors)];
@@ -1233,6 +1265,12 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 		    break;
 		case 0x55: // U key
 		    HandleToggleAllUnits(window);
+		    break;
+		case 0x41: // A key
+		    HandleToggleTerrain(window);
+		    break;
+		case 0x56: // V key
+		    HandleToggleElevation(window);
 		    break;
 		    //OnWM_SWIPE(window, true, 1, 0, 0);
 		case VK_OEM_PLUS:

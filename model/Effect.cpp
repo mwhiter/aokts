@@ -1588,18 +1588,18 @@ const char *Effect::virtual_types_swgb[] = {
     "",
     "Max Amount",
     "Min Amount",
-    "Freeze unit"
+    "Freeze unit",
 };
 
 const char *Effect::virtual_types_cc[] = {
     "",
     "Max Amount",
     "Min Amount",
-    "Freeze unit"
+    "Freeze unit",
 };
 
 const char *Effect::virtual_types_aok[] = {
-    ""
+    "",
     "Max Amount",
     "Min Amount",
 };

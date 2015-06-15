@@ -160,10 +160,13 @@ private:
     bool valid_partial_map() const;
     bool valid_area_location() const;
     bool valid_area() const;
+    bool has_selected() const;
     bool valid_selected() const;
     bool valid_unit_spec() const;
     bool valid_technology_spec() const;
-    bool valid_location() const;
+    bool valid_location_coord() const;
+    bool valid_location_unit() const;
+    bool null_location_unit() const;
     bool valid_source_player() const;
     bool valid_target_player() const;
     bool valid_trigger() const;

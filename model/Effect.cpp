@@ -544,7 +544,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                             convert << " in area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
                         }
                     }
-                    if (valid_location()) {
+                    if (valid_location_coord()) {
                         convert << " at (" << location.x << ", " << location.y << ")";
                     }
                     stype.append(convert.str());
@@ -634,14 +634,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
 	            }
                 break;
             case EffectType::ChangeOwnership:
-            case EffectType::TaskObject:
-                switch (type) {
-                    case EffectType::ChangeOwnership:
-                        convert << "convert";
-                        break;
-                    case EffectType::TaskObject:
-                        convert << "task";
-                }
+                convert << "convert";
                 convert << " " << selectedUnits();
                 if (valid_partial_map()) {
                     if (valid_area_location()) {
@@ -650,17 +643,36 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         convert << " in (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
                     }
                 }
-                switch (type) {
-                case EffectType::ChangeOwnership:
-                    convert << " to";
-                    convert << " " << playerPronoun(t_player);
+                convert << " to";
+                convert << " " << playerPronoun(t_player);
+                stype.append(convert.str());
+                break;
+            case EffectType::TaskObject:
+                if (!(valid_partial_map() || (has_selected() && valid_selected()))) {
+                    convert << "INVALID UNIT/AREA SELECTION";
+                    stype.append(convert.str());
                     break;
-                case EffectType::TaskObject:
-                    if (valid_location()) {
-                        convert << " to (" << location.x << ", " << location.y << ")";
+                }
+
+                if (!valid_location_coord() && null_location_unit()) {
+                    convert << "stop" << " " << selectedUnits();
+                    stype.append(convert.str());
+                    break;
+                }
+
+                convert << "task";
+                convert << " " << selectedUnits();
+                if (valid_partial_map()) {
+                    if (valid_area_location()) {
+                        convert << " at (" << area.left << "," << area.top << ")";
                     } else {
-                        convert << " to unit " << uid_loc << " (" << get_unit_full_name(uid_loc) << ")";
+                        convert << " in (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
                     }
+                }
+                if (valid_location_coord()) {
+                    convert << " to (" << location.x << ", " << location.y << ")";
+                } else {
+                    convert << " to unit " << uid_loc << " (" << get_unit_full_name(uid_loc) << ")";
                 }
                 stype.append(convert.str());
                 break;
@@ -756,6 +768,10 @@ inline bool Effect::valid_area() const {
     return valid_full_map() || valid_partial_map();
 }
 
+inline bool Effect::has_selected() const {
+    return num_sel > 0;
+}
+
 inline bool Effect::valid_selected() const {
 	for (int i = 0; i < num_sel; i++) {
 	    if (!valid_unit_id(uids[i])) {
@@ -775,8 +791,16 @@ inline bool Effect::valid_technology_spec() const {
 	return pTech != NULL && pTech->id() >= 0;;
 }
 
-inline bool Effect::valid_location() const {
+inline bool Effect::valid_location_coord() const {
     return location.x >= 0 && location.y >= 0;
+}
+
+inline bool Effect::null_location_unit() const {
+	return uid_loc == -1;
+}
+
+inline bool Effect::valid_location_unit() const {
+	return valid_unit_id(uid_loc);
 }
 
 inline bool Effect::valid_source_player() const {
@@ -798,7 +822,7 @@ inline bool Effect::valid_panel() const {
 }
 
 inline bool Effect::valid_destination() const {
-	return valid_location() || valid_unit_id(uid_loc);
+	return valid_location_coord() || valid_unit_id(uid_loc);
 }
 
 /*
@@ -863,13 +887,14 @@ bool Effect::check() const
 		return true;
 
 	case EffectType::CreateObject:
-		return valid_source_player() && valid_location() && valid_unit_spec();
+		return valid_source_player() && valid_location_coord() && valid_unit_spec();
 
 	case EffectType::Unload:
         return valid_selected && valid_destination();
 
 	case EffectType::TaskObject:
-        return (valid_selected || valid_partial_map()) && valid_destination();
+        return (valid_partial_map() || (has_selected() && valid_selected) ||
+               (!valid_location_coord() && null_location_unit()));
 
 	case EffectType::KillObject:
 	case EffectType::RemoveObject:
@@ -882,13 +907,13 @@ bool Effect::check() const
 		return valid_source_player();
 
 	case EffectType::ChangeView:
-		return valid_source_player() && valid_location();
+		return valid_source_player() && valid_location_coord();
 
 	case EffectType::ChangeOwnership:
 		return (valid_selected || valid_partial_map()) && valid_source_player() && valid_source_player();
 
 	case EffectType::Patrol:
-		return (valid_selected && valid_location());
+		return (valid_selected && valid_location_coord());
 
 	case EffectType::DisplayInstructions:
 		return (valid_panel() && disp_time >= 0 && (*text.c_str() || textid));	//AOK missing text
@@ -910,12 +935,12 @@ bool Effect::check() const
 		    return (valid_selected || (valid_unit_spec() && valid_area())) && valid_points();
 	    case AOHD:
 	    case AOF:
-		    return valid_selected && valid_location();
+		    return valid_selected && valid_location_coord();
 	    case SWGB:
 	    case SWGBCC:
-		    return valid_source_player() && valid_location();
+		    return valid_source_player() && valid_location_coord();
 	    }
-		return valid_location();
+		return valid_location_coord();
 
 	case EffectType::ChangeRange_UP: // DisableAdvancedButtons_SWGB // ChangeArmor_HD
 	    switch (scen.game) {
@@ -927,7 +952,7 @@ bool Effect::check() const
 	    case SWGBCC:
 		    return true;
 	    }
-		return valid_location();
+		return valid_location_coord();
 
 	case EffectType::ChangeMeleArmor_UP: // ChangeRange_HD // EnableTech_SWGB
 	case EffectType::ChangePiercingArmor_UP: // ChangeSpeed_HD // DisableTech_SWGB
@@ -943,7 +968,7 @@ bool Effect::check() const
 		return true;
 
 	case EffectType::PlaceFoundation:
-		return (valid_source_player() && valid_unit_spec() && valid_location());
+		return (valid_source_player() && valid_unit_spec() && valid_location_coord());
 
 	case EffectType::ChangeObjectName:
 	    switch (scen.game) {

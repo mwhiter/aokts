@@ -1763,19 +1763,19 @@ usual.
 -->
 <terrain id="0"  color="339927" name="Grass 1 (default terrain)" />
 <terrain id="1"  color="007BBD" name="Water, Shallow" />
-<terrain id="2"  color="e8c048" name="Beach (no buildings)" />
-<terrain id="3"  color="e4a252" name="Dirt 3 (grassy)" />
+<terrain id="2"  color="F5C7A3" name="Beach (no buildings)" />
+<terrain id="3"  color="AEB65E" name="Dirt 3 (grassy)" />
 <terrain id="4"  color="5492b0" name="Shallows" />
 <terrain id="5"  color="935047" name="Leaves" />
-<terrain id="6"  color="E4A252" name="Dirt 1 (brown with occasional cactus)" />
+<terrain id="6"  color="EE9B5E" name="Dirt 1 (brown with occasional cactus)" />
 <terrain id="7"  color="82884d" name="Farm" />
 <terrain id="8"  color="32381d" name="Dead Farm" />
 <terrain id="9"  color="93AC4C" name="Grass 3 (brownish)" />
 <terrain id="10" color="157615" name="Forest" />
 <terrain id="11" color="95A661" name="Dirt 2 (dirt grass mixture)" />
 <terrain id="12" color="40cc30" name="Grass 2 (lush / very green)" />
-<terrain id="13" color="F8C99A" name="Palm Desert" />
-<terrain id="14" color="F8C98A" name="Desert (sandy and light colored)" />
+<terrain id="13" color="FFE094" name="Palm Desert" />
+<terrain id="14" color="FFD094" name="Desert (sandy and light colored)" />
 <terrain id="15" color="3060a0" name="Water (not dockable)" />
 <terrain id="16" color="33C027" name="Looks like Grass 1 (can build, only siege can move)" />
 <terrain id="17" color="357615" name="Jungle" />
@@ -1787,18 +1787,18 @@ usual.
 <terrain id="23" color="0054B0" name="Water, Medium" />
 <terrain id="24" color="e09545" name="Road" />
 <terrain id="25" color="d49242" name="Road, Broken" />
-<terrain id="26" color="ffec49" name="Ice (no ships)" />
+<terrain id="26" color="BDD1FD" name="Ice (no ships)" />
 <terrain id="27" color="d59545" name="Dirt 2 (no beach, building residue, dockable)" />
 <terrain id="28" color="905db6" name="Water, Bridge (walkable, no ships)" />
 <terrain id="29" color="42482d" name="Farm 1" />
 <terrain id="30" color="62683d" name="Farm 2" />
 <terrain id="31" color="708040" name="Farm 3" />
-<terrain id="32" color="c8d8ff" name="Snow" />
+<terrain id="32" color="EAEDFF" name="Snow" />
 <terrain id="33" color="b8c8ef" name="Snow Dirt" />
 <terrain id="34" color="c8f8ff" name="Snow Grass" />
 <terrain id="35" color="D8DFFF" name="Ice (allows ships)" />
 <terrain id="36" color="c8d8e0" name="Snow Dirt (building residue)" />
-<terrain id="37" color="b0c0f0" name="Ice, Beach (allows ships, build walls only)" />
+<terrain id="37" color="CFDAFF" name="Ice, Beach (allows ships, build walls only)" />
 <terrain id="38" color="d8d8ff" name="Road, Snow" />
 <terrain id="39" color="c8f8ef" name="Road, Fungus" />
 <terrain id="40" color="e4a290" name="Rock / Road (no buildings)" />

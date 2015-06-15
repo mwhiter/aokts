@@ -9,6 +9,7 @@
 	VIEW/CONTROLLER
 **/
 
+#include "../model/scen_const.h"
 #include "../util/winugly.h"
 #include <climits>
 #include <string>
@@ -169,5 +170,7 @@ LRESULT Combo_GetSelData(HWND combobox)
 }
 
 bool TSSetDlgItemInt(HWND hDlg, int nIDDlgItem, UINT uValue, BOOL bSigned);
+
+const char * gameName(Game version);
 
 #endif // INC_UTILUI_H

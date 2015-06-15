@@ -251,3 +251,27 @@ bool TSSetDlgItemInt(HWND hDlg, int nIDDlgItem, UINT uValue, BOOL bSigned) {
     return SetDlgItemText(hDlg, nIDDlgItem, text);
 }
 
+const char * gameName(Game version) {
+	switch (version) {
+	case AOE:
+	    return "Age of Empires";
+	case ROR:
+	    return "Rise of Rome";
+	case AOK:
+	    return "Age of Kings";
+	case AOC:
+	    return "The Conquerors";
+	case UP:
+	    return "The Conquerors: UserPatch";
+	case AOHD:
+	    return "Age of Empires II: HD Edition";
+	case AOF:
+	    return "The Forgotten";
+	case SWGB:
+	    return "Star Wars Galactic Battlegrounds";
+	case SWGBCC:
+	    return "Clone Campaigns";
+	default:
+	    return "Unknown";
+	}
+}

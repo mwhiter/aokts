@@ -1223,6 +1223,13 @@ const char *Effect::types_cc[] = {
 	"Stop Unit",
 	"Snap View",
 	"Disable Advanced Buttons",
+	"Enable Tech",
+	"Disable Tech",
+	"Enable Unit",
+	"Disable Unit",
+	"Flash Objects",
+	"Input Off",
+	"Input On"
 };
 
 const char *Effect::types_aohd[] = {

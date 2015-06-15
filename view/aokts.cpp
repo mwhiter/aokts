@@ -358,7 +358,7 @@ void FileOpen(HWND sheet, bool ask, int recent)
 	struct RecentFile *file = NULL;	//the file info will be stored here one way or another
 	char titleBuffer[100];
 	const char *filename;
-	Game version = UNKNOWN;
+	Game version = scen.game;
 
 	HWND page = PropSheet_GetCurrentPageHwnd(sheet);
 
@@ -372,6 +372,11 @@ void FileOpen(HWND sheet, bool ask, int recent)
 
 		else if (sel == IDCANCEL)
 			return;	//stop closing
+	}
+
+    // Hint about whether to open as AOC or SGWB
+	if (setts.recent_first) {
+	     scen.game = (Game)setts.recent_first->game;
 	}
 
 	/* Using a recent file... */
@@ -511,27 +516,8 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		// report error to user
 		std::string desc = "Failed to open as ";
 
-		switch (scen.game) {
-		case AOK:
-		    desc.append("an Age of Kings ");
-		    break;
-		case AOC:
-		    desc.append("a Conquerors ");
-		    break;
-		case AOHD:
-		    desc.append("an Age of Empires II: HD Edition ");
-		    break;
-		case AOF:
-		    desc.append("an Age of Forgotten ");
-		    break;
-		case SWGB:
-		    desc.append("a Star Wars Galactic Battlegrounds ");
-		    break;
-		case SWGBCC:
-		    desc.append("a Clone Campaigns ");
-		    break;
-		}
-		desc.append("scenario file.\n");
+        desc.append(gameName(scen.game));
+		desc.append(" scenario file.\n");
 
 		switch (scen.game) {
 		case AOC:
@@ -1393,6 +1379,7 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 	aokts = inst;
 	propdata.p = scen.players;	//start pointing to first member
 	ret = setts.load();
+
 	if (*setts.logname) {
 	    char logpath[_MAX_PATH];
 
@@ -1405,6 +1392,12 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 	}
 	printf_log("TS Path: %s\n", global::exedir);
 
+    // Hint about whether to open as AOC or SGWB
+	if (setts.recent_first) {
+	     scen.game = (Game)setts.recent_first->game;
+	     printf_log("Last game was %s.\n", gameName(scen.game));
+	}
+
 	//process any compress/decompress requests
 	if ((*cmdline == '/' || *cmdline == '-') && ProcessCmdline(cmdline))
 			return 0;
@@ -1412,7 +1405,20 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE, LPTSTR cmdline, int cmdshow)
 	//read genie data
 	try
 	{
-		esdata.load(datapath_aok);
+		switch (scen.game) {
+		case AOK:
+		case AOC:
+		case AOHD:
+		case AOF:
+		    esdata.load(datapath_aok);
+		    break;
+		case SWGB:
+		case SWGBCC:
+		    esdata.load(datapath_swgb);
+		    break;
+		default:
+		    esdata.load(datapath_aok);
+		}
 	}
 	catch (std::exception& ex)
 	{

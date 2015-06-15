@@ -237,18 +237,15 @@ void Scenario::reset()
 
 	/* Internal */
 	mod_status = false;
-	ver1 = SV1_AOC_SWGB;
-	ver2 = SV2_AOC_SWGB;
+
 	game = AOK;
-	pergame = &pgAOK;
-
-	/* "Blank" scenario */
-	strcpy(header.version, "1.21");
-
-	perversion = &pv1_22; // no disables dialog doesn't crash
+    // Hint about whether to open as AOC or SGWB
+	if (setts.recent_first) {
+	    game = (Game)setts.recent_first->game;
+	}
+	adapt_game();
 
 	next_uid = 0;
-	version2 = 1.22F;
 	memset(origname, 0, sizeof(origname));
 
 	for (i = 0; i < 6; i++)
@@ -278,8 +275,6 @@ void Scenario::reset()
 	files = NULL;
 
 	memset(msg, 0, sizeof(msg));
-
-	adapt_game();
 }
 
 Scenario::AOKBMP::AOKBMP()
@@ -361,9 +356,25 @@ char Scenario::StandardAI2[] = "Promisory";
 void Scenario::adapt_game() {
 	switch (game) {
 	case AOE:
+	    strcpy(header.version, "0.00"); // is this needed?
+        ver1 = SV1_AOE1;
+	    ver2 = SV2_AOE1;
+	    version2 = 0.00F;
+	    perversion = &pv1_15;
 	    pergame = &pgAOE;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_aoc;
+        Effect::types = Effect::types_aoc;
+        Effect::types_short = Effect::types_short_aoc;
+        Effect::virtual_types = Effect::virtual_types_aoc;
 	    break;
     case AOK:
+	    strcpy(header.version, "1.18"); // is this needed?
+        ver1 = SV1_AOK;
+	    ver2 = SV2_AOK;
+	    version2 = 1.20F;
+		perversion = &pv1_18;
 	    pergame = &pgAOK;
         Condition::types = Condition::types_aok;
         Condition::types_short = Condition::types_short_aok;
@@ -371,9 +382,13 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_aok;
         Effect::types_short = Effect::types_short_aok;
         Effect::virtual_types = Effect::virtual_types_aok;
-        printf_log("Game is AOK\n");
         break;
     case AOC:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_AOC_SWGB;
+	    version2 = 1.22F;
+		perversion = &pv1_22;
 	    pergame = &pgAOC;
         Condition::types = Condition::types_aok;
         Condition::types_short = Condition::types_short_aok;
@@ -381,9 +396,13 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_aoc;
         Effect::types_short = Effect::types_short_aoc;
         Effect::virtual_types = Effect::virtual_types_aoc;
-        printf_log("Game is AOC\n");
         break;
     case UP:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_AOC_SWGB;
+	    version2 = 1.22F;
+		perversion = &pv1_22;
 		pergame = &pgUP;
         Condition::types = Condition::types_aok;
         Condition::types_short = Condition::types_short_aok;
@@ -391,9 +410,13 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_up;
         Effect::types_short = Effect::types_short_up;
         Effect::virtual_types = Effect::virtual_types_up;
-        printf_log("Game is AOC:UserPatch\n");
         break;
     case AOF:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_AOHD_AOF;
+	    version2 = 1.23F;
+		perversion = &pv1_23;
 	    pergame = &pgAOF;
         Condition::types = Condition::types_aok;
         Condition::types_short = Condition::types_short_aok;
@@ -401,9 +424,13 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_aof;
         Effect::types_short = Effect::types_short_aof;
         Effect::virtual_types = Effect::virtual_types_aof;
-        printf_log("Game is AOF\n");
         break;
     case AOHD:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_AOHD_AOF;
+	    version2 = 1.23F;
+		perversion = &pv1_23;
 	    pergame = &pgAOHD;
         Condition::types = Condition::types_aok;
         Condition::types_short = Condition::types_short_aok;
@@ -411,9 +438,13 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_aohd;
         Effect::types_short = Effect::types_short_aohd;
         Effect::virtual_types = Effect::virtual_types_aohd;
-        printf_log("Game is AOHD\n");
         break;
     case SWGB:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_AOC_SWGB;
+	    version2 = 1.22F;
+		perversion = &pv1_22;
 	    pergame = &pgSWGB;
         Condition::types = Condition::types_swgb;
         Condition::types_short = Condition::types_short_swgb;
@@ -421,9 +452,13 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_swgb;
         Effect::types_short = Effect::types_short_swgb;
         Effect::virtual_types = Effect::virtual_types_swgb;
-        printf_log("Game is SWGB\n");
         break;
     case SWGBCC:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_SWGBCC;
+	    version2 = 1.30F;
+		perversion = &pv1_30;
 	    pergame = &pgSWGBCC;
         Condition::types = Condition::types_cc;
         Condition::types_short = Condition::types_short_cc;
@@ -431,11 +466,17 @@ void Scenario::adapt_game() {
         Effect::types = Effect::types_cc;
         Effect::types_short = Effect::types_short_cc;
         Effect::virtual_types = Effect::virtual_types_cc;
-        printf_log("Game is SWGB:CC\n");
         break;
     default:
-        printf_log("Game is unknown: %d\n", game);
+        game = AOC;
+        adapt_game();
+        // We want some of the defaults from AOC, but this is an invalid
+        // scenario. We aren't 'defaulting' to AOC.
+		game = UNKNOWN;
+		pergame = NULL;
+        return;
 	}
+    printf_log("Game is %s\n", gameName(game));
 }
 
 /* Open a scenario, read header, and read compressed data */
@@ -446,29 +487,6 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 	using std::logic_error;
 
 	game = version;
-	switch (version) {
-	case AOE:
-	    pergame = &pgAOE;
-	    break;
-	case AOK:
-	    pergame = &pgAOK;
-	    break;
-	case AOC: // covers UP
-	    pergame = &pgAOC;
-	    break;
-	case AOHD:
-	    pergame = &pgAOHD;
-	    break;
-	case AOF:
-	    pergame = &pgAOF;
-	    break;
-	case SWGB:
-	    pergame = &pgSWGB;
-	    break;
-	case SWGBCC:
-	    pergame = &pgSWGBCC;
-	    break;
-	}
 
 	int clen;	//length of compressed data
 
@@ -491,10 +509,8 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 	printf_log("Outside Header Version %g: ", version2);
 	if (!strncmp(header.version, "1.18", 4))
 	{
-		ver1 = SV1_AOK;
 		printf_log("ver1: 1.18 (AOE 2).\n");
 		game = AOK;
-		pergame = &pgAOK;
 	}
 	else if (!strncmp(header.version, "1.21", 4))
 	{
@@ -504,10 +520,8 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 	else if (header.version[2] == '1' &&
 		(header.version[3] == '0' || header.version[3] == '1')) // 1.10 or 1.11
 	{
-		ver1 = SV1_AOE1;
 		printf_log("ver1: 1.1x (AOE 1).\n");
 		game = AOE;
-		pergame = &pgAOE;
 	}
 	else
 	{
@@ -556,9 +570,10 @@ Game Scenario::open(const char *path, const char *dpath, Game version)
 
 	read_data(dpath);
 
-    if (game == AOC && is_userpatch())
+    if (game == AOC && is_userpatch()) {
         game = UP;
-	adapt_game();
+	    adapt_game();
+	}
 
 	return game;
 }
@@ -843,6 +858,9 @@ bool Scenario::is_userpatch()
 		trig++;
 	}
 
+    if (game != AOC && game != UP)
+        is_userpatch = false;
+
     return is_userpatch;
 }
 
@@ -880,9 +898,6 @@ void Scenario::read_data(const char *path)	//decompressed data
 	switch (myround(version2 * 100))
 	{
 	case 115:
-		perversion = &pv1_15;
-		pergame = &pgAOE;
-		ver2 = SV2_AOE1;
 		printf_log("ver2: 1.15 (AOE).\n");
 		game = AOE;
 		break;
@@ -891,59 +906,51 @@ void Scenario::read_data(const char *path)	//decompressed data
 	case 119:
 	case 120:
 	case 121:
-		perversion = &pv1_18;
-		pergame = &pgAOK;
-		ver2 = SV2_AOK;
 		printf_log("ver2: 1.18-1.21 (AOK).\n");
 		game = AOK;
 		break;
 
 	case 122:
-		perversion = &pv1_22;
-		ver2 = SV2_AOC_SWGB;
 		printf_log("ver2: 1.22 (AOE 2 TC or SWGB).\n");
-		if (game == UNKNOWN) {
-		    // guess AOC
+
+		// Treat any existing value for game as a hint.
+		switch (scen.game) {
+		case UNKNOWN:
+		case AOK:
+		case AOC:
+		case AOHD:
+		case AOF:
+		case UP:
 		    game = AOC;
-		    pergame = &pgAOC;
-		} else if (game == AOC) {
-		    game = AOC;
-		    pergame = &pgAOC;
-		} else if (game == UP) {
-		    game = UP;
-		    pergame = &pgUP;
+		    break;
+		case SWGB:
+		case SWGBCC:
+		    game = SWGB;
+		    break;
 		}
 		break;
 
 	case 123:
-		perversion = &pv1_23;
-		ver2 = SV2_AOHD_AOF;
 		printf_log("ver2: 1.23 (AOHD or AOF).\n");
-		if (game == UNKNOWN || game == SWGB || game == AOC) {
-		    if (strstr(setts.ScenPath, ".scx2")) {
-		        game = AOF;
-		        pergame = &pgAOF;
-		    } else {
-		        game = AOHD;
-		        pergame = &pgAOHD;
-		    }
+		if (strstr(setts.ScenPath, ".scx2")) {
+		    game = AOF;
+		} else {
+		    game = AOHD;
 		}
 		break;
 
 	case 130:
-		perversion = &pv1_30;
-		ver2 = SV2_SWGBCC;
 		printf_log("ver2: 1.30 (SWGB:CC).\n");
 		game = SWGBCC;
-		pergame = &pgSWGBCC;
 		break;
 
 	default:
 		printf_log("Unrecognized scenario version2: %f.\n", version2);
 		game = UNKNOWN;
-		pergame = NULL;
 		throw bad_data_error("unrecognized format version");
 	}
+
+	adapt_game();
 
 	/* Updates*/
 	//read genie data
@@ -1214,8 +1221,9 @@ void Scenario::read_data(const char *path)	//decompressed data
 	if (fgetc(dc2in.get()) != EOF)
 		throw bad_data_error("Unrecognized data at end.");
 
-	// FILE close taken care of by AutoFile! yay.
+	adapt_game();
 
+	// FILE close taken care of by AutoFile! yay.
 	printf_log("Done.\n");
 }
 

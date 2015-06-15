@@ -31,6 +31,7 @@ enum Game
 
 enum ScenVersion1
 {
+	SV1_UNKNOWN	    = 0,
 	SV1_AOE1		= 10,
 	SV1_AOK		    = 18,
 	SV1_AOC_SWGB	= 21
@@ -38,6 +39,7 @@ enum ScenVersion1
 
 enum ScenVersion2
 {
+	SV2_UNKNOWN     = 0,
 	SV2_AOE1		= 15,
 	SV2_AOK		    = 18,
 	SV2_AOC_SWGB	= 22,

@@ -1817,57 +1817,61 @@ Tweaked by E/X mantis - Fri 05 Dec 2014 04:20:17 NZDT
 </aitypes>
 
 <terrains>
-<terrain id="0" color="00a900" name="GRASS1" />
-<terrain id="1" color="b65d30" name="WATER1" />
-<terrain id="2" color="8ac9f8" name="SHORE" />
-<terrain id="3" color="73a9bf" name="DIRT3" />
-<terrain id="4" color="4b7374" name="WATERSWAMP" />
-<terrain id="5" color="00a900" name="LEAVES" />
-<terrain id="6" color="5caaf3" name="DIRT1" />
-<terrain id="7" color="578b8a" name="FARM" />
-<terrain id="8" color="578b8a" name="FARMDEAD" />
-<terrain id="9" color="00a900" name="GRASS3" />
-<terrain id="10" color="397425" name="TIMBERD" />
-<terrain id="11" color="5caaf3" name="DIRT2" />
-<terrain id="12" color="00a900" name="GRASS2" />
-<terrain id="13" color="397425" name="TIMBERE" />
-<terrain id="14" color="8ac9f8" name="SAND" />
-<terrain id="15" color="ffd2ff" name="WATEROLD" />
-<terrain id="16" color="434343" name="GRASSOLD" />
-<terrain id="17" color="397425" name="TIMBERB" />
-<terrain id="18" color="397425" name="TIMBERA" />
-<terrain id="19" color="397425" name="TIMBERF" />
-<terrain id="20" color="397425" name="TIMBERC" />
-<terrain id="21" color="397425" name="TIMBERG" />
-<terrain id="22" color="a14a00" name="WATER2" />
-<terrain id="23" color="873500" name="WATER3" />
-<terrain id="24" color="5caaf3" name="PATH1" />
-<terrain id="25" color="5caaf3" name="PATH2" />
-<terrain id="26" color="7d7354" name="ICE1" />
-<terrain id="27" color="73a9bf" name="FOUNDATION" />
-<terrain id="28" color="b65d30" name="WATERIMPASSABLE" />
-<terrain id="29" color="578b8a" name="FARMBUILD1" />
-<terrain id="30" color="578b8a" name="FARMBUILD2" />
-<terrain id="31" color="578b8a" name="FARMBUILD3" />
-<terrain id="32" color="00a900" name="SNOW1" />
-<terrain id="33" color="00a900" name="SNOW2" />
-<terrain id="34" color="00a900" name="SNOW3" />
-<terrain id="35" color="8ac9f8" name="ICE2" />
-<terrain id="36" color="00a900" name="FOUNDATIONSNOW" />
-<terrain id="37" color="f0c098" name="SHOREICE" />
-<terrain id="38" color="5caaf3" name="PATH3" />
-<terrain id="39" color="73a9bf" name="PATH4" />
-<terrain id="40" color="5caaf3" name="UNBUILDABLE" />
-<terrain id="41" color="00a900" name="SNOW-GRASS" />
-<terrain id="42" color="7d7354" name="ROCK1" />
-<terrain id="43" color="73a9bf" name="METAL3" />
-<terrain id="44" color="7d7354" name="ROCK2" />
-<terrain id="45" color="8ac9f8" name="SAND-ROCK" />
-<terrain id="46" color="8ac9f8" name="SAND2" />
-<terrain id="47" color="00a900" name="SNOW-DIRT" />
-<terrain id="48" color="578b8a" name="FARMG" />
-<terrain id="49" color="ffce97" name="METAL CARB" />
-<terrain id="50" color="ffce97" name="ROCK CARB" />
+<terrain id="0"  color="A1D650" name="Grass 1" />
+<terrain id="1"  color="86C2DF" name="Water 1 (shallow)" />
+<terrain id="2"  color="A9BF73" name="Shore" />
+<terrain id="3"  color="a9bf73" name="Dirt 3" />
+<terrain id="4"  color="74734b" name="Water, Swamp" />
+<terrain id="5"  color="10a930" name="Leaves" />
+<terrain id="6"  color="f3aa5c" name="Dirt 1" />
+<terrain id="7"  color="8a8b57" name="Farm" />
+<terrain id="8"  color="8a8b57" name="Farm, Dead" />
+<terrain id="9"  color="00b010" name="Grass 3" />
+<terrain id="10" color="507539" name="Timber D" />
+<terrain id="11" color="d3aa60" name="Dirt 2" />
+<terrain id="12" color="20b010" name="Grass 2" />
+<terrain id="13" color="F8C98A" name="Timber E" />
+<terrain id="14" color="f8c98a" name="Sand" />
+<terrain id="15" color="ffd2ff" name="Water, Old" />
+<terrain id="16" color="434343" name="Grass, Old" />
+<terrain id="17" color="007439" name="Timber B" />
+<terrain id="18" color="257439" name="Timber A" />
+<terrain id="19" color="507439" name="Timber F" />
+<terrain id="20" color="757439" name="Timber C" />
+<terrain id="21" color="007539" name="Timber G" />
+<terrain id="22" color="2D789C" name="Water 2 (medium)" />
+<terrain id="23" color="004A7D" name="Water 3 (deep)" />
+<terrain id="24" color="f3b55c" name="Path 1" />
+<terrain id="25" color="f3a05c" name="Path 2" />
+<terrain id="26" color="D38658" name="Ice 1" />
+<terrain id="27" color="bfa973" name="Foundation" />
+<terrain id="28" color="305db6" name="Water, Impassable" />
+<terrain id="29" color="8a8b57" name="Farmbuild 1" />
+<terrain id="30" color="8a8b57" name="Farmbuild 2" />
+<terrain id="31" color="8a8b57" name="Farmbuild 3" />
+<terrain id="32" color="e0e0e0" name="Snow 1" />
+<terrain id="33" color="f0e0e0" name="Snow 2" />
+<terrain id="34" color="ffe0e0" name="Snow 3" />
+<terrain id="35" color="90a090" name="Ice 2" />
+<terrain id="36" color="a0c9a0" name="Foundation, Snow" />
+<terrain id="37" color="f0b0e0" name="Shore, Ice" />
+<terrain id="38" color="f3aa5c" name="Path 3" />
+<terrain id="39" color="bfa973" name="Path 4" />
+<terrain id="40" color="f3aa5c" name="Unbuildable" />
+<terrain id="41" color="d0f0d0" name="Snow-grass" />
+<terrain id="42" color="547360" name="Rock 1" />
+<terrain id="43" color="bfa973" name="Metal 3" />
+<terrain id="44" color="547390" name="Rock 2" />
+<terrain id="45" color="D8EBBE" name="Sand-rock" />
+<terrain id="46" color="a08030" name="Sand 2" />
+<terrain id="47" color="e0f0f0" name="Snow-dirt" />
+<terrain id="48" color="8a8b57" name="Farm G" />
+<terrain id="49" color="73a9d0" name="Metal Carb" />
+<terrain id="50" color="7d7380" name="Rock Carb" />
+<terrain id="51" color="FFD24B" name="Lava" />
+<terrain id="52" color="575757" name="Rock 4" />
+<terrain id="53" color="FFD24B" name="Unknown 1" />
+<terrain id="54" color="575757" name="Unknown 2" />
 </terrains>
 
 <!-- The following are custom unit groups. They have no effect on the saved scenario,

@@ -889,6 +889,8 @@ HWND makestatus(HWND parent)
 	return ret;
 }
 
+#define RGB2BGR(a_ulColor) (a_ulColor & 0xFF000000) | ((a_ulColor & 0xFF0000) >> 16) | (a_ulColor & 0x00FF00) | ((a_ulColor & 0x0000FF) << 16)
+
 void OnWM_Create(HWND window, CREATESTRUCT * cs)
 {
 	ColorLink *parse;
@@ -921,11 +923,11 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	    for (j = 0; j < 20; j++)
 	    {
 	        hsv = new hsv_t();
-            rgb2hsv(parse->ref, hsv);
+            rgb2hsv(RGB2BGR(parse->ref), hsv);
             hsv->value /= 2;
-            hsv->value += j * 256 / 16;
+            BYTE diff = 256 - hsv->value;
+            hsv->value += j * diff / 20;
             tmp = hsv2rgb(hsv);
-		    //tBrushes[i].push_back(CreateSolidBrush(tmp));
 		    tBrushes[i].push_back(CreateSolidBrush(tmp));
 	    }
 	}

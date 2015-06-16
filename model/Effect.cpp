@@ -676,16 +676,15 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case 13: // Declare victory
+            case EffectType::DeclareVictory:
                 convert << "p" << s_player << " victory";
                 stype.append(convert.str());
                 break;
-            case 20: // Instructions
+            case EffectType::DisplayInstructions:
                 convert << "instruct players \"" << text.c_str() << "\"";
                 stype.append(convert.str());
                 break;
-            case 26: // Rename
-                //stype.append(types_short[type]);
+            case EffectType::ChangeObjectName:
                 stype.append("rename '");
                 stype.append(text.c_str());
                 stype.append("'");
@@ -699,7 +698,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case 24: // Damage
+            case EffectType::DamageObject:
                 {
                     if (amount == TS_LONG_MAX) {
                         convert << "min health for " << getAffectedUnits();
@@ -715,20 +714,86 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     stype.append(convert.str());
                 }
                 break;
-            case 27: // HP
-            case 28: // Attack
-            case 30: // UP Speed
-            case 31: // UP Range
-            case 32: // UP Armor1
-            case 33: // UP Armor2
-                {
+            case EffectType::ChangeObjectHP:
+            case EffectType::ChangeObjectAttack:
+                if (amount > 0) {
+                    convert << "+";
+                }
+                convert << amount << " " << getTypeName(type, true) << " to "  << getAffectedUnits();
+                stype.append(convert.str());
+                break;
+            case EffectType::ChangeSpeed_UP: // SnapView_SWGBA, AttackMove_HD
+                switch (scen.game) {
+                case UP:
                     if (amount > 0) {
                         convert << "+";
                     }
                     convert << amount << " " << getTypeName(type, true) << " to "  << getAffectedUnits();
                     stype.append(convert.str());
+                    break;
+                default:
+                    stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                    break;
                 }
                 break;
+            case EffectType::ChangeRange_UP: // DisableAdvancedButtons_SWGB, ChangeArmor_HD
+            case EffectType::ChangeMeleArmor_UP: // ChangeRange_HD, EnableTech_SWGB
+            case EffectType::ChangePiercingArmor_UP: // ChangeSpeed_HD, DisableTech_SWGB
+                switch (scen.game) {
+                case AOF:
+                case AOHD:
+                case UP:
+                    if (amount > 0) {
+                        convert << "+";
+                    }
+                    convert << amount << " " << getTypeName(type, true) << " to "  << getAffectedUnits();
+                    stype.append(convert.str());
+                    break;
+                case SWGB:
+                case SWGBCC:
+                    {
+                        switch (type) {
+                        case EffectType::DisableAdvancedButtons_SWGB:
+                            stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                            break;
+                        case EffectType::EnableTech_SWGB:
+                        case EffectType::DisableTech_SWGB:
+                            {
+                                bool hastech = pTech && pTech->id();
+                                std::wstring wtechname;
+                                std::string techname;
+                                if (hastech) {
+                                    wtechname = std::wstring(pTech->name());
+                                    techname = std::string(wtechname.begin(), wtechname.end());
+                                    switch (type) {
+                                    case EffectType::EnableTech_SWGB:
+                                        convert << "enable " << playerPronoun(s_player) << " to research " << techname;
+                                        break;
+                                    case EffectType::DisableTech_SWGB:
+                                        convert << "disable " << playerPronoun(s_player) << " to research " << techname;
+                                        break;
+                                    }
+                                } else {
+                                    convert << "INVALID TECHNOLOGY";
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    stype.append(convert.str());
+                    break;
+                default:
+                    stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                    break;
+                }
+                break;
+	        case EffectType::EnableUnit_SWGB:
+	        case EffectType::DisableUnit_SWGB:
+	        case EffectType::FlashUnit_SWGB:
+	        case EffectType::InputOff_CC:
+	        case EffectType::InputOn_CC:
+                stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+	            break;
             default:
                 stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
         }

@@ -315,6 +315,15 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 convert << " is defeated";
                 stype.append(convert.str());
                 break;
+            case (long)ConditionType::ObjectHasTarget:
+                convert << "unit " << object << " (" << get_unit_full_name(object) << ") is targetting";
+                if (null_location_unit()) {
+                    convert << " something";
+                } else {
+                    convert << " " << u_loc << " (" << get_unit_full_name(u_loc) << ")";
+                }
+                stype.append(convert.str());
+                break;
             case (long)ConditionType::UnitsGarrisoned:
                 if (amount == 1) {
                     convert << "unit " << object << " (" << get_unit_full_name(object) << ") has " << amount << " units garrisoned";
@@ -400,6 +409,22 @@ inline bool Condition::valid_technology_spec() const {
 	return pTech != NULL && pTech->id() >= 0;
 }
 
+inline bool Condition::null_object() const {
+	return object == -1;
+}
+
+inline bool Condition::valid_object() const {
+	return valid_unit_id(object);
+}
+
+inline bool Condition::null_location_unit() const {
+	return u_loc == -1;
+}
+
+inline bool Condition::valid_location_unit() const {
+	return valid_unit_id(u_loc);
+}
+
 bool Condition::check() const
 {
     if (type < 1 || type >= scen.pergame->max_condition_types) {
@@ -412,7 +437,10 @@ bool Condition::check() const
 		return (valid_unit_id(object) && valid_partial_map());
 
 	case ConditionType::BringObjectToObject:
-		return (valid_unit_id(object) && valid_unit_id(u_loc));
+		return (valid_unit_id(object) && valid_location_unit());
+
+	case ConditionType::ObjectHasTarget:
+		return (valid_unit_id(object) && (null_location_unit() || valid_location_unit()));
 
 	case ConditionType::OwnObjects:
 	case ConditionType::OwnFewerObjects:
@@ -449,9 +477,6 @@ bool Condition::check() const
 	case ConditionType::PlayerDefeated:
 	case ConditionType::UnitsQueuedPastPopCap_SWGB:
 		return (player >= 0);
-
-	case ConditionType::ObjectHasTarget:
-		return (valid_unit_id(object) && valid_unit_id(u_loc));
 
 	case ConditionType::ObjectVisible:
 	case ConditionType::ObjectNotVisible:

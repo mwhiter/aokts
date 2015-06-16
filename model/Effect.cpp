@@ -722,13 +722,22 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 convert << amount << " " << getTypeName(type, true) << " to "  << getAffectedUnits();
                 stype.append(convert.str());
                 break;
-            case EffectType::ChangeSpeed_UP: // SnapView_SWGBA, AttackMove_HD
+            case EffectType::ChangeSpeed_UP: // SnapView_SWGB, AttackMove_HD
                 switch (scen.game) {
                 case UP:
                     if (amount > 0) {
                         convert << "+";
                     }
                     convert << amount << " " << getTypeName(type, true) << " to "  << getAffectedUnits();
+                    stype.append(convert.str());
+                    break;
+                case SWGB:
+                case SWGBCC:
+                    if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
+                        convert << "snap view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
+                    } else {
+                        convert << "INVALID";
+                    }
                     stype.append(convert.str());
                     break;
                 default:

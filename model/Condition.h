@@ -149,6 +149,10 @@ private:
     bool valid_unit_spec() const;
     bool valid_area() const;
     bool valid_area_location() const;
+    bool Condition::null_object() const;
+    bool valid_object() const;
+    bool null_location_unit() const;
+    bool valid_location_unit() const;
 
 	bool valid_since_last_check;
 };

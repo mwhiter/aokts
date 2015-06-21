@@ -340,7 +340,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	            break;
 	        case (long)EffectType::KillObject:
 	            {
-	                e_killed_units = iter->getAffectedUnits();
+	                e_killed_units = iter->selectedUnits();
 	                e_kill_object = true;
 	                player_decimated = iter->s_player;
 	                e_has_unit_type = iter->pUnit && iter->pUnit->id();
@@ -377,7 +377,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	            name = text;
 	            break;
             case (long)EffectType::DamageObject:
-	            e_damaged_units = iter->getAffectedUnits();
+	            e_damaged_units = iter->selectedUnits();
 	            if (e_kill_object && e_killed_units.compare(e_damaged_units) == 0)  {
 	                e_set_hp_units = e_damaged_units;
 	                e_set_hp_value = -iter->amount;

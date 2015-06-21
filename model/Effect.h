@@ -66,6 +66,14 @@ struct EffectVirtualTypeSWGB {
     };
 };
 
+struct EffectVirtualTypeSWGBCC {
+    enum Value {
+	    None,
+	    MaxAmount,
+	    MinAmount,
+    };
+};
+
 struct EffectVirtualTypeAOC {
     enum Value {
 	    None,
@@ -154,14 +162,14 @@ struct EffectType {
 class Effect : public ECBase
 {
 private:
-    std::string selectedUnits() const;
-
     bool valid_full_map() const;
     bool valid_partial_map() const;
     bool valid_area_location() const;
     bool valid_area() const;
     bool has_selected() const;
     bool valid_selected() const;
+    bool has_unit_constant() const;
+    bool valid_unit_constant() const;
     bool valid_unit_spec() const;
     bool valid_technology_spec() const;
     bool valid_location_coord() const;
@@ -195,7 +203,8 @@ public:
     bool check_and_save();
 	bool check() const;
 
-    std::string getAffectedUnits() const;
+    std::string selectedUnits() const;
+
 	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const;
 
 	/**
@@ -210,6 +219,7 @@ public:
 	long num_sel;
 	UID uid_loc;	//the selected location unit
 	const UnitLink *pUnit;	//long in file, of course
+	long ucnst;
 	long s_player;	// GAIA = 0, Player 1 = 1, ...
 	long t_player;	// GAIA = 0, Player 1 = 1, ...
 	const TechLink *pTech;	//long in file, of course

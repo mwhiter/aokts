@@ -113,7 +113,7 @@ const char etable1_aok[Effect::NUM_EFFECTS_AOK][EditEffect::N_CONTROLS] = // Usi
 	{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Lock Gate
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Activate Trigger
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Deactivate Trigger
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
+	{ 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Create Object
 	{ 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0 },	// Task Object
 	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Declare Victory
@@ -142,7 +142,7 @@ const char etable1_10C[Effect::NUM_EFFECTS_AOC][EditEffect::N_CONTROLS] = // Usi
 	{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Lock Gate
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Activate Trigger
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Deactivate Trigger
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
+	{ 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Create Object
 	{ 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0 },	// Task Object
 	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Declare Victory
@@ -177,7 +177,7 @@ const char etable1_14RC[Effect::NUM_EFFECTS_UP][EditEffect::N_CONTROLS] = // Usi
 	{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Lock Gate
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Activate Trigger
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Deactivate Trigger
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
+	{ 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Create Object
 	{ 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Task Object
 	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Declare Victory
@@ -193,7 +193,7 @@ const char etable1_14RC[Effect::NUM_EFFECTS_UP][EditEffect::N_CONTROLS] = // Usi
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Use Advanced Buttons
 	{ 0, 2, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Damage Object
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Place Foundation
-	{ 0, 0, 0, 0, 1, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },	// Change Object Name
+	{ 0, 0, 0, 0, 1, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 1 },	// Change Object Name
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object HP
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object Attack
 	{ 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Stop Unit
@@ -216,7 +216,7 @@ const char etable1_aohd[Effect::NUM_EFFECTS_AOHD][EditEffect::N_CONTROLS] = // U
 	{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Lock Gate
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Activate Trigger
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Deactivate Trigger
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
+	{ 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Create Object
 	{ 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Task Object
 	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Declare Victory
@@ -232,7 +232,7 @@ const char etable1_aohd[Effect::NUM_EFFECTS_AOHD][EditEffect::N_CONTROLS] = // U
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Use Advanced Buttons
 	{ 0, 2, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Damage Object
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Place Foundation
-	{ 0, 0, 0, 0, 1, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },	// Change Object Name
+	{ 0, 0, 0, 0, 1, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 1 },	// Change Object Name
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object HP
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object Attack
 	{ 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Stop Unit
@@ -255,7 +255,7 @@ const char etable1_swgb[Effect::NUM_EFFECTS_SWGB][EditEffect::N_CONTROLS] = // U
 	{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Lock Gate
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Activate Trigger
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Deactivate Trigger
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
+	{ 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Create Object
 	{ 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Task Object
 	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Declare Victory
@@ -271,7 +271,7 @@ const char etable1_swgb[Effect::NUM_EFFECTS_SWGB][EditEffect::N_CONTROLS] = // U
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Use Advanced Buttons
 	{ 0, 2, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Damage Object
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Place Foundation
-	{ 0, 0, 0, 0, 1, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },	// Change Object Name
+	{ 0, 0, 0, 0, 1, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 1 },	// Change Object Name
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object HP
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object Attack
 	{ 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Stop Unit
@@ -297,7 +297,7 @@ const char etable1_cc[Effect::NUM_EFFECTS_CC][EditEffect::N_CONTROLS] = // Using
 	{ 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Lock Gate
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Activate Trigger
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Deactivate Trigger
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
+	{ 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// AI Script Goal
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Create Object
 	{ 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Task Object
 	{ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Declare Victory
@@ -313,7 +313,7 @@ const char etable1_cc[Effect::NUM_EFFECTS_CC][EditEffect::N_CONTROLS] = // Using
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Use Advanced Buttons
 	{ 0, 2, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Damage Object
 	{ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Place Foundation
-	{ 0, 0, 0, 0, 1, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 1 },	// Change Object Name
+	{ 0, 0, 0, 0, 1, 0, 2, 2, 0, 0, 1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 1 },	// Change Object Name
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object HP
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Object Attack
 	{ 0, 0, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Stop Unit
@@ -812,14 +812,14 @@ void OnOpenSel(HWND dialog, EditEffect *data)
 
 	if (ret)
 	{
-		data->e.s_player = ue.player;
+		//data->e.s_player = ue.player;
 		data->e.num_sel = ue.count;
 		memcpy(data->e.uids, ue.ids, sizeof(UID) * ue.count);
 
 		/* Update controls */
 		MakeNSelectedString(data->e.num_sel, GetDlgItem(dialog, IDC_E_NSELECTED));
 		MakeUIDString(data->e.uids, data->e.num_sel, GetDlgItem(dialog, IDC_E_UIDS));
-		SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_SETCURSEL, data->e.s_player, 0);
+		//SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_SETCURSEL, data->e.s_player, 0);
 	}
 }
 
@@ -889,143 +889,200 @@ void E_HandleChangeType(HWND dialog, EditEffect *data)
 void E_HandleChangeVType(HWND dialog, EditEffect *data)
 {
 	int newtype = SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_GETCURSEL, 0, 0);
-	if (newtype == 0) {
-	    EffectControls(dialog, data->e.type);
-	    return;
-	}
-
-	switch (newtype) {
-    case (long)EffectVirtualTypeAOC::MaxAmount:
-    case (long)EffectVirtualTypeAOC::MinAmount:
-        break;
-    default:
-	    data->e = Effect();
-    }
 
     switch (scen.game) {
-    case AOHD:
-    case AOF:
-    case SWGB:
-    case SWGBCC:
-    case AOK:
-        switch (newtype) {
-        case (long)EffectVirtualTypeAOC::MaxAmount:
-            data->e.amount = TS_LONG_MAX;
-            break;
-        case (long)EffectVirtualTypeAOC::MinAmount:
-            data->e.amount = TS_LONG_MIN;
-            break;
-        }
-        break;
-    case AOC:
-        switch (newtype) {
-        case (long)EffectVirtualTypeAOC::SetAISignal:
-            data->e.ai_goal = 774;
-            data->e.type = (long)EffectType::AIScriptGoal;
-            break;
-        case (long)EffectVirtualTypeAOC::SetAISharedGloal:
-            data->e.ai_goal = -258;
-            data->e.type = (long)EffectType::AIScriptGoal;
-            break;
-        case (long)EffectVirtualTypeAOC::EnableCheats:
-            data->e.ai_goal = -260;
-            data->e.type = (long)EffectType::AIScriptGoal;
-            break;
-        case (long)EffectVirtualTypeAOC::MaxAmount:
-            data->e.amount = TS_LONG_MAX;
-            break;
-        case (long)EffectVirtualTypeAOC::MinAmount:
-            data->e.amount = TS_LONG_MIN;
-            break;
-        }
-        break;
     case UP:
-        switch (newtype) {
-        case (long)EffectVirtualTypeUP::EnableObject:
+	    switch (newtype) {
+        case EffectVirtualTypeUP::None:
+            // Use this to clear the virtual effectss
+            switch (data->e.type) {
+            case EffectType::ChangeView:
+                data->e.panel = -1;
+                break;
+            }
+            break;
+        case EffectVirtualTypeUP::EnableObject:
+	        data->e = Effect();
             data->e.panel = 1;
             data->e.type = 11;
             break;
-        case (long)EffectVirtualTypeUP::DisableObject:
+        case EffectVirtualTypeUP::DisableObject:
+	        data->e = Effect();
             data->e.panel = 2;
             data->e.type = 11;
             break;
-        case (long)EffectVirtualTypeUP::EnableTechnology:
+        case EffectVirtualTypeUP::EnableTechnology:
+	        data->e = Effect();
             data->e.panel = 1;
             data->e.type = 2;
             break;
-        case (long)EffectVirtualTypeUP::DisableTechnology:
+        case EffectVirtualTypeUP::DisableTechnology:
+	        data->e = Effect();
             data->e.panel = 2;
             data->e.type = 2;
             break;
-        case (long)EffectVirtualTypeUP::EnableTechnologyAnyCiv:
+        case EffectVirtualTypeUP::EnableTechnologyAnyCiv:
+	        data->e = Effect();
             data->e.panel = 3;
             data->e.type = 2;
             break;
-        case (long)EffectVirtualTypeUP::SetHP:
+        case EffectVirtualTypeUP::SetHP:
+	        data->e = Effect();
             data->e.panel = 1;
             data->e.type = 27;
             break;
-        case (long)EffectVirtualTypeUP::HealObject:
+        case EffectVirtualTypeUP::HealObject:
+	        data->e = Effect();
             data->e.panel = 2;
             data->e.type = 27;
             break;
-        case (long)EffectVirtualTypeUP::SetAggressive:
+        case EffectVirtualTypeUP::SetAggressive:
+	        data->e = Effect();
             data->e.panel = 1;
             data->e.type = 22;
             break;
-        case (long)EffectVirtualTypeUP::SetDefensive:
+        case EffectVirtualTypeUP::SetDefensive:
+	        data->e = Effect();
             data->e.panel = 2;
             data->e.type = 22;
             break;
-        case (long)EffectVirtualTypeUP::SetStandGround:
+        case EffectVirtualTypeUP::SetStandGround:
+	        data->e = Effect();
             data->e.panel = 3;
             data->e.type = 22;
             break;
-        case (long)EffectVirtualTypeUP::SetNoAttackWithoutHalt:
+        case EffectVirtualTypeUP::SetNoAttackWithoutHalt:
+	        data->e = Effect();
             data->e.panel = 4;
             data->e.type = 22;
             break;
-        case (long)EffectVirtualTypeUP::Resign:
+        case EffectVirtualTypeUP::Resign:
+	        data->e = Effect();
             data->e.panel = 1;
             data->e.type = 13;
             break;
-        case (long)EffectVirtualTypeUP::FlashObjects:
+        case EffectVirtualTypeUP::FlashObjects:
+	        data->e = Effect();
             data->e.panel = 1;
             data->e.type = 18;
             break;
-        case (long)EffectVirtualTypeUP::SetAP:
+        case EffectVirtualTypeUP::SetAP:
+	        data->e = Effect();
             data->e.panel = 1;
             data->e.type = 28;
             break;
-        case (long)EffectVirtualTypeUP::SnapView:
+        case EffectVirtualTypeUP::SnapView:
+            if (data->e.type != EffectType::ChangeView)
+	            data->e = Effect();
             data->e.panel = 1;
-            data->e.type = 16;
+            data->e.type = EffectType::ChangeView;
             break;
-        case (long)EffectVirtualTypeUP::SetAISignal:
+        case EffectVirtualTypeUP::SetAISignal:
+	        data->e = Effect();
             data->e.ai_goal = 774;
-            data->e.type = 10;
+            data->e.type = EffectType::AIScriptGoal;
             break;
-        case (long)EffectVirtualTypeUP::SetAISharedGloal:
+        case EffectVirtualTypeUP::SetAISharedGloal:
+	        data->e = Effect();
             data->e.ai_goal = -258;
-            data->e.type = 10;
+            data->e.type = EffectType::AIScriptGoal;
             break;
-        case (long)EffectVirtualTypeUP::EnableCheats:
+        case EffectVirtualTypeUP::EnableCheats:
+	        data->e = Effect();
             data->e.ai_goal = -260;
-            data->e.type = 10;
+            data->e.type = EffectType::AIScriptGoal;
             break;
-        case (long)EffectVirtualTypeUP::MaxAmount:
+        case EffectVirtualTypeUP::MaxAmount:
             data->e.amount = TS_LONG_MAX;
-            data->e.type = (long)EffectType::DamageObject;
             break;
-        case (long)EffectVirtualTypeUP::MinAmount:
+        case EffectVirtualTypeUP::MinAmount:
             data->e.amount = TS_LONG_MIN;
-            data->e.type = (long)EffectType::DamageObject;
             break;
+        default:
+	        data->e = Effect();
         }
-        if (newtype >= (long)EffectVirtualTypeUP::SetControlGroup1 &&
-                newtype <= (long)EffectVirtualTypeUP::SetControlGroup9) {
+        if (newtype >= EffectVirtualTypeUP::SetControlGroup1 &&
+                newtype <= EffectVirtualTypeUP::SetControlGroup9) {
+	        data->e = Effect();
             data->e.panel = newtype - 14;
             data->e.type = 29;
+        }
+        break;
+    case AOHD:
+	    switch (newtype) {
+        case EffectVirtualTypeAOHD::MaxAmount:
+            data->e.amount = TS_LONG_MAX;
+            break;
+        case EffectVirtualTypeAOHD::MinAmount:
+            data->e.amount = TS_LONG_MIN;
+            break;
+        default:
+	        data->e = Effect();
+        }
+        break;
+    case AOF:
+	    switch (newtype) {
+        case EffectVirtualTypeAOF::MaxAmount:
+            data->e.amount = TS_LONG_MAX;
+            break;
+        case EffectVirtualTypeAOF::MinAmount:
+            break;
+        default:
+	        data->e = Effect();
+        }
+        break;
+    case AOC:
+	    switch (newtype) {
+        case EffectVirtualTypeAOC::SetAISignal:
+	        data->e = Effect();
+            data->e.ai_goal = 774;
+            data->e.type = EffectType::AIScriptGoal;
+            break;
+        case EffectVirtualTypeAOC::SetAISharedGloal:
+	        data->e = Effect();
+            data->e.ai_goal = -258;
+            data->e.type = EffectType::AIScriptGoal;
+            break;
+        case EffectVirtualTypeAOC::EnableCheats:
+	        data->e = Effect();
+            data->e.ai_goal = -260;
+            data->e.type = EffectType::AIScriptGoal;
+            break;
+        case EffectVirtualTypeAOC::MaxAmount:
+            data->e.amount = TS_LONG_MAX;
+            break;
+        case EffectVirtualTypeAOC::MinAmount:
+            data->e.amount = TS_LONG_MIN;
+            break;
+        default:
+	        data->e = Effect();
+        }
+        break;
+    case SWGB:
+	    switch (newtype) {
+        case EffectVirtualTypeSWGB::MaxAmount:
+            data->e.amount = TS_LONG_MAX;
+            break;
+        case EffectVirtualTypeSWGB::MinAmount:
+            data->e.amount = TS_LONG_MIN;
+            break;
+        default:
+	        data->e = Effect();
+        }
+        break;
+    case SWGBCC:
+	    switch (newtype) {
+        case EffectVirtualTypeAOHD::None:
+	        EffectControls(dialog, data->e.type);
+	        break;
+        case EffectVirtualTypeSWGBCC::MaxAmount:
+            data->e.amount = TS_LONG_MAX;
+            break;
+        case EffectVirtualTypeSWGBCC::MinAmount:
+            data->e.amount = TS_LONG_MIN;
+            break;
+        default:
+	        data->e = Effect();
         }
         break;
     }

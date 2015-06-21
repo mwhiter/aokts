@@ -53,6 +53,7 @@ Effect::Effect()
 	num_sel(-1),
 	uid_loc(-1),
 	pUnit(NULL),
+	ucnst(-1),
 	s_player(-1),
 	t_player(-1),
 	pTech(NULL),
@@ -148,7 +149,7 @@ void Effect::write(FILE *out)
 		fwrite(uids, sizeof(long), num_sel, out);
 }
 
-std::string pluralizeUnitType(std::string unit_type_name) { 
+std::string pluralizeUnitType(std::string unit_type_name) {
     std::ostringstream convert;
     replaced(unit_type_name, ", Unpacked", "");
     if (!unit_type_name.empty() && *unit_type_name.rbegin() != 's' && !replaced(unit_type_name, "man", "men")) {
@@ -198,6 +199,13 @@ std::string Effect::selectedUnits() const {
 	for (int i = 0; i < num_sel; i++) {
         convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
 	}
+    if (valid_partial_map()) {
+        if (valid_area_location()) {
+            convert << " at (" << area.left << "," << area.top << ") ";
+        } else {
+            convert << " in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
+        }
+    }
     return convert.str();
 }
 
@@ -250,49 +258,6 @@ public:
 private:
 	UCNST _cnst;
 };
-
-std::string Effect::getAffectedUnits() const {
-    std::ostringstream convert;
-    bool unit_set_selected = valid_unit_spec(); // also use unit class and type
-    if (s_player >= 0)
-        convert << playerPronoun(s_player) << "'s ";
-	if (num_sel > 0) {
-	    if (num_sel == 1) {
-            convert << "unit ";
-        } else {
-            convert << "units ";
-        }
-	    for (int i = 0; i < num_sel; i++) {
-            convert << uids[i] << " (" << get_unit_full_name(uids[i]) << ") ";
-	    }
-	    if (unit_set_selected) {
-	        convert << " and ";
-	    }
-    }
-    if (unit_set_selected) {
-        std::wstring unitname(pUnit->name());
-        std::string un(unitname.begin(), unitname.end());
-        if (!un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-            convert << un << "s ";
-        } else {
-            convert << un << " ";
-        }
-    } else {
-	    if (num_sel <= 0) {
-            convert << "units ";
-	    }
-    }
-    if (unit_set_selected) {
-        if (valid_partial_map()) {
-            if (valid_area_location()) {
-                convert << "at (" << area.left << "," << area.top << ") ";
-            } else {
-                convert << "in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
-            }
-        }
-    }
-	return convert.str();
-}
 
 std::string Effect::getName(bool tip, NameFlags::Value flags) const
 {
@@ -484,9 +449,9 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         convert << "complete AI shared goal " << ai_goal + 258;
                     } else if (ai_goal >= 774 && ai_goal <= 1029) {
 	                    // Set AI Signal
-                        convert << "signal AI " << ai_goal - 774;
+                        convert << "signal AI? " << ai_goal - 774;
                     } else {
-                        convert << "AI signalled " << ai_goal;
+                        convert << "signal AI " << ai_goal;
                     }
                 }
                 stype.append(convert.str());
@@ -524,7 +489,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     convert << "no attack stance";
                     break;
                 }
-                convert << " " << getAffectedUnits();
+                convert << " " << selectedUnits();
                 stype.append(convert.str());
                 break;
             case EffectType::Unload:
@@ -536,7 +501,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 if (panel >= 1 && panel <= 9) {
                     convert << "place" << " " << selectedUnits() << " into control group " << panel;
                 } else {
-                    convert << "Stop " << selectedUnits();
+                    convert << "stop " << selectedUnits();
                     if (valid_partial_map()) {
                         if (valid_area_location()) {
                             convert << " at (" << area.left << "," << area.top << ")";
@@ -649,7 +614,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 break;
             case EffectType::TaskObject:
                 if (!(valid_partial_map() || (has_selected() && valid_selected()))) {
-                    convert << "INVALID UNIT/AREA SELECTION";
+                    convert << "Task all units";
                     stype.append(convert.str());
                     break;
                 }
@@ -701,14 +666,14 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
             case EffectType::DamageObject:
                 {
                     if (amount == TS_LONG_MAX) {
-                        convert << "min health for " << getAffectedUnits();
+                        convert << "min health for " << selectedUnits();
                     } else if (amount == TS_LONG_MIN) {
-                        convert << "make " << getAffectedUnits() << "invincible";
+                        convert << "make " << selectedUnits() << " invincible";
                     } else {
                         if (amount < 0) {
-                            convert << "buff " << getAffectedUnits() << "with " << -amount << " HP";
+                            convert << "buff " << selectedUnits() << " with " << -amount << " HP";
                         } else {
-                            convert << "damage " << getAffectedUnits() << "by " << amount << " HP";
+                            convert << "damage " << selectedUnits() << " by " << amount << " HP";
                         }
                     }
                     stype.append(convert.str());
@@ -719,7 +684,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 if (amount > 0) {
                     convert << "+";
                 }
-                convert << amount << " " << getTypeName(type, true) << " to "  << getAffectedUnits();
+                convert << amount << " " << getTypeName(type, true) << " to "  << selectedUnits();
                 stype.append(convert.str());
                 break;
             case EffectType::ChangeSpeed_UP: // SnapView_SWGB, AttackMove_HD
@@ -728,7 +693,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     if (amount > 0) {
                         convert << "+";
                     }
-                    convert << amount << " " << getTypeName(type, true) << " to "  << getAffectedUnits();
+                    convert << amount << " " << getTypeName(type, true) << " to "  << selectedUnits();
                     stype.append(convert.str());
                     break;
                 case SWGB:
@@ -755,7 +720,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     if (amount > 0) {
                         convert << "+";
                     }
-                    convert << amount << " " << getTypeName(type, true) << " to "  << getAffectedUnits();
+                    convert << amount << " " << getTypeName(type, true) << " to "  << selectedUnits();
                     stype.append(convert.str());
                     break;
                 case SWGB:
@@ -855,10 +820,25 @@ inline bool Effect::valid_selected() const {
 	return true;
 }
 
+inline bool Effect::has_unit_constant() const {
+    return pUnit;
+    //return ucnst >= 0;
+}
+
+inline bool Effect::valid_unit_constant() const {
+    return pUnit && pUnit->id();
+    //return ucnst >= 0;
+}
+
 inline bool Effect::valid_unit_spec() const {
-    // utype >= 0
-    // pUnit && pUnit->id() ??
-	return pUnit != NULL && pUnit->id() >= 0;
+    if (!valid_source_player()) {
+        return false;
+    }
+    if (has_unit_constant() && !valid_unit_constant()) {
+        return false;
+    }
+    //utype >= 0 || group >= 0
+    return true;
 }
 
 inline bool Effect::valid_technology_spec() const {
@@ -926,9 +906,11 @@ bool Effect::check() const
         return false;
     }
 
-    bool valid_selected = Effect::valid_selected(); // perform this check on all effects
+    bool valid_selected = Effect::valid_selected();
+    bool has_valid_selected = Effect::has_selected() && valid_selected; // perform this check on all effects
+    bool valid_area_selection = valid_unit_spec() && valid_area();
 
-    if (num_sel > 0 && !valid_selected) {
+    if (!valid_selected) {
         return false;
     }
 
@@ -951,7 +933,7 @@ bool Effect::check() const
 
 	case EffectType::UnlockGate:
 	case EffectType::LockGate:
-		return valid_selected;
+		return has_valid_selected;
 
 	case EffectType::ActivateTrigger:
 	case EffectType::DeactivateTrigger:
@@ -964,10 +946,10 @@ bool Effect::check() const
 		return valid_source_player() && valid_location_coord() && valid_unit_spec();
 
 	case EffectType::Unload:
-        return valid_selected && valid_destination();
+        return has_valid_selected && valid_destination();
 
 	case EffectType::TaskObject:
-        return (valid_partial_map() || (has_selected() && valid_selected) ||
+        return (valid_partial_map() || has_valid_selected ||
                (!valid_location_coord() && null_location_unit()));
 
 	case EffectType::KillObject:
@@ -975,7 +957,7 @@ bool Effect::check() const
 	case EffectType::FreezeUnit:
 	case EffectType::StopUnit:
 	case EffectType::FlashUnit_SWGB:
-		return valid_selected || valid_partial_map();
+		return has_valid_selected || valid_area_selection;
 
 	case EffectType::DeclareVictory:
 		return valid_source_player();
@@ -984,10 +966,10 @@ bool Effect::check() const
 		return valid_source_player() && valid_location_coord();
 
 	case EffectType::ChangeOwnership:
-		return (valid_selected || valid_partial_map()) && valid_source_player() && valid_source_player();
+		return (has_valid_selected || valid_area_selection) && valid_target_player();
 
 	case EffectType::Patrol:
-		return (valid_selected && valid_location_coord());
+		return (has_valid_selected && valid_location_coord());
 
 	case EffectType::DisplayInstructions:
 		return (valid_panel() && disp_time >= 0 && (*text.c_str() || textid));	//AOK missing text
@@ -1001,15 +983,15 @@ bool Effect::check() const
 	case EffectType::DamageObject:
 	case EffectType::ChangeObjectHP:
 	case EffectType::ChangeObjectAttack:
-		return (valid_selected || (valid_unit_spec() && valid_area())) && valid_points();
+		return (has_valid_selected || valid_area_selection) && valid_points();
 
 	case EffectType::ChangeSpeed_UP: // SnapView_SWGB // AttackMove_HD
 	    switch (scen.game) {
 	    case UP:
-		    return (valid_selected || (valid_unit_spec() && valid_area())) && valid_points();
+		    return (has_valid_selected || valid_area_selection) && valid_points();
 	    case AOHD:
 	    case AOF:
-		    return valid_selected && valid_location_coord();
+		    return has_valid_selected && valid_location_coord();
 	    case SWGB:
 	    case SWGBCC:
 		    return valid_source_player() && valid_location_coord();
@@ -1021,7 +1003,7 @@ bool Effect::check() const
 	    case UP:
 	    case AOHD:
 	    case AOF:
-		    return (valid_selected || (valid_unit_spec() && valid_area())) && valid_points();
+		    return (has_valid_selected || valid_area_selection) && valid_points();
 	    case SWGB:
 	    case SWGBCC:
 		    return true;
@@ -1034,7 +1016,7 @@ bool Effect::check() const
 	    case UP:
 	    case AOHD:
 	    case AOF:
-		    return (valid_selected || (valid_unit_spec() && valid_area())) && valid_points();
+		    return (has_valid_selected || valid_area_selection) && valid_points();
 	    case SWGB:
 	    case SWGBCC:
 		    return valid_technology_spec();
@@ -1048,10 +1030,10 @@ bool Effect::check() const
 	    switch (scen.game) {
 	    case AOK:
 	    case AOC:
-	        return (valid_selected || (valid_unit_spec() && valid_area()));
+	        return (has_valid_selected || valid_area_selection);
 	    case AOHD:
 	    case AOF:
-	        return (valid_selected || (valid_unit_spec() && valid_area()));
+	        return (has_valid_selected || valid_area_selection);
 	    }
 		return true;
 
@@ -1083,6 +1065,7 @@ void Effect::fromGenie(const Genie_Effect& genie)
 	num_sel = genie.num_selected;
 	uid_loc = genie.uid_location;
 	pUnit = esdata.units.getByIdSafe(genie.unit_constant);
+	ucnst = genie.unit_constant;
 	s_player = genie.player_source;
 	t_player = genie.player_target;
 	pTech = esdata.techs.getByIdSafe(genie.technology);

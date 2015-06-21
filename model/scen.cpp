@@ -1469,23 +1469,14 @@ int Scenario::write_data(const char *path)
 	fwrite(&num_players, 4, 1, dcout);
 	for (i = PLAYER1_INDEX; i < num_players - 1; i++)
 	{
-		float resources[7];
+		float resources[6];
 		resources[0] = (float)players[i].resources[2];	//food
 		resources[1] = (float)players[i].resources[1];
 		resources[2] = (float)players[i].resources[0];	//gold
 		resources[3] = (float)players[i].resources[3];
 		resources[4] = (float)players[i].resources[4];
-		if (game == AOHD4 || game == AOF4) {
-		    resources[5] = (float)players[i].resources[5];
-		    resources[6] = 0.0F;
-		} else {
-		    resources[5] = 0.0F;
-		}
-		if (scen.game == AOHD4 || scen.game == AOF4) {
-		    fwrite(resources, sizeof(float), 7, dcout);
-		} else {
-		    fwrite(resources, sizeof(float), 6, dcout);
-		}
+		resources[5] = 0.0F;
+		fwrite(resources, sizeof(float), 6, dcout);
 
         if (game >= AOC && game != SWGB && game != SWGBCC)
 			fwrite(&players[i].pop, 4, 1, dcout);

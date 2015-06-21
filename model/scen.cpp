@@ -1327,12 +1327,9 @@ int Scenario::write_data(const char *path)
 		fwrite(&vclen, sizeof(unsigned long), 1, dcout);
 		fwrite(&ctylen, sizeof(unsigned long), 1, dcout);
 		fwrite(&ailen, sizeof(unsigned long), 1, dcout);
-		if (vclen)
-		    p->vcfile.write(dcout, sizeof(unsigned long), false, false, true);
-		if (ctylen)
-		    p->ctyfile.write(dcout, sizeof(unsigned long), false, false, true);
-		if (ailen)
-		    p->aifile.write(dcout, sizeof(unsigned long), false, false, true);
+		p->vcfile.write(dcout, sizeof(unsigned long), false, false, true);
+		p->ctyfile.write(dcout, sizeof(unsigned long), false, false, true);
+		p->aifile.write(dcout, sizeof(unsigned long), false, false, true);
 	}
 	FEP(p)
 		putc(p->aimode, dcout);

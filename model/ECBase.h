@@ -38,7 +38,7 @@ const size_t EC_NUM_PLAYERS = 9;
  * Contains player names in E/C ordering.
  * TODO: put in ECBase
  */
-extern char const *players_ec[EC_NUM_PLAYERS];
+extern char const *players_ec[EC_NUM_PLAYERS + 1];
 
 enum TType
 {

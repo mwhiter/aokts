@@ -430,8 +430,8 @@ void E_Init(HWND dialog, EditEffect *data)
 	Combo_Fill(dialog, IDC_E_TYPE, Effect::types,scen.pergame->max_effect_types);
 	Combo_Fill(dialog, IDC_E_VTYPE, Effect::virtual_types, scen.pergame->max_virtual_effect_types + 1); // +1 for None option
 
-	Combo_Fill(dialog, IDC_E_SPLAY, players_ec, EC_NUM_PLAYERS);
-	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, EC_NUM_PLAYERS);
+	Combo_Fill(dialog, IDC_E_SPLAY, players_ec, EC_NUM_PLAYERS + 1);
+	Combo_Fill(dialog, IDC_E_TPLAY, players_ec, EC_NUM_PLAYERS + 1);
 	Combo_Fill(dialog, IDC_E_DSTATE, dnames, 4);
 	Combo_Fill(dialog, IDC_E_PANEL, pnames, 4); // should this be 5?
 	LCombo_Fill(dialog, IDC_E_RESEARCH, esdata.techs.head());
@@ -653,8 +653,8 @@ void LoadEffect(HWND dialog, EditEffect *data)
 	SetDlgItemText(dialog, IDC_E_TEXT, e->text.c_str());
 	SetDlgItemInt(dialog, IDC_E_DTIME, e->disp_time, TRUE);
 	SetDlgItemInt(dialog, IDC_E_TEXTID, e->textid, TRUE);
-	SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_SETCURSEL, e->s_player, 0);
-	SendDlgItemMessage(dialog, IDC_E_TPLAY, CB_SETCURSEL, e->t_player, 0);
+	SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_SETCURSEL, e->s_player + 1, 0);
+	SendDlgItemMessage(dialog, IDC_E_TPLAY, CB_SETCURSEL, e->t_player + 1, 0);
 	SendDlgItemMessage(dialog, IDC_E_DSTATE, CB_SETCURSEL, e->diplomacy, 0);
 	SetDlgItemInt(dialog, IDC_E_LOCX, e->location.x, TRUE);
 	SetDlgItemInt(dialog, IDC_E_LOCY, e->location.y, TRUE);
@@ -731,8 +731,8 @@ void SaveEffect(HWND dialog, EditEffect *data)
 		e->disp_time = GetDlgItemInt(dialog, IDC_E_DTIME, NULL, TRUE);
 		e->pUnit = (UnitLink*)LCombo_GetSelPtr(dialog, IDC_E_UCNST);
 		e->textid = GetDlgItemInt(dialog, IDC_E_TEXTID, NULL, TRUE);
-		e->s_player = SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_GETCURSEL, 0, 0);
-		e->t_player = SendDlgItemMessage(dialog, IDC_E_TPLAY, CB_GETCURSEL, 0, 0);
+		e->s_player = SendDlgItemMessage(dialog, IDC_E_SPLAY, CB_GETCURSEL, 0, 0) - 1;
+		e->t_player = SendDlgItemMessage(dialog, IDC_E_TPLAY, CB_GETCURSEL, 0, 0) - 1;
 		e->diplomacy = (enum Diplomacy)SendDlgItemMessage(dialog, IDC_E_DSTATE, CB_GETCURSEL, 0, 0);
 		e->location.x = GetDlgItemInt(dialog, IDC_E_LOCX, NULL, TRUE);
 		e->location.y = GetDlgItemInt(dialog, IDC_E_LOCY, NULL, TRUE);

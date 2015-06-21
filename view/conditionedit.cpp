@@ -176,7 +176,7 @@ void C_Init(HWND dialog)
     ENABLE_WND(IDC_C_RESERVED, scen.game == UP || setts.editall);
 	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, scen.pergame->max_condition_types);
 	Combo_Fill(dialog, IDC_C_VTYPE, Condition::virtual_types, scen.pergame->max_virtual_condition_types + 1); // +1 for None option
-	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS);
+	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS + 1);
 	LCombo_Fill(dialog, IDC_C_RESEARCH, esdata.techs.head());
 	LCombo_Fill(dialog, IDC_C_RESTYPE, esdata.resources.head());
 	Combo_PairFill(GetDlgItem(dialog, IDC_C_GROUP), NUM_GROUPS, groups);
@@ -266,7 +266,7 @@ void LoadCond(HWND dialog, EditCondition *data)
 
 	SendDlgItemMessage(dialog, IDC_C_TYPE, CB_SETCURSEL, c->type, 0);
 	SetDlgItemInt(dialog, IDC_C_TYPEVAL, c->type, TRUE);
-	SendDlgItemMessage(dialog, IDC_C_PLAYER, CB_SETCURSEL, c->player, 0);
+	SendDlgItemMessage(dialog, IDC_C_PLAYER, CB_SETCURSEL, c->player + 1, 0);
 	SetDlgItemInt(dialog, IDC_C_UIDOBJ, c->object, TRUE);
 	SetDlgItemInt(dialog, IDC_C_UIDLOC, c->u_loc, TRUE);
 	LCombo_Select(dialog, IDC_C_UCNST, c->pUnit);
@@ -301,7 +301,7 @@ void SaveCond(HWND dialog, EditCondition *data)
 	{
 		c->type = newtype;
 		c->pUnit = (UnitLink*)LCombo_GetSelPtr(dialog, IDC_C_UCNST);
-		c->player = SendDlgItemMessage(dialog, IDC_C_PLAYER, CB_GETCURSEL, 0, 0);
+		c->player = SendDlgItemMessage(dialog, IDC_C_PLAYER, CB_GETCURSEL, 0, 0) - 1;
 		c->object = GetDlgItemInt(dialog, IDC_C_UIDOBJ, NULL, TRUE);
 		c->u_loc = GetDlgItemInt(dialog, IDC_C_UIDLOC, NULL, TRUE);
 		c->group = SendDlgItemMessage(dialog, IDC_C_GROUP, CB_GETCURSEL, 0, 0);

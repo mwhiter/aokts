@@ -1281,6 +1281,12 @@ void Scenario::read_data(const char *path)	//decompressed data
 	if (fgetc(dc2in.get()) != EOF)
 		throw bad_data_error("Unrecognized data at end.");
 
+    if (game == AOHD) {
+        game = AOHD4;
+    }
+    if (game == AOF) {
+        game = AOF4;
+    }
 	adapt_game();
 
 	// FILE close taken care of by AutoFile! yay.

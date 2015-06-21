@@ -204,7 +204,7 @@ const char etable1_14RC[Effect::NUM_EFFECTS_UP][EditEffect::N_CONTROLS] = // Usi
 };
 
 // AOHD
-const char etable1_aohd[Effect::NUM_EFFECTS_AOHD][EditEffect::N_CONTROLS] = // Using 0 instead of -1 to waste less space
+const char etable1_aohd[Effect::NUM_EFFECTS_AOHD4][EditEffect::N_CONTROLS] = // Using 0 instead of -1 to waste less space
 {	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
 	{ 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Change Diplomacy
@@ -240,6 +240,9 @@ const char etable1_aohd[Effect::NUM_EFFECTS_AOHD][EditEffect::N_CONTROLS] = // U
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Armor
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Speed
 	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Change Range
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 1 },	// Heal Object
+	{ 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Teleport Object
+	{ 0, 1, 0, 0, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 1 },	// Change Unit Stance
 };
 
 // SWGB

@@ -152,8 +152,11 @@ struct EffectType {
 	        ChangeSpeed_HD = ChangePiercingArmor_UP,
 	        DisableTech_SWGB = ChangePiercingArmor_UP,
 	    EnableUnit_SWGB,
+	        HealObject_HD = EnableUnit_SWGB,
 	    DisableUnit_SWGB,
+	        TeleportObject_HD = DisableUnit_SWGB,
 	    FlashUnit_SWGB,
+	        ChangUnitStance_HD = FlashUnit_SWGB,
 	    InputOff_CC,
 	    InputOn_CC,
 	};
@@ -245,7 +248,9 @@ public:
     static const int NUM_EFFECTS_AOK = 24;
     static const int NUM_EFFECTS_AOC = 30;
     static const int NUM_EFFECTS_AOHD = 34;
+    static const int NUM_EFFECTS_AOHD4 = 37;
     static const int NUM_EFFECTS_AOF = 34;
+    static const int NUM_EFFECTS_AOF4 = 37;
     static const int NUM_EFFECTS_UP = 34;
     static const int NUM_EFFECTS_SWGB = 37;
     static const int NUM_EFFECTS_CC   = 39;
@@ -261,15 +266,15 @@ public:
 	static const char* types_aok[NUM_EFFECTS_AOK];
 	static const char* types_aoc[NUM_EFFECTS_AOC];
 	static const char* types_up[NUM_EFFECTS_UP];
-	static const char* types_aohd[NUM_EFFECTS_AOHD];
-	static const char* types_aof[NUM_EFFECTS_AOF];
+	static const char* types_aohd[NUM_EFFECTS_AOHD4];
+	static const char* types_aof[NUM_EFFECTS_AOF4];
 	static const char* types_swgb[NUM_EFFECTS_SWGB];
 	static const char* types_cc[NUM_EFFECTS_CC];
 	static const char* types_short_aok[NUM_EFFECTS_AOK];
 	static const char* types_short_aoc[NUM_EFFECTS_AOC];
 	static const char* types_short_up[NUM_EFFECTS_UP];
-	static const char* types_short_aohd[NUM_EFFECTS_AOHD];
-	static const char* types_short_aof[NUM_EFFECTS_AOF];
+	static const char* types_short_aohd[NUM_EFFECTS_AOHD4];
+	static const char* types_short_aof[NUM_EFFECTS_AOF4];
 	static const char* types_short_swgb[NUM_EFFECTS_SWGB];
 	static const char* types_short_cc[NUM_EFFECTS_CC];
 

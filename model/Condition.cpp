@@ -611,7 +611,8 @@ const char *Condition::types_aok[] =
 	"Object Not Visible",
 	"Researching Technology",
 	"Units Garrisoned",
-	"Difficulty Level"
+	"Difficulty Level",
+	"Chance",
 };
 
 const char *Condition::types_swgb[] =
@@ -689,7 +690,8 @@ const char *Condition::types_short_aok[] =
 	"Not Visible",
 	"Researching",
 	"Garrisoned",
-	"Difficulty"
+	"Difficulty",
+	"Chance",
 };
 
 const char *Condition::types_short_swgb[] =

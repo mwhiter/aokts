@@ -1325,6 +1325,9 @@ const char *Effect::types_aohd[] = {
 	"Change Armor",
 	"Change Range",
 	"Change Speed",
+	"Heal Object",
+	"Teleport Object",
+	"Change Unit Stance"
 };
 
 const char *Effect::types_aof[] = {
@@ -1362,6 +1365,9 @@ const char *Effect::types_aof[] = {
 	"Change Armor",
 	"Change Range",
 	"Change Speed",
+	"Heal Object",
+	"Teleport Object",
+	"Change Unit Stance"
 };
 
 const char *Effect::types_short_aok[] = {
@@ -1495,7 +1501,10 @@ const char *Effect::types_short_aohd[] = {
 	"Attack-Move",
 	"Armor",
 	"Range",
-	"Speed"
+	"Speed",
+	"Heal",
+	"Teleport",
+	"Change Stance"
 };
 
 const char *Effect::types_short_aof[] = {
@@ -1532,7 +1541,10 @@ const char *Effect::types_short_aof[] = {
 	"Attack-Move",
 	"Armor",
 	"Range",
-	"Speed"
+	"Speed",
+	"Heal",
+	"Teleport",
+	"Change Stance"
 };
 
 const char *Effect::types_short_swgb[] = {

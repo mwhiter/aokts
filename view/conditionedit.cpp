@@ -29,7 +29,7 @@ void EditCondition::update(Trigger *t)
 }
 
 // AoC v1.0c
-const char ctable_aok[Condition::NUM_CONDITIONS_AOK][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
+const char ctable_aok[Condition::NUM_CONDITIONS_AOHD4][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
 {	//0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
 	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// None
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0 },	// Bring Object to Area
@@ -50,7 +50,8 @@ const char ctable_aok[Condition::NUM_CONDITIONS_AOK][EditCondition::N_CONTROLS] 
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
 	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
 	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }  // Difficulty Level
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
+	{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Timer
 };
 
 // ../res/resource.h

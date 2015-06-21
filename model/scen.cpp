@@ -209,8 +209,8 @@ const PerGame Scenario::pgAOHD4 =
 	459,
 	513,
 	100,  // including 1 undefined
-	20,
-	34,
+	21,
+	37,
 	0,
 	2
 };
@@ -221,8 +221,8 @@ const PerGame Scenario::pgAOF4 =
 	459,
 	513,
 	100,  // including 1 undefined
-	20,
-	34,
+	21,
+	37,
 	0,
 	2
 };
@@ -680,7 +680,6 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			}
 			break;
 		case AOHD:
-		case AOHD4:
 			switch (game) {
 			case UP:
 			    if ((flags & SaveFlags::CONVERT_EFFECTS))
@@ -697,7 +696,6 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			}
 			break;
 		case AOF:
-		case AOF4:
 			switch (game) {
 			case UP:
 			    if ((flags & SaveFlags::CONVERT_EFFECTS))
@@ -713,6 +711,9 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			    break;
 			}
 			break;
+		case AOHD4:
+		case AOF4:
+		    break;
 		case SWGB:
 			if ((game == AOHD || game == AOF))
 			    hd_to_swgb();

@@ -258,10 +258,10 @@ void FileSave(HWND sheet, bool as, bool write)
 		    conv = UP;
 		    break;
 		case 4:
-		    conv = AOHD;
+		    conv = AOHD4;
 		    break;
 		case 5:
-		    conv = AOF;
+		    conv = AOF4;
 		    break;
 		case 6:
 		    conv = SWGB;

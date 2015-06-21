@@ -59,6 +59,7 @@ struct ConditionType {
 	    UnitsGarrisoned,
 	    DifficultyLevel,
 	    OwnFewerFoundations_SWGB,
+	        Chance = OwnFewerFoundations_SWGB,
 	    SelectedObjectsInArea_SWGB,
 	    PoweredObjectsInArea_SWGB,
 	    UnitsQueuedPastPopCap_SWGB,
@@ -110,6 +111,8 @@ public:
 	long unknown2;
 
     static const int NUM_CONDITIONS_AOK = 20;
+    static const int NUM_CONDITIONS_AOHD4 = 21;
+    static const int NUM_CONDITIONS_AOF4 = 21;
     static const int NUM_CONDITIONS_SWGB = 22;
     static const int NUM_CONDITIONS_CC = 24;
 
@@ -121,10 +124,10 @@ public:
     static const int NUM_VIRTUAL_CONDITIONS_SWGB = 1;
     static const int NUM_VIRTUAL_CONDITIONS_CC = 1;
 
-	static const char* types_aok[NUM_CONDITIONS_AOK];
+	static const char* types_aok[NUM_CONDITIONS_AOHD4];
 	static const char* types_swgb[NUM_CONDITIONS_SWGB];
 	static const char* types_cc[NUM_CONDITIONS_CC];
-	static const char* types_short_aok[NUM_CONDITIONS_AOK];
+	static const char* types_short_aok[NUM_CONDITIONS_AOHD4];
 	static const char* types_short_swgb[NUM_CONDITIONS_SWGB];
 	static const char* types_short_cc[NUM_CONDITIONS_CC];
 

@@ -424,7 +424,9 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		case AOK:
 		case AOC:
 		case AOHD:
+		case AOHD4:
 		case AOF:
+		case AOF4:
 		    ofn.nFilterIndex =	1;
 		    ofn.lpstrDefExt =	"scx";
 		    break;

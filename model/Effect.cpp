@@ -206,7 +206,7 @@ void Effect::write(FILE *out)
 	writebin(out, &group);
 	writebin(out, &utype);
 	writebin(out, &panel);
-    if (ttype == CONDITION_HD4) {
+    if (ttype == EFFECT_HD4) {
 	    writebin(out, &unknown);
 	}
 

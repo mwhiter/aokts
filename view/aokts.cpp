@@ -225,10 +225,12 @@ void FileSave(HWND sheet, bool as, bool write)
 		    ofn.lpstrDefExt =	"scx";
 		    break;
 		case AOHD:
+		case AOHD4:
 		    ofn.nFilterIndex =	4;
 		    ofn.lpstrDefExt =	"scx";
 		    break;
 		case AOF:
+		case AOF4:
 		    ofn.nFilterIndex =	5;
 		    ofn.lpstrDefExt =	"scx2";
 		    break;
@@ -269,9 +271,6 @@ void FileSave(HWND sheet, bool as, bool write)
 		    break;
 		}
 
-		if (startver == conv)
-		    conv = NOCONV;
-
 		if (!*scen.origname)
 			strcpy(scen.origname, setts.ScenPath + ofn.nFileOffset);
 
@@ -279,21 +278,21 @@ void FileSave(HWND sheet, bool as, bool write)
 		_snprintf(titleBuffer, sizeof(titleBuffer),
 			"%s - %s", szTitle, setts.ScenPath + ofn.nFileOffset);
 		SetWindowText(sheet, titleBuffer);
+	} else {
+	    conv = scen.game;
 	}
 
-    if (conv != NOCONV) {
-        if ((startver == AOHD || startver == AOF) && conv == UP) {
-            if (setts.asktoconverteffects &&
-                MessageBox(sheet, "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES) {
-                flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
-            }
+    if ((startver == AOHD || startver == AOF) && conv == UP) {
+        if (setts.asktoconverteffects &&
+            MessageBox(sheet, "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES) {
+            flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
         }
+    }
 
-        if (startver == UP && (conv == AOHD || conv == AOF)) {
-            if (setts.asktoconverteffects &&
-                MessageBox(sheet, "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES) {
-                flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
-            }
+    if (startver == UP && (conv == AOHD || conv == AOF)) {
+        if (setts.asktoconverteffects &&
+            MessageBox(sheet, "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES) {
+            flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
         }
     }
 

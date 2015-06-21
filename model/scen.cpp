@@ -84,6 +84,14 @@ const PerVersion Scenario::pv1_23 = // AOHD / AOF
 	20
 };
 
+const PerVersion Scenario::pv1_24 = // SWGB / AOHDv4 / AOFv4
+{
+	6,
+	true,
+	30,
+	20
+};
+
 /*  PerGames
  *  See scen_const.h
  *
@@ -189,6 +197,30 @@ const PerGame Scenario::pgAOF = // these are not correct
 	459,
 	513,
 	41,  // including 1 undefined
+	20,
+	34,
+	0,
+	2
+};
+
+const PerGame Scenario::pgAOHD4 =
+{
+	865,
+	459,
+	513,
+	100,  // including 1 undefined
+	20,
+	34,
+	0,
+	2
+};
+
+const PerGame Scenario::pgAOF4 =
+{
+	865,
+	459,
+	513,
+	100,  // including 1 undefined
 	20,
 	34,
 	0,
@@ -439,6 +471,34 @@ void Scenario::adapt_game() {
         Effect::types_short = Effect::types_short_aohd;
         Effect::virtual_types = Effect::virtual_types_aohd;
         break;
+    case AOF4:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_AOHD_AOF4;
+	    version2 = 1.24F;
+		perversion = &pv1_24;
+	    pergame = &pgAOF4;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_aof;
+        Effect::types = Effect::types_aof;
+        Effect::types_short = Effect::types_short_aof;
+        Effect::virtual_types = Effect::virtual_types_aof;
+        break;
+    case AOHD4:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_AOHD_AOF;
+	    version2 = 1.24F;
+		perversion = &pv1_24;
+	    pergame = &pgAOHD4;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_aohd;
+        Effect::types = Effect::types_aohd;
+        Effect::types_short = Effect::types_short_aohd;
+        Effect::virtual_types = Effect::virtual_types_aohd;
+        break;
     case SWGB:
 	    strcpy(header.version, "1.21"); // is this needed?
 	    ver1 = SV1_AOC_SWGB;
@@ -590,17 +650,10 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 	switch (convert)
 	{
 		case AOK:
-			ver1 = SV1_AOK;
-			ver2 = SV2_AOK;
-			perversion = &pv1_18;
 			if (game == AOC || game == AOHD || game == AOF)
 			    aoc_to_aok();
-			game = AOK;
 			break;
 		case AOC:
-			ver1 = SV1_AOC_SWGB;
-			ver2 = SV2_AOC_SWGB;
-			perversion = &pv1_22;
 			switch (game) {
 			case AOHD:
 			case AOF:
@@ -613,12 +666,8 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			    aok_to_aoc();
 			    break;
 			}
-			game = AOC;
 			break;
 		case UP:
-			ver1 = SV1_AOC_SWGB;
-			ver2 = SV2_AOC_SWGB;
-			perversion = &pv1_22;
 			switch (game) {
 			case AOHD:
 			case AOF:
@@ -629,12 +678,9 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			    aok_to_aoc();
 			    break;
 			}
-			game = UP;
 			break;
 		case AOHD:
-			ver1 = SV1_AOC_SWGB;
-			ver2 = SV2_AOHD_AOF;
-			perversion = &pv1_23;
+		case AOHD4:
 			switch (game) {
 			case UP:
 			    if ((flags & SaveFlags::CONVERT_EFFECTS))
@@ -644,12 +690,9 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			    aok_to_aoc();
 			    break;
 			}
-			game = AOHD;
 			break;
 		case AOF:
-			ver1 = SV1_AOC_SWGB;
-			ver2 = SV2_AOHD_AOF;
-			perversion = &pv1_23;
+		case AOF4:
 			switch (game) {
 			case UP:
 			    if ((flags & SaveFlags::CONVERT_EFFECTS))
@@ -659,33 +702,26 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			    aok_to_aoc();
 			    break;
 			}
-			game = AOF;
 			break;
 		case SWGB:
-			ver1 = SV1_AOC_SWGB;
-			ver2 = SV2_AOC_SWGB;
-			perversion = &pv1_30;
 			if ((game == AOHD || game == AOF))
 			    hd_to_swgb();
 			if (game == UP)
 			    up_to_swgb();
 			if (game == AOK)
 			    aok_to_aoc();
-			game = SWGB;
 			break;
 		case SWGBCC:
-			ver1 = SV1_AOC_SWGB;
-			ver2 = SV2_SWGBCC;
-			perversion = &pv1_30;
 			if ((game == AOHD || game == AOF))
 			    hd_to_swgb();
 			if (game == UP)
 			    up_to_swgb();
 			if (game == AOK)
 			    aok_to_aoc();
-			game = SWGBCC;
 			break;
 	}
+	game = convert;
+	adapt_game();
 
 	/* Header */
 	header.write(scx.get(), messages, getPlayerCount(), game);
@@ -786,10 +822,12 @@ void Scenario::_header::write(FILE *scx, const SString *instr, long players, Gam
 	case SWGBCC:
 	case AOHD:
 	case AOF:
+	case AOHD4:
+	case AOF4:
 		strcpy(version, "1.21");
 		break;
 	default:
-		strcpy(version, "0.00");
+		strcpy(version, "1.00");
 		break;
 	}
 	fwrite(version, sizeof(char), 4, scx);
@@ -920,6 +958,8 @@ void Scenario::read_data(const char *path)	//decompressed data
 		case AOC:
 		case AOHD:
 		case AOF:
+		case AOHD4:
+		case AOF4:
 		case UP:
 		    game = AOC;
 		    break;
@@ -936,6 +976,15 @@ void Scenario::read_data(const char *path)	//decompressed data
 		    game = AOF;
 		} else {
 		    game = AOHD;
+		}
+		break;
+
+	case 124:
+		printf_log("ver2: 1.24 (AOHD or AOF).\n");
+		if (strstr(setts.ScenPath, ".scx2")) {
+		    game = AOF4;
+		} else {
+		    game = AOHD4;
 		}
 		break;
 
@@ -1060,6 +1109,12 @@ void Scenario::read_data(const char *path)	//decompressed data
 	FEP(p)
 		p->read_resources(dc2in.get());
 
+	if (ver2 == SV2_AOHD_AOF4) {
+	    readunk(dc2in.get(), sect, "Global victory unknown 1", false);
+	    readunk(dc2in.get(), sect, "Global victory unknown 2", false);
+	    readunk(dc2in.get(), sect, "Global victory unknown 3", false);
+	}
+
 	/* Global Victory */
 
 	readunk(dc2in.get(), sect, "Global victory sect begin", true);
@@ -1077,7 +1132,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	SKIP(dc2in.get(), sizeof(long) * NUM_PLAYERS);	//other allied victory
 
-	if (ver2 == SV2_AOHD_AOF)
+	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4)
 		readbin(dc2in.get(), &lock_teams);
 
 	/* Disables */
@@ -1255,6 +1310,9 @@ int Scenario::write_data(const char *path)
 		case SV2_AOHD_AOF:
 			version2 = 1.23F;
 			break;
+		case SV2_AOHD_AOF4:
+			version2 = 1.24F;
+			break;
 		case SV2_SWGBCC:
 			version2 = 1.30F;
 			break;
@@ -1363,7 +1421,7 @@ int Scenario::write_data(const char *path)
 		fwrite(&num, sizeof(long), 1, dcout);
 	}
 
-	if (ver2 == SV2_AOHD_AOF)
+	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4)
 		fwrite(&lock_teams, sizeof(long), 1, dcout);
 
 	/* Disables */
@@ -2640,7 +2698,7 @@ AOKTS_ERROR Scenario::water_cliffs_visibility(const bool visibility)
     Unit * u;
     Map::Terrain * t;
 	for (int j = 0; j < numunits; j++) {
-	    if (game == AOK || game == AOC || game == AOHD || game == AOF) {
+	    if (game == AOK || game == AOC || game == AOHD || game == AOF || game == AOHD4 || game == AOF4) {
 	        // 264 - 272 are cliffs (avoid) when game is aoe2
 	        u = &(players[8].units.at(j));
 	        if (u->getType()->id() >= 264 && players[8].units.at(j).getType()->id() <= 272) {
@@ -2664,7 +2722,6 @@ AOKTS_ERROR Scenario::water_cliffs_visibility(const bool visibility)
 	}
 	return ERR_none;
 }
-
 
 AOKTS_ERROR Scenario::randomize_unit_frames(const unsigned int cnst)
 {

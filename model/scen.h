@@ -176,6 +176,7 @@ public:
 	static const PerVersion pv1_21;
 	static const PerVersion pv1_22;
 	static const PerVersion pv1_23;
+	static const PerVersion pv1_24;
 	static const PerVersion pv1_30;
 
 	PerGame pgGame[10];
@@ -185,7 +186,9 @@ public:
 	static const PerGame pgAOC;
 	static const PerGame pgUP;
 	static const PerGame pgAOHD;
+	static const PerGame pgAOHD4;
 	static const PerGame pgAOF;
+	static const PerGame pgAOF4;
 	static const PerGame pgSWGB;
 	static const PerGame pgSWGBCC;
 

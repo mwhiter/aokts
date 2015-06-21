@@ -292,6 +292,7 @@ public:
     void outline(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst, TerrainFlags::Value flags=TerrainFlags::NONE);
     unsigned char outlineDraw(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst, TerrainFlags::Value flags=TerrainFlags::NONE);
     void floodFill4(unsigned long x, unsigned long y, unsigned char newcnst, unsigned char oldcnst);
+    void floodFillElev4(unsigned long x, unsigned long y, unsigned char newelev, unsigned char cnst);
 
 	/*	map_size: returns size of memory needed to copy rectangle.
 
@@ -352,6 +353,7 @@ public:
     AOKTS_ERROR map_swap(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_scale(const RECT &area, const float scale);
     AOKTS_ERROR water_cliffs_visibility(const bool visibility);
+    AOKTS_ERROR set_unit_z_to_map_elev();
     AOKTS_ERROR randomize_unit_frames();
     AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);
     AOKTS_ERROR map_duplicate(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);

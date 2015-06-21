@@ -1786,6 +1786,20 @@ void Scenario::floodFill4(unsigned long x, unsigned long y, unsigned char newcns
     }
 }
 
+// Recursive 4-way floodfill, crashes if recursion stack is full
+void Scenario::floodFillElev4(unsigned long x, unsigned long y, unsigned char newelev, unsigned char cnst)
+{
+    if(x >= 0 && x < map.x && y >= 0 && y < map.y && map.terrain[x][y].cnst == cnst && map.terrain[x][y].elev != newelev)
+    {
+        map.terrain[x][y].elev = newelev;
+
+        floodFillElev4(x + 1, y,     newelev, cnst);
+        floodFillElev4(x - 1, y,     newelev, cnst);
+        floodFillElev4(x,     y + 1, newelev, cnst);
+        floodFillElev4(x,     y - 1, newelev, cnst);
+    }
+}
+
 int Scenario::map_size(const RECT &source, MapCopyCache *&mcc)
 {
 	Player *p;
@@ -2643,6 +2657,21 @@ AOKTS_ERROR Scenario::compress_unit_ids()
         }
 	}
 
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::set_unit_z_to_map_elev()
+{
+    // each player
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+        // units
+        vector<Unit>::iterator end = players[i].units.end();
+	    for (vector<Unit>::iterator iter = players[i].units.begin(); iter != end; ++iter) {
+	        if ((int)iter->x >= 0 && (int)iter->x < map.x && (int)iter->y >= 0 && (int)iter->y < map.y) {
+	            iter->z = map.terrain[(int)iter->x][(int)iter->y].elev;
+	        }
+	    }
+	}
 	return ERR_none;
 }
 

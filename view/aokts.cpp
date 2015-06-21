@@ -958,6 +958,11 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		SetWindowText(propdata.statusbar, "Randomized unit frames and rotations");
 		break;
 
+	case ID_UNITS_TERRAIN_ELEV:
+	    scen.set_unit_z_to_map_elev();
+		SetWindowText(propdata.statusbar, "Unit z positions set to terrain elevation");
+		break;
+
 	case ID_UNITS_DELETE_ALL:
 		scen.delete_player_units(propdata.pindex);
 		SetWindowText(propdata.statusbar, "Player's units deleted");

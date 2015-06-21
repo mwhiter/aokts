@@ -655,6 +655,18 @@ void Map_HandleFloodFill(HWND dialog)
 	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 }
 
+void Map_HandleFloodFillElev(HWND dialog)
+{
+    // remember, y is inverted on map
+    int xpos = propdata.sel0;
+    int ypos = propdata.sel1;
+
+    scen.floodFillElev4(xpos, ypos, GetDlgItemInt(dialog, IDC_TR_ELEV, NULL, FALSE),
+            scen.map.terrain[xpos][ypos].cnst);
+
+	SendMessage(propdata.mapview, MAP_Reset, 0, 0);
+}
+
 void Map_HandleNormalizeElevation(HWND dialog)
 {
     // remember, y is inverted on map
@@ -974,6 +986,11 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		case IDC_TR_FLOOD:
 			Map_HandleFloodFill(dialog);
 		    SetWindowText(propdata.statusbar, "Filled terrain");
+			break;
+
+		case IDC_TR_FLOOD_ELEV:
+			Map_HandleFloodFillElev(dialog);
+		    SetWindowText(propdata.statusbar, "Filled elevation");
 			break;
 
 		case IDC_TR_OUTLINE:

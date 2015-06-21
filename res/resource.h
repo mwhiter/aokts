@@ -229,6 +229,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_TR_OUTLINE_EIGHT        1451
 #define IDC_TR_RAISE_ELEV           1452
 #define IDC_TR_LOWER_ELEV           1453
+#define IDC_TR_FLOOD_ELEV 		    1454
 
 /* Units Controls */
 #define IDC_U_SELU			    1500
@@ -468,3 +469,4 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define ID_TRIGGERS_NOINSTRUCTIONSSOUND     0xE164
 #define ID_DRAW_TERRAIN                     0xE165
 #define ID_DRAW_ELEVATION                   0xE166
+#define ID_UNITS_TERRAIN_ELEV               0xE167

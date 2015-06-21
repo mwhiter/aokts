@@ -136,6 +136,7 @@ BEGIN
         MENUITEM "Make water cliffs invisible", ID_MAP_WATER_CLIFF_INVISIBLE
         MENUITEM "Make water cliffs visible (frame=1, rotation=1)", ID_MAP_WATER_CLIFF_VISIBLE
         MENUITEM "Delete all player's units",   ID_UNITS_DELETE_ALL
+        MENUITEM "Set unit z to terrain elevation",   ID_UNITS_TERRAIN_ELEV
     END
     POPUP "&Triggers"
     BEGIN
@@ -522,6 +523,7 @@ BEGIN
     PUSHBUTTON      "Swap Type",IDC_TR_SWAP_TERRAIN_TYPES,15,236,55,15
     PUSHBUTTON      "S. Outline (box)",IDC_TR_OUTLINE_EIGHT,15,254,55,15
     PUSHBUTTON      "Outline (box)",IDC_TR_OUTLINE_FORCE_EIGHT,15,272,55,15
+    PUSHBUTTON      "Fill Elev",IDC_TR_FLOOD_ELEV,15,290,55,15
     LISTBOX         IDC_TR_ID,80,100,197,186,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Operations",IDC_STATIC,289,1,125,317
     RTEXT           "From (L,B):",IDC_STATIC,292,15,40,10

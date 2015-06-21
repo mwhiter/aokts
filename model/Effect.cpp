@@ -668,13 +668,6 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
             case EffectType::ChangeOwnership:
                 convert << "convert";
                 convert << " " << selectedUnits();
-                if (valid_partial_map()) {
-                    if (valid_area_location()) {
-                        convert << " at (" << area.left << "," << area.top << ")";
-                    } else {
-                        convert << " in (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-                    }
-                }
                 convert << " to";
                 convert << " " << playerPronoun(t_player);
                 stype.append(convert.str());

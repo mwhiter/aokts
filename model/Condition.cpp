@@ -7,36 +7,16 @@
 #include "../util/Buffer.h"
 #include "../util/helper.h"
 
-#pragma pack(push, 4)
-// An condition as stored in in scenario
-struct Genie_Condition
-{
-	long type;
-	long check;
-	long amount;
-	long resource_type;
-	long uid_object;
-	long uid_location;
-	long unit_const;
-	long player;
-	long technology;
-	long timer;
-	long reserved;
-	AOKRECT area;
-	long unit_group;
-	long unit_type;
-	long ai_signal;
-};
-#pragma pack(pop)
-
 Condition::Condition()
 :	ECBase(CONDITION),
 	amount(-1),
 	res_type(-1),
 	object(-1),
 	u_loc(-1),
+	unit_cnst(-1),
 	pUnit(NULL),
 	player(-1),
+	tech_cnst(-1),
 	pTech(NULL),
 	timer(-1),
 	reserved(-1),
@@ -44,6 +24,8 @@ Condition::Condition()
 	group(-1),
 	utype(-1),
 	ai_signal(-1),
+	unknown1(-1),
+	unknown2(-1),
 	valid_since_last_check(true)
 {
 }
@@ -51,11 +33,31 @@ Condition::Condition()
 Condition::Condition(Buffer& b)
 :	ECBase(CONDITION)
 {
-	// read flat data
-	Genie_Condition genie;
-	b.read(&genie, sizeof(genie));
-	std::swap(genie.type, genie.check); // HACK: un-swap type, check
-	fromGenie(genie);
+    b.read(&ttype, sizeof(ttype));
+    b.read(&type, sizeof(type)); // unswap order of type with version, above, when using clipboard
+    if (ttype == CONDITION || ttype == CONDITION_HD4) {
+        b.read(&amount, sizeof(type));
+        b.read(&res_type, sizeof(res_type));
+        b.read(&object, sizeof(object));
+        b.read(&u_loc, sizeof(u_loc));
+        b.read(&unit_cnst, sizeof(unit_cnst));
+        pUnit = esdata.units.getByIdSafe(unit_cnst);
+        b.read(&player, sizeof(player));
+        b.read(&tech_cnst, sizeof(tech_cnst));
+	    pTech = esdata.techs.getByIdSafe(tech_cnst);
+        b.read(&timer, sizeof(timer));
+        b.read(&reserved, sizeof(reserved));
+        b.read(&area, sizeof(area));
+        b.read(&group, sizeof(group));
+        b.read(&utype, sizeof(utype));
+        b.read(&ai_signal, sizeof(ai_signal));
+        if (ttype == CONDITION_HD4) {
+            b.read(&unknown1, sizeof(unknown1));
+            b.read(&unknown2, sizeof(unknown2));
+        }
+    } else {
+		throw bad_data_error("Condition has incorrect check value.");
+    }
 
 	check_and_save();
 }
@@ -502,82 +504,90 @@ bool Condition::check() const
 
 void Condition::read(FILE *in)
 {
-	Genie_Condition genie;
-
-	readbin(in, &genie);
-	fromGenie(genie);
+    readbin(in, &type);
+    readbin(in, &ttype);
+    if (ttype == CONDITION || ttype == CONDITION_HD4) {
+        ttype = static_cast<TType>(ttype);
+        readbin(in, &amount);
+        readbin(in, &res_type);
+        readbin(in, &object);
+        readbin(in, &u_loc);
+        readbin(in, &unit_cnst);
+        pUnit = esdata.units.getByIdSafe(unit_cnst);
+        readbin(in, &player);
+        readbin(in, &tech_cnst);
+	    pTech = esdata.techs.getByIdSafe(tech_cnst);
+        readbin(in, &timer);
+        readbin(in, &reserved);
+        readbin(in, &area);
+        readbin(in, &group);
+        readbin(in, &utype);
+        readbin(in, &ai_signal);
+        if (ttype == CONDITION_HD4) {
+            readbin(in, &unknown1);
+            readbin(in, &unknown2);
+        }
+    } else {
+		throw bad_data_error("Condition has incorrect check value.");
+    }
 
 	check_and_save();
 }
 
 void Condition::write(FILE *out)
 {
-	Genie_Condition genie = toGenie();
-	writebin(out, &genie);
+	writebin(out, &type);
+	writebin(out, &ttype);
+	writebin(out, &amount);
+	writebin(out, &res_type);
+	writebin(out, &object);
+	writebin(out, &u_loc);
+	unit_cnst =  pUnit ? pUnit->id() : -1,
+	writebin(out, &unit_cnst);
+	writebin(out, &player);
+	tech_cnst = pTech ? pTech->id() : -1;
+	writebin(out, &tech_cnst);
+	writebin(out, &timer);
+	writebin(out, &reserved);
+	writebin(out, &area);
+	writebin(out, &group);
+	writebin(out, &utype);
+	writebin(out, &ai_signal);
+    if (ttype == CONDITION_HD4) {
+	    writebin(out, &unknown1);
+	    writebin(out, &unknown2);
+    }
 }
 
-void Condition::tobuffer(Buffer &b) const
+/* Used forBuffer operations (i.e., copy & paste) */
+void Condition::tobuffer(Buffer &b)// const (make it const when unit_cnst gets set elsewhere)
 {
-	/* Even though the Genie format sucks, we use it for Buffer operations
-	 * (i.e., copy & paste) since it's easier to maintain one sucky format than
-	 * one sucky and one slightly-less-sucky format.
-	 */
-
-	// write flat data
-	Genie_Condition genie = toGenie();
-	std::swap(genie.type, genie.check); // HACK: swap type, check
-	b.write(&genie, sizeof(genie));
+	b.write(&ttype, sizeof(ttype));
+	b.write(&type, sizeof(type)); // swap order of type with version, above, when using clipboard
+	b.write(&amount, sizeof(amount));
+	b.write(&res_type, sizeof(res_type));
+	b.write(&object, sizeof(object));
+	b.write(&u_loc, sizeof(u_loc));
+	unit_cnst = pUnit ? pUnit->id() : -1;
+	b.write(&unit_cnst, sizeof(unit_cnst));
+	b.write(&player, sizeof(tech_cnst));
+	tech_cnst = pTech ? pTech->id() : -1;
+	b.write(&tech_cnst, sizeof(tech_cnst));
+	b.write(&timer, sizeof(timer));
+	b.write(&reserved, sizeof(reserved));
+	b.write(&area, sizeof(area));
+	b.write(&group, sizeof(group));
+	b.write(&utype, sizeof(utype));
+	b.write(&ai_signal, sizeof(ai_signal));
+    if (ttype == CONDITION_HD4) {
+	    b.write(&utype, sizeof(unknown1));
+	    b.write(&utype, sizeof(unknown2));
+    }
 }
 
 void Condition::accept(TriggerVisitor& tv)
 {
 	tv.visit(*this);
-}
-
-void Condition::fromGenie(const Genie_Condition& genie)
-{
-	if (genie.check != CONDITION)
-		throw bad_data_error("Condition has incorrect check value.");
-
-	type = genie.type;
-	ttype = static_cast<TType>(genie.check);
-	res_type = genie.resource_type;
-	amount = genie.amount;
-	object = genie.uid_object;
-	u_loc = genie.uid_location;
-	pUnit = esdata.units.getByIdSafe(genie.unit_const);
-	player = genie.player;
-	pTech = esdata.techs.getByIdSafe(genie.technology);
-	timer = genie.timer;
-	reserved = genie.reserved;
-	area = genie.area;
-	group = genie.unit_group;
-	utype = genie.unit_type;
-	ai_signal = genie.ai_signal;
-}
-
-Genie_Condition Condition::toGenie() const
-{
-	Genie_Condition ret =
-	{
-		type,
-		ttype,
-		amount,
-		res_type,
-		object,
-		u_loc,
-		pUnit ? pUnit->id() : -1,
-		player,
-		pTech ? pTech->id() : -1,
-		timer,
-		reserved,
-		area,
-		group,
-		utype,
-		ai_signal
-	};
-
-	return ret;
 }
 
 const char *Condition::types_aok[] =

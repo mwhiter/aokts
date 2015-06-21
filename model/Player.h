@@ -4,6 +4,9 @@
 	MODEL
 */
 
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "datatypes.h"
 #include "Unit.h"
 
@@ -149,3 +152,5 @@ private:
 };
 
 #pragma pack(pop)
+
+#endif //SCEN_H

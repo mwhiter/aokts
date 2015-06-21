@@ -4,6 +4,7 @@
 	MODEL?
 */
 
+#include "scen.h"
 #include "Player.h"
 
 #include "../util/utilio.h"
@@ -11,6 +12,8 @@
 #include <functional>
 
 using std::vector;
+
+extern class Scenario scen;
 
 int Player::num_players = 9;
 
@@ -206,7 +209,11 @@ void Player::read_aimode(FILE * in)
 
 void Player::read_resources(FILE * in)
 {
-	readbin(in, resources, 6);
+    if (scen.game == AOHD4 || scen.game == AOF4) {
+	    readbin(in, resources, 7);
+    } else {
+	    readbin(in, resources, 6);
+	}
 }
 
 void Player::read_diplomacy(FILE * in)

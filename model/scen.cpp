@@ -84,7 +84,7 @@ const PerVersion Scenario::pv1_23 = // AOHD / AOF
 	20
 };
 
-const PerVersion Scenario::pv1_24 = // SWGB / AOHDv4 / AOFv4
+const PerVersion Scenario::pv1_24 = // AOHDv4 / AOFv4
 {
 	6,
 	true,
@@ -689,6 +689,11 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			case AOK:
 			    aok_to_aoc();
 			    break;
+			case AOF4:
+			case AOHD4:
+			    strip_patch4();
+			    convert = AOHD;
+			    break;
 			}
 			break;
 		case AOF:
@@ -700,6 +705,11 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			    break;
 			case AOK:
 			    aok_to_aoc();
+			    break;
+			case AOF4:
+			case AOHD4:
+			    strip_patch4();
+			    convert = AOF;
 			    break;
 			}
 			break;
@@ -1109,12 +1119,6 @@ void Scenario::read_data(const char *path)	//decompressed data
 	FEP(p)
 		p->read_resources(dc2in.get());
 
-	if (ver2 == SV2_AOHD_AOF4) {
-	    readunk(dc2in.get(), sect, "Global victory unknown 1", false);
-	    readunk(dc2in.get(), sect, "Global victory unknown 2", false);
-	    readunk(dc2in.get(), sect, "Global victory unknown 3", false);
-	}
-
 	/* Global Victory */
 
 	readunk(dc2in.get(), sect, "Global victory sect begin", true);
@@ -1464,8 +1468,13 @@ int Scenario::write_data(const char *path)
 		resources[2] = (float)players[i].resources[0];	//gold
 		resources[3] = (float)players[i].resources[3];
 		resources[4] = (float)players[i].resources[4];
-		resources[5] = 0.0F;
-		fwrite(resources, sizeof(float), 6, dcout);
+		resources[5] = (float)players[i].resources[5];
+		resources[6] = 0.0F;
+		if (scen.game == AOHD4 || scen.game == AOF4) {
+		    fwrite(resources, sizeof(float), 7, dcout);
+		} else {
+		    fwrite(resources, sizeof(float), 6, dcout);
+		}
 
         if (game >= AOC && game != SWGB && game != SWGBCC)
 			fwrite(&players[i].pop, 4, 1, dcout);
@@ -2423,6 +2432,31 @@ AOKTS_ERROR Scenario::aok_to_aoc() {
 	//int i;
 	//FEP(p)
 	//	p->ucount=2.0F;
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::strip_patch4() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // effects
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
+	        iter->ttype = EFFECT;
+		}
+
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+	        iter->ttype = CONDITION;
+		}
+		trig++;
+	}
+
 	return ERR_none;
 }
 
@@ -3591,6 +3625,13 @@ void Map::read(FILE *in, ScenVersion1 version)
 
 	if (version >= SV1_AOC_SWGB)
 		readbin(in, &aitype);
+
+	if (scen.game == AOHD4 || scen.game == AOF4) {
+		readbin(in, &unknown1);
+		readbin(in, &unknown2);
+		readbin(in, &unknown3);
+		readbin(in, &unknown4);
+	}
 
 	readbin(in, &x);
 	readbin(in, &y);

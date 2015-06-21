@@ -82,6 +82,12 @@ public:
 	long aitype;	//Map type for AI recognition. (see aitypes[])
 	unsigned long x, y;	//Should always be equal, but are stored separately in the file.
 
+    // AOHD4 and AOF4
+	unsigned long unknown1;
+	unsigned long unknown2;
+	unsigned long unknown3;
+	unsigned long unknown4;
+
 	struct Terrain		//This is one tile of terrain.
 	{
 		Terrain();		//sets cnst and elev to default values.
@@ -315,6 +321,7 @@ public:
 	AOKTS_ERROR up_to_10c();
 	AOKTS_ERROR aoc_to_aok();
 	AOKTS_ERROR aok_to_aoc();
+    AOKTS_ERROR strip_patch4();
 	AOKTS_ERROR hd_to_up();
 	AOKTS_ERROR hd_to_10c();
 	AOKTS_ERROR hd_to_swgb();

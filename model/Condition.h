@@ -75,7 +75,7 @@ public:
 
 	void read(FILE *in);
 	void write(FILE *out);
-	void tobuffer(Buffer &b) const;
+	void tobuffer(Buffer &b);// const; (make it const when unit_cnst gets set elsewhere)
 
     std::string selectedUnits() const;
 	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const;
@@ -95,8 +95,10 @@ public:
 	long res_type;
 	UID object;
 	UID u_loc;
+	long unit_cnst; // pUnit redundant
 	const UnitLink *pUnit;	//long in file, of course
 	long player;	// GAIA = 0, Player 1 = 1, ...
+	long tech_cnst; // pTech redundant
 	const TechLink *pTech;	//long in file, of course
 	long timer;
 	long reserved;
@@ -104,6 +106,8 @@ public:
 	long group;
 	long utype;
 	long ai_signal;
+	long unknown1;
+	long unknown2;
 
     static const int NUM_CONDITIONS_AOK = 20;
     static const int NUM_CONDITIONS_SWGB = 22;
@@ -140,7 +144,6 @@ public:
 	static const char* taunt_set[NUM_TAUNT_SETS];
 
 private:
-	void fromGenie(const struct Genie_Condition&);
 	struct Genie_Condition toGenie() const;
 
     bool valid_full_map() const;

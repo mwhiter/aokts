@@ -192,7 +192,7 @@ public:
 
 	// rule of three: default copy constructor, destructor, assignment fine
 
-	void tobuffer(Buffer &b) const;
+	void tobuffer(Buffer &b);// const; (make it const when unit_cnst gets set elsewhere)
 	void read(FILE *in);
 	void write(FILE *out);
 
@@ -218,10 +218,11 @@ public:
 	long diplomacy;
 	long num_sel;
 	UID uid_loc;	//the selected location unit
+	long unit_cnst; // pUnit redundant
 	const UnitLink *pUnit;	//long in file, of course
-	long ucnst;
 	long s_player;	// GAIA = 0, Player 1 = 1, ...
 	long t_player;	// GAIA = 0, Player 1 = 1, ...
+	long tech_cnst; // pTech redundant
 	const TechLink *pTech;	//long in file, of course
 	long textid;
 	long soundid;
@@ -232,6 +233,7 @@ public:
 	long group;	//unit group
 	long utype;
 	long panel;
+	long unknown;
 
 	SString text;
 	SString sound;

@@ -45,7 +45,9 @@ enum TType
 	NONE,	//just so we can have an invalid value for error checking
 	TRIGGER,
 	EFFECT = 0x17,
-	CONDITION = 0x10
+	EFFECT_HD4 = 0x18,
+	CONDITION = 0x10,
+	CONDITION_HD4 = 0x12,
 };
 
 #pragma pack(push, 4)
@@ -88,8 +90,8 @@ protected:
 public:
 	static const int GAIA_INDEX = 0;
 
-	long type;	//identifies type of condition/effect
-	TType ttype;	//identifies EFFECT or CONDITION
+	long type;	    //identifies type of condition/effect
+	TType ttype;	//identifies EFFECT or CONDITION and different versions of each
 
 	virtual std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const = 0;
 
@@ -101,7 +103,7 @@ public:
 
 	/*	Note: The clipboard data has type and ttype reversed
 		from the order AOK uses. */
-	virtual void tobuffer(Buffer &b) const = 0;
+	virtual void tobuffer(Buffer &b) = 0;// const = 0; (make it const when unit_cnst gets set elsewhere)
 };
 
 #pragma pack(pop)

@@ -998,7 +998,6 @@ void Trigger::read(FILE *in)
 			conds.push_back(conditions[order]);
 		}
 	}
-	//}
 }
 
 void Trigger::write(FILE *out)
@@ -1034,7 +1033,7 @@ void Trigger::write(FILE *out)
 		fwrite(&i, 4, 1, out);
 }
 
-void Trigger::tobuffer(Buffer& buffer) const
+void Trigger::tobuffer(Buffer& buffer)// const (make it const when unit_cnst gets set elsewhere)
 {
 	int i, num;
 

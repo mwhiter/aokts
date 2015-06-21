@@ -16,34 +16,6 @@ using std::vector;
 
 extern class Scenario scen;
 
-#pragma pack(push, 4)
-// An effect as stored in scenario, up to strings
-struct Genie_Effect
-{
-	long type;
-	long check;
-	long ai_goal;
-	long amount;
-	long resource;
-	long diplomacy;
-	long num_selected;
-	long uid_location;
-	long unit_constant;
-	long player_source;
-	long player_target;
-	long technology;
-	long textid;
-	long soundid;
-	long display_time;
-	long trigger_index;
-	AOKPT location;
-	AOKRECT area;
-	long unit_group;
-	long unit_type;
-	long panel;
-};
-#pragma pack(pop)
-
 Effect::Effect()
 :	ECBase(EFFECT),
 	ai_goal(-1),
@@ -52,10 +24,11 @@ Effect::Effect()
 	diplomacy(-1),
 	num_sel(-1),
 	uid_loc(-1),
+	unit_cnst(-1),
 	pUnit(NULL),
-	ucnst(-1),
 	s_player(-1),
 	t_player(-1),
+	tech_cnst(-1),
 	pTech(NULL),
 	textid(-1),
 	soundid(-1),
@@ -66,6 +39,7 @@ Effect::Effect()
 	group(-1),
 	utype(-1),
 	panel(-1),
+	unknown(-1),
 	valid_since_last_check(true)
 {
 	memset(uids, -1, sizeof(uids));
@@ -81,11 +55,36 @@ Effect::Effect()
 Effect::Effect(Buffer &b)
 :	ECBase(EFFECT)
 {
-	// read flat data
-	Genie_Effect genie;
-	b.read(&genie, sizeof(genie));
-	std::swap(genie.type, genie.check); // HACK: un-swap type, check
-	fromGenie(genie);
+    b.read(&type, sizeof(type)); // unswap order of type with version, above, when using clipboard
+    b.read(&ttype, sizeof(ttype));
+    if (ttype == EFFECT || ttype == EFFECT_HD4) {
+        b.read(&ai_goal, sizeof(ai_goal));
+        b.read(&amount, sizeof(amount));
+        b.read(&res_type, sizeof(res_type));
+        b.read(&diplomacy, sizeof(diplomacy));
+        b.read(&num_sel, sizeof(num_sel));
+        b.read(&uid_loc, sizeof(uid_loc));
+        b.read(&unit_cnst, sizeof(unit_cnst));
+        pUnit = esdata.units.getByIdSafe(unit_cnst);
+        b.read(&s_player, sizeof(s_player));
+        b.read(&t_player, sizeof(t_player));
+        b.read(&tech_cnst, sizeof(tech_cnst));
+	    pTech = esdata.techs.getByIdSafe(tech_cnst);
+        b.read(&textid, sizeof(textid));
+        b.read(&soundid, sizeof(soundid));
+        b.read(&disp_time, sizeof(disp_time));
+        b.read(&trig_index, sizeof(trig_index));
+        b.read(&location, sizeof(location));
+        b.read(&area, sizeof(area));
+        b.read(&group, sizeof(group));
+        b.read(&utype, sizeof(utype));
+        b.read(&panel, sizeof(panel));
+        if (ttype == CONDITION_HD4) {
+            b.read(&unknown, sizeof(unknown));
+        }
+    } else {
+		throw bad_data_error("Effect has incorrect check value.");
+	}
 
 	// move on to non-flat data
 	text.read(b, sizeof(long));
@@ -96,17 +95,35 @@ Effect::Effect(Buffer &b)
 	check_and_save();
 }
 
-void Effect::tobuffer(Buffer &b) const
+/* Used forBuffer operations (i.e., copy & paste) */
+void Effect::tobuffer(Buffer &b)// const (make it const when unit_cnst gets set elsewhere)
 {
-	/* Even though the Genie format sucks, we use it for Buffer operations
-	 * (i.e., copy & paste) since it's easier to maintain one sucky format than
-	 * one sucky and one slightly-less-sucky format.
-	 */
-
-	// write flat data
-	Genie_Effect genie = toGenie();
-	std::swap(genie.type, genie.check); // HACK: swap type, check
-	b.write(&genie, sizeof(genie));
+	b.write(&ttype, sizeof(ttype));
+	b.write(&type, sizeof(type)); // swap order of type with version, above, when using clipboard
+	b.write(&ai_goal, sizeof(ai_goal));
+	b.write(&amount, sizeof(amount));
+	b.write(&res_type, sizeof(res_type));
+	b.write(&diplomacy, sizeof(diplomacy));
+	b.write(&num_sel, sizeof(num_sel));
+	b.write(&uid_loc, sizeof(uid_loc));
+	unit_cnst = pUnit ? pUnit->id() : -1;
+	b.write(&unit_cnst, sizeof(unit_cnst));
+	b.write(&s_player, sizeof(s_player));
+	b.write(&t_player, sizeof(t_player));
+	b.write(&tech_cnst, sizeof(tech_cnst));
+	tech_cnst = pTech ? pTech->id() : -1;
+	b.write(&textid, sizeof(textid));
+	b.write(&soundid, sizeof(soundid));
+	b.write(&disp_time, sizeof(disp_time));
+	b.write(&trig_index, sizeof(trig_index));
+	b.write(&location, sizeof(location));
+	b.write(&area, sizeof(area));
+	b.write(&group, sizeof(group));
+	b.write(&utype, sizeof(utype));
+	b.write(&panel, sizeof(panel));
+    if (ttype == CONDITION_HD4) {
+	    b.write(&unknown, sizeof(unknown));
+	}
 
 	text.write(b, sizeof(long));
 	sound.write(b, sizeof(long));
@@ -116,10 +133,36 @@ void Effect::tobuffer(Buffer &b) const
 
 void Effect::read(FILE *in)
 {
-	Genie_Effect genie;
-
-	readbin(in, &genie);
-	fromGenie(genie);
+    readbin(in, &type);
+    readbin(in, &ttype);
+    if (ttype == EFFECT || ttype == EFFECT_HD4) {
+        readbin(in, &ai_goal);
+        readbin(in, &amount);
+        readbin(in, &res_type);
+        readbin(in, &diplomacy);
+        readbin(in, &num_sel);
+        readbin(in, &uid_loc);
+        readbin(in, &unit_cnst);
+        pUnit = esdata.units.getByIdSafe(unit_cnst);
+        readbin(in, &s_player);
+        readbin(in, &t_player);
+        readbin(in, &tech_cnst);
+	    pTech = esdata.techs.getByIdSafe(tech_cnst);
+        readbin(in, &textid);
+        readbin(in, &soundid);
+        readbin(in, &disp_time);
+        readbin(in, &trig_index);
+        readbin(in, &location);
+        readbin(in, &area);
+        readbin(in, &group);
+        readbin(in, &utype);
+        readbin(in, &panel);
+        if (ttype == EFFECT_HD4) {
+            readbin(in, &unknown);
+        }
+    } else {
+		throw bad_data_error("Effect has incorrect check value.");
+	}
 
 	text.read(in, sizeof(long));
 	sound.read(in, sizeof(long));
@@ -140,8 +183,32 @@ void Effect::read(FILE *in)
 
 void Effect::write(FILE *out)
 {
-	Genie_Effect genie = toGenie();
-	writebin(out, &genie);
+	writebin(out, &type);
+	writebin(out, &ttype);
+	writebin(out, &ai_goal);
+	writebin(out, &amount);
+	writebin(out, &res_type);
+	writebin(out, &diplomacy);
+	writebin(out, &num_sel);
+	writebin(out, &uid_loc);
+	unit_cnst = pUnit ? pUnit->id() : -1;
+	writebin(out, &unit_cnst);
+	writebin(out, &s_player);
+	writebin(out, &t_player);
+	writebin(out, &tech_cnst);
+	tech_cnst = pTech ? pTech->id() : -1;
+	writebin(out, &textid);
+	writebin(out, &soundid);
+	writebin(out, &disp_time);
+	writebin(out, &trig_index);
+	writebin(out, &location);
+	writebin(out, &area);
+	writebin(out, &group);
+	writebin(out, &utype);
+	writebin(out, &panel);
+    if (ttype == CONDITION_HD4) {
+	    writebin(out, &unknown);
+	}
 
 	text.write(out, sizeof(long), true);
 	sound.write(out, sizeof(long), true);
@@ -1049,65 +1116,6 @@ bool Effect::check() const
 void Effect::accept(TriggerVisitor& tv)
 {
 	tv.visit(*this);
-}
-
-void Effect::fromGenie(const Genie_Effect& genie)
-{
-	if (genie.check != EFFECT)
-		throw bad_data_error("Effect has incorrect check value.");
-
-	type = genie.type;
-	ttype = static_cast<TType>(genie.check);
-	ai_goal = genie.ai_goal;
-	amount = genie.amount;
-	res_type = genie.resource;
-	diplomacy = genie.diplomacy;
-	num_sel = genie.num_selected;
-	uid_loc = genie.uid_location;
-	pUnit = esdata.units.getByIdSafe(genie.unit_constant);
-	ucnst = genie.unit_constant;
-	s_player = genie.player_source;
-	t_player = genie.player_target;
-	pTech = esdata.techs.getByIdSafe(genie.technology);
-	textid = genie.textid;
-	soundid = genie.soundid;
-	disp_time = genie.display_time;
-	trig_index = genie.trigger_index;
-	location = genie.location;
-	area = genie.area;
-	group = genie.unit_group;
-	utype = genie.unit_type;
-	panel = genie.panel;
-}
-
-Genie_Effect Effect::toGenie() const
-{
-	Genie_Effect ret =
-	{
-		type,
-		ttype,
-		ai_goal,
-		amount,
-		res_type,
-		diplomacy,
-		num_sel,
-		uid_loc,
-		(pUnit) ? pUnit->id() : -1,
-		s_player,
-		t_player,
-		(pTech) ? pTech->id() : -1,
-		textid,
-		soundid,
-		disp_time,
-		trig_index,
-		location,
-		area,
-		group,
-		utype,
-		panel
-	};
-
-	return ret;
 }
 
 const char *Effect::types_aok[] = {

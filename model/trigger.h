@@ -49,7 +49,7 @@ public:
 	std::vector<Condition> conds;
 
     std::string getName(bool tip = false, bool limitlen = false, int recursion = 0);
-	void tobuffer(Buffer&) const;
+	void tobuffer(Buffer&);// const (make it const when unit_cnst gets set elsewhere)
 
 	/*	get_player: Returns non-GAIA player for conditions/effect in the trigger.
 

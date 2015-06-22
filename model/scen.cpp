@@ -488,7 +488,7 @@ void Scenario::adapt_game() {
     case AOHD4:
 	    strcpy(header.version, "1.21"); // is this needed?
 	    ver1 = SV1_AOC_SWGB;
-	    ver2 = SV2_AOHD_AOF;
+	    ver2 = SV2_AOHD_AOF4;
 	    version2 = 1.24F;
 		perversion = &pv1_24;
 	    pergame = &pgAOHD4;

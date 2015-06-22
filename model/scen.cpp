@@ -649,87 +649,90 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 
 	switch (convert)
 	{
-		case AOK:
-			if (game == AOC || game == AOHD || game == AOF)
-			    aoc_to_aok();
-			break;
-		case AOC:
-			switch (game) {
-			case AOHD:
-			case AOF:
-			    hd_to_10c();
-			    break;
-			case UP:
-			    up_to_10c();
-			    break;
-			case AOK:
-			    aok_to_aoc();
-			    break;
-			}
+	case AOK:
+		if (game == AOC || game == AOHD || game == AOF)
+			aoc_to_aok();
+		break;
+	case AOC:
+		switch (game) {
+		case AOHD:
+		case AOF:
+			hd_to_10c();
 			break;
 		case UP:
-			switch (game) {
-			case AOHD:
-			case AOF:
-			    if ((flags & SaveFlags::CONVERT_EFFECTS))
-			        hd_to_up();
-			    break;
-			case AOK:
-			    aok_to_aoc();
-			    break;
-			}
+			up_to_10c();
 			break;
+		case AOK:
+			aok_to_aoc();
+			break;
+		}
+		break;
+	case UP:
+		switch (game) {
 		case AOHD:
-			switch (game) {
-			case UP:
-			    if ((flags & SaveFlags::CONVERT_EFFECTS))
-			        up_to_hd();
-			    break;
-			case AOK:
-			    aok_to_aoc();
-			    break;
-			case AOF4:
-			case AOHD4:
-			    strip_patch4();
-			    convert = AOHD;
-			    break;
-			}
-			break;
 		case AOF:
-			switch (game) {
-			case UP:
-			    if ((flags & SaveFlags::CONVERT_EFFECTS))
-			        up_to_hd();
-			    break;
-			case AOK:
-			    aok_to_aoc();
-			    break;
-			case AOF4:
-			case AOHD4:
-			    strip_patch4();
-			    convert = AOF;
-			    break;
-			}
+			if ((flags & SaveFlags::CONVERT_EFFECTS))
+			    hd_to_up();
 			break;
-		case AOHD4:
+		case AOK:
+			aok_to_aoc();
+			break;
+		}
+		break;
+	case AOHD:
+		switch (game) {
+		case UP:
+			if ((flags & SaveFlags::CONVERT_EFFECTS))
+			    up_to_hd();
+			break;
+		case AOK:
+			aok_to_aoc();
+			break;
 		case AOF4:
-		    break;
-		case SWGB:
-			if ((game == AOHD || game == AOF))
-			    hd_to_swgb();
-			if (game == UP)
-			    up_to_swgb();
-			if (game == AOK)
-			    aok_to_aoc();
+		case AOHD4:
+			strip_patch4();
+			convert = AOHD;
 			break;
-		case SWGBCC:
-			if ((game == AOHD || game == AOF))
-			    hd_to_swgb();
-			if (game == UP)
-			    up_to_swgb();
-			if (game == AOK)
-			    aok_to_aoc();
+		}
+		break;
+	case AOF:
+		switch (game) {
+		case UP:
+			if ((flags & SaveFlags::CONVERT_EFFECTS))
+			    up_to_hd();
 			break;
+		case AOK:
+			aok_to_aoc();
+			break;
+		case AOF4:
+		case AOHD4:
+			strip_patch4();
+			convert = AOF;
+			break;
+		}
+		break;
+	case AOHD4:
+	case AOF4:
+		if (game != AOHD4 && game != AOF4) {
+			aoc_to_hd4();
+		}
+		break;
+	case SWGB:
+		if ((game == AOHD || game == AOF))
+			hd_to_swgb();
+		if (game == UP)
+			up_to_swgb();
+		if (game == AOK)
+			aok_to_aoc();
+		break;
+	case SWGBCC:
+		if ((game == AOHD || game == AOF))
+			hd_to_swgb();
+		if (game == UP)
+			up_to_swgb();
+		if (game == AOK)
+			aok_to_aoc();
+		break;
 	}
 	game = convert;
 	adapt_game();
@@ -1283,9 +1286,11 @@ void Scenario::read_data(const char *path)	//decompressed data
 
     if (game == AOHD) {
         game = AOHD4;
+		aoc_to_hd4();
     }
     if (game == AOF) {
         game = AOF4;
+		aoc_to_hd4();
     }
 	adapt_game();
 
@@ -2418,6 +2423,30 @@ AOKTS_ERROR Scenario::up_to_hd() {
 	            case 33: // armor 2
 	                iter->type = 31;  // no way to make this function reversible
 	            break;
+	        }
+	    }
+
+		trig++;
+	}
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::aoc_to_hd4() {
+	long num = triggers.size();
+	if (num < 1)
+	    return ERR_none;
+	Trigger *trig = &(*triggers.begin());
+
+    bool removed = false;
+
+    // triggers
+	long i = num;
+	while (i--)
+	{
+	    // convert remaining effects
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+	        if (iter->unknown1 == -1) {
+	            iter->unknown1 = 0;
 	        }
 	    }
 

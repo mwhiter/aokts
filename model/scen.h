@@ -317,6 +317,7 @@ public:
 	AOKTS_ERROR save_pseudonyms();
 	AOKTS_ERROR swap_trigger_names_descriptions();
 	AOKTS_ERROR up_to_hd();
+	AOKTS_ERROR aoc_to_hd4();
 	AOKTS_ERROR up_to_aofe();
 	AOKTS_ERROR up_to_10c();
 	AOKTS_ERROR aoc_to_aok();

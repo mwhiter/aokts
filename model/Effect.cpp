@@ -553,7 +553,27 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     convert << "unload";
                     break;
                 case EffectType::FreezeUnit:
-                    convert << "no attack stance";
+                    if (scen.game == UP) {
+                        switch (panel) {
+                        case 1:
+                            convert << "aggressive stance";
+                            break;
+                        case 2:
+                            convert << "defensive stance";
+                            break;
+                        case 3:
+                            convert << "stand ground";
+                            break;
+                        case 4:
+                            convert << "no attack stance (no halt)";
+                            break;
+                        default:
+                            convert << "no attack stance";
+                            break;
+                        }
+                    } else {
+                        convert << "no attack stance";
+                    }
                     break;
                 }
                 convert << " " << selectedUnits();

@@ -963,24 +963,32 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
             data->e.type = 27;
             break;
         case EffectVirtualTypeUP::SetAggressive:
-	        data->e = Effect();
+            if (data->e.type != EffectType::FreezeUnit) {
+	            data->e = Effect();
+                data->e.type = EffectType::FreezeUnit;
+            }
             data->e.panel = 1;
-            data->e.type = 22;
             break;
         case EffectVirtualTypeUP::SetDefensive:
-	        data->e = Effect();
+            if (data->e.type != EffectType::FreezeUnit) {
+	            data->e = Effect();
+                data->e.type = EffectType::FreezeUnit;
+            }
             data->e.panel = 2;
-            data->e.type = 22;
             break;
         case EffectVirtualTypeUP::SetStandGround:
-	        data->e = Effect();
+            if (data->e.type != EffectType::FreezeUnit) {
+	            data->e = Effect();
+                data->e.type = EffectType::FreezeUnit;
+            }
             data->e.panel = 3;
-            data->e.type = 22;
             break;
         case EffectVirtualTypeUP::SetNoAttackWithoutHalt:
-	        data->e = Effect();
+            if (data->e.type != EffectType::FreezeUnit) {
+	            data->e = Effect();
+                data->e.type = EffectType::FreezeUnit;
+            }
             data->e.panel = 4;
-            data->e.type = 22;
             break;
         case EffectVirtualTypeUP::Resign:
 	        data->e = Effect();

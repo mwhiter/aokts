@@ -123,7 +123,7 @@ public:
 	{
 		RES_gold, RES_wood, RES_food, RES_stone, RES_orex, RES_unknown
 	};
-	unsigned long resources[7];
+	unsigned long resources[6];
 
 	//disables
 	//long AlliedVictory;  // UNREAD

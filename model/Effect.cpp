@@ -796,6 +796,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 switch (scen.game) {
                 case AOF:
                 case AOHD:
+	            case AOHD4:
+	            case AOF4:
                 case UP:
                     if (amount > 0) {
                         convert << "+";
@@ -1083,6 +1085,8 @@ bool Effect::check() const
 	    case UP:
 	    case AOHD:
 	    case AOF:
+	    case AOHD4:
+	    case AOF4:
 		    return (has_valid_selected || valid_area_selection) && valid_points();
 	    case SWGB:
 	    case SWGBCC:
@@ -1096,6 +1100,8 @@ bool Effect::check() const
 	    case UP:
 	    case AOHD:
 	    case AOF:
+	    case AOHD4:
+	    case AOF4:
 		    return (has_valid_selected || valid_area_selection) && valid_points();
 	    case SWGB:
 	    case SWGBCC:
@@ -1110,9 +1116,10 @@ bool Effect::check() const
 	    switch (scen.game) {
 	    case AOK:
 	    case AOC:
-	        return (has_valid_selected || valid_area_selection);
 	    case AOHD:
 	    case AOF:
+	    case AOHD4:
+	    case AOF4:
 	        return (has_valid_selected || valid_area_selection);
 	    }
 		return true;

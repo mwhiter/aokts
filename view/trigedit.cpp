@@ -543,7 +543,12 @@ void ConditionItemData::GetName(char *buffer)
 	Trigger *t = GetTrigger();
 	assert(t);
 
-	const char * reverse = ((t->conds[index].reserved == -256)?"NOT ":"");
+	const char * reverse = "";
+	if (scen.game == UP) {
+	    reverse = ((t->conds[index].reserved == -256)?"NOT ":"");
+	} else if (scen.game == AOHD4 || scen.game == AOF4) {
+	    reverse = ((t->conds[index].unknown1 == 1)?"NOT ":"");
+    }
 
     if (setts.displayhints) {
 	    if (index == 0) {

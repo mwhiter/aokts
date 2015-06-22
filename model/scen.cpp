@@ -1404,8 +1404,13 @@ int Scenario::write_data(const char *path)
 		putc(p->aimode, dcout);
 
 	writeval(dcout, sect);
-	FEP(p)
-		fwrite(&p->resources, sizeof(long), 6, dcout);
+	FEP(p) {
+	    if (game == AOHD4 || game == AOF4) {
+		    fwrite(&p->resources, sizeof(long), 7, dcout);
+		} else {
+		    fwrite(&p->resources, sizeof(long), 6, dcout);
+		}
+	}
 
 	/* Global Victory */
 
@@ -3662,11 +3667,19 @@ void Map::write(FILE *out, ScenVersion1 version)
 	unsigned int count;
 	Terrain *t_parse;
 
-	//there's no aitype in non-TC
-	if (version >= SV1_AOC_SWGB)
-		fwrite(this, sizeof(long), 3, out);	//aitype, x, y
-	else
+	if (scen.game == AOHD4 || scen.game == AOF4) {
+		fwrite(&aitype, sizeof(aitype), 1, out);
+		fwrite(&unknown1, sizeof(unknown1), 1, out);
+		fwrite(&unknown2, sizeof(unknown2), 1, out);
+		fwrite(&unknown3, sizeof(unknown3), 1, out);
+		fwrite(&unknown4, sizeof(unknown4), 1, out);
 		fwrite(&x, sizeof(long), 2, out);	//x, y
+	} else if (version >= SV1_AOC_SWGB) {
+		fwrite(this, sizeof(long), 3, out);	//aitype, x, y
+	} else {
+	    //there's no aitype in non-TC
+		fwrite(&x, sizeof(long), 2, out);	//x, y
+	}
 
 	for (unsigned int i = 0; i < x; i++)
 	{

@@ -333,16 +333,18 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_C_GROUP				1915
 #define IDC_C_UTYPE				1916
 #define IDC_C_AISIG				1917
-#define IDC_C_END	IDC_C_AISIG
-#define IDC_C_USEL1             1918
-#define IDC_C_USEL2             1919
-#define IDC_C_CLEAR  	    	1920
-#define IDC_C_REVERSE	    	1921
-#define IDC_C_TYPEVAL 			1922
-#define IDC_C_VTYPE				1923
-#define IDC_C_TAUNT_PLAYER 		1924
-#define IDC_C_TAUNT_SET         1925
-#define IDC_C_AIGOAL            1926
+#define IDC_C_REVERSEHD         1918
+#define IDC_C_END	IDC_C_REVERSEHD
+#define IDC_C_UNKNOWNHD         1919
+#define IDC_C_USEL1             1920
+#define IDC_C_USEL2             1921
+#define IDC_C_CLEAR  	    	1922
+#define IDC_C_REVERSE	    	1923
+#define IDC_C_TYPEVAL 			1924
+#define IDC_C_VTYPE				1925
+#define IDC_C_TAUNT_PLAYER 		1926
+#define IDC_C_TAUNT_SET         1927
+#define IDC_C_AIGOAL            1928
 
 /* Effect Controls */
 #define IDC_E_TYPE				1800
@@ -371,18 +373,19 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_E_GROUP				1822
 #define IDC_E_UTYPE				1823
 #define IDC_E_PANEL				1824
-#define IDC_E_END	            1825
-#define IDC_E_TEXTID            1826
-#define IDC_E_SOUNDID           1827
-#define IDC_E_OPENSEL			1828
-#define IDC_E_OPENSEL2			1829
-#define IDC_E_TRIGID   			1830
-#define IDC_E_UCNSTID	    	1831
-#define IDC_E_CLEAR  	    	1832
-#define IDC_E_TYPEVAL	    	1833
-#define IDC_E_VTYPE				1834
-#define IDC_E_NSELECTED 		1835
-#define IDC_E_SIGGOAL   		1836
+#define IDC_E_STANCE    		1825
+#define IDC_E_END	            1826
+#define IDC_E_TEXTID            1827
+#define IDC_E_SOUNDID           1828
+#define IDC_E_OPENSEL			1829
+#define IDC_E_OPENSEL2			1830
+#define IDC_E_TRIGID   			1831
+#define IDC_E_UCNSTID	    	1832
+#define IDC_E_CLEAR  	    	1833
+#define IDC_E_TYPEVAL	    	1834
+#define IDC_E_VTYPE				1835
+#define IDC_E_NSELECTED 		1836
+#define IDC_E_SIGGOAL   		1837
 
 /* About Dialog Controls */
 #define IDC_UPDATELINK          1901

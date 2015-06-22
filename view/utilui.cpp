@@ -266,10 +266,11 @@ const char * gameName(Game version) {
 	case AOHD:
 	    return "Age of Empires II: HD Edition";
 	case AOHD4:
-	    return "Age of Empires II: HD Edition v4";
+	    return "Age of Empires II: HD Edition P4";
 	case AOF:
-	case AOF4:
 	    return "The Forgotten";
+	case AOF4:
+	    return "The Forgotten P4";
 	case SWGB:
 	    return "Star Wars Galactic Battlegrounds";
 	case SWGBCC:

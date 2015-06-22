@@ -173,8 +173,8 @@ const wchar_t *noselectc = L"<none>";
 
 void C_Init(HWND dialog)
 {
-    ENABLE_WND(IDC_C_REVERSE, scen.game == UP || setts.editall);
-    ENABLE_WND(IDC_C_RESERVED, scen.game == UP || setts.editall);
+    ENABLE_WND(IDC_C_REVERSE, scen.game == AOHD4 || scen.game == AOF4 || scen.game == UP || setts.editall);
+    ENABLE_WND(IDC_C_RESERVED, scen.game == AOHD4 || scen.game == AOF4 || scen.game == UP || setts.editall);
 	Combo_Fill(dialog, IDC_C_TYPE, Condition::types, scen.pergame->max_condition_types);
 	Combo_Fill(dialog, IDC_C_VTYPE, Condition::virtual_types, scen.pergame->max_virtual_condition_types + 1); // +1 for None option
 	Combo_Fill(dialog, IDC_C_PLAYER, players_ec, EC_NUM_PLAYERS + 1);
@@ -283,12 +283,24 @@ void LoadCond(HWND dialog, EditCondition *data)
 	SetDlgItemInt(dialog, IDC_C_RESERVED, c->reserved, TRUE);
 	SetDlgItemInt(dialog, IDC_C_AMOUNT, c->amount, TRUE);
 	LCombo_SelById(dialog, IDC_C_RESTYPE, c->res_type);
-	if (c->reserved == -1) {
-	    SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
-	} else if (c->reserved == -256) {
-	    SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Unreverse Condition"));
-	} else {
-	    SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reset Value"));
+	SetDlgItemInt(dialog, IDC_C_REVERSEHD, c->unknown1, TRUE);
+	SetDlgItemInt(dialog, IDC_C_UNKNOWNHD, c->unknown2, TRUE);
+	if (scen.game == UP) {
+	    if (c->reserved == -1) {
+	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
+	    } else if (c->reserved == -256) {
+	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Unreverse Condition"));
+	    } else {
+	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reset Value"));
+	    }
+	} else if (scen.game == AOHD4 || scen.game == AOF4) {
+	    if (c->unknown1 == 0) {
+	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
+	    } else if (c->unknown1 == 1) {
+	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Unreverse Condition"));
+	    } else {
+	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reset Value"));
+	    }
 	}
 	LoadVirtualTypeConditions(dialog, data);
 }
@@ -312,10 +324,12 @@ void SaveCond(HWND dialog, EditCondition *data)
 		c->area.top = GetDlgItemInt(dialog, IDC_C_AREAY2, NULL, TRUE);
 		c->timer = GetDlgItemInt(dialog, IDC_C_TIMER, NULL, TRUE);
 		c->ai_signal = GetDlgItemInt(dialog, IDC_C_AISIG, NULL, TRUE);
-		c->reserved = GetDlgItemInt(dialog, IDC_C_RESERVED, NULL, TRUE);
 		c->pTech = (TechLink*)LCombo_GetSelPtr(dialog, IDC_C_RESEARCH);
 		c->amount = GetDlgItemInt(dialog, IDC_C_AMOUNT, NULL, TRUE);
 		c->res_type = LCombo_GetSelId(dialog, IDC_C_RESTYPE);
+		c->reserved = GetDlgItemInt(dialog, IDC_C_RESERVED, NULL, TRUE);
+		c->unknown1 = GetDlgItemInt(dialog, IDC_C_REVERSEHD, NULL, TRUE);
+		c->unknown2 = GetDlgItemInt(dialog, IDC_C_UNKNOWNHD, NULL, TRUE);
 
 		c->group = Combo_GetSelData(GetDlgItem(dialog, IDC_C_GROUP));
 		c->utype = Combo_GetSelData(GetDlgItem(dialog, IDC_C_UTYPE));
@@ -488,12 +502,22 @@ void C_HandleCommand(HWND dialog, WORD id, WORD code, HWND)
 		switch (id)
 		{
 		case IDC_C_REVERSE:
-	        if (GetDlgItemInt(dialog, IDC_C_RESERVED, NULL, TRUE) == -1) {
-	            SetDlgItemInt(dialog, IDC_C_RESERVED, -256, TRUE);
-	            SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Unreverse Condition"));
-	        } else {
-	            SetDlgItemInt(dialog, IDC_C_RESERVED, -1, TRUE);
-	            SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
+		    if (scen.game == UP) {
+	            if (GetDlgItemInt(dialog, IDC_C_RESERVED, NULL, TRUE) == -1) {
+	                SetDlgItemInt(dialog, IDC_C_RESERVED, -256, TRUE);
+	                SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Unreverse Condition"));
+	            } else {
+	                SetDlgItemInt(dialog, IDC_C_RESERVED, -1, TRUE);
+	                SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
+	            }
+	        } else if (scen.game == AOHD4 || scen.game == AOF4) {
+	            if (GetDlgItemInt(dialog, IDC_C_REVERSEHD, NULL, TRUE) == 0) {
+	                SetDlgItemInt(dialog, IDC_C_REVERSEHD, 1, TRUE);
+	                SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Unreverse Condition"));
+	            } else {
+	                SetDlgItemInt(dialog, IDC_C_REVERSEHD, 0, TRUE);
+	                SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
+	            }
 	        }
 	        break;
 		case IDC_C_AREA_ALL:

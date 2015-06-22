@@ -536,6 +536,7 @@ void Scenario::adapt_game() {
 		pergame = NULL;
         return;
 	}
+	clean_format();
     printf_log("Game is %s\n", gameName(game));
 }
 
@@ -1284,6 +1285,14 @@ void Scenario::read_data(const char *path)	//decompressed data
 	if (fgetc(dc2in.get()) != EOF)
 		throw bad_data_error("Unrecognized data at end.");
 
+    auto_upgrade_hd4();
+	adapt_game();
+
+	// FILE close taken care of by AutoFile! yay.
+	printf_log("Done.\n");
+}
+
+void Scenario::auto_upgrade_hd4() {
     if (game == AOHD) {
         game = AOHD4;
 		aoc_to_hd4();
@@ -1292,10 +1301,15 @@ void Scenario::read_data(const char *path)	//decompressed data
         game = AOF4;
 		aoc_to_hd4();
     }
-	adapt_game();
+}
 
-	// FILE close taken care of by AutoFile! yay.
-	printf_log("Done.\n");
+void Scenario::clean_format() {
+    switch (game) {
+    case AOHD4:
+    case AOF4:
+        aoc_to_hd4();
+        break;
+    }
 }
 
 /* Write to-be-compressed data to a temp file */

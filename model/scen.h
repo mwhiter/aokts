@@ -257,6 +257,8 @@ public:
     // open the file and return the actual scx game version
 	Game open(const char *path, const char *dpath, Game version);
 	int save(const char *path, const char *dpath, bool write, Game convert, SaveFlags::Value flags);
+	void auto_upgrade_hd4();
+	void clean_format();
 	void adapt_game();
 	void reset();
 	bool export_bmp(const char *path);

@@ -87,17 +87,7 @@ struct EffectVirtualTypeAOC {
     };
 };
 
-struct EffectVirtualTypeAOHD {
-    enum Value {
-	    None,
-	    MaxAmount,
-	    MinAmount,
-	    FreezeUnit,
-	    ReseedFarm,
-    };
-};
-
-struct EffectVirtualTypeAOF {
+struct EffectVirtualTypeHD {
     enum Value {
 	    None,
 	    MaxAmount,

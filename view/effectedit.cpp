@@ -1043,23 +1043,15 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         }
         break;
     case AOHD:
-	    switch (newtype) {
-        case EffectVirtualTypeAOHD::MaxAmount:
-            data->e.amount = TS_LONG_MAX;
-            break;
-        case EffectVirtualTypeAOHD::MinAmount:
-            data->e.amount = TS_LONG_MIN;
-            break;
-        default:
-	        data->e = Effect();
-        }
-        break;
+    case AOHD4:
     case AOF:
+    case AOF4:
 	    switch (newtype) {
-        case EffectVirtualTypeAOF::MaxAmount:
+        case EffectVirtualTypeHD::MaxAmount:
             data->e.amount = TS_LONG_MAX;
             break;
-        case EffectVirtualTypeAOF::MinAmount:
+        case EffectVirtualTypeHD::MinAmount:
+            data->e.amount = TS_LONG_MIN;
             break;
         default:
 	        data->e = Effect();
@@ -1106,9 +1098,6 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         break;
     case SWGBCC:
 	    switch (newtype) {
-        case EffectVirtualTypeAOHD::None:
-	        EffectControls(dialog, data->e.type);
-	        break;
         case EffectVirtualTypeSWGBCC::MaxAmount:
             data->e.amount = TS_LONG_MAX;
             break;

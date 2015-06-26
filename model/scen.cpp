@@ -1215,10 +1215,10 @@ void Scenario::read_data(const char *path)	//decompressed data
 	/* Triggers */
 
 	unsigned long n_trigs = readval<unsigned long>(dc2in.get());
-	triggers.resize(n_trigs);
-
 	if (setts.intense)
-		printf_log("Debug 10.\n");
+		printf_log("%d triggers.\n", n_trigs);
+
+	triggers.resize(n_trigs);
 	if (n_trigs)
 	{
 		Trigger *t = &(*triggers.begin());
@@ -1527,12 +1527,12 @@ int Scenario::write_data(const char *path)
 	fwrite(&trigver, 8, 1, dcout); //trigger system version
 	writebin(dcout, &objstate); //objectives state
 
+	num = triggers.size();
+	fwrite(&num, sizeof(long), 1, dcout);
+
 	if (triggers.size() > 0)
 	{
 	    Trigger *t_parse = &(*triggers.begin());
-	    num = triggers.size();
-	    fwrite(&num, sizeof(long), 1, dcout);
-
 	    i = num;
 	    while (i--)
 	    {

@@ -108,12 +108,12 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
 	    std::string stype = std::string("");
         std::ostringstream convert;
         switch (type) {
-            case (long)ConditionType::None:
+            case ConditionType::None:
                 // Let this act like a separator
                 convert << "                                                                                    ";
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::BringObjectToArea:
+            case ConditionType::BringObjectToArea:
                 convert << "unit " << object << " (" << get_unit_full_name(object) << ")";
                 if (valid_full_map()) {
                     convert << " is on the map";
@@ -126,13 +126,13 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::BringObjectToObject:
+            case ConditionType::BringObjectToObject:
                 convert << "unit " << object << " (" << get_unit_full_name(object) << ") is next to unit " << u_loc << " (" << get_unit_full_name(u_loc) << ")";
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::OwnObjects:
-            case (long)ConditionType::OwnFewerObjects:
-            case (long)ConditionType::ObjectsInArea:
+            case ConditionType::OwnObjects:
+            case ConditionType::OwnFewerObjects:
+            case ConditionType::ObjectsInArea:
                 { // we define some variables in this block, therefore need scope as we are also in a case
                     convert << playerPronoun(player) << " has ";
                     switch (type) {
@@ -178,18 +178,18 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                     stype.append(convert.str());
                 }
                 break;
-            case (long)ConditionType::DestroyObject:
+            case ConditionType::DestroyObject:
                 convert << "unit " << object;
                 convert << " (" << get_unit_full_name(object) << ")";
                 convert << " is destroyed";
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::CaptureObject:
+            case ConditionType::CaptureObject:
                 convert << playerPronoun(player) << " captured unit " << object;
                 convert << " (" << get_unit_full_name(object) << ")";
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::AccumulateAttribute:
+            case ConditionType::AccumulateAttribute:
                 switch (res_type) {
                     case 0: // Food accumulated
                         convert << playerPronoun(player) << " has " << amount << " food";
@@ -242,7 +242,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::ResearchTehcnology:
+            case ConditionType::ResearchTehcnology:
                 if (valid_technology_spec()) {
                     convert << playerPronoun(player) << " has tech ";
                     std::wstring techname(pTech->name());
@@ -253,7 +253,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::ResearchingTechnology:
+            case ConditionType::ResearchingTechnology:
                 if (pTech && pTech->id()) {
                     convert << playerPronoun(player) << " is researching ";
                     std::wstring techname(pTech->name());
@@ -263,16 +263,16 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::Timer:
+            case ConditionType::Timer:
                 convert << time_string(timer) << " has passed";
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::ObjectSelected:
+            case ConditionType::ObjectSelected:
                 convert << "selected unit " << object;
                 convert << " (" << get_unit_full_name(object) << ")";
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::AISignal:
+            case ConditionType::AISignal:
                 switch (ai_signal) {
                 case -1034:
                     convert << "singleplayer / cheats enabled";
@@ -303,12 +303,12 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::ObjectVisible:
+            case ConditionType::ObjectVisible:
                 convert << "unit " << object;
                 convert << " (" << get_unit_full_name(object) << ") is visible";
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::PlayerDefeated:
+            case ConditionType::PlayerDefeated:
                 if (player == 0) {
                     convert << "Gaia";
                 } else {
@@ -317,7 +317,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 convert << " is defeated";
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::ObjectHasTarget:
+            case ConditionType::ObjectHasTarget:
                 convert << "unit " << object << " (" << get_unit_full_name(object) << ") is targetting";
                 if (null_location_unit()) {
                     convert << " something";
@@ -326,7 +326,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::UnitsGarrisoned:
+            case ConditionType::UnitsGarrisoned:
                 if (amount == 1) {
                     convert << "unit " << object << " (" << get_unit_full_name(object) << ") has " << amount << " units garrisoned";
                 } else {
@@ -334,7 +334,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::DifficultyLevel:
+            case ConditionType::DifficultyLevel:
                 convert << "difficulty is ";
                 switch (amount) {
                     case 0:
@@ -355,7 +355,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 }
                 stype.append(convert.str());
                 break;
-            case (long)ConditionType::UnitsQueuedPastPopCap_SWGB:
+            case ConditionType::UnitsQueuedPastPopCap_SWGB:
                 convert << playerPronoun(player) << " has " << amount << " units queued past the pop cap";
                 stype.append(convert.str());
                 break;

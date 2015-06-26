@@ -254,11 +254,11 @@ std::string Effect::selectedUnits() const {
     } else if (class_selected || unit_type_selected) { // account for groups[0]={-1,None}
         if (class_selected && unit_type_selected) {
             convert << "units of class " << groups[group + 1].name;
-            convert << "and type " << groups[group + 1].name;
+            convert << "and type " << utypes[utype + 1].name;
         } else if (class_selected) {
-            convert << "units of class " << groups[group + 1].name;
-        } else {
             convert << "units of type " << groups[group + 1].name;
+        } else {
+            convert << "units of class " << utypes[utype + 1].name;
         }
     } else {
         convert << "units";
@@ -693,12 +693,6 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case EffectType::TaskObject:
-                if (!(valid_partial_map() || (has_selected() && valid_selected()))) {
-                    convert << "Task all units";
-                    stype.append(convert.str());
-                    break;
-                }
-
                 if (!valid_location_coord() && null_location_unit()) {
                     convert << "stop" << " " << selectedUnits();
                     stype.append(convert.str());

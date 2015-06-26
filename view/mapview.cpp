@@ -31,7 +31,7 @@
 std::vector<std::vector<HBRUSH>> tBrushes;
 std::vector<HBRUSH> eBrushes; // elevation only
 HBRUSH *pBrushes;
-HBRUSH bWhite, bGrey, bDarkGrey, bBlack;
+HBRUSH bWhiteSpecs, bWhite, bGrey, bDarkGrey, bBlack;
 
 AOKPT trigfocus; // only display triggers that enclose this point
 
@@ -559,6 +559,25 @@ void PaintTriggers(HDC dc)
 	}
 }
 
+struct BrushStyle {
+    enum Value{
+        FILL                           = 0x00,
+        DOTTED                         = 0x01,
+    };
+};
+
+#define RGB2BGR(a_ulColor) (a_ulColor & 0xFF000000) | ((a_ulColor & 0xFF0000) >> 16) | (a_ulColor & 0x00FF00) | ((a_ulColor & 0x0000FF) << 16)
+
+HBRUSH TSCreateBrush(long color, BYTE elevation, BrushStyle::Value style=BrushStyle::FILL)
+{
+	hsv_t * hsv = new hsv_t();
+    rgb2hsv(RGB2BGR(color), hsv);
+    hsv->value /= 2;
+    BYTE diff = 256 - hsv->value;
+    hsv->value += elevation * diff / 25;
+    return CreateSolidBrush(hsv2rgb(hsv));
+}
+
 void PaintMap(HDC dcdest)
 {
 	int half,full;
@@ -586,7 +605,7 @@ void PaintMap(HDC dcdest)
 			area.right = rx + setts.zoom;
 			area.top = ry;
 			area.bottom = ry + setts.zoom;
-			if (setts.drawelevation && setts.drawterrain) {
+		    if (setts.drawelevation && setts.drawterrain) {
 			    FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(parse->elev));
 			} else if (setts.drawelevation) {
 			    FillRect(data.copydc, &area, eBrushes.at(parse->elev));
@@ -594,6 +613,13 @@ void PaintMap(HDC dcdest)
 			    FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(0));
 			} else {
 			    FillRect(data.copydc, &area, eBrushes.at(0));
+			}
+		    if (parse->cnst == (scen.map.terrain[propdata.sel0] + propdata.sel1)->cnst) {
+			    SetBkMode(data.copydc, TRANSPARENT);
+			    //FillRect(data.copydc, &area, bWhiteSpecs);
+			    FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(parse->elev + 10));
+			    //SelectObject(data.copydc, bWhiteSpecs);
+			    //Rectangle(data.copydc, area.left, area.top, area.right, area.bottom);
 			}
 		}
 	}
@@ -889,8 +915,6 @@ HWND makestatus(HWND parent)
 	return ret;
 }
 
-#define RGB2BGR(a_ulColor) (a_ulColor & 0xFF000000) | ((a_ulColor & 0xFF0000) >> 16) | (a_ulColor & 0x00FF00) | ((a_ulColor & 0x0000FF) << 16)
-
 void OnWM_Create(HWND window, CREATESTRUCT * cs)
 {
 	ColorLink *parse;
@@ -922,25 +946,14 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	    // Similar problems occur when using Rich Textboxes
 	    for (j = 0; j < 20; j++)
 	    {
-	        hsv = new hsv_t();
-            rgb2hsv(RGB2BGR(parse->ref), hsv);
-            hsv->value /= 2;
-            BYTE diff = 256 - hsv->value;
-            hsv->value += j * diff / 20;
-            tmp = hsv2rgb(hsv);
-		    tBrushes[i].push_back(CreateSolidBrush(tmp));
+		    tBrushes[i].push_back(TSCreateBrush(parse->ref, j, BrushStyle::FILL));
 	    }
 	}
 
 	eBrushes.reserve(40);
 	for (j = 0; j < 20; j++)
 	{
-	    hsv = new hsv_t();
-        rgb2hsv(0x101010, hsv);
-        hsv->value /= 2;
-        hsv->value += j * 256 / 16;
-        tmp = hsv2rgb(hsv);
-		eBrushes.push_back(CreateSolidBrush(tmp));
+		eBrushes.push_back(TSCreateBrush(0x101010, j, BrushStyle::FILL));
 	}
 
 	pBrushes = new HBRUSH[esdata.getCount(ESD_colors)];
@@ -953,6 +966,7 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	}
 
 	bWhite = CreateSolidBrush(0xFFFFFF);
+	bWhiteSpecs = CreateHatchBrush(HS_BDIAGONAL, 0xFFFFFF);
 	//bWhite = CreateSolidBrush(RGB(250, 25, 5));
 	bGrey = CreateSolidBrush(0x999999);
 	bDarkGrey = CreateSolidBrush(0x333333);
@@ -1179,6 +1193,7 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 			DeleteObject(pBrushes[i]);
 		delete [] pBrushes;
 		DeleteObject(bWhite);
+		DeleteObject(bWhiteSpecs);
 		DeleteObject(bGrey);
 		DeleteObject(bDarkGrey);
 		DeleteDC(data.copydc);

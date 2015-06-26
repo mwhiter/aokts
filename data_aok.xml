@@ -1763,7 +1763,7 @@ usual.
 -->
 <terrain id="0"  color="339927" name="Grass 1 (default terrain)" />
 <terrain id="1"  color="007BBD" name="Water, Shallow" />
-<terrain id="2"  color="F5C7A3" name="Beach (no buildings)" />
+<terrain id="2"  color="E1E372" name="Beach (no buildings)" />
 <terrain id="3"  color="AEB65E" name="Dirt 3 (grassy)" />
 <terrain id="4"  color="5492b0" name="Shallows" />
 <terrain id="5"  color="935047" name="Leaves" />

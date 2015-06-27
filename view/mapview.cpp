@@ -446,7 +446,7 @@ void PaintTriggers(HDC dc)
 			            area.right = rx + 3 * setts.zoom / 4;
 			            FrameRect(dc, &area, pBrushes[scen.players[2].color]);
 			        } else {
-			            choose_pen(dc, iter->area, dark_grey_pen, red_pen);
+			            choose_pen(dc, iter->area, light_grey_pen, red_pen);
 			            BeginPath(dc);
 			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
 			            MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
@@ -522,7 +522,7 @@ void PaintTriggers(HDC dc)
 			            area.right = rx + 7 * setts.zoom / 8;
 			            FrameRect(dc, &area, pBrushes[scen.players[6].color]);
 			        } else {
-			            choose_pen(dc, iter->area, dark_grey_pen, red_pen);
+			            choose_pen(dc, iter->area, light_grey_pen, red_pen);
 			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.left, (int)iter->area.top, rx, ry);
 			            MoveToEx(dc, rx + setts.zoom / 2, ry + setts.zoom / 2, (LPPOINT) NULL);
 			            rotate(data.scen->map.x/2, data.scen->map.y/2, (int)iter->area.right, (int)iter->area.bottom, rx, ry);

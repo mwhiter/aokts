@@ -16,7 +16,7 @@ size_t MapSizes[] =
 	200,	//Normal
 	220,	//Large
 	240,	//Giant
-	256,	//Max
+	255,	//Max
 	480		//Ludakris
 };
 

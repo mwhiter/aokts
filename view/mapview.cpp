@@ -28,7 +28,6 @@
 //extern struct RECT;
 
 /* Brushes (created with window) */
-std::vector<std::vector<HBRUSH>> tBrushes;
 std::vector<HBRUSH> eBrushes; // elevation only
 HBRUSH *pBrushes;
 HBRUSH bWhiteSpecs, bWhite, bGrey, bDarkGrey, bBlack;
@@ -563,19 +562,39 @@ struct BrushStyle {
     enum Value{
         FILL                           = 0x00,
         DOTTED                         = 0x01,
+        HATCHED                        = 0x02,
     };
 };
 
 #define RGB2BGR(a_ulColor) (a_ulColor & 0xFF000000) | ((a_ulColor & 0xFF0000) >> 16) | (a_ulColor & 0x00FF00) | ((a_ulColor & 0x0000FF) << 16)
 
-HBRUSH TSCreateBrush(long color, BYTE elevation, BrushStyle::Value style=BrushStyle::FILL)
+long GetTerrainColor(long cnst, BYTE elev)
 {
 	hsv_t * hsv = new hsv_t();
-    rgb2hsv(RGB2BGR(color), hsv);
-    hsv->value /= 2;
-    BYTE diff = 256 - hsv->value;
-    hsv->value += elevation * diff / 25;
-    return CreateSolidBrush(hsv2rgb(hsv));
+    int i;
+    ColorLink *parse;
+    for (i = 0, parse = esdata.terrains.head(); parse; parse = (ColorLink*)parse->next(), i++) {
+        if (i == cnst) {
+            long color = parse->ref;
+            rgb2hsv(RGB2BGR(color), hsv);
+            hsv->value /= 2;
+            BYTE diff = 256 - hsv->value;
+            hsv->value += elev * diff / 25;
+            break;
+        }
+    }
+
+    return hsv2rgb(hsv);
+}
+
+HBRUSH TSCreateBrush(long cnst, BYTE elev, BrushStyle::Value style=BrushStyle::FILL)
+{
+    switch (style) {
+    case BrushStyle::FILL:
+        return CreateSolidBrush(GetTerrainColor(cnst, elev));
+    case BrushStyle::HATCHED:
+        return CreateHatchBrush(HS_DIAGCROSS, GetTerrainColor(cnst, elev));
+    }
 }
 
 void PaintMap(HDC dcdest)
@@ -605,19 +624,27 @@ void PaintMap(HDC dcdest)
 			area.right = rx + setts.zoom;
 			area.top = ry;
 			area.bottom = ry + setts.zoom;
+			HBRUSH tmpbrush;
 		    if (setts.drawelevation && setts.drawterrain) {
-			    FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(parse->elev));
+		        tmpbrush = TSCreateBrush(parse->cnst, parse->elev, BrushStyle::FILL);
+			    FillRect(data.copydc, &area, tmpbrush);
+			    DeleteObject(tmpbrush);
 			} else if (setts.drawelevation) {
 			    FillRect(data.copydc, &area, eBrushes.at(parse->elev));
 			} else if (setts.drawterrain) {
-			    FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(0));
+			    tmpbrush = TSCreateBrush(parse->cnst, 0, BrushStyle::FILL);
+			    FillRect(data.copydc, &area, tmpbrush);
+			    DeleteObject(tmpbrush);
 			} else {
 			    FillRect(data.copydc, &area, eBrushes.at(0));
 			}
 		    if (parse->cnst == (scen.map.terrain[propdata.sel0] + propdata.sel1)->cnst) {
 			    SetBkMode(data.copydc, TRANSPARENT);
 			    //FillRect(data.copydc, &area, bWhiteSpecs);
-			    FillRect(data.copydc, &area, tBrushes.at(parse->cnst).at(parse->elev + 10));
+			    tmpbrush = TSCreateBrush(parse->cnst, parse->elev + 5, BrushStyle::HATCHED);
+			    FillRect(data.copydc, &area, tmpbrush);
+			    DeleteObject(tmpbrush);
+			    SetBkMode(data.copydc, OPAQUE);
 			    //SelectObject(data.copydc, bWhiteSpecs);
 			    //Rectangle(data.copydc, area.left, area.top, area.right, area.bottom);
 			}
@@ -932,23 +959,6 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	data.statusbar = NULL;
 	data.highlights = NULL;
 	data.areahighlights = NULL;
-
-	tBrushes.reserve(esdata.getCount(ESD_terrains));
-
-	for (i = 0, parse = esdata.terrains.head(); parse; parse = (ColorLink*)parse->next(), i++)
-	{
-	    tBrushes.push_back(std::vector<HBRUSH>());
-	    //tBrushes[i].reserve(256);
-	    tBrushes[i].reserve(40);
-	    // This messes up the memory when 256
-	    // need to reduce to 200 for aokts and 190 for swgbts because
-	    // there are about 10 more terrains.
-	    // Similar problems occur when using Rich Textboxes
-	    for (j = 0; j < 20; j++)
-	    {
-		    tBrushes[i].push_back(TSCreateBrush(parse->ref, j, BrushStyle::FILL));
-	    }
-	}
 
 	eBrushes.reserve(40);
 	for (j = 0; j < 20; j++)

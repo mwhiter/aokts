@@ -586,6 +586,17 @@ long GetTerrainColor(long cnst, BYTE elev)
     return hsv2rgb(hsv);
 }
 
+HBRUSH TSPlayerColorBrush(long playercolor, BrushStyle::Value style=BrushStyle::FILL)
+{
+    int i;
+    ColorLink *parse;
+    for (i = 0, parse = esdata.colors.head(); parse; parse = (ColorLink*)parse->next(), i++) {
+        if (i == playercolor) {
+            return CreateSolidBrush(parse->ref);
+        }
+    }
+}
+
 long GetElevColor(BYTE elev)
 {
 	hsv_t * hsv = new hsv_t();

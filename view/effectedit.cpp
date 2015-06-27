@@ -352,10 +352,11 @@ void EffectControls(HWND dialog, int type)
 
 	for (i = IDC_E_START; i <= IDC_E_END; i++)
 		ENABLE_WND(i, setts.editall);
-	ENABLE_WND(IDC_E_TEXTID, false);
-	ENABLE_WND(IDC_E_SOUNDID, false);
-	ENABLE_WND(IDC_E_OPENSEL, false);
-	ENABLE_WND(IDC_E_OPENSEL2, false);
+
+	ENABLE_WND(IDC_E_TEXTID, setts.editall);
+	ENABLE_WND(IDC_E_SOUNDID, setts.editall);
+	ENABLE_WND(IDC_E_OPENSEL, setts.editall);
+	ENABLE_WND(IDC_E_OPENSEL2, setts.editall);
 
 	const char *table;
 	switch (scen.game) {

@@ -28,7 +28,6 @@
 //extern struct RECT;
 
 /* Brushes (created with window) */
-std::vector<HBRUSH> eBrushes; // elevation only
 HBRUSH *pBrushes;
 HBRUSH bWhiteSpecs, bWhite, bGrey, bDarkGrey, bBlack;
 
@@ -587,6 +586,18 @@ long GetTerrainColor(long cnst, BYTE elev)
     return hsv2rgb(hsv);
 }
 
+long GetElevColor(BYTE elev)
+{
+	hsv_t * hsv = new hsv_t();
+    long color = 0x101010;
+    rgb2hsv(RGB2BGR(color), hsv);
+    hsv->value /= 2;
+    BYTE diff = 256 - hsv->value;
+    hsv->value += elev * diff / 25;
+
+    return hsv2rgb(hsv);
+}
+
 HBRUSH TSCreateBrush(long cnst, BYTE elev, BrushStyle::Value style=BrushStyle::FILL)
 {
     switch (style) {
@@ -630,23 +641,24 @@ void PaintMap(HDC dcdest)
 			    FillRect(data.copydc, &area, tmpbrush);
 			    DeleteObject(tmpbrush);
 			} else if (setts.drawelevation) {
-			    FillRect(data.copydc, &area, eBrushes.at(parse->elev));
+                tmpbrush = CreateSolidBrush(GetElevColor(parse->elev));
+			    FillRect(data.copydc, &area, tmpbrush);
+			    DeleteObject(tmpbrush);
 			} else if (setts.drawterrain) {
 			    tmpbrush = TSCreateBrush(parse->cnst, 0, BrushStyle::FILL);
 			    FillRect(data.copydc, &area, tmpbrush);
 			    DeleteObject(tmpbrush);
 			} else {
-			    FillRect(data.copydc, &area, eBrushes.at(0));
+                tmpbrush = CreateSolidBrush(GetElevColor(0));
+			    FillRect(data.copydc, &area, tmpbrush);
+			    DeleteObject(tmpbrush);
 			}
 		    if (parse->cnst == (scen.map.terrain[propdata.sel0] + propdata.sel1)->cnst) {
 			    SetBkMode(data.copydc, TRANSPARENT);
-			    //FillRect(data.copydc, &area, bWhiteSpecs);
 			    tmpbrush = TSCreateBrush(parse->cnst, parse->elev + 2, BrushStyle::HATCHED);
 			    FillRect(data.copydc, &area, tmpbrush);
 			    DeleteObject(tmpbrush);
 			    SetBkMode(data.copydc, OPAQUE);
-			    //SelectObject(data.copydc, bWhiteSpecs);
-			    //Rectangle(data.copydc, area.left, area.top, area.right, area.bottom);
 			}
 		}
 	}
@@ -959,12 +971,6 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	data.statusbar = NULL;
 	data.highlights = NULL;
 	data.areahighlights = NULL;
-
-	eBrushes.reserve(40);
-	for (j = 0; j < 20; j++)
-	{
-		eBrushes.push_back(TSCreateBrush(0x101010, j, BrushStyle::FILL));
-	}
 
 	pBrushes = new HBRUSH[esdata.getCount(ESD_colors)];
 

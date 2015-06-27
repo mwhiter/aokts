@@ -641,7 +641,7 @@ void PaintMap(HDC dcdest)
 		    if (parse->cnst == (scen.map.terrain[propdata.sel0] + propdata.sel1)->cnst) {
 			    SetBkMode(data.copydc, TRANSPARENT);
 			    //FillRect(data.copydc, &area, bWhiteSpecs);
-			    tmpbrush = TSCreateBrush(parse->cnst, parse->elev + 5, BrushStyle::HATCHED);
+			    tmpbrush = TSCreateBrush(parse->cnst, parse->elev + 2, BrushStyle::HATCHED);
 			    FillRect(data.copydc, &area, tmpbrush);
 			    DeleteObject(tmpbrush);
 			    SetBkMode(data.copydc, OPAQUE);

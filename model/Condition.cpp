@@ -7,51 +7,28 @@
 #include "../util/Buffer.h"
 #include "../util/helper.h"
 
+static const long MAXFIELDS=18;
+
+const long Condition::defaultvals[MAXFIELDS] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, -1 };
+
 Condition::Condition()
 :	ECBase(CONDITION),
-	amount(-1),
-	res_type(-1),
-	object(-1),
-	u_loc(-1),
-	unit_cnst(-1),
 	pUnit(NULL),
-	player(-1),
-	tech_cnst(-1),
 	pTech(NULL),
-	timer(-1),
-	reserved(-1),
-	// AOKRECT default constructor OK
-	group(-1),
-	utype(-1),
-	ai_signal(-1),
-	unknown1(-1),
-	unknown2(-1),
 	valid_since_last_check(true)
 {
+    size = MAXFIELDS;
+    memcpy(&amount, defaultvals, sizeof(defaultvals));
 }
 
 // Can only delegate (chain) constructors since C++11
 Condition::Condition(Buffer& b)
 :	ECBase(CONDITION),
-	amount(-1),
-	res_type(-1),
-	object(-1),
-	u_loc(-1),
-	unit_cnst(-1),
 	pUnit(NULL),
-	player(-1),
-	tech_cnst(-1),
 	pTech(NULL),
-	timer(-1),
-	reserved(-1),
-	// AOKRECT default constructor OK
-	group(-1),
-	utype(-1),
-	ai_signal(-1),
-	unknown1(0),
-	unknown2(-1),
 	valid_since_last_check(true)
 {
+    memcpy(&amount, defaultvals, sizeof(defaultvals));
     ClipboardType::Value cliptype;
     b.read(&cliptype, sizeof(cliptype));
     if (cliptype != ClipboardType::CONDITION)
@@ -63,7 +40,7 @@ Condition::Condition(Buffer& b)
     if (size >= 0) {
         long * flatdata = new long[size];
         b.read(flatdata, sizeof(long) * size);
-        memcpy(&amount, flatdata, sizeof(long) * (size<=18?size:18));
+        memcpy(&amount, flatdata, sizeof(long) * (size<=MAXFIELDS?size:MAXFIELDS));
         delete[] flatdata;
     }
 
@@ -564,7 +541,7 @@ void Condition::read(FILE *in)
     readbin(in, &type);
     readbin(in, &size);
 
-    if (size < 0 || size > 18)
+    if (size < 0 || size > MAXFIELDS)
         throw bad_data_error("Condition has incorrect size value.");
 
 	size_t read = fread(&amount, sizeof(long), size, in);
@@ -584,6 +561,8 @@ void Condition::read(FILE *in)
 
 void Condition::write(FILE *out)
 {
+    compress();
+
 	writebin(out, &type);
 	writebin(out, &size);
 
@@ -592,7 +571,7 @@ void Condition::write(FILE *out)
     if (size >= 7)
 	    tech_cnst = pTech ? pTech->id() : -1;
 
-    if (size >= 0 && size <= 18) {
+    if (size >= 0 && size <= MAXFIELDS) {
 	    fwrite(&amount, sizeof(long) * size, 1, out);
     }
 }
@@ -611,9 +590,100 @@ void Condition::tobuffer(Buffer &b)// const (make it const when unit_cnst gets s
     if (size >= 7)
 	    tech_cnst = pTech ? pTech->id() : -1;
 
-    if (size >= 0 && size <= 18) {
+    if (size >= 0 && size <= MAXFIELDS) {
 	    b.write(&amount, sizeof(long) * size);
     }
+}
+
+void Condition::compress()
+{
+    size = MAXFIELDS;
+    if (unknown2 == defaultvals[17]) {
+        size--;
+    } else {
+        return;
+    }
+    if (unknown1 == defaultvals[16]) {
+        size--;
+    } else {
+        return;
+    }
+    if (ai_signal == defaultvals[15]) {
+        size--;
+    } else {
+        return;
+    }
+    if (utype == defaultvals[14]) {
+        size--;
+    } else {
+        return;
+    }
+    if (group == defaultvals[13]) {
+        size--;
+    } else {
+        return;
+    }
+    if (area.right == defaultvals[12] &&
+        area.top == defaultvals[11] &&
+        area.left == defaultvals[10] &&
+        area.bottom == defaultvals[9]) {
+        size--;
+    } else {
+        return;
+    }
+    if (reserved == defaultvals[8]) {
+        size--;
+    } else {
+        return;
+    }
+    if (timer == defaultvals[7]) {
+        size--;
+    } else {
+        return;
+    }
+    if (tech_cnst == defaultvals[6]) {
+        size--;
+    } else {
+        return;
+    }
+    if (player == defaultvals[5]) {
+        size--;
+    } else {
+        return;
+    }
+    if (unit_cnst == defaultvals[4]) {
+        size--;
+    } else {
+        return;
+    }
+    if (u_loc == defaultvals[3]) {
+        size--;
+    } else {
+        return;
+    }
+    if (object == defaultvals[2]) {
+        size--;
+    } else {
+        return;
+    }
+    if (res_type == defaultvals[1]) {
+        size--;
+    } else {
+        return;
+    }
+    if (amount == defaultvals[0]) {
+        size--;
+    } else {
+        return;
+    }
+    //for (int i = size - 1; i >= 0; i--) {
+    //    if (*(&amount + sizeof(long) * (i-1)) == defaultvals[i]) {
+    //        size--;
+    //    } else {
+    //        break;
+    //    }
+    //}
+    //printf("condsize: %ld\n", size);
 }
 
 void Condition::accept(TriggerVisitor& tv)

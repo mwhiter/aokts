@@ -16,61 +16,31 @@ using std::vector;
 
 extern class Scenario scen;
 
+static const long MAXFIELDS=24;
+
+const long Effect::defaultvals[MAXFIELDS] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+
 Effect::Effect()
 :	ECBase(EFFECT),
-	ai_goal(-1),
-	amount(-1),
-	res_type(-1),
-	diplomacy(-1),
-	num_sel(-1),
-	uid_loc(-1),
-	unit_cnst(-1),
 	pUnit(NULL),
-	s_player(-1),
-	t_player(-1),
-	tech_cnst(-1),
 	pTech(NULL),
-	textid(-1),
-	soundid(-1),
-	disp_time(-1),
-	trig_index(-1),
-	// location default ctor fine
-	// area default ctor fine
-	group(-1),
-	utype(-1),
-	panel(-1),
-	unknown(-1),
 	valid_since_last_check(true)
 {
+    size = MAXFIELDS;
+    memcpy(&ai_goal, defaultvals, sizeof(defaultvals));
 	memset(uids, -1, sizeof(uids));
 }
 
 // Can only delegate (chain) constructors since C++11
 Effect::Effect(Buffer &b)
 :	ECBase(EFFECT),
-	ai_goal(-1),
-	amount(-1),
-	res_type(-1),
-	diplomacy(-1),
-	num_sel(-1),
-	uid_loc(-1),
-	unit_cnst(-1),
 	pUnit(NULL),
-	s_player(-1),
-	t_player(-1),
-	tech_cnst(-1),
 	pTech(NULL),
-	textid(-1),
-	soundid(-1),
-	disp_time(-1),
-	trig_index(-1),
-	// location default ctor fine
-	// area default ctor fine
-	group(-1),
-	utype(-1),
-	panel(-1),
-	unknown(-1) // stance
+	valid_since_last_check(true)
 {
+    memcpy(&ai_goal, defaultvals, sizeof(defaultvals));
+    memset(uids, -1, sizeof(uids));
+
     ClipboardType::Value cliptype;
     b.read(&cliptype, sizeof(cliptype));
     if (cliptype != ClipboardType::EFFECT)
@@ -82,7 +52,7 @@ Effect::Effect(Buffer &b)
     if (size >= 0) {
         long * flatdata = new long[size];
         b.read(flatdata, sizeof(long) * size);
-        memcpy(&ai_goal, flatdata, sizeof(long) * (size<=24?size:24));
+        memcpy(&ai_goal, flatdata, sizeof(long) * (size<=MAXFIELDS?size:MAXFIELDS));
         delete[] flatdata;
     }
 
@@ -103,6 +73,126 @@ Effect::Effect(Buffer &b)
 	check_and_save();
 }
 
+void Effect::compress()
+{
+    size = MAXFIELDS;
+    if (unknown == defaultvals[23]) {
+        size--;
+    } else {
+        return;
+    }
+    if (panel == defaultvals[22]) {
+        size--;
+    } else {
+        return;
+    }
+    if (utype == defaultvals[21]) {
+        size--;
+    } else {
+        return;
+    }
+    if (group == defaultvals[20]) {
+        size--;
+    } else {
+        return;
+    }
+    if (area.right == defaultvals[19] &&
+        area.top == defaultvals[18] &&
+        area.left == defaultvals[17] &&
+        area.bottom == defaultvals[16]) {
+        size--;
+    } else {
+        return;
+    }
+    if (location.x == defaultvals[15] &&
+        location.y == defaultvals[14]) {
+        size--;
+    } else {
+        return;
+    }
+    if (trig_index == defaultvals[13]) {
+        size--;
+    } else {
+        return;
+    }
+    if (disp_time == defaultvals[12]) {
+        size--;
+    } else {
+        return;
+    }
+    if (soundid == defaultvals[11]) {
+        size--;
+    } else {
+        return;
+    }
+    if (textid == defaultvals[10]) {
+        size--;
+    } else {
+        return;
+    }
+    if (tech_cnst == defaultvals[9]) {
+        size--;
+    } else {
+        return;
+    }
+    if (t_player == defaultvals[8]) {
+        size--;
+    } else {
+        return;
+    }
+    if (s_player == defaultvals[7]) {
+        size--;
+    } else {
+        return;
+    }
+    if (unit_cnst == defaultvals[6]) {
+        size--;
+    } else {
+        return;
+    }
+    if (uid_loc == defaultvals[5]) {
+        size--;
+    } else {
+        return;
+    }
+    if (num_sel == defaultvals[4]) {
+        size--;
+    } else {
+        return;
+    }
+    if (diplomacy == defaultvals[3]) {
+        size--;
+    } else {
+        return;
+    }
+    if (res_type == defaultvals[2]) {
+        size--;
+    } else {
+        return;
+    }
+    if (amount == defaultvals[1]) {
+        size--;
+    } else {
+        return;
+    }
+    if (ai_goal == defaultvals[0]) {
+        size--;
+    } else {
+        return;
+    }
+    //size = MAXFIELDS;
+    //for (int i = size - 1; i >= 0; i--) {
+    //    if (*(&ai_goal + sizeof(long) * (i-1)) == defaultvals[i]) {
+    //        size--;
+    //    } else {
+    //        printf("unknown: %ld\n", unknown);
+    //        printf("value: %ld\n", *(&ai_goal + sizeof(long) * i));
+    //        break;
+    //    }
+    //}
+    //printf("effectsize: %ld\n", size);
+}
+
 /* Used forBuffer operations (i.e., copy & paste) */
 void Effect::tobuffer(Buffer &b)// const (make it const when unit_cnst gets set elsewhere)
 {
@@ -117,8 +207,8 @@ void Effect::tobuffer(Buffer &b)// const (make it const when unit_cnst gets set 
     if (size >= 10)
 	    tech_cnst = pTech ? pTech->id() : -1;
 
-    if (size >= 0 && size <= 24) {
-	    b.write(&ai_goal, sizeof(long) * (size<=24?size:24));
+    if (size >= 0 && size <= MAXFIELDS) {
+	    b.write(&ai_goal, sizeof(long) * (size<=MAXFIELDS?size:MAXFIELDS));
     }
 
 	text.write(b, sizeof(long));
@@ -132,7 +222,7 @@ void Effect::read(FILE *in)
     readbin(in, &type);
     readbin(in, &size);
 
-    if (size < 0 || size > 24)
+    if (size < 0 || size > MAXFIELDS)
         throw bad_data_error("Effect has incorrect size value.");
 
 	size_t read = fread(&ai_goal, sizeof(long), size, in);
@@ -166,6 +256,8 @@ void Effect::read(FILE *in)
 
 void Effect::write(FILE *out)
 {
+    compress();
+
 	writebin(out, &type);
 	writebin(out, &size);
 
@@ -174,7 +266,7 @@ void Effect::write(FILE *out)
     if (size >= 10)
 	    tech_cnst = pTech ? pTech->id() : -1;
 
-    if (size >= 0 && size <= 24) {
+    if (size >= 0 && size <= MAXFIELDS) {
 	    fwrite(&ai_goal, sizeof(long) * size, 1, out);
     }
 

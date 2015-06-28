@@ -188,6 +188,7 @@ public:
 	void tobuffer(Buffer &b);// const; (make it const when unit_cnst gets set elsewhere)
 	void read(FILE *in);
 	void write(FILE *out);
+    void compress();
 
 	int getPlayer() const;
 	const char * getTypeName(size_t type, bool concise = false) const;
@@ -204,6 +205,8 @@ public:
 	 * Accepts a TriggerVisitor.
 	 */
 	void accept(TriggerVisitor&);
+
+    static const long defaultvals[];
 
 	long ai_goal;
 	long amount;

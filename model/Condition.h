@@ -77,6 +77,7 @@ public:
 	void read(FILE *in);
 	void write(FILE *out);
 	void tobuffer(Buffer &b);// const; (make it const when unit_cnst gets set elsewhere)
+	void compress();
 
     std::string selectedUnits() const;
 	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const;
@@ -91,6 +92,8 @@ public:
 	 * Accepts a TriggerVisitor.
 	 */
 	void accept(TriggerVisitor&);
+
+    static const long defaultvals[];
 
 	long amount;
 	long res_type;

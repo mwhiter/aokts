@@ -30,48 +30,47 @@ Condition::Condition()
 {
 }
 
-Condition::Condition(Buffer& b, TType convert)
-:	ECBase(CONDITION)
+// Can only delegate (chain) constructors since C++11
+Condition::Condition(Buffer& b)
+:	ECBase(CONDITION),
+	amount(-1),
+	res_type(-1),
+	object(-1),
+	u_loc(-1),
+	unit_cnst(-1),
+	pUnit(NULL),
+	player(-1),
+	tech_cnst(-1),
+	pTech(NULL),
+	timer(-1),
+	reserved(-1),
+	// AOKRECT default constructor OK
+	group(-1),
+	utype(-1),
+	ai_signal(-1),
+	unknown1(0),
+	unknown2(-1),
+	valid_since_last_check(true)
 {
-    b.read(&ttype, sizeof(ttype));
-    b.read(&type, sizeof(type)); // unswap order of type with version, above, when using clipboard
-    if (ttype == CONDITION || ttype == CONDITION_HD4) {
-        b.read(&amount, sizeof(type));
-        b.read(&res_type, sizeof(res_type));
-        b.read(&object, sizeof(object));
-        b.read(&u_loc, sizeof(u_loc));
-        b.read(&unit_cnst, sizeof(unit_cnst));
-        pUnit = esdata.units.getByIdSafe(unit_cnst);
-        b.read(&player, sizeof(player));
-        b.read(&tech_cnst, sizeof(tech_cnst));
-	    pTech = esdata.techs.getByIdSafe(tech_cnst);
-        b.read(&timer, sizeof(timer));
-        b.read(&reserved, sizeof(reserved));
-        b.read(&area, sizeof(area));
-        b.read(&group, sizeof(group));
-        b.read(&utype, sizeof(utype));
-        b.read(&ai_signal, sizeof(ai_signal));
-        switch (ttype) {
-        case CONDITION:
-            if (convert == CONDITION_HD4) {
-                unknown1 = 0; // reverse
-                unknown2 = -1;
-            }
-            break;
-        case CONDITION_HD4:
-            if (convert == CONDITION) {
-                long tmp;
-                b.read(&tmp, sizeof(tmp));
-                b.read(&tmp, sizeof(tmp));
-            } else {
-                b.read(&unknown1, sizeof(unknown1));
-                b.read(&unknown2, sizeof(unknown2));
-            }
-            break;
-        }
-    } else {
-		throw bad_data_error("Condition has incorrect check value.");
+    ClipboardType::Value cliptype;
+    b.read(&cliptype, sizeof(cliptype));
+    if (cliptype != ClipboardType::CONDITION)
+        throw bad_data_error("Condition has incorrect check value.");
+
+    b.read(&type, sizeof(type));
+    b.read(&size, sizeof(size));
+
+    if (size >= 0) {
+        long * flatdata = new long[size];
+        b.read(flatdata, sizeof(long) * size);
+        memcpy(&amount, flatdata, sizeof(long) * (size<=18?size:18));
+        delete[] flatdata;
     }
+
+    if (size >= 5)
+        pUnit = esdata.units.getByIdSafe(unit_cnst);
+    if (size >= 7)
+	    pTech = esdata.techs.getByIdSafe(tech_cnst);
 
 	check_and_save();
 }
@@ -563,31 +562,22 @@ bool Condition::check() const
 void Condition::read(FILE *in)
 {
     readbin(in, &type);
-    readbin(in, &ttype);
-    if (ttype == CONDITION || ttype == CONDITION_HD4) {
-        ttype = static_cast<TType>(ttype);
-        readbin(in, &amount);
-        readbin(in, &res_type);
-        readbin(in, &object);
-        readbin(in, &u_loc);
-        readbin(in, &unit_cnst);
+    readbin(in, &size);
+
+    if (size < 0 || size > 18)
+        throw bad_data_error("Condition has incorrect size value.");
+
+	size_t read = fread(&amount, sizeof(long), size, in);
+	if (read != (size_t)size)
+	{
+		throw bad_data_error(
+			(feof(in)) ? "Early EOF" : "stream error");
+	}
+
+    if (size >= 5)
         pUnit = esdata.units.getByIdSafe(unit_cnst);
-        readbin(in, &player);
-        readbin(in, &tech_cnst);
+    if (size >= 7)
 	    pTech = esdata.techs.getByIdSafe(tech_cnst);
-        readbin(in, &timer);
-        readbin(in, &reserved);
-        readbin(in, &area);
-        readbin(in, &group);
-        readbin(in, &utype);
-        readbin(in, &ai_signal);
-        if (ttype == CONDITION_HD4) {
-            readbin(in, &unknown1);
-            readbin(in, &unknown2);
-        }
-    } else {
-		throw bad_data_error("Condition has incorrect check value.");
-    }
 
 	check_and_save();
 }
@@ -595,51 +585,34 @@ void Condition::read(FILE *in)
 void Condition::write(FILE *out)
 {
 	writebin(out, &type);
-	writebin(out, &ttype);
-	writebin(out, &amount);
-	writebin(out, &res_type);
-	writebin(out, &object);
-	writebin(out, &u_loc);
-	unit_cnst =  pUnit ? pUnit->id() : -1,
-	writebin(out, &unit_cnst);
-	writebin(out, &player);
-	tech_cnst = pTech ? pTech->id() : -1;
-	writebin(out, &tech_cnst);
-	writebin(out, &timer);
-	writebin(out, &reserved);
-	writebin(out, &area);
-	writebin(out, &group);
-	writebin(out, &utype);
-	writebin(out, &ai_signal);
-    if (ttype == CONDITION_HD4) {
-	    writebin(out, &unknown1);
-	    writebin(out, &unknown2);
+	writebin(out, &size);
+
+    if (size >= 5)
+        unit_cnst = pUnit ? pUnit->id() : -1;
+    if (size >= 7)
+	    tech_cnst = pTech ? pTech->id() : -1;
+
+    if (size >= 0 && size <= 18) {
+	    fwrite(&amount, sizeof(long) * size, 1, out);
     }
 }
 
 /* Used forBuffer operations (i.e., copy & paste) */
 void Condition::tobuffer(Buffer &b)// const (make it const when unit_cnst gets set elsewhere)
 {
-	b.write(&ttype, sizeof(ttype));
-	b.write(&type, sizeof(type)); // swap order of type with version, above, when using clipboard
-	b.write(&amount, sizeof(amount));
-	b.write(&res_type, sizeof(res_type));
-	b.write(&object, sizeof(object));
-	b.write(&u_loc, sizeof(u_loc));
-	unit_cnst = pUnit ? pUnit->id() : -1;
-	b.write(&unit_cnst, sizeof(unit_cnst));
-	b.write(&player, sizeof(tech_cnst));
-	tech_cnst = pTech ? pTech->id() : -1;
-	b.write(&tech_cnst, sizeof(tech_cnst));
-	b.write(&timer, sizeof(timer));
-	b.write(&reserved, sizeof(reserved));
-	b.write(&area, sizeof(area));
-	b.write(&group, sizeof(group));
-	b.write(&utype, sizeof(utype));
-	b.write(&ai_signal, sizeof(ai_signal));
-    if (ttype == CONDITION_HD4) {
-	    b.write(&unknown1, sizeof(unknown1));
-	    b.write(&unknown2, sizeof(unknown2));
+    ClipboardType::Value cliptype = ClipboardType::CONDITION;
+	b.write(&cliptype, sizeof(cliptype));
+
+	b.write(&type, sizeof(type));
+	b.write(&size, sizeof(size));
+
+    if (size >= 5)
+        unit_cnst = pUnit ? pUnit->id() : -1;
+    if (size >= 7)
+	    tech_cnst = pTech ? pTech->id() : -1;
+
+    if (size >= 0 && size <= 18) {
+	    b.write(&amount, sizeof(long) * size);
     }
 }
 

@@ -45,65 +45,60 @@ Effect::Effect()
 	memset(uids, -1, sizeof(uids));
 }
 
-//Effect::Effect( const Effect& other ) {
-//}
-//
-//Effect::~Effect()
-//{
-//}
-
-Effect::Effect(Buffer &b, TType convert)
-:	ECBase(EFFECT)
+// Can only delegate (chain) constructors since C++11
+Effect::Effect(Buffer &b)
+:	ECBase(EFFECT),
+	ai_goal(-1),
+	amount(-1),
+	res_type(-1),
+	diplomacy(-1),
+	num_sel(-1),
+	uid_loc(-1),
+	unit_cnst(-1),
+	pUnit(NULL),
+	s_player(-1),
+	t_player(-1),
+	tech_cnst(-1),
+	pTech(NULL),
+	textid(-1),
+	soundid(-1),
+	disp_time(-1),
+	trig_index(-1),
+	// location default ctor fine
+	// area default ctor fine
+	group(-1),
+	utype(-1),
+	panel(-1),
+	unknown(-1) // stance
 {
-    b.read(&ttype, sizeof(ttype));
-    b.read(&type, sizeof(type)); // unswap order of type with version, above, when using clipboard
-    if (ttype == EFFECT || ttype == EFFECT_HD4) {
-        b.read(&ai_goal, sizeof(ai_goal));
-        b.read(&amount, sizeof(amount));
-        b.read(&res_type, sizeof(res_type));
-        b.read(&diplomacy, sizeof(diplomacy));
-        b.read(&num_sel, sizeof(num_sel));
-        b.read(&uid_loc, sizeof(uid_loc));
-        b.read(&unit_cnst, sizeof(unit_cnst));
+    ClipboardType::Value cliptype;
+    b.read(&cliptype, sizeof(cliptype));
+    if (cliptype != ClipboardType::EFFECT)
+        throw bad_data_error("Effect has incorrect check value.");
+
+    b.read(&type, sizeof(type));
+    b.read(&size, sizeof(size));
+
+    if (size >= 0) {
+        long * flatdata = new long[size];
+        b.read(flatdata, sizeof(long) * size);
+        memcpy(&ai_goal, flatdata, sizeof(long) * (size<=24?size:24));
+        delete[] flatdata;
+    }
+
+    if (size >= 7)
         pUnit = esdata.units.getByIdSafe(unit_cnst);
-        b.read(&s_player, sizeof(s_player));
-        b.read(&t_player, sizeof(t_player));
-        b.read(&tech_cnst, sizeof(tech_cnst));
+    if (size >= 10)
 	    pTech = esdata.techs.getByIdSafe(tech_cnst);
-        b.read(&textid, sizeof(textid));
-        b.read(&soundid, sizeof(soundid));
-        b.read(&disp_time, sizeof(disp_time));
-        b.read(&trig_index, sizeof(trig_index));
-        b.read(&location, sizeof(location));
-        b.read(&area, sizeof(area));
-        b.read(&group, sizeof(group));
-        b.read(&utype, sizeof(utype));
-        b.read(&panel, sizeof(panel));
-        switch (ttype) {
-        case EFFECT:
-            if (convert == EFFECT_HD4) {
-                unknown = -1; // stance
-            }
-            break;
-        case EFFECT_HD4:
-            if (convert == EFFECT) {
-                long tmp;
-                b.read(&tmp, sizeof(tmp));
-            } else {
-                b.read(&unknown, sizeof(unknown));
-            }
-            break;
-        }
 
-	    // non-flat data
-	    text.read(b, sizeof(long));
-	    sound.read(b, sizeof(long));
-	    if (num_sel > 0)
-		    b.read(uids, sizeof(uids));
+    pUnit = esdata.units.getByIdSafe(unit_cnst);
+	pTech = esdata.techs.getByIdSafe(tech_cnst);
 
-    } else {
-		throw bad_data_error("Effect has incorrect check value.");
-	}
+	// non-flat data
+	text.read(b, sizeof(long));
+	sound.read(b, sizeof(long));
+	if (num_sel > 0)
+		b.read(uids, sizeof(uids));
 
 	check_and_save();
 }
@@ -111,32 +106,20 @@ Effect::Effect(Buffer &b, TType convert)
 /* Used forBuffer operations (i.e., copy & paste) */
 void Effect::tobuffer(Buffer &b)// const (make it const when unit_cnst gets set elsewhere)
 {
-	b.write(&ttype, sizeof(ttype));
-	b.write(&type, sizeof(type)); // swap order of type with version, above, when using clipboard
-	b.write(&ai_goal, sizeof(ai_goal));
-	b.write(&amount, sizeof(amount));
-	b.write(&res_type, sizeof(res_type));
-	b.write(&diplomacy, sizeof(diplomacy));
-	b.write(&num_sel, sizeof(num_sel));
-	b.write(&uid_loc, sizeof(uid_loc));
-	unit_cnst = pUnit ? pUnit->id() : -1;
-	b.write(&unit_cnst, sizeof(unit_cnst));
-	b.write(&s_player, sizeof(s_player));
-	b.write(&t_player, sizeof(t_player));
-	b.write(&tech_cnst, sizeof(tech_cnst));
-	tech_cnst = pTech ? pTech->id() : -1;
-	b.write(&textid, sizeof(textid));
-	b.write(&soundid, sizeof(soundid));
-	b.write(&disp_time, sizeof(disp_time));
-	b.write(&trig_index, sizeof(trig_index));
-	b.write(&location, sizeof(location));
-	b.write(&area, sizeof(area));
-	b.write(&group, sizeof(group));
-	b.write(&utype, sizeof(utype));
-	b.write(&panel, sizeof(panel));
-    if (ttype == EFFECT_HD4) {
-	    b.write(&unknown, sizeof(unknown));
-	}
+    ClipboardType::Value cliptype = ClipboardType::EFFECT;
+	b.write(&cliptype, sizeof(cliptype));
+
+	b.write(&type, sizeof(type));
+	b.write(&size, sizeof(size));
+
+    if (size >= 7)
+        unit_cnst = pUnit ? pUnit->id() : -1;
+    if (size >= 10)
+	    tech_cnst = pTech ? pTech->id() : -1;
+
+    if (size >= 0 && size <= 24) {
+	    b.write(&ai_goal, sizeof(long) * (size<=24?size:24));
+    }
 
 	text.write(b, sizeof(long));
 	sound.write(b, sizeof(long));
@@ -147,35 +130,22 @@ void Effect::tobuffer(Buffer &b)// const (make it const when unit_cnst gets set 
 void Effect::read(FILE *in)
 {
     readbin(in, &type);
-    readbin(in, &ttype);
-    if (ttype == EFFECT || ttype == EFFECT_HD4) {
-        readbin(in, &ai_goal);
-        readbin(in, &amount);
-        readbin(in, &res_type);
-        readbin(in, &diplomacy);
-        readbin(in, &num_sel);
-        readbin(in, &uid_loc);
-        readbin(in, &unit_cnst);
-        pUnit = esdata.units.getByIdSafe(unit_cnst);
-        readbin(in, &s_player);
-        readbin(in, &t_player);
-        readbin(in, &tech_cnst);
-	    pTech = esdata.techs.getByIdSafe(tech_cnst);
-        readbin(in, &textid);
-        readbin(in, &soundid);
-        readbin(in, &disp_time);
-        readbin(in, &trig_index);
-        readbin(in, &location);
-        readbin(in, &area);
-        readbin(in, &group);
-        readbin(in, &utype);
-        readbin(in, &panel);
-        if (ttype == EFFECT_HD4) {
-            readbin(in, &unknown);
-        }
-    } else {
-		throw bad_data_error("Effect has incorrect check value.");
+    readbin(in, &size);
+
+    if (size < 0 || size > 24)
+        throw bad_data_error("Effect has incorrect size value.");
+
+	size_t read = fread(&ai_goal, sizeof(long), size, in);
+	if (read != (size_t)size)
+	{
+		throw bad_data_error(
+			(feof(in)) ? "Early EOF" : "stream error");
 	}
+
+    if (size >= 7)
+        pUnit = esdata.units.getByIdSafe(unit_cnst);
+    if (size >= 10)
+	    pTech = esdata.techs.getByIdSafe(tech_cnst);
 
 	text.read(in, sizeof(long));
 	sound.read(in, sizeof(long));
@@ -197,31 +167,16 @@ void Effect::read(FILE *in)
 void Effect::write(FILE *out)
 {
 	writebin(out, &type);
-	writebin(out, &ttype);
-	writebin(out, &ai_goal);
-	writebin(out, &amount);
-	writebin(out, &res_type);
-	writebin(out, &diplomacy);
-	writebin(out, &num_sel);
-	writebin(out, &uid_loc);
-	unit_cnst = pUnit ? pUnit->id() : -1;
-	writebin(out, &unit_cnst);
-	writebin(out, &s_player);
-	writebin(out, &t_player);
-	writebin(out, &tech_cnst);
-	tech_cnst = pTech ? pTech->id() : -1;
-	writebin(out, &textid);
-	writebin(out, &soundid);
-	writebin(out, &disp_time);
-	writebin(out, &trig_index);
-	writebin(out, &location);
-	writebin(out, &area);
-	writebin(out, &group);
-	writebin(out, &utype);
-	writebin(out, &panel);
-    if (ttype == EFFECT_HD4) {
-	    writebin(out, &unknown);
-	}
+	writebin(out, &size);
+
+    if (size >= 7)
+        unit_cnst = pUnit ? pUnit->id() : -1;
+    if (size >= 10)
+	    tech_cnst = pTech ? pTech->id() : -1;
+
+    if (size >= 0 && size <= 24) {
+	    fwrite(&ai_goal, sizeof(long) * size, 1, out);
+    }
 
 	text.write(out, sizeof(long), true);
 	sound.write(out, sizeof(long), true);

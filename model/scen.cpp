@@ -2497,12 +2497,14 @@ AOKTS_ERROR Scenario::strip_patch4() {
 	{
 	    // effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
-	        iter->ttype = EFFECT;
+	        if (iter->size > 24)
+	            iter->size = 24;
 		}
 
 	    // conditions
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
-	        iter->ttype = CONDITION;
+	        if (iter->size > 18)
+	            iter->size = 18;
 		}
 		trig++;
 	}

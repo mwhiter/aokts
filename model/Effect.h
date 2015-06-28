@@ -181,7 +181,7 @@ public:
 	Effect();
 //	~Effect();
 //    Effect( const Effect& other );
-	Effect(Buffer&, TType convert = NONE); // reads back data written by tobuffer()
+	Effect(Buffer&); // reads back data written by tobuffer()
 
 	// rule of three: default copy constructor, destructor, assignment fine
 
@@ -212,11 +212,9 @@ public:
 	long num_sel;
 	UID uid_loc;	//the selected location unit
 	long unit_cnst; // pUnit redundant
-	const UnitLink *pUnit;	//long in file, of course
 	long s_player;	// GAIA = 0, Player 1 = 1, ...
 	long t_player;	// GAIA = 0, Player 1 = 1, ...
 	long tech_cnst; // pTech redundant
-	const TechLink *pTech;	//long in file, of course
 	long textid;
 	long soundid;
 	long disp_time;
@@ -227,6 +225,9 @@ public:
 	long utype;
 	long panel;
 	long unknown;
+
+	const UnitLink *pUnit;	//long in file, of course
+	const TechLink *pTech;	//long in file, of course
 
 	SString text;
 	SString sound;

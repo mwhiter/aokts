@@ -40,14 +40,12 @@ const size_t EC_NUM_PLAYERS = 9;
  */
 extern char const *players_ec[EC_NUM_PLAYERS + 1];
 
-enum TType
+enum ECType
 {
 	NONE,	//just so we can have an invalid value for error checking
 	TRIGGER,
-	EFFECT = 0x17,
-	EFFECT_HD4 = 0x18,
-	CONDITION = 0x10,
-	CONDITION_HD4 = 0x12,
+	EFFECT,
+	CONDITION,
 };
 
 #pragma pack(push, 4)
@@ -85,13 +83,14 @@ struct AOKPT
 class ECBase
 {
 protected:
-	ECBase(enum TType c, long t = 0);	//called by Effect() and Condition()
+	ECBase(enum ECType c, long t = 0, long s = 0);	//called by Effect() and Condition()
 
 public:
 	static const int GAIA_INDEX = 0;
 
 	long type;	    //identifies type of condition/effect
-	TType ttype;	//identifies EFFECT or CONDITION and different versions of each
+	ECType ectype;	//effect or condition
+	long size;	    //size of initial flat data (number of longs)
 
 	virtual std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const = 0;
 
@@ -101,8 +100,6 @@ public:
 	virtual int getPlayer() const = 0;
 	virtual void setPlayer(int player) = 0;
 
-	/*	Note: The clipboard data has type and ttype reversed
-		from the order AOK uses. */
 	virtual void tobuffer(Buffer &b) = 0;// const = 0; (make it const when unit_cnst gets set elsewhere)
 };
 

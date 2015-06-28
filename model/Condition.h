@@ -70,7 +70,7 @@ class Condition : public ECBase
 {
 public:
 	Condition();
-	Condition(Buffer&, TType convert = NONE); // reads back data written by tobuffer()
+	Condition(Buffer&); // reads back data written by tobuffer()
 
 	// rule of three: default copy constructor, destructor, assignment fine
 
@@ -97,10 +97,8 @@ public:
 	UID object;
 	UID u_loc;
 	long unit_cnst; // pUnit redundant
-	const UnitLink *pUnit;	//long in file, of course
 	long player;	// GAIA = 0, Player 1 = 1, ...
 	long tech_cnst; // pTech redundant
-	const TechLink *pTech;	//long in file, of course
 	long timer;
 	long reserved;
 	AOKRECT area;
@@ -109,6 +107,9 @@ public:
 	long ai_signal;
 	long unknown1;
 	long unknown2;
+
+	const UnitLink *pUnit;	//long in file, of course
+	const TechLink *pTech;	//long in file, of course
 
     static const int NUM_CONDITIONS_AOK = 20;
     static const int NUM_CONDITIONS_AOHD4 = 21;

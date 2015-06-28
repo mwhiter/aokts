@@ -55,6 +55,16 @@
 
 #define SKIP(f, s) fseek(f, s, SEEK_CUR)
 
+struct ClipboardType {
+    enum Value
+    {
+	    NONE,	//just so we can have an invalid value for error checking
+	    TRIGGER,
+	    EFFECT,
+	    CONDITION,
+    };
+};
+
 void printf_log(char* fmt, ...);
 
 /**

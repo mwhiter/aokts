@@ -14,6 +14,7 @@
 
 #include "editors.h"
 
+#include "../util/utilio.h"
 #include "../util/MemBuffer.h"
 #include "../util/NullBuffer.h"
 #include "../util/settings.h"
@@ -36,7 +37,7 @@ using std::vector;
 /*
 	Triggers
 
-	TVITEM.lParam = MAKELONG(TType, index)	//index is to scen.triggers, not t_order
+	TVITEM.lParam = MAKELONG(ECType, index)	//index is to scen.triggers, not t_order
 
   TODO: Export triggers in text format.
 */
@@ -155,12 +156,12 @@ LRESULT CALLBACK TreeView_KeyWndProc(
 class ItemData
 {
 public:
-	ItemData(enum TType type, int index);
+	ItemData(enum ECType type, int index);
 
 	virtual ~ItemData()		//doesn't do anything, but we need it for the subclasses()
 	{}
 
-	enum TType type;
+	enum ECType type;
 	unsigned index;	//to scen.triggers, not t_order
 
 	virtual bool Delete(HWND treeview, HTREEITEM target);
@@ -181,7 +182,7 @@ public:
 
 };
 
-ItemData::ItemData(enum TType type, int index)
+ItemData::ItemData(enum ECType type, int index)
 :	type(type), index(index)
 {}
 
@@ -455,14 +456,12 @@ bool EffectItemData::Copy(HWND treeview, HTREEITEM, HTREEITEM target)
 	switch (id_target->type)
 	{
 	case CONDITION:
-	case CONDITION_HD4:
 		tvis.hParent = TreeView_GetParent(treeview, target);
 		e_target = t_target->effects.end();
 		newindex = t_target->effects.size();
 		tvis.hInsertAfter = TrigTree_GetLastCondition(treeview, tvis.hParent);
 		break;
 	case EFFECT:
-	case EFFECT_HD4:
 		tvis.hParent = TreeView_GetParent(treeview, target);
 		e_target = t_target->effects.begin() + id_target->index + 1;
 		newindex = id_target->index + 1;
@@ -643,13 +642,11 @@ bool ConditionItemData::Copy(HWND treeview, HTREEITEM, HTREEITEM target)
 	switch (id_target->type)
 	{
 	case CONDITION:
-	case CONDITION_HD4:
 		tvis.hParent = TreeView_GetParent(treeview, target);
 		newindex = id_target->index + 1;
 		tvis.hInsertAfter = target;
 		break;
 	case EFFECT:
-	case EFFECT_HD4:
 		tvis.hParent = TreeView_GetParent(treeview, target);
 		newindex = t_target->conds.size();
 		tvis.hInsertAfter = TrigTree_GetLastCondition(treeview, tvis.hParent);
@@ -1019,7 +1016,7 @@ void Trig_ToClipboard(HWND dialog, Trigger *t, class ItemData *data)
 		if (!SetClipboardData(propdata.tformat, copy_clip))
 			MessageBox(dialog, errorSetClipboard, szTrigTitle, MB_ICONWARNING);
 	}
-	else if (data->type == CONDITION || data->type == CONDITION_HD4)
+	else if (data->type == CONDITION)
 	{
 		NullBuffer nullbuff;
 		Condition& cond_source = t->conds[data->index];
@@ -1036,7 +1033,7 @@ void Trig_ToClipboard(HWND dialog, Trigger *t, class ItemData *data)
 		if (!SetClipboardData(propdata.ecformat, copy_clip))
 			MessageBox(dialog, errorSetClipboard, szTrigTitle, MB_ICONWARNING);
 	}
-	else if (data->type == EFFECT || data->type == EFFECT_HD4)
+	else if (data->type == EFFECT)
 	{
 		NullBuffer nullbuff;
 		Effect& effect_source = t->effects[data->index];
@@ -1149,30 +1146,18 @@ void TrigTree_Paste(HWND dialog)
 			{
 				MemBuffer buffer(ec_data, clip_size);
 
-                TType effectver, condver;
-                switch (scen.game) {
-                case AOHD4:
-                case AOF4:
-                    effectver = EFFECT_HD4;
-                    condver = CONDITION_HD4;
-                    break;
-                default:
-                    effectver = EFFECT;
-                    condver = CONDITION;
-                    break;
-                }
 				// FIXME: there's no reason for this function to know the
 				// format of ec_data.
-				if (*ec_data == EFFECT || *ec_data == EFFECT_HD4)
+				if (*ec_data == ClipboardType::EFFECT)
 				{
-					t->effects.push_back(Effect(buffer, effectver));
+					t->effects.push_back(Effect(buffer));
 					data = new EffectItemData(t->effects.size() - 1,
 						index_sel);
 					TreeView_AddChild(treeview, (LPARAM)data, parent, TVI_LAST, 1);
 				}
-				else if (*ec_data == CONDITION || *ec_data == CONDITION_HD4)
+				else if (*ec_data == ClipboardType::CONDITION)
 				{
-					t->conds.push_back(Condition(buffer, condver));
+					t->conds.push_back(Condition(buffer));
 					data = new ConditionItemData(t->conds.size() - 1,
 						index_sel);
 					TreeView_AddChild(treeview, (LPARAM)data, parent,
@@ -1440,9 +1425,9 @@ void TrigTree_HandleClosing(HWND treeview, WPARAM wParam, class EditEC *edit_dat
 		static_cast<HTREEITEM>(edit_data->user));
 	editor_count--;
 
-	if (id->type == EFFECT || id->type == EFFECT_HD4)
+	if (id->type == EFFECT)
 		((EffectItemData*)id)->editor = NULL;
-	else if (id->type == CONDITION || id->type == CONDITION_HD4)
+	else if (id->type == CONDITION)
 		((ConditionItemData*)id)->editor = NULL;
 
 	if (wParam)	//was modified
@@ -1457,13 +1442,13 @@ void TrigTree_HandleClosing(HWND treeview, WPARAM wParam, class EditEC *edit_dat
 		item.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		item.pszText = (LPSTR)LPSTR_TEXTCALLBACK;
 		if (HIWORD(wParam)) {
-		    if (id->type == EFFECT || id->type == EFFECT_HD4) {
+		    if (id->type == EFFECT) {
 		        item.iImage = BitmapIcons::EFFECT_GOOD;
 		    } else if (id->type == CONDITION) {
 		        item.iImage = BitmapIcons::COND_GOOD;
 		    }
 		} else {
-		    if (id->type == EFFECT || id->type == EFFECT_HD4) {
+		    if (id->type == EFFECT) {
 		        item.iImage = BitmapIcons::EFFECT_BAD;
 		    } else if (id->type == CONDITION) {
 		        item.iImage = BitmapIcons::COND_BAD;

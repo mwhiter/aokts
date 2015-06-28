@@ -114,7 +114,7 @@ std::string playerPronoun(int p) {
     case -1:
         break;
     case 0:
-        convert << "Gaia";
+        convert << "gaia";
         break;
     default:
         convert << "p" << p;

@@ -186,7 +186,7 @@ std::string get_unit_full_name(UID id)
         std::wstring unitname(fu.u->getType()->name());
         switch (fu.player) {
             case 8:
-                ss << "Gaia's ";
+                ss << "gaia's ";
                 break;
             default:
                 ss << "p" << fu.player + 1 << "'s ";

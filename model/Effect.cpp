@@ -52,11 +52,11 @@ Effect::Effect()
 //{
 //}
 
-Effect::Effect(Buffer &b)
+Effect::Effect(Buffer &b, TType convert)
 :	ECBase(EFFECT)
 {
-    b.read(&type, sizeof(type)); // unswap order of type with version, above, when using clipboard
     b.read(&ttype, sizeof(ttype));
+    b.read(&type, sizeof(type)); // unswap order of type with version, above, when using clipboard
     if (ttype == EFFECT || ttype == EFFECT_HD4) {
         b.read(&ai_goal, sizeof(ai_goal));
         b.read(&amount, sizeof(amount));
@@ -79,18 +79,31 @@ Effect::Effect(Buffer &b)
         b.read(&group, sizeof(group));
         b.read(&utype, sizeof(utype));
         b.read(&panel, sizeof(panel));
-        if (ttype == CONDITION_HD4) {
-            b.read(&unknown, sizeof(unknown));
+        switch (ttype) {
+        case EFFECT:
+            if (convert == EFFECT_HD4) {
+                unknown = -1; // stance
+            }
+            break;
+        case EFFECT_HD4:
+            if (convert == EFFECT) {
+                long tmp;
+                b.read(&tmp, sizeof(tmp));
+            } else {
+                b.read(&unknown, sizeof(unknown));
+            }
+            break;
         }
+
+	    // non-flat data
+	    text.read(b, sizeof(long));
+	    sound.read(b, sizeof(long));
+	    if (num_sel > 0)
+		    b.read(uids, sizeof(uids));
+
     } else {
 		throw bad_data_error("Effect has incorrect check value.");
 	}
-
-	// move on to non-flat data
-	text.read(b, sizeof(long));
-	sound.read(b, sizeof(long));
-	if (num_sel > 0)
-		b.read(uids, sizeof(uids));
 
 	check_and_save();
 }

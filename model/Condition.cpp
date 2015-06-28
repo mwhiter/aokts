@@ -30,7 +30,7 @@ Condition::Condition()
 {
 }
 
-Condition::Condition(Buffer& b)
+Condition::Condition(Buffer& b, TType convert)
 :	ECBase(CONDITION)
 {
     b.read(&ttype, sizeof(ttype));
@@ -51,9 +51,23 @@ Condition::Condition(Buffer& b)
         b.read(&group, sizeof(group));
         b.read(&utype, sizeof(utype));
         b.read(&ai_signal, sizeof(ai_signal));
-        if (ttype == CONDITION_HD4) {
-            b.read(&unknown1, sizeof(unknown1));
-            b.read(&unknown2, sizeof(unknown2));
+        switch (ttype) {
+        case CONDITION:
+            if (convert == CONDITION_HD4) {
+                unknown1 = 0; // reverse
+                unknown2 = -1;
+            }
+            break;
+        case CONDITION_HD4:
+            if (convert == CONDITION) {
+                long tmp;
+                b.read(&tmp, sizeof(tmp));
+                b.read(&tmp, sizeof(tmp));
+            } else {
+                b.read(&unknown1, sizeof(unknown1));
+                b.read(&unknown2, sizeof(unknown2));
+            }
+            break;
         }
     } else {
 		throw bad_data_error("Condition has incorrect check value.");
@@ -580,8 +594,8 @@ void Condition::tobuffer(Buffer &b)// const (make it const when unit_cnst gets s
 	b.write(&utype, sizeof(utype));
 	b.write(&ai_signal, sizeof(ai_signal));
     if (ttype == CONDITION_HD4) {
-	    b.write(&utype, sizeof(unknown1));
-	    b.write(&utype, sizeof(unknown2));
+	    b.write(&unknown1, sizeof(unknown1));
+	    b.write(&unknown2, sizeof(unknown2));
     }
 }
 

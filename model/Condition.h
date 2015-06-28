@@ -70,7 +70,7 @@ class Condition : public ECBase
 {
 public:
 	Condition();
-	Condition(Buffer&); // reads back data written by tobuffer()
+	Condition(Buffer&, TType convert = NONE); // reads back data written by tobuffer()
 
 	// rule of three: default copy constructor, destructor, assignment fine
 

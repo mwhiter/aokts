@@ -80,8 +80,8 @@ const char ctable_swgb[Condition::NUM_CONDITIONS_SWGB][EditCondition::N_CONTROLS
 	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
 	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // OwnFewerFoundations
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // SelectedObjectsInArea
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },  // OwnFewerFoundations
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },  // SelectedObjectsInArea
 };
 
 // SWGB:CC
@@ -107,9 +107,9 @@ const char ctable_cc[Condition::NUM_CONDITIONS_CC][EditCondition::N_CONTROLS] = 
 	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Researching Tech
 	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Units Garrisoned
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // OwnFewerFoundations
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // SelectedObjectsInArea
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // PoweredObjectsInArea
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },  // OwnFewerFoundations
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },  // SelectedObjectsInArea
+	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },  // PoweredObjectsInArea
 	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }   // UnitsQueuedPastPopCap  (works in AOK??)
 };
 
@@ -134,8 +134,8 @@ void ConditionControls(HWND dialog, int type)
 
 	for (i = IDC_C_START; i <= IDC_C_END; i++)
 		ENABLE_WND(i, false || setts.editall);
-	ENABLE_WND(IDC_C_USEL1, false);
-	ENABLE_WND(IDC_C_USEL2, false);
+	ENABLE_WND(IDC_C_USEL1, setts.editall);
+	ENABLE_WND(IDC_C_USEL2, setts.editall);
 
 	const char *table;
 	switch (scen.game) {

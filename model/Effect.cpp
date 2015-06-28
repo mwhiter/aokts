@@ -134,7 +134,7 @@ void Effect::tobuffer(Buffer &b)// const (make it const when unit_cnst gets set 
 	b.write(&group, sizeof(group));
 	b.write(&utype, sizeof(utype));
 	b.write(&panel, sizeof(panel));
-    if (ttype == CONDITION_HD4) {
+    if (ttype == EFFECT_HD4) {
 	    b.write(&unknown, sizeof(unknown));
 	}
 

@@ -150,15 +150,15 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 { // we define some variables in this block, therefore need scope as we are also in a case
                     convert << playerPronoun(player) << " has ";
                     switch (type) {
-                        case 3:
-                        case 5:
+                        case ConditionType::OwnObjects:
+                        case ConditionType::ObjectsInArea:
                             if (amount == 0) {
                                 convert << "any number of";
                             } else {
                                 convert << "at least " << amount;
                             }
                             break;
-                        case 4:
+                        case ConditionType::OwnFewerObjects:
                             if (amount == 0) {
                                 convert << "no";
                             } else {
@@ -372,6 +372,50 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
             case ConditionType::UnitsQueuedPastPopCap_SWGB:
                 convert << playerPronoun(player) << " has " << amount << " units queued past the pop cap";
                 stype.append(convert.str());
+                break;
+            case ConditionType::OwnFewerFoundations_SWGB: // Chance_HD:
+                switch (scen.game) {
+                case AOHD4:
+                case AOF4:
+                    convert << amount << "% chance ";
+                    stype.append(convert.str());
+                    break;
+                case SWGB:
+                case SWGBCC:
+                    if (amount == 0) {
+                        convert << "no";
+                    } else {
+                        convert << "at most " << amount;
+                    }
+                    if (valid_unit_spec()) {
+                        std::string un(wstringToString(pUnit->name()));
+                        if (amount > 1 && !un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
+                            convert << " " << un << " foundations";
+                        } else {
+                            convert << " " << un << " foundation";
+                        }
+                    } else {
+                        if (amount != 1) {
+                            convert << " foundations";
+                        } else {
+                            convert << " foundation";
+                        }
+                    }
+                    if (valid_full_map()) {
+                        convert << " on the map";
+                    } else {
+                        if (valid_area_location()) {
+                            convert << " at (" << area.left << ", " << area.top << ")";
+                        } else {
+                            convert << " in area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
+                        }
+                    }
+                    stype.append(convert.str());
+                    break;
+                default:
+                    convert << amount << "UNKNOWN CONDITION";
+                    stype.append(convert.str());
+                }
                 break;
             default:
                 stype.append((type < scen.pergame->max_condition_types) ? types_short[type] : "Unknown!");

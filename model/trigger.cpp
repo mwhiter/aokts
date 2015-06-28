@@ -124,6 +124,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         bool e_change_ownership = false;
         bool e_activate = false;
         bool e_deactivate = false;
+        int c_chance = 100;
         int c_n_owned = 0;
         int c_n_not_owned = 0;
         int e_n_activated = 0;
@@ -172,7 +173,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	        n_conds++;
 	        last_cond = &(*iter);
 	        switch (iter->type) {
-	        case (long)ConditionType::OwnObjects:
+	        case ConditionType::OwnObjects:
 	            {
 	                player = iter->player;
 	                c_own = true;
@@ -184,7 +185,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case (long)ConditionType::OwnFewerObjects:
+	        case ConditionType::OwnFewerObjects:
 	            {
 	                player = iter->player;
 	                c_own_fewer = true;
@@ -196,7 +197,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case (long)ConditionType::ObjectsInArea:
+	        case ConditionType::ObjectsInArea:
 	            {
 	                player = iter->player;
 	                c_in_area = true;
@@ -208,11 +209,11 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case (long)ConditionType::DestroyObject:
+	        case ConditionType::DestroyObject:
 	            c_object_destroyed = true;
 	            vanquished_unit = iter->object;
 	            break;
-	        case (long)ConditionType::AccumulateAttribute:
+	        case ConditionType::AccumulateAttribute:
 	            switch (iter->res_type) {
 	            case 3:
 	                c_has_gold = true;
@@ -230,14 +231,19 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                break;
 	            }
 	            break;
-	        case (long)ConditionType::Timer:
+	        case ConditionType::Timer:
 	            if (iter->timer > 0 && iter->timer > timer) {
 	                timer = iter->timer;
 	            }
 	            break;
-	        case (long)ConditionType::PlayerDefeated:
+	        case ConditionType::PlayerDefeated:
 	            defeat = true;
 	            deceased = iter->player;
+	            break;
+	        case ConditionType::Chance_HD:
+	            if (scen.game == AOHD4 || scen.game == AOF4) {
+	                c_chance *= (iter->amount / 100.0f);
+	            }
 	            break;
 	        }
         }
@@ -251,10 +257,10 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	            text = iter->text.c_str();
 	        }
 	        switch (iter->type) {
-	        case (long)EffectType::ResearchTechnology:
+	        case EffectType::ResearchTechnology:
 	            e_research = true;
 	            break;
-	        case (long)EffectType::SendChat:
+	        case EffectType::SendChat:
 	            if (strlen(iter->text.c_str()) > 1) {
 	                e_chat = true;
 	                chat_text = iter->text.c_str();
@@ -262,7 +268,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                n_effects--;
 	            }
 	            break;
-	        case (long)EffectType::Sound:
+	        case EffectType::Sound:
 	            if (strlen(iter->sound.c_str()) > 1) {
 	                e_sound = true;
 	                sound_name = iter->sound.c_str();
@@ -270,7 +276,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	                n_effects--;
 	            }
 	            break;
-            case (long)EffectType::SendTribute:
+            case EffectType::SendTribute:
                 amount = iter->amount;
                 giver = iter->s_player;
                 receiver = iter->t_player;
@@ -307,18 +313,18 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
                 break;
-            case (long)EffectType::ActivateTrigger:
+            case EffectType::ActivateTrigger:
                 e_activate = true;
                 e_n_activated ++;
                 //activated = scen.t_order[iter->trig_index];
                 activated = iter->trig_index;
                 break;
-            case (long)EffectType::DeactivateTrigger:
+            case EffectType::DeactivateTrigger:
                 e_deactivate = true;
                 e_n_deactivated ++;
                 deactivated = iter->trig_index;
                 break;
-	        case (long)EffectType::CreateObject:
+	        case EffectType::CreateObject:
 	            {
 	                player = iter->s_player;
 	                e_create_unit = true;
@@ -329,16 +335,16 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case (long)EffectType::TaskObject:
+	        case EffectType::TaskObject:
 	            e_task = true;
 	            break;
-	        case (long)EffectType::DeclareVictory:
+	        case EffectType::DeclareVictory:
 	            if (iter->s_player > 0) {
 	                victor[iter->s_player] = true;
 	                victory = true;
 	            }
 	            break;
-	        case (long)EffectType::KillObject:
+	        case EffectType::KillObject:
 	            {
 	                e_killed_units = iter->selectedUnits();
 	                e_kill_object = true;
@@ -350,7 +356,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case (long)EffectType::RemoveObject:
+	        case EffectType::RemoveObject:
 	            {
 	                player = iter->s_player;
 	                e_remove_unit = true;
@@ -361,7 +367,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case (long)EffectType::ChangeOwnership:
+	        case EffectType::ChangeOwnership:
 	            {
 	                convertee = iter->s_player;
 	                e_change_ownership = true;
@@ -372,23 +378,23 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     }
                 }
 	            break;
-	        case (long)EffectType::ChangeObjectName:
+	        case EffectType::ChangeObjectName:
 	            e_rename = true;
 	            name = text;
 	            break;
-            case (long)EffectType::DamageObject:
+            case EffectType::DamageObject:
 	            e_damaged_units = iter->selectedUnits();
 	            if (e_kill_object && e_killed_units.compare(e_damaged_units) == 0)  {
 	                e_set_hp_units = e_damaged_units;
 	                e_set_hp_value = -iter->amount;
 	                break;
 	            }
-            case (long)EffectType::ChangeObjectHP:
-            case (long)EffectType::ChangeObjectAttack:
-            case (long)EffectType::ChangeSpeed_UP:
-            case (long)EffectType::ChangeRange_UP:
-            case (long)EffectType::ChangeMeleArmor_UP:
-            case (long)EffectType::ChangePiercingArmor_UP:
+            case EffectType::ChangeObjectHP:
+            case EffectType::ChangeObjectAttack:
+            case EffectType::ChangeSpeed_UP:
+            case EffectType::ChangeRange_UP:
+            case EffectType::ChangeMeleArmor_UP:
+            case EffectType::ChangePiercingArmor_UP:
                 amount = iter->amount;
                 if (iter->type == 24) {
                     amount = -amount;
@@ -422,6 +428,10 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
             ss << " then " << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN);
             goto theendnotext;
         }
+
+	    if (c_chance != 100) {
+	        ss << c_chance << "% of the time, ";
+	    }
 
         if (only_one_cond_or_effect && only_one_cond) {
             ss << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
@@ -653,6 +663,11 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 
         if (only_one_cond && timer == -1) {
             ss << "If " << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN) << " ";
+        } else {
+            if (defeat) {
+                ss << "p" << deceased << " disconnected";
+                goto theend;
+            }
         }
 
         if (e_only_1_activated && activated >= 0) {
@@ -671,11 +686,6 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
             } else
                 ss << "=> <" << activated << ">";
             goto theendnotext;
-        }
-
-        if (defeat) {
-            ss << "p" << deceased << " disconnected";
-            goto theend;
         }
 
         if (victory) {

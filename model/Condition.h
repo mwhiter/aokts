@@ -59,7 +59,7 @@ struct ConditionType {
 	    UnitsGarrisoned,
 	    DifficultyLevel,
 	    OwnFewerFoundations_SWGB,
-	        Chance = OwnFewerFoundations_SWGB,
+	        Chance_HD = OwnFewerFoundations_SWGB,
 	    SelectedObjectsInArea_SWGB,
 	    PoweredObjectsInArea_SWGB,
 	    UnitsQueuedPastPopCap_SWGB,

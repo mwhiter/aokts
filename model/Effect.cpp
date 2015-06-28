@@ -279,12 +279,16 @@ std::string Effect::selectedUnits() const {
 	for (int i = 0; i < num_sel; i++) {
         convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
 	}
-    if (valid_partial_map()) {
-        if (valid_area_location()) {
-            convert << " at (" << area.left << "," << area.top << ") ";
-        } else {
-            convert << " in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
+    if (valid_area()) {
+        if (valid_partial_map()) {
+            if (valid_area_location()) {
+                convert << " at (" << area.left << "," << area.top << ") ";
+            } else {
+                convert << " in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
+            }
         }
+    } else {
+        convert << " in INVALID AREA";
     }
     return convert.str();
 }
@@ -602,16 +606,6 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                     convert << "place" << " " << selectedUnits() << " into control group " << panel;
                 } else {
                     convert << "stop " << selectedUnits();
-                    if (valid_partial_map()) {
-                        if (valid_area_location()) {
-                            convert << " at (" << area.left << "," << area.top << ")";
-                        } else {
-                            convert << " in area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-                        }
-                    }
-                    if (valid_location_coord()) {
-                        convert << " at (" << location.x << ", " << location.y << ")";
-                    }
                     stype.append(convert.str());
                     break;
                 }
@@ -714,13 +708,6 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
 
                 convert << "task";
                 convert << " " << selectedUnits();
-                if (valid_partial_map()) {
-                    if (valid_area_location()) {
-                        convert << " at (" << area.left << "," << area.top << ")";
-                    } else {
-                        convert << " in (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-                    }
-                }
                 if (valid_location_coord()) {
                     convert << " to (" << location.x << ", " << location.y << ")";
                 } else {
@@ -741,13 +728,6 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 stype.append(text.c_str());
                 stype.append("'");
                 convert << " " << selectedUnits();
-                if (valid_partial_map()) {
-                    if (valid_area_location()) {
-                        convert << " at (" << area.left << "," << area.top << ")";
-                    } else {
-                        convert << " over area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-                    }
-                }
                 stype.append(convert.str());
                 break;
             case EffectType::DamageObject:
@@ -1038,7 +1018,7 @@ bool Effect::check() const
         return has_valid_selected && valid_destination();
 
 	case EffectType::TaskObject:
-        return (valid_partial_map() || has_valid_selected ||
+        return (valid_area() || has_valid_selected ||
                (!valid_location_coord() && null_location_unit()));
 
 	case EffectType::KillObject:

@@ -614,7 +614,11 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
 	                    }
 
                         if (other.size() > 0) {
-                            convert << "patrol ";
+                            if (!valid_location_coord() && null_location_unit()) {
+                                convert << "stop ";
+                            } else {
+                                convert << "patrol ";
+                            }
                             for(std::vector<PlayersUnit>::iterator it = other.begin(); it != other.end(); ++it) {
                                 convert << it->u->ident << " (" <<
                                     get_unit_full_name(it->u->ident)

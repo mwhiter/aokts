@@ -672,6 +672,8 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 		switch (game) {
 		case AOHD:
 		case AOF:
+		case AOHD4:
+		case AOF4:
 			if ((flags & SaveFlags::CONVERT_EFFECTS))
 			    hd_to_up();
 			break;
@@ -719,7 +721,7 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 		}
 		break;
 	case SWGB:
-		if ((game == AOHD || game == AOF))
+		if ((game == AOHD || game == AOF || game == AOHD4 || game == AOF4))
 			hd_to_swgb();
 		if (game == UP)
 			up_to_swgb();
@@ -727,7 +729,7 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			aok_to_aoc();
 		break;
 	case SWGBCC:
-		if ((game == AOHD || game == AOF))
+		if ((game == AOHD || game == AOF || game == AOHD4 || game == AOF4))
 			hd_to_swgb();
 		if (game == UP)
 			up_to_swgb();

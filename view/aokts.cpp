@@ -282,14 +282,14 @@ void FileSave(HWND sheet, bool as, bool write)
 	    conv = scen.game;
 	}
 
-    if ((startver == AOHD || startver == AOF) && conv == UP) {
+    if ((startver == AOHD || startver == AOF || startver == AOHD4 || startver == AOF4) && conv == UP) {
         if (setts.asktoconverteffects &&
             MessageBox(sheet, "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES) {
             flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
         }
     }
 
-    if (startver == UP && (conv == AOHD || conv == AOF)) {
+    if (startver == UP && (conv == AOHD || conv == AOF | conv == AOHD4 || conv == AOF4)) {
         if (setts.asktoconverteffects &&
             MessageBox(sheet, "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES) {
             flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);

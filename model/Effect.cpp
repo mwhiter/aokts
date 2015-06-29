@@ -76,121 +76,13 @@ Effect::Effect(Buffer &b)
 void Effect::compress()
 {
     size = MAXFIELDS;
-    if (unknown == defaultvals[23]) {
-        size--;
-    } else {
-        return;
+    for (int i = size - 1; i >= 0; i--) {
+        if (*(&ai_goal + i) == defaultvals[i]) {
+            size--;
+        } else {
+            break;
+        }
     }
-    if (panel == defaultvals[22]) {
-        size--;
-    } else {
-        return;
-    }
-    if (utype == defaultvals[21]) {
-        size--;
-    } else {
-        return;
-    }
-    if (group == defaultvals[20]) {
-        size--;
-    } else {
-        return;
-    }
-    if (area.right == defaultvals[19] &&
-        area.top == defaultvals[18] &&
-        area.left == defaultvals[17] &&
-        area.bottom == defaultvals[16]) {
-        size--;
-    } else {
-        return;
-    }
-    if (location.x == defaultvals[15] &&
-        location.y == defaultvals[14]) {
-        size--;
-    } else {
-        return;
-    }
-    if (trig_index == defaultvals[13]) {
-        size--;
-    } else {
-        return;
-    }
-    if (disp_time == defaultvals[12]) {
-        size--;
-    } else {
-        return;
-    }
-    if (soundid == defaultvals[11]) {
-        size--;
-    } else {
-        return;
-    }
-    if (textid == defaultvals[10]) {
-        size--;
-    } else {
-        return;
-    }
-    if (tech_cnst == defaultvals[9]) {
-        size--;
-    } else {
-        return;
-    }
-    if (t_player == defaultvals[8]) {
-        size--;
-    } else {
-        return;
-    }
-    if (s_player == defaultvals[7]) {
-        size--;
-    } else {
-        return;
-    }
-    if (unit_cnst == defaultvals[6]) {
-        size--;
-    } else {
-        return;
-    }
-    if (uid_loc == defaultvals[5]) {
-        size--;
-    } else {
-        return;
-    }
-    if (num_sel == defaultvals[4]) {
-        size--;
-    } else {
-        return;
-    }
-    if (diplomacy == defaultvals[3]) {
-        size--;
-    } else {
-        return;
-    }
-    if (res_type == defaultvals[2]) {
-        size--;
-    } else {
-        return;
-    }
-    if (amount == defaultvals[1]) {
-        size--;
-    } else {
-        return;
-    }
-    if (ai_goal == defaultvals[0]) {
-        size--;
-    } else {
-        return;
-    }
-    //size = MAXFIELDS;
-    //for (int i = size - 1; i >= 0; i--) {
-    //    if (*(&ai_goal + sizeof(long) * (i-1)) == defaultvals[i]) {
-    //        size--;
-    //    } else {
-    //        printf("unknown: %ld\n", unknown);
-    //        printf("value: %ld\n", *(&ai_goal + sizeof(long) * i));
-    //        break;
-    //    }
-    //}
-    //printf("effectsize: %ld\n", size);
 }
 
 /* Used forBuffer operations (i.e., copy & paste) */
@@ -219,6 +111,9 @@ void Effect::tobuffer(Buffer &b)// const (make it const when unit_cnst gets set 
 
 void Effect::read(FILE *in)
 {
+    memcpy(&ai_goal, defaultvals, sizeof(defaultvals));
+    memset(uids, -1, sizeof(uids));
+
     readbin(in, &type);
     readbin(in, &size);
 

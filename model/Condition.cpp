@@ -538,6 +538,8 @@ bool Condition::check() const
 
 void Condition::read(FILE *in)
 {
+    memcpy(&amount, defaultvals, sizeof(defaultvals));
+
     readbin(in, &type);
     readbin(in, &size);
 
@@ -598,92 +600,13 @@ void Condition::tobuffer(Buffer &b)// const (make it const when unit_cnst gets s
 void Condition::compress()
 {
     size = MAXFIELDS;
-    if (unknown2 == defaultvals[17]) {
-        size--;
-    } else {
-        return;
+    for (int i = size - 1; i >= 0; i--) {
+        if (*(&amount + i) == defaultvals[i]) {
+            size--;
+        } else {
+            break;
+        }
     }
-    if (unknown1 == defaultvals[16]) {
-        size--;
-    } else {
-        return;
-    }
-    if (ai_signal == defaultvals[15]) {
-        size--;
-    } else {
-        return;
-    }
-    if (utype == defaultvals[14]) {
-        size--;
-    } else {
-        return;
-    }
-    if (group == defaultvals[13]) {
-        size--;
-    } else {
-        return;
-    }
-    if (area.right == defaultvals[12] &&
-        area.top == defaultvals[11] &&
-        area.left == defaultvals[10] &&
-        area.bottom == defaultvals[9]) {
-        size--;
-    } else {
-        return;
-    }
-    if (reserved == defaultvals[8]) {
-        size--;
-    } else {
-        return;
-    }
-    if (timer == defaultvals[7]) {
-        size--;
-    } else {
-        return;
-    }
-    if (tech_cnst == defaultvals[6]) {
-        size--;
-    } else {
-        return;
-    }
-    if (player == defaultvals[5]) {
-        size--;
-    } else {
-        return;
-    }
-    if (unit_cnst == defaultvals[4]) {
-        size--;
-    } else {
-        return;
-    }
-    if (u_loc == defaultvals[3]) {
-        size--;
-    } else {
-        return;
-    }
-    if (object == defaultvals[2]) {
-        size--;
-    } else {
-        return;
-    }
-    if (res_type == defaultvals[1]) {
-        size--;
-    } else {
-        return;
-    }
-    if (amount == defaultvals[0]) {
-        size--;
-    } else {
-        return;
-    }
-    //for (int i = size - 1; i >= 0; i--) {
-    //    if (*(&amount + sizeof(long) * (i-1)) == defaultvals[i]) {
-    //        size--;
-    //    } else {
-    //        break;
-    //    }
-    //}
-    //printf("condsize: %ld\n", size);
 }
 
 void Condition::accept(TriggerVisitor& tv)

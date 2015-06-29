@@ -432,9 +432,6 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
 	                        }
                             break;
                     }
-                    if (amount == 1410065407) {
-                        convert << " to 0";
-                    }
                     if (amount >= 0 && t_player > 0) {
                         convert << " (displays tribute alert)";
                     }

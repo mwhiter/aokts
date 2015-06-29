@@ -146,7 +146,7 @@ struct EffectType {
 	    DisableUnit_SWGB,
 	        TeleportObject_HD = DisableUnit_SWGB,
 	    FlashUnit_SWGB,
-	        ChangUnitStance_HD = FlashUnit_SWGB,
+	        ChangeUnitStance_HD = FlashUnit_SWGB,
 	    InputOff_CC,
 	    InputOn_CC,
 	};

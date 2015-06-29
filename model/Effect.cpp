@@ -774,7 +774,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 break;
 	        case EffectType::EnableUnit_SWGB:
 	        case EffectType::DisableUnit_SWGB:
-	        case EffectType::FlashUnit_SWGB:
+	        case EffectType::FlashUnit_SWGB: // ChangeUnitStance_HD
 	        case EffectType::InputOff_CC:
 	        case EffectType::InputOn_CC:
                 stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");

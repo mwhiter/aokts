@@ -55,7 +55,7 @@ const char *difficulties_21[] =
 
 const struct PAIR ages[] =
 {
-	{ -1, "None" },
+	{ -1, "" },
 	{  0, "Dark" },
 	{  1, "Feudal" },
 	{  2, "Castle" },

@@ -143,6 +143,7 @@ UINT GetCheckedRadio(HWND dialog, UINT first, UINT last)
 
 void Combo_PairFill(HWND combobox, unsigned count, const struct PAIR *pairs)
 {
+	SendMessage(combobox, CB_RESETCONTENT, 0, 0);
 	while (count--)
 	{
 		unsigned index, type;

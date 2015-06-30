@@ -604,6 +604,8 @@ void Condition::compress()
         if (*(&amount + i) == defaultvals[i]) {
             size--;
         } else {
+            if (setts.intense)
+                printf_log("condition size %d.\n",size);
             break;
         }
     }

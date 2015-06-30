@@ -391,7 +391,8 @@ struct POINT
 struct Effect
 {
 	long type;	//see constants below
-	long check;	//always = 0x17. For internal use by AOK (and AOKTS).
+	long size;	//always = 0x17. For internal use by AOK (and AOKTS).
+
 	long ai_goal;	//AI Script goal
 	long amount;	//used for resources, hp, attack
 	long resource;	//resource type (stone = 2)
@@ -412,6 +413,7 @@ struct Effect
 	long unit_group;
 	long unit_type;	//Civilian, Military, Building, Other
 	long instruction_panel;
+
 	long text_len;
 	char text[text_len];	//Instructions/Chat
 	long sound_len;

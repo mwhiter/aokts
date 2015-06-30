@@ -80,6 +80,8 @@ void Effect::compress()
         if (*(&ai_goal + i) == defaultvals[i]) {
             size--;
         } else {
+            if (setts.intense)
+                printf_log("effect size %d.\n",size);
             break;
         }
     }
@@ -441,16 +443,27 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
             case EffectType::ActivateTrigger:
             case EffectType::DeactivateTrigger:
                 //stype.append(types_short[type]);
-                switch (type) {
-                    case EffectType::ActivateTrigger:
-                        stype.append("activate ");
-                        break;
-                    case EffectType::DeactivateTrigger:
-                        stype.append("deactivate ");
-                        break;
-                }
                 if (trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
                     if (trig_index < scen.triggers.size() && trig_index >= 0) {
+                        if (scen.triggers.at(trig_index).loop) {
+                            switch (type) {
+                                case EffectType::ActivateTrigger:
+                                    stype.append("resume ");
+                                    break;
+                                case EffectType::DeactivateTrigger:
+                                    stype.append("pause ");
+                                    break;
+                            }
+                        } else {
+                            switch (type) {
+                                case EffectType::ActivateTrigger:
+                                    stype.append("activate ");
+                                    break;
+                                case EffectType::DeactivateTrigger:
+                                    stype.append("deactivate ");
+                                    break;
+                            }
+                        }
                         if (setts.showdisplayorder) {
                             stype.append("<").append(toString(scen.triggers.at(trig_index).display_order)).append("> ");
                         }
@@ -458,6 +471,14 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         // to limit it
                         stype.append(scen.triggers.at(trig_index).getName(setts.pseudonyms,true,0));
                     } else {
+                        switch (type) {
+                            case EffectType::ActivateTrigger:
+                                stype.append("activate ");
+                                break;
+                            case EffectType::DeactivateTrigger:
+                                stype.append("deactivate ");
+                                break;
+                        }
                         stype.append("<?>");
                     }
                     //convert << trig_index;

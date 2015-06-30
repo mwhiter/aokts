@@ -1538,6 +1538,8 @@ int Scenario::write_data(const char *path)
 	    i = num;
 	    while (i--)
 	    {
+            if (setts.intense)
+                printf_log("trigger %d.\n", num - i);
 		    t_parse->write(dcout);
 		    t_parse++;
 	    }

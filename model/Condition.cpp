@@ -6,6 +6,7 @@
 #include "../util/utilio.h"
 #include "../util/Buffer.h"
 #include "../util/helper.h"
+#include "../util/settings.h"
 
 static const long MAXFIELDS=18;
 

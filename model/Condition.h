@@ -153,6 +153,7 @@ public:
 private:
 	struct Genie_Condition toGenie() const;
 
+    bool valid_player() const;
     bool valid_full_map() const;
     bool valid_partial_map() const;
     bool valid_technology_spec() const;

@@ -125,7 +125,9 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
             case ConditionType::OwnFewerObjects:
             case ConditionType::ObjectsInArea:
                 { // we define some variables in this block, therefore need scope as we are also in a case
-                    convert << playerPronoun(player) << " has ";
+                    if (valid_player()) {
+                        convert << playerPronoun(player) << " has ";
+                    }
                     switch (type) {
                         case ConditionType::OwnObjects:
                         case ConditionType::ObjectsInArea:
@@ -224,7 +226,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                                     std::wstring resname(list->name());
 		                            convert << playerPronoun(player) << "'s ";
                                     convert << std::string( resname.begin(), resname.end());
-                                    convert << " = " << amount;
+                                    convert << " >= " << amount;
 		                            break;
 		                        }
 	                        }
@@ -347,7 +349,11 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append(convert.str());
                 break;
             case ConditionType::UnitsQueuedPastPopCap_SWGB:
-                convert << playerPronoun(player) << " has " << amount << " units queued past the pop cap";
+                if (valid_player()) {
+                    convert << playerPronoun(player) << " has " << amount << " units queued past the pop cap";
+                } else {
+                    convert << "INVALID";
+                }
                 stype.append(convert.str());
                 break;
             case ConditionType::OwnFewerFoundations_SWGB: // Chance_HD:
@@ -419,6 +425,10 @@ bool Condition::get_valid_since_last_check() {
 bool Condition::check_and_save()
 {
     return valid_since_last_check = check();
+}
+
+inline bool Condition::valid_player() const {
+    return player >= 0 && player <= 8;
 }
 
 inline bool Condition::valid_full_map() const {

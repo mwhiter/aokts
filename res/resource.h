@@ -334,8 +334,8 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_C_UTYPE				1916
 #define IDC_C_AISIG				1917
 #define IDC_C_REVERSEHD         1918
-#define IDC_C_END	IDC_C_REVERSEHD
-#define IDC_C_UNKNOWNHD         1919
+#define IDC_C_UNKNOWNHD            1919
+#define IDC_C_END IDC_C_UNKNOWNHD
 #define IDC_C_USEL1             1920
 #define IDC_C_USEL2             1921
 #define IDC_C_CLEAR  	    	1922

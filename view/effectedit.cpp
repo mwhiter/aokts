@@ -459,14 +459,14 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
     case SWGB:
     case SWGBCC:
         switch (e->type) {
-        case (long)EffectType::DamageObject:
+        case EffectType::DamageObject:
             if (e->amount == TS_LONG_MAX) {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::MaxAmount, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::MaxAmount, 0);
 	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MAX, TRUE);
 	            return;
             }
             if (e->amount == TS_LONG_MIN) {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::MinAmount, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::MinAmount, 0);
 	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MIN, TRUE);
 	            return;
             }
@@ -475,37 +475,37 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
         break;
     case AOC:
         switch (e->type) {
-        case (long)EffectType::DamageObject:
+        case EffectType::DamageObject:
             if (e->amount == TS_LONG_MAX) {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::MaxAmount, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::MaxAmount, 0);
 	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MAX, TRUE);
 	            return;
             }
             if (e->amount == TS_LONG_MIN) {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::MinAmount, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::MinAmount, 0);
 	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MIN, TRUE);
 	            return;
             }
             break;
-        case (long)EffectType::AIScriptGoal:
+        case EffectType::AIScriptGoal:
             if (e->ai_goal >= 774 && e->ai_goal <= 1029) {
 	            ENABLE_WND(IDC_E_SIGGOAL, true);
 	            ENABLE_WND(IDC_E_AIGOAL, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::SetAISignal, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::SetAISignal, 0);
 	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal - 774, TRUE);
 	            return;
             }
             if (e->ai_goal >= -258 && e->ai_goal <= -3) {
 	            ENABLE_WND(IDC_E_SIGGOAL, true);
 	            ENABLE_WND(IDC_E_AIGOAL, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::SetAISharedGloal, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::SetAISharedGloal, 0);
 	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal + 258, TRUE);
 	            return;
             }
             if (e->ai_goal == -260) {
 	            ENABLE_WND(IDC_E_SIGGOAL, true);
 	            ENABLE_WND(IDC_E_AIGOAL, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeAOC::EnableCheats, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::EnableCheats, 0);
 	            return;
             }
             break;
@@ -513,119 +513,119 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
         break;
     case UP:
         switch (e->type) {
-        case (long)EffectType::ResearchTechnology:
+        case EffectType::ResearchTechnology:
             switch (e->panel) {
             case 1:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableTechnology, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::EnableTechnology, 0);
 	            return;
             case 2:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::DisableTechnology, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::DisableTechnology, 0);
 	            return;
             case 3:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableTechnologyAnyCiv, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::EnableTechnologyAnyCiv, 0);
 	            return;
             }
             break;
-        case (long)EffectType::CreateObject:
+        case EffectType::CreateObject:
             switch (e->panel) {
             case 1:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableObject, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::EnableObject, 0);
 	            return;
             case 2:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::DisableObject, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::DisableObject, 0);
 	            return;
             }
             break;
-        case (long)EffectType::ChangeView:
+        case EffectType::ChangeView:
             switch (e->panel) {
             case 1:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SnapView, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SnapView, 0);
 	            return;
             }
             break;
-        case (long)EffectType::DeclareVictory:
+        case EffectType::DeclareVictory:
             switch (e->panel) {
             case 1:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::Resign, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::Resign, 0);
 	            return;
             }
             break;
-        case (long)EffectType::ChangeOwnership:
+        case EffectType::ChangeOwnership:
             switch (e->panel) {
             case 1:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::FlashObjects, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::FlashObjects, 0);
 	            return;
             }
             break;
-        case (long)EffectType::FreezeUnit:
+        case EffectType::FreezeUnit:
             switch (e->panel) {
             case 1:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAggressive, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SetAggressive, 0);
 	            return;
             case 2:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetDefensive, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SetDefensive, 0);
 	            return;
             case 3:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetStandGround, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SetStandGround, 0);
 	            return;
             case 4:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetNoAttackWithoutHalt, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SetNoAttackWithoutHalt, 0);
 	            return;
             }
             break;
-        case (long)EffectType::ChangeObjectHP:
+        case EffectType::ChangeObjectHP:
             switch (e->panel) {
             case 1:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetHP, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SetHP, 0);
 	            return;
             case 2:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::HealObject, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::HealObject, 0);
 	            return;
             }
             break;
-        case (long)EffectType::ChangeObjectAttack:
+        case EffectType::ChangeObjectAttack:
             switch (e->panel) {
             case 1:
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAP, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SetAP, 0);
 	            return;
             }
             break;
-        case (long)EffectType::StopUnit:
+        case EffectType::StopUnit:
             if (e->panel >= 1 && e->panel <= 9) {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetControlGroup1 + e->panel - 1, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SetControlGroup1 + e->panel - 1, 0);
 	            return;
             }
             break;
-        case (long)EffectType::AIScriptGoal:
+        case EffectType::AIScriptGoal:
             if (e->ai_goal >= 774 && e->ai_goal <= 1029) {
 	            ENABLE_WND(IDC_E_SIGGOAL, true);
 	            ENABLE_WND(IDC_E_AIGOAL, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAISignal, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SetAISignal, 0);
 	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal - 774, TRUE);
 	            return;
             }
             if (e->ai_goal >= -258 && e->ai_goal <= -3) {
 	            ENABLE_WND(IDC_E_SIGGOAL, true);
 	            ENABLE_WND(IDC_E_AIGOAL, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::SetAISharedGloal, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::SetAISharedGloal, 0);
 	            SetDlgItemInt(dialog, IDC_E_SIGGOAL, e->ai_goal + 258, TRUE);
 	            return;
             }
             if (e->ai_goal == -260) {
 	            ENABLE_WND(IDC_E_SIGGOAL, true);
 	            ENABLE_WND(IDC_E_AIGOAL, false);
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::EnableCheats, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::EnableCheats, 0);
 	            return;
             }
             break;
-        case (long)EffectType::DamageObject:
+        case EffectType::DamageObject:
             if (e->amount == TS_LONG_MAX) {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::MaxAmount, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::MaxAmount, 0);
 	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MAX, TRUE);
 	            return;
             }
             if (e->amount == TS_LONG_MIN) {
-	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, (long)EffectVirtualTypeUP::MinAmount, 0);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::MinAmount, 0);
 	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MIN, TRUE);
 	            return;
             }

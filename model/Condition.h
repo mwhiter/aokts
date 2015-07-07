@@ -108,7 +108,7 @@ public:
 	long group;
 	long utype;
 	long ai_signal;
-	long unknown1;
+	long reverse_hd;
 	long unknown2;
 
 	const UnitLink *pUnit;	//long in file, of course

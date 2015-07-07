@@ -144,6 +144,8 @@ void ConditionControls(HWND dialog, int type)
 	case UP:
 	case AOHD:
 	case AOF:
+	case AOHD4:
+	case AOF4:
 	    table = ctable_aok[type];
 	    break;
 	case SWGB:
@@ -283,7 +285,7 @@ void LoadCond(HWND dialog, EditCondition *data)
 	SetDlgItemInt(dialog, IDC_C_RESERVED, c->reserved, TRUE);
 	SetDlgItemInt(dialog, IDC_C_AMOUNT, c->amount, TRUE);
 	LCombo_SelById(dialog, IDC_C_RESTYPE, c->res_type);
-	SetDlgItemInt(dialog, IDC_C_REVERSEHD, c->unknown1, TRUE);
+	SetDlgItemInt(dialog, IDC_C_REVERSEHD, c->reverse_hd, TRUE);
 	SetDlgItemInt(dialog, IDC_C_UNKNOWNHD, c->unknown2, TRUE);
 	if (scen.game == UP) {
 	    if (c->reserved == -1) {
@@ -294,9 +296,9 @@ void LoadCond(HWND dialog, EditCondition *data)
 	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reset Value"));
 	    }
 	} else if (scen.game == AOHD4 || scen.game == AOF4) {
-	    if (c->unknown1 == 0) {
+	    if (c->reverse_hd == 0) {
 	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
-	    } else if (c->unknown1 == 1) {
+	    } else if (c->reverse_hd == 1) {
 	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Unreverse Condition"));
 	    } else {
 	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reset Value"));
@@ -328,7 +330,7 @@ void SaveCond(HWND dialog, EditCondition *data)
 		c->amount = GetDlgItemInt(dialog, IDC_C_AMOUNT, NULL, TRUE);
 		c->res_type = LCombo_GetSelId(dialog, IDC_C_RESTYPE);
 		c->reserved = GetDlgItemInt(dialog, IDC_C_RESERVED, NULL, TRUE);
-		c->unknown1 = GetDlgItemInt(dialog, IDC_C_REVERSEHD, NULL, TRUE);
+		c->reverse_hd = GetDlgItemInt(dialog, IDC_C_REVERSEHD, NULL, TRUE);
 		c->unknown2 = GetDlgItemInt(dialog, IDC_C_UNKNOWNHD, NULL, TRUE);
 
 		c->group = Combo_GetSelData(GetDlgItem(dialog, IDC_C_GROUP));

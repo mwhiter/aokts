@@ -548,7 +548,7 @@ void ConditionItemData::GetName(char *buffer)
 	if (scen.game == UP) {
 	    reverse = ((t->conds[index].reserved == -256)?"NOT ":"");
 	} else if (scen.game == AOHD4 || scen.game == AOF4) {
-	    reverse = ((t->conds[index].unknown1 == 1)?"NOT ":"");
+	    reverse = ((t->conds[index].reverse_hd == 1)?"NOT ":"");
     }
 
     if (setts.displayhints) {

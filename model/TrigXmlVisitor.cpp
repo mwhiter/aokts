@@ -165,7 +165,7 @@ void TrigXmlVisitor::visit(Condition& c)
 	writeXmlLong(&_ss, "unit_group", c.group);
 	writeXmlLong(&_ss, "building_type", c.utype);
 	writeXmlLong(&_ss, "ai_signal", c.ai_signal);
-	writeXmlLong(&_ss, "reverse", c.unknown1);
+	writeXmlLong(&_ss, "reverse_hd", c.reverse_hd);
 	writeXmlLong(&_ss, "unknown", c.unknown2);
 
 	_ss << "\t</condition>" << NEWLINE;

@@ -152,7 +152,7 @@ void check(T value, T expected, const char * name, bool err = false)
 {
 	if (value != expected)
 	{
-		printf("Unexpected %s value: %d.\n", name, value);
+		printf("Unexpected %s value: %d, float: %f.\n", name, value, value);
 
 		if (err)
 		{

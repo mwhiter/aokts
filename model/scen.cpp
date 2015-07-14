@@ -1240,8 +1240,10 @@ void Scenario::read_data(const char *path)	//decompressed data
 		// save the trigger display order to the trigger objects
 		for (unsigned int j = 0; j < n_trigs; j++) {
 			printf_log("DO:%hu\n",j);
-			triggers.at(t_order[j]).display_order = j;
+			if (t_order[j] > 0 && t_order[j] <= triggers.size())
+			    triggers.at(t_order[j]).display_order = j;
 		}
+		fix_t_order();
 
 		// verify just the first one because I'm lazy
 		if (t_order.front() > n_trigs)
@@ -1578,6 +1580,33 @@ bool Scenario::export_bmp(const char *path)
 		return false;
 
 	return bitmap.toFile(path);
+}
+
+void Scenario::fix_t_order()
+{
+	t_order.clear();
+	t_order.resize(triggers.size());
+	for (unsigned int j = 0; j < triggers.size(); j++) {
+	    t_order[j] = -1;
+	}
+
+	for (unsigned int j = 0; j < triggers.size(); j++) {
+	    if (triggers[j].display_order > 0 && triggers[j].display_order < triggers.size()) {
+	        t_order[triggers[j].display_order] = j;
+	    }
+	}
+
+	for (unsigned int j = 0; j < triggers.size(); j++) {
+	    if (!(triggers[j].display_order > 0 && triggers[j].display_order < triggers.size())) {
+	        for (unsigned int k = 0; k < triggers.size(); k++) {
+	            if (t_order[k] == -1) {
+	                t_order[k] = j;
+	                triggers.at(j).display_order = k;
+	                break;
+	            }
+	        }
+	    }
+	}
 }
 
 //I HATE THIS FUNCTION!

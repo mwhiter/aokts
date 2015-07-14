@@ -267,6 +267,7 @@ public:
 
 	bool is_userpatch();
 
+    void fix_t_order();
 	/*
 		clean_triggers: cleans trigger list of unused triggers
 

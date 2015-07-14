@@ -50,14 +50,14 @@ const PerVersion Scenario::pv1_15 = { // AOE
 	5,
 	true,
 	30,
-	20
+	20,
 };
 
 const PerVersion Scenario::pv1_18 = { // AOK
 	5,
 	true,
 	30,
-	20
+	20,
 };
 
 const PerVersion Scenario::pv1_22 = // AOC / SWGB
@@ -73,7 +73,7 @@ const PerVersion Scenario::pv1_30 = // SWGB CC
 	6,
 	true,
 	60,
-	60
+	60,
 };
 
 const PerVersion Scenario::pv1_23 = // AOHD / AOF
@@ -81,7 +81,7 @@ const PerVersion Scenario::pv1_23 = // AOHD / AOF
 	6,
 	true,
 	30,
-	20
+	20,
 };
 
 const PerVersion Scenario::pv1_24 = // AOHDv4 / AOFv4
@@ -89,7 +89,7 @@ const PerVersion Scenario::pv1_24 = // AOHDv4 / AOFv4
 	6,
 	true,
 	30,
-	20
+	20,
 };
 
 /*  PerGames
@@ -116,7 +116,7 @@ const PerGame Scenario::pgAOE =
 	0,
 	0,
 	0,
-	0
+	0,
 };
 
 const PerGame Scenario::pgAOK =
@@ -127,7 +127,7 @@ const PerGame Scenario::pgAOK =
 	32,
 	20,
 	24,
-	0,
+	5,
 	2
 };
 
@@ -139,8 +139,8 @@ const PerGame Scenario::pgAOC =
 	42, // including 1 undefined
 	20,
 	30,
-	3,
-	2
+	8,
+	2,
 };
 
 const PerGame Scenario::pgUP =
@@ -151,8 +151,8 @@ const PerGame Scenario::pgUP =
 	42, // including 1 undefined
 	20,
 	34,
-	3,
-	26
+	8,
+	26,
 };
 
 const PerGame Scenario::pgSWGB =
@@ -163,8 +163,8 @@ const PerGame Scenario::pgSWGB =
 	51, // not including 4 undefined
 	22,
 	37,
-	0,
-	2
+	5,
+	2,
 };
 
 const PerGame Scenario::pgSWGBCC =
@@ -176,7 +176,7 @@ const PerGame Scenario::pgSWGBCC =
 	24,
 	39,
 	0,
-	2
+	2,
 };
 
 const PerGame Scenario::pgAOHD =
@@ -187,8 +187,8 @@ const PerGame Scenario::pgAOHD =
 	42,  // including 1 undefined
 	20,
 	34,
-	0,
-	2
+	5,
+	2,
 };
 
 const PerGame Scenario::pgAOF = // these are not correct
@@ -199,8 +199,8 @@ const PerGame Scenario::pgAOF = // these are not correct
 	41,  // including 1 undefined
 	20,
 	34,
-	0,
-	2
+	5,
+	2,
 };
 
 const PerGame Scenario::pgAOHD4 =
@@ -211,8 +211,8 @@ const PerGame Scenario::pgAOHD4 =
 	100,  // including 1 undefined
 	21,
 	37,
-	0,
-	2
+	5,
+	2,
 };
 
 const PerGame Scenario::pgAOF4 =
@@ -223,8 +223,8 @@ const PerGame Scenario::pgAOF4 =
 	100,  // including 1 undefined
 	21,
 	37,
-	0,
-	2
+	5,
+	2,
 };
 
 /* The Scenario */
@@ -2438,6 +2438,16 @@ AOKTS_ERROR Scenario::up_to_hd() {
 	long i = num;
 	while (i--)
 	{
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+	        if (iter->reserved == -1) {
+	            iter->reverse_hd == 0;
+	        } else if (iter->reserved == -256) {
+	            iter->reserved == -1;
+	            iter->reverse_hd == 1;
+	        }
+		}
+
 	    // unify effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end();) {
 	        if (iter->type == 32) { // armor 1
@@ -2490,10 +2500,10 @@ AOKTS_ERROR Scenario::aoc_to_hd4() {
 	long i = num;
 	while (i--)
 	{
-	    // convert remaining effects
+	    // make sure hd reverse condition values are correct
 	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
-	        if (iter->unknown1 == -1) {
-	            iter->unknown1 = 0;
+	        if (iter->reverse_hd == -1) {
+	            iter->reverse_hd = 0;
 	        }
 	    }
 
@@ -2555,6 +2565,16 @@ AOKTS_ERROR Scenario::hd_to_up() {
 	long i = num;
 	while (i--)
 	{
+	    // conditions
+	    for (vector<Condition>::iterator iter = trig->conds.begin(); iter != trig->conds.end(); ++iter) {
+	        if (iter->reverse_hd == 1) {
+	            iter->reserved = -256;
+	        } else if (iter->reverse_hd == 0) {
+	            iter->reserved = -1;
+	        }
+	        iter->reverse_hd = -1;
+		}
+
 	    // effects
 	    vector<Effect> neweffects;
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {

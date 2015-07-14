@@ -8,31 +8,43 @@ class TriggerVisitor;
 
 #pragma pack(push, 4)	//everything in effects/conditions is a long
 
+struct DifficultyLevel {
+    enum Value {
+        Hardest,
+        Hard,
+        Moderate,
+        Standard,
+        Easiest,
+    };
+};
+
+struct ConditionVirtualTypeDefault {
+    enum Value {
+	    None,
+	    DifficultyLevelHardest,
+	    DifficultyLevelHard,
+	    DifficultyLevelModerate,
+	    DifficultyLevelStandard,
+	    DifficultyLevelEasiest,
+    };
+};
+
 struct ConditionVirtualTypeAOC {
     enum Value {
 	    None,
 	    SinglePlayer,
 	    Taunt,
 	    AIScriptGoal,
+	    DifficultyLevelHardest,
+	    DifficultyLevelHard,
+	    DifficultyLevelModerate,
+	    DifficultyLevelStandard,
+	    DifficultyLevelEasiest,
 	    StartingAgeStandard,
 	    StartingResourcesStandard,
 	    Regicide,
 	    Deathmatch,
-	    OneClickGarrison
-    };
-};
-
-struct ConditionVirtualTypeUP {
-    enum Value {
-	    None,
-	    SinglePlayer,
-	    Taunt,
-	    AIScriptGoal,
-	    StartingAgeStandard,
-	    StartingResourcesStandard,
-	    Regicide,
-	    Deathmatch,
-	    OneClickGarrison
+	    OneClickGarrison,
     };
 };
 
@@ -120,13 +132,13 @@ public:
     static const int NUM_CONDITIONS_SWGB = 22;
     static const int NUM_CONDITIONS_CC = 24;
 
-    static const int NUM_VIRTUAL_CONDITIONS_AOK = 1;
-    static const int NUM_VIRTUAL_CONDITIONS_AOC = 8;
-    static const int NUM_VIRTUAL_CONDITIONS_UP = 8;
-    static const int NUM_VIRTUAL_CONDITIONS_AOHD = 1;
-    static const int NUM_VIRTUAL_CONDITIONS_AOF = 1;
-    static const int NUM_VIRTUAL_CONDITIONS_SWGB = 1;
-    static const int NUM_VIRTUAL_CONDITIONS_CC = 1;
+    static const int NUM_VIRTUAL_CONDITIONS_AOK = 6;
+    static const int NUM_VIRTUAL_CONDITIONS_AOC = 13;
+    static const int NUM_VIRTUAL_CONDITIONS_UP = 13;
+    static const int NUM_VIRTUAL_CONDITIONS_AOHD = 6;
+    static const int NUM_VIRTUAL_CONDITIONS_AOF = 6;
+    static const int NUM_VIRTUAL_CONDITIONS_SWGB = 6;
+    static const int NUM_VIRTUAL_CONDITIONS_CC = 6;
 
 	static const char* types_aok[NUM_CONDITIONS_AOHD4];
 	static const char* types_swgb[NUM_CONDITIONS_SWGB];

@@ -330,19 +330,19 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
             case ConditionType::DifficultyLevel:
                 convert << "difficulty is ";
                 switch (amount) {
-                    case 0:
-                        convert << "Harder";
+                    case DifficultyLevel::Hardest:
+                        convert << "Hardest";
                         break;
-                    case 1:
+                    case DifficultyLevel::Hard:
                         convert << "Hard";
                         break;
-                    case 2:
+                    case DifficultyLevel::Moderate:
                         convert << "Moderate";
                         break;
-                    case 3:
+                    case DifficultyLevel::Standard:
                         convert << "Standard";
                         break;
-                    case 4:
+                    case DifficultyLevel::Easiest:
                         convert << "Easiest";
                         break;
                 }
@@ -491,8 +491,14 @@ bool Condition::check() const
 
 	case ConditionType::OwnObjects:
 	case ConditionType::OwnFewerObjects:
-	case ConditionType::OwnFewerFoundations_SWGB:
 		return (player >= 0 && amount >= 0 && valid_area());
+
+	case ConditionType::OwnFewerFoundations_SWGB: // Chance_HD:
+	    if (scen.game == AOHD4 || scen.game == AOF4) {
+	        return (amount >= 0 && amount <= 100);
+	    } else {
+		    return (player >= 0 && amount >= 0 && valid_area());
+	    }
 
 	case ConditionType::ObjectsInArea:
 	case ConditionType::SelectedObjectsInArea_SWGB:
@@ -703,7 +709,7 @@ const char *Condition::types_cc[] =
 	"Own Fewer Foundations",
 	"Selected Objects in Area",
 	"Powered Objects in Area",
-	"Units Queued Past Pop Cap"
+	"Units Queued Past Pop Cap",
 };
 
 const char *Condition::types_short_aok[] =
@@ -754,7 +760,7 @@ const char *Condition::types_short_swgb[] =
 	"Garrisoned",
 	"Difficulty",
 	"Fewer Foundations",
-	"Selected in Area"
+	"Selected in Area",
 };
 
 const char *Condition::types_short_cc[] =
@@ -782,11 +788,16 @@ const char *Condition::types_short_cc[] =
 	"Fewer Foundations",
 	"Selected in Area",
 	"Powered in Area",
-	"Queued Past Pop Cap"
+	"Queued Past Pop Cap",
 };
 
 const char *Condition::virtual_types_aok[] = {
-    ""
+    "",
+    "Difficulty: Hardest",
+    "Difficulty: Hard",
+    "Difficulty: Moderate",
+    "Difficulty: Standard",
+    "Difficulty: Easiest",
 };
 
 const char *Condition::virtual_types_aoc[] = {
@@ -794,6 +805,11 @@ const char *Condition::virtual_types_aoc[] = {
     "Singleplayer / Cheats Enabled",
     "Taunt",
     "AI Script Goal",
+    "Difficulty: Hardest",
+    "Difficulty: Hard",
+    "Difficulty: Moderate",
+    "Difficulty: Standard",
+    "Difficulty: Easiest",
     "Starting age: Standard",
     "Starting resources: Standard",
     "Regicide",
@@ -802,11 +818,21 @@ const char *Condition::virtual_types_aoc[] = {
 };
 
 const char *Condition::virtual_types_aohd[] = {
-    ""
+    "",
+    "Difficulty: Hardest",
+    "Difficulty: Hard",
+    "Difficulty: Moderate",
+    "Difficulty: Standard",
+    "Difficulty: Easiest",
 };
 
 const char *Condition::virtual_types_aof[] = {
-    ""
+    "",
+    "Difficulty: Hardest",
+    "Difficulty: Hard",
+    "Difficulty: Moderate",
+    "Difficulty: Standard",
+    "Difficulty: Easiest",
 };
 
 const char *Condition::virtual_types_up[] = {
@@ -814,6 +840,11 @@ const char *Condition::virtual_types_up[] = {
     "Singleplayer / Cheats Enabled",
     "Taunt",
     "AI Script Goal",
+    "Difficulty: Hardest",
+    "Difficulty: Hard",
+    "Difficulty: Moderate",
+    "Difficulty: Standard",
+    "Difficulty: Easiest",
     "Starting age: Standard",
     "Starting resources: Standard",
     "Regicide",
@@ -822,11 +853,21 @@ const char *Condition::virtual_types_up[] = {
 };
 
 const char *Condition::virtual_types_cc[] = {
-    ""
+    "",
+    "Difficulty: Hardest",
+    "Difficulty: Hard",
+    "Difficulty: Moderate",
+    "Difficulty: Standard",
+    "Difficulty: Easiest",
 };
 
 const char *Condition::virtual_types_swgb[] = {
-    ""
+    "",
+    "Difficulty: Hardest",
+    "Difficulty: Hard",
+    "Difficulty: Moderate",
+    "Difficulty: Standard",
+    "Difficulty: Easiest",
 };
 
 const char *Condition::taunt_set[] = {

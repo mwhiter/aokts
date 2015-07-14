@@ -50,8 +50,8 @@ const char ctable_aok[Condition::NUM_CONDITIONS_AOHD4][EditCondition::N_CONTROLS
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
 	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
 	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
-	{ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Timer
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
+	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Chance
 };
 
 // ../res/resource.h
@@ -79,7 +79,7 @@ const char ctable_swgb[Condition::NUM_CONDITIONS_SWGB][EditCondition::N_CONTROLS
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Object Not Visible
 	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Researching Tech
 	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },	// Units Garrisoned
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
 	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },  // OwnFewerFoundations
 	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },  // SelectedObjectsInArea
 };
@@ -106,7 +106,7 @@ const char ctable_cc[Condition::NUM_CONDITIONS_CC][EditCondition::N_CONTROLS] = 
 	{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Object Not Visible
 	{ 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Researching Tech
 	{ 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Units Garrisoned
-	{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },  // Difficulty Level
 	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0 },  // OwnFewerFoundations
 	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },  // SelectedObjectsInArea
 	{ 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 0 },  // PoweredObjectsInArea
@@ -191,38 +191,38 @@ void LoadVirtualTypeConditions(HWND dialog, EditCondition *data) {
 	Condition *c = &data->c;
 
     switch (scen.game) {
-    case AOK:
-    case SWGB:
-	    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, 0, 0);
-        break;
     case AOC:
     case UP:
         switch (c->type) {
-        case 12: // AI Signalled
-            switch (c->ai_signal)
-            {
+        case ConditionType::DifficultyLevel:
+            if (c->amount >= DifficultyLevel::Hardest && c->amount <= DifficultyLevel::Easiest) {
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeAOC::DifficultyLevelHardest + c->amount, 0);
+            }
+            break;
+        case ConditionType::AISignal:
+            switch (c->ai_signal) {
             case -1034:
-	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::SinglePlayer, 0);
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeAOC::SinglePlayer, 0);
 		        ENABLE_WND(IDC_C_AISIG, false);
                 break;
             case -1035:
-	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::StartingAgeStandard, 0);
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeAOC::StartingAgeStandard, 0);
 		        ENABLE_WND(IDC_C_AISIG, false);
                 break;
             case -1036:
-	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::StartingResourcesStandard, 0);
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeAOC::StartingResourcesStandard, 0);
 		        ENABLE_WND(IDC_C_AISIG, false);
                 break;
             case -1039:
-	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::Regicide, 0);
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeAOC::Regicide, 0);
 		        ENABLE_WND(IDC_C_AISIG, false);
                 break;
             case -1040:
-	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::Deathmatch, 0);
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeAOC::Deathmatch, 0);
 		        ENABLE_WND(IDC_C_AISIG, false);
                 break;
             case -70850:
-	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::OneClickGarrison, 0);
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeAOC::OneClickGarrison, 0);
 		        ENABLE_WND(IDC_C_AISIG, false);
                 break;
             default:
@@ -237,11 +237,11 @@ void LoadVirtualTypeConditions(HWND dialog, EditCondition *data) {
                         int taunt_set = signal % 64;
 	                    SendDlgItemMessage(dialog, IDC_C_TAUNT_PLAYER, CB_SETCURSEL, taunt_player, 0);
 	                    SendDlgItemMessage(dialog, IDC_C_TAUNT_SET, CB_SETCURSEL, taunt_set, 0);
-	                    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::Taunt, 0);
+	                    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeAOC::Taunt, 0);
 		                ENABLE_WND(IDC_C_AISIG, false);
 	                    return;
 	                } else if (c->ai_signal >= -774 && c->ai_signal <= -519) {
-	                    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, (long)ConditionVirtualTypeUP::AIScriptGoal, 0);
+	                    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeAOC::AIScriptGoal, 0);
 	                    ENABLE_WND(IDC_C_AIGOAL, true);
 	                    SetDlgItemInt(dialog, IDC_C_AIGOAL, c->ai_signal + 774, TRUE);
 		                ENABLE_WND(IDC_C_AISIG, false);
@@ -256,9 +256,16 @@ void LoadVirtualTypeConditions(HWND dialog, EditCondition *data) {
 	        SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, 0, 0);
         }
         break;
-    case AOHD:
-    case AOF:
-	    SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, 0, 0);
+    default:
+        switch (c->type) {
+        case ConditionType::DifficultyLevel:
+            if (c->amount >= DifficultyLevel::Hardest && c->amount <= DifficultyLevel::Easiest) {
+	            SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, ConditionVirtualTypeDefault::DifficultyLevelHardest + c->amount, 0);
+            }
+            break;
+        default:
+	        SendDlgItemMessage(dialog, IDC_C_VTYPE, CB_SETCURSEL, 0, 0);
+        }
         break;
     }
 }
@@ -432,60 +439,113 @@ void C_HandleChangeVType(HWND dialog, EditCondition *data)
     case AOC:
     case UP:
         switch (newtype) {
-        case (long)ConditionVirtualTypeAOC::SinglePlayer:
+        case ConditionVirtualTypeAOC::SinglePlayer:
             data->c.ai_signal = -1034;
-            data->c.type = 12;
+            data->c.type = ConditionType::AISignal;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case (long)ConditionVirtualTypeAOC::Taunt:
+        case ConditionVirtualTypeAOC::Taunt:
             data->c.ai_signal = -518;
-            data->c.type = 12;
+            data->c.type = ConditionType::AISignal;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case (long)ConditionVirtualTypeAOC::AIScriptGoal:
+        case ConditionVirtualTypeAOC::AIScriptGoal:
             data->c.ai_signal = -774;
-            data->c.type = 12;
+            data->c.type = ConditionType::AISignal;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case (long)ConditionVirtualTypeAOC::StartingAgeStandard:
+        case ConditionVirtualTypeAOC::StartingAgeStandard:
             data->c.ai_signal = -1035;
-            data->c.type = 12;
+            data->c.type = ConditionType::AISignal;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case (long)ConditionVirtualTypeAOC::StartingResourcesStandard:
+        case ConditionVirtualTypeAOC::StartingResourcesStandard:
             data->c.ai_signal = -1036;
-            data->c.type = 12;
+            data->c.type = ConditionType::AISignal;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case (long)ConditionVirtualTypeAOC::Regicide:
+        case ConditionVirtualTypeAOC::Regicide:
             data->c.ai_signal = -1039;
-            data->c.type = 12;
+            data->c.type = ConditionType::AISignal;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case (long)ConditionVirtualTypeAOC::Deathmatch:
+        case ConditionVirtualTypeAOC::Deathmatch:
             data->c.ai_signal = -1040;
-            data->c.type = 12;
+            data->c.type = ConditionType::AISignal;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
             break;
-        case (long)ConditionVirtualTypeAOC::OneClickGarrison:
+        case ConditionVirtualTypeAOC::OneClickGarrison:
             data->c.ai_signal = -70850;
-            data->c.type = 12;
+            data->c.type = ConditionType::AISignal;
 	        ConditionControls(dialog, data->c.type);
 		    ENABLE_WND(IDC_C_AISIG, false);
+            break;
+        case ConditionVirtualTypeAOC::DifficultyLevelHardest:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Hardest;
+	        ConditionControls(dialog, data->c.type);
+            break;
+        case ConditionVirtualTypeAOC::DifficultyLevelHard:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Hard;
+	        ConditionControls(dialog, data->c.type);
+            break;
+        case ConditionVirtualTypeAOC::DifficultyLevelModerate:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Moderate;
+	        ConditionControls(dialog, data->c.type);
+            break;
+        case ConditionVirtualTypeAOC::DifficultyLevelStandard:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Standard;
+	        ConditionControls(dialog, data->c.type);
+            break;
+        case ConditionVirtualTypeAOC::DifficultyLevelEasiest:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Easiest;
+	        ConditionControls(dialog, data->c.type);
             break;
         }
         break;
     default:
-	    ConditionControls(dialog, data->c.type);
-	    // change to:
-	    //VirtualConditionControls(dialog, data->c.type);
+        switch (newtype) {
+        case ConditionVirtualTypeDefault::DifficultyLevelHardest:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Hardest;
+	        ConditionControls(dialog, data->c.type);
+            break;
+        case ConditionVirtualTypeDefault::DifficultyLevelHard:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Hard;
+	        ConditionControls(dialog, data->c.type);
+            break;
+        case ConditionVirtualTypeDefault::DifficultyLevelModerate:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Moderate;
+	        ConditionControls(dialog, data->c.type);
+            break;
+        case ConditionVirtualTypeDefault::DifficultyLevelStandard:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Standard;
+	        ConditionControls(dialog, data->c.type);
+            break;
+        case ConditionVirtualTypeDefault::DifficultyLevelEasiest:
+            data->c.type = ConditionType::DifficultyLevel;
+            data->c.amount = DifficultyLevel::Easiest;
+	        ConditionControls(dialog, data->c.type);
+            break;
+        default:
+	        ConditionControls(dialog, data->c.type);
+	        // change to:
+	        //VirtualConditionControls(dialog, data->c.type);
+        }
     }
 
 	LoadCond(dialog, data);

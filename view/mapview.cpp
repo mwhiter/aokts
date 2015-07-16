@@ -965,21 +965,18 @@ HWND makestatus(HWND parent)
 	return ret;
 }
 
-void OnWM_Create(HWND window, CREATESTRUCT * cs)
+void OnWM_Setup()
 {
 	ColorLink *parse;
 	int i, j;
-	HDC dc;
 	hsv_t * hsv;
     COLORREF tmp;
 
 	/* init window data */
-	data.scen = static_cast<Scenario *>(cs->lpCreateParams);
 	data.mapbmp = NULL;
 	data.bmphsize = 0;
 	data.bmpvsize = 0;
 	data.diamondorsquare = -1;
-	data.statusbar = NULL;
 	data.highlights = NULL;
 	data.areahighlights = NULL;
 
@@ -998,6 +995,14 @@ void OnWM_Create(HWND window, CREATESTRUCT * cs)
 	bGrey = CreateSolidBrush(0x999999);
 	bDarkGrey = CreateSolidBrush(0x333333);
 	bBlack = CreateSolidBrush(0x000000);
+}
+
+void OnWM_Create(HWND window, CREATESTRUCT * cs)
+{
+	HDC dc;
+	data.scen = static_cast<Scenario *>(cs->lpCreateParams);
+
+    OnWM_Setup();
 	data.statusbar = makestatus(window);
 
 	dc = GetWindowDC(window);
@@ -1407,6 +1412,18 @@ LRESULT CALLBACK MapWndProc(HWND window, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case MAP_Reset:
 		OnMAP_Reset(window, wParam != 0);
+		break;
+
+	case MAP_Recreate:
+		ret = 0;
+		for (i = 0; i < esdata.getCount(ESD_colors); i++)
+			DeleteObject(pBrushes[i]);
+		delete [] pBrushes;
+		DeleteObject(bWhite);
+		DeleteObject(bWhiteSpecs);
+		DeleteObject(bGrey);
+		DeleteObject(bDarkGrey);
+	    OnWM_Setup();
 		break;
 
 	default:

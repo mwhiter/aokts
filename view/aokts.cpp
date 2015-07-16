@@ -464,9 +464,6 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		}
 	}
 
-	DestroyWindow(propdata.mapview);
-	SendMessage(GetWindow(propdata.mapview, GW_OWNER), MAP_Close, 0, 0);
-
 	/* Open it! */
 	SendMessage(page, AOKTS_Closing, 0, 0);
 	// set hourglass, might take more than 1ms
@@ -496,7 +493,7 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		SetWindowTextW(propdata.statusbar, L"Scenario loaded successfully.");
 
 	    SendMessage(page, AOKTS_Loading, 0, 0);
-	    propdata.mapview = MakeMapView(sheet, SW_NORMAL);
+        SendMessageW(propdata.mapview, MAP_Recreate, 0, 0);
 	    MapView_Reset(propdata.mapview, true);
 
 	    filename = getFilenameFromPath(setts.ScenPath);

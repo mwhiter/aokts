@@ -627,6 +627,12 @@ void PaintMap(HDC dcdest)
 	Map::Terrain *parse;
 	RECT area;
 
+    LOGBRUSH     lb;
+    lb.lbStyle = BS_SOLID ;
+    lb.lbColor = RGB (0, 0, 0) ;
+    lb.lbHatch = 0 ;
+    HPEN noborderpen = ExtCreatePen(PS_NULL, 1, &lb, 0, NULL);
+
 	/* Create a bitmap */
 	full = max(data.scen->map.x, data.scen->map.y);
 	data.bmphsize = (2 * full + 1) * setts.zoom;
@@ -664,10 +670,12 @@ void PaintMap(HDC dcdest)
 			    FillRect(data.copydc, &area, tmpbrush);
 			    DeleteObject(tmpbrush);
 			}
-		    if (parse->cnst == (scen.map.terrain[propdata.sel0] + propdata.sel1)->cnst) {
-			    SetBkMode(data.copydc, TRANSPARENT);
+		    if (setts.drawterrain && parse->cnst == (scen.map.terrain[propdata.sel0] + propdata.sel1)->cnst) {
 			    tmpbrush = TSCreateBrush(parse->cnst, parse->elev + 2, BrushStyle::HATCHED);
-			    FillRect(data.copydc, &area, tmpbrush);
+			    SelectObject(data.copydc, tmpbrush);
+			    SelectObject(data.copydc, noborderpen);
+			    SetBkMode(data.copydc, TRANSPARENT);
+			    Rectangle(data.copydc, area.left, area.top, area.right, area.bottom);
 			    DeleteObject(tmpbrush);
 			    SetBkMode(data.copydc, OPAQUE);
 			}
@@ -677,6 +685,8 @@ void PaintMap(HDC dcdest)
 	PaintUnits(data.copydc);
 	PaintHighlights(data.copydc);
 	PaintTriggers(data.copydc);
+
+	DeleteObject(noborderpen);
 }
 
 POINT CalculateMinSize(HWND mapview)

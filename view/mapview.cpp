@@ -628,10 +628,10 @@ void PaintMap(HDC dcdest)
 	RECT area;
 
     LOGBRUSH     lb;
-    lb.lbStyle = BS_SOLID ;
+    lb.lbStyle = BS_NULL ;
     lb.lbColor = RGB (0, 0, 0) ;
     lb.lbHatch = 0 ;
-    HPEN noborderpen = ExtCreatePen(PS_NULL, 1, &lb, 0, NULL);
+    HPEN noborderpen = ExtCreatePen(PS_NULL, 0, &lb, 0, NULL);
 
 	/* Create a bitmap */
 	full = max(data.scen->map.x, data.scen->map.y);
@@ -675,7 +675,7 @@ void PaintMap(HDC dcdest)
 			    SelectObject(data.copydc, tmpbrush);
 			    SelectObject(data.copydc, noborderpen);
 			    SetBkMode(data.copydc, TRANSPARENT);
-			    Rectangle(data.copydc, area.left, area.top, area.right, area.bottom);
+			    Rectangle(data.copydc, area.left, area.top, area.right+1, area.bottom+1);
 			    DeleteObject(tmpbrush);
 			    SetBkMode(data.copydc, OPAQUE);
 			}

@@ -1820,7 +1820,7 @@ Tweaked by E/X mantis - Fri 05 Dec 2014 04:20:17 NZDT
 <terrain id="0"  color="A1D650" name="Grass 1" />
 <terrain id="1"  color="86C2DF" name="Water 1 (shallow)" />
 <terrain id="2"  color="A9BF73" name="Shore" />
-<terrain id="3"  color="a9bf73" name="Dirt 3" />
+<terrain id="3"  color="a9bf73" name="Clouds" />
 <terrain id="4"  color="74734b" name="Water, Swamp" />
 <terrain id="5"  color="10a930" name="Leaves" />
 <terrain id="6"  color="f3aa5c" name="Dirt 1" />

@@ -92,7 +92,7 @@ public:
 	void compress();
 
     std::string selectedUnits() const;
-	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const;
+	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE, int recursion = 0) const;
 
 	int getPlayer() const;
 	void setPlayer(int);

@@ -40,6 +40,9 @@ const size_t EC_NUM_PLAYERS = 9;
  */
 extern char const *players_ec[EC_NUM_PLAYERS + 1];
 
+const size_t MAX_RECURSION = 5;
+const size_t MAX_CHARS = 600;
+
 enum ECType
 {
 	NONE,	//just so we can have an invalid value for error checking
@@ -92,7 +95,7 @@ public:
 	ECType ectype;	//effect or condition
 	long size;	    //size of initial flat data (number of longs)
 
-	virtual std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE) const = 0;
+	virtual std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE, int recursion = 0) const = 0;
 
 	/**
 	 * @return the player with which this E/C is associated, or -1 if none

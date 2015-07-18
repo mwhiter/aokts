@@ -117,7 +117,7 @@ void FillTrigCB(HWND combobox, size_t select)
         if (setts.showdisplayorder) {
             name.append("<").append(toString<long>(trig->display_order).append("> "));
         }
-        name.append(trig->getName(setts.pseudonyms,true,2));
+        name.append(trig->getName(setts.pseudonyms,true,MAX_RECURSION));
 		LRESULT idx = Combo_AddStringA(combobox, name.c_str());
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
 
@@ -210,6 +210,7 @@ void ItemData::GetName(char *buffer)
 {
 	Trigger *t = &scen.triggers.at(index);
 
+    printf_log("Trigger getname %d.\n", index);
     std::string name("");
     if (t) {
         if (setts.showdisplayorder) {
@@ -218,7 +219,7 @@ void ItemData::GetName(char *buffer)
         if (setts.showtrigids) {
             name.append("(").append(toString<long>(index).append(") "));
         }
-        name.append(t->getName(setts.pseudonyms,true,20));
+        name.append(t->getName(setts.pseudonyms,true,MAX_RECURSION));
     } else {
         name.append("NULL Trigger.");
     }
@@ -351,19 +352,7 @@ void EffectItemData::GetName(char *buffer)
 	Trigger *t = GetTrigger();
 	assert(t);
 
-    // can't do this because when there are no conditions it is out of
-    // place
-	//if (index == 0) {
-	//    sprintf(buffer, "then %s", t->effects[index].getName(true).c_str());
-	//} else {
-	if (setts.displayhints) {
-	    sprintf(buffer, "%s", t->effects[index].getName(true,NameFlags::LIMITLEN).c_str());
-	    // limiting this fixes a bug, but better to do this in getName
-	    //sprintf(buffer, "%.100s", t->effects[index].getName(true).c_str());
-	} else {
-	    sprintf(buffer, "E: %s", t->effects[index].getName(false,NameFlags::LIMITLEN).c_str());
-	}
-	//}
+	sprintf(buffer, "%s", t->effects[index].getName(setts.displayhints,NameFlags::LIMITLEN, MAX_RECURSION).c_str());
 }
 
 void EffectItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)
@@ -551,14 +540,10 @@ void ConditionItemData::GetName(char *buffer)
 	    reverse = ((t->conds[index].reverse_hd == 1)?"NOT ":"");
     }
 
-    if (setts.displayhints) {
-	    if (index == 0) {
-	        sprintf(buffer, "If %s%s", reverse, t->conds[index].getName(true,NameFlags::NONE).c_str());
-	    } else {
-	        sprintf(buffer, "and %s%s", reverse, t->conds[index].getName(true,NameFlags::NONE).c_str());
-	    }
+	if (index == 0) {
+	    sprintf(buffer, "If %s%s", reverse, t->conds[index].getName(setts.displayhints,NameFlags::NONE).c_str());
 	} else {
-	    sprintf(buffer, "C: %s%s", reverse, t->conds[index].getName(false,NameFlags::NONE).c_str());
+	    sprintf(buffer, "and %s%s", reverse, t->conds[index].getName(setts.displayhints,NameFlags::NONE).c_str());
 	}
 }
 

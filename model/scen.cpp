@@ -1239,7 +1239,6 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 		// save the trigger display order to the trigger objects
 		for (unsigned int j = 0; j < n_trigs; j++) {
-			printf_log("DO:%hu\n",j);
 			if (t_order[j] > 0 && t_order[j] <= triggers.size())
 			    triggers.at(t_order[j]).display_order = j;
 		}

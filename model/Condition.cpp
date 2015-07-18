@@ -91,7 +91,7 @@ std::string Condition::selectedUnits() const {
     return convert.str();
 }
 
-std::string Condition::getName(bool tip, NameFlags::Value flags) const
+std::string Condition::getName(bool tip, NameFlags::Value flags, int recursion) const
 {
     if (!tip) {
 	    return (type < scen.pergame->max_condition_types) ? types[type] : "Unknown!";
@@ -404,7 +404,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags) const
                 stype.append((type < scen.pergame->max_condition_types) ? types_short[type] : "Unknown!");
         }
 
-        return flags&NameFlags::LIMITLEN?stype.substr(0,100):stype;
+        return flags&NameFlags::LIMITLEN?stype.substr(0,MAX_CHARS):stype;
     }
 }
 

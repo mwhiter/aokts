@@ -287,7 +287,7 @@ private:
 	UCNST _cnst;
 };
 
-std::string Effect::getName(bool tip, NameFlags::Value flags) const
+std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) const
 {
     if (!tip) {
 	    return (type < scen.pergame->max_effect_types) ? getTypeName(type, false) : "Unknown!";
@@ -467,9 +467,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                         if (setts.showdisplayorder) {
                             stype.append("<").append(toString(scen.triggers.at(trig_index).display_order)).append("> ");
                         }
-                        // can't make recursion > 0 until I find a way
-                        // to limit it
-                        stype.append(scen.triggers.at(trig_index).getName(setts.pseudonyms,true,0));
+                        if (recursion > 0)
+                            stype.append(scen.triggers.at(trig_index).getName(setts.pseudonyms,true,recursion - 1));
                     } else {
                         switch (type) {
                             case EffectType::ActivateTrigger:
@@ -805,7 +804,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags) const
                 stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
         }
 
-        return flags&NameFlags::LIMITLEN?stype.substr(0,100):stype;
+        return flags&NameFlags::LIMITLEN?stype.substr(0,MAX_CHARS):stype;
     }
 }
 

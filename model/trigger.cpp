@@ -92,6 +92,7 @@ Trigger::Trigger(Buffer& buffer)
 std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 {
     std::ostringstream ss;
+    std::ostringstream tempss;
     std::string result;
     const char * text = "";
     const char * chat_text = "";
@@ -102,6 +103,8 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
     std::string e_killed_units;
     std::string e_damaged_units;
     std::string e_set_hp_units;
+    std::string activated_name;
+    std::string deactivated_name;
     if (!tip) {
 	    ss << this->name;
 	    goto theendnotext;
@@ -423,9 +426,25 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         bool only_one_effect = n_effects == 1;
 	    bool only_one_cond_or_effect = (n_effects + n_conds == 1);
 
+        if (recursion > 0 && activated >= 0 && activated < scen.triggers.size()) {
+            tempss << "{" << scen.triggers.at(activated).getName(setts.pseudonyms, true, recursion - 1) << "}";
+        } else {
+            tempss << "<" << activated << ">";
+        }
+        activated_name = tempss.str();
+        tempss.clear();
+        tempss.str("");
+
+        if (recursion > 0 && deactivated >= 0 && deactivated < scen.triggers.size()) {
+            tempss << "{" << scen.triggers.at(deactivated).getName(setts.pseudonyms, true, recursion - 1) << "}";
+        } else {
+            tempss << "<" << deactivated << ">";
+        }
+        deactivated_name = tempss.str();
+
         if (only_one_cond && only_one_effect) {
             ss << "If " << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
-            ss << " then " << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN);
+            ss << " then " << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN, recursion - 1);
             goto theendnotext;
         }
 
@@ -439,7 +458,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         }
 
         if (only_one_cond_or_effect && only_one_effect) {
-            ss << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN);
+            ss << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN, recursion - 1);
             goto theendnotext;
         }
 
@@ -663,6 +682,9 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 
         if (only_one_cond && timer == -1) {
             ss << "If " << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN) << " ";
+            if (c_own) {
+                goto theendnotext;
+            }
         } else {
             if (defeat) {
                 ss << "p" << deceased << " disconnected";
@@ -676,15 +698,10 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
             } else if (e_create_unit) {
                 ss << "create " << e_unit_type_name << " ";
             } else if (deactivated >= 0) {
-                if (recursion > 0) {
-                    ss << "deactivate {" << scen.triggers.at(deactivated).getName(setts.pseudonyms, true, -1) << "} ";
-                } else
-                    ss << "deactivate <" << activated << "> ";
-                }
-            if (recursion > 0) {
-                ss << "=> " << scen.triggers.at(activated).getName(setts.pseudonyms, true, --recursion);
-            } else
-                ss << "=> <" << activated << ">";
+                ss << "deactivate " << deactivated_name << " ";
+            }
+
+            ss << "=> " << activated_name;
             goto theendnotext;
         }
 
@@ -695,11 +712,6 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
                     ss << "p" << i << " ";
             }
             goto theend;
-        }
-
-        if (only_one_cond && c_own) {
-            ss << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
-            goto theendnotext;
         }
 
         if (c_in_area && e_remove_unit) {
@@ -820,7 +832,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         }
 
         if (only_one_effect) {
-            ss << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN);
+            ss << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN, recursion - 1);
             goto theendnotext;
         }
 

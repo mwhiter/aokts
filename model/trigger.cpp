@@ -91,6 +91,7 @@ Trigger::Trigger(Buffer& buffer)
  */
 std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 {
+
     std::ostringstream ss;
     std::ostringstream tempss;
     std::string result;
@@ -105,10 +106,15 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
     std::string e_set_hp_units;
     std::string activated_name;
     std::string deactivated_name;
+
+    if (effects.size() == 0) {
+        goto theendnotext;
+    }
+
     if (!tip) {
 	    ss << this->name;
 	    goto theendnotext;
-	} else {
+	}
         bool c_own = false;
         bool c_own_fewer = false;
         bool c_in_area = false;
@@ -843,9 +849,9 @@ theend:
         if (e_has_text) {
             ss << " \"" << trim(std::string(text)) << "\"";
         }
+
 theendnotext:
-        result = ss.str();
-	}
+    result = ss.str();
 
     return limitlen?result.substr(0,200):result;
 }

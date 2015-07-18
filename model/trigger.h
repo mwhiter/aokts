@@ -32,6 +32,8 @@ public:
 
 	const static size_t MAX_TRIGNAME = 128;
 
+    // each trigger must know what their id is in scen.triggers.
+	long id;
     // the display order is not written along with the rest of the
     // trigger's data. all display orders are recorded and loaded from
     // t_order.

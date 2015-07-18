@@ -445,30 +445,42 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
                 //stype.append(types_short[type]);
                 if (trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
                     if (trig_index < scen.triggers.size() && trig_index >= 0) {
-                        if (scen.triggers.at(trig_index).loop) {
+                        if (trig_index == parent_trigger_id) {
                             switch (type) {
-                                case EffectType::ActivateTrigger:
-                                    stype.append("resume ");
-                                    break;
-                                case EffectType::DeactivateTrigger:
-                                    stype.append("pause ");
-                                    break;
+                            case EffectType::ActivateTrigger:
+                                stype.append("repeat");
+                                break;
+                            case EffectType::DeactivateTrigger:
+                                stype.append("don't repeat");
+                                break;
                             }
                         } else {
-                            switch (type) {
+                            if (scen.triggers.at(trig_index).loop) {
+                                switch (type) {
                                 case EffectType::ActivateTrigger:
-                                    stype.append("activate ");
+                                    stype.append("resume");
                                     break;
                                 case EffectType::DeactivateTrigger:
-                                    stype.append("deactivate ");
+                                    stype.append("pause");
                                     break;
+                                }
+                            } else {
+                                switch (type) {
+                                case EffectType::ActivateTrigger:
+                                    stype.append("activate");
+                                    break;
+                                case EffectType::DeactivateTrigger:
+                                    stype.append("deactivate");
+                                    break;
+                                }
+                            }
+                            if (setts.showdisplayorder) {
+                                stype.append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
+                            }
+                            if (recursion > 0) {
+                                stype.append(" ").append(scen.triggers.at(trig_index).getName(setts.pseudonyms,true,recursion - 1));
                             }
                         }
-                        if (setts.showdisplayorder) {
-                            stype.append("<").append(toString(scen.triggers.at(trig_index).display_order)).append("> ");
-                        }
-                        if (recursion > 0)
-                            stype.append(scen.triggers.at(trig_index).getName(setts.pseudonyms,true,recursion - 1));
                     } else {
                         switch (type) {
                             case EffectType::ActivateTrigger:

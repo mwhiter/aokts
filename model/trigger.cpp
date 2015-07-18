@@ -965,6 +965,7 @@ void Trigger::read(FILE *in)
 		{
 			try
 			{
+			    effects[i].parent_trigger_id = id;
 				effects[i].read(in);
 				//this->effects[i].read(in);
 			}

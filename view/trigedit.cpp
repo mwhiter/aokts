@@ -1550,7 +1550,9 @@ void TrigTree_EndDrag(HWND treeview, WORD x, WORD y)
 
 void TrigTree_HandleNewEffect(HWND treeview)
 {
-	c_trig->effects.push_back(Effect());
+    Effect neweffect;
+    neweffect.parent_trigger_id = c_trig->id;
+	c_trig->effects.push_back(neweffect);
 
 	TreeView_AddChild(treeview,
 		(LPARAM)new EffectItemData(c_trig->effects.size() - 1,
@@ -1565,7 +1567,9 @@ void TrigTree_HandleNewCondition(HWND treeview)
 {
 	HTREEITEM trigger;
 
-	c_trig->conds.push_back(Condition());
+    Condition newcond;
+    newcond.parent_trigger_id = c_trig->id;
+	c_trig->conds.push_back(newcond);
 	trigger = GetRootSel(treeview);
 
 	TreeView_AddChild(treeview,

@@ -91,6 +91,9 @@ protected:
 public:
 	static const int GAIA_INDEX = 0;
 
+    // each condition and effect must know their parent trigger's id
+	long parent_trigger_id;
+
 	long type;	    //identifies type of condition/effect
 	ECType ectype;	//effect or condition
 	long size;	    //size of initial flat data (number of longs)

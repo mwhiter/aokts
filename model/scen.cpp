@@ -1230,6 +1230,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 		{
 			if (setts.intense)
 				printf_log("Reading trigger %d.\n", i);
+			t->id = i;
 			t++->read(dc2in.get());
 		}
 
@@ -1613,7 +1614,7 @@ void Scenario::clean_triggers()
 {
 	vector<bool> kill(triggers.size(), true); //contains whether a trigger should be deleted
 
-	// don't kil the ones that are still indexed on t_order
+	// don't kill the ones that are still indexed on t_order
 	for (vector<unsigned long>::const_iterator i = t_order.begin();
 		i != t_order.end(); ++i)
 		kill[*i] = false;
@@ -1627,7 +1628,6 @@ void Scenario::clean_triggers()
 
 		if (!kill[t_index])	//If it shouldn't be deleted...
 			continue;           //... skip all this
-
 
 		triggers.erase(triggers.begin() + t_index);
 
@@ -1652,6 +1652,16 @@ void Scenario::clean_triggers()
 					    i->trig_index--;
 				    else if (i->trig_index == t_index)
 					    i->trig_index = (unsigned)-1; // TODO: hack cast
+
+				    if (i->parent_trigger_id > t_index)
+					    i->parent_trigger_id--;
+			    }
+
+			    for (vector<Condition>::iterator i = t_parse->conds.begin();
+				    i != t_parse->conds.end(); ++i)
+			    {
+				    if (i->parent_trigger_id > t_index)
+					    i->parent_trigger_id--;
 			    }
 
 			    t_parse++;
@@ -1662,6 +1672,7 @@ void Scenario::clean_triggers()
 
 size_t Scenario::insert_trigger(Trigger *t, size_t after)
 {
+    t->id = triggers.size();
     triggers.push_back(*t);
 	size_t tindex = triggers.size() - 1;
 
@@ -2050,7 +2061,27 @@ AOKTS_ERROR Scenario::duplicate_triggers(size_t start, size_t end, size_t to) {
 }
 
 AOKTS_ERROR Scenario::swap_triggers(long id_a, long id_b) {
+    triggers.at(id_a).id = id_b;
+
+    for (size_t ie = 0; ie < triggers.at(id_a).effects.size(); ie++) {
+        triggers.at(id_a).effects.at(ie).parent_trigger_id = id_b;
+    }
+
+    for (size_t ie = 0; ie < triggers.at(id_a).conds.size(); ie++) {
+        triggers.at(id_a).conds.at(ie).parent_trigger_id = id_b;
+    }
+
+    triggers.at(id_b).id = id_a;
+
+    for (size_t ie = 0; ie < triggers.at(id_b).effects.size(); ie++) {
+        triggers.at(id_b).effects.at(ie).parent_trigger_id = id_a;
+    }
+
+    for (size_t ie = 0; ie < triggers.at(id_b).conds.size(); ie++) {
+        triggers.at(id_b).conds.at(ie).parent_trigger_id = id_a;
+    }
     size_t num = triggers.size();
+
     // swap these triggers' IDs (positions)
     iter_swap(triggers.begin() + id_a, triggers.begin() + id_b);
     for (size_t k = 0; k < num; k++) {

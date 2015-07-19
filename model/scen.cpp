@@ -716,8 +716,23 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 		break;
 	case AOHD4:
 	case AOF4:
-		if (game != AOHD4 && game != AOF4) {
+		switch (game) {
+		case SWGB:
+		case SWGBCC:
+		case AOHD:
+		case AOF:
+		case AOC:
 			aoc_to_hd4();
+			break;
+		case UP:
+			if ((flags & SaveFlags::CONVERT_EFFECTS))
+			    up_to_hd();
+			aoc_to_hd4();
+			break;
+		case AOK:
+			aok_to_aoc();
+			aoc_to_hd4();
+			break;
 		}
 		break;
 	case SWGB:
@@ -2462,8 +2477,6 @@ AOKTS_ERROR Scenario::up_to_hd() {
 	    return ERR_none;
 	Trigger *trig = &(*triggers.begin());
 
-    bool removed = false;
-
     // triggers
 	long i = num;
 	while (i--)
@@ -2479,37 +2492,34 @@ AOKTS_ERROR Scenario::up_to_hd() {
 		}
 
 	    // unify effects
-	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end();) {
-	        if (iter->type == 32) { // armor 1
-	            for (vector<Effect>::iterator iter2 = (iter + 1); iter2 != trig->effects.end(); ++iter2) {
-	                if (iter2->type == 33 && iter->amount == iter2->amount) { // armor 1
+	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end();++iter) {
+	        if (iter->type == EffectType::ChangeMeleArmor_UP) {
+	            for (vector<Effect>::iterator iter2 = trig->effects.begin(); iter2 != trig->effects.end(); ++iter2) {
+	                if (iter2->type == EffectType::ChangePiercingArmor_UP &&
+	                        iter->selectedUnits().compare(iter->selectedUnits())
+	                        == 0 && iter->amount == iter2->amount) {
 	                    trig->effects.erase(iter2);
-                        removed = true;
 	                    break;
 	                }
 	            }
 	        }
-
-	        if (!removed)
-	            ++iter;
-	        removed = false;
 		}
 
 	    // convert remaining effects
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
 	        switch (iter->type) {
-	            case 30: // speed
-	                iter->type = 33;
-	            break;
-	            case 31: // range
-	                iter->type = 32;
-	            break;
-	            case 32: // armor 1
-	                iter->type = 31;
-	            break;
-	            case 33: // armor 2
-	                iter->type = 31;  // no way to make this function reversible
-	            break;
+	        case EffectType::ChangeSpeed_UP:
+	            iter->type = EffectType::ChangeSpeed_HD;
+	        break;
+	        case EffectType::ChangeRange_UP:
+	            iter->type = EffectType::ChangeRange_HD;
+	        break;
+	        case EffectType::ChangeMeleArmor_UP:
+	            iter->type = EffectType::ChangeArmor_HD;
+	        break;
+	        case EffectType::ChangePiercingArmor_UP:
+	            iter->type = EffectType::ChangeArmor_HD; // no way to make this function reversible
+	        break;
 	        }
 	    }
 
@@ -2609,16 +2619,16 @@ AOKTS_ERROR Scenario::hd_to_up() {
 	    vector<Effect> neweffects;
 	    for (vector<Effect>::iterator iter = trig->effects.begin(); iter != trig->effects.end(); ++iter) {
 	        switch (iter->type) {
-	            case 33: // speed
-	                iter->type = 30;
+	            case EffectType::ChangeSpeed_HD:
+	                iter->type = EffectType::ChangeSpeed_UP;
 	            break;
-	            case 32: // range
-	                iter->type = 31;
+	            case EffectType::ChangeRange_HD:
+	                iter->type = EffectType::ChangeRange_UP;
 	            break;
-	            case 31: // armor
-	                iter->type = 32; // this is up armor 1. ∴ add an effect with type 33
+	            case EffectType::ChangeArmor_HD:
+	                iter->type = EffectType::ChangeMeleArmor_UP;
 		            neweffects.push_back(*iter);
-		            neweffects.back().type = 33;
+		            neweffects.back().type = EffectType::ChangePiercingArmor_UP;
 	            break;
 	        }
 		}

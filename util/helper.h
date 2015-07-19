@@ -5,6 +5,12 @@
 
 const long TS_LONG_MAX = 2147483647L; // gibi * 2 - 1; // (2^31 - 1) max signed 32-bit 0x7FFFFFFF. 32 - 1 bit for the sign (leading 1 means -ve)
 const long TS_LONG_MIN = -2147483648L;
+const long TS_FLOAT_MAX = 16777216L; // 2^24 // 32-bit float // Sign(0) exponent(10010111) mantissa(00000000000000000000000)
+const long TS_FLOAT_MIN = -16777216L; // (+1) * 2^24 * (1.0 + .0) = 2^24 = 16777216
+
+const long TS_HP_MAX = 20000L; // Units have different maxes but this will be used to determine if an effect is a heal effect.
+const long TS_HP_DEFAULT = 100L;
+
 //const long TS_LONG_MAX = LONG_MAX;
 //const long TS_LONG_MIN = LONG_MIN;
 

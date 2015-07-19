@@ -128,7 +128,7 @@ const PerGame Scenario::pgAOK =
 	20,
 	24,
 	5,
-	2
+	4
 };
 
 const PerGame Scenario::pgAOC =
@@ -140,7 +140,7 @@ const PerGame Scenario::pgAOC =
 	20,
 	30,
 	8,
-	2,
+	4,
 };
 
 const PerGame Scenario::pgUP =
@@ -152,7 +152,7 @@ const PerGame Scenario::pgUP =
 	20,
 	34,
 	8,
-	26,
+	28,
 };
 
 const PerGame Scenario::pgSWGB =
@@ -164,7 +164,7 @@ const PerGame Scenario::pgSWGB =
 	22,
 	37,
 	5,
-	2,
+	4,
 };
 
 const PerGame Scenario::pgSWGBCC =
@@ -176,7 +176,7 @@ const PerGame Scenario::pgSWGBCC =
 	24,
 	39,
 	0,
-	2,
+	4,
 };
 
 const PerGame Scenario::pgAOHD =
@@ -188,7 +188,7 @@ const PerGame Scenario::pgAOHD =
 	20,
 	34,
 	5,
-	2,
+	4,
 };
 
 const PerGame Scenario::pgAOF = // these are not correct
@@ -200,7 +200,7 @@ const PerGame Scenario::pgAOF = // these are not correct
 	20,
 	34,
 	5,
-	2,
+	4,
 };
 
 const PerGame Scenario::pgAOHD4 =
@@ -212,7 +212,7 @@ const PerGame Scenario::pgAOHD4 =
 	21,
 	37,
 	5,
-	2,
+	4,
 };
 
 const PerGame Scenario::pgAOF4 =
@@ -224,7 +224,7 @@ const PerGame Scenario::pgAOF4 =
 	21,
 	37,
 	5,
-	2,
+	4,
 };
 
 /* The Scenario */

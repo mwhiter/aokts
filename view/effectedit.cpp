@@ -335,6 +335,7 @@ void EffectControls(HWND dialog, int type)
 {
 	int i;
 
+	ENABLE_WND(IDC_E_MAXHEALTH, false);
 	ENABLE_WND(IDC_E_SIGGOAL, false);
 	HWND control = GetDlgItem(dialog, IDC_E_TEXT);
 
@@ -456,6 +457,8 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
     case AOK:
     case AOHD:
     case AOF:
+    case AOHD4:
+    case AOF4:
     case SWGB:
     case SWGBCC:
         switch (e->type) {
@@ -468,6 +471,20 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
             if (e->amount == TS_LONG_MIN) {
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::MinAmount, 0);
 	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MIN, TRUE);
+	            return;
+            }
+            if (e->isFloorAmount()) {
+	            ENABLE_WND(IDC_E_MAXHEALTH, true);
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::CapHealthPart1, 0);
+	            SetDlgItemInt(dialog, IDC_E_MAXHEALTH, e->amount - TS_FLOAT_MIN, TRUE);
+	            return;
+            }
+            if (e->isCeilAmount()) {
+	            ENABLE_WND(IDC_E_MAXHEALTH, true);
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::CapHealthPart2, 0);
+	            SetDlgItemInt(dialog, IDC_E_MAXHEALTH, TS_FLOAT_MAX - e->amount, TRUE);
 	            return;
             }
             break;
@@ -484,6 +501,20 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
             if (e->amount == TS_LONG_MIN) {
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::MinAmount, 0);
 	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MIN, TRUE);
+	            return;
+            }
+            if (e->isFloorAmount()) {
+	            ENABLE_WND(IDC_E_MAXHEALTH, true);
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::CapHealthPart1, 0);
+	            SetDlgItemInt(dialog, IDC_E_MAXHEALTH, e->amount - TS_FLOAT_MIN, TRUE);
+	            return;
+            }
+            if (e->isCeilAmount()) {
+	            ENABLE_WND(IDC_E_MAXHEALTH, true);
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeAOC::CapHealthPart2, 0);
+	            SetDlgItemInt(dialog, IDC_E_MAXHEALTH, TS_FLOAT_MAX - e->amount, TRUE);
 	            return;
             }
             break;
@@ -627,6 +658,20 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
             if (e->amount == TS_LONG_MIN) {
 	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::MinAmount, 0);
 	            TSSetDlgItemInt(dialog, IDC_E_AMOUNT, TS_LONG_MIN, TRUE);
+	            return;
+            }
+            if (e->isFloorAmount()) {
+	            ENABLE_WND(IDC_E_MAXHEALTH, true);
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::CapHealthPart1, 0);
+	            SetDlgItemInt(dialog, IDC_E_MAXHEALTH, e->amount - TS_FLOAT_MIN, TRUE);
+	            return;
+            }
+            if (e->isCeilAmount()) {
+	            ENABLE_WND(IDC_E_MAXHEALTH, true);
+	            ENABLE_WND(IDC_E_AMOUNT, false);
+	            SendDlgItemMessage(dialog, IDC_E_VTYPE, CB_SETCURSEL, EffectVirtualTypeUP::CapHealthPart2, 0);
+	            SetDlgItemInt(dialog, IDC_E_MAXHEALTH, TS_FLOAT_MAX - e->amount, TRUE);
 	            return;
             }
             break;
@@ -931,37 +976,37 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         case EffectVirtualTypeUP::EnableObject:
 	        data->e = Effect();
             data->e.panel = 1;
-            data->e.type = 11;
+            data->e.type = EffectType::CreateObject;
             break;
         case EffectVirtualTypeUP::DisableObject:
 	        data->e = Effect();
             data->e.panel = 2;
-            data->e.type = 11;
+            data->e.type = EffectType::CreateObject;
             break;
         case EffectVirtualTypeUP::EnableTechnology:
 	        data->e = Effect();
             data->e.panel = 1;
-            data->e.type = 2;
+            data->e.type = EffectType::ResearchTechnology;;
             break;
         case EffectVirtualTypeUP::DisableTechnology:
 	        data->e = Effect();
             data->e.panel = 2;
-            data->e.type = 2;
+            data->e.type = EffectType::ResearchTechnology;;
             break;
         case EffectVirtualTypeUP::EnableTechnologyAnyCiv:
 	        data->e = Effect();
             data->e.panel = 3;
-            data->e.type = 2;
+            data->e.type = EffectType::ResearchTechnology;;
             break;
         case EffectVirtualTypeUP::SetHP:
 	        data->e = Effect();
             data->e.panel = 1;
-            data->e.type = 27;
+            data->e.type = EffectType::ChangeObjectHP;
             break;
         case EffectVirtualTypeUP::HealObject:
 	        data->e = Effect();
             data->e.panel = 2;
-            data->e.type = 27;
+            data->e.type = EffectType::ChangeObjectHP;
             break;
         case EffectVirtualTypeUP::SetAggressive:
             if (data->e.type != EffectType::FreezeUnit) {
@@ -994,17 +1039,17 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         case EffectVirtualTypeUP::Resign:
 	        data->e = Effect();
             data->e.panel = 1;
-            data->e.type = 13;
+            data->e.type = EffectType::DeclareVictory;
             break;
         case EffectVirtualTypeUP::FlashObjects:
 	        data->e = Effect();
             data->e.panel = 1;
-            data->e.type = 18;
+            data->e.type = EffectType::ChangeOwnership;
             break;
         case EffectVirtualTypeUP::SetAP:
 	        data->e = Effect();
             data->e.panel = 1;
-            data->e.type = 28;
+            data->e.type = EffectType::ChangeObjectAttack;
             break;
         case EffectVirtualTypeUP::SnapView:
             if (data->e.type != EffectType::ChangeView)
@@ -1033,6 +1078,32 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         case EffectVirtualTypeUP::MinAmount:
             data->e.amount = TS_LONG_MIN;
             break;
+        case EffectVirtualTypeUP::CapHealthPart1:
+            if (data->e.isCeilAmount()) { // changing from CapHealthPart2
+                int max_health = GetDlgItemInt(dialog, IDC_E_MAXHEALTH, NULL, TRUE);
+                data->e.amount = TS_FLOAT_MIN + max_health;
+                break;
+            }
+            if (!(data->e.isFloorAmount())) {
+	            data->e = Effect();
+                data->e.amount = TS_FLOAT_MIN + TS_HP_DEFAULT;
+            }
+	        SetDlgItemInt(dialog, IDC_E_MAXHEALTH, data->e.amount - TS_FLOAT_MIN, TRUE);
+            data->e.type = EffectType::DamageObject;
+            break;
+        case EffectVirtualTypeUP::CapHealthPart2:
+            if (data->e.isFloorAmount()) { // changing from CapHealthPart1
+                int max_health = GetDlgItemInt(dialog, IDC_E_MAXHEALTH, NULL, TRUE);
+                data->e.amount = TS_FLOAT_MAX - max_health;
+                break;
+            }
+            if (!(data->e.isCeilAmount())) {
+	            data->e = Effect();
+                data->e.amount = TS_FLOAT_MAX - TS_HP_DEFAULT;
+            }
+	        SetDlgItemInt(dialog, IDC_E_MAXHEALTH, TS_FLOAT_MAX - data->e.amount, TRUE);
+            data->e.type = EffectType::DamageObject;
+            break;
         default:
 	        data->e = Effect();
         }
@@ -1040,7 +1111,7 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
                 newtype <= EffectVirtualTypeUP::SetControlGroup9) {
 	        data->e = Effect();
             data->e.panel = newtype - 14;
-            data->e.type = 29;
+            data->e.type = EffectType::StopUnit;
         }
         break;
     case AOHD:
@@ -1053,6 +1124,32 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
             break;
         case EffectVirtualTypeHD::MinAmount:
             data->e.amount = TS_LONG_MIN;
+            break;
+        case EffectVirtualTypeHD::CapHealthPart1:
+            if (data->e.isCeilAmount()) { // changing from CapHealthPart2
+                int max_health = GetDlgItemInt(dialog, IDC_E_MAXHEALTH, NULL, TRUE);
+                data->e.amount = TS_FLOAT_MIN + max_health;
+                break;
+            }
+            if (!(data->e.isFloorAmount())) {
+	            data->e = Effect();
+                data->e.amount = TS_FLOAT_MIN + TS_HP_DEFAULT;
+            }
+	        SetDlgItemInt(dialog, IDC_E_MAXHEALTH, data->e.amount - TS_FLOAT_MIN, TRUE);
+            data->e.type = EffectType::DamageObject;
+            break;
+        case EffectVirtualTypeHD::CapHealthPart2:
+            if (data->e.isFloorAmount()) { // changing from CapHealthPart1
+                int max_health = GetDlgItemInt(dialog, IDC_E_MAXHEALTH, NULL, TRUE);
+                data->e.amount = TS_FLOAT_MAX - max_health;
+                break;
+            }
+            if (!(data->e.isCeilAmount())) {
+	            data->e = Effect();
+                data->e.amount = TS_FLOAT_MAX - TS_HP_DEFAULT;
+            }
+	        SetDlgItemInt(dialog, IDC_E_MAXHEALTH, TS_FLOAT_MAX - data->e.amount, TRUE);
+            data->e.type = EffectType::DamageObject;
             break;
         default:
 	        data->e = Effect();
@@ -1081,11 +1178,38 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         case EffectVirtualTypeAOC::MinAmount:
             data->e.amount = TS_LONG_MIN;
             break;
+        case EffectVirtualTypeAOC::CapHealthPart1:
+            if (data->e.isCeilAmount()) { // changing from CapHealthPart2
+                int max_health = GetDlgItemInt(dialog, IDC_E_MAXHEALTH, NULL, TRUE);
+                data->e.amount = TS_FLOAT_MIN + max_health;
+                break;
+            }
+            if (!(data->e.isFloorAmount())) {
+	            data->e = Effect();
+                data->e.amount = TS_FLOAT_MIN + TS_HP_DEFAULT;
+            }
+	        SetDlgItemInt(dialog, IDC_E_MAXHEALTH, data->e.amount - TS_FLOAT_MIN, TRUE);
+            data->e.type = EffectType::DamageObject;
+            break;
+        case EffectVirtualTypeAOC::CapHealthPart2:
+            if (data->e.isFloorAmount()) { // changing from CapHealthPart1
+                int max_health = GetDlgItemInt(dialog, IDC_E_MAXHEALTH, NULL, TRUE);
+                data->e.amount = TS_FLOAT_MAX - max_health;
+                break;
+            }
+            if (!(data->e.isCeilAmount())) {
+	            data->e = Effect();
+                data->e.amount = TS_FLOAT_MAX - TS_HP_DEFAULT;
+            }
+	        SetDlgItemInt(dialog, IDC_E_MAXHEALTH, TS_FLOAT_MAX - data->e.amount, TRUE);
+            data->e.type = EffectType::DamageObject;
+            break;
         default:
 	        data->e = Effect();
         }
         break;
     case SWGB:
+    case SWGBCC:
 	    switch (newtype) {
         case EffectVirtualTypeSWGB::MaxAmount:
             data->e.amount = TS_LONG_MAX;
@@ -1093,17 +1217,31 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         case EffectVirtualTypeSWGB::MinAmount:
             data->e.amount = TS_LONG_MIN;
             break;
-        default:
-	        data->e = Effect();
-        }
-        break;
-    case SWGBCC:
-	    switch (newtype) {
-        case EffectVirtualTypeSWGBCC::MaxAmount:
-            data->e.amount = TS_LONG_MAX;
+        case EffectVirtualTypeSWGB::CapHealthPart1:
+            if (data->e.isCeilAmount()) { // changing from CapHealthPart2
+                int max_health = GetDlgItemInt(dialog, IDC_E_MAXHEALTH, NULL, TRUE);
+                data->e.amount = TS_FLOAT_MIN + max_health;
+                break;
+            }
+            if (!(data->e.isFloorAmount())) {
+	            data->e = Effect();
+                data->e.amount = TS_FLOAT_MIN + TS_HP_DEFAULT;
+            }
+	        SetDlgItemInt(dialog, IDC_E_MAXHEALTH, data->e.amount - TS_FLOAT_MIN, TRUE);
+            data->e.type = EffectType::DamageObject;
             break;
-        case EffectVirtualTypeSWGBCC::MinAmount:
-            data->e.amount = TS_LONG_MIN;
+        case EffectVirtualTypeSWGB::CapHealthPart2:
+            if (data->e.isFloorAmount()) { // changing from CapHealthPart1
+                int max_health = GetDlgItemInt(dialog, IDC_E_MAXHEALTH, NULL, TRUE);
+                data->e.amount = TS_FLOAT_MAX - max_health;
+                break;
+            }
+            if (!(data->e.isCeilAmount())) {
+	            data->e = Effect();
+                data->e.amount = TS_FLOAT_MAX - TS_HP_DEFAULT;
+            }
+	        SetDlgItemInt(dialog, IDC_E_MAXHEALTH, TS_FLOAT_MAX - data->e.amount, TRUE);
+            data->e.type = EffectType::DamageObject;
             break;
         default:
 	        data->e = Effect();
@@ -1123,6 +1261,42 @@ const char warnInvalidE[] =
 const char warnWeirdResource[] =
 "The resource you selected is non-standard and may have unpredictable consequences.";
 
+void E_HandleChangeHPCap(HWND dialog, EditEffect *data)
+{
+	int max_health = GetDlgItemInt(dialog, IDC_E_MAXHEALTH, NULL, TRUE);
+
+    switch (scen.game) {
+    case UP:
+    case AOC:
+    case AOHD:
+    case AOHD4:
+    case AOF:
+    case AOF4:
+    case SWGB:
+    case SWGBCC:
+        switch (data->e.type) {
+        case EffectType::DamageObject:
+            if (data->e.isFloorAmount()) { // CapHealthPart1
+                if (max_health != CB_ERR && max_health > 0 && max_health <= TS_HP_MAX) {
+                    data->e.amount = TS_FLOAT_MIN + max_health;
+	                SetDlgItemInt(dialog, IDC_E_AMOUNT, data->e.amount, TRUE);
+                }
+	            return;
+            }
+            if (data->e.isCeilAmount()) { // CapHealthPart2
+                if (max_health != CB_ERR && max_health > 0 && max_health <= TS_HP_MAX) {
+                    data->e.amount = TS_FLOAT_MAX - max_health;
+	                SetDlgItemInt(dialog, IDC_E_AMOUNT, data->e.amount, TRUE);
+                }
+	            return;
+            }
+            break;
+        }
+        break;
+    }
+	SetDlgItemInt(dialog, IDC_E_AMOUNT, -1, TRUE);
+}
+
 void E_HandleChangeAISigSharedGoal(HWND dialog, EditEffect *data)
 {
 	int sig_or_sharedgoal = GetDlgItemInt(dialog, IDC_E_SIGGOAL, NULL, TRUE);
@@ -1133,7 +1307,7 @@ void E_HandleChangeAISigSharedGoal(HWND dialog, EditEffect *data)
     case UP:
     case AOC:
         switch (data->e.type) {
-        case 10: // AI Script Goal
+        case EffectType::AIScriptGoal:
             if (data->e.ai_goal >= 774 && data->e.ai_goal <= 1029) {
                 if (sig_or_sharedgoal != CB_ERR && sig_or_sharedgoal >= 0) {
 	                // Set AI Signal
@@ -1235,6 +1409,9 @@ void E_HandleCommand(HWND dialog, WORD id, WORD code, HWND control)
 		{
 		case IDC_E_SIGGOAL:
 		    E_HandleChangeAISigSharedGoal(dialog, data);
+		    break;
+		case IDC_E_MAXHEALTH:
+		    E_HandleChangeHPCap(dialog, data);
 		    break;
 		}
 		break;

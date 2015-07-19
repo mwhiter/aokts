@@ -711,6 +711,10 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
                         convert << "min health for " << selectedUnits();
                     } else if (amount == TS_LONG_MIN) {
                         convert << "make " << selectedUnits() << " invincible";
+                    } else if (isFloorAmount()) {
+                        convert << "cap health of " << selectedUnits() << " to " << (amount - TS_FLOAT_MIN) << " HP (Part 1 of 2)";
+                    } else if (isCeilAmount()) {
+                        convert << "cap health of " << selectedUnits() << " to " << (TS_FLOAT_MAX - amount) << " HP (Part 2 of 2)";
                     } else {
                         if (amount < 0) {
                             convert << "buff " << selectedUnits() << " with " << -amount << " HP";
@@ -1646,6 +1650,8 @@ const char *Effect::virtual_types_up[] = {
     "Snap View",
     "Max Amount",
     "Min Amount",
+    "Cap Health Part 1 (raise)",
+    "Cap Health Part 2 (lower)",
     "Set AI Signal",
     "Set AI Shared Goal",
     "Enable Cheats",
@@ -1655,6 +1661,8 @@ const char *Effect::virtual_types_aoc[] = {
     "",
     "Max Amount",
     "Min Amount",
+    "Cap Health Part 1 (raise)",
+    "Cap Health Part 2 (lower)",
     "Set AI Signal",
     "Set AI Shared Goal",
     "Enable Cheats",
@@ -1665,6 +1673,8 @@ const char *Effect::virtual_types_aohd[] = {
     "",
     "Max Amount",
     "Min Amount",
+    "Cap Health Part 1 (raise)",
+    "Cap Health Part 2 (lower)",
     "Freeze unit",
 };
 
@@ -1672,6 +1682,8 @@ const char *Effect::virtual_types_aof[] = {
     "",
     "Max Amount",
     "Min Amount",
+    "Cap Health Part 1 (raise)",
+    "Cap Health Part 2 (lower)",
     "Freeze unit",
 };
 
@@ -1679,6 +1691,8 @@ const char *Effect::virtual_types_swgb[] = {
     "",
     "Max Amount",
     "Min Amount",
+    "Cap Health Part 1 (raise)",
+    "Cap Health Part 2 (lower)",
     "Freeze unit",
 };
 
@@ -1686,6 +1700,8 @@ const char *Effect::virtual_types_cc[] = {
     "",
     "Max Amount",
     "Min Amount",
+    "Cap Health Part 1 (raise)",
+    "Cap Health Part 2 (lower)",
     "Freeze unit",
 };
 
@@ -1693,7 +1709,17 @@ const char *Effect::virtual_types_aok[] = {
     "",
     "Max Amount",
     "Min Amount",
+    "Cap Health Part 1 (raise)",
+    "Cap Health Part 2 (lower)",
 };
+
+bool Effect::isCeilAmount() const {
+    return amount < TS_FLOAT_MAX && amount >= (TS_FLOAT_MAX - TS_HP_MAX);
+}
+
+bool Effect::isFloorAmount() const {
+    return amount > TS_FLOAT_MIN && amount <= (TS_FLOAT_MIN + TS_HP_MAX);
+}
 
 const char** Effect::types;
 const char** Effect::types_short;

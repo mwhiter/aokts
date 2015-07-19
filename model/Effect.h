@@ -43,6 +43,8 @@ struct EffectVirtualTypeUP {
 	    SnapView,
 	    MaxAmount,
 	    MinAmount,
+	    CapHealthPart1,
+	    CapHealthPart2,
 	    SetAISignal,
 	    SetAISharedGloal,
 	    EnableCheats,
@@ -54,6 +56,8 @@ struct EffectVirtualTypeAOK {
 	    None,
 	    MaxAmount,
 	    MinAmount,
+	    CapHealthPart1,
+	    CapHealthPart2,
 	    ReseedFarm,
     };
 };
@@ -63,6 +67,8 @@ struct EffectVirtualTypeSWGB {
 	    None,
 	    MaxAmount,
 	    MinAmount,
+	    CapHealthPart1,
+	    CapHealthPart2,
     };
 };
 
@@ -71,6 +77,8 @@ struct EffectVirtualTypeSWGBCC {
 	    None,
 	    MaxAmount,
 	    MinAmount,
+	    CapHealthPart1,
+	    CapHealthPart2,
     };
 };
 
@@ -79,6 +87,8 @@ struct EffectVirtualTypeAOC {
 	    None,
 	    MaxAmount,
 	    MinAmount,
+	    CapHealthPart1,
+	    CapHealthPart2,
 	    SetAISignal,
 	    SetAISharedGloal,
 	    EnableCheats,
@@ -92,6 +102,8 @@ struct EffectVirtualTypeHD {
 	    None,
 	    MaxAmount,
 	    MinAmount,
+	    CapHealthPart1,
+	    CapHealthPart2,
 	    FreezeUnit,
 	    ReseedFarm,
     };
@@ -201,6 +213,9 @@ public:
 
 	std::string getName(bool tip = false, NameFlags::Value flag=NameFlags::NONE, int recursion = 0) const;
 
+    bool isCeilAmount() const;
+    bool isFloorAmount() const;
+
 	/**
 	 * Accepts a TriggerVisitor.
 	 */
@@ -249,13 +264,13 @@ public:
     static const int NUM_EFFECTS_SWGB = 37;
     static const int NUM_EFFECTS_CC   = 39;
 
-    static const int NUM_VIRTUAL_EFFECTS_AOK = 3;
-    static const int NUM_VIRTUAL_EFFECTS_AOC = 7;
-    static const int NUM_VIRTUAL_EFFECTS_UP = 30;
-    static const int NUM_VIRTUAL_EFFECTS_AOHD = 4;
-    static const int NUM_VIRTUAL_EFFECTS_AOF = 4;
-    static const int NUM_VIRTUAL_EFFECTS_SWGB = 4;
-    static const int NUM_VIRTUAL_EFFECTS_CC = 4;
+    static const int NUM_VIRTUAL_EFFECTS_AOK = 5;
+    static const int NUM_VIRTUAL_EFFECTS_AOC = 9;
+    static const int NUM_VIRTUAL_EFFECTS_UP = 32;
+    static const int NUM_VIRTUAL_EFFECTS_AOHD = 6;
+    static const int NUM_VIRTUAL_EFFECTS_AOF = 6;
+    static const int NUM_VIRTUAL_EFFECTS_SWGB = 6;
+    static const int NUM_VIRTUAL_EFFECTS_CC = 6;
 
 	static const char* types_aok[NUM_EFFECTS_AOK];
 	static const char* types_aoc[NUM_EFFECTS_AOC];

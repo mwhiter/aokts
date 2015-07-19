@@ -386,6 +386,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_E_VTYPE				1835
 #define IDC_E_NSELECTED 		1836
 #define IDC_E_SIGGOAL   		1837
+#define IDC_E_MAXHEALTH 		1838
 
 /* About Dialog Controls */
 #define IDC_UPDATELINK          1901

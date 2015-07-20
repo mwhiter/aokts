@@ -191,7 +191,7 @@ std::string Effect::areaName() const {
             if (valid_area_location()) {
                 convert << " at " << area.left << "," << area.top;
             } else {
-                convert << " in area " << area.left << "," << area.bottom << " [" << area.right - area.left << "x" << area.top - area.bottom << "]";
+                convert << " in area " << area.left << "," << area.bottom << " [" << area.right - area.left + 1 << "x" << area.top - area.bottom + 1 << "]";
             }
         }
     } else {
@@ -1336,7 +1336,7 @@ const char *Effect::types_aohd[] = {
 	"Change Range",
 	"Change Speed",
 	"Heal Object",
-	"Teleport Object",
+	"Teleport One Object",
 	"Change Unit Stance"
 };
 
@@ -1376,7 +1376,7 @@ const char *Effect::types_aof[] = {
 	"Change Range",
 	"Change Speed",
 	"Heal Object",
-	"Teleport Object",
+	"Teleport One Object",
 	"Change Unit Stance"
 };
 
@@ -1513,7 +1513,7 @@ const char *Effect::types_short_aohd[] = {
 	"Range",
 	"Speed",
 	"Heal",
-	"Teleport",
+	"Teleport One",
 	"Change Stance"
 };
 
@@ -1553,7 +1553,7 @@ const char *Effect::types_short_aof[] = {
 	"Range",
 	"Speed",
 	"Heal",
-	"Teleport",
+	"Teleport One",
 	"Change Stance"
 };
 

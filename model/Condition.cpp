@@ -61,7 +61,7 @@ std::string Condition::areaName() const {
         if (valid_area_location()) {
             convert << " at " << area.left << "," << area.top;
         } else {
-            convert << " in area " << area.left << "," << area.bottom << " [" << area.right - area.left << "x" << area.top - area.bottom << "]";
+            convert << " in area " << area.left << "," << area.bottom << " [" << area.right - area.left + 1 << "x" << area.top - area.bottom + 1 << "]";
         }
     }
     return convert.str();

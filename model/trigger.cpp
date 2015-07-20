@@ -179,6 +179,10 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 
 	// conditions
 	for (vector<Condition>::iterator iter = conds.begin(); iter != conds.end(); ++iter) {
+	    if ((scen.game == AOHD4 || scen.game == AOF4) && iter->type == ConditionType::Chance_HD) {
+	        c_chance *= (iter->amount / 100.0f);
+	        continue;
+	    }
 	    n_conds++;
 	    last_cond = &(*iter);
 	    switch (iter->type) {
@@ -248,11 +252,6 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	    case ConditionType::PlayerDefeated:
 	        defeat = true;
 	        deceased = iter->player;
-	        break;
-	    case ConditionType::Chance_HD:
-	        if (scen.game == AOHD4 || scen.game == AOF4) {
-	            c_chance *= (iter->amount / 100.0f);
-	        }
 	        break;
 	    }
     }
@@ -448,17 +447,17 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
     }
     deactivated_name = tempss.str();
 
+	if (c_chance != 100) {
+	    ss << c_chance << "% of the time, ";
+	}
+
     if (only_one_cond && only_one_effect) {
         ss << "If " << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
         ss << " then " << last_effect->getName(setts.displayhints, NameFlags::LIMITLEN, recursion - 1);
         goto theendnotext;
     }
 
-	if (c_chance != 100) {
-	    ss << c_chance << "% of the time, ";
-	}
-
-    if (only_one_cond_or_effect && only_one_cond && c_chance == 100) {
+    if (only_one_cond_or_effect && only_one_cond) {
         ss << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
         goto theendnotext;
     }
@@ -468,7 +467,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         goto theendnotext;
     }
 
-    if (only_one_cond_or_effect && only_one_cond && c_chance == 100) {
+    if (only_one_cond_or_effect && only_one_cond) {
         ss << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
         goto theendnotext;
     }

@@ -186,6 +186,7 @@ private:
     bool valid_panel() const;
     bool valid_destination() const;
     bool valid_points() const;
+    std::string areaName() const;
 
     bool valid_since_last_check;
 

@@ -184,6 +184,22 @@ std::string pluralizeUnitType(std::string unit_type_name) {
     return convert.str();
 }
 
+std::string Effect::areaName() const {
+    std::ostringstream convert;
+    if (valid_area()) {
+        if (valid_partial_map()) {
+            if (valid_area_location()) {
+                convert << " at " << area.left << "," << area.top;
+            } else {
+                convert << " in area " << area.left << "," << area.bottom << " [" << area.right - area.left << "x" << area.top - area.bottom << "]";
+            }
+        }
+    } else {
+        convert << " in INVALID AREA";
+    }
+    return convert.str();
+}
+
 inline std::string unitTypeName(const UnitLink *pUnit) {
     std::ostringstream convert;
     if (pUnit && pUnit->id()) {
@@ -223,17 +239,7 @@ std::string Effect::selectedUnits() const {
 	for (int i = 0; i < num_sel; i++) {
         convert << " " << uids[i] << " (" << get_unit_full_name(uids[i]) << ")";
 	}
-    if (valid_area()) {
-        if (valid_partial_map()) {
-            if (valid_area_location()) {
-                convert << " at (" << area.left << "," << area.top << ") ";
-            } else {
-                convert << " in area (" << area.left << "," << area.bottom << ") - (" << area.right << ", " << area.top << ") ";
-            }
-        }
-    } else {
-        convert << " in INVALID AREA";
-    }
+    convert << areaName();
     return convert.str();
 }
 
@@ -809,7 +815,18 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
                     break;
                 }
                 break;
-	        case EffectType::EnableUnit_SWGB:
+	        case EffectType::EnableUnit_SWGB: // EffectType::HealObject_HD:
+	            switch (scen.game) {
+	            case AOHD4:
+	            case AOF4:
+                    convert << "heal " << selectedUnits() << " by " << amount;
+                    stype.append(convert.str());
+	                break;
+	            default:
+                    stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                    break;
+	            }
+                break;
 	        case EffectType::DisableUnit_SWGB:
 	        case EffectType::FlashUnit_SWGB: // ChangeUnitStance_HD
 	        case EffectType::InputOff_CC:
@@ -1650,8 +1667,8 @@ const char *Effect::virtual_types_up[] = {
     "Snap View",
     "Max Amount",
     "Min Amount",
-    "Cap Health Part 1 (raise)",
-    "Cap Health Part 2 (lower)",
+    "Cap Health Part 1 of 2",
+    "Cap Health Part 2 of 2",
     "Set AI Signal",
     "Set AI Shared Goal",
     "Enable Cheats",
@@ -1661,8 +1678,8 @@ const char *Effect::virtual_types_aoc[] = {
     "",
     "Max Amount",
     "Min Amount",
-    "Cap Health Part 1 (raise)",
-    "Cap Health Part 2 (lower)",
+    "Cap Health Part 1 of 2",
+    "Cap Health Part 2 of 2",
     "Set AI Signal",
     "Set AI Shared Goal",
     "Enable Cheats",
@@ -1673,8 +1690,8 @@ const char *Effect::virtual_types_aohd[] = {
     "",
     "Max Amount",
     "Min Amount",
-    "Cap Health Part 1 (raise)",
-    "Cap Health Part 2 (lower)",
+    "Cap Health Part 1 of 2",
+    "Cap Health Part 2 of 2",
     "Freeze unit",
 };
 
@@ -1682,8 +1699,8 @@ const char *Effect::virtual_types_aof[] = {
     "",
     "Max Amount",
     "Min Amount",
-    "Cap Health Part 1 (raise)",
-    "Cap Health Part 2 (lower)",
+    "Cap Health Part 1 of 2",
+    "Cap Health Part 2 of 2",
     "Freeze unit",
 };
 
@@ -1691,8 +1708,8 @@ const char *Effect::virtual_types_swgb[] = {
     "",
     "Max Amount",
     "Min Amount",
-    "Cap Health Part 1 (raise)",
-    "Cap Health Part 2 (lower)",
+    "Cap Health Part 1 of 2",
+    "Cap Health Part 2 of 2",
     "Freeze unit",
 };
 
@@ -1700,8 +1717,8 @@ const char *Effect::virtual_types_cc[] = {
     "",
     "Max Amount",
     "Min Amount",
-    "Cap Health Part 1 (raise)",
-    "Cap Health Part 2 (lower)",
+    "Cap Health Part 1 of 2",
+    "Cap Health Part 2 of 2",
     "Freeze unit",
 };
 
@@ -1709,8 +1726,8 @@ const char *Effect::virtual_types_aok[] = {
     "",
     "Max Amount",
     "Min Amount",
-    "Cap Health Part 1 (raise)",
-    "Cap Health Part 2 (lower)",
+    "Cap Health Part 1 of 2",
+    "Cap Health Part 2 of 2",
 };
 
 bool Effect::isCeilAmount() const {

@@ -176,6 +176,7 @@ private:
     bool valid_object() const;
     bool null_location_unit() const;
     bool valid_location_unit() const;
+    std::string areaName() const;
 
 	bool valid_since_last_check;
 };

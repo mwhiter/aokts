@@ -458,7 +458,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	    ss << c_chance << "% of the time, ";
 	}
 
-    if (only_one_cond_or_effect && only_one_cond) {
+    if (only_one_cond_or_effect && only_one_cond && c_chance == 100) {
         ss << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
         goto theendnotext;
     }
@@ -468,7 +468,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
         goto theendnotext;
     }
 
-    if (only_one_cond_or_effect && only_one_cond) {
+    if (only_one_cond_or_effect && only_one_cond && c_chance == 100) {
         ss << last_cond->getName(setts.displayhints, NameFlags::LIMITLEN);
         goto theendnotext;
     }

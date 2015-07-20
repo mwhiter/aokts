@@ -53,6 +53,20 @@ Condition::Condition(Buffer& b)
 	check_and_save();
 }
 
+std::string Condition::areaName() const {
+    std::ostringstream convert;
+    if (valid_full_map()) {
+        convert << " on the map";
+    } else {
+        if (valid_area_location()) {
+            convert << " at " << area.left << "," << area.top;
+        } else {
+            convert << " in area " << area.left << "," << area.bottom << " [" << area.right - area.left << "x" << area.top - area.bottom << "]";
+        }
+    }
+    return convert.str();
+}
+
 inline std::string unitTypeName(const UnitLink *pUnit) {
     std::ostringstream convert;
     if (pUnit && pUnit->id()) {
@@ -106,15 +120,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags, int recursion) 
                 break;
             case ConditionType::BringObjectToArea:
                 convert << "unit " << object << " (" << get_unit_full_name(object) << ")";
-                if (valid_full_map()) {
-                    convert << " is on the map";
-                } else {
-                    if (valid_area_location()) {
-                        convert << " is at (" << area.left << ", " << area.top << ")";
-                    } else {
-                        convert << " is in the area (" << area.left << ", " << area.top << ") - (" << area.right << ", " << area.bottom << ")";
-                    }
-                }
+                convert << areaName();
                 stype.append(convert.str());
                 break;
             case ConditionType::BringObjectToObject:
@@ -159,15 +165,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags, int recursion) 
                             convert << " unit";
                         }
                     }
-                    if (valid_full_map()) {
-                        convert << " on the map";
-                    } else {
-                        if (valid_area_location()) {
-                            convert << " at (" << area.left << ", " << area.top << ")";
-                        } else {
-                            convert << " in area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-                        }
-                    }
+                    convert << areaName();
                     stype.append(convert.str());
                 }
                 break;
@@ -384,15 +382,7 @@ std::string Condition::getName(bool tip, NameFlags::Value flags, int recursion) 
                             convert << " foundation";
                         }
                     }
-                    if (valid_full_map()) {
-                        convert << " on the map";
-                    } else {
-                        if (valid_area_location()) {
-                            convert << " at (" << area.left << ", " << area.top << ")";
-                        } else {
-                            convert << " in area (" << area.left << ", " << area.bottom << ") - (" << area.right << ", " << area.top << ")";
-                        }
-                    }
+                    convert << areaName();
                     stype.append(convert.str());
                     break;
                 default:

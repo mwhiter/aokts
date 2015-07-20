@@ -301,39 +301,39 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
         std::string stype = std::string("");
         std::ostringstream convert;
         switch (type) {
-            case EffectType::None:
-                // Let this act like a separator
-                convert << "                                                                                    ";
-                stype.append(convert.str());
+        case EffectType::None:
+            // Let this act like a separator
+            convert << "                                                                                    ";
+            stype.append(convert.str());
+            break;
+        case EffectType::ChangeDiplomacy:
+            convert << playerPronoun(s_player);
+            switch (diplomacy) {
+            case 0:
+                convert << " allies with ";
                 break;
-            case EffectType::ChangeDiplomacy:
-                convert << playerPronoun(s_player);
-                switch (diplomacy) {
-                case 0:
-                    convert << " allies with ";
-                    break;
-                case 1:
-                    convert << " becomes neutral to ";
-                    break;
-                case 2:
-                    convert << " <INVALID DIPLOMACY> to ";
-                    break;
-                case 3:
-                    convert << " declares war on ";
-                    break;
-                }
-                convert << playerPronoun(t_player);
-                stype.append(convert.str());
+            case 1:
+                convert << " becomes neutral to ";
                 break;
-            case EffectType::ResearchTechnology:
-                {
-                    bool hastech = pTech && pTech->id();
-                    std::wstring wtechname;
-                    std::string techname;
-                    if (hastech) {
-                        wtechname = std::wstring(pTech->name());
-                        techname = std::string(wtechname.begin(), wtechname.end());
-                        if (panel >= 1 && panel <= 3) {
+            case 2:
+                convert << " <INVALID DIPLOMACY> to ";
+                break;
+            case 3:
+                convert << " declares war on ";
+                break;
+            }
+            convert << playerPronoun(t_player);
+            stype.append(convert.str());
+            break;
+        case EffectType::ResearchTechnology:
+            {
+                bool hastech = pTech && pTech->id();
+                std::wstring wtechname;
+                std::string techname;
+                if (hastech) {
+                    wtechname = std::wstring(pTech->name());
+                    techname = std::string(wtechname.begin(), wtechname.end());
+                    if (panel >= 1 && panel <= 3) {
                         switch (panel) {
                         case 1:
                             convert << "enable " << playerPronoun(s_player) << " to research " << techname;
@@ -345,496 +345,496 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
                             convert << "enable " << playerPronoun(s_player) << " to research " << techname << " regardless of civ";
                             break;
                         }
-                        } else {
-                            convert << playerPronoun(s_player);
-                            convert << " researches " << techname;
-                        }
                     } else {
-                        convert << "INVALID";
-                    }
-                }
-                stype.append(convert.str());
-                break;
-            case EffectType::SendChat:
-                switch (s_player) {
-                    case -1:
-                    case 0:
-                        convert << "tell everyone";
-                        break;
-                    default:
-                        convert << "tell p" << s_player;
-                }
-                convert << " \"" << text.c_str() << "\"";
-                stype.append(convert.str());
-                break;
-            case EffectType::Sound:
-                convert << "play sound " << sound.c_str();
-                stype.append(convert.str());
-                break;
-            case EffectType::SendTribute:
-                {
-                    std::string amount_string;
-                    if (amount == TS_LONG_MAX || amount == TS_LONG_MIN) {
-                        amount_string = "max";
-                    } else {
-                        if (amount < 0) {
-                            amount_string = longToString(-amount);
-                        } else {
-                            amount_string = longToString(amount);
-                        }
-                    }
-                    if (amount >= 0) {
                         convert << playerPronoun(s_player);
-                        if (t_player == 0) {
-                            convert << " loses";
-                        } else {
-                            convert << " gives ";
-                            convert << "p" << t_player;
-                        }
-                        convert << " " << amount_string << " ";
-                    } else {
-                        if (t_player == 0) {
-                            if (res_type < 4) {
-                                convert << "p" << s_player << " silently gets " << amount_string << " ";
-                            } else {
-                                convert << "p" << s_player << " gets " << amount_string << " ";
-                            }
-                        } else {
-                            convert << "p" << t_player << " silently gives ";
-                            convert << playerPronoun(s_player);
-                            convert << " " << amount_string << " ";
-                        }
+                        convert << " researches " << techname;
                     }
-                    switch (res_type) {
-                        case 0: // Food
-                            convert << "food";
-                            break;
-                        case 1: // Wood
-                            convert << "wood";
-                            break;
-                        case 2: // Stone
-                            convert << "stone";
-                            break;
-                        case 3: // Gold
-                            convert << "gold";
-                            break;
-                        case 20: // Units killed
-                            if (amount == 1) {
-                                convert << "kill";
-                            } else {
-                                convert << "kills";
-                            }
-                            break;
-                        default:
-                            //convert << types_short[type];
-                            if (res_type >= 0) {
-                                const Link * list = esdata.resources.head();
-	                            for (int i=0; list; list = list->next(), i++)
-	                            {
-		                            if (i == res_type) {
-                                        std::wstring resname(list->name());
-                                        convert << std::string( resname.begin(), resname.end());
-		                                break;
-		                            }
-	                            }
-	                        }
-                            break;
-                    }
-                    if (amount >= 0 && t_player > 0) {
-                        convert << " (displays tribute alert)";
-                    }
-                    stype.append(convert.str());
-                }
-                break;
-            case EffectType::ActivateTrigger:
-            case EffectType::DeactivateTrigger:
-                //stype.append(types_short[type]);
-                if (trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
-                    if (trig_index < scen.triggers.size() && trig_index >= 0) {
-                        if (trig_index == parent_trigger_id) {
-                            switch (type) {
-                            case EffectType::ActivateTrigger:
-                                stype.append("repeat");
-                                break;
-                            case EffectType::DeactivateTrigger:
-                                stype.append("don't repeat");
-                                break;
-                            }
-                        } else {
-                            if (scen.triggers.at(trig_index).loop) {
-                                switch (type) {
-                                case EffectType::ActivateTrigger:
-                                    stype.append("resume");
-                                    break;
-                                case EffectType::DeactivateTrigger:
-                                    stype.append("pause");
-                                    break;
-                                }
-                            } else {
-                                switch (type) {
-                                case EffectType::ActivateTrigger:
-                                    stype.append("activate");
-                                    break;
-                                case EffectType::DeactivateTrigger:
-                                    stype.append("deactivate");
-                                    break;
-                                }
-                            }
-                            if (setts.showdisplayorder) {
-                                stype.append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
-                            }
-                            if (recursion > 0) {
-                                stype.append(" ").append(scen.triggers.at(trig_index).getName(setts.pseudonyms,true,recursion - 1));
-                            }
-                        }
-                    } else {
-                        switch (type) {
-                            case EffectType::ActivateTrigger:
-                                stype.append("activate ");
-                                break;
-                            case EffectType::DeactivateTrigger:
-                                stype.append("deactivate ");
-                                break;
-                        }
-                        stype.append("<?>");
-                    }
-                    //convert << trig_index;
-                    //stype.append(convert.str());
-                }
-                break;
-            case EffectType::AIScriptGoal:
-                switch (ai_goal) {
-                default:
-                    if (ai_goal >= -258 && ai_goal <= -3) {
-                        // AI Shared Goal
-                        convert << "complete AI shared goal " << ai_goal + 258;
-                    } else if (ai_goal >= 774 && ai_goal <= 1029) {
-	                    // Set AI Signal
-                        convert << "signal AI? " << ai_goal - 774;
-                    } else {
-                        convert << "signal AI " << ai_goal;
-                    }
-                }
-                stype.append(convert.str());
-                break;;
-            case EffectType::ChangeView:
-                if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
-                    convert << "change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
                 } else {
                     convert << "INVALID";
                 }
-                stype.append(convert.str());
+            }
+            stype.append(convert.str());
+            break;
+        case EffectType::SendChat:
+            switch (s_player) {
+            case -1:
+            case 0:
+                convert << "tell everyone";
                 break;
-            case EffectType::UnlockGate:
-            case EffectType::LockGate:
-            case EffectType::KillObject:
-            case EffectType::RemoveObject:
-            case EffectType::FreezeUnit:
-                switch (type) {
-                case EffectType::UnlockGate:
-                    convert << "unlock";
+            default:
+                convert << "tell p" << s_player;
+            }
+            convert << " \"" << text.c_str() << "\"";
+            stype.append(convert.str());
+            break;
+        case EffectType::Sound:
+            convert << "play sound " << sound.c_str();
+            stype.append(convert.str());
+            break;
+        case EffectType::SendTribute:
+            {
+                std::string amount_string;
+                if (amount == TS_LONG_MAX || amount == TS_LONG_MIN) {
+                    amount_string = "max";
+                } else {
+                    if (amount < 0) {
+                        amount_string = longToString(-amount);
+                    } else {
+                        amount_string = longToString(amount);
+                    }
+                }
+                if (amount >= 0) {
+                    convert << playerPronoun(s_player);
+                    if (t_player == 0) {
+                        convert << " loses";
+                    } else {
+                        convert << " gives ";
+                        convert << "p" << t_player;
+                    }
+                    convert << " " << amount_string << " ";
+                } else {
+                    if (t_player == 0) {
+                        if (res_type < 4) {
+                            convert << "p" << s_player << " silently gets " << amount_string << " ";
+                        } else {
+                            convert << "p" << s_player << " gets " << amount_string << " ";
+                        }
+                    } else {
+                        convert << "p" << t_player << " silently gives ";
+                        convert << playerPronoun(s_player);
+                        convert << " " << amount_string << " ";
+                    }
+                }
+                switch (res_type) {
+                case 0: // Food
+                    convert << "food";
                     break;
-                case EffectType::LockGate:
-                    convert << "lock";
+                case 1: // Wood
+                    convert << "wood";
                     break;
-                case EffectType::KillObject:
-                    convert << "kill";
+                case 2: // Stone
+                    convert << "stone";
                     break;
-                case EffectType::RemoveObject:
-                    convert << "remove";
+                case 3: // Gold
+                    convert << "gold";
                     break;
-                case EffectType::Unload:
-                    convert << "unload";
+                case 20: // Units killed
+                    if (amount == 1) {
+                        convert << "kill";
+                    } else {
+                        convert << "kills";
+                    }
                     break;
-                case EffectType::FreezeUnit:
-                    if (scen.game == UP) {
-                        switch (panel) {
-                        case 1:
-                            convert << "aggressive stance";
+                default:
+                    //convert << types_short[type];
+                    if (res_type >= 0) {
+                        const Link * list = esdata.resources.head();
+	                    for (int i=0; list; list = list->next(), i++)
+	                    {
+		                    if (i == res_type) {
+                                std::wstring resname(list->name());
+                                convert << std::string( resname.begin(), resname.end());
+		                        break;
+		                    }
+	                    }
+	                }
+                    break;
+                }
+                if (amount >= 0 && t_player > 0) {
+                    convert << " (displays tribute alert)";
+                }
+                stype.append(convert.str());
+            }
+            break;
+        case EffectType::ActivateTrigger:
+        case EffectType::DeactivateTrigger:
+            //stype.append(types_short[type]);
+            if (trig_index != (unsigned)-1 && trig_index != (unsigned)-2) {
+                if (trig_index < scen.triggers.size() && trig_index >= 0) {
+                    if (trig_index == parent_trigger_id) {
+                        switch (type) {
+                        case EffectType::ActivateTrigger:
+                            stype.append("repeat");
                             break;
-                        case 2:
-                            convert << "defensive stance";
-                            break;
-                        case 3:
-                            convert << "stand ground";
-                            break;
-                        case 4:
-                            convert << "no attack stance (no halt)";
-                            break;
-                        default:
-                            convert << "no attack stance";
+                        case EffectType::DeactivateTrigger:
+                            stype.append("don't repeat");
                             break;
                         }
                     } else {
-                        convert << "no attack stance";
+                        if (scen.triggers.at(trig_index).loop) {
+                            switch (type) {
+                            case EffectType::ActivateTrigger:
+                                stype.append("resume");
+                                break;
+                            case EffectType::DeactivateTrigger:
+                                stype.append("pause");
+                                break;
+                            }
+                        } else {
+                            switch (type) {
+                            case EffectType::ActivateTrigger:
+                                stype.append("activate");
+                                break;
+                            case EffectType::DeactivateTrigger:
+                                stype.append("deactivate");
+                                break;
+                            }
+                        }
+                        if (setts.showdisplayorder) {
+                            stype.append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
+                        }
+                        if (recursion > 0) {
+                            stype.append(" ").append(scen.triggers.at(trig_index).getName(setts.pseudonyms,true,recursion - 1));
+                        }
                     }
-                    break;
+                } else {
+                    switch (type) {
+                    case EffectType::ActivateTrigger:
+                        stype.append("activate ");
+                        break;
+                    case EffectType::DeactivateTrigger:
+                        stype.append("deactivate ");
+                        break;
+                    }
+                    stype.append("<?>");
                 }
-                convert << " " << selectedUnits();
-                stype.append(convert.str());
+                //convert << trig_index;
+                //stype.append(convert.str());
+            }
+            break;
+        case EffectType::AIScriptGoal:
+            switch (ai_goal) {
+            default:
+                if (ai_goal >= -258 && ai_goal <= -3) {
+                    // AI Shared Goal
+                    convert << "complete AI shared goal " << ai_goal + 258;
+                } else if (ai_goal >= 774 && ai_goal <= 1029) {
+	                // Set AI Signal
+                    convert << "signal AI? " << ai_goal - 774;
+                } else {
+                    convert << "signal AI " << ai_goal;
+                }
+            }
+            stype.append(convert.str());
+            break;;
+        case EffectType::ChangeView:
+            if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
+                convert << "change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
+            } else {
+                convert << "INVALID";
+            }
+            stype.append(convert.str());
+            break;
+        case EffectType::UnlockGate:
+        case EffectType::LockGate:
+        case EffectType::KillObject:
+        case EffectType::RemoveObject:
+        case EffectType::FreezeUnit:
+            switch (type) {
+            case EffectType::UnlockGate:
+                convert << "unlock";
+                break;
+            case EffectType::LockGate:
+                convert << "lock";
+                break;
+            case EffectType::KillObject:
+                convert << "kill";
+                break;
+            case EffectType::RemoveObject:
+                convert << "remove";
                 break;
             case EffectType::Unload:
-                convert << "unload " << selectedUnits() << " to (" << location.x << ", " << location.y << ")";
-                stype.append(convert.str());
+                convert << "unload";
                 break;
-
-            case EffectType::StopUnit:
-                if (panel >= 1 && panel <= 9) {
-                    convert << "place" << " " << selectedUnits() << " into control group " << panel;
-                } else {
-                    convert << "stop " << selectedUnits();
-                    stype.append(convert.str());
-                    break;
-                }
-                stype.append(convert.str());
-                break;
-            case EffectType::PlaceFoundation:
-                convert << "place " << playerPronoun(s_player);
-                if (pUnit && pUnit->id()) {
-                    std::wstring unitname(pUnit->name());
-                    std::string un(unitname.begin(), unitname.end());
-                    convert << " " << un;
-                } else {
-                    convert << " INVALID EFFECT";
-                }
-                convert << " foundation at (" << location.x << ", " << location.y << ")";
-                stype.append(convert.str());
-                break;
-            case EffectType::CreateObject:
-                convert << "create";
-                convert << " " << playerPronoun(s_player);
-                if (pUnit && pUnit->id()) {
-                    std::wstring unitname(pUnit->name());
-                    std::string un(unitname.begin(), unitname.end());
-                    convert << " " << un;
-                } else {
-                    convert << " INVALID EFFECT";
-                }
-                convert << " at (" << location.x << ", " << location.y << ")";
-                stype.append(convert.str());
-                break;
-            case EffectType::Patrol:
-                try
-                {
-                    // keep in mind multiple units can possess the same id, but
-                    // it only operates on the last farm with that id.
-                    //
-                    // s_player may not be selected. Therefore, go through all
-                    // the units in scenario.
-                    //
-                    // A gaia farm could be made infinite.
-                    //Player * p = scen.players + s_player;
-                    //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
-                    //}
-
-                    if (num_sel > 0) {
-                        std::vector<PlayersUnit> all (num_sel);
-	                    for (int i = 0; i < num_sel; i++) {
-                            all[i] = find_map_unit(uids[i]);
-	                    }
-                        std::vector<PlayersUnit> farms (num_sel);
-                        std::vector<PlayersUnit> other (num_sel);
-
-                        std::vector<PlayersUnit>::iterator it;
-                        it = copy_if (all.begin(), all.end(), farms.begin(), playersunit_ucnst_equals(50) );
-                        farms.resize(std::distance(farms.begin(),it));  // shrink container to new size
-
-                        it = copy_if (all.begin(), all.end(), other.begin(), playersunit_ucnst_notequals(50) );
-                        other.resize(std::distance(other.begin(),it));  // shrink container to new size
-
-                        if (farms.size() > 0) {
-                            convert << "reseed ";
-                            for(std::vector<PlayersUnit>::iterator it = farms.begin(); it != farms.end(); ++it) {
-                                convert << it->u->ident << " (" <<
-                                    get_unit_full_name(it->u->ident)
-                                    << ")" << " ";
-                            }
-	                    }
-
-                        if (other.size() > 0) {
-                            if (!valid_location_coord() && null_location_unit()) {
-                                convert << "stop ";
-                            } else {
-                                convert << "patrol ";
-                            }
-                            for(std::vector<PlayersUnit>::iterator it = other.begin(); it != other.end(); ++it) {
-                                convert << it->u->ident << " (" <<
-                                    get_unit_full_name(it->u->ident)
-                                    << ")" << " ";
-                            }
-	                    }
-	                } else {
-                        convert << "patrol / reseed nothing";
-	                }
-                    stype.append(convert.str());
-                }
-	            catch (std::exception& ex)
-	            {
-                    stype.append(ex.what());
-	            }
-                break;
-            case EffectType::ChangeOwnership:
-                convert << "convert";
-                convert << " " << selectedUnits();
-                convert << " to";
-                convert << " " << playerPronoun(t_player);
-                stype.append(convert.str());
-                break;
-            case EffectType::TaskObject:
-                if (!valid_location_coord() && null_location_unit()) {
-                    convert << "stop" << " " << selectedUnits();
-                    stype.append(convert.str());
-                    break;
-                }
-
-                convert << "task";
-                convert << " " << selectedUnits();
-                if (valid_location_coord()) {
-                    convert << " to (" << location.x << ", " << location.y << ")";
-                } else {
-                    convert << " to unit " << uid_loc << " (" << get_unit_full_name(uid_loc) << ")";
-                }
-                stype.append(convert.str());
-                break;
-            case EffectType::DeclareVictory:
-                convert << "p" << s_player << " victory";
-                stype.append(convert.str());
-                break;
-            case EffectType::DisplayInstructions:
-                convert << "instruct players \"" << text.c_str() << "\"";
-                stype.append(convert.str());
-                break;
-            case EffectType::ChangeObjectName:
-                stype.append("rename '");
-                stype.append(text.c_str());
-                stype.append("'");
-                convert << " " << selectedUnits();
-                stype.append(convert.str());
-                break;
-            case EffectType::DamageObject:
-                {
-                    if (amount == TS_LONG_MAX) {
-                        convert << "min health for " << selectedUnits();
-                    } else if (amount == TS_LONG_MIN) {
-                        convert << "make " << selectedUnits() << " invincible";
-                    } else if (isFloorAmount()) {
-                        convert << "cap health of " << selectedUnits() << " to " << (amount - TS_FLOAT_MIN) << " HP (Part 1 of 2)";
-                    } else if (isCeilAmount()) {
-                        convert << "cap health of " << selectedUnits() << " to " << (TS_FLOAT_MAX - amount) << " HP (Part 2 of 2)";
-                    } else {
-                        if (amount < 0) {
-                            convert << "buff " << selectedUnits() << " with " << -amount << " HP";
-                        } else {
-                            convert << "damage " << selectedUnits() << " by " << amount << " HP";
-                        }
+            case EffectType::FreezeUnit:
+                if (scen.game == UP) {
+                    switch (panel) {
+                    case 1:
+                        convert << "aggressive stance";
+                        break;
+                    case 2:
+                        convert << "defensive stance";
+                        break;
+                    case 3:
+                        convert << "stand ground";
+                        break;
+                    case 4:
+                        convert << "no attack stance (no halt)";
+                        break;
+                    default:
+                        convert << "no attack stance";
+                        break;
                     }
-                    stype.append(convert.str());
+                } else {
+                    convert << "no attack stance";
                 }
                 break;
-            case EffectType::ChangeObjectHP:
-            case EffectType::ChangeObjectAttack:
+            }
+            convert << " " << selectedUnits();
+            stype.append(convert.str());
+            break;
+        case EffectType::Unload:
+            convert << "unload " << selectedUnits() << " to (" << location.x << ", " << location.y << ")";
+            stype.append(convert.str());
+            break;
+
+        case EffectType::StopUnit:
+            if (panel >= 1 && panel <= 9) {
+                convert << "place" << " " << selectedUnits() << " into control group " << panel;
+            } else {
+                convert << "stop " << selectedUnits();
+                stype.append(convert.str());
+                break;
+            }
+            stype.append(convert.str());
+            break;
+        case EffectType::PlaceFoundation:
+            convert << "place " << playerPronoun(s_player);
+            if (pUnit && pUnit->id()) {
+                std::wstring unitname(pUnit->name());
+                std::string un(unitname.begin(), unitname.end());
+                convert << " " << un;
+            } else {
+                convert << " INVALID EFFECT";
+            }
+            convert << " foundation at (" << location.x << ", " << location.y << ")";
+            stype.append(convert.str());
+            break;
+        case EffectType::CreateObject:
+            convert << "create";
+            convert << " " << playerPronoun(s_player);
+            if (pUnit && pUnit->id()) {
+                std::wstring unitname(pUnit->name());
+                std::string un(unitname.begin(), unitname.end());
+                convert << " " << un;
+            } else {
+                convert << " INVALID EFFECT";
+            }
+            convert << " at (" << location.x << ", " << location.y << ")";
+            stype.append(convert.str());
+            break;
+        case EffectType::Patrol:
+            try
+            {
+                // keep in mind multiple units can possess the same id, but
+                // it only operates on the last farm with that id.
+                //
+                // s_player may not be selected. Therefore, go through all
+                // the units in scenario.
+                //
+                // A gaia farm could be made infinite.
+                //Player * p = scen.players + s_player;
+                //for (vector<Unit>::const_iterator iter = p->units.begin(); iter != sorted.end(); ++iter) {
+                //}
+
+                if (num_sel > 0) {
+                    std::vector<PlayersUnit> all (num_sel);
+	                for (int i = 0; i < num_sel; i++) {
+                        all[i] = find_map_unit(uids[i]);
+	                }
+                    std::vector<PlayersUnit> farms (num_sel);
+                    std::vector<PlayersUnit> other (num_sel);
+
+                    std::vector<PlayersUnit>::iterator it;
+                    it = copy_if (all.begin(), all.end(), farms.begin(), playersunit_ucnst_equals(50) );
+                    farms.resize(std::distance(farms.begin(),it));  // shrink container to new size
+
+                    it = copy_if (all.begin(), all.end(), other.begin(), playersunit_ucnst_notequals(50) );
+                    other.resize(std::distance(other.begin(),it));  // shrink container to new size
+
+                    if (farms.size() > 0) {
+                        convert << "reseed ";
+                        for(std::vector<PlayersUnit>::iterator it = farms.begin(); it != farms.end(); ++it) {
+                            convert << it->u->ident << " (" <<
+                                get_unit_full_name(it->u->ident)
+                                << ")" << " ";
+                        }
+	                }
+
+                    if (other.size() > 0) {
+                        if (!valid_location_coord() && null_location_unit()) {
+                            convert << "stop ";
+                        } else {
+                            convert << "patrol ";
+                        }
+                        for(std::vector<PlayersUnit>::iterator it = other.begin(); it != other.end(); ++it) {
+                            convert << it->u->ident << " (" <<
+                                get_unit_full_name(it->u->ident)
+                                << ")" << " ";
+                        }
+	                }
+	            } else {
+                    convert << "patrol / reseed nothing";
+	            }
+                stype.append(convert.str());
+            }
+	        catch (std::exception& ex)
+	        {
+                stype.append(ex.what());
+	        }
+            break;
+        case EffectType::ChangeOwnership:
+            convert << "convert";
+            convert << " " << selectedUnits();
+            convert << " to";
+            convert << " " << playerPronoun(t_player);
+            stype.append(convert.str());
+            break;
+        case EffectType::TaskObject:
+            if (!valid_location_coord() && null_location_unit()) {
+                convert << "stop" << " " << selectedUnits();
+                stype.append(convert.str());
+                break;
+            }
+
+            convert << "task";
+            convert << " " << selectedUnits();
+            if (valid_location_coord()) {
+                convert << " to (" << location.x << ", " << location.y << ")";
+            } else {
+                convert << " to unit " << uid_loc << " (" << get_unit_full_name(uid_loc) << ")";
+            }
+            stype.append(convert.str());
+            break;
+        case EffectType::DeclareVictory:
+            convert << "p" << s_player << " victory";
+            stype.append(convert.str());
+            break;
+        case EffectType::DisplayInstructions:
+            convert << "instruct players \"" << text.c_str() << "\"";
+            stype.append(convert.str());
+            break;
+        case EffectType::ChangeObjectName:
+            stype.append("rename '");
+            stype.append(text.c_str());
+            stype.append("'");
+            convert << " " << selectedUnits();
+            stype.append(convert.str());
+            break;
+        case EffectType::DamageObject:
+            {
+                if (amount == TS_LONG_MAX) {
+                    convert << "min health for " << selectedUnits();
+                } else if (amount == TS_LONG_MIN) {
+                    convert << "make " << selectedUnits() << " invincible";
+                } else if (isFloorAmount()) {
+                    convert << "cap health of " << selectedUnits() << " to " << (amount - TS_FLOAT_MIN) << " HP (Part 1 of 2)";
+                } else if (isCeilAmount()) {
+                    convert << "cap health of " << selectedUnits() << " to " << (TS_FLOAT_MAX - amount) << " HP (Part 2 of 2)";
+                } else {
+                    if (amount < 0) {
+                        convert << "buff " << selectedUnits() << " with " << -amount << " HP";
+                    } else {
+                        convert << "damage " << selectedUnits() << " by " << amount << " HP";
+                    }
+                }
+                stype.append(convert.str());
+            }
+            break;
+        case EffectType::ChangeObjectHP:
+        case EffectType::ChangeObjectAttack:
+            if (amount > 0) {
+                convert << "+";
+            }
+            convert << amount << " " << getTypeName(type, true) << " to "  << selectedUnits();
+            stype.append(convert.str());
+            break;
+        case EffectType::ChangeSpeed_UP: // SnapView_SWGB, AttackMove_HD
+            switch (scen.game) {
+            case UP:
                 if (amount > 0) {
                     convert << "+";
                 }
                 convert << amount << " " << getTypeName(type, true) << " to "  << selectedUnits();
                 stype.append(convert.str());
                 break;
-            case EffectType::ChangeSpeed_UP: // SnapView_SWGB, AttackMove_HD
-                switch (scen.game) {
-                case UP:
-                    if (amount > 0) {
-                        convert << "+";
-                    }
-                    convert << amount << " " << getTypeName(type, true) << " to "  << selectedUnits();
-                    stype.append(convert.str());
-                    break;
-                case SWGB:
-                case SWGBCC:
-                    if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
-                        convert << "snap view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
-                    } else {
-                        convert << "INVALID";
-                    }
-                    stype.append(convert.str());
-                    break;
-                default:
-                    stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
-                    break;
+            case SWGB:
+            case SWGBCC:
+                if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
+                    convert << "snap view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
+                } else {
+                    convert << "INVALID";
                 }
+                stype.append(convert.str());
                 break;
-            case EffectType::ChangeRange_UP: // DisableAdvancedButtons_SWGB, ChangeArmor_HD
-            case EffectType::ChangeMeleArmor_UP: // ChangeRange_HD, EnableTech_SWGB
-            case EffectType::ChangePiercingArmor_UP: // ChangeSpeed_HD, DisableTech_SWGB
-                switch (scen.game) {
-                case AOF:
-                case AOHD:
-	            case AOHD4:
-	            case AOF4:
-                case UP:
-                    if (amount > 0) {
-                        convert << "+";
-                    }
-                    convert << amount << " " << getTypeName(type, true) << " to "  << selectedUnits();
-                    stype.append(convert.str());
-                    break;
-                case SWGB:
-                case SWGBCC:
-                    {
-                        switch (type) {
-                        case EffectType::DisableAdvancedButtons_SWGB:
-                            stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
-                            break;
-                        case EffectType::EnableTech_SWGB:
-                        case EffectType::DisableTech_SWGB:
-                            {
-                                bool hastech = pTech && pTech->id();
-                                std::wstring wtechname;
-                                std::string techname;
-                                if (hastech) {
-                                    wtechname = std::wstring(pTech->name());
-                                    techname = std::string(wtechname.begin(), wtechname.end());
-                                    switch (type) {
-                                    case EffectType::EnableTech_SWGB:
-                                        convert << "enable " << playerPronoun(s_player) << " to research " << techname;
-                                        break;
-                                    case EffectType::DisableTech_SWGB:
-                                        convert << "disable " << playerPronoun(s_player) << " to research " << techname;
-                                        break;
-                                    }
-                                } else {
-                                    convert << "INVALID TECHNOLOGY";
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    stype.append(convert.str());
-                    break;
-                default:
-                    stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
-                    break;
-                }
-                break;
-	        case EffectType::EnableUnit_SWGB: // EffectType::HealObject_HD:
-	            switch (scen.game) {
-	            case AOHD4:
-	            case AOF4:
-                    convert << "heal " << selectedUnits() << " by " << amount;
-                    stype.append(convert.str());
-	                break;
-	            default:
-                    stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
-                    break;
-	            }
-                break;
-	        case EffectType::DisableUnit_SWGB:
-	        case EffectType::FlashUnit_SWGB: // ChangeUnitStance_HD
-	        case EffectType::InputOff_CC:
-	        case EffectType::InputOn_CC:
-                stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
-	            break;
             default:
                 stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                break;
+            }
+            break;
+        case EffectType::ChangeRange_UP: // DisableAdvancedButtons_SWGB, ChangeArmor_HD
+        case EffectType::ChangeMeleArmor_UP: // ChangeRange_HD, EnableTech_SWGB
+        case EffectType::ChangePiercingArmor_UP: // ChangeSpeed_HD, DisableTech_SWGB
+            switch (scen.game) {
+            case AOF:
+            case AOHD:
+	        case AOHD4:
+	        case AOF4:
+            case UP:
+                if (amount > 0) {
+                    convert << "+";
+                }
+                convert << amount << " " << getTypeName(type, true) << " to "  << selectedUnits();
+                stype.append(convert.str());
+                break;
+            case SWGB:
+            case SWGBCC:
+                {
+                    switch (type) {
+                    case EffectType::DisableAdvancedButtons_SWGB:
+                        stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                        break;
+                    case EffectType::EnableTech_SWGB:
+                    case EffectType::DisableTech_SWGB:
+                        {
+                            bool hastech = pTech && pTech->id();
+                            std::wstring wtechname;
+                            std::string techname;
+                            if (hastech) {
+                                wtechname = std::wstring(pTech->name());
+                                techname = std::string(wtechname.begin(), wtechname.end());
+                                switch (type) {
+                                case EffectType::EnableTech_SWGB:
+                                    convert << "enable " << playerPronoun(s_player) << " to research " << techname;
+                                    break;
+                                case EffectType::DisableTech_SWGB:
+                                    convert << "disable " << playerPronoun(s_player) << " to research " << techname;
+                                    break;
+                                }
+                            } else {
+                                convert << "INVALID TECHNOLOGY";
+                            }
+                        }
+                        break;
+                    }
+                }
+                stype.append(convert.str());
+                break;
+            default:
+                stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                break;
+            }
+            break;
+	    case EffectType::EnableUnit_SWGB: // EffectType::HealObject_HD:
+	        switch (scen.game) {
+	        case AOHD4:
+	        case AOF4:
+                convert << "heal " << selectedUnits() << " by " << amount;
+                stype.append(convert.str());
+	            break;
+	        default:
+                stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                break;
+	        }
+            break;
+	    case EffectType::DisableUnit_SWGB:
+	    case EffectType::FlashUnit_SWGB: // ChangeUnitStance_HD
+	    case EffectType::InputOff_CC:
+	    case EffectType::InputOn_CC:
+            stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+	        break;
+        default:
+            stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
         }
 
         return flags&NameFlags::LIMITLEN?stype.substr(0,MAX_CHARS):stype;

@@ -519,7 +519,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
             break;;
         case EffectType::ChangeView:
             if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
-                convert << "change view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
+                convert << "change view for p" << s_player << " to " << location.x << "," << location.y;
             } else {
                 convert << "INVALID";
             }
@@ -574,7 +574,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
             stype.append(convert.str());
             break;
         case EffectType::Unload:
-            convert << "unload " << selectedUnits() << " to (" << location.x << ", " << location.y << ")";
+            convert << "unload " << selectedUnits() << " to " << location.x << "," << location.y;
             stype.append(convert.str());
             break;
 
@@ -597,7 +597,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
             } else {
                 convert << " INVALID EFFECT";
             }
-            convert << " foundation at (" << location.x << ", " << location.y << ")";
+            convert << " foundation at " << location.x << "," << location.y;
             stype.append(convert.str());
             break;
         case EffectType::CreateObject:
@@ -610,7 +610,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
             } else {
                 convert << " INVALID EFFECT";
             }
-            convert << " at (" << location.x << ", " << location.y << ")";
+            convert << " at " << location.x << "," << location.y;
             stype.append(convert.str());
             break;
         case EffectType::Patrol:
@@ -690,7 +690,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
             convert << "task";
             convert << " " << selectedUnits();
             if (valid_location_coord()) {
-                convert << " to (" << location.x << ", " << location.y << ")";
+                convert << " to " << location.x << "," << location.y;
             } else {
                 convert << " to unit " << uid_loc << " (" << get_unit_full_name(uid_loc) << ")";
             }
@@ -751,7 +751,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
             case SWGB:
             case SWGBCC:
                 if (location.x >= 0 && location.y >= 0 && s_player >= 1) {
-                    convert << "snap view for p" << s_player << " to (" << location.x << ", " << location.y << ")";
+                    convert << "snap view for p" << s_player << " to " << location.x << "," << location.y;
                 } else {
                     convert << "INVALID";
                 }

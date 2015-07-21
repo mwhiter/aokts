@@ -119,12 +119,12 @@ std::string Condition::getName(bool tip, NameFlags::Value flags, int recursion) 
                 stype.append(convert.str());
                 break;
             case ConditionType::BringObjectToArea:
-                convert << "unit " << object << " (" << get_unit_full_name(object) << ")";
-                convert << areaName();
+                convert << get_unit_full_name(object) << " " << object;
+                convert << " is" << areaName();
                 stype.append(convert.str());
                 break;
             case ConditionType::BringObjectToObject:
-                convert << "unit " << object << " (" << get_unit_full_name(object) << ") is next to unit " << u_loc << " (" << get_unit_full_name(u_loc) << ")";
+                convert << get_unit_full_name(object) << " " << object << " is next to unit " << get_unit_full_name(u_loc) << " " << u_loc;
                 stype.append(convert.str());
                 break;
             case ConditionType::OwnObjects:
@@ -360,6 +360,9 @@ std::string Condition::getName(bool tip, NameFlags::Value flags, int recursion) 
                     break;
                 case SWGB:
                 case SWGBCC:
+                    if (valid_player()) {
+                        convert << playerPronoun(player) << " has ";
+                    }
                     if (amount == 0) {
                         convert << "no";
                     } else {

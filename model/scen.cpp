@@ -128,7 +128,7 @@ const PerGame Scenario::pgAOK =
 	20,
 	24,
 	5,
-	4
+	2
 };
 
 const PerGame Scenario::pgAOC =

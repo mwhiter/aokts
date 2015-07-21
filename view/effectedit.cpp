@@ -1114,6 +1114,18 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
             data->e.type = EffectType::StopUnit;
         }
         break;
+    case AOK:
+	    switch (newtype) {
+        case EffectVirtualTypeAOK::MaxAmount:
+            data->e.amount = TS_LONG_MAX;
+            break;
+        case EffectVirtualTypeAOK::MinAmount:
+            data->e.amount = TS_LONG_MIN;
+            break;
+        default:
+	        data->e = Effect();
+        }
+        break;
     case AOHD:
     case AOHD4:
     case AOF:

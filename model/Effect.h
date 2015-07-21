@@ -265,7 +265,7 @@ public:
     static const int NUM_EFFECTS_SWGB = 37;
     static const int NUM_EFFECTS_CC   = 39;
 
-    static const int NUM_VIRTUAL_EFFECTS_AOK = 5;
+    static const int NUM_VIRTUAL_EFFECTS_AOK = 3;
     static const int NUM_VIRTUAL_EFFECTS_AOC = 9;
     static const int NUM_VIRTUAL_EFFECTS_UP = 32;
     static const int NUM_VIRTUAL_EFFECTS_AOHD = 6;

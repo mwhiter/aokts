@@ -1726,8 +1726,6 @@ const char *Effect::virtual_types_aok[] = {
     "",
     "Max Amount",
     "Min Amount",
-    "Cap Health Part 1 of 2",
-    "Cap Health Part 2 of 2",
 };
 
 bool Effect::isCeilAmount() const {

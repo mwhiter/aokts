@@ -53,4 +53,16 @@ T* begin(T(&arr)[N]) { return &arr[0]; }
 template <typename T, size_t N>
 T* end(T(&arr)[N]) { return &arr[0]+N; }
 
+template <class T>
+int numDigits(T number)
+{
+    int digits = 0;
+    if (number <= 0) digits = 1;
+    while (number) {
+        number /= 10;
+        digits++;
+    }
+    return digits;
+}
+
 #endif // INC_HELPER_H

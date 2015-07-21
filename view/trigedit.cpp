@@ -15,6 +15,7 @@
 #include "editors.h"
 
 #include "../util/utilio.h"
+#include "../util/helper.h"
 #include "../util/MemBuffer.h"
 #include "../util/NullBuffer.h"
 #include "../util/settings.h"
@@ -48,6 +49,7 @@ using std::vector;
  * Stores the original Tree-View WndProc.
  */
 WNDPROC TVWndProc = NULL;
+HFONT treefont;
 
 /*	c_trig: pointer to current trigger.
 	Set this to NULL to prevent saving of data on TVN_SELCHANGED.
@@ -109,14 +111,36 @@ HTREEITEM TrigTree_GetLastCondition(HWND treeview, HTREEITEM trigger);
 void FillTrigCB(HWND combobox, size_t select)
 {
     Trigger * trig;
+    long index = 0;
 	for (vector<unsigned long>::const_iterator i = scen.t_order.begin();
-		i != scen.t_order.end(); ++i)
+		i != scen.t_order.end(); ++i, index++)
 	{
+	    int extraspaces = 0;
 	    trig = &scen.triggers.at(*i);
         std::string name("");
-        if (setts.showdisplayorder) {
-            name.append("<").append(toString<long>(trig->display_order).append("> "));
+        if (setts.showdisplayorder || setts.showtrigids) {
+            extraspaces += 5 + numDigits(scen.triggers.size());
         }
+        if (setts.showdisplayorder && setts.showtrigids) {
+            extraspaces -= numDigits(trig->display_order);
+            if (trig->display_order == index) {
+                name.append("<").append(toString<long>(index).append(")"));
+            } else {
+                name.append("<").append(toString<long>(trig->display_order).append(",").append(toString<long>(index)).append(")"));
+                extraspaces -= 1 + numDigits(index);
+                if (extraspaces < 1)
+                    extraspaces = 1;
+            }
+        } else {
+            if (setts.showdisplayorder) {
+                name.append("<").append(toString<long>(trig->display_order).append(">"));
+                extraspaces -= numDigits(trig->display_order);
+            } else if (setts.showtrigids) {
+                name.append("(").append(toString<long>(index).append(")"));
+                extraspaces -= numDigits(index);
+            }
+        }
+        name.append(extraspaces, ' ');
         name.append(trig->getName(setts.pseudonyms,true,MAX_RECURSION));
 		LRESULT idx = Combo_AddStringA(combobox, name.c_str());
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
@@ -213,12 +237,30 @@ void ItemData::GetName(char *buffer)
     printf_log("Trigger getname %d.\n", index);
     std::string name("");
     if (t) {
-        if (setts.showdisplayorder) {
-            name.append("<").append(toString<long>(t->display_order).append("> "));
+	    int extraspaces = 0;
+        if (setts.showdisplayorder || setts.showtrigids) {
+            extraspaces += 5 + numDigits(scen.triggers.size());
         }
-        if (setts.showtrigids) {
-            name.append("(").append(toString<long>(index).append(") "));
+        if (setts.showdisplayorder && setts.showtrigids) {
+            extraspaces -= numDigits(t->display_order);
+            if (t->display_order == index) {
+                name.append("<").append(toString<long>(index).append(")"));
+            } else {
+                name.append("<").append(toString<long>(t->display_order).append(",").append(toString<long>(index)).append(")"));
+                extraspaces -= 1 + numDigits(index);
+                if (extraspaces < 1)
+                    extraspaces = 1;
+            }
+        } else {
+            if (setts.showdisplayorder) {
+                name.append("<").append(toString<long>(t->display_order).append(">"));
+                extraspaces -= numDigits(t->display_order);
+            } else if (setts.showtrigids) {
+                name.append("(").append(toString<long>(index).append(")"));
+                extraspaces -= numDigits(index);
+            }
         }
+        name.append(extraspaces, ' ');
         name.append(t->getName(setts.pseudonyms,true,MAX_RECURSION));
     } else {
         name.append("NULL Trigger.");
@@ -1285,6 +1327,28 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	HBITMAP cond_good,  cond_bad;
 	HBITMAP effect_good,  effect_bad;
 
+    treefont = CreateFont(
+                          -10,    //nHeight,          // Logical height
+                          0,      //nHeight * 2/3,    // Logical avg character width
+                          0,                          // Angle of escapement (0)
+                          0,                          // Baseline angle (0)
+                          FW_DONTCARE,                // Weight (0)
+                          FALSE,                      // Italic (0)
+                          FALSE,                      // Underline (0)
+                          FALSE,                      // Strikeout (0)
+                          ANSI_CHARSET,               // Character set identifier ??
+                          OUT_DEFAULT_PRECIS,         // Output precision
+                          CLIP_DEFAULT_PRECIS,        // Clip precision (0)
+                          //CLEARTYPE_QUALITY,          // Output quality
+                          NONANTIALIASED_QUALITY,     // Output quality
+                          VARIABLE_PITCH,             // Pitch and family
+                          //"Lucida Console"            // Pointer to typeface name string
+                          "Terminal"
+                          //"Courier New"
+                         );
+    // For if i decide to enable monospacing again
+    //SendMessage(GetDlgItem(dialog, IDC_T_TREE), WM_SETFONT, (WPARAM) treefont, 0);
+
 	/* Subclass IDC_T_TREE to accept Enter keypresses. */
 	TVWndProc = SetWindowWndProc(GetDlgItem(dialog, IDC_T_TREE),
 			TreeView_KeyWndProc);
@@ -2004,6 +2068,8 @@ static INT_PTR Handle_WM_DESTROY(HWND dialog)
 	HIMAGELIST il =
 		TreeView_GetImageList(GetDlgItem(dialog, IDC_T_TREE), TVSIL_NORMAL);
 	ImageList_Destroy(il);
+
+    DeleteObject(treefont);
 
 	// "If an application processes this message, it should return zero."
 	return 0;

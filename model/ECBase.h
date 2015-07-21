@@ -41,7 +41,7 @@ const size_t EC_NUM_PLAYERS = 9;
 extern char const *players_ec[EC_NUM_PLAYERS + 1];
 
 const size_t MAX_RECURSION = 5;
-const size_t MAX_CHARS = 600;
+const size_t MAX_CHARS = 500;
 
 enum ECType
 {

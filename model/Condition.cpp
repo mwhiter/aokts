@@ -113,285 +113,285 @@ std::string Condition::getName(bool tip, NameFlags::Value flags, int recursion) 
 	    std::string stype = std::string("");
         std::ostringstream convert;
         switch (type) {
-            case ConditionType::None:
-                // Let this act like a separator
-                convert << "                                                                                    ";
-                stype.append(convert.str());
-                break;
-            case ConditionType::BringObjectToArea:
-                convert << get_unit_full_name(object) << " " << object;
-                convert << " is" << areaName();
-                stype.append(convert.str());
-                break;
-            case ConditionType::BringObjectToObject:
-                convert << get_unit_full_name(object) << " " << object << " is next to unit " << get_unit_full_name(u_loc) << " " << u_loc;
-                stype.append(convert.str());
-                break;
-            case ConditionType::OwnObjects:
-            case ConditionType::OwnFewerObjects:
-            case ConditionType::ObjectsInArea:
-                { // we define some variables in this block, therefore need scope as we are also in a case
-                    if (valid_player()) {
-                        convert << playerPronoun(player) << " has ";
-                    }
-                    switch (type) {
-                        case ConditionType::OwnObjects:
-                        case ConditionType::ObjectsInArea:
-                            if (amount == 0) {
-                                convert << "any number of";
-                            } else {
-                                convert << "at least " << amount;
-                            }
-                            break;
-                        case ConditionType::OwnFewerObjects:
-                            if (amount == 0) {
-                                convert << "no";
-                            } else {
-                                convert << "at most " << amount;
-                            }
-                            break;
-                    }
-                    if (valid_unit_spec()) {
-                        std::string un(wstringToString(pUnit->name()));
-                        if (amount > 1 && !un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-                            convert << " " << un << "s";
-                        } else {
-                            convert << " " << un;
-                        }
-                    } else {
-                        if (amount != 1) {
-                            convert << " units";
-                        } else {
-                            convert << " unit";
-                        }
-                    }
-                    convert << areaName();
-                    stype.append(convert.str());
-                }
-                break;
-            case ConditionType::DestroyObject:
-                convert << get_unit_full_name(object) << " is killed";
-                stype.append(convert.str());
-                break;
-            case ConditionType::CaptureObject:
-                convert << playerPronoun(player) << " captured " << get_unit_full_name(object);
-                stype.append(convert.str());
-                break;
-            case ConditionType::AccumulateAttribute:
-                switch (res_type) {
-                    case 0: // Food accumulated
-                        convert << playerPronoun(player) << " has " << amount << " food";
-                        break;
-                    case 1: // Wood accumulated
-                        convert << playerPronoun(player) << " has " << amount << " wood";
-                        break;
-                    case 2: // Stone accumulated
-                        convert << playerPronoun(player) << " has " << amount << " stone";
-                        break;
-                    case 3: // Gold accumulated
-                        convert << playerPronoun(player) << " has " << amount << " gold";
-                        break;
-                    case 20: // Units killed
-                        if (amount == 1) {
-                            convert << playerPronoun(player) << " kills a unit";
-                        } else {
-                            convert << playerPronoun(player) << " has killed " << amount << " units";
-                        }
-                        break;
-                    case 44: // Kill ratio
-                        if (amount == 0) {
-                            convert << playerPronoun(player) << " has equal kills and fatalities";
-                        } else if (amount == 1) {
-                            convert << playerPronoun(player) << " has killed one more than lost";
-                        } else if (amount > 0) {
-                            convert << playerPronoun(player) << " has " << amount << " more kills than fatalities";
-                        } else if (amount == -1) {
-                            convert << playerPronoun(player) << " has lost one more unit than has killed";
-                        } else {
-                            convert << playerPronoun(player) << " has " << -amount << " more fatalities than kills";
-                        }
-                        break;
-                    default:
-                        //convert << types_short[type];
-                        if (res_type >= 0) {
-                            const Link * list = esdata.resources.head();
-	                        for (int i=0; list; list = list->next(), i++)
-	                        {
-		                        if (i == res_type) {
-                                    std::wstring resname(list->name());
-		                            convert << playerPronoun(player) << "'s ";
-                                    convert << std::string( resname.begin(), resname.end());
-                                    convert << " >= " << amount;
-		                            break;
-		                        }
-	                        }
-	                    }
-                        break;
-                }
-                stype.append(convert.str());
-                break;
-            case ConditionType::ResearchTehcnology:
-                if (valid_technology_spec()) {
-                    convert << playerPronoun(player) << " has tech ";
-                    std::wstring techname(pTech->name());
-                    convert << std::string( techname.begin(), techname.end());
-                    convert << " researched";
-                } else {
-                    convert << "INVALID";
-                }
-                stype.append(convert.str());
-                break;
-            case ConditionType::ResearchingTechnology:
-                if (pTech && pTech->id()) {
-                    convert << playerPronoun(player) << " is researching ";
-                    std::wstring techname(pTech->name());
-                    convert << std::string( techname.begin(), techname.end());
-                } else {
-                    convert << "INVALID";
-                }
-                stype.append(convert.str());
-                break;
-            case ConditionType::Timer:
-                convert << time_string(timer) << " has passed";
-                stype.append(convert.str());
-                break;
-            case ConditionType::ObjectSelected:
-                convert << "selected unit " << object;
-                convert << " (" << get_unit_full_name(object) << ")";
-                stype.append(convert.str());
-                break;
-            case ConditionType::AISignal:
-                switch (ai_signal) {
-                case -1034:
-                    convert << "singleplayer / cheats enabled";
-                    break;
-                case -1036:
-                    convert << "starting resources set to standard";
-                    break;
-                case -1039:
-                    convert << "regicide";
-                    break;
-                case -1040:
-                    convert << "deathmatch";
-                    break;
-                case -70850:
-                    convert << "one-click garrison";
-                    break;
-                default:
-                    if (ai_signal >= -518 && ai_signal <= -7) {
-                        int signal = ai_signal + 518;
-                        int taunt_player = signal / 64;
-                        int taunt_set_id = signal % 64;
-                        convert << "player " << taunt_player + 1 << " taunted " << taunt_set[taunt_set_id];
-                    } else if (ai_signal >= -774 && ai_signal <= -519) {
-                        convert << "AI goal " << ai_signal + 774 << " achieved";
-                    } else {
-                        convert << "AI signalled " << ai_signal;
-                    }
-                }
-                stype.append(convert.str());
-                break;
-            case ConditionType::ObjectVisible:
-                convert << "unit " << object;
-                convert << " (" << get_unit_full_name(object) << ") is visible";
-                stype.append(convert.str());
-                break;
-            case ConditionType::PlayerDefeated:
-                if (player == 0) {
-                    convert << "Gaia";
-                } else {
-                    convert << playerPronoun(player);
-                }
-                convert << " is defeated";
-                stype.append(convert.str());
-                break;
-            case ConditionType::ObjectHasTarget:
-                convert << "unit " << object << " (" << get_unit_full_name(object) << ") is targetting";
-                if (null_location_unit()) {
-                    convert << " something";
-                } else {
-                    convert << " " << u_loc << " (" << get_unit_full_name(u_loc) << ")";
-                }
-                stype.append(convert.str());
-                break;
-            case ConditionType::UnitsGarrisoned:
-                if (amount == 1) {
-                    convert << "unit " << object << " (" << get_unit_full_name(object) << ") has " << amount << " units garrisoned";
-                } else {
-                    convert << "unit " << object << " (" << get_unit_full_name(object) << ") has one unit garrisoned";
-                }
-                stype.append(convert.str());
-                break;
-            case ConditionType::DifficultyLevel:
-                convert << "difficulty is ";
-                switch (amount) {
-                    case DifficultyLevel::Hardest:
-                        convert << "Hardest";
-                        break;
-                    case DifficultyLevel::Hard:
-                        convert << "Hard";
-                        break;
-                    case DifficultyLevel::Moderate:
-                        convert << "Moderate";
-                        break;
-                    case DifficultyLevel::Standard:
-                        convert << "Standard";
-                        break;
-                    case DifficultyLevel::Easiest:
-                        convert << "Easiest";
-                        break;
-                }
-                stype.append(convert.str());
-                break;
-            case ConditionType::UnitsQueuedPastPopCap_SWGB:
+        case ConditionType::None:
+            // Let this act like a separator
+            convert << "                                                                                    ";
+            stype.append(convert.str());
+            break;
+        case ConditionType::BringObjectToArea:
+            convert << get_unit_full_name(object) << " " << object;
+            convert << " is" << areaName();
+            stype.append(convert.str());
+            break;
+        case ConditionType::BringObjectToObject:
+            convert << get_unit_full_name(object) << " " << object << " is next to unit " << get_unit_full_name(u_loc) << " " << u_loc;
+            stype.append(convert.str());
+            break;
+        case ConditionType::OwnObjects:
+        case ConditionType::OwnFewerObjects:
+        case ConditionType::ObjectsInArea:
+            { // we define some variables in this block, therefore need scope as we are also in a case
                 if (valid_player()) {
-                    convert << playerPronoun(player) << " has " << amount << " units queued past the pop cap";
-                } else {
-                    convert << "INVALID";
+                    convert << playerPronoun(player) << " has ";
                 }
-                stype.append(convert.str());
-                break;
-            case ConditionType::OwnFewerFoundations_SWGB: // Chance_HD:
-                switch (scen.game) {
-                case AOHD4:
-                case AOF4:
-                    convert << amount << "% chance ";
-                    stype.append(convert.str());
-                    break;
-                case SWGB:
-                case SWGBCC:
-                    if (valid_player()) {
-                        convert << playerPronoun(player) << " has ";
+                switch (type) {
+                case ConditionType::OwnObjects:
+                case ConditionType::ObjectsInArea:
+                    if (amount == 0) {
+                        convert << "any number of";
+                    } else {
+                        convert << "at least " << amount;
                     }
+                    break;
+                case ConditionType::OwnFewerObjects:
                     if (amount == 0) {
                         convert << "no";
                     } else {
                         convert << "at most " << amount;
                     }
-                    if (valid_unit_spec()) {
-                        std::string un(wstringToString(pUnit->name()));
-                        if (amount > 1 && !un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
-                            convert << " " << un << " foundations";
-                        } else {
-                            convert << " " << un << " foundation";
-                        }
-                    } else {
-                        if (amount != 1) {
-                            convert << " foundations";
-                        } else {
-                            convert << " foundation";
-                        }
-                    }
-                    convert << areaName();
-                    stype.append(convert.str());
                     break;
-                default:
-                    convert << amount << "UNKNOWN CONDITION";
-                    stype.append(convert.str());
+                }
+                if (valid_unit_spec()) {
+                    std::string un(wstringToString(pUnit->name()));
+                    if (amount > 1 && !un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
+                        convert << " " << un << "s";
+                    } else {
+                        convert << " " << un;
+                    }
+                } else {
+                    if (amount != 1) {
+                        convert << " units";
+                    } else {
+                        convert << " unit";
+                    }
+                }
+                convert << areaName();
+                stype.append(convert.str());
+            }
+            break;
+        case ConditionType::DestroyObject:
+            convert << get_unit_full_name(object) << " is killed";
+            stype.append(convert.str());
+            break;
+        case ConditionType::CaptureObject:
+            convert << playerPronoun(player) << " captured " << get_unit_full_name(object);
+            stype.append(convert.str());
+            break;
+        case ConditionType::AccumulateAttribute:
+            switch (res_type) {
+            case 0: // Food accumulated
+                convert << playerPronoun(player) << " has " << amount << " food";
+                break;
+            case 1: // Wood accumulated
+                convert << playerPronoun(player) << " has " << amount << " wood";
+                break;
+            case 2: // Stone accumulated
+                convert << playerPronoun(player) << " has " << amount << " stone";
+                break;
+            case 3: // Gold accumulated
+                convert << playerPronoun(player) << " has " << amount << " gold";
+                break;
+            case 20: // Units killed
+                if (amount == 1) {
+                    convert << playerPronoun(player) << " kills a unit";
+                } else {
+                    convert << playerPronoun(player) << " has killed " << amount << " units";
+                }
+                break;
+            case 44: // Kill ratio
+                if (amount == 0) {
+                    convert << playerPronoun(player) << " has equal kills and deaths";
+                } else if (amount == 1) {
+                    convert << playerPronoun(player) << " has killed one more than lost";
+                } else if (amount > 0) {
+                    convert << playerPronoun(player) << " has " << amount << " more kills than deaths";
+                } else if (amount == -1) {
+                    convert << playerPronoun(player) << " has lost one more unit than has killed";
+                } else {
+                    convert << playerPronoun(player) << " has " << -amount << " more deaths than kills";
                 }
                 break;
             default:
-                stype.append((type < scen.pergame->max_condition_types) ? types_short[type] : "Unknown!");
+                //convert << types_short[type];
+                if (res_type >= 0) {
+                    const Link * list = esdata.resources.head();
+	                for (int i=0; list; list = list->next(), i++)
+	                {
+		                if (i == res_type) {
+                            std::wstring resname(list->name());
+		                    convert << playerPronoun(player) << "'s ";
+                            convert << std::string( resname.begin(), resname.end());
+                            convert << " >= " << amount;
+		                    break;
+		                }
+	                }
+	            }
+                break;
+            }
+            stype.append(convert.str());
+            break;
+        case ConditionType::ResearchTehcnology:
+            if (valid_technology_spec()) {
+                convert << playerPronoun(player) << " has tech ";
+                std::wstring techname(pTech->name());
+                convert << std::string( techname.begin(), techname.end());
+                convert << " researched";
+            } else {
+                convert << "INVALID";
+            }
+            stype.append(convert.str());
+            break;
+        case ConditionType::ResearchingTechnology:
+            if (pTech && pTech->id()) {
+                convert << playerPronoun(player) << " is researching ";
+                std::wstring techname(pTech->name());
+                convert << std::string( techname.begin(), techname.end());
+            } else {
+                convert << "INVALID";
+            }
+            stype.append(convert.str());
+            break;
+        case ConditionType::Timer:
+            convert << time_string(timer) << " has passed";
+            stype.append(convert.str());
+            break;
+        case ConditionType::ObjectSelected:
+            convert << "selected unit " << object;
+            convert << " (" << get_unit_full_name(object) << ")";
+            stype.append(convert.str());
+            break;
+        case ConditionType::AISignal:
+            switch (ai_signal) {
+            case -1034:
+                convert << "singleplayer / cheats enabled";
+                break;
+            case -1036:
+                convert << "starting resources set to standard";
+                break;
+            case -1039:
+                convert << "regicide";
+                break;
+            case -1040:
+                convert << "deathmatch";
+                break;
+            case -70850:
+                convert << "one-click garrison";
+                break;
+            default:
+                if (ai_signal >= -518 && ai_signal <= -7) {
+                    int signal = ai_signal + 518;
+                    int taunt_player = signal / 64;
+                    int taunt_set_id = signal % 64;
+                    convert << "player " << taunt_player + 1 << " taunted " << taunt_set[taunt_set_id];
+                } else if (ai_signal >= -774 && ai_signal <= -519) {
+                    convert << "AI goal " << ai_signal + 774 << " achieved";
+                } else {
+                    convert << "AI signalled " << ai_signal;
+                }
+            }
+            stype.append(convert.str());
+            break;
+        case ConditionType::ObjectVisible:
+            convert << "unit " << object;
+            convert << " (" << get_unit_full_name(object) << ") is visible";
+            stype.append(convert.str());
+            break;
+        case ConditionType::PlayerDefeated:
+            if (player == 0) {
+                convert << "Gaia";
+            } else {
+                convert << playerPronoun(player);
+            }
+            convert << " is defeated";
+            stype.append(convert.str());
+            break;
+        case ConditionType::ObjectHasTarget:
+            convert << "unit " << object << " (" << get_unit_full_name(object) << ") is targetting";
+            if (null_location_unit()) {
+                convert << " something";
+            } else {
+                convert << " " << u_loc << " (" << get_unit_full_name(u_loc) << ")";
+            }
+            stype.append(convert.str());
+            break;
+        case ConditionType::UnitsGarrisoned:
+            if (amount == 1) {
+                convert << "unit " << object << " (" << get_unit_full_name(object) << ") has " << amount << " units garrisoned";
+            } else {
+                convert << "unit " << object << " (" << get_unit_full_name(object) << ") has one unit garrisoned";
+            }
+            stype.append(convert.str());
+            break;
+        case ConditionType::DifficultyLevel:
+            convert << "difficulty is ";
+            switch (amount) {
+            case DifficultyLevel::Hardest:
+                convert << "Hardest";
+                break;
+            case DifficultyLevel::Hard:
+                convert << "Hard";
+                break;
+            case DifficultyLevel::Moderate:
+                convert << "Moderate";
+                break;
+            case DifficultyLevel::Standard:
+                convert << "Standard";
+                break;
+            case DifficultyLevel::Easiest:
+                convert << "Easiest";
+                break;
+            }
+            stype.append(convert.str());
+            break;
+        case ConditionType::UnitsQueuedPastPopCap_SWGB:
+            if (valid_player()) {
+                convert << playerPronoun(player) << " has " << amount << " units queued past the pop cap";
+            } else {
+                convert << "INVALID";
+            }
+            stype.append(convert.str());
+            break;
+        case ConditionType::OwnFewerFoundations_SWGB: // Chance_HD:
+            switch (scen.game) {
+            case AOHD4:
+            case AOF4:
+                convert << amount << "% chance ";
+                stype.append(convert.str());
+                break;
+            case SWGB:
+            case SWGBCC:
+                if (valid_player()) {
+                    convert << playerPronoun(player) << " has ";
+                }
+                if (amount == 0) {
+                    convert << "no";
+                } else {
+                    convert << "at most " << amount;
+                }
+                if (valid_unit_spec()) {
+                    std::string un(wstringToString(pUnit->name()));
+                    if (amount > 1 && !un.empty() && *un.rbegin() != 's' && !replaced(un, "man", "men")) {
+                        convert << " " << un << " foundations";
+                    } else {
+                        convert << " " << un << " foundation";
+                    }
+                } else {
+                    if (amount != 1) {
+                        convert << " foundations";
+                    } else {
+                        convert << " foundation";
+                    }
+                }
+                convert << areaName();
+                stype.append(convert.str());
+                break;
+            default:
+                convert << amount << "UNKNOWN CONDITION";
+                stype.append(convert.str());
+            }
+            break;
+        default:
+            stype.append((type < scen.pergame->max_condition_types) ? types_short[type] : "Unknown!");
         }
 
         return flags&NameFlags::LIMITLEN?stype.substr(0,MAX_CHARS):stype;

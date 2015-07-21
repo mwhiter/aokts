@@ -674,10 +674,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
 	        }
             break;
         case EffectType::ChangeOwnership:
-            convert << "convert";
-            convert << " " << selectedUnits();
-            convert << " to";
-            convert << " " << playerPronoun(t_player);
+            convert << playerPronoun(t_player) << " now owns " << selectedUnits();
             stype.append(convert.str());
             break;
         case EffectType::TaskObject:

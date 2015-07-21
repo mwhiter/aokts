@@ -170,14 +170,11 @@ std::string Condition::getName(bool tip, NameFlags::Value flags, int recursion) 
                 }
                 break;
             case ConditionType::DestroyObject:
-                convert << "unit " << object;
-                convert << " (" << get_unit_full_name(object) << ")";
-                convert << " is destroyed";
+                convert << get_unit_full_name(object) << " is killed";
                 stype.append(convert.str());
                 break;
             case ConditionType::CaptureObject:
-                convert << playerPronoun(player) << " captured unit " << object;
-                convert << " (" << get_unit_full_name(object) << ")";
+                convert << playerPronoun(player) << " captured " << get_unit_full_name(object);
                 stype.append(convert.str());
                 break;
             case ConditionType::AccumulateAttribute:

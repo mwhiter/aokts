@@ -105,7 +105,7 @@ void SaveMap(HWND dialog)
 	Map::Terrain *tn = scen.map.terrain[propdata.sel0] + propdata.sel1;
 	unsigned long maxsize = MAX_MAPSIZE_OLD;
 
-	if (scen.game == AOHD || scen.game == AOF)
+	if (scen.game == AOHD || scen.game == AOF || scen.game == AOHD4 || scen.game == AOF4)
 		maxsize = MAX_MAPSIZE;
 
 	//First check standard sizes. If that fails, get the custom size.

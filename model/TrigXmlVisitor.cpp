@@ -94,6 +94,7 @@ void TrigXmlVisitor::visit(Trigger& t)
 {
 	_ss << "<trigger id=\"" << _trigcount++ << "\">" << NEWLINE;
 	_ss << "\t<name>" << escape(t.name).c_str() << "</name>" << NEWLINE;
+	_ss << "\t<tip>" << t.getName(true).c_str() << "</tip>" << NEWLINE;
 	_ss << "\t<enabled>" << t.state << "</enabled>" << NEWLINE;
 	_ss << "\t<looping>" << (int)t.loop << "</looping>" << NEWLINE;
 	_ss << "\t<objective>" << (int)t.obj << "</objective>" << NEWLINE;
@@ -108,6 +109,7 @@ void TrigXmlVisitor::visit(Effect& e)
 	_ss << "\t<effect>" << NEWLINE;
 
 	_ss << "\t\t<type>" << e.getName().c_str() << "</type>" << NEWLINE;
+	_ss << "\t\t<tip>" << e.getName(true).c_str() << "</tip>" << NEWLINE;
 
 	writeXmlLong(&_ss, "ai_goal", e.ai_goal);
 	writeXmlLong(&_ss, "amount", e.amount);
@@ -150,6 +152,7 @@ void TrigXmlVisitor::visit(Condition& c)
 	_ss << "\t<condition>" << NEWLINE;
 
 	_ss << "\t\t<type>" << c.getName().c_str() << "</type>" << NEWLINE;
+	_ss << "\t\t<tip>" << c.getName(true).c_str() << "</tip>" << NEWLINE;
 
 	writeXmlLong(&_ss, "amount", c.amount);
 	writeXmlLong(&_ss, "resource", c.res_type);

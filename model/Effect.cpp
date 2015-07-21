@@ -1008,7 +1008,7 @@ bool Effect::check() const
 		return valid_source_player() && valid_location_coord() && valid_unit_spec();
 
 	case EffectType::Unload:
-        return has_valid_selected && valid_destination();
+        return (has_valid_selected || valid_area_selection) && valid_destination();
 
 	case EffectType::TaskObject:
         return (valid_area() || has_valid_selected ||

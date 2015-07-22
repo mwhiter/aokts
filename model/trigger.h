@@ -50,6 +50,7 @@ public:
 	std::vector<Effect> effects;
 	std::vector<Condition> conds;
 
+    std::string getIDName();
     std::string getName(bool tip = false, bool limitlen = false, int recursion = 0);
 	void tobuffer(Buffer&);// const (make it const when unit_cnst gets set elsewhere)
 

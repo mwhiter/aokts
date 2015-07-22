@@ -85,6 +85,25 @@ Trigger::Trigger(Buffer& buffer)
 	display_order = -1;
 }
 
+std::string Trigger::getIDName()
+{
+    std::string name("");
+    if (setts.showdisplayorder && setts.showtrigids) {
+        if (display_order == id) {
+            name.append("<").append(toString<long>(id).append(")"));
+        } else {
+            name.append("<").append(toString<long>(display_order).append(",").append(toString<long>(id)).append(")"));
+        }
+    } else {
+        if (setts.showdisplayorder) {
+            name.append("<").append(toString<long>(display_order).append(">"));
+        } else if (setts.showtrigids) {
+            name.append("(").append(toString<long>(id).append(")"));
+        }
+    }
+    return name;
+}
+
 /*
  * DON'T LET AOKTS GET RECURSIVE WITH TRIGGER HINTS (if one trigger's
  * name displays the name of another)

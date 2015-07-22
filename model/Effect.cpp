@@ -480,8 +480,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
                                 break;
                             }
                         }
-                        if (setts.showdisplayorder) {
-                            stype.append(" <").append(toString(scen.triggers.at(trig_index).display_order)).append(">");
+                        if (setts.showdisplayorder || setts.showtrigids) {
+                            stype.append(" ").append(scen.triggers.at(trig_index).getIDName());
                         }
                         if (recursion > 0) {
                             stype.append(" ").append(scen.triggers.at(trig_index).getName(setts.pseudonyms,true,recursion - 1));

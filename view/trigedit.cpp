@@ -115,32 +115,15 @@ void FillTrigCB(HWND combobox, size_t select)
 	for (vector<unsigned long>::const_iterator i = scen.t_order.begin();
 		i != scen.t_order.end(); ++i, index++)
 	{
-	    int extraspaces = 0;
-	    trig = &scen.triggers.at(*i);
         std::string name("");
+	    trig = &scen.triggers.at(*i);
         if (setts.showdisplayorder || setts.showtrigids) {
-            extraspaces += 5 + numDigits(scen.triggers.size());
+            int min_id_width = 8 + numDigits(scen.triggers.size());
+            std::string idName(trig->getIDName());
+            int extraspaces = min_id_width - idName.size();
+            name.append(trig->getIDName());
+            name.append(extraspaces, ' ');
         }
-        if (setts.showdisplayorder && setts.showtrigids) {
-            extraspaces -= numDigits(trig->display_order);
-            if (trig->display_order == index) {
-                name.append("<").append(toString<long>(index).append(")"));
-            } else {
-                name.append("<").append(toString<long>(trig->display_order).append(",").append(toString<long>(index)).append(")"));
-                extraspaces -= 1 + numDigits(index);
-                if (extraspaces < 1)
-                    extraspaces = 1;
-            }
-        } else {
-            if (setts.showdisplayorder) {
-                name.append("<").append(toString<long>(trig->display_order).append(">"));
-                extraspaces -= numDigits(trig->display_order);
-            } else if (setts.showtrigids) {
-                name.append("(").append(toString<long>(index).append(")"));
-                extraspaces -= numDigits(index);
-            }
-        }
-        name.append(extraspaces, ' ');
         name.append(trig->getName(setts.pseudonyms,true,MAX_RECURSION));
 		LRESULT idx = Combo_AddStringA(combobox, name.c_str());
 		SendMessage(combobox, CB_SETITEMDATA, idx, *i);
@@ -237,30 +220,13 @@ void ItemData::GetName(char *buffer)
     printf_log("Trigger getname %d.\n", index);
     std::string name("");
     if (t) {
-	    int extraspaces = 0;
         if (setts.showdisplayorder || setts.showtrigids) {
-            extraspaces += 5 + numDigits(scen.triggers.size());
+            int min_id_width = 8 + numDigits(scen.triggers.size());
+            std::string idName(t->getIDName());
+            int extraspaces = min_id_width - idName.size();
+            name.append(t->getIDName());
+            name.append(extraspaces, ' ');
         }
-        if (setts.showdisplayorder && setts.showtrigids) {
-            extraspaces -= numDigits(t->display_order);
-            if (t->display_order == index) {
-                name.append("<").append(toString<long>(index).append(")"));
-            } else {
-                name.append("<").append(toString<long>(t->display_order).append(",").append(toString<long>(index)).append(")"));
-                extraspaces -= 1 + numDigits(index);
-                if (extraspaces < 1)
-                    extraspaces = 1;
-            }
-        } else {
-            if (setts.showdisplayorder) {
-                name.append("<").append(toString<long>(t->display_order).append(">"));
-                extraspaces -= numDigits(t->display_order);
-            } else if (setts.showtrigids) {
-                name.append("(").append(toString<long>(index).append(")"));
-                extraspaces -= numDigits(index);
-            }
-        }
-        name.append(extraspaces, ' ');
         name.append(t->getName(setts.pseudonyms,true,MAX_RECURSION));
     } else {
         name.append("NULL Trigger.");

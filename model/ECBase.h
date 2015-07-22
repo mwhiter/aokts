@@ -42,6 +42,7 @@ extern char const *players_ec[EC_NUM_PLAYERS + 1];
 
 const size_t MAX_RECURSION = 5;
 const size_t MAX_CHARS = 500;
+const size_t TRIG_PADDING = 6;
 
 enum ECType
 {

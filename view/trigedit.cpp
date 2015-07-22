@@ -118,7 +118,7 @@ void FillTrigCB(HWND combobox, size_t select)
         std::string name("");
 	    trig = &scen.triggers.at(*i);
         if (setts.showdisplayorder || setts.showtrigids) {
-            int min_id_width = 8 + numDigits(scen.triggers.size());
+            int min_id_width = TRIG_PADDING + numDigits(scen.triggers.size());
             std::string idName(trig->getIDName());
             int extraspaces = min_id_width - idName.size();
             name.append(trig->getIDName());
@@ -221,9 +221,11 @@ void ItemData::GetName(char *buffer)
     std::string name("");
     if (t) {
         if (setts.showdisplayorder || setts.showtrigids) {
-            int min_id_width = 8 + numDigits(scen.triggers.size());
+            int min_id_width = TRIG_PADDING + numDigits(scen.triggers.size());
             std::string idName(t->getIDName());
             int extraspaces = min_id_width - idName.size();
+            if (extraspaces < 1)
+                extraspaces = 1;
             name.append(t->getIDName());
             name.append(extraspaces, ' ');
         }
@@ -1355,8 +1357,10 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	TreeView_SetImageList(treeview, il, TVSIL_NORMAL);
 
 	CheckDlgButton(dialog, IDC_T_SHOWDISPLAYORDER, setts.showdisplayorder);
-	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, setts.showdisplayorder);
+	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, setts.showtrigids);
 
+    //SendDlgItemMessage(dialog, IDC_T_SHOWDISPLAYORDER, BM_SETCHECK, setts.showdisplayorder, 0);
+    //SendDlgItemMessage(dialog, IDC_T_SHOWFIREORDER, BM_SETCHECK, setts.showtrigids, 0);
 	SendDlgItemMessage(dialog, IDC_T_PSEUDONYMS, BM_SETCHECK, setts.pseudonyms, 0);
 
     ENABLE_WND(IDC_T_OBJSTATE, scen.game == AOHD || scen.game == AOF || setts.editall);

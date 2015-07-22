@@ -121,6 +121,8 @@ void FillTrigCB(HWND combobox, size_t select)
             int min_id_width = TRIG_PADDING + numDigits(scen.triggers.size());
             std::string idName(trig->getIDName());
             int extraspaces = min_id_width - idName.size();
+            if (extraspaces < 1)
+                extraspaces = 1;
             name.append(trig->getIDName());
             name.append(extraspaces, ' ');
         }

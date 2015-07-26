@@ -44,16 +44,15 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDD_MSGS			111
 #define IDD_PLAYERSAI	    112
 #define IDD_PLAYERSCTY      113
-#define IDD_PLAYERSVC       114
-#define IDD_VICTORY			115
-#define IDD_DISABLES		116
-#define IDD_TERRAIN			117
-#define IDD_UNITS			118
-#define IDD_TRIGGERS		119
-#define IDD_TRIGTEXT        120
-#define IDD_MAPINSPECT      121
-#define IDD_EFFECT			122
-#define IDD_COND			123
+#define IDD_VICTORY			114
+#define IDD_DISABLES		115
+#define IDD_TERRAIN			116
+#define IDD_UNITS			117
+#define IDD_TRIGGERS		118
+#define IDD_TRIGTEXT        119
+#define IDD_MAPINSPECT      120
+#define IDD_EFFECT			121
+#define IDD_COND			122
 
 /* Bitmaps */
 #define IDB_LOGO       		200

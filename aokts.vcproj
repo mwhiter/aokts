@@ -449,6 +449,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\view\playerctyedit.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\view\playeredit.cpp"
 				>
 			</File>

@@ -86,7 +86,6 @@ DLGPROC procs[NUM_PAGES] =
 	&IMsgsDlgProc,
 	&PlyAIDlgProc,
 	&PlyCTYDlgProc,
-	&PlyVCDlgProc,
 	&VictDlgProc,
 	&DisDlgProc,
 	&MapDlgProc,

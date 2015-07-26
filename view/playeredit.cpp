@@ -156,7 +156,6 @@ void SavePlayer(HWND dialog)
 
 const char errorImpExpFail[] =
 "Error. Please make sure the file you selected is valid.";
-#define IDC_P_CTY           1188
 
 
 // FIXME: separate this alternate cohesion crap

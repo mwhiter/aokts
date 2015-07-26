@@ -97,7 +97,7 @@ const PerVersion Scenario::pv1_26 = // AOHDv6 / AOFv6
 	6,
 	true,
 	30,
-	20,
+	30,
 };
 
 /*  PerGames
@@ -1271,7 +1271,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	SKIP(dc2in.get(), sizeof(long) * NUM_PLAYERS);	//other allied victory
 
-	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4)
+	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4 || ver2 == SV2_AOHD_AOF6)
 		readbin(dc2in.get(), &lock_teams);
 
 	/* Disables */
@@ -1293,24 +1293,13 @@ void Scenario::read_data(const char *path)	//decompressed data
 	if (setts.intense)
 	    printf_log("Debug 4.\n");
 
-    if (game == AOHD6 || game == AOF6) {
-        fseek(dc2in.get(), 161 * sizeof(long), SEEK_CUR);
-        //long test = 0;
-        //long counter = 0;
-        //while (test != sect) {
-	    //    readbin(dc2in.get(), &test);
-	    //    counter ++;
-	    //}
-	    //printf_log("missing-longs: %d.\n", counter);
-	}
-
 	readunk<long>(dc2in.get(), 0, "Disables unused 1", false);
 	readunk<long>(dc2in.get(), 0, "Disables unused 2", false);
 	readbin(dc2in.get(), &all_techs);
 	FEP(p)
 		p->read_age(dc2in.get());
 
-	///* Map */
+	//* Map */
 
 	readunk(dc2in.get(), sect, "map sect begin", true);
 
@@ -1616,7 +1605,7 @@ int Scenario::write_data(const char *path)
 		fwrite(&num, sizeof(long), 1, dcout);
 	}
 
-	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4)
+	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4 || ver2 == SV2_AOHD_AOF6)
 		fwrite(&lock_teams, sizeof(long), 1, dcout);
 
 	/* Disables */
@@ -1633,10 +1622,6 @@ int Scenario::write_data(const char *path)
 		fwrite(&p->ndis_b, sizeof(long), 1, dcout);
 	FEP(p)
 		fwrite(&p->dis_bldg, sizeof(long), perversion->max_disables2, dcout);
-
-    if (game == AOHD6 || game == AOF6) {
-        fseek(dcout, 161 * sizeof(long), SEEK_CUR);
-    }
 
 	NULLS(dcout, 0x8);
 	fwrite(&all_techs, sizeof(long), 1, dcout);
@@ -2698,10 +2683,12 @@ AOKTS_ERROR Scenario::aoc_to_hd4() {
 }
 
 AOKTS_ERROR Scenario::aohd_to_hd6() {
+	aoc_to_hd6();
 	return ERR_none;
 }
 
 AOKTS_ERROR Scenario::aoc_to_hd6() {
+    aoc_to_hd4();
 	return ERR_none;
 }
 

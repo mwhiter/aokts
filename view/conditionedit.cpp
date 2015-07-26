@@ -302,7 +302,7 @@ void LoadCond(HWND dialog, EditCondition *data)
 	    } else {
 	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reset Value"));
 	    }
-	} else if (scen.game == AOHD4 || scen.game == AOF4) {
+	} else if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
 	    if (c->reverse_hd == 0) {
 	        SendMessage(GetDlgItem(dialog, IDC_C_REVERSE), WM_SETTEXT, 0, (LPARAM) _T("Reverse Condition"));
 	    } else if (c->reverse_hd == 1) {

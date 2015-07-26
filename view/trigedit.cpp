@@ -548,7 +548,7 @@ void ConditionItemData::GetName(char *buffer)
 	const char * reverse = "";
 	if (scen.game == UP) {
 	    reverse = ((t->conds[index].reserved == -256)?"NOT ":"");
-	} else if (scen.game == AOHD4 || scen.game == AOF4) {
+	} else if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
 	    reverse = ((t->conds[index].reverse_hd == 1)?"NOT ":"");
     }
 

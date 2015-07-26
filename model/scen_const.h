@@ -28,6 +28,8 @@ enum Game
 	UP      = 9, // UserPatch
 	AOHD4   = 10,
 	AOF4    = 11,
+	AOHD6   = 12,
+	AOF6    = 13,
 	NOCONV  = 100
 };
 
@@ -47,6 +49,7 @@ enum ScenVersion2
 	SV2_AOC_SWGB	     = 22,
 	SV2_AOHD_AOF	     = 23,// HD / The Forgotten
 	SV2_AOHD_AOF4        = 24,// HD v4 / The Forgotten v4
+	SV2_AOHD_AOF6        = 26,// HD v6 / The Forgotten v6
 	SV2_SWGBCC           = 30 // SWGB:CC
 };
 

@@ -92,6 +92,14 @@ const PerVersion Scenario::pv1_24 = // AOHDv4 / AOFv4
 	20,
 };
 
+const PerVersion Scenario::pv1_26 = // AOHDv6 / AOFv6
+{
+	6,
+	true,
+	30,
+	20,
+};
+
 /*  PerGames
  *  See scen_const.h
  *
@@ -216,6 +224,30 @@ const PerGame Scenario::pgAOHD4 =
 };
 
 const PerGame Scenario::pgAOF4 =
+{
+	865,
+	459,
+	513,
+	100,  // including 1 undefined
+	21,
+	37,
+	5,
+	4,
+};
+
+const PerGame Scenario::pgAOHD6 =
+{
+	865,
+	459,
+	513,
+	100,  // including 1 undefined
+	21,
+	37,
+	5,
+	4,
+};
+
+const PerGame Scenario::pgAOF6 =
 {
 	865,
 	459,
@@ -499,6 +531,34 @@ void Scenario::adapt_game() {
         Effect::types_short = Effect::types_short_aohd;
         Effect::virtual_types = Effect::virtual_types_aohd;
         break;
+    case AOF6:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_AOHD_AOF6;
+	    version2 = 1.26F;
+		perversion = &pv1_26;
+	    pergame = &pgAOF6;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_aof;
+        Effect::types = Effect::types_aof;
+        Effect::types_short = Effect::types_short_aof;
+        Effect::virtual_types = Effect::virtual_types_aof;
+        break;
+    case AOHD6:
+	    strcpy(header.version, "1.21"); // is this needed?
+	    ver1 = SV1_AOC_SWGB;
+	    ver2 = SV2_AOHD_AOF4;
+	    version2 = 1.26F;
+		perversion = &pv1_26;
+	    pergame = &pgAOHD6;
+        Condition::types = Condition::types_aok;
+        Condition::types_short = Condition::types_short_aok;
+        Condition::virtual_types = Condition::virtual_types_aohd;
+        Effect::types = Effect::types_aohd;
+        Effect::types_short = Effect::types_short_aohd;
+        Effect::virtual_types = Effect::virtual_types_aohd;
+        break;
     case SWGB:
 	    strcpy(header.version, "1.21"); // is this needed?
 	    ver1 = SV1_AOC_SWGB;
@@ -674,6 +734,8 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 		case AOF:
 		case AOHD4:
 		case AOF4:
+		case AOHD6:
+		case AOF6:
 			if ((flags & SaveFlags::CONVERT_EFFECTS))
 			    hd_to_up();
 			break;
@@ -696,6 +758,12 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			strip_patch4();
 			convert = AOHD;
 			break;
+		case AOF6:
+		case AOHD6:
+			strip_patch4();
+			strip_patch6();
+			convert = AOHD;
+			break;
 		}
 		break;
 	case AOF:
@@ -710,6 +778,12 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 		case AOF4:
 		case AOHD4:
 			strip_patch4();
+			convert = AOF;
+			break;
+		case AOF6:
+		case AOHD6:
+			strip_patch4();
+			strip_patch6();
 			convert = AOF;
 			break;
 		}
@@ -735,8 +809,34 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			break;
 		}
 		break;
+	case AOHD6:
+	case AOF6:
+		switch (game) {
+		case SWGB:
+		case SWGBCC:
+		case AOC:
+			aoc_to_hd6();
+			break;
+		case AOHD:
+		case AOF:
+			aohd_to_hd6();
+			break;
+		case AOHD4:
+		case AOF4:
+			hd4_to_hd6();
+		case UP:
+			if ((flags & SaveFlags::CONVERT_EFFECTS))
+			    up_to_hd();
+			aoc_to_hd6();
+			break;
+		case AOK:
+			aok_to_aoc();
+			aoc_to_hd6();
+			break;
+		}
+		break;
 	case SWGB:
-		if ((game == AOHD || game == AOF || game == AOHD4 || game == AOF4))
+		if ((game == AOHD || game == AOF || game == AOHD4 || game == AOF4 || game == AOHD6 || game == AOF6))
 			hd_to_swgb();
 		if (game == UP)
 			up_to_swgb();
@@ -744,7 +844,7 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			aok_to_aoc();
 		break;
 	case SWGBCC:
-		if ((game == AOHD || game == AOF || game == AOHD4 || game == AOF4))
+		if ((game == AOHD || game == AOF || game == AOHD4 || game == AOF4 || game == AOHD6 || game == AOF6))
 			hd_to_swgb();
 		if (game == UP)
 			up_to_swgb();
@@ -856,6 +956,8 @@ void Scenario::_header::write(FILE *scx, const SString *instr, long players, Gam
 	case AOF:
 	case AOHD4:
 	case AOF4:
+	case AOHD6:
+	case AOF6:
 		strcpy(version, "1.21");
 		break;
 	default:
@@ -992,6 +1094,8 @@ void Scenario::read_data(const char *path)	//decompressed data
 		case AOF:
 		case AOHD4:
 		case AOF4:
+		case AOHD6:
+		case AOF6:
 		case UP:
 		    game = AOC;
 		    break;
@@ -1017,6 +1121,15 @@ void Scenario::read_data(const char *path)	//decompressed data
 		    game = AOF4;
 		} else {
 		    game = AOHD4;
+		}
+		break;
+
+	case 126:
+		printf_log("ver2: 1.26 (AOHD or AOF).\n");
+		if (strstr(setts.ScenPath, ".scx2")) {
+		    game = AOF6;
+		} else {
+		    game = AOHD6;
 		}
 		break;
 
@@ -1152,7 +1265,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 	FEP(p)
 		p->read_diplomacy(dc2in.get());
 
-	SKIP(dc2in.get(), 0x2D00);	//should I check this? probably.
+	SKIP(dc2in.get(), 0x2D00);	// 11520 should I check this? probably.
 
 	readunk(dc2in.get(), sect, "diplomacy sect middle", true);
 
@@ -1180,13 +1293,24 @@ void Scenario::read_data(const char *path)	//decompressed data
 	if (setts.intense)
 	    printf_log("Debug 4.\n");
 
-	readunk<long>(dc2in.get(), 0, "Disables unused 1", true);
-	readunk<long>(dc2in.get(), 0, "Disables unused 2", true);
+    if (game == AOHD6 || game == AOF6) {
+        fseek(dc2in.get(), 161 * sizeof(long), SEEK_CUR);
+        //long test = 0;
+        //long counter = 0;
+        //while (test != sect) {
+	    //    readbin(dc2in.get(), &test);
+	    //    counter ++;
+	    //}
+	    //printf_log("missing-longs: %d.\n", counter);
+	}
+
+	readunk<long>(dc2in.get(), 0, "Disables unused 1", false);
+	readunk<long>(dc2in.get(), 0, "Disables unused 2", false);
 	readbin(dc2in.get(), &all_techs);
 	FEP(p)
 		p->read_age(dc2in.get());
 
-	/* Map */
+	///* Map */
 
 	readunk(dc2in.get(), sect, "map sect begin", true);
 
@@ -1305,6 +1429,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 		throw bad_data_error("Unrecognized data at end.");
 
     auto_upgrade_hd4();
+    //auto_upgrade_hd6();
 	adapt_game();
 
 	// FILE close taken care of by AutoFile! yay.
@@ -1322,10 +1447,23 @@ void Scenario::auto_upgrade_hd4() {
     }
 }
 
+void Scenario::auto_upgrade_hd6() {
+    if (game == AOHD4) {
+        game = AOHD4;
+		hd4_to_hd6();
+    }
+    if (game == AOF4) {
+        game = AOF6;
+		hd4_to_hd6();
+    }
+}
+
 void Scenario::clean_format() {
     switch (game) {
     case AOHD4:
     case AOF4:
+    case AOHD6:
+    case AOF6:
         aoc_to_hd4();
         break;
     }
@@ -1361,6 +1499,9 @@ int Scenario::write_data(const char *path)
 			break;
 		case SV2_AOHD_AOF4:
 			version2 = 1.24F;
+			break;
+		case SV2_AOHD_AOF6:
+			version2 = 1.26F;
 			break;
 		case SV2_SWGBCC:
 			version2 = 1.30F;
@@ -1443,7 +1584,7 @@ int Scenario::write_data(const char *path)
 
 	writeval(dcout, sect);
 	FEP(p) {
-	    if (game == AOHD4 || game == AOF4) {
+	    if (game == AOHD4 || game == AOF4 || game == AOHD6 || game == AOF6) {
 		    fwrite(&p->resources, sizeof(long), 7, dcout);
 		} else {
 		    fwrite(&p->resources, sizeof(long), 6, dcout);
@@ -1492,6 +1633,10 @@ int Scenario::write_data(const char *path)
 		fwrite(&p->ndis_b, sizeof(long), 1, dcout);
 	FEP(p)
 		fwrite(&p->dis_bldg, sizeof(long), perversion->max_disables2, dcout);
+
+    if (game == AOHD6 || game == AOF6) {
+        fseek(dcout, 161 * sizeof(long), SEEK_CUR);
+    }
 
 	NULLS(dcout, 0x8);
 	fwrite(&all_techs, sizeof(long), 1, dcout);
@@ -2552,6 +2697,18 @@ AOKTS_ERROR Scenario::aoc_to_hd4() {
 	return ERR_none;
 }
 
+AOKTS_ERROR Scenario::aohd_to_hd6() {
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::aoc_to_hd6() {
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::hd4_to_hd6() {
+	return ERR_none;
+}
+
 AOKTS_ERROR Scenario::aoc_to_aok() {
 	//Player *p;
 	//int i;
@@ -2592,6 +2749,10 @@ AOKTS_ERROR Scenario::strip_patch4() {
 		trig++;
 	}
 
+	return ERR_none;
+}
+
+AOKTS_ERROR Scenario::strip_patch6() {
 	return ERR_none;
 }
 
@@ -2906,7 +3067,7 @@ AOKTS_ERROR Scenario::water_cliffs_visibility(const bool visibility)
     Unit * u;
     Map::Terrain * t;
 	for (int j = 0; j < numunits; j++) {
-	    if (game == AOK || game == AOC || game == AOHD || game == AOF || game == AOHD4 || game == AOF4) {
+	    if (game == AOK || game == AOC || game == AOHD || game == AOF || game == AOHD4 || game == AOF4 || game == AOHD6 || game == AOF6) {
 	        // 264 - 272 are cliffs (avoid) when game is aoe2
 	        u = &(players[8].units.at(j));
 	        if (u->getType()->id() >= 264 && players[8].units.at(j).getType()->id() <= 272) {
@@ -3771,7 +3932,7 @@ void Map::read(FILE *in, ScenVersion1 version)
 	if (version >= SV1_AOC_SWGB)
 		readbin(in, &aitype);
 
-	if (scen.game == AOHD4 || scen.game == AOF4) {
+	if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
 		readbin(in, &unknown1);
 		readbin(in, &unknown2);
 		readbin(in, &unknown3);
@@ -3805,7 +3966,7 @@ void Map::write(FILE *out, ScenVersion1 version)
 	unsigned int count;
 	Terrain *t_parse;
 
-	if (scen.game == AOHD4 || scen.game == AOF4) {
+	if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
 		fwrite(&aitype, sizeof(aitype), 1, out);
 		fwrite(&unknown1, sizeof(unknown1), 1, out);
 		fwrite(&unknown2, sizeof(unknown2), 1, out);

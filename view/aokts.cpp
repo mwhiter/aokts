@@ -105,7 +105,7 @@ const char welcome[] =
 const char extOpen[] =
 "AoE 2 Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0Star Wars Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
-"AOK Scenarios (*.scn)\0*.scn\0AOC 1.0C Scenarios (*.scx)\0*.scx\0AOC 1.4RC Scenarios (*.scx)\0*.scx\0AOHD Scenarios (*.scx)\0*.scx\0AOF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0All files (*.*)\0*.*\0";
+"AOK Scenarios (*.scn)\0*.scn\0AOC 1.0C Scenarios (*.scx)\0*.scx\0AOC 1.4RC Scenarios (*.scx)\0*.scx\0AOHD Scenarios (*.scx)\0*.scx\0AOF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0AOHD1.26 BETA (*.scx)\0*.scx\0AOF1.26 BETA (*.scx2)\0*.scx2\0All files (*.*)\0*.*\0";
 const char datapath_aok[] = "data_aok.xml";
 const char datapath_swgb[] = "data_swgb.xml";
 
@@ -242,6 +242,14 @@ void FileSave(HWND sheet, bool as, bool write)
 		    ofn.nFilterIndex =	7;
 		    ofn.lpstrDefExt =	"sc1";
 		    break;
+		case AOHD6:
+		    ofn.nFilterIndex =	8;
+		    ofn.lpstrDefExt =	"scx";
+		    break;
+		case AOF6:
+		    ofn.nFilterIndex =	9;
+		    ofn.lpstrDefExt =	"scx2";
+		    break;
 		}
 
 		if (!GetSaveFileName(&ofn))
@@ -269,6 +277,12 @@ void FileSave(HWND sheet, bool as, bool write)
 		case 7:
 		    conv = SWGBCC;
 		    break;
+		case 8:
+		    conv = AOHD6;
+		    break;
+		case 9:
+		    conv = AOF6;
+		    break;
 		}
 
 		if (!*scen.origname)
@@ -282,14 +296,14 @@ void FileSave(HWND sheet, bool as, bool write)
 	    conv = scen.game;
 	}
 
-    if ((startver == AOHD || startver == AOF || startver == AOHD4 || startver == AOF4) && conv == UP) {
+    if ((startver == AOHD || startver == AOF || startver == AOHD4 || startver == AOF4 || startver == AOHD6 || startver == AOF6) && conv == UP) {
         if (setts.asktoconverteffects &&
             MessageBox(sheet, "Also convert HD effects to UserPatch?", "Convert", MB_YESNOCANCEL) == IDYES) {
             flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
         }
     }
 
-    if (startver == UP && (conv == AOHD || conv == AOF | conv == AOHD4 || conv == AOF4)) {
+    if (startver == UP && (conv == AOHD || conv == AOF | conv == AOHD4 || conv == AOF4 | conv == AOHD6 || conv == AOF6)) {
         if (setts.asktoconverteffects &&
             MessageBox(sheet, "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES) {
             flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);
@@ -424,9 +438,11 @@ void FileOpen(HWND sheet, bool ask, int recent)
 		case AOK:
 		case AOC:
 		case AOHD:
-		case AOHD4:
 		case AOF:
+		case AOHD4:
 		case AOF4:
+		case AOHD6:
+		case AOF6:
 		    ofn.nFilterIndex =	1;
 		    ofn.lpstrDefExt =	"scx";
 		    break;

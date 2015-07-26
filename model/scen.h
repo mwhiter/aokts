@@ -183,6 +183,7 @@ public:
 	static const PerVersion pv1_22;
 	static const PerVersion pv1_23;
 	static const PerVersion pv1_24;
+	static const PerVersion pv1_26;
 	static const PerVersion pv1_30;
 
 	PerGame pgGame[10];
@@ -192,9 +193,11 @@ public:
 	static const PerGame pgAOC;
 	static const PerGame pgUP;
 	static const PerGame pgAOHD;
-	static const PerGame pgAOHD4;
 	static const PerGame pgAOF;
+	static const PerGame pgAOHD4;
 	static const PerGame pgAOF4;
+	static const PerGame pgAOHD6;
+	static const PerGame pgAOF6;
 	static const PerGame pgSWGB;
 	static const PerGame pgSWGBCC;
 
@@ -258,6 +261,7 @@ public:
 	Game open(const char *path, const char *dpath, Game version);
 	int save(const char *path, const char *dpath, bool write, Game convert, SaveFlags::Value flags);
 	void auto_upgrade_hd4();
+	void auto_upgrade_hd6();
 	void clean_format();
 	void adapt_game();
 	void reset();
@@ -321,11 +325,15 @@ public:
 	AOKTS_ERROR swap_trigger_names_descriptions();
 	AOKTS_ERROR up_to_hd();
 	AOKTS_ERROR aoc_to_hd4();
+	AOKTS_ERROR aoc_to_hd6();
+	AOKTS_ERROR hd4_to_hd6();
+	AOKTS_ERROR aohd_to_hd6();
 	AOKTS_ERROR up_to_aofe();
 	AOKTS_ERROR up_to_10c();
 	AOKTS_ERROR aoc_to_aok();
 	AOKTS_ERROR aok_to_aoc();
     AOKTS_ERROR strip_patch4();
+    AOKTS_ERROR strip_patch6();
 	AOKTS_ERROR hd_to_up();
 	AOKTS_ERROR hd_to_10c();
 	AOKTS_ERROR hd_to_swgb();

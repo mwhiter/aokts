@@ -266,12 +266,16 @@ const char * gameName(Game version) {
 	    return "The Conquerors: UserPatch";
 	case AOHD:
 	    return "Age of Empires II: HD Edition";
-	case AOHD4:
-	    return "Age of Empires II: HD Edition P4";
 	case AOF:
 	    return "The Forgotten";
+	case AOHD4:
+	    return "Age of Empires II: HD Edition P4";
 	case AOF4:
 	    return "The Forgotten P4";
+	case AOHD6:
+	    return "Age of Empires II: HD Edition 1.26 BETA";
+	case AOF6:
+	    return "The Forgotten 1.26 BETA";
 	case SWGB:
 	    return "Star Wars Galactic Battlegrounds";
 	case SWGBCC:

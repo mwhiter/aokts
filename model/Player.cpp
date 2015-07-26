@@ -209,7 +209,7 @@ void Player::read_aimode(FILE * in)
 
 void Player::read_resources(FILE * in)
 {
-    if (scen.game == AOHD4 || scen.game == AOF4) {
+    if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
 	    readbin(in, resources, 7);
     } else {
 	    readbin(in, resources, 6);

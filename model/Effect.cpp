@@ -767,6 +767,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
             case AOHD:
 	        case AOHD4:
 	        case AOF4:
+	        case AOHD6:
+	        case AOF6:
             case UP:
                 if (amount > 0) {
                     convert << "+";
@@ -816,6 +818,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
 	        switch (scen.game) {
 	        case AOHD4:
 	        case AOF4:
+	        case AOHD6:
+	        case AOF6:
                 convert << "heal " << selectedUnits() << " by " << amount;
                 stype.append(convert.str());
 	            break;
@@ -1067,6 +1071,8 @@ bool Effect::check() const
 	    case AOF:
 	    case AOHD4:
 	    case AOF4:
+	    case AOHD6:
+	    case AOF6:
 		    return (has_valid_selected || valid_area_selection) && valid_points();
 	    case SWGB:
 	    case SWGBCC:
@@ -1082,6 +1088,8 @@ bool Effect::check() const
 	    case AOF:
 	    case AOHD4:
 	    case AOF4:
+	    case AOHD6:
+	    case AOF6:
 		    return (has_valid_selected || valid_area_selection) && valid_points();
 	    case SWGB:
 	    case SWGBCC:
@@ -1100,6 +1108,8 @@ bool Effect::check() const
 	    case AOF:
 	    case AOHD4:
 	    case AOF4:
+	    case AOHD6:
+	    case AOF6:
 	        return (has_valid_selected || valid_area_selection);
 	    }
 		return true;

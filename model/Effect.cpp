@@ -754,6 +754,27 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
                 }
                 stype.append(convert.str());
                 break;
+            case AOHD:
+            case AOF:
+            case AOHD4:
+            case AOF4:
+            case AOHD6:
+            case AOF6:
+                if (!valid_location_coord() && null_location_unit()) {
+                    convert << "stop?" << " " << selectedUnits();
+                    stype.append(convert.str());
+                    break;
+                }
+
+                convert << "attack-move";
+                convert << " " << selectedUnits();
+                if (valid_location_coord()) {
+                    convert << " to " << location.x << "," << location.y;
+                } else {
+                    convert << " to unit " << uid_loc << " (" << get_unit_full_name(uid_loc) << ")";
+                }
+                stype.append(convert.str());
+                break;
             default:
                 stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
                 break;
@@ -1100,7 +1121,12 @@ bool Effect::check() const
 		    return (has_valid_selected || valid_area_selection) && valid_points();
 	    case AOHD:
 	    case AOF:
-		    return has_valid_selected && valid_location_coord();
+	    case AOHD4:
+	    case AOF4:
+	    case AOHD6:
+	    case AOF6:
+            return (valid_area() || has_valid_selected ||
+                    (!valid_location_coord() && null_location_unit()));
 	    case SWGB:
 	    case SWGBCC:
 		    return valid_source_player() && valid_location_coord();

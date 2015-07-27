@@ -70,7 +70,7 @@ void LoadPlayer(HWND dialog)
 	} else {
 		SendDlgItemMessage(dialog, IDC_P_DSTATE, BM_SETCHECK, d_to_b[p->diplomacy[propdata.sel0]], 0);
 	}
-	SendDlgItemMessage(dialog, IDC_P_AGE, CB_SETCURSEL, p->age, 0);
+	SendDlgItemMessage(dialog, IDC_P_AGE, CB_SETCURSEL, p->age + 1, 0);
 	SetDlgItemFloat(dialog, IDC_P_UF, p->ucount);
 	SetDlgItemInt(dialog, IDC_P_US0, p->u1, FALSE);
 	SetDlgItemInt(dialog, IDC_P_US1, p->u2, FALSE);
@@ -105,7 +105,7 @@ void SavePlayer(HWND dialog)
 	p->color = LCombo_GetSelId(dialog, IDC_P_COLOR);
 	p->avictory = (SendDlgItemMessage(dialog, IDC_P_AV, BM_GETCHECK, 0, 0) != 0);
 	p->diplomacy[propdata.sel0] = b_to_d[SendDlgItemMessage(dialog, IDC_P_DSTATE, BM_GETCHECK, 0, 0)];
-	p->age = SendDlgItemMessage(dialog, IDC_P_AGE, CB_GETCURSEL, 0, 0);
+	p->age = SendDlgItemMessage(dialog, IDC_P_AGE, CB_GETCURSEL, 0, 0) - 1;
 	p->u1 = toshort(GetDlgItemInt(dialog, IDC_P_US0, NULL, FALSE));
 	p->u2 = toshort(GetDlgItemInt(dialog, IDC_P_US1, NULL, FALSE));
 

@@ -86,6 +86,8 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_G_NEXTID		1062
 #define IDC_G_LOCKTEAMS		1063
 #define IDC_M_USERPATCH     1064
+#define IDC_G_CHOOSETEAMS	1065
+#define IDC_G_RANDPOSITIONS 1066
 
 /* Player Controls */
 #define IDC_P_SP1			1100
@@ -231,6 +233,10 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_TR_RAISE_ELEV           1452
 #define IDC_TR_LOWER_ELEV           1453
 #define IDC_TR_FLOOD_ELEV 		    1454
+#define IDC_TR_UNK1                 1455
+#define IDC_TR_UNK2                 1456
+#define IDC_TR_UNK3                 1457
+#define IDC_TR_UNK4                 1458
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

@@ -25,6 +25,8 @@ void LoadIM(HWND dialog)
 	SetDlgItemText(dialog, IDC_M_CINEM, scen.cinem[IM_csel]);
 	CheckDlgButton(dialog, IDC_G_ALLTECHS, scen.all_techs);
 	CheckDlgButton(dialog, IDC_G_LOCKTEAMS, scen.lock_teams);
+	CheckDlgButton(dialog, IDC_G_CHOOSETEAMS, scen.player_choose_teams);
+	CheckDlgButton(dialog, IDC_G_RANDPOSITIONS, scen.random_start_points);
 	SetDlgItemInt(dialog, IDC_M_STABLE, scen.mstrings[IM_msel], TRUE);
 	SetDlgItemInt(dialog, IDC_G_NEXTID, scen.next_uid, FALSE);
 	SetDlgItemFloat(dialog, IDC_G_X, scen.editor_pos[0]);
@@ -38,6 +40,8 @@ void SaveM(HWND dialog)
 	GetDlgItemText(dialog, IDC_M_CINEM, scen.cinem[IM_csel], 0x20);
 	scen.all_techs = IsDlgButtonChecked(dialog, IDC_G_ALLTECHS);
 	scen.lock_teams = IsDlgButtonChecked(dialog, IDC_G_LOCKTEAMS);
+	scen.player_choose_teams = IsDlgButtonChecked(dialog, IDC_G_CHOOSETEAMS);
+	scen.random_start_points = IsDlgButtonChecked(dialog, IDC_G_RANDPOSITIONS);
 	scen.mstrings[IM_msel] = GetDlgItemInt(dialog, IDC_M_STABLE, NULL, TRUE);
 	scen.next_uid = GetDlgItemInt(dialog, IDC_G_NEXTID, NULL, FALSE);
 	scen.editor_pos[0] = GetDlgItemFloat(dialog, IDC_G_X);

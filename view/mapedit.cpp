@@ -58,6 +58,24 @@ const char *warningMapCopyOverlap =
 const char *infoMapCopySuccess =
 "Map copy successful. (As far as I know... as always, check for bugs!)";
 
+BOOL Mapedit_Reset(HWND dialog)
+{
+	List_Clear(dialog, IDC_TR_ID);
+	List_Clear(dialog, IDC_TR_AITYPE);
+	List_Clear(dialog, IDC_TR_SIZE);
+	List_Clear(dialog, IDC_TR_SIZE2);
+	List_Clear(dialog, IDC_TR_ELEV);
+
+	LinkListBox_Fill(GetDlgItem(dialog, IDC_TR_ID), esdata.terrains.head());
+
+	LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
+	Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
+	Combo_Fill(dialog, IDC_TR_SIZE2, sizes, NUM_SIZES);
+	Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
+
+	return false;
+}
+
 void LoadMap(HWND dialog, bool all)
 {
 	Map::Terrain *tn = &scen.map.terrain[propdata.sel0][propdata.sel1];
@@ -93,6 +111,11 @@ void LoadMap(HWND dialog, bool all)
 
 	SetDlgItemInt(dialog, IDC_TR_ELEV, tn->elev, FALSE);
 	SetDlgItemInt(dialog, IDC_TR_CONST, tn->cnst, TRUE);
+
+	SetDlgItemInt(dialog, IDC_TR_UNK1, scen.map.unknown1, true);
+	SetDlgItemInt(dialog, IDC_TR_UNK2, scen.map.unknown2, true);
+	SetDlgItemInt(dialog, IDC_TR_UNK3, scen.map.unknown3, true);
+	SetDlgItemInt(dialog, IDC_TR_UNK4, scen.map.unknown4, true);
 
 	ait = esdata.aitypes.getByIdSafe(scen.map.aitype);
 
@@ -135,6 +158,11 @@ void SaveMap(HWND dialog)
 		LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id());
 
 	tn->elev = GetDlgItemInt(dialog, IDC_TR_ELEV, NULL, FALSE);
+
+	scen.map.unknown1 = GetDlgItemInt(dialog, IDC_TR_UNK1, NULL, TRUE);
+	scen.map.unknown2 = GetDlgItemInt(dialog, IDC_TR_UNK2, NULL, TRUE);
+	scen.map.unknown3 = GetDlgItemInt(dialog, IDC_TR_UNK3, NULL, TRUE);
+	scen.map.unknown4 = GetDlgItemInt(dialog, IDC_TR_UNK4, NULL, TRUE);
 }
 
 void Map_SaveTile(HWND dialog)
@@ -1048,23 +1076,9 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (msg)
 		{
 		case WM_INITDIALOG:
-			{
-			    List_Clear(dialog, IDC_TR_ID);
-			    List_Clear(dialog, IDC_TR_AITYPE);
-			    List_Clear(dialog, IDC_TR_SIZE);
-			    List_Clear(dialog, IDC_TR_SIZE2);
-			    List_Clear(dialog, IDC_TR_ELEV);
-
-				LinkListBox_Fill(
-					GetDlgItem(dialog, IDC_TR_ID), esdata.terrains.head());
-
-				LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
-				Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
-				Combo_Fill(dialog, IDC_TR_SIZE2, sizes, NUM_SIZES);
-				Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
-
-				ret = TRUE;
-			}
+			Mapedit_Reset(dialog);
+			Map_Reset(dialog);
+			ret = TRUE;
 			break;
 
 		case WM_COMMAND:
@@ -1094,20 +1108,7 @@ INT_PTR CALLBACK MapDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case AOKTS_Loading:
-			List_Clear(dialog, IDC_TR_ID);
-			List_Clear(dialog, IDC_TR_AITYPE);
-			List_Clear(dialog, IDC_TR_SIZE);
-			List_Clear(dialog, IDC_TR_SIZE2);
-			List_Clear(dialog, IDC_TR_ELEV);
-
-			LinkListBox_Fill(
-					GetDlgItem(dialog, IDC_TR_ID), esdata.terrains.head());
-
-			LCombo_Fill(dialog, IDC_TR_AITYPE, esdata.aitypes.head());
-			Combo_Fill(dialog, IDC_TR_SIZE, sizes, NUM_SIZES);
-			Combo_Fill(dialog, IDC_TR_SIZE2, sizes, NUM_SIZES);
-			Combo_Fill(dialog, IDC_TR_ELEV, elevs, NUM_ELEVS);
-
+			Mapedit_Reset(dialog);
 			Map_Reset(dialog);
 			break;
 

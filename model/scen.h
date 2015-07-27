@@ -82,7 +82,7 @@ public:
 	long aitype;	//Map type for AI recognition. (see aitypes[])
 	unsigned long x, y;	//Should always be equal, but are stored separately in the file.
 
-    // AOHD4 and AOF4
+    // AOHD4 and AOF4 and upwards
 	unsigned long unknown1;
 	unsigned long unknown2;
 	unsigned long unknown3;
@@ -243,7 +243,9 @@ public:
 	AOKBMP bitmap;
 	Player players[NUM_PLAYERS];
 	Victory vict;
-	long lock_teams;
+	char lock_teams;
+	char player_choose_teams;
+	char random_start_points;
 	long all_techs;
 	Map map;
 	float	editor_pos[2];

@@ -322,6 +322,8 @@ void Scenario::reset()
 	bBitmap = false;
 
 	lock_teams = 0;
+	player_choose_teams = 0;
+	random_start_points = 0;
 	for (i = 0; i < NUM_PLAYERS; i++)
 		players[i].reset();
 	players[0].enable = true;
@@ -1271,8 +1273,12 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	SKIP(dc2in.get(), sizeof(long) * NUM_PLAYERS);	//other allied victory
 
-	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4 || ver2 == SV2_AOHD_AOF6)
+	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4 || ver2 == SV2_AOHD_AOF6) {
 		readbin(dc2in.get(), &lock_teams);
+		readbin(dc2in.get(), &player_choose_teams);
+		readbin(dc2in.get(), &random_start_points);
+		SKIP(dc2in.get(), sizeof(char));
+    }
 
 	/* Disables */
 
@@ -1605,8 +1611,12 @@ int Scenario::write_data(const char *path)
 		fwrite(&num, sizeof(long), 1, dcout);
 	}
 
-	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4 || ver2 == SV2_AOHD_AOF6)
-		fwrite(&lock_teams, sizeof(long), 1, dcout);
+	if (ver2 == SV2_AOHD_AOF || ver2 == SV2_AOHD_AOF4 || ver2 == SV2_AOHD_AOF6) {
+		fwrite(&lock_teams, sizeof(char), 1, dcout);
+		fwrite(&player_choose_teams, sizeof(char), 1, dcout);
+		fwrite(&random_start_points, sizeof(char), 1, dcout);
+		NULLS(dcout, sizeof(char));
+	}
 
 	/* Disables */
 

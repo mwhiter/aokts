@@ -355,6 +355,8 @@ std::string Condition::getName(bool tip, NameFlags::Value flags, int recursion) 
             switch (scen.game) {
             case AOHD4:
             case AOF4:
+            case AOHD6:
+            case AOF6:
                 convert << amount << "% chance ";
                 stype.append(convert.str());
                 break;

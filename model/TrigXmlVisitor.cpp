@@ -142,7 +142,7 @@ void TrigXmlVisitor::visit(Effect& e)
 	writeXmlLong(&_ss, "instruction_panel", e.panel);
 	writeXmlString(&_ss, "text", e.text);
 	writeXmlString(&_ss, "sound_file", e.sound);
-	writeXmlLong(&_ss, "stance", e.unknown);
+	writeXmlLong(&_ss, "stance", e.stance);
 
 	_ss << "\t</effect>" << NEWLINE;
 }

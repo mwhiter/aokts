@@ -374,6 +374,8 @@ void EffectControls(HWND dialog, int type)
 	case AOF:
 	case AOHD4:
 	case AOF4:
+	case AOHD6:
+	case AOF6:
 	    table = etable1_aohd[type];
 	    break;
 	case SWGB:
@@ -459,6 +461,8 @@ void LoadVirtualTypeEffects(HWND dialog, EditEffect *data) {
     case AOF:
     case AOHD4:
     case AOF4:
+    case AOHD6:
+    case AOF6:
     case SWGB:
     case SWGBCC:
         switch (e->type) {
@@ -701,10 +705,10 @@ void LoadEffect(HWND dialog, EditEffect *data)
 	} else {
 	    SetDlgItemInt(dialog, IDC_E_PANEL, e->panel, TRUE);
 	}
-    if (e->unknown >= -1 && e->unknown <= 3) {
-	    SendDlgItemMessage(dialog, IDC_E_STANCE, CB_SETCURSEL, e->unknown + 1, 0);
+    if (e->stance >= -1 && e->stance <= 3) {
+	    SendDlgItemMessage(dialog, IDC_E_STANCE, CB_SETCURSEL, e->stance + 1, 0);
 	} else {
-	    SetDlgItemInt(dialog, IDC_E_STANCE, e->unknown, TRUE);
+	    SetDlgItemInt(dialog, IDC_E_STANCE, e->stance, TRUE);
 	}
 	SetDlgItemText(dialog, IDC_E_TEXT, e->text.c_str());
 	SetDlgItemInt(dialog, IDC_E_DTIME, e->disp_time, TRUE);
@@ -798,7 +802,7 @@ void SaveEffect(HWND dialog, EditEffect *data)
 		    if (stance == CB_ERR)
 		        stance = -1;
 		}
-		e->unknown = stance;
+		e->stance = stance;
 		GetWindowText(GetDlgItem(dialog, IDC_E_TEXT), e->text);
 		e->disp_time = GetDlgItemInt(dialog, IDC_E_DTIME, NULL, TRUE);
 		e->pUnit = (UnitLink*)LCombo_GetSelPtr(dialog, IDC_E_UCNST);
@@ -1127,9 +1131,11 @@ void E_HandleChangeVType(HWND dialog, EditEffect *data)
         }
         break;
     case AOHD:
-    case AOHD4:
     case AOF:
+    case AOHD4:
     case AOF4:
+    case AOHD6:
+    case AOF6:
 	    switch (newtype) {
         case EffectVirtualTypeHD::MaxAmount:
             data->e.amount = TS_LONG_MAX;
@@ -1281,9 +1287,11 @@ void E_HandleChangeHPCap(HWND dialog, EditEffect *data)
     case UP:
     case AOC:
     case AOHD:
-    case AOHD4:
     case AOF:
+    case AOHD4:
     case AOF4:
+    case AOHD6:
+    case AOF6:
     case SWGB:
     case SWGBCC:
         switch (data->e.type) {

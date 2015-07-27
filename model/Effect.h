@@ -243,7 +243,7 @@ public:
 	long group;	//unit group
 	long utype;
 	long panel;
-	long unknown;
+	long stance;
 
 	const UnitLink *pUnit;	//long in file, of course
 	const TechLink *pTech;	//long in file, of course

@@ -828,12 +828,55 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
                 break;
 	        }
             break;
-	    case EffectType::DisableUnit_SWGB:
-	    case EffectType::FlashUnit_SWGB: // ChangeUnitStance_HD
+	    case EffectType::FlashUnit_SWGB:   // ChangeUnitStance_HD
+	        switch (scen.game) {
+	        case AOHD4:
+	        case AOF4:
+	        case AOHD6:
+	        case AOF6:
+                switch (stance) {
+                case -1:
+                    convert << "NULL stance";
+                    break;
+                case 0:
+                    convert << "aggressive stance";
+                    break;
+                case 1:
+                    convert << "defensive stance";
+                    break;
+                case 2:
+                    convert << "stand ground";
+                    break;
+                case 3:
+                    convert << "no attack stance";
+                    break;
+                }
+                convert << " " << selectedUnits();
+                stype.append(convert.str());
+                break;
+	        default:
+                stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                break;
+	        }
+	        break;
+	    case EffectType::DisableUnit_SWGB: // TeleportObject_HD
+	        switch (scen.game) {
+	        case AOHD4:
+	        case AOF4:
+	        case AOHD6:
+	        case AOF6:
+                convert << "teleport one of " << selectedUnits() << " to " << location.x << "," << location.y;
+                stype.append(convert.str());
+	            break;
+	        default:
+                stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
+                break;
+	        }
+            break;
 	    case EffectType::InputOff_CC:
 	    case EffectType::InputOn_CC:
             stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
-	        break;
+            break;
         default:
             stype.append((type < scen.pergame->max_effect_types) ? getTypeName(type, true) : "Unknown!");
         }

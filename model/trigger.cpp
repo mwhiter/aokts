@@ -1177,8 +1177,8 @@ void Trigger::accept(TriggerVisitor& tv)
 	tv.visit(*this);
 
 	send_visitor sv(tv);
-	std::for_each(effects.begin(), effects.end(), sv);
 	std::for_each(conds.begin(), conds.end(), sv);
+	std::for_each(effects.begin(), effects.end(), sv);
 
 	tv.visitEnd(*this);
 }

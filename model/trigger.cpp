@@ -132,6 +132,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 	}
 
     if (tip && effects.size() == 0) {
+	    ss << this->name;
         goto theendnotext;
     }
 

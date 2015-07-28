@@ -125,14 +125,16 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
     std::string activated_name;
     std::string deactivated_name;
 
-    if (effects.size() == 0) {
-        goto theendnotext;
-    }
 
     if (!tip) {
 	    ss << this->name;
 	    goto theendnotext;
 	}
+
+    if (tip && effects.size() == 0) {
+        goto theendnotext;
+    }
+
     bool c_own = false;
     bool c_own_fewer = false;
     bool c_in_area = false;

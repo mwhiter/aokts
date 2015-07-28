@@ -246,6 +246,7 @@ public:
 	char lock_teams;
 	char player_choose_teams;
 	char random_start_points;
+	char max_teams;
 	long all_techs;
 	Map map;
 	float	editor_pos[2];
@@ -374,6 +375,8 @@ public:
     AOKTS_ERROR map_swap(const RECT &from, const POINT &to, OpFlags::Value flags=OpFlags::ALL);
     AOKTS_ERROR map_scale(const RECT &area, const float scale);
     AOKTS_ERROR water_cliffs_visibility(const bool visibility);
+    int get_number_active_players();
+    AOKTS_ERROR set_number_active_players(int num);
     AOKTS_ERROR set_unit_z_to_map_elev();
     AOKTS_ERROR randomize_unit_frames();
     AOKTS_ERROR randomize_unit_frames(const unsigned int cnst);

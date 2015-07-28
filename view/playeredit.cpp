@@ -16,6 +16,12 @@
 
 #include <commdlg.h>
 
+#define NUM_MAX_TEAMS        3
+#define NUM_MAX_PLAYER_NAMES 9
+
+const char *max_teams_names[] = { "2 Teams", "3 Teams", "4 Teams" };
+const char *num_players_names[] = { "INVALID", "1", "2", "3", "4", "5", "6", "7", "8" };
+
 /* Players */
 
 //these convert from enum Diplomacy to Win32 Checkbox states and vice-versa
@@ -30,6 +36,37 @@ int gaia_disables[] =
 	IDC_P_AI, IDC_P_EXAI, IDC_P_IMAI, IDC_P_CLEARAI, IDC_P_AISCRIPT,
 	IDC_P_AIMODE, IDC_P_RANDOMGAME, IDC_P_PROMISORY
 };
+
+void LoadMaxTeams(HWND dialog)
+{
+    if (scen.max_teams == 0) {
+        SendDlgItemMessage(dialog, IDC_P_MAX_TEAMS, CB_SETCURSEL, 0, 0);
+    } else {
+        SendDlgItemMessage(dialog, IDC_P_MAX_TEAMS, CB_SETCURSEL, scen.max_teams - 2, 0);
+    }
+}
+
+void SaveMaxTeams(HWND dialog)
+{
+    if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
+        int cur = SendDlgItemMessage(dialog, IDC_P_MAX_TEAMS, CB_GETCURSEL, 0, 0);
+        if (cur == 0) {
+            scen.max_teams = cur;
+        } else {
+            scen.max_teams = cur + 2;
+        }
+    }
+}
+
+void LoadActive(HWND dialog)
+{
+    int num_players = scen.get_number_active_players();
+    if (num_players == ERR_combination) {
+        SendDlgItemMessage(dialog, IDC_P_NUM_PLAYERS, CB_SETCURSEL, 0, 0);
+    } else {
+        SendDlgItemMessage(dialog, IDC_P_NUM_PLAYERS, CB_SETCURSEL, num_players, 0);
+    }
+}
 
 void LoadPlayer(HWND dialog)
 {
@@ -83,6 +120,9 @@ void LoadPlayer(HWND dialog)
 	//EnableWindow(GetDlgItem(dialog, IDC_P_AI), p->aimode != AI_standard);
 	SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
 	SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
+
+	LoadActive(dialog);
+	LoadMaxTeams(dialog);
 }
 
 void SavePlayer(HWND dialog)
@@ -122,6 +162,8 @@ void SavePlayer(HWND dialog)
 	//else
 	//	strcpy(p->ai, scen.StandardAI);
 	GetWindowText(GetDlgItem(dialog, IDC_P_AISCRIPT), p->aifile);
+
+	SaveMaxTeams(dialog);
 }
 
 const char errorImpExpFail[] =
@@ -198,6 +240,19 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 	case CBN_SELCHANGE:
 		switch (id)
 		{
+		case IDC_P_NUM_PLAYERS:
+		    {
+		        int h;
+		        if ((h = SendDlgItemMessage(dialog, IDC_P_NUM_PLAYERS, CB_GETCURSEL, 0, 0)) != LB_ERR) {
+		            scen.set_number_active_players(h);
+		            LoadPlayer(dialog);
+		        }
+		    }
+		    break;
+		case IDC_P_ACTIVE:
+		    SendDlgItemMessage(dialog, IDC_P_ACTIVE, BM_SETCHECK, propdata.p->enable, 0);
+		    LoadActive(dialog);
+		    break;
 		case IDC_P_SWAPP1:
 		    scen.swap_players(propdata.pindex, 0);
 			LoadPlayer(dialog);
@@ -374,12 +429,17 @@ char ttAI[] =
 
 BOOL Players_Init(HWND dialog)
 {
+    ENABLE_WND(IDC_P_MAX_TEAMS, scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6);
+
 	/* Fill Combo Boxes */
 	LCombo_Fill(dialog, IDC_P_CIV, esdata.civs.head());
 	Combo_Fill(dialog, IDC_P_SPDIP, Player::names, NUM_PLAYERS);
 	SendDlgItemMessage(dialog, IDC_P_SPDIP, CB_SETCURSEL, 0, 0);	//set to player 0, or we get diplomacy[-1]
 	LCombo_Fill(dialog, IDC_P_COLOR, esdata.colors.head());
 	Combo_PairFill(GetDlgItem(dialog, IDC_P_AGE), NUM_AGES, ages);
+
+	Combo_Fill(dialog, IDC_P_MAX_TEAMS, max_teams_names, NUM_MAX_TEAMS);
+	Combo_Fill(dialog, IDC_P_NUM_PLAYERS, num_players_names, NUM_MAX_PLAYER_NAMES);
 
 	/* Set resource names per game */
 	if (scen.game == SWGB) {

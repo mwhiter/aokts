@@ -324,6 +324,7 @@ void Scenario::reset()
 	lock_teams = 0;
 	player_choose_teams = 0;
 	random_start_points = 0;
+	max_teams = 0;
 	for (i = 0; i < NUM_PLAYERS; i++)
 		players[i].reset();
 	players[0].enable = true;
@@ -1277,7 +1278,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 		readbin(dc2in.get(), &lock_teams);
 		readbin(dc2in.get(), &player_choose_teams);
 		readbin(dc2in.get(), &random_start_points);
-		SKIP(dc2in.get(), sizeof(char));
+		readbin(dc2in.get(), &max_teams);
     }
 
 	/* Disables */
@@ -1615,7 +1616,7 @@ int Scenario::write_data(const char *path)
 		fwrite(&lock_teams, sizeof(char), 1, dcout);
 		fwrite(&player_choose_teams, sizeof(char), 1, dcout);
 		fwrite(&random_start_points, sizeof(char), 1, dcout);
-		NULLS(dcout, sizeof(char));
+		fwrite(&max_teams, sizeof(char), 1, dcout);
 	}
 
 	/* Disables */
@@ -2994,6 +2995,34 @@ AOKTS_ERROR Scenario::compress_unit_ids()
         }
 	}
 
+	return ERR_none;
+}
+
+/*
+ * This needs a function and not a value because some combinations of
+ * active players are invalid
+ */
+int Scenario::get_number_active_players() {
+    bool counting_up = true;
+	int num_players = 0;
+	int i;
+	Player * p;
+	for (i = 0, p = scen.players; i < 8; i++, p++) {
+	    if (p->enable && counting_up) {
+	        num_players++;
+	    } else if (!p->enable && counting_up) {
+	        counting_up = false;
+	    } else if (p->enable) {
+	        return ERR_combination;
+	    }
+	}
+	return num_players;
+}
+
+AOKTS_ERROR Scenario::set_number_active_players(int num) {
+	for (Player * p = scen.players; p < scen.players + 8; p++) {
+	    p->enable = p < scen.players + num;
+	}
 	return ERR_none;
 }
 

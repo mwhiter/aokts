@@ -83,7 +83,8 @@ const double PI = 3.1415927;	//for radians
 
 enum AOKTS_ERROR
 {
-	ERR_unknown = -11,	//unknown error
+	ERR_unknown = -12,	//unknown error
+	ERR_combination = -11,	//bad combination
 	ERR_outofbounds = -10,	//something went out of bounds, depends on context
 	ERR_overlap = -9,	//used for map copy, target overlaps source
 	ERR_data = -8,		//decompressed data error

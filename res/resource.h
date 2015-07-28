@@ -155,6 +155,8 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_P_VC            1189
 #define IDC_P_OREY			1190
 #define IDC_P_LBL_OREY      1191
+#define IDC_P_NUM_PLAYERS   1192
+#define IDC_P_MAX_TEAMS     1193
 
 /* Global Victory Controls */
 #define IDC_V_SSTD				1300

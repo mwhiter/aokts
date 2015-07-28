@@ -250,7 +250,7 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		    }
 		    break;
 		case IDC_P_ACTIVE:
-		    SendDlgItemMessage(dialog, IDC_P_ACTIVE, BM_SETCHECK, propdata.p->enable, 0);
+		    p->enable = Button_IsChecked(GetDlgItem(dialog, IDC_P_ACTIVE));
 		    LoadActive(dialog);
 		    break;
 		case IDC_P_SWAPP1:

@@ -302,7 +302,7 @@ void FileSave(HWND sheet, bool as, bool write)
         }
     }
 
-    if (startver == UP && (conv == AOHD || conv == AOF | conv == AOHD4 || conv == AOF4 | conv == AOHD6 || conv == AOF6)) {
+    if (startver == UP && (conv == AOHD || conv == AOF || conv == AOHD4 || conv == AOF4 || conv == AOHD6 || conv == AOF6)) {
         if (setts.asktoconverteffects &&
             MessageBox(sheet, "Also convert UserPatch effects to HD?", "Convert", MB_YESNOCANCEL) == IDYES) {
             flags = (SaveFlags::Value)(flags | SaveFlags::CONVERT_EFFECTS);

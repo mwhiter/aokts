@@ -379,6 +379,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_E_UTYPE				1823
 #define IDC_E_PANEL				1824
 #define IDC_E_STANCE    		1825
+#define IDC_E_SWAPST    		1826
 #define IDC_E_END	            1826
 #define IDC_E_TEXTID            1827
 #define IDC_E_SOUNDID           1828

@@ -74,7 +74,7 @@ public:
 
 	void update(Trigger *t);
 
-    static const int N_CONTROLS = 25;
+    static const int N_CONTROLS = 26;
 };
 
 INT_PTR WINAPI EffectWndProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -440,7 +440,7 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
 	                }
                     break;
                 }
-                if (amount >= 0 && t_player > 0) {
+                if (amount >= 0 && t_player > 0 && res_type < 4) {
                     convert << " (displays tribute alert)";
                 }
                 stype.append(convert.str());

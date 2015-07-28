@@ -154,8 +154,9 @@ void SaveMap(HWND dialog)
 	//scen.map.y = scen.map.x;	//maps are square
 
 	scen.map.aitype = LCombo_GetSelId(dialog, IDC_TR_AITYPE);
-	tn->cnst = static_cast<char>(
-		LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id());
+    const Link * terrainlink = LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID));
+    if (terrainlink != NULL)
+	    tn->cnst = static_cast<char>(terrainlink->id());
 
 	tn->elev = GetDlgItemInt(dialog, IDC_TR_ELEV, NULL, FALSE);
 

@@ -51,6 +51,8 @@ using std::vector;
 WNDPROC TVWndProc = NULL;
 HFONT treefont;
 
+bool bysource = true;
+
 /*	c_trig: pointer to current trigger.
 	Set this to NULL to prevent saving of data on TVN_SELCHANGED.
 */
@@ -384,13 +386,22 @@ void EffectItemData::DuplicatePlayers(HWND treeview, HTREEITEM target)
 		Effect &source = t->effects[this->index]; // get it new each iteration
 
 		// Skip if we're on the source effect's player.
-		if (i == source.s_player)
-			continue;
+        if (bysource) {
+		    if (i == source.s_player)
+			    continue;
+		} else {
+		    if (i == source.t_player)
+			    continue;
+		}
 
 		t->effects.push_back(source);
 
 		// Set proper player on the duplicate.
-		t->effects.back().s_player = i;
+        if (bysource) {
+		    t->effects.back().s_player = i;
+		} else {
+		    t->effects.back().t_player = i;
+		}
 
 		tvis.item.lParam = (LPARAM)new EffectItemData( // FIXME: ugly cast
 			t->effects.size() - 1, // size() - 1 is the duplicate right now
@@ -1361,6 +1372,12 @@ BOOL Handle_WM_INITDIALOG(HWND dialog)
 	CheckDlgButton(dialog, IDC_T_SHOWDISPLAYORDER, setts.showdisplayorder);
 	CheckDlgButton(dialog, IDC_T_SHOWFIREORDER, setts.showtrigids);
 
+    if (bysource) {
+	    CheckRadioButton(dialog, IDC_T_SOURCE, IDC_T_TARGET, IDC_T_SOURCE);
+	} else {
+	    CheckRadioButton(dialog, IDC_T_SOURCE, IDC_T_TARGET, IDC_T_TARGET);
+	}
+
     //SendDlgItemMessage(dialog, IDC_T_SHOWDISPLAYORDER, BM_SETCHECK, setts.showdisplayorder, 0);
     //SendDlgItemMessage(dialog, IDC_T_SHOWFIREORDER, BM_SETCHECK, setts.showtrigids, 0);
 	SendDlgItemMessage(dialog, IDC_T_PSEUDONYMS, BM_SETCHECK, setts.pseudonyms, 0);
@@ -1659,9 +1676,15 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
         }
 	    break;
 	case BN_CLICKED:
-	case 1:
+	case CBN_SELCHANGE:
 		switch (id)
 		{
+		case IDC_T_SOURCE:
+		    bysource = true;
+		    break;
+		case IDC_T_TARGET:
+		    bysource = false;
+		    break;
 		case IDC_T_SHOWFIREORDER:
             if (SendMessage(GetDlgItem(dialog, IDC_T_SHOWFIREORDER),BM_GETCHECK,0,0)) {
                 setts.showtrigids = true;

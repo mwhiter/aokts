@@ -305,6 +305,8 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_T_ADD_ACTIVATION    1227
 #define IDC_T_PSEUDONYMS		1228
 #define IDC_T_GOLIST    		1229
+#define IDC_T_SOURCE    		1230
+#define IDC_T_TARGET    		1231
 
 /* Compatibility Controls */
 #define IDC_P_TOAOFE            1200

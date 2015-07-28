@@ -321,6 +321,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_TT_EXPORT           1201
 #define IDC_TT_SEARCHTEXT       1202
 #define IDC_TT_FINDNEXT         1203
+#define IDC_TT_CONTEXT          1204
 
 /* Condition Controls */
 #define IDC_C_TYPE				1900

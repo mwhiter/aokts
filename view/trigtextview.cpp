@@ -21,7 +21,7 @@ void OnFileTrigWrite(HWND dialog);
 
 std::string tt = std::string("");
 
-const int context_size = 8000;
+int context_size = 10000;
 int bottom;
 int top;
 unsigned long current_pos;
@@ -109,6 +109,10 @@ INT_PTR Trigtext_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 	case EN_CHANGE:
 		switch (id)
 		{
+		case IDC_TT_CONTEXT:
+		    context_size = GetDlgItemInt(dialog, IDC_TT_CONTEXT, NULL, FALSE);
+		    TrigtextView_Reset(dialog);
+		    break;
 		case IDC_TT_SEARCHTEXT:
 		    TrigtextFind(dialog);
 		    break;
@@ -159,6 +163,8 @@ INT_PTR CALLBACK TrigtextDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lP
 
 	            HWND control = GetDlgItem(dialog, IDC_TT_SEARCHTEXT);
 	            SendMessage(control, EM_SETLIMITTEXT, 100, 0);
+
+                SetDlgItemInt(dialog, IDC_TT_CONTEXT, context_size, FALSE);
 	        }
 	        break;
 

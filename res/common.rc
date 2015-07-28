@@ -612,8 +612,9 @@ BEGIN
     EDITTEXT        IDC_TT_VIEW,5,41,408,275,ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | ES_WANTRETURN | WS_VSCROLL
     EDITTEXT        IDC_TT_SEARCHTEXT,122,6,113,17,ES_AUTOHSCROLL
     PUSHBUTTON      "Find",IDC_TT_FINDNEXT,236,6,37,17
-    CTEXT           "8000 characters of context",IDC_STATIC,318,10,90,10,WS_BORDER
+    LTEXT           "Context (num characters):",IDC_STATIC,281,10,82,9
     CTEXT           "Click the map to search trigtext for those coordinates (click the little squares on the map).",IDC_STATIC,6,27,407,10
+    EDITTEXT        IDC_TT_CONTEXT,365,10,47,8,ES_AUTOHSCROLL | NOT WS_BORDER
 END
 
 IDD_STATS DIALOG  0, 0, 160, 168
@@ -891,12 +892,6 @@ BEGIN
         VERTGUIDE, 280
         VERTGUIDE, 416
         BOTTOMMARGIN, 318
-    END
-
-    IDD_TRIGTEXT, DIALOG
-    BEGIN
-        HORZGUIDE, 6
-        HORZGUIDE, 23
     END
 
     IDD_COND, DIALOG

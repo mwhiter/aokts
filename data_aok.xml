@@ -1802,7 +1802,7 @@ usual.
 <terrain id="38" color="d8d8ff" name="Road, Snow" />
 <terrain id="39" color="c8f8ef" name="Road, Fungus" />
 <terrain id="40" color="e4a290" name="Rock / Road (no buildings)" />
-<terrain id="41" color="333333" name="Looks like grass 1 (nobuild, crazy pathfinding, black on map)" />
+<terrain id="41" color="333333" name="Black, map looks like grass 1, nobuild, desync" />
 </terrains>
 
 <!-- The following are custom unit groups. They have no effect on the saved scenario,

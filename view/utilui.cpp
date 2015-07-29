@@ -265,9 +265,9 @@ const char * gameName(Game version) {
 	case UP:
 	    return "The Conquerors: UserPatch";
 	case AOHD:
-	    return "Age of Empires II: HD Edition";
+	    return "Age of Empires II: HD Edition P3";
 	case AOF:
-	    return "The Forgotten";
+	    return "The Forgotten P3";
 	case AOHD4:
 	    return "Age of Empires II: HD Edition P4";
 	case AOF4:

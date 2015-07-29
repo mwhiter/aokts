@@ -1424,7 +1424,7 @@ void Scenario::read_data(const char *path)	//decompressed data
 	if (fgetc(dc2in.get()) != EOF)
 		throw bad_data_error("Unrecognized data at end.");
 
-    auto_upgrade_hd4();
+    //auto_upgrade_hd4();
     //auto_upgrade_hd6();
 	adapt_game();
 

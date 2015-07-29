@@ -193,8 +193,8 @@ const PerGame Scenario::pgAOHD =
 	459,
 	513,
 	42,  // including 1 undefined
-	20,
-	34,
+	21,
+	37,
 	5,
 	4,
 };
@@ -205,8 +205,8 @@ const PerGame Scenario::pgAOF = // these are not correct
 	459,
 	513,
 	41,  // including 1 undefined
-	20,
-	34,
+	21,
+	37,
 	5,
 	4,
 };
@@ -758,12 +758,12 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			break;
 		case AOF4:
 		case AOHD4:
-			strip_patch4();
+			//strip_patch4();
 			convert = AOHD;
 			break;
 		case AOF6:
 		case AOHD6:
-			strip_patch4();
+			//strip_patch4();
 			strip_patch6();
 			convert = AOHD;
 			break;
@@ -780,12 +780,12 @@ int Scenario::save(const char *path, const char *dpath, bool write, Game convert
 			break;
 		case AOF4:
 		case AOHD4:
-			strip_patch4();
+			//strip_patch4();
 			convert = AOF;
 			break;
 		case AOF6:
 		case AOHD6:
-			strip_patch4();
+			//strip_patch4();
 			strip_patch6();
 			convert = AOF;
 			break;
@@ -1456,6 +1456,8 @@ void Scenario::auto_upgrade_hd6() {
 
 void Scenario::clean_format() {
     switch (game) {
+    case AOHD:
+    case AOF:
     case AOHD4:
     case AOF4:
     case AOHD6:

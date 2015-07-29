@@ -200,7 +200,7 @@ std::string Trigger::getName(bool tip, bool limitlen, int recursion)
 
 	// conditions
 	for (vector<Condition>::iterator iter = conds.begin(); iter != conds.end(); ++iter) {
-	    if ((scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) && iter->type == ConditionType::Chance_HD) {
+	    if ((scen.game == AOHD || scen.game == AOF || scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) && iter->type == ConditionType::Chance_HD) {
 	        c_chance *= (iter->amount / 100.0f);
 	        continue;
 	    }

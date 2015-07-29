@@ -257,7 +257,7 @@ public:
 
     static const int NUM_EFFECTS_AOK = 24;
     static const int NUM_EFFECTS_AOC = 30;
-    static const int NUM_EFFECTS_AOHD = 34;
+    static const int NUM_EFFECTS_AOHD = 37;
     static const int NUM_EFFECTS_AOHD4 = 37;
     static const int NUM_EFFECTS_AOHD6 = 37;
     static const int NUM_EFFECTS_AOF = 34;

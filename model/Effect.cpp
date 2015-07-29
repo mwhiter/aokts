@@ -838,6 +838,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
             break;
 	    case EffectType::EnableUnit_SWGB: // EffectType::HealObject_HD:
 	        switch (scen.game) {
+	        case AOHD:
+	        case AOF:
 	        case AOHD4:
 	        case AOF4:
 	        case AOHD6:
@@ -852,6 +854,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
             break;
 	    case EffectType::FlashUnit_SWGB:   // ChangeUnitStance_HD
 	        switch (scen.game) {
+	        case AOHD:
+	        case AOF:
 	        case AOHD4:
 	        case AOF4:
 	        case AOHD6:
@@ -883,6 +887,8 @@ std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) con
 	        break;
 	    case EffectType::DisableUnit_SWGB: // TeleportObject_HD
 	        switch (scen.game) {
+	        case AOHD:
+	        case AOF:
 	        case AOHD4:
 	        case AOF4:
 	        case AOHD6:

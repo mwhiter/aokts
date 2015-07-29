@@ -55,8 +55,8 @@ IDI_LOGO                ICON                    "aokts.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,58
- PRODUCTVERSION 1,2,0,58
+ FILEVERSION 1,2,0,59
+ PRODUCTVERSION 1,2,0,59
  FILEFLAGSMASK 0x0L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -73,7 +73,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Created by David Tombs (DiGiT)"
             VALUE "FileDescription", "TS executable"
-            VALUE "FileVersion", "1.2.0.58"
+            VALUE "FileVersion", "1.2.0.59"
             VALUE "InternalName", "ts"
             VALUE "LegalCopyright", "Copyright (c) David Tombs 2010. See readme.txt."
             VALUE "LegalTrademarks", "Age of Empires II is a legal trademark of Microsoft Corporation."

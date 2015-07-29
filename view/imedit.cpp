@@ -91,6 +91,10 @@ void IMsgs_Reset(HWND dialog)
 		version1 = version;
 	sprintf(string, "%s - %.2f", version1, scen.version2);
 
+	ENABLE_WND(IDC_G_LOCKTEAMS, scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6);
+	ENABLE_WND(IDC_G_CHOOSETEAMS, scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6);
+	ENABLE_WND(IDC_G_RANDPOSITIONS, scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6);
+
 	SetDlgItemText(dialog, IDC_G_VER, string);
 	SetDlgItemText(dialog, IDC_G_GAME, gameName(scen.game));
 	SetDlgItemText(dialog, IDC_G_TIMESTAMP, _ctime32(&scen.header.timestamp));

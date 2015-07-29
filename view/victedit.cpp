@@ -153,7 +153,7 @@ void Vict_DisableControls(HWND dialog, int mode)
 void reset(HWND dialog)
 {
 	CheckRadioButton(
-					 dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+					 dialog, IDC_P_VC_SP1, IDC_P_VC_SG, IDC_P_VC_SP1 + propdata.pindex);
 	LoadVictory(dialog);
 	Vict_DisableControls(dialog, scen.vict.mode);
 }
@@ -171,17 +171,17 @@ void Victory_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		else
 		switch (id)
 		{
-		case IDC_P_SP1:
-		case IDC_P_SP2:
-		case IDC_P_SP3:
-		case IDC_P_SP4:
-		case IDC_P_SP5:
-		case IDC_P_SP6:
-		case IDC_P_SP7:
-		case IDC_P_SP8:
-		case IDC_P_SG:
+		case IDC_P_VC_SP1:
+		case IDC_P_VC_SP2:
+		case IDC_P_VC_SP3:
+		case IDC_P_VC_SP4:
+		case IDC_P_VC_SP5:
+		case IDC_P_VC_SP6:
+		case IDC_P_VC_SP7:
+		case IDC_P_VC_SP8:
+		case IDC_P_VC_SG:
 			SaveVictory(dialog);
-			propdata.pindex = id - IDC_P_SP1;
+			propdata.pindex = id - IDC_P_VC_SP1;
 			propdata.p = &scen.players[propdata.pindex];
 			reset(dialog);
 			break;
@@ -272,7 +272,7 @@ INT_PTR CALLBACK VictDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam
 
 		case AOKTS_Loading:
 			CheckRadioButton(
-				dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+				dialog, IDC_P_VC_SP1, IDC_P_VC_SG, IDC_P_VC_SP1 + propdata.pindex);
 			reset(dialog);
 			return 0;
 

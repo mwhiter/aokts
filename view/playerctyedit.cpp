@@ -114,17 +114,17 @@ void PlayersCTY_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 	case CBN_SELCHANGE:
 		switch (id)
 		{
-		case IDC_P_SP1:
-		case IDC_P_SP2:
-		case IDC_P_SP3:
-		case IDC_P_SP4:
-		case IDC_P_SP5:
-		case IDC_P_SP6:
-		case IDC_P_SP7:
-		case IDC_P_SP8:
-		case IDC_P_SG:
+		case IDC_P_CTY_SP1:
+		case IDC_P_CTY_SP2:
+		case IDC_P_CTY_SP3:
+		case IDC_P_CTY_SP4:
+		case IDC_P_CTY_SP5:
+		case IDC_P_CTY_SP6:
+		case IDC_P_CTY_SP7:
+		case IDC_P_CTY_SP8:
+		case IDC_P_CTY_SG:
 			SavePlayerCTY(dialog);
-			propdata.pindex = id - IDC_P_SP1;
+			propdata.pindex = id - IDC_P_CTY_SP1;
 			propdata.p = &scen.players[propdata.pindex];
 			LoadPlayerCTY(dialog);
 			break;
@@ -215,7 +215,7 @@ INT_PTR CALLBACK PlyCTYDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lPar
 				{
 				case PSN_SETACTIVE:
 					CheckRadioButton(
-						dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+						dialog, IDC_P_CTY_SP1, IDC_P_CTY_SG, IDC_P_CTY_SP1 + propdata.pindex);
 					LoadPlayerCTY(dialog);
 					return ret;
 
@@ -229,7 +229,7 @@ INT_PTR CALLBACK PlyCTYDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lPar
 		case AOKTS_Loading:
 			ret = PlayersCTY_Init(dialog);
 			CheckRadioButton(
-				dialog, IDC_P_SP1, IDC_P_SG, IDC_P_SP1 + propdata.pindex);
+				dialog, IDC_P_CTY_SP1, IDC_P_CTY_SG, IDC_P_CTY_SP1 + propdata.pindex);
 			LoadPlayerCTY(dialog);
 			return ret;
 

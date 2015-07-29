@@ -60,6 +60,7 @@ public:
 	void read_data1(FILE * in);
 	void read_aimode(FILE * in);
 	void read_resources(FILE * in);
+	void read_player_number(FILE * in);
 	void read_diplomacy(FILE * in);
 	void read_ndis_techs(FILE * in);
 	void read_dis_techs(FILE * in, const PerVersion& pv);
@@ -113,6 +114,8 @@ public:
 	char ai[_MAX_FNAME];
 	SString aifile; // ie, .per file contents
 	char aimode;	//see enum AIModes
+
+	long player_number;
 
 	/* Starting resource stockpiles.
 

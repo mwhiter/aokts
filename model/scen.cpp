@@ -1154,12 +1154,12 @@ void Scenario::read_data(const char *path)	//decompressed data
 	try
 	{
 	    switch (game) {
-	        case SWGB:
-	        case SWGBCC:
-		        esdata.load(datapath_swgb);
-		        break;
-	        default:
-		        esdata.load(datapath_aok);
+	    case SWGB:
+	    case SWGBCC:
+		    esdata.load(datapath_swgb);
+		    break;
+	    default:
+		    esdata.load(datapath_aok);
 	    }
 	}
 	catch (std::exception& ex)
@@ -1254,8 +1254,16 @@ void Scenario::read_data(const char *path)	//decompressed data
 
 	readunk(dc2in.get(), sect, "Resources sect begin", true);
 
-	FEP(p)
+	FEP(p) {
 		p->read_resources(dc2in.get());
+        if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
+		    p->read_player_number(dc2in.get());
+		} else {
+            for (int i = 0; i < NUM_PLAYERS; i++) {
+                players[i].player_number = i;
+            }
+        }
+	}
 
 	/* Global Victory */
 
@@ -1582,10 +1590,9 @@ int Scenario::write_data(const char *path)
 
 	writeval(dcout, sect);
 	FEP(p) {
+		fwrite(&p->resources, sizeof(long), 6, dcout);
 	    if (game == AOHD4 || game == AOF4 || game == AOHD6 || game == AOF6) {
-		    fwrite(&p->resources, sizeof(long), 7, dcout);
-		} else {
-		    fwrite(&p->resources, sizeof(long), 6, dcout);
+		    fwrite(&p->player_number, sizeof(long), 1, dcout);
 		}
 	}
 
@@ -2678,6 +2685,9 @@ AOKTS_ERROR Scenario::aoc_to_hd4() {
 	Trigger *trig = &(*triggers.begin());
 
     bool removed = false;
+
+    player_choose_teams = 1;
+    max_teams = 4;
 
     // triggers
 	long i = num;

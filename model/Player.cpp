@@ -209,11 +209,12 @@ void Player::read_aimode(FILE * in)
 
 void Player::read_resources(FILE * in)
 {
-    if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
-	    readbin(in, resources, 7);
-    } else {
-	    readbin(in, resources, 6);
-	}
+	readbin(in, resources, 6);
+}
+
+void Player::read_player_number(FILE * in)
+{
+	readbin(in, &player_number);
 }
 
 void Player::read_diplomacy(FILE * in)
@@ -419,6 +420,7 @@ void Player::write_data3(FILE *out, int me, float *view)
 
 	writecs<unsigned short>(out, Player::names[me]);
 
+    // This changed when I saved the scenario using in-game editor without changing anything
 	fwrite(
 		view ? view : camera,	//let calling func determine view if it wants to
 		sizeof(float), 2, out);	//camera[]

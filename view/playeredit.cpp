@@ -21,6 +21,7 @@
 
 const char *max_teams_names[] = { "2 Teams", "3 Teams", "4 Teams" };
 const char *num_players_names[] = { "INVALID", "1", "2", "3", "4", "5", "6", "7", "8" };
+const char *players_number_names[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 /* Players */
 
@@ -80,6 +81,10 @@ void LoadPlayer(HWND dialog)
 
 	if (propdata.pindex == PLAYER1_INDEX)
 		ENABLE_WND(IDC_P_ACTIVE, false);
+
+    for (int i = 0; i < 9; i++) {
+	    SendDlgItemMessage(dialog, IDC_P_P1_NUM + i, CB_SETCURSEL, scen.players[i].player_number, 0);
+    }
 
 	SetDlgItemText(dialog, IDC_P_NAME, p->name);
 	LCombo_SelById(dialog, IDC_P_CIV, p->civ);
@@ -148,6 +153,10 @@ void SavePlayer(HWND dialog)
 	p->age = SendDlgItemMessage(dialog, IDC_P_AGE, CB_GETCURSEL, 0, 0) - 1;
 	p->u1 = toshort(GetDlgItemInt(dialog, IDC_P_US0, NULL, FALSE));
 	p->u2 = toshort(GetDlgItemInt(dialog, IDC_P_US1, NULL, FALSE));
+
+	for (int i = 0; i < 9; i++) {
+	    scen.players[i].player_number = SendDlgItemMessage(dialog, IDC_P_P1_NUM + i, CB_GETCURSEL, 0, 0);
+	}
 
     HWND hAI = GetDlgItem(dialog, IDC_P_AI);
 
@@ -298,6 +307,18 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			LoadPlayer(dialog);
 			SendMessage(propdata.mapview, MAP_Reset, 0, 0);
 			break;
+
+		case IDC_P_P1_NUM:
+		case IDC_P_P2_NUM:
+		case IDC_P_P3_NUM:
+		case IDC_P_P4_NUM:
+		case IDC_P_P5_NUM:
+		case IDC_P_P6_NUM:
+		case IDC_P_P7_NUM:
+		case IDC_P_P8_NUM:
+		case IDC_P_P9_NUM:
+		    break;
+
 		case IDC_P_SP1:
 		case IDC_P_SP2:
 		case IDC_P_SP3:
@@ -430,6 +451,21 @@ char ttAI[] =
 BOOL Players_Init(HWND dialog)
 {
     ENABLE_WND(IDC_P_MAX_TEAMS, scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6);
+
+    for (int i = 0; i < 9; i++) {
+        Combo_Fill(dialog, IDC_P_P1_NUM + i, players_number_names, 9);
+	    SendDlgItemMessage(dialog, IDC_P_P1_NUM + i, CB_SETCURSEL, scen.players[i].player_number, 0);
+    }
+
+    if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
+	    for (int i = 0; i < 9; i++) {
+	        ENABLE_WND(IDC_P_P1_NUM + i, false);
+	    }
+	} else {
+	    for (int i = 0; i < 9; i++) {
+	        ENABLE_WND(IDC_P_P1_NUM + i, false);
+	    }
+	}
 
 	/* Fill Combo Boxes */
 	LCombo_Fill(dialog, IDC_P_CIV, esdata.civs.head());

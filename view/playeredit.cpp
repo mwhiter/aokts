@@ -459,7 +459,7 @@ BOOL Players_Init(HWND dialog)
 
     if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
 	    for (int i = 0; i < 9; i++) {
-	        ENABLE_WND(IDC_P_P1_NUM + i, false);
+	        ENABLE_WND(IDC_P_P1_NUM + i, true);
 	    }
 	} else {
 	    for (int i = 0; i < 9; i++) {

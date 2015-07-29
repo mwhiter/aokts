@@ -239,6 +239,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #define IDC_TR_UNK2                 1456
 #define IDC_TR_UNK3                 1457
 #define IDC_TR_UNK4                 1458
+#define IDC_TR_CLEAR                1459
 
 /* Units Controls */
 #define IDC_U_SELU			    1500

@@ -199,12 +199,37 @@ void Map_UpdatePos(HWND dialog, WORD idx, WORD idy)
 void Map_HandleMapClick(HWND dialog, short x, short y)
 {
 	int ctrlx, ctrly;
-
 	switch (click_state)
 	{
 	case CLICK_Default:
-		ctrlx = IDC_TR_TX;
-		ctrly = IDC_TR_TY;
+	    {
+		    ctrlx = IDC_TR_TX;
+		    ctrly = IDC_TR_TY;
+
+	        int len_lb_x = GetWindowTextLength(GetDlgItem(dialog, IDC_TR_MMX1));
+	        int len_lb_y = GetWindowTextLength(GetDlgItem(dialog, IDC_TR_MMY1));
+	        if (len_lb_x == 0 && len_lb_y == 0) {
+	            SetDlgItemInt(dialog, IDC_TR_MMX1, x, FALSE);
+	            SetDlgItemInt(dialog, IDC_TR_MMY1, y, FALSE);
+	            break;
+	        }
+
+	        int len_tr_x = GetWindowTextLength(GetDlgItem(dialog, IDC_TR_MMX2));
+	        int len_tr_y = GetWindowTextLength(GetDlgItem(dialog, IDC_TR_MMY2));
+	        if (len_tr_x == 0 && len_tr_y == 0) {
+	            SetDlgItemInt(dialog, IDC_TR_MMX2, x, FALSE);
+	            SetDlgItemInt(dialog, IDC_TR_MMY2, y, FALSE);
+	            break;
+	        }
+
+	        int len_to_x = GetWindowTextLength(GetDlgItem(dialog, IDC_TR_MMXT));
+	        int len_to_y = GetWindowTextLength(GetDlgItem(dialog, IDC_TR_MMYT));
+	        if (len_to_x == 0 && len_to_y == 0) {
+	            SetDlgItemInt(dialog, IDC_TR_MMXT, x, FALSE);
+	            SetDlgItemInt(dialog, IDC_TR_MMYT, y, FALSE);
+	            break;
+	        }
+        }
 		break;
 	case CLICK_MMSet1:
 		ctrlx = IDC_TR_MMX1;
@@ -826,15 +851,27 @@ void Map_HandleKillFocus(HWND dialog, WORD id)
 	case IDC_TR_MMXT:
 	case IDC_TR_MMYT:
 		SendMessage(propdata.mapview, MAP_UnhighlightPoint, MAP_UNHIGHLIGHT_ALL, 0);
-		SendMessage(propdata.mapview, MAP_HighlightPoint,
-			GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE),
-			GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE));
-		SendMessage(propdata.mapview, MAP_HighlightPoint,
-			GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE),
-			GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE));
-		SendMessage(propdata.mapview, MAP_HighlightPoint,
-			GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE),
-			GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE));
+	    switch (id)
+	    {
+	    case IDC_TR_MMX1:
+	    case IDC_TR_MMY1:
+		    SendMessage(propdata.mapview, MAP_HighlightPoint,
+			            GetDlgItemInt(dialog, IDC_TR_MMX1, NULL, FALSE),
+			            GetDlgItemInt(dialog, IDC_TR_MMY1, NULL, FALSE));
+			break;
+	    case IDC_TR_MMX2:
+	    case IDC_TR_MMY2:
+		    SendMessage(propdata.mapview, MAP_HighlightPoint,
+			            GetDlgItemInt(dialog, IDC_TR_MMX2, NULL, FALSE),
+			            GetDlgItemInt(dialog, IDC_TR_MMY2, NULL, FALSE));
+			break;
+	    case IDC_TR_MMXT:
+	    case IDC_TR_MMYT:
+		    SendMessage(propdata.mapview, MAP_HighlightPoint,
+			            GetDlgItemInt(dialog, IDC_TR_MMXT, NULL, FALSE),
+			            GetDlgItemInt(dialog, IDC_TR_MMYT, NULL, FALSE));
+			break;
+		}
 		break;
 	}
 }
@@ -893,6 +930,15 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 	case BN_CLICKED:
 		switch (id)
 		{
+		case IDC_TR_CLEAR:
+		    SetDlgItemText(dialog, IDC_TR_MMX1, "");
+		    SetDlgItemText(dialog, IDC_TR_MMY1, "");
+		    SetDlgItemText(dialog, IDC_TR_MMX2, "");
+		    SetDlgItemText(dialog, IDC_TR_MMY2, "");
+		    SetDlgItemText(dialog, IDC_TR_MMXT, "");
+		    SetDlgItemText(dialog, IDC_TR_MMYT, "");
+			break;
+
 		case IDC_TR_MMSET1:
 			click_state = CLICK_MMSet1;
 			break;

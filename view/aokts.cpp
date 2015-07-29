@@ -104,7 +104,7 @@ const char welcome[] =
 const char extOpen[] =
 "AoE 2 Scenarios (*.scn, *.scx, *.scx2)\0*.scn;*.scx;*.scx2\0Star Wars Scenarios (*.scx, *.sc1)\0*.scx;*.sc1\0All files (*.*)\0*.*\0";
 const char extSave[] =
-"AOK Scenarios (*.scn)\0*.scn\0AOC 1.0C Scenarios (*.scx)\0*.scx\0AOC 1.4RC Scenarios (*.scx)\0*.scx\0AOHD Scenarios (*.scx)\0*.scx\0AOF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0AOHD1.26 BETA (*.scx)\0*.scx\0AOF1.26 BETA (*.scx2)\0*.scx2\0All files (*.*)\0*.*\0";
+"AOK Scenarios (*.scn)\0*.scn\0AOC 1.0C Scenarios (*.scx)\0*.scx\0AOC 1.4RC Scenarios (*.scx)\0*.scx\0AOHD Scenarios (*.scx)\0*.scx\0AOF Scenarios (*.scx2)\0*.scx2\0SWGB Scenarios (*.scx)\0*.scx\0Clone Campaigns Scenarios (*.sc1)\0*.sc1\0AOHD P4 (*.scx)\0*.scx\0AOF P4 (*.scx2)\0*.scx2\0AOHD1.26 BETA (*.scx)\0*.scx\0AOF1.26 BETA (*.scx2)\0*.scx2\0All files (*.*)\0*.*\0";
 const char datapath_aok[] = "data_aok.xml";
 const char datapath_swgb[] = "data_swgb.xml";
 
@@ -224,12 +224,10 @@ void FileSave(HWND sheet, bool as, bool write)
 		    ofn.lpstrDefExt =	"scx";
 		    break;
 		case AOHD:
-		case AOHD4:
 		    ofn.nFilterIndex =	4;
 		    ofn.lpstrDefExt =	"scx";
 		    break;
 		case AOF:
-		case AOF4:
 		    ofn.nFilterIndex =	5;
 		    ofn.lpstrDefExt =	"scx2";
 		    break;
@@ -241,12 +239,20 @@ void FileSave(HWND sheet, bool as, bool write)
 		    ofn.nFilterIndex =	7;
 		    ofn.lpstrDefExt =	"sc1";
 		    break;
-		case AOHD6:
+		case AOHD4:
 		    ofn.nFilterIndex =	8;
 		    ofn.lpstrDefExt =	"scx";
 		    break;
-		case AOF6:
+		case AOF4:
 		    ofn.nFilterIndex =	9;
+		    ofn.lpstrDefExt =	"scx2";
+		    break;
+		case AOHD6:
+		    ofn.nFilterIndex =	10;
+		    ofn.lpstrDefExt =	"scx";
+		    break;
+		case AOF6:
+		    ofn.nFilterIndex =	11;
 		    ofn.lpstrDefExt =	"scx2";
 		    break;
 		}
@@ -265,10 +271,10 @@ void FileSave(HWND sheet, bool as, bool write)
 		    conv = UP;
 		    break;
 		case 4:
-		    conv = AOHD4;
+		    conv = AOHD;
 		    break;
 		case 5:
-		    conv = AOF4;
+		    conv = AOF;
 		    break;
 		case 6:
 		    conv = SWGB;
@@ -277,9 +283,15 @@ void FileSave(HWND sheet, bool as, bool write)
 		    conv = SWGBCC;
 		    break;
 		case 8:
-		    conv = AOHD6;
+		    conv = AOHD4;
 		    break;
 		case 9:
+		    conv = AOF4;
+		    break;
+		case 10:
+		    conv = AOHD6;
+		    break;
+		case 11:
 		    conv = AOF6;
 		    break;
 		}

@@ -295,6 +295,7 @@ private:
 
 std::string Effect::getName(bool tip, NameFlags::Value flags, int recursion) const
 {
+    //printf_log("effect getName() parent trigger= %d.\n",parent_trigger_id);
     if (!tip) {
 	    return (type < scen.pergame->max_effect_types) ? getTypeName(type, false) : "Unknown!";
 	} else {

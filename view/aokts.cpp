@@ -1102,16 +1102,16 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		DialogBoxParam(aokts, MAKEINTRESOURCE(IDD_STATS), sheet, StatsDialogProc, 0);
 		break;
 
-	case ID_VIEW_STATUS_BAR:
-		if (GetMenuState(GetMenu(sheet), ID_VIEW_STATUS_BAR, MF_BYCOMMAND) & MF_CHECKED)
+	case ID_VIEW_STAT_BAR:
+		if (GetMenuState(GetMenu(sheet), ID_VIEW_STAT_BAR, MF_BYCOMMAND) & MF_CHECKED)
 		{
 			ShowWindow(propdata.statusbar, SW_HIDE);
-			CheckMenuItem(GetMenu(sheet), ID_VIEW_STATUS_BAR, MF_BYCOMMAND);
+			CheckMenuItem(GetMenu(sheet), ID_VIEW_STAT_BAR, MF_BYCOMMAND);
 		}
 		else
 		{
 			ShowWindow(propdata.statusbar, SW_SHOW);
-			CheckMenuItem(GetMenu(sheet), ID_VIEW_STATUS_BAR, MF_BYCOMMAND | MF_CHECKED);
+			CheckMenuItem(GetMenu(sheet), ID_VIEW_STAT_BAR, MF_BYCOMMAND | MF_CHECKED);
 		}
 		break;
 

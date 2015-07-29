@@ -98,7 +98,7 @@ inline void setloc(HWND dialog, bool point)
 }
 
 // ../res/resource.h
-// go to IDC_E_START
+// go to IDC_E_AIGOAL
 
 // AoK
 const char etable1_aok[Effect::NUM_EFFECTS_AOK][EditEffect::N_CONTROLS] = // Using 0 instead of -1 to waste less space
@@ -341,7 +341,7 @@ void EffectControls(HWND dialog, int type)
 
 	if (type >= scen.pergame->max_effect_types)
 	{
-		for (i = IDC_E_START; i <= IDC_E_END; i++)
+		for (i = IDC_E_AIGOAL; i <= IDC_E_SWAPST; i++)
 			ENABLE_WND(i, true);
 		ENABLE_WND(IDC_E_TEXTID, true);
 		ENABLE_WND(IDC_E_SOUNDID, true);
@@ -351,7 +351,7 @@ void EffectControls(HWND dialog, int type)
 		return;
 	}
 
-	for (i = IDC_E_START; i <= IDC_E_END; i++)
+	for (i = IDC_E_AIGOAL; i <= IDC_E_SWAPST; i++)
 		ENABLE_WND(i, setts.editall);
 
 	ENABLE_WND(IDC_E_TEXTID, setts.editall);
@@ -407,7 +407,7 @@ void EffectControls(HWND dialog, int type)
 					ENABLE_WND(IDC_E_SOUNDID, true);
 					break;
 			}
-			ENABLE_WND(IDC_E_START + i, true);
+			ENABLE_WND(IDC_E_AIGOAL + i, true);
 		}
 	}
 

@@ -55,7 +55,7 @@ const char ctable_aok[Condition::NUM_CONDITIONS_AOHD4][EditCondition::N_CONTROLS
 };
 
 // ../res/resource.h
-// go to IDC_C_START
+// go to IDC_C_AMOUNT
 
 // SWGB
 const char ctable_swgb[Condition::NUM_CONDITIONS_SWGB][EditCondition::N_CONTROLS] = // Using 0 instead of -1 to waste less space
@@ -125,14 +125,14 @@ void ConditionControls(HWND dialog, int type)
 
 	if (type >= scen.pergame->max_condition_types)
 	{
-		for (i = IDC_C_START; i <= IDC_C_END; i++)
+		for (i = IDC_C_AMOUNT; i <= IDC_C_UNKNOWNHD; i++)
 			ENABLE_WND(i, true);
 		ENABLE_WND(IDC_C_USEL1, true);
 		ENABLE_WND(IDC_C_USEL2, true);
 		return;
 	}
 
-	for (i = IDC_C_START; i <= IDC_C_END; i++)
+	for (i = IDC_C_AMOUNT; i <= IDC_C_UNKNOWNHD; i++)
 		ENABLE_WND(i, false || setts.editall);
 	ENABLE_WND(IDC_C_USEL1, setts.editall);
 	ENABLE_WND(IDC_C_USEL2, setts.editall);
@@ -164,7 +164,7 @@ void ConditionControls(HWND dialog, int type)
 	{
 		if (table[i])
 		{
-			ENABLE_WND(IDC_C_START + i, true);
+			ENABLE_WND(IDC_C_AMOUNT + i, true);
 			if (i == 2)
 				ENABLE_WND(IDC_C_USEL1, true);
 			if (i == 3)

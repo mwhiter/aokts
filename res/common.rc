@@ -123,7 +123,7 @@ BEGIN
     END
     POPUP "&View"
     BEGIN
-        MENUITEM "Status &Bar",                 ID_VIEW_STATUS_BAR, CHECKED
+        MENUITEM "Status &Bar",                 ID_VIEW_STAT_BAR, CHECKED
         MENUITEM "&Map Viewer",                 ID_VIEW_MAP, CHECKED
         MENUITEM "&Draw Terrain (A)",           ID_DRAW_TERRAIN, CHECKED
         MENUITEM "&Draw Elevation (V)",         ID_DRAW_ELEVATION, CHECKED

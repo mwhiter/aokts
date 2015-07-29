@@ -395,31 +395,31 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
 			break;
 
-		case ID_EDIT_COPY:
+		case ID_TS_EDIT_COPY:
 			SendMessage(GetFocus(), WM_COPY, 0, 0);
 			break;
 
-		case ID_EDIT_CUT:
+		case ID_TS_EDIT_CUT:
 			SendMessage(GetFocus(), WM_CUT, 0, 0);
 			break;
 
-		case ID_EDIT_PASTE:
+		case ID_TS_EDIT_PASTE:
 			SendMessage(GetFocus(), WM_PASTE, 0, 0);
 			break;
 		}
 		break;
 
 	case EN_SETFOCUS:
-		EnableMenuItem(propdata.menu, ID_EDIT_COPY, MF_ENABLED);
-		EnableMenuItem(propdata.menu, ID_EDIT_CUT, MF_ENABLED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_COPY, MF_ENABLED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_CUT, MF_ENABLED);
 		if (IsClipboardFormatAvailable(CF_TEXT))
-			EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_ENABLED);
+			EnableMenuItem(propdata.menu, ID_TS_EDIT_PASTE, MF_ENABLED);
 		break;
 
 	case EN_KILLFOCUS:
-		EnableMenuItem(propdata.menu, ID_EDIT_COPY, MF_GRAYED);
-		EnableMenuItem(propdata.menu, ID_EDIT_CUT, MF_GRAYED);
-		EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_GRAYED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_COPY, MF_GRAYED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_CUT, MF_GRAYED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_PASTE, MF_GRAYED);
 		break;
 	}
 }

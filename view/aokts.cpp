@@ -136,10 +136,10 @@ inline void SetSaveState(HWND window, UINT state)
 {
 	HMENU menu = GetMenu(window);
 	EnableMenuItem(menu, ID_FILE_REOPEN, state);
-	EnableMenuItem(menu, ID_FILE_SAVE, state);
-	EnableMenuItem(menu, ID_FILE_SAVE_AS, state);
-	EnableMenuItem(menu, ID_FILE_SAVE_AS2, state);
-	EnableMenuItem(menu, ID_FILE_CLOSE, state);
+	EnableMenuItem(menu, ID_TS_FILE_SAVE, state);
+	EnableMenuItem(menu, ID_TS_FILE_SAVE_AS, state);
+	EnableMenuItem(menu, ID_TS_FILE_SAVE_AS2, state);
+	EnableMenuItem(menu, ID_TS_FILE_CLOSE, state);
 }
 
 /*
@@ -926,16 +926,16 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		FileOpen(sheet, false, 0);
 		break;
 
-	case ID_FILE_OPEN:
+	case ID_TS_FILE_OPEN:
 		FileOpen(sheet, true, -1);
 		break;
 
-	case ID_FILE_NEW:
-	case ID_FILE_CLOSE:
+	case ID_TS_FILE_NEW:
+	case ID_TS_FILE_CLOSE:
 		FileClose(sheet, control);
 		break;
 
-	case ID_APP_EXIT:
+	case ID_TS_APP_EXIT:
 		if (scen.needsave())
 		{
 			int sel = MessageBox(sheet, "Do you want to save your changes?", "Save", MB_YESNOCANCEL);
@@ -947,15 +947,15 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		DestroyWindow(sheet);
 		break;
 
-	case ID_FILE_SAVE:
+	case ID_TS_FILE_SAVE:
 		FileSave(sheet, false, true);
 		break;
 
-	case ID_FILE_SAVE_AS:
+	case ID_TS_FILE_SAVE_AS:
 		FileSave(sheet, true, true);
 		break;
 
-	case ID_FILE_SAVE_AS2:
+	case ID_TS_FILE_SAVE_AS2:
 		FileSave(sheet, true, false);
 
 	case ID_FILE_DUMP:
@@ -1184,11 +1184,11 @@ bool Sheet_HandleCommand(HWND sheet, WORD code, WORD id, HWND control)
 		OnCompressOrDecompress(sheet, false);
 		break;
 
-	case ID_HELP:
+	case ID_TS_HELP:
 		WinHelp(sheet, "ts.hlp", HELP_CONTENTS, 0);
 		break;
 
-	case ID_APP_ABOUT:
+	case ID_TS_APP_ABOUT:
 		DialogBoxParam(aokts, (LPCSTR)IDD_ABOUT, sheet, DefaultDialogProc, 0L);
 		break;
 

@@ -918,19 +918,19 @@ void Triggers_EditMenu(HMENU menu, bool state)
 {
 	if (state)
 	{
-		EnableMenuItem(menu, ID_EDIT_COPY, MF_ENABLED);
-		EnableMenuItem(menu, ID_EDIT_CUT, MF_ENABLED);
+		EnableMenuItem(menu, ID_TS_EDIT_COPY, MF_ENABLED);
+		EnableMenuItem(menu, ID_TS_EDIT_CUT, MF_ENABLED);
 		EnableMenuItem(menu, ID_EDIT_DELETE, MF_ENABLED);
 		if (GetPriorityClipboardFormat(&propdata.tformat, NUM_FORMATS) > 0)
-			EnableMenuItem(menu, ID_EDIT_PASTE, MF_ENABLED);
+			EnableMenuItem(menu, ID_TS_EDIT_PASTE, MF_ENABLED);
 		EnableMenuItem(menu, ID_EDIT_RENAME, MF_ENABLED);
 	}
 	else
 	{
-		EnableMenuItem(menu, ID_EDIT_COPY, MF_GRAYED);
-		EnableMenuItem(menu, ID_EDIT_CUT, MF_GRAYED);
+		EnableMenuItem(menu, ID_TS_EDIT_COPY, MF_GRAYED);
+		EnableMenuItem(menu, ID_TS_EDIT_CUT, MF_GRAYED);
 		EnableMenuItem(menu, ID_EDIT_DELETE, MF_GRAYED);
-		EnableMenuItem(menu, ID_EDIT_PASTE, MF_GRAYED);
+		EnableMenuItem(menu, ID_TS_EDIT_PASTE, MF_GRAYED);
 		EnableMenuItem(menu, ID_EDIT_RENAME, MF_GRAYED);
 	}
 }
@@ -1709,7 +1709,7 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
             }
             TrigTree_Reset(GetDlgItem(dialog, IDC_T_TREE), true);
             break;
-		case ID_EDIT_COPY:
+		case ID_TS_EDIT_COPY:
 			SAFECHECK();
 			if (GetFocus() == treeview)
 			{
@@ -1720,7 +1720,7 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 				SendMessage(GetFocus(), WM_COPY, 0, 0);
 			break;
 
-		case ID_EDIT_CUT:
+		case ID_TS_EDIT_CUT:
 			SAFECHECK();
 			if (GetFocus() == treeview)
 			{
@@ -1732,7 +1732,7 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 				SendMessage(GetFocus(), WM_CUT, 0, 0);
 			break;
 
-		case ID_EDIT_PASTE:
+		case ID_TS_EDIT_PASTE:
 			if (GetFocus() == treeview)
 				TrigTree_Paste(dialog);
 			else
@@ -1842,18 +1842,18 @@ INT_PTR Handle_WM_COMMAND(HWND dialog, WORD code, WORD id, HWND)
 		break;
 
 	case EN_SETFOCUS:
-		EnableMenuItem(propdata.menu, ID_EDIT_COPY, MF_ENABLED);
-		EnableMenuItem(propdata.menu, ID_EDIT_CUT, MF_ENABLED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_COPY, MF_ENABLED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_CUT, MF_ENABLED);
 		if (IsClipboardFormatAvailable(CF_TEXT))
-			EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_ENABLED);
+			EnableMenuItem(propdata.menu, ID_TS_EDIT_PASTE, MF_ENABLED);
 
         PaintCurrent();
 		break;
 
 	case EN_KILLFOCUS:
-		EnableMenuItem(propdata.menu, ID_EDIT_COPY, MF_GRAYED);
-		EnableMenuItem(propdata.menu, ID_EDIT_CUT, MF_GRAYED);
-		EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_GRAYED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_COPY, MF_GRAYED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_CUT, MF_GRAYED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_PASTE, MF_GRAYED);
 		break;
 	}
 

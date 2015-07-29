@@ -98,26 +98,26 @@ IDM_MAIN MENU
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&New\tCtrl+N",                ID_TS_FILE_NEW
         MENUITEM "&Reopen\tCtrl+R",             ID_FILE_REOPEN
-        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM "&Save \tCtrl+S",              ID_FILE_SAVE
-        MENUITEM "Save &As... \tCtrl+Shift+S",  ID_FILE_SAVE_AS
-        MENUITEM "Save scendata.&tmp As... \tCtrl+T", ID_FILE_SAVE_AS2
-        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Open...\tCtrl+O",            ID_TS_FILE_OPEN
+        MENUITEM "&Save \tCtrl+S",              ID_TS_FILE_SAVE
+        MENUITEM "Save &As... \tCtrl+Shift+S",  ID_TS_FILE_SAVE_AS
+        MENUITEM "Save scendata.&tmp As... \tCtrl+T", ID_TS_FILE_SAVE_AS2
+        MENUITEM "&Close",                      ID_TS_FILE_CLOSE
         MENUITEM SEPARATOR
         MENUITEM "&1",                          ID_FILE_RECENT1, GRAYED
         MENUITEM "&2",                          ID_FILE_RECENT2, GRAYED
         MENUITEM "&3",                          ID_FILE_RECENT3, GRAYED
         MENUITEM "&4",                          ID_FILE_RECENT4, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "&Exit",                       ID_APP_EXIT
+        MENUITEM "&Exit",                       ID_TS_APP_EXIT
     END
     POPUP "&Edit"
     BEGIN
-        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT, GRAYED
-        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY, GRAYED
-        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE, GRAYED
+        MENUITEM "Cu&t\tCtrl+X",                ID_TS_EDIT_CUT, GRAYED
+        MENUITEM "&Copy\tCtrl+C",               ID_TS_EDIT_COPY, GRAYED
+        MENUITEM "&Paste\tCtrl+V",              ID_TS_EDIT_PASTE, GRAYED
         MENUITEM "&Delete\tDel",                ID_EDIT_DELETE, GRAYED
         MENUITEM "&Edit All",                   ID_EDIT_ALL, CHECKED
     END
@@ -176,9 +176,9 @@ BEGIN
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "&Help (F1)",                  ID_HELP
+        MENUITEM "&Help (F1)",                  ID_TS_HELP
         MENUITEM SEPARATOR
-        MENUITEM "&About",                      ID_APP_ABOUT
+        MENUITEM "&About",                      ID_TS_APP_ABOUT
     END
 END
 
@@ -190,15 +190,15 @@ END
 
 IDA_MAIN ACCELERATORS 
 BEGIN
-    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "N",            ID_TS_FILE_NEW,         VIRTKEY, CONTROL
     "R",            ID_FILE_REOPEN,         VIRTKEY, CONTROL
-    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
-    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
-    "S",            ID_FILE_SAVE_AS,        VIRTKEY, SHIFT, CONTROL
-    "T",            ID_FILE_SAVE_AS2,       VIRTKEY, CONTROL
-    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
-    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
-    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    "O",            ID_TS_FILE_OPEN,        VIRTKEY, CONTROL
+    "S",            ID_TS_FILE_SAVE,        VIRTKEY, CONTROL
+    "S",            ID_TS_FILE_SAVE_AS,     VIRTKEY, SHIFT, CONTROL
+    "T",            ID_TS_FILE_SAVE_AS2,    VIRTKEY, CONTROL
+    "C",            ID_TS_EDIT_COPY,        VIRTKEY, CONTROL
+    "X",            ID_TS_EDIT_CUT,         VIRTKEY, CONTROL
+    "V",            ID_TS_EDIT_PASTE,       VIRTKEY, CONTROL
 END
 
 
@@ -212,7 +212,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    CONTROL         200,IDC_STATIC,"Static",SS_BITMAP,8,8,21,20
+    CONTROL         1020,IDC_STATIC,"Static",SS_BITMAP,8,8,21,20
     LTEXT           "Trigger Studio",IDC_STATIC,48,8,122,10
     LTEXT           "Version:",IDC_STATIC,179,8,48,8
     LTEXT           "1.2.0.58",IDC_STATIC,179,16,52,8
@@ -618,10 +618,10 @@ BEGIN
     EDITTEXT        IDC_TT_CONTEXT,365,10,47,8,ES_AUTOHSCROLL | NOT WS_BORDER
 END
 
-IDD_STATS DIALOG  0, 0, 160, 168
+IDD_STATS DIALOGEX 0, 0, 160, 168
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Scenario Statistics"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     LTEXT           "Players:",IDC_STATIC,8,8,48,8
     LTEXT           "Player 1",IDC_STATIC,8,17,48,8

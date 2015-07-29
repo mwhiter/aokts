@@ -799,10 +799,10 @@ void Map_HandleMapScale(HWND dialog)
 
 void Map_HandleSetFocus(HWND, WORD)
 {
-	EnableMenuItem(propdata.menu, ID_EDIT_COPY, MF_ENABLED);
-	EnableMenuItem(propdata.menu, ID_EDIT_CUT, MF_ENABLED);
+	EnableMenuItem(propdata.menu, ID_TS_EDIT_COPY, MF_ENABLED);
+	EnableMenuItem(propdata.menu, ID_TS_EDIT_CUT, MF_ENABLED);
 	if (IsClipboardFormatAvailable(CF_TEXT))
-		EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_ENABLED);
+		EnableMenuItem(propdata.menu, ID_TS_EDIT_PASTE, MF_ENABLED);
 }
 
 void Map_ShowOperationsCoords(HWND dialog, WORD id)
@@ -838,9 +838,9 @@ void Map_ShowOperationsCoords(HWND dialog, WORD id)
 
 void Map_HandleKillFocus(HWND dialog, WORD id)
 {
-	EnableMenuItem(propdata.menu, ID_EDIT_COPY, MF_GRAYED);
-	EnableMenuItem(propdata.menu, ID_EDIT_CUT, MF_GRAYED);
-	EnableMenuItem(propdata.menu, ID_EDIT_PASTE, MF_GRAYED);
+	EnableMenuItem(propdata.menu, ID_TS_EDIT_COPY, MF_GRAYED);
+	EnableMenuItem(propdata.menu, ID_TS_EDIT_CUT, MF_GRAYED);
+	EnableMenuItem(propdata.menu, ID_TS_EDIT_PASTE, MF_GRAYED);
 
 	switch (id)
 	{
@@ -913,15 +913,15 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		//    Map_SaveTile(dialog);
 		//	break;
 
-		case ID_EDIT_COPY:
+		case ID_TS_EDIT_COPY:
 			SendMessage(GetFocus(), WM_COPY, 0, 0);
 			break;
 
-		case ID_EDIT_CUT:
+		case ID_TS_EDIT_CUT:
 			SendMessage(GetFocus(), WM_CUT, 0, 0);
 			break;
 
-		case ID_EDIT_PASTE:
+		case ID_TS_EDIT_PASTE:
 			SendMessage(GetFocus(), WM_PASTE, 0, 0);
 			break;
 		}

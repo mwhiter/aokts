@@ -2148,8 +2148,8 @@ aokts.rc: Added "Name" to IDC_U_SORT.
 aokts.rc, resource.h: Added IDD_STATS, and a menu item to activate it.
 aokts.*: Added StatsDialogProc() and code to use it in MainDialogProc().
 aokts.rc, resource.h: Added ID_EDIT_DELETE to the View menu.
-aokts.rc: Added accelerators for ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE.
-trigedit.cpp: Selecting a trigger enables ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE.
+aokts.rc: Added accelerators for ID_TS_EDIT_COPY, ID_TS_EDIT_CUT, and ID_TS_EDIT_PASTE.
+trigedit.cpp: Selecting a trigger enables ID_TS_EDIT_COPY, ID_TS_EDIT_CUT, and ID_TS_EDIT_PASTE.
 
 13/03/05
 utilio.h: Added READT() and WRITE() overloads for reading/writing with buffers.
@@ -2158,16 +2158,16 @@ scen.*: Added Trigger::size(), Trigger::tobuffer(), Trigger::Trigger(char *, int
 trigedit.*: Added Trig_ToClipboard().
 
 15/03/05
-aokts.*: Added AOKTS_Closing message to tell active page to reset UI. (IDD_TRIGGERS sometimes crashed on ID_FILE_CLOSE.)
+aokts.*: Added AOKTS_Closing message to tell active page to reset UI. (IDD_TRIGGERS sometimes crashed on ID_TS_FILE_CLOSE.)
 aokts.*: Added OnClipboard().
 trigedit.*: Split off IDC_T_NEFFECT and IDC_T_NCOND handling to a function, as it should be.
-trigedit.cpp: Added handling for ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE.
+trigedit.cpp: Added handling for ID_TS_EDIT_COPY, ID_TS_EDIT_CUT, and ID_TS_EDIT_PASTE.
 aokts.rc: Fixed +1024 bug for unknowns in tech string table.
 scen.h: Updated NUM_TECHS to value including unknowns.
 -Version 0.2.8 released.-
 
 16/03/05
-aokts.cpp: Added statusbar success message for ID_FILE_CLOSE.
+aokts.cpp: Added statusbar success message for ID_TS_FILE_CLOSE.
 editors.cpp: IDC_P_X, IDC_P_Y, IDC_P_AI, IDC_P_EXAI, IDC_P_IMAI disabled in IDD_PLAYERS for GAIA. (Thanks geebert.)
 trigedit.cpp: AOKTS_Closing handling calls LoadTrig() with NULL trigger. (No-reset bugfix. Thanks geebert.)
 editors.cpp: Moved control-disabling code down to Reset label in PlyWndProc(). (Tab-switch no-disable bugfix.)
@@ -2215,14 +2215,14 @@ editors.cpp: Moved call of Vict_DisableControls() in WM_INITDIALOG to Reset labe
 trigedit.cpp: Moved internal funcs to top of trigedit.cpp, removed prototypes from trigedit.h.
 Moved content of trigedit.h to editors.h and deleted trigedit.h.
 editors.cpp, trigedit.cpp, unitedit.cpp: Moved WM_COMMAND-processing code to handler funcs.
-trigedit.cpp: Split ID_EDIT_PASTE-handling code to TrigTree_Paste().
+trigedit.cpp: Split ID_TS_EDIT_PASTE-handling code to TrigTree_Paste().
 trigedit.cpp: Split Edit Menu enabling/disabling code from TrigWndProc() to Triggers_EditMenu().
-editors.cpp, unitedit.cpp: Added handling for ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE to all DialogProcs.
+editors.cpp, unitedit.cpp: Added handling for ID_TS_EDIT_COPY, ID_TS_EDIT_CUT, and ID_TS_EDIT_PASTE to all DialogProcs.
 editors.cpp, unitedit.cpp, trigedit.cpp: Added handling for EN_SETFOCUS and EN_KILLFOCUS to enable and disable above menu items, respectively.
 
 10/04/05
 scen.*: Player::read_units() now returns bool to indicate success. Modified reading code accordingly. (SWGB fix.)
-trigedit.cpp: ID_EDIT_COPY, ID_EDIT_CUT, and ID_EDIT_PASTE handling uses edit control if selected. (No clipboard data fix.)
+trigedit.cpp: ID_TS_EDIT_COPY, ID_TS_EDIT_CUT, and ID_TS_EDIT_PASTE handling uses edit control if selected. (No clipboard data fix.)
 
 --Todo for new release--
 1) Update version info in rc, about dialogs.

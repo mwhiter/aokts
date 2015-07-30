@@ -1265,6 +1265,23 @@ void Scenario::read_data(const char *path)	//decompressed data
         }
 	}
 
+	// fix player numbers, colors and civs if they are absurd
+	for (i = 0; i < 9; i++) {
+	    if (players[i].player_number < 0 || players[i].player_number >= 9) {
+            players[i].player_number = i;
+	    }
+
+	    if (players[i].color < 0 || players[i].color >= 9) {
+            players[i].color = i;
+	    }
+
+	    for (i = 9, p = players; i < NUM_PLAYERS; i++, p++)
+	    {
+	        p->player_number = i;
+	        p->color = i;
+	    }
+	}
+
 	/* Global Victory */
 
 	readunk(dc2in.get(), sect, "Global victory sect begin", true);
@@ -1668,7 +1685,7 @@ int Scenario::write_data(const char *path)
 		resources[2] = (float)players[i].resources[0];	//gold
 		resources[3] = (float)players[i].resources[3];
 		resources[4] = (float)players[i].resources[4];
-		resources[5] = 0.0F;
+		resources[5] = (float)players[i].resources[5];
 		fwrite(resources, sizeof(float), 6, dcout);
 
         if (game >= AOC && game != SWGB && game != SWGBCC)

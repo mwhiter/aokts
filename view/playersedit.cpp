@@ -89,8 +89,10 @@ void LoadPlayer(HWND dialog)
 	SetDlgItemText(dialog, IDC_P_NAME, p->name);
 	LCombo_SelById(dialog, IDC_P_CIV, p->civ);
 	SetDlgItemInt(dialog, IDC_P_STABLE, p->stable, TRUE);
-	SetDlgItemInt(dialog, IDC_P_OREX, p->resources[4], FALSE);
-	SetDlgItemInt(dialog, IDC_P_OREY, p->resources[5], FALSE);
+	SetDlgItemInt(dialog, IDC_P_GOLD, p->resources[0], FALSE);
+	SetDlgItemInt(dialog, IDC_P_WOOD, p->resources[1], FALSE);
+	SetDlgItemInt(dialog, IDC_P_FOOD, p->resources[2], FALSE);
+	SetDlgItemInt(dialog, IDC_P_STONE, p->resources[3], FALSE);
 	SendDlgItemMessage(dialog, IDC_P_ACTIVE, BM_SETCHECK, p->enable, 0);
 	SendDlgItemMessage(dialog, IDC_P_HUMAN, BM_SETCHECK, p->human, 0);
 	SetDlgItemInt(dialog, IDC_P_POP, (int)p->pop, FALSE);
@@ -136,8 +138,6 @@ void SavePlayer(HWND dialog)
 	p->resources[1] = GetDlgItemInt(dialog, IDC_P_WOOD, NULL, FALSE);
 	p->resources[2] = GetDlgItemInt(dialog, IDC_P_FOOD, NULL, FALSE);
 	p->resources[3] = GetDlgItemInt(dialog, IDC_P_STONE, NULL, FALSE);
-	p->resources[4] = GetDlgItemInt(dialog, IDC_P_OREX, NULL, FALSE);
-	p->resources[5] = GetDlgItemInt(dialog, IDC_P_OREY, NULL, FALSE);
 	p->enable = Button_IsChecked(GetDlgItem(dialog, IDC_P_ACTIVE));
 	p->human = Button_IsChecked(GetDlgItem(dialog, IDC_P_HUMAN));
 	p->pop = static_cast<float>(GetDlgItemInt(dialog, IDC_P_POP, NULL, FALSE));

@@ -9,6 +9,7 @@
 #include "editors.h"
 #include "../res/resource.h"
 #include "utilui.h"
+#include "../util/utilio.h"
 #include "../util/settings.h"
 #include "LCombo.h"
 #include "mapview.h"
@@ -16,12 +17,170 @@
 
 #include <commdlg.h>
 
-#define NUM_MAX_TEAMS        3
-#define NUM_MAX_PLAYER_NAMES 9
+#define NUM_MAX_TEAMS           3
+#define NUM_MAX_PLAYER_NAMES    9
+#define NUM_TEAMS               7
+
+enum ediplo { NOT_DETERMINED, TEAM1, TEAM2, TEAM3, TEAM4, NEUTRAL, ALONE };
+
+const int N_PLAYERS = 8;
 
 const char *max_teams_names[] = { "2 Teams", "3 Teams", "4 Teams" };
 const char *num_players_names[] = { "INVALID", "1", "2", "3", "4", "5", "6", "7", "8" };
 const char *players_number_names[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+const char *team_names[] = { "Unclear", "Team 1", "Team 2", "Team 3", "Team 4", "Neutral", "Lone Wolf" };
+
+/*
+ * Determines the teams based on the diplomacies.
+ */
+void LoadDiplomacy(HWND dialog)
+{
+    ediplo diplo[8] = {NOT_DETERMINED}; // if still NOT_DETERMINED at the end, call it unclear
+    int teams = 0;
+    // check if p1 is in a team
+    // ------------------------
+    // p1 must have no neutrals
+    // see what players p1 is allied with
+    // each of those players must only be allied with p1 and p1's allies excluding their selves.
+    //
+    // Then increment `int teams` and set team for each teammember in a main table (diplo)
+    // ------------------------------------
+    int new_team = true; // until proven otherwise
+    int already_in_a_team = false;
+
+    bool allies[N_PLAYERS] = {false};
+    bool allied_anyone = false;
+    bool neutral = false;
+
+    // check each player for a team
+    for (int i_subject = 0; i_subject < N_PLAYERS; i_subject++) {
+        new_team = true; // until proven otherwise
+        already_in_a_team = false;
+        allied_anyone = false;
+        neutral = true;
+
+        switch (diplo[i_subject]) {
+        case TEAM1:
+        case TEAM2:
+        case TEAM3:
+        case TEAM4:
+            already_in_a_team = true;
+            goto determined;
+        }
+
+        for (int i = 0; i < N_PLAYERS; i++) {
+            allies[i] = false;
+        }
+
+        // first make an inclusive list of that player's allies
+        allies[i_subject] = true;
+        for (int i = 0; i < N_PLAYERS; i++) {
+            if (i == i_subject)
+                continue;
+            if (scen.players[i_subject].diplomacy[i] == DIP_neutral) {
+                new_team = false;
+            } else {
+                neutral = false;
+            }
+            allies[i] = scen.players[i_subject].diplomacy[i] == DIP_ally && scen.players[i].diplomacy[i_subject] == DIP_ally;
+            if (allies[i])
+                allied_anyone = true;
+        }
+
+        if (!allied_anyone) {
+            new_team = false;
+        }
+
+        if (!new_team) {
+            goto determined;
+        }
+
+        // but being a teammate is more than just being allies
+        for (int i = 0; i < N_PLAYERS; i++) {
+            if (i == i_subject)
+                continue;
+            if (allies[i]) {
+                // for each ally, determine if they are faithful (fidelious)
+                for (int j = 0; j < N_PLAYERS; j++) {
+                    if (j == i)
+                        continue;
+                    if (allies[j]) {
+                        if (scen.players[i].diplomacy[j] != DIP_ally) {
+                            new_team = false;
+                            goto determined;
+                        }
+                    } else {
+                        if (scen.players[i].diplomacy[j] != DIP_enemy) {
+                            new_team = false;
+                            goto determined;
+                        }
+                    }
+                }
+            }
+        }
+
+determined:
+        if (already_in_a_team) {
+            continue;
+        } else if (new_team) {
+            printf_log("allies %d %d %d\n", allies[0], allies[1], allies[2]);
+            for (int i = 0; i < N_PLAYERS; i++) {
+                if (allies[i]) {
+                    diplo[i] = (ediplo)((int)TEAM1 + teams);
+                }
+            }
+            teams++;
+        } else if (neutral) {
+            diplo[i_subject] = NEUTRAL;
+        } else if (!allied_anyone) {
+            diplo[i_subject] = ALONE;
+        }
+    }
+
+    // Everything is worked out
+    for (int i = 0; i < N_PLAYERS; i++) {
+	    SendDlgItemMessage(dialog, IDC_P_TEAM1 + i, CB_SETCURSEL, diplo[i], 0);
+	}
+}
+
+void AdaptTeams(HWND dialog)
+{
+    for (int i = 0; i < N_PLAYERS; i++) {
+        ediplo team = (ediplo)SendDlgItemMessage(dialog, IDC_P_TEAM1 + i, CB_GETCURSEL, 0, 0);
+        switch (team) {
+        case TEAM1:
+        case TEAM2:
+        case TEAM3:
+        case TEAM4:
+            for (int j = 0; j < N_PLAYERS; j++) {
+                if (i != j && team == (ediplo)SendDlgItemMessage(dialog, IDC_P_TEAM1 + j, CB_GETCURSEL, 0, 0)) {
+                    scen.players[i].diplomacy[j] = DIP_ally;
+                } else {
+                    scen.players[i].diplomacy[j] = DIP_enemy;
+                }
+            }
+            break;
+        case NEUTRAL:
+            for (int j = 0; j < N_PLAYERS; j++) {
+                if (i != j) {
+                    scen.players[i].diplomacy[j] = DIP_neutral;
+                }
+            }
+            break;
+        case ALONE:
+            for (int j = 0; j < N_PLAYERS; j++) {
+                if (i != j) {
+                    scen.players[i].diplomacy[j] = DIP_enemy;
+                }
+            }
+            break;
+        case NOT_DETERMINED:
+        case LB_ERR:
+        default:
+            true;
+        }
+    }
+}
 
 /* Players */
 
@@ -75,6 +234,8 @@ void LoadPlayers(HWND dialog)
 
 void SavePlayers(HWND dialog)
 {
+	AdaptTeams(dialog);
+
 	for (int i = 0; i < 9; i++) {
 	    scen.players[i].resources[0] = GetDlgItemInt(dialog, IDC_P_GOLD1 + i, NULL, FALSE);
 	    scen.players[i].resources[1] = GetDlgItemInt(dialog, IDC_P_WOOD1 + i, NULL, FALSE);
@@ -112,22 +273,15 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 		    }
 		    break;
 
-		case IDC_PS_SP1:
-		case IDC_PS_SP2:
-		case IDC_PS_SP3:
-		case IDC_PS_SP4:
-		case IDC_PS_SP5:
-		case IDC_PS_SP6:
-		case IDC_PS_SP7:
-		case IDC_PS_SP8:
-		case IDC_PS_SG:
-			SavePlayers(dialog);
-	        SaveMaxTeams(dialog);
-			propdata.pindex = id - IDC_PS_SP1;
-			propdata.p = &scen.players[propdata.pindex];
-			LoadPlayers(dialog);
-	        LoadActive(dialog);
-	        LoadMaxTeams(dialog);
+		case IDC_P_TEAM1:
+		case IDC_P_TEAM2:
+		case IDC_P_TEAM3:
+		case IDC_P_TEAM4:
+		case IDC_P_TEAM5:
+		case IDC_P_TEAM6:
+		case IDC_P_TEAM7:
+		case IDC_P_TEAM8:
+		case IDC_P_TEAM9:
 			break;
 
 		case ID_TS_EDIT_COPY:
@@ -175,7 +329,10 @@ BOOL Players_Init(HWND dialog)
 	    SendDlgItemMessage(dialog, IDC_P_COLOR1 + i, CB_SETCURSEL, scen.players[i].color, 0);
 	    Combo_PairFill(GetDlgItem(dialog, IDC_P_AGE1 + i), NUM_AGES, ages);
 	    SendDlgItemMessage(dialog, IDC_P_AGE1 + i, CB_SETCURSEL, scen.players[i].age, 0);
+	    Combo_Fill(dialog, IDC_P_TEAM1 + i, team_names, NUM_TEAMS);
     }
+
+    LoadDiplomacy(dialog);
 
     if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
 	    for (int i = 0; i < 9; i++) {
@@ -223,6 +380,23 @@ INT_PTR CALLBACK PlayersDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lPa
 			ret = 0;
 			Players_HandleCommand(
 				dialog, HIWORD(wParam), LOWORD(wParam), (HWND)lParam);
+			break;
+
+		case WM_NOTIFY:
+			{
+				NMHDR *header = (NMHDR*)lParam;
+				switch (header->code)
+				{
+
+				case PSN_SETACTIVE:
+					LoadDiplomacy(dialog);
+				    break;
+
+				case PSN_KILLACTIVE:
+					SavePlayers(dialog);
+					break;
+				}
+			}
 			break;
 
 		case AOKTS_Loading:

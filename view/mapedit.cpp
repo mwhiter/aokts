@@ -904,7 +904,7 @@ void Map_HandleCommand(HWND dialog, WORD code, WORD id, HWND)
 		case IDC_TR_MMY2:
 		case IDC_TR_MMXT:
 		case IDC_TR_MMYT:
-			Map_ShowOperationsCoords(dialog, id);
+			//Map_ShowOperationsCoords(dialog, id);
 			break;
 
         //this will cause recursive updating. need a save button

@@ -1274,12 +1274,12 @@ void Scenario::read_data(const char *path)	//decompressed data
 	    if (players[i].color < 0 || players[i].color >= 9) {
             players[i].color = i;
 	    }
+	}
 
-	    for (i = 9, p = players; i < NUM_PLAYERS; i++, p++)
-	    {
-	        p->player_number = i;
-	        p->color = i;
-	    }
+	for (i = 9, p = players; i < NUM_PLAYERS; i++, p++)
+	{
+	    players[i].player_number = i;
+	    players[i].color = i;
 	}
 
 	/* Global Victory */

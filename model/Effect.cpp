@@ -963,7 +963,7 @@ inline bool Effect::has_unit_constant() const {
 }
 
 inline bool Effect::valid_unit_constant() const {
-    return pUnit && pUnit->id();
+    return pUnit && pUnit->id() >= 0;
     //return ucnst >= 0;
 }
 

@@ -18,7 +18,7 @@
 
 //Number of property pages (tabs)
 //6 when disabling disables
-#define NUM_PAGES 9
+#define NUM_PAGES 11
 
 /* Global Variables */
 
@@ -72,9 +72,10 @@ extern struct PropSheetData
 */
 
 INT_PTR CALLBACK IMsgsDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK PlayerDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK PlayersDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK AIDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK CTYDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PlyVCDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK VictDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DisDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK MapDlgProc(HWND page, UINT msg, WPARAM wParam, LPARAM lParam);

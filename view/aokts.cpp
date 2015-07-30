@@ -83,9 +83,9 @@ const WORD PropSheetButtons[] =
 /* Each editor's property page proc (in order of Dialog ID). */
 DLGPROC procs[NUM_PAGES] =
 {
+	&PlayersDlgProc,
 	&IMsgsDlgProc,
 	&PlayerDlgProc,
-	&PlayersDlgProc,
 	&AIDlgProc,
 	&CTYDlgProc,
 	&VictDlgProc,
@@ -722,7 +722,7 @@ HWND MakeSheet(HINSTANCE app)
 
 	for (int i = 0; i < NUM_PAGES; i++)
 	{
-		pg.pszTemplate = MAKEINTRESOURCE(IDD_MSGS + i);	//template IDs are in display order
+		pg.pszTemplate = MAKEINTRESOURCE(IDD_PLAYERS + i);	//template IDs are in display order
 		pg.pfnDlgProc = procs[i];
 		pg.lParam = 0;
 		pages[i] = CreatePropertySheetPage(&pg);

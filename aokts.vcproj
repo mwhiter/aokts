@@ -377,6 +377,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\view\aiedit.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\view\aokts.cpp"
 				>
 			</File>
@@ -454,6 +458,10 @@
 			</File>
 			<File
 				RelativePath=".\view\playeredit.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\view\playersedit.cpp"
 				>
 			</File>
 			<File

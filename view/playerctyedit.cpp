@@ -188,7 +188,7 @@ BOOL PlayersCTY_Init(HWND dialog)
 	return TRUE;
 }
 
-INT_PTR CALLBACK PlyCTYDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CTYDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR ret = FALSE;
 

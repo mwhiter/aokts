@@ -9,6 +9,8 @@
 #define IDD_PLAYER                      101
 #define IDD_DIALOG1                     102
 #define IDD_AI                          102
+#define IDB_BITMAP1                     103
+#define IDB_BANNER                      103
 #define IDI_LOGO                        1000
 #define IDM_MAIN                        1001
 #define IDA_MAIN                        1002
@@ -18,8 +20,8 @@
 #define IDD_UNITSEL1                    1006
 #define IDD_UNITSEL2                    1007
 #define IDD_MSGS                        1008
-#define IDD_PLAYERSAI                   1009
-#define IDD_CTY                  1010
+#define IDD_PLAYERS                     1009
+#define IDD_CTY                         1010
 #define IDD_VICTORY                     1011
 #define IDD_DISABLES                    1012
 #define IDD_TERRAIN                     1013
@@ -240,18 +242,27 @@
 #define IDC_P_DSTATE                    1228
 #define IDC_P_AV                        1229
 #define IDC_P_IMAI                      1230
+#define IDC_P_DSTATE2                   1230
 #define IDC_P_AIMODE                    1231
+#define IDC_P_DSTATE1                   1231
 #define IDC_P_UF                        1232
 #define IDC_P_US0                       1233
 #define IDC_P_US1                       1234
 #define IDC_P_LBL_FOOD                  1235
+#define IDC_P_DSTATE3                   1235
 #define IDC_P_LBL_WOOD                  1236
+#define IDC_P_DSTATE4                   1236
 #define IDC_P_LBL_GOLD                  1237
+#define IDC_P_DSTATE5                   1237
 #define IDC_P_LBL_STONE                 1238
+#define IDC_P_DSTATE6                   1238
 #define IDC_P_LBL_OREX                  1239
 #define IDC_P_AISCRIPT                  1240
+#define IDC_P_DSTATE7                   1240
 #define IDC_P_CLEARAI                   1241
+#define IDC_P_DSTATE8                   1241
 #define IDC_P_RANDOMGAME                1242
+#define IDC_P_DSTATE9                   1242
 #define IDC_P_PROMISORY                 1243
 #define IDC_P_AIMODE_VAL                1244
 #define IDC_P_CLEARVC                   1245
@@ -348,6 +359,7 @@
 #define IDC_TR_FACTOR                   1336
 #define IDC_TR_SCALE                    1337
 #define IDC_TABS                        1338
+#define IDC_TR_SCALE2                   1338
 #define IDC_TR_MOVE_TERRAIN             1339
 #define IDC_TR_MOVE_UNITS               1340
 #define IDC_TR_MOVE_ELEVATION           1341
@@ -544,12 +556,21 @@
 #define ID_DRAW_TERRAIN                 1532
 #define ID_DRAW_ELEVATION               1533
 #define ID_UNITS_TERRAIN_ELEV           1534
+#define IDC_P_AI_SP1                    1545
+#define IDC_P_AI_SP2                    1546
+#define IDC_P_AI_SP3                    1547
+#define IDC_P_AI_SP4                    1548
+#define IDC_P_AI_SP5                    1549
+#define IDC_P_AI_SP6                    1550
+#define IDC_P_AI_SP7                    1551
+#define IDC_P_AI_SP8                    1552
+#define IDC_P_AI_SG                     1553
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        103
+#define _APS_NEXT_RESOURCE_VALUE        104
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101

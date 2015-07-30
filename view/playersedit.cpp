@@ -29,15 +29,6 @@ const char *players_number_names[] = { "1", "2", "3", "4", "5", "6", "7", "8", "
 WPARAM d_to_b[4] = { BST_CHECKED, BST_INDETERMINATE, BST_UNCHECKED, BST_UNCHECKED };
 enum Diplomacy b_to_d[3] = { DIP_enemy, DIP_ally, DIP_neutral };
 
-//These controls are disabled when user selects GAIA.
-int gaia_disables[] =
-{
-	IDC_P_NAME, IDC_P_STABLE, IDC_P_HUMAN, IDC_P_COLOR, IDC_P_SPDIP, IDC_P_ACTIVE,
-	IDC_P_AV, IDC_P_X, IDC_P_Y,
-	IDC_P_AI, IDC_P_EXAI, IDC_P_IMAI, IDC_P_CLEARAI, IDC_P_AISCRIPT,
-	IDC_P_AIMODE, IDC_P_RANDOMGAME, IDC_P_PROMISORY
-};
-
 void LoadMaxTeams(HWND dialog)
 {
     if (scen.max_teams == 0) {
@@ -117,13 +108,6 @@ void LoadPlayer(HWND dialog)
 
     HWND hAI = GetDlgItem(dialog, IDC_P_AI);
 
-	/* AI is special */
-	SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
-	SetDlgItemText(dialog, IDC_P_AI, p->ai);
-	//EnableWindow(GetDlgItem(dialog, IDC_P_AI), p->aimode != AI_standard);
-	SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
-	SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
-
 	LoadActive(dialog);
 	LoadMaxTeams(dialog);
 }
@@ -134,10 +118,12 @@ void SavePlayer(HWND dialog)
 	GetDlgItemText(dialog, IDC_P_NAME, p->name, 30);
 	p->civ = LCombo_GetSelId(dialog, IDC_P_CIV);
 	p->stable = GetDlgItemInt(dialog, IDC_P_STABLE, NULL, TRUE);
-	p->resources[0] = GetDlgItemInt(dialog, IDC_P_GOLD, NULL, FALSE);
-	p->resources[1] = GetDlgItemInt(dialog, IDC_P_WOOD, NULL, FALSE);
-	p->resources[2] = GetDlgItemInt(dialog, IDC_P_FOOD, NULL, FALSE);
-	p->resources[3] = GetDlgItemInt(dialog, IDC_P_STONE, NULL, FALSE);
+	for (int i = 0; i < 9; i++) {
+	    scen.players[i].resources[0] = GetDlgItemInt(dialog, IDC_P_GOLD1 + i, NULL, FALSE);
+	    scen.players[i].resources[1] = GetDlgItemInt(dialog, IDC_P_WOOD1 + i, NULL, FALSE);
+	    scen.players[i].resources[2] = GetDlgItemInt(dialog, IDC_P_FOOD1 + i, NULL, FALSE);
+	    scen.players[i].resources[3] = GetDlgItemInt(dialog, IDC_P_STONE1 + i, NULL, FALSE);
+	}
 	p->enable = Button_IsChecked(GetDlgItem(dialog, IDC_P_ACTIVE));
 	p->human = Button_IsChecked(GetDlgItem(dialog, IDC_P_HUMAN));
 	p->pop = static_cast<float>(GetDlgItemInt(dialog, IDC_P_POP, NULL, FALSE));
@@ -153,20 +139,6 @@ void SavePlayer(HWND dialog)
 	for (int i = 0; i < 9; i++) {
 	    scen.players[i].player_number = SendDlgItemMessage(dialog, IDC_P_P1_NUM + i, CB_GETCURSEL, 0, 0);
 	}
-
-    HWND hAI = GetDlgItem(dialog, IDC_P_AI);
-
-    // only change this when clicking on checkbox
-	//p->aimode = (SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_GETCHECK, 0, 0) != 0);
-	if (p->aimode != AI_standard)
-	{
-		GetDlgItemText(dialog, IDC_P_AI, p->ai, _MAX_FNAME);
-		if (*p->ai)
-			p->aimode = AI_custom;
-	}
-	//else
-	//	strcpy(p->ai, scen.StandardAI);
-	GetWindowText(GetDlgItem(dialog, IDC_P_AISCRIPT), p->aifile);
 
 	SaveMaxTeams(dialog);
 }
@@ -330,72 +302,6 @@ void Players_HandleCommand(HWND dialog, WORD code, WORD id, HWND control)
 			LoadPlayer(dialog);
 			break;
 
-		case IDC_P_EXAI:
-			Players_ManageAI(dialog, false);
-			break;
-
-		case IDC_P_IMAI:
-			Players_ManageAI(dialog, true);
-			//we don't need a full LoadPlayer() for this
-			SetDlgItemText(dialog, IDC_P_AI, propdata.p->ai);
-			SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
-		    if (*p->ai)
-			    p->aimode = AI_custom;
-			SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode, 0);
-			SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
-			break;
-
-		case IDC_P_CLEARAI:
-		    {
-		        char *cstr = p->aifile.unlock(1);
-	            strcpy(cstr, "");
-		        p->aifile.lock();
-		        SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
-
-                p->aimode = AI_none;
-
-	            SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
-			    SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
-
-	            strcpy(p->ai, "");
-	            SetDlgItemText(dialog, IDC_P_AI, p->ai);
-		    }
-			break;
-
-		case IDC_P_RANDOMGAME:
-		    {
-		        char *cstr = p->aifile.unlock(1);
-	            strcpy(cstr, "");
-		        p->aifile.lock();
-		        SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
-
-                p->aimode = AI_standard;
-
-	            SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
-			    SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
-
-	            strcpy(p->ai, scen.StandardAI);
-	            SetDlgItemText(dialog, IDC_P_AI, p->ai);
-		    }
-			break;
-
-		case IDC_P_PROMISORY:
-		    {
-		        char *cstr = p->aifile.unlock(1);
-	            strcpy(cstr, "");
-		        p->aifile.lock();
-		        SetDlgItemText(dialog, IDC_P_AISCRIPT, p->aifile.c_str());
-
-                p->aimode = AI_standard;
-
-	            SendDlgItemMessage(dialog, IDC_P_AIMODE, BM_SETCHECK, p->aimode == AI_standard, 0);
-			    SetDlgItemInt(dialog, IDC_P_AIMODE_VAL, p->aimode, FALSE);
-
-	            strcpy(p->ai, scen.StandardAI2);
-	            SetDlgItemText(dialog, IDC_P_AI, p->ai);
-		    }
-			break;
-
 		case IDC_P_SPDIP:
 			propdata.p->diplomacy[propdata.sel0] = b_to_d[SendDlgItemMessage(dialog, IDC_P_DSTATE, BM_GETCHECK, 0, 0)];
 			propdata.sel0 = SendMessage(control, CB_GETCURSEL, 0 ,0);
@@ -498,7 +404,7 @@ BOOL Players_Init(HWND dialog)
 	return TRUE;
 }
 
-INT_PTR CALLBACK PlyAIDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AIDlgProc(HWND dialog, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR ret = FALSE;
 

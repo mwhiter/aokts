@@ -84,8 +84,10 @@ const WORD PropSheetButtons[] =
 DLGPROC procs[NUM_PAGES] =
 {
 	&IMsgsDlgProc,
-	&PlyAIDlgProc,
-	&PlyCTYDlgProc,
+	&PlayerDlgProc,
+	&PlayersDlgProc,
+	&AIDlgProc,
+	&CTYDlgProc,
 	&VictDlgProc,
 	&DisDlgProc,
 	&MapDlgProc,

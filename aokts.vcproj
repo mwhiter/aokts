@@ -517,6 +517,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\res\bm0.BMP"
+				>
+			</File>
+			<File
 				RelativePath=".\res\common.rc"
 				>
 			</File>

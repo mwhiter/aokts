@@ -938,7 +938,7 @@ BEGIN
     EDITTEXT        IDC_P_UF,105,38,38,12,ES_AUTOHSCROLL
     EDITTEXT        IDC_P_US0,105,54,38,12,ES_AUTOHSCROLL
     EDITTEXT        IDC_P_US1,105,70,38,12,ES_AUTOHSCROLL
-    GROUPBOX        "Player 1 selected - LOD_mantis",IDC_STATIC,53,7,338,210
+    GROUPBOX        "Advanced Options for the Selected Player",IDC_STATIC,53,7,338,210
     GROUPBOX        "Other Resources",IDC_STATIC,168,21,95,74
     GROUPBOX        "Swap This Player With",IDC_STATIC,272,21,110,74
     LTEXT           "Tick = Ally     Gray = Neutral",IDC_STATIC,70,119,91,8

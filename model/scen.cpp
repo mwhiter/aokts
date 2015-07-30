@@ -551,7 +551,7 @@ void Scenario::adapt_game() {
     case AOHD6:
 	    strcpy(header.version, "1.21"); // is this needed?
 	    ver1 = SV1_AOC_SWGB;
-	    ver2 = SV2_AOHD_AOF4;
+	    ver2 = SV2_AOHD_AOF6;
 	    version2 = 1.26F;
 		perversion = &pv1_26;
 	    pergame = &pgAOHD6;
@@ -1258,11 +1258,9 @@ void Scenario::read_data(const char *path)	//decompressed data
 		p->read_resources(dc2in.get());
         if (scen.game == AOHD4 || scen.game == AOF4 || scen.game == AOHD6 || scen.game == AOF6) {
 		    p->read_player_number(dc2in.get());
-		} else {
-            for (int i = 0; i < NUM_PLAYERS; i++) {
-                players[i].player_number = i;
-            }
-        }
+	    } else {
+		    p->player_number = i;
+	    }
 	}
 
 	// fix player numbers, colors and civs if they are absurd

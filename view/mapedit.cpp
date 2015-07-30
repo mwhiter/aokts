@@ -639,9 +639,8 @@ void Map_HandleMapDuplicate(HWND dialog, OpFlags::Value flags=OpFlags::ALL)
 
 void Map_HandleOutline(HWND dialog)
 {
-    // remember, y is inverted on map
-    int xpos = propdata.sel0;
-    int ypos = propdata.sel1;
+	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
+	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
 
     scen.outline(xpos, ypos, static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
             scen.map.terrain[xpos][ypos].cnst);
@@ -651,9 +650,8 @@ void Map_HandleOutline(HWND dialog)
 
 void Map_HandleSwapTerrainTypes(HWND dialog)
 {
-    // remember, y is inverted on map
-    int xpos = propdata.sel0;
-    int ypos = propdata.sel1;
+	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
+	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
 
     scen.swapTerrain(static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
             scen.map.terrain[xpos][ypos].cnst);
@@ -664,8 +662,8 @@ void Map_HandleSwapTerrainTypes(HWND dialog)
 void Map_HandleStrictOutline(HWND dialog)
 {
     // remember, y is inverted on map
-    int xpos = propdata.sel0;
-    int ypos = propdata.sel1;
+	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
+	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
 
     scen.outline(xpos, ypos, static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
             scen.map.terrain[xpos][ypos].cnst, TerrainFlags::FORCE);
@@ -676,8 +674,8 @@ void Map_HandleStrictOutline(HWND dialog)
 void Map_HandleOutlineEight(HWND dialog)
 {
     // remember, y is inverted on map
-    int xpos = propdata.sel0;
-    int ypos = propdata.sel1;
+	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
+	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
 
     scen.outline(xpos, ypos, static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
             scen.map.terrain[xpos][ypos].cnst, TerrainFlags::EIGHT);
@@ -688,8 +686,8 @@ void Map_HandleOutlineEight(HWND dialog)
 void Map_HandleStrictOutlineEight(HWND dialog)
 {
     // remember, y is inverted on map
-    int xpos = propdata.sel0;
-    int ypos = propdata.sel1;
+	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
+	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
 
     scen.outline(xpos, ypos, static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
             scen.map.terrain[xpos][ypos].cnst, (TerrainFlags::Value)(TerrainFlags::FORCE | TerrainFlags::EIGHT));
@@ -700,8 +698,8 @@ void Map_HandleStrictOutlineEight(HWND dialog)
 void Map_HandleFloodFill(HWND dialog)
 {
     // remember, y is inverted on map
-    int xpos = propdata.sel0;
-    int ypos = propdata.sel1;
+	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
+	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
 
     scen.floodFill4(xpos, ypos, static_cast<char>(LinkListBox_GetSel(GetDlgItem(dialog, IDC_TR_ID))->id()),
             scen.map.terrain[xpos][ypos].cnst);
@@ -712,8 +710,8 @@ void Map_HandleFloodFill(HWND dialog)
 void Map_HandleFloodFillElev(HWND dialog)
 {
     // remember, y is inverted on map
-    int xpos = propdata.sel0;
-    int ypos = propdata.sel1;
+	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
+	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
 
     scen.floodFillElev4(xpos, ypos, GetDlgItemInt(dialog, IDC_TR_ELEV, NULL, FALSE),
             scen.map.terrain[xpos][ypos].cnst);
@@ -724,8 +722,8 @@ void Map_HandleFloodFillElev(HWND dialog)
 void Map_HandleNormalizeElevation(HWND dialog)
 {
     // remember, y is inverted on map
-    int xpos = propdata.sel0;
-    int ypos = propdata.sel1;
+	unsigned int xpos = GetDlgItemInt(dialog, idx, NULL, FALSE);
+	unsigned int ypos = GetDlgItemInt(dialog, idy, NULL, FALSE);
     int xpos_temp = 0;
     int ypos_temp = 0;
     Map::Terrain * tn = scen.map.terrain[xpos] + ypos; // this works

@@ -215,15 +215,15 @@
 #define IDC_P_P7_NUM                                  1206
 #define IDC_P_P8_NUM                                  1207
 #define IDC_P_P9_NUM                                  1208
-#define IDC_P_SWAPP1                                  1209
-#define IDC_P_SWAPP2                                  1210
-#define IDC_P_SWAPP3                                  1211
-#define IDC_P_SWAPP4                                  1212
-#define IDC_P_SWAPP5                                  1213
-#define IDC_P_SWAPP6                                  1214
-#define IDC_P_SWAPP7                                  1215
-#define IDC_P_SWAPP8                                  1216
-#define IDC_P_SWAPGA                                  1217
+#define IDC_P_SWAPP1                                  1209		// Swap player with Player 1
+#define IDC_P_SWAPP2                                  1210		// Swap player with Player 2
+#define IDC_P_SWAPP3                                  1211		// Swap player with Player 3
+#define IDC_P_SWAPP4                                  1212		// Swap player with Player 4
+#define IDC_P_SWAPP5                                  1213		// Swap player with Player 5
+#define IDC_P_SWAPP6                                  1214		// Swap player with Player 6
+#define IDC_P_SWAPP7                                  1215		// Swap player with Player 7
+#define IDC_P_SWAPP8                                  1216		// Swap player with Player 8
+#define IDC_P_SWAPGA                                  1217		// Swap player with Gaia
 #define IDC_P_TEAM1                                   1218
 #define IDC_P_TEAM2                                   1219
 #define IDC_P_TEAM3                                   1220
@@ -425,14 +425,17 @@
 #define IDC_U_ROTATE_VAL                              1416
 #define IDC_U_DESELECT                                1417
 #define IDC_U_RESORT                                  1418
-#define IDC_D_SPLY                                    1419
-#define IDC_D_STYPE                                   1420
-#define IDC_D_ALL                                     1421
-#define IDC_D_SEL                                     1422
-#define IDC_D_CLR                                     1423
-#define IDC_D_DEL                                     1424
-#define IDC_D_ADD                                     1425
-#define IDC_D_FILL                                    1426
+//----------------------
+// Disables Tab Controls
+#define IDC_D_SPLY                                    1419	// Disables: Player dropdown list
+#define IDC_D_STYPE                                   1420	// Disables: Disable type dropdown (Buildings, Units, Techs)
+#define IDC_D_ALL                                     1421	// Disables: The list of all available items to be disabled (on the left)
+#define IDC_D_SEL                                     1422	// Disables: The list of all disabled items (on the right)
+#define IDC_D_CLR                                     1423	// Disables: Move all items from the disabled list to the available list
+#define IDC_D_DEL                                     1424	// Disables: Move an item from the disabled list to the available list
+#define IDC_D_ADD                                     1425	// Disables: Move an item from the available list to the disabled list
+#define IDC_D_FILL                                    1426	// Disables: Move all items from the available list to the disabled list (does this work?)
+//----------------------
 #define IDC_US_UNITS                                  1427
 #define IDC_US_SORT                                   1428
 #define IDC_US_PLAYER                                 1429
@@ -574,6 +577,19 @@
 #define IDC_PS_SP7                                    1565
 #define IDC_PS_SP8                                    1566
 #define IDC_PS_SG                                     1567
+
+// ------------------------------------------
+// Disabled list, new buttons
+#define IDC_D_COPY_INTO_P1                            1568	// Disables: Copy player's disabled list into Player 1
+#define IDC_D_COPY_INTO_P2                            1569	// Disables: Copy player's disabled list into Player 2
+#define IDC_D_COPY_INTO_P3                            1570	// Disables: Copy player's disabled list into Player 3
+#define IDC_D_COPY_INTO_P4                            1571	// Disables: Copy player's disabled list into Player 4
+#define IDC_D_COPY_INTO_P5                            1572	// Disables: Copy player's disabled list into Player 5
+#define IDC_D_COPY_INTO_P6                            1573	// Disables: Copy player's disabled list into Player 6
+#define IDC_D_COPY_INTO_P7                            1574	// Disables: Copy player's disabled list into Player 7
+#define IDC_D_COPY_INTO_P8                            1575	// Disables: Copy player's disabled list into Player 8
+#define IDC_D_COPY_INTO_ALL                           1576	// Disables: Copy player's disabled list into All Players
+// ------------------------------------------
 
 // Next default values for new objects
 // 

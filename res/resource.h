@@ -279,47 +279,47 @@
 #define IDC_P_LBL_OREY                                1270	// Player Details: Goods Label
 #define IDC_P_NUM_PLAYERS                             1271	// Players: Number of Players dropdown
 #define IDC_P_MAX_TEAMS                               1272	// Players: Max Teams dropdown
-#define IDC_T_TREE                                    1273
+#define IDC_T_TREE                                    1273	// Triggers: (Tree) Trigger tree list
 #define IDC_P_TOAOFE                                  1274	// Triggers -> Compability UP to AOFE
-#define IDC_TT_VIEW                                   1275
-#define IDC_T_NAME                                    1276
+#define IDC_TT_VIEW                                   1275	// TrigText: (Read-only Textbox) Trigger text view
+#define IDC_T_NAME                                    1276	// Triggers: (Textbox) Trigger name box
 #define IDC_P_TO1C                                    1277	// Triggers -> Compability UP to 1.0 Conquerors
 #define IDC_TT_EXPORT                                 1278
-#define IDC_T_STATE                                   1279
+#define IDC_T_STATE                                   1279	// Triggers: (Checkbox) Starts On
 #define IDC_P_TOUP                                    1280	// Triggers -> Compability HD to UserPatch
 #define IDC_TT_SEARCHTEXT                             1281
-#define IDC_T_LOOP                                    1282
+#define IDC_T_LOOP                                    1282	// Triggers: (Checkbox) Looping
 #define IDC_P_TOHD                                    1283	// Triggers -> Compability UP to AOHD
 #define IDC_TT_FINDNEXT                               1284
-#define IDC_T_OBJ                                     1285
+#define IDC_T_OBJ                                     1285	// Triggers: (Checkbox) Objective
 #define IDC_TT_CONTEXT                                1286
-#define IDC_T_ORDER                                   1287
-#define IDC_T_DESC                                    1288
-#define IDC_T_EDIT                                    1289
-#define IDC_T_NCOND                                   1290
-#define IDC_T_NEFFECT                                 1291
-#define IDC_T_DEL                                     1292
-#define IDC_T_ADD                                     1293
-#define IDC_T_DUPP                                    1294
-#define IDC_T_DESCID                                  1295
-#define IDC_T_OBJSTATE                                1296
-#define IDC_T_UNKNOWN                                 1297
-#define IDC_T_GOTO                                    1298
-#define IDC_T_SHOWFIREORDER                           1299
-#define IDC_T_SHOWDISPLAYORDER                        1300
-#define IDC_T_SYNC                                    1301
-#define IDC_T_START                                   1302
-#define IDC_T_END                                     1303
-#define IDC_T_DEST                                    1304
-#define IDC_T_MOVE                                    1305
-#define IDC_T_DELETE                                  1306
-#define IDC_T_DUPRANGE                                1307
-#define IDC_T_DESELECT                                1308
-#define IDC_T_ADD_ACTIVATION                          1309
-#define IDC_T_PSEUDONYMS                              1310
-#define IDC_T_GOLIST                                  1311
-#define IDC_T_SOURCE                                  1312
-#define IDC_T_TARGET                                  1313
+#define IDC_T_ORDER                                   1287	// Triggers: (Textbox) Trigger objective order
+#define IDC_T_DESC                                    1288	// Triggers: (Textbox) Trigger description
+#define IDC_T_EDIT                                    1289	// Triggers: (Button) Edit....
+#define IDC_T_NCOND                                   1290	// Triggers: (Button) New condition
+#define IDC_T_NEFFECT                                 1291	// Triggers: (Button) New effect
+#define IDC_T_DEL                                     1292	// Triggers: (Button) Delete
+#define IDC_T_ADD                                     1293	// Triggers: (Button) New Trigger
+#define IDC_T_DUPP                                    1294	// Triggers: (Button) Duplicate for All Players
+#define IDC_T_DESCID                                  1295	// Triggers: (Textbox) ID
+#define IDC_T_OBJSTATE                                1296	// Triggers: (Checkbox) Flash Objectives at start
+#define IDC_T_UNKNOWN                                 1297	// Triggers: (Edit Text) Objective String ID
+#define IDC_T_GOTO                                    1298	// Triggers: (Button) Got to (Backspace)
+#define IDC_T_SHOWFIREORDER                           1299	// Triggers (Checkbox) Show (ID)
+#define IDC_T_SHOWDISPLAYORDER                        1300	// Triggers: (Chechbox) Show <Display Order>
+#define IDC_T_SYNC                                    1301	// Triggers: (Button) Sync ID to DO
+#define IDC_T_START                                   1302	// Triggers: (Textbox) Range Start
+#define IDC_T_END                                     1303	// Triggers: (Textbox) Range End
+#define IDC_T_DEST                                    1304	// Triggers: (Textbox) Destination
+#define IDC_T_MOVE                                    1305	// Triggers: (Button) Move
+#define IDC_T_DELETE                                  1306	// Triggers: (Button) Using Trigger IDs New Trigger
+#define IDC_T_DUPRANGE                                1307	// Triggers: (Button) Duplicate
+#define IDC_T_DESELECT                                1308	// Triggers: (Button) Deselect
+#define IDC_T_ADD_ACTIVATION                          1309	// Triggers: (Button) Add Activation
+#define IDC_T_PSEUDONYMS                              1310	// Triggers: (Checkbox) Pseudonyms
+#define IDC_T_GOLIST                                  1311	// Triggers: Unknown, not referenced anywhere
+#define IDC_T_SOURCE                                  1312	// Triggers: (Radio Button) By Source
+#define IDC_T_TARGET                                  1313	// Triggers: (Radio Button) By Target
 #define IDC_V_SSTD                                    1314
 #define IDC_V_SCONQ                                   1315
 #define IDC_V_SSCORE                                  1316
@@ -331,26 +331,28 @@
 #define IDC_V_RELICS                                  1322
 #define IDC_V_EXPL                                    1323
 #define IDC_V_CONQUEST                                1324
-#define IDC_TR_AITYPE                                 1325
-#define IDC_TR_SIZE                                   1326
-#define IDC_TR_TX                                     1327
-#define IDC_TR_TY                                     1328
-#define IDC_TR_ID                                     1329
-#define IDC_TR_ELEV                                   1330
-#define IDC_TR_MCPASTE                                1331
-#define IDC_TR_MCCOPY                                 1332
-#define IDC_TR_SIZE2                                  1333
-#define IDC_TR_MMX1                                   1334
-#define IDC_TR_MMY1                                   1335
-#define IDC_TR_MMSET1                                 1336
-#define IDC_TR_MMX2                                   1337
+// -----------------------
+// Terrain Editor
+#define IDC_TR_AITYPE                                 1325	// Map: (Dropdown) AI Type
+#define IDC_TR_SIZE                                   1326	// Map: (Textbox) Map Width
+#define IDC_TR_TX                                     1327	// Map: (Textbox) Selected Tile Modifications - X
+#define IDC_TR_TY                                     1328	// Map: (Textbox) Selected Tile Modifications - Y
+#define IDC_TR_ID                                     1329	// Map: (Listbox) Terrain IDs
+#define IDC_TR_ELEV                                   1330	// Map: (Dropdown) Elevation box
+#define IDC_TR_MCPASTE                                1331	// Map: (Button) Clipboard Paste
+#define IDC_TR_MCCOPY                                 1332	// Map: (Button) Clipboard Copy
+#define IDC_TR_SIZE2                                  1333	// Map: (Textbox) Map Height
+#define IDC_TR_MMX1                                   1334	// Map: (Textbox) From (L,B) X
+#define IDC_TR_MMY1                                   1335	// Map: (Textbox) From (L,B) Y
+#define IDC_TR_MMSET1                                 1336	// Map: (Button) From (L,B) Set...
+#define IDC_TR_MMX2                                   1337	// Map: (Textbox) From (R,T) X
 #define IDC_P_LBL_FOOD2                               1338
-#define IDC_TR_MMY2                                   1339
-#define IDC_TR_MMSET2                                 1340
-#define IDC_TR_MMXT                                   1341
-#define IDC_TR_MMYT                                   1342
-#define IDC_TR_MMSETT                                 1343
-#define IDC_TR_MMMOVE                                 1344
+#define IDC_TR_MMY2                                   1339	// Map: (Textbox) From (R,T) Y
+#define IDC_TR_MMSET2                                 1340	// Map: (Button) From (R,T) Set...
+#define IDC_TR_MMXT                                   1341	// Map: (Textbox) To/Ref X 
+#define IDC_TR_MMYT                                   1342	// Map: (Textbox) To/Ref Y
+#define IDC_TR_MMSETT                                 1343	// Map: (Button) To/Ref Set...
+#define IDC_TR_MMMOVE                                 1344	// Map: (Button) Move Area To (All)
 #define IDC_TR_MDUPT                                  1345
 #define IDC_TR_MDUPU                                  1346
 #define IDC_TR_NORMALIZE_ELEV                         1347
@@ -361,9 +363,9 @@
 #define IDC_TABS                                      1352
 #define IDC_TR_SCALE2                                 1353
 #define IDC_TR_MOVE_TERRAIN                           1354
-#define IDC_TR_MOVE_UNITS                             1355
+#define IDC_TR_MOVE_UNITS                             1355	// Map: (Button) Move Area To (Move)
 #define IDC_TR_MOVE_ELEVATION                         1356
-#define IDC_TR_MOVE_TRIGGERS                          1357
+#define IDC_TR_MOVE_TRIGGERS                          1357	// Map: (Button) Move Area To (Triggers)
 #define IDC_TR_MMSWAP                                 1358
 #define IDC_TR_SWAP_TERRAIN                           1359
 #define IDC_TR_SWAP_UNITS                             1360
@@ -391,6 +393,7 @@
 #define IDC_TR_UNK3                                   1382
 #define IDC_TR_UNK4                                   1383
 #define IDC_TR_CLEAR                                  1384
+// -----------------------
 #define IDC_U_SELU                                    1385
 #define IDC_U_SELP                                    1386
 #define IDC_U_TYPE                                    1387
@@ -432,7 +435,7 @@
 #define IDC_D_CLR                                     1423	// Disables: Move all items from the disabled list to the available list
 #define IDC_D_DEL                                     1424	// Disables: Move an item from the disabled list to the available list
 #define IDC_D_ADD                                     1425	// Disables: Move an item from the available list to the disabled list
-#define IDC_D_FILL                                    1426	// Disables: Move all items from the available list to the disabled list (does this work?)
+#define IDC_D_FILL                                    1426	// Disables: Move all items from the available list to the disabled list (No. Disabled because it's useless - even if we disable everything, there is a max number of items that can be disabled at once. Is this a limitation of AOE2?)
 #define IDC_US_UNITS                                  1427
 #define IDC_US_SORT                                   1428
 #define IDC_US_PLAYER                                 1429
@@ -587,6 +590,12 @@
 #define IDC_D_COPY_INTO_P7                            1574	// Disables: Copy player's disabled list into Player 7
 #define IDC_D_COPY_INTO_P8                            1575	// Disables: Copy player's disabled list into Player 8
 #define IDC_D_COPY_INTO_ALL                           1576	// Disables: Copy player's disabled list into All Players
+#define	IDC_D_CURR_B_COUNT							  1577	// Disables: (Text) Shows the current disabled buildings
+#define	IDC_D_CURR_T_COUNT							  1578	// Disables: (Text) Shows the current disabled techs
+#define	IDC_D_CURR_U_COUNT							  1579	// Disables: (Text) Shows the current disabled units
+#define IDC_D_MAX_B_COUNT							  1580	// Disables: (Text) Shows the maximum disabled buildings we can have
+#define IDC_D_MAX_T_COUNT							  1581	// Disables: (Text) Shows the maximum disabled techs we can have
+#define IDC_D_MAX_U_COUNT							  1582	// Disables: (Text) Shows the maximum disabled units we can have
 // ------------------------------------------
 
 // Next default values for new objects
